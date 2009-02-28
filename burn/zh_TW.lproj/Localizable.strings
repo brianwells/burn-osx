@@ -1,0 +1,439 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>After canceling the disc can&apos;t be used anymore?</key>
+	<string>取消後光碟將再也無法被使用</string>
+	<key>Are you sure you want to cancel?</key>
+	<string>您確定要取消嗎?</string>
+	<key>
+(Note: there are a few protected mp4 files which can&apos;t be converted)</key>
+	<string>
+(註解: 有一些受保護的 mp4 檔案無法被轉換)</string>
+	<key>
+(Note: there is a protected mp4 file which can&apos;t be converted)</key>
+	<string>註解: 有一個受保護的 mp4 檔案無法被轉換</string>
+	<key> (Couldn&apos;t get attributes)</key>
+	<string> (無法取得屬性)</string>
+	<key> (No audio)</key>
+	<string> (沒有音樂)</string>
+	<key> (No audio/video)</key>
+	<string> (沒有音樂/影片)</string>
+	<key> (No video)</key>
+	<string> (沒有影片)</string>
+	<key> (Unknown error)</key>
+	<string> (未知的錯誤)</string>
+	<key> (Unknown format)</key>
+	<string> (未知的格式)</string>
+	<key> (Unsupported audio)</key>
+	<string> (未支援的音樂)</string>
+	<key> GB</key>
+	<string> GB</string>
+	<key> KB</key>
+	<string> KB</string>
+	<key> MB</key>
+	<string> MB</string>
+	<key> TB</key>
+	<string> TB</string>
+	<key> file</key>
+	<string> 檔案</string>
+	<key> files</key>
+	<string> 檔案</string>
+	<key> free</key>
+	<string> 剩餘空間</string>
+	<key> of </key>
+	<string> of </string>
+	<key> to DVD mpg</key>
+	<string> 到 DVD mpg</string>
+	<key> to DivX avi</key>
+	<string> 到 DivX avi</string>
+	<key> to SVCD mpg</key>
+	<string> 到 SVCD mpg</string>
+	<key> to VCD mpg</key>
+	<string> 到 VCD mpg</string>
+	<key> to mp3</key>
+	<string> 到 mp3</string>
+	<key> to wav</key>
+	<string> 到 wav</string>
+	<key> was burned successfully</key>
+	<string> 已被燒錄成功</string>
+	<key>4 KB</key>
+	<string>4 KB</string>
+	<key>A cue/bin file needs to be burned on a CD</key>
+	<string>一個 cue/bin 檔案需要燒錄在一片 CD</string>
+	<key>Advanced</key>
+	<string>進階</string>
+	<key>Audio</key>
+	<string>音樂</string>
+	<key>Audio CD</key>
+	<string>音樂 CD</string>
+	<key>Audio Help</key>
+	<string>音樂輔助說明</string>
+	<key>Authoring DVD...</key>
+	<string>編寫DVD...</string>
+	<key>Authoring failed</key>
+	<string>編寫失敗</string>
+	<key>Burn</key>
+	<string>燒錄</string>
+	<key>Burn Temporary</key>
+	<string>Burn Temporary</string>
+	<key>Burn failed to encode one file</key>
+	<string>Burn 一個檔案編碼失敗</string>
+	<key>Burn failed to encode some files</key>
+	<string>Burn 一些檔案編碼失敗</string>
+	<key>Burner</key>
+	<string>燒錄機</string>
+	<key>Burning </key>
+	<string>燒錄中 </string>
+	<key>Burning failed</key>
+	<string>燒錄失敗</string>
+	<key>Can&apos;t determine disc format</key>
+	<string>無法判斷磁碟格式</string>
+	<key>Cancel</key>
+	<string>取消</string>
+	<key>Chapter Menu</key>
+	<string>章節清單</string>
+	<key>Checking file...</key>
+	<string>檢查檔案中...</string>
+	<key>Checking files...</key>
+	<string>檢查檔案中...</string>
+	<key>Choose</key>
+	<string>選擇</string>
+	<key>Choose a location to save a copy of the disc</key>
+	<string>選擇一個位置以儲存拷貝的光碟</string>
+	<key>Choose a location to save a temporary folder</key>
+	<string>選擇一個位置以儲存一個暫存資料夾</string>
+	<key>Choose a location to save the DVD folder</key>
+	<string>選擇一個位置以儲存 DVD 資料夾</string>
+	<key>Choose a location to save the avi files</key>
+	<string>選擇一個位置以儲存 avi 檔案</string>
+	<key>Choose a location to save the burn file</key>
+	<string>選擇一個位置以儲存燒錄檔案</string>
+	<key>Choose a location to save the image file</key>
+	<string>選擇一個位置以儲存映像檔案</string>
+	<key>Choose a location to save the mp3 files</key>
+	<string>選擇一個位置以儲存 mp3 檔案</string>
+	<key>Choose a location to save the mpg files</key>
+	<string>選擇一個位置以儲存 mpg 檔案</string>
+	<key>Choose a location to save the muxed file</key>
+	<string>選擇一個位置以儲存muxed檔案</string>
+	<key>Choose a location to save the re-muxed files</key>
+	<string>選擇一個位置以儲存re-muxed檔案</string>
+	<key>Choose a location to save the wav files</key>
+	<string>選擇一個位置以儲存 wav 檔案</string>
+	<key>Choose an image file</key>
+	<string>選則一個映像檔</string>
+	<key>Close</key>
+	<string>關閉</string>
+	<key>Closing session</key>
+	<string>關閉區段中</string>
+	<key>Closing track</key>
+	<string>關閉軌道中</string>
+	<key>Closing track </key>
+	<string>關閉軌道中 </string>
+	<key>Compressed</key>
+	<string>已壓縮</string>
+	<key>Compressed (ADC)</key>
+	<string>已壓縮 (ADC)</string>
+	<key>Compressed (bzip2)</key>
+	<string>已壓縮 (bzip2)</string>
+	<key>Continue</key>
+	<string>繼續</string>
+	<key>Copy</key>
+	<string>拷貝</string>
+	<key>Copy Help</key>
+	<string>拷貝輔助說明</string>
+	<key>Copying disc</key>
+	<string>拷貝光碟</string>
+	<key>Creating DVD Theme</key>
+	<string>建立DVD主題</string>
+	<key>Creating image file</key>
+	<string>建立映像檔中</string>
+	<key>Creating: </key>
+	<string>建立中: </string>
+	<key>DVD-Audio</key>
+	<string>DVD-Audio</string>
+	<key>DVD-Video</key>
+	<string>DVD影片</string>
+	<key>DVD/CD-master</key>
+	<string>DVD/CD-master</string>
+	<key>Data</key>
+	<string>資料</string>
+	<key>Data Help</key>
+	<string>資料輔助說明</string>
+	<key>Decoding sound: </key>
+	<string>解碼音效：</string>
+	<key>Disk Copy 4.2</key>
+	<string>Disk Copy 4.2</string>
+	<key>DivX</key>
+	<string>DivX</string>
+	<key>Eject</key>
+	<string>退出</string>
+	<key>Encoding file </key>
+	<string>檔案編碼中 </string>
+	<key>Encoding: </key>
+	<string>編碼中: </string>
+	<key>Erasing disc</key>
+	<string>抹除光碟中</string>
+	<key>Erasing failed</key>
+	<string>抹除失敗</string>
+	<key>Failed converting</key>
+	<string>轉換失敗</string>
+	<key>Failed to burn </key>
+	<string>燒錄失敗 </string>
+	<key>Failed to create </key>
+	<string>Failed to create </string>
+	<key>Finished burning</key>
+	<string>完成燒錄</string>
+	<key>Finished converting</key>
+	<string>完成轉換</string>
+	<key>Finished converting </key>
+	<string>完成轉換 </string>
+	<key>Finished erasing</key>
+	<string>抹除完成</string>
+	<key>Finishing...</key>
+	<string>完成中</string>
+	<key>General</key>
+	<string>一般</string>
+	<key>Generating DVD folder</key>
+	<string>產生 DVD 資料夾中</string>
+	<key>Image created</key>
+	<string>映像檔已建立</string>
+	<key>Image failed</key>
+	<string>映像檔已失敗</string>
+	<key>Image not supported on Panther.
+
+To still use it:
+Mount the image and drop the mounted image in the window.</key>
+	<string>影像檔在 Panther不支援。
+
+如果要繼續使用他:
+載入影像檔並拖曳載入的影像到視窗。</string>
+	<key>Limited</key>
+	<string>限制</string>
+	<key>MP3 Disc</key>
+	<string>MP3 光碟</string>
+	<key>Maximum Possible</key>
+	<string>儘可能最大</string>
+	<key>Missing files</key>
+	<string>檔案遺失</string>
+	<key>Mount</key>
+	<string>掛載</string>
+	<key>Mounting disk image</key>
+	<string>載入磁碟映像檔中</string>
+	<key>Mounting image failed</key>
+	<string>載入映像檔失敗</string>
+	<key>Mounting: </key>
+	<string>載入中: </string>
+	<key>NDIF compressed</key>
+	<string>NDIF 壓縮</string>
+	<key>NDIF compressed (KenCode)</key>
+	<string>NDIF 壓縮 (KenCode)</string>
+	<key>NDIF read-only</key>
+	<string>NDIF 唯讀</string>
+	<key>NDIF read/write</key>
+	<string>NDIF 讀取/寫入</string>
+	<key>No</key>
+	<string>否</string>
+	<key>No CD</key>
+	<string>沒有 CD</string>
+	<key>No Recorder</key>
+	<string>沒有燒錄機</string>
+	<key>No disc</key>
+	<string>沒有磁碟</string>
+	<key>No discs, try inserting a cd/dvd.</key>
+	<string>沒有光碟，嘗試插入一個 cd/dvd。</string>
+	<key>Not enough space</key>
+	<string>沒有足夠的空間</string>
+	<key>OK</key>
+	<string>確定</string>
+	<key>One incompatible file</key>
+	<string>一個不相容檔案</string>
+	<key>One protected mp4 file</key>
+	<string>一個保護模式的mp4檔案</string>
+	<key>Only Mode1 and Audio tracks are supported</key>
+	<string>只有 Mode1 與聲音軌道被支援</string>
+	<key>Open</key>
+	<string>開啟</string>
+	<key>Open Log</key>
+	<string>開啟日誌</string>
+	<key>Open...</key>
+	<string>開啟</string>
+	<key>Opening track</key>
+	<string>開啟軌道中</string>
+	<key>Opening track </key>
+	<string>開啟軌道中 </string>
+	<key>Preferences Help</key>
+	<string>偏好設定輔助說明</string>
+	<key>Preparing to encode</key>
+	<string>準備編碼中</string>
+	<key>Preparing...</key>
+	<string>準備中...</string>
+	<key>Preview</key>
+	<string>檢視</string>
+	<key>Processing: </key>
+	<string>處理中: </string>
+	<key>Raw</key>
+	<string>Raw</string>
+	<key>Read-only</key>
+	<string>唯讀</string>
+	<key>Read/write</key>
+	<string>讀取/寫入</string>
+	<key>Ready to burn</key>
+	<string>準備燒錄</string>
+	<key>Ready to copy</key>
+	<string>準備拷貝</string>
+	<key>Ready to erase</key>
+	<string>準備抹除</string>
+	<key>Remuxing: </key>
+	<string>Remuxing:</string>
+	<key>Save...</key>
+	<string>儲存</string>
+	<key>Scanning for disks...</key>
+	<string>掃描磁碟中...</string>
+	<key>Scanning for for file and folders</key>
+	<string>掃描給檔案與資料夾</string>
+	<key>Size</key>
+	<string>大小</string>
+	<key>Some files are to large</key>
+	<string>一些檔案太大</string>
+	<key>Some files specified in the Toc file are missing.</key>
+	<string>一些檔案指定在Toc檔案已經遺失。</string>
+	<key>Some incompatible files</key>
+	<string>一些不相容檔案</string>
+	<key>Some protected mp4 files</key>
+	<string>一些保護模式的mp4檔案</string>
+	<key>Still try to burn the disc?</key>
+	<string>依然嘗試燒錄光碟?</string>
+	<key>Succesfully created a disk image</key>
+	<string>成功的建立一個磁碟映像檔</string>
+	<key>The PC (Joliet) or ISO9660 filesystem can only handle files smaller than 2GB</key>
+	<string>PC (Joliet) 或 ISO9660 檔案系統只能處理小於 2GB</string>
+	<key>The disc has been succesfully erased</key>
+	<string>這個光碟已經成功抹除</string>
+	<key>There was a problem authoring the DVD</key>
+	<string>有一個問題在建立 DVD</string>
+	<key>There was a problem copying the disc</key>
+	<string>拷貝這個DVD發生問題</string>
+	<key>There was a problem creating the image</key>
+	<string>有一個問題在建立映像檔</string>
+	<key>There was a problem mounting the image</key>
+	<string>載入影像檔發生問題</string>
+	<key>There was a problem erasing the disc</key>
+	<string>抹除光碟發生問題</string>
+	<key>These files can&apos;t be converted</key>
+	<string>這些檔案無法被轉換</string>
+	<key>These files can&apos;t be converted, would you like to continue?</key>
+	<string>這些檔案無法被轉換，您要繼續嗎？</string>
+	<key>This file can&apos;t be converted</key>
+	<string>這個檔案無法被轉換</string>
+	<key>This file can&apos;t be converted, would you like to continue?</key>
+	<string>這個檔案無法被轉換，您要繼續嗎？</string>
+	<key>Time</key>
+	<string>時間</string>
+	<key>Title Menu</key>
+	<string>標題清單</string>
+	<key>To burn a Audio-CD the media should be a CD</key>
+	<string>要燒錄一片音樂光碟媒體必須是一片 CD</string>
+	<key>Total size: </key>
+	<string>全部大小: </string>
+	<key>Total time: </key>
+	<string>全部時間: </string>
+	<key>Track </key>
+	<string>軌道 </string>
+	<key>UDF / ISO9660 (only)</key>
+	<string>UDF / ISO9660 (only)</string>
+	<key>UDIF-stub</key>
+	<string>UDIF-stub</string>
+	<key>Unknown</key>
+	<string>未知的</string>
+	<key>Unknown disk image</key>
+	<string>未知的磁碟映像檔</string>
+	<key>Unmount</key>
+	<string>卸除</string>
+	<key>Unsuported Toc file</key>
+	<string>未支援的 Toc 檔案</string>
+	<key>Unsupported Image</key>
+	<string>未支援的影像檔</string>
+	<key>Untitled</key>
+	<string>未命名</string>
+	<key>Verifying...</key>
+	<string>驗證中</string>
+	<key>Video</key>
+	<string>影片</string>
+	<key>Video Help</key>
+	<string>影片輔助說明</string>
+	<key>Waiting for a disc to be inserted...</key>
+	<string>等待一片光碟插入...</string>
+	<key>Waiting for the drive...</key>
+	<string>Waiting for the drive...</string>
+	<key>Whole device</key>
+	<string>哪個設備</string>
+	<key>Would you like to convert that file to DVD mpg?</key>
+	<string>您要轉換檔案到 DVD mpg嗎?</string>
+	<key>Would you like to convert that file to DivX avi?</key>
+	<string>您要轉換檔案到 DivX avi嗎?</string>
+	<key>Would you like to convert that file to SVCD mpg?</key>
+	<string>您要轉換檔案到 SVCD mpg嗎?</string>
+	<key>Would you like to convert that file to VCD mpg?</key>
+	<string>您要轉換檔案到 VCD mpg嗎?</string>
+	<key>Would you like to convert that file to mp3?</key>
+	<string>您要轉換檔案到 mp3嗎?</string>
+	<key>Would you like to convert that file to mp3?
+(Note: there are a few protected mp4 files which can&apos;t be converted)</key>
+	<string>您要轉換這個檔案為 mp3?
+(註解: 有一些保護模式的 mp4 檔案無法被轉換)</string>
+	<key>Would you like to convert that file to mp3?
+(Note: there is a protected mp4 file which can&apos;t be converted)</key>
+	<string>您要轉換這個檔案為 mp3?
+(註解: 有一個保護模式的 mp4 檔案無法被轉換)</string>
+	<key>Would you like to convert that file to wav?</key>
+	<string>您要轉換檔案到 wav嗎?</string>
+	<key>Would you like to convert that file to wav?
+(Note: there are a few protected mp4 files which can&apos;t be converted)</key>
+	<string>您要轉換這個檔案為 wav?
+(註解: 有一些保護模式的 mp4 檔案無法被轉換)</string>
+	<key>Would you like to convert that file to wav?
+(Note: there is a protected mp4 file which can&apos;t be converted)</key>
+	<string>您要轉換這個檔案為 wav?
+(註解: 有一個保護模式的 mp4 檔案無法被轉換)</string>
+	<key>Would you like to convert those files to DVD mpg?</key>
+	<string>您要轉換這些檔案到 DVD mpg嗎?</string>
+	<key>Would you like to convert those files to DivX avi?</key>
+	<string>您要轉換這些檔案到 DivX avi嗎?</string>
+	<key>Would you like to convert those files to SVCD mpg?</key>
+	<string>您要轉換這些檔案到 SVCD mpg嗎?</string>
+	<key>Would you like to convert those files to VCD mpg?</key>
+	<string>您要轉換這些檔案到 VCD mpg嗎?</string>
+	<key>Would you like to convert those files to mp3?</key>
+	<string>您要轉換這些檔案到 mp3嗎?</string>
+	<key>Would you like to convert those files to mp3?
+(Note: there are a few protected mp4 files which can&apos;t be converted)</key>
+	<string>您要轉換這些檔案為 mp3?
+(註解: 有一些保護模式的 mp4 檔案無法被轉換)</string>
+	<key>Would you like to convert those files to mp3?
+(Note: there is a protected mp4 file which can&apos;t be converted)</key>
+	<string>您要轉換這些檔案為 mp3?
+(註解: 有一個保護模式的 mp4 檔案無法被轉換)</string>
+	<key>Would you like to convert those files to wav?</key>
+	<string>您要轉換這些檔案到 wav嗎?</string>
+	<key>Would you like to convert those files to wav?
+(Note: there are a few protected mp4 files which can&apos;t be converted)</key>
+	<string>您要轉換這些檔案為 wav?
+(註解: 有一些保護模式的 mp4 檔案無法被轉換)</string>
+	<key>Would you like to convert those files to wav?
+(Note: there is a protected mp4 file which can&apos;t be converted)</key>
+	<string>您要轉換這些檔案為 wav?
+(註解: 有一個保護模式的 mp4 檔案無法被轉換)</string>
+	<key>Writing track</key>
+	<string>寫入軌道中</string>
+	<key>Writing track </key>
+	<string>寫入軌道中</string>
+	<key>Writing tracks</key>
+	<string>燒錄軌道</string>
+	<key>Yes</key>
+	<string>是</string>
+	<key>iPod image</key>
+	<string>iPod 影像</string>
+</dict>
+</plist>

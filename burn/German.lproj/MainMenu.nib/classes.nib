@@ -1,0 +1,69 @@
+{
+    IBClasses = (
+        {
+            ACTIONS = {
+                addItems = id; 
+                burnRecorder = id; 
+                createFolderItems = id; 
+                deleteItems = id; 
+                diskInfoWindow = id; 
+                ejectRecorder = id; 
+                eraseRecorder = id; 
+                mountImageItems = id; 
+                openFile = id; 
+                recorderInfoWindow = id; 
+                returnToDefaultSize = id; 
+                saveAsFile = id; 
+                saveImage = id; 
+                scanDiscsItems = id; 
+                showItemHelp = id; 
+            }; 
+            CLASS = FirstResponder; 
+            LANGUAGE = ObjC; 
+            SUPERCLASS = NSObject; 
+        }, 
+        {
+            ACTIONS = {
+                burnWindow = id; 
+                diskInfoWindow = id; 
+                ejectRecorder = id; 
+                eraseRecorder = id; 
+                inspectorWindow = id; 
+                itemHelp = id; 
+                openFile = id; 
+                preferencesBurn = id; 
+                recorderInfoWindow = id; 
+            }; 
+            CLASS = appController; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {
+                addItems = id; 
+                bringAllToFrontWindow = id; 
+                burnRecorder = id; 
+                burnWindow = id; 
+                closeFile = id; 
+                createFolderItems = id; 
+                deleteItems = id; 
+                diskInfoWindow = id; 
+                ejectRecorder = id; 
+                eraseRecorder = id; 
+                fileMenu = id; 
+                inspectorWindow = id; 
+                itemHelp = id; 
+                minimizeWindow = id; 
+                mountImageItems = id; 
+                openFile = id; 
+                preferencesBurn = id; 
+                recorderInfoWindow = id; 
+                returnToDefaultSizeWindow = id; 
+                saveAsFile = id; 
+                saveImageFile = id; 
+                scanDisksItems = id; 
+                windowMenu = id; 
+                zoomWindow = id; 
+            }; 
+            SUPERCLASS = NSObject; 
+        }
+    ); 
+    IBVersion = 1; 
+}

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple Computer//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>filepath</key>
+	<string>/Users/maarten/Movies/Bureaublad/Programmeur/Projecten/Burn/Current/Source</string>
+	<key>id</key>
+	<string>31</string>
+	<key>isSmart</key>
+	<string>1</string>
+	<key>name</key>
+	<string>Source</string>
+	<key>parent_id</key>
+	<string>30</string>
+	<key>uniqueCode</key>
+	<string>1202654367</string>
+</dict>
+</plist>

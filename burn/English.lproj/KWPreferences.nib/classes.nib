@@ -1,0 +1,67 @@
+{
+    IBClasses =     (
+                {
+            ACTIONS =             {
+                "" = id;
+                addRow = id;
+                deleteRow = id;
+                mountImage = id;
+                scan = id;
+            };
+            CLASS = FirstResponder;
+            LANGUAGE = ObjC;
+            SUPERCLASS = NSObject;
+        },
+                {
+            ACTIONS =             {
+                addTheme = id;
+                chooseFFMPEG = id;
+                deleteTheme = id;
+                setBurner = id;
+                setCompletionAction = id;
+                setPreferenceOption = id;
+                setPreviewImage = id;
+                setTheme = id;
+                showPreview = id;
+            };
+            CLASS = KWPreferences;
+            LANGUAGE = ObjC;
+            OUTLETS =             {
+                advancedView = id;
+                audioTab = id;
+                audioTabGeneral = id;
+                audioView = id;
+                burnerPopup = id;
+                burnerView = id;
+                completionActionMatrix = id;
+                dataView = id;
+                generalView = id;
+                previewImagePopup = id;
+                previewImageView = id;
+                previewWindow = id;
+                temporaryFolderPopup = id;
+                themePopup = id;
+                videoTab = id;
+                videoView = id;
+            };
+            SUPERCLASS = NSWindowController;
+        },
+                {
+            CLASS = dataView;
+            LANGUAGE = ObjC;
+            OUTLETS =             {
+                myController = id;
+            };
+            SUPERCLASS = NSView;
+        },
+                {
+            CLASS = dropImageView;
+            LANGUAGE = ObjC;
+            OUTLETS =             {
+                imageControl = id;
+            };
+            SUPERCLASS = NSView;
+        }
+    );
+    IBVersion = 1;
+}

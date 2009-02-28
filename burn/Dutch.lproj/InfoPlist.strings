@@ -1,0 +1,10 @@
+/* Basic info */
+NSHumanReadableCopyright = "Kiwi Fruitware 2009";
+CFBundleName = "Brand";
+CFBundleDisplayName = "Brand";
+CFBundleHelpBookName = "Brand Help";
+
+/* File types */
+"Image document" = "Schijfkopie bestand";
+"Burn document" = "Brand bestand";
+"Theme document" = "Thema bestand";
