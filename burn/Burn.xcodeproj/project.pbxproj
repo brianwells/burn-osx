@@ -526,6 +526,7 @@
 		FE5DD8110DBD30FF00FC2A37 /* cs */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = cs; path = cs.lproj/Localizable.strings; sourceTree = "<group>"; };
 		FE5E5B4C0D2A7FE300D65049 /* Themes */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Themes; sourceTree = "<group>"; };
 		FE6DBFD00BDCED47006F5F53 /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = English.lproj/KWInspector.nib; sourceTree = "<group>"; };
+		FE7371CA0F5B0B7600EBC82E /* German */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = German; path = German.lproj/MainMenu.nib; sourceTree = "<group>"; };
 		FE8088EB0DBC85C100F2644D /* -1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "-1.png"; path = "Images/ProgressIndicator/-1.png"; sourceTree = "<group>"; };
 		FE888CB70CF9B4BA003620F1 /* Dutch */ = {isa = PBXFileReference; lastKnownFileType = text.html; name = Dutch; path = Dutch.lproj/Credits.html; sourceTree = "<group>"; };
 		FE888CB80CF9B4BA003620F1 /* Dutch */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = Dutch; path = Dutch.lproj/InfoPlist.strings; sourceTree = "<group>"; };
@@ -586,7 +587,6 @@
 		FEAC31350D2A75C000555250 /* German */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = German; path = German.lproj/KWInspector.nib; sourceTree = "<group>"; };
 		FEAC31360D2A75C000555250 /* German */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = German; path = German.lproj/KWPreferences.nib; sourceTree = "<group>"; };
 		FEAC31370D2A75C000555250 /* German */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = German; path = German.lproj/KWRecorderInfo.nib; sourceTree = "<group>"; };
-		FEAC31390D2A75C000555250 /* German */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = German; path = German.lproj/MainMenu.nib; sourceTree = "<group>"; };
 		FEAC3B560EFBFF0300D6F2B5 /* German */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = German; path = German.lproj/Localizable.strings; sourceTree = "<group>"; };
 		FEC3D5240EE32502008DBECA /* vcdimager */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.executable"; name = vcdimager; path = Binaries/Universal/vcdimager; sourceTree = "<group>"; };
 		FEC3D5260EE3251E008DBECA /* vcdimager */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.executable"; name = vcdimager; path = Binaries/PowerPC/vcdimager; sourceTree = "<group>"; };
@@ -1797,7 +1797,7 @@
 				2A37F4B7FDCFA73011CA2CEA /* English */,
 				FE888CC00CF9B4BA003620F1 /* Dutch */,
 				FE4514260D15722E0051D717 /* French */,
-				FEAC31390D2A75C000555250 /* German */,
+				FE7371CA0F5B0B7600EBC82E /* German */,
 				FE9F92160D312811002A7BDC /* pt_BR */,
 				FE3EFEF00DBBD523003DD5AD /* Japanese */,
 				FE5DD7D00DBD15FA00FC2A37 /* zh_TW */,
