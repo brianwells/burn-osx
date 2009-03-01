@@ -188,6 +188,7 @@ dvdauthor = [[NSTask alloc] init];
 [options addObject:path];
 [options addObject:@"-g"];
 [options addObjectsFromArray:files];
+[options addObject:@"-P0"];
 
 [dvdauthor setArguments:options];
 [dvdauthor setStandardError:pipe];
