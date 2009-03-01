@@ -201,7 +201,7 @@ id myObject;
 - (void)addFile:(NSString *)path
 {
 NSString *fileType = NSFileTypeForHFSTypeCode([[[[NSFileManager defaultManager] fileAttributesAtPath:path traverseLink:YES] objectForKey:NSFileHFSTypeCode] longValue]);
-
+NSLog(@"Hier dan, heh?");
 	if ([[tableViewPopup title] isEqualTo:NSLocalizedString(@"MP3 Disc",@"Localized")] && ![[[path pathExtension] lowercaseString] isEqualTo:@"mp3"] && ![fileType isEqualTo:@"'MPG3'"] && ![fileType isEqualTo:@"'Mp3 '"] && ![fileType isEqualTo:@"'MP3 '"])
 	{
 	NSMutableDictionary *rowData = [NSMutableDictionary dictionary];
@@ -228,7 +228,7 @@ NSString *fileType = NSFileTypeForHFSTypeCode([[[[NSFileManager defaultManager] 
 	[rowData setObject:[[NSFileManager defaultManager] displayNameAtPath:path] forKey:@"Name"];
 	[rowData setObject:path forKey:@"Path"];
 	
-			if ([[tableViewPopup title] isEqualTo:NSLocalizedString(@"Audio CD",@"Localized")])
+		if ([[tableViewPopup title] isEqualTo:NSLocalizedString(@"Audio CD",@"Localized")])
 		[rowData setObject:[KWCommonMethods formatTime:time] forKey:@"Time"];
 		else
 		[rowData setObject:[KWCommonMethods makeSizeFromFloat:[[[[NSFileManager defaultManager] fileAttributesAtPath:path traverseLink:YES] objectForKey:NSFileSize] floatValue]] forKey:@"Time"];
@@ -316,11 +316,13 @@ NSString *fileType = NSFileTypeForHFSTypeCode([[[[NSFileManager defaultManager] 
 			
 		if (currentDropRow > -1)
 		{
+		NSLog(@"Hier dan?");
 		[tableData insertObject:[rowData copy] atIndex:currentDropRow];
 		currentDropRow = currentDropRow + 1;
 		}
 		else
 		{
+		NSLog(@"Hier");
 		[tableData addObject:[rowData copy]];
 		
 			if ([[tableViewPopup title] isEqualTo:NSLocalizedString(@"MP3 Disc",@"Localized")])
@@ -1229,6 +1231,9 @@ NSSavePanel *sheet = [NSSavePanel savePanel];
 		if ([addFileTypes indexOfObject:@"rm"] == NSNotFound)
 		[addFileTypes addObject:@"rm"];
 		
+		if ([addFileTypes indexOfObject:@"flac"] == NSNotFound)
+		[addFileTypes addObject:@"flac"];
+		
 		//Add protected files HFS Type, needed to warn
 		[addFileTypes addObject:NSFileTypeForHFSTypeCode('M4P ')];
 		[addFileTypes addObject:NSFileTypeForHFSTypeCode('M4B ')];
@@ -1383,6 +1388,7 @@ NSPasteboard *pboard = [info draggingPasteboard];
 	}
 	else
 	{
+	NSLog(@"Please");
 		if ([[tableViewPopup title] isEqualTo:NSLocalizedString(@"Audio CD",@"Localized")] | [[tableViewPopup title] isEqualTo:NSLocalizedString(@"DVD-Audio",@"Localized")])
 		currentDropRow = row;
 
@@ -1884,8 +1890,12 @@ return [KWCommonMethods formatTime:time];
 int duration;
 
 NSMovie *theMovie = [[NSMovie alloc] initWithURL:[NSURL fileURLWithPath:path] byReference:NO];
-duration = GetMovieDuration([theMovie QTMovie]) / GetMovieTimeScale([theMovie QTMovie]);
-[theMovie release];
+
+	if (theMovie)
+	{
+	duration = GetMovieDuration([theMovie QTMovie]) / GetMovieTimeScale([theMovie QTMovie]);
+	[theMovie release];
+	}
 	
 return duration;
 }
