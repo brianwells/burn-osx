@@ -1045,7 +1045,7 @@ int succes;
 		}
 		
 	[[NSNotificationCenter defaultCenter] postNotificationName:@"KWTaskChanged" object:NSLocalizedString(@"Authoring DVD...",@"Localized")];
-	[[NSNotificationCenter defaultCenter] postNotificationName:@"KWStatusChanged" object:NSLocalizedString(@"Processing: ",@"Localized")];
+	[[NSNotificationCenter defaultCenter] postNotificationName:@"KWStatusChanged" object:NSLocalizedString(@"Generating DVD folder",@"Localized")];
 	
 	DVDAuthorizer = [[KWDVDAuthorizer alloc] init];
 	succes = [DVDAuthorizer createStandardDVDAudioFolderAtPath:[path retain] withFiles:files];
