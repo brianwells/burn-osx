@@ -191,10 +191,10 @@ dvdauthor = [[NSTask alloc] init];
 [options addObject:@"-P0"];
 
 [dvdauthor setArguments:options];
-[dvdauthor setStandardError:pipe];
+[dvdauthor setStandardOutput:pipe];
 handle=[pipe fileHandleForReading];
 
-int currentFile = 1;
+//int currentFile = 1;
 
 [self performSelectorOnMainThread:@selector(startTimer:) withObject:[path stringByAppendingPathComponent:@"AUDIO_TS/ATS_01_1.AOB"] waitUntilDone:NO];
 
@@ -213,12 +213,12 @@ NSString *string = nil;
 	if ([[NSUserDefaults standardUserDefaults] boolForKey:@"KWDebug"] == YES)
 	NSLog(string);
 		
-		if ([string rangeOfString:@"Processing "].length > 0)
+		/*if ([string rangeOfString:@"Processing "].length > 0)
 		{
 		[[NSNotificationCenter defaultCenter] postNotificationName:@"KWStatusChanged" object:[[NSLocalizedString(@"Processing: ", Localized) stringByAppendingString:[[NSFileManager defaultManager] displayNameAtPath:[[[[string componentsSeparatedByString:@"Processing "] objectAtIndex:1] componentsSeparatedByString:@"\n"] objectAtIndex:0]]] stringByAppendingString:[[[@" " stringByAppendingString:[[NSNumber numberWithInt:currentFile] stringValue]] stringByAppendingString:NSLocalizedString(@" of ", Localized)] stringByAppendingString:[[NSNumber numberWithInt:[files count]] stringValue]]]];
 		
 		currentFile = currentFile + 1;
-		}
+		}*/
 	
 	[string release];
 	string = nil;
