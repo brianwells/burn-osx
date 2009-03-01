@@ -201,7 +201,7 @@ id myObject;
 - (void)addFile:(NSString *)path
 {
 NSString *fileType = NSFileTypeForHFSTypeCode([[[[NSFileManager defaultManager] fileAttributesAtPath:path traverseLink:YES] objectForKey:NSFileHFSTypeCode] longValue]);
-NSLog(@"Hier dan, heh?");
+
 	if ([[tableViewPopup title] isEqualTo:NSLocalizedString(@"MP3 Disc",@"Localized")] && ![[[path pathExtension] lowercaseString] isEqualTo:@"mp3"] && ![fileType isEqualTo:@"'MPG3'"] && ![fileType isEqualTo:@"'Mp3 '"] && ![fileType isEqualTo:@"'MP3 '"])
 	{
 	NSMutableDictionary *rowData = [NSMutableDictionary dictionary];
@@ -316,13 +316,11 @@ NSLog(@"Hier dan, heh?");
 			
 		if (currentDropRow > -1)
 		{
-		NSLog(@"Hier dan?");
 		[tableData insertObject:[rowData copy] atIndex:currentDropRow];
 		currentDropRow = currentDropRow + 1;
 		}
 		else
 		{
-		NSLog(@"Hier");
 		[tableData addObject:[rowData copy]];
 		
 			if ([[tableViewPopup title] isEqualTo:NSLocalizedString(@"MP3 Disc",@"Localized")])
@@ -1388,7 +1386,6 @@ NSPasteboard *pboard = [info draggingPasteboard];
 	}
 	else
 	{
-	NSLog(@"Please");
 		if ([[tableViewPopup title] isEqualTo:NSLocalizedString(@"Audio CD",@"Localized")] | [[tableViewPopup title] isEqualTo:NSLocalizedString(@"DVD-Audio",@"Localized")])
 		currentDropRow = row;
 
