@@ -75,6 +75,7 @@ NSArray *defaultKeys = [NSArray arrayWithObjects:
 @"KWDefaultWindowWidth",
 @"KWDefaultWindowHeight",
 @"KWFirstRun",
+@"KWEncodingThreads",
 nil];
 
 NSArray *defaultValues = [NSArray arrayWithObjects:
@@ -143,6 +144,7 @@ NSArray *defaultValues = [NSArray arrayWithObjects:
 [NSNumber numberWithInt:430],		//KWDefaultWindowWidth
 [NSNumber numberWithInt:436],		//KWDefaultWindowHeight
 [NSNumber numberWithBool:YES],		//KWFirstRun
+[NSNumber numberWithInt:8],			//KWEncodingThreads
 nil];
 
 NSDictionary *appDefaults = [NSDictionary dictionaryWithObjects:defaultValues forKeys:defaultKeys];
