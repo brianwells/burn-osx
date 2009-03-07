@@ -2660,7 +2660,7 @@ NSFileHandle *handle;
 NSFileHandle *outputHandle;
 NSImage *image;
 [ffmpeg setLaunchPath:[KWCommonMethods ffmpegPath]];
-[ffmpeg setArguments:[NSArray arrayWithObjects:@"-ss",[[NSNumber numberWithInt:time] stringValue],@"-threads",[[NSNumber numberWithInt:[[[NSUserDefaults standardUserDefaults] objectForKey:@"KWEncodingThreads"] intValue]] stringValue],@"-i",path,@"-vframes",@"1" ,@"-f",@"image2",@"-",nil]];
+[ffmpeg setArguments:[NSArray arrayWithObjects:@"-ss",[[NSNumber numberWithInt:time] stringValue],@"-i",path,@"-vframes",@"1" ,@"-f",@"image2",@"-",nil]];
 [ffmpeg setStandardOutput:outputPipe];
 	if ([[NSUserDefaults standardUserDefaults] boolForKey:@"KWDebug"] == NO)
 	{
