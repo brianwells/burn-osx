@@ -208,6 +208,12 @@ NSString *string = nil;
 
 	while([data=[handle availableData] length])
 	{
+		if (string)
+		{
+		[string release];
+		string = nil;
+		}
+	
 	string=[[NSString alloc] initWithData:data encoding:NSASCIIStringEncoding];
 	
 	if ([[NSUserDefaults standardUserDefaults] boolForKey:@"KWDebug"] == YES)
@@ -219,9 +225,7 @@ NSString *string = nil;
 		
 		currentFile = currentFile + 1;
 		}*/
-	
-	[string release];
-	string = nil;
+		
 	data = nil;
 	
 	[innerPool release];
@@ -243,6 +247,12 @@ dvdauthor = nil;
 	else if (taskStatus == 1 && userCanceled == NO)
 	{
 	[[NSFileManager defaultManager] removeFileAtPath:path handler:nil];
+	
+	[KWCommonMethods writeLogWithFilePath:path withCommand:@"dvdauthor" withLog:string];
+		
+	[string release];
+	string = nil;
+		
 	return 1;
 	}
 	else
@@ -275,7 +285,8 @@ float currentSize = [[[[NSFileManager defaultManager] fileAttributesAtPath:[theT
 
 //Create a menu with given files and chapters
 - (int)createDVDMenuFiles:(NSString *)path withTheme:(NSDictionary *)currentTheme withFileArray:(NSArray *)fileArray withSize:(NSNumber *)size withName:(NSString *)name
-{ 
+{
+NSString *errorString;
 progressSize = size;
 
 //Set value for our progress panel
@@ -299,46 +310,70 @@ BOOL succes;
 		//Create Chapter Root Menu
 		if (succes)
 		succes = [self createRootMenu:[path stringByAppendingPathComponent:@"THEME_TS"] withName:name withTitles:NO withSecondButton:YES];
-
+		else
+		errorString = @"Failed to create root menu/n";
+		
 		//Create Chapter Selection Menu(s)
 		if (succes)
 		succes = [self createSelectionMenus:fileArray withChapters:YES atPath:[path stringByAppendingPathComponent:@"THEME_TS"]];
+		else
+		errorString = @"Failed to create chapter selection menus/n";
 	}
 	else
 	{
 		//Create Root Menu
 		if (succes)
 		succes = [self createRootMenu:[path stringByAppendingPathComponent:@"THEME_TS"] withName:name withTitles:YES withSecondButton:([fileArray count] > 1)];
-
+		else
+		errorString = @"Failed to create root menu/n";
+		
 		//Create Title Selection Menu(s)
 		if (succes)
 		succes = [self createSelectionMenus:fileArray withChapters:NO atPath:[path stringByAppendingPathComponent:@"THEME_TS"]];
-
+		else
+		errorString = @"Failed to create title selection menus/n";
+		
 		//Create Chapter Menu
 		if (succes)
 		succes = [self createChapterMenus:[path stringByAppendingPathComponent:@"THEME_TS"] withFileArray:fileArray];
-
+		else
+		errorString = @"Failed to create chapter menu/n";
+		
 		//Create Chapter Selection Menu(s)
 		if (succes)
 		succes = [self createSelectionMenus:fileArray withChapters:YES atPath:[path stringByAppendingPathComponent:@"THEME_TS"]];
+		else
+		errorString = @"Failed to create chapter selection menus/n";
 	}
-
+	
+	BOOL authoringFailed = NO;
+	
 	//Create dvdauthor XML file
 	if (succes)
 	succes = [self createDVDXMLAtPath:[[path stringByAppendingPathComponent:@"THEME_TS"] stringByAppendingPathComponent:@"dvdauthor.xml"] withFileArray:fileArray atFolderPath:path];
-
+	else
+	errorString = @"Failed to create DVD xml menu/n";
+	
 	//Author DVD
 	if (succes)
+	{
 	succes = [self authorDVDWithXMLFile:[[path stringByAppendingPathComponent:@"THEME_TS"] stringByAppendingPathComponent:@"dvdauthor.xml"] withFileArray:fileArray atPath:path];
-
+	authoringFailed = !succes;
+	}
+	
 	if (!succes)
 	{
-	//[[NSFileManager defaultManager] removeFileAtPath:path handler:nil];
-	
 		if (userCanceled)
+		{
 		return 2;
+		}
 		else
+		{
+			if (authoringFailed == NO)
+			[KWCommonMethods writeLogWithFilePath:path withCommand:@"Burn" withLog:errorString];
+			
 		return 1;
+		}
 	}
 
 [[NSFileManager defaultManager] removeFileAtPath:[path stringByAppendingPathComponent:@"THEME_TS"] handler:nil];
@@ -852,13 +887,23 @@ totalSize = totalSize / 1024 / 1024;
 
 NSAutoreleasePool *innerPool = [[NSAutoreleasePool alloc] init];
 NSString *string = nil;
+NSString *errorString = @"";
 
 	while([data=[handle availableData] length])
 	{
+		if (string)
+		{
+		[string release];
+		string = nil;
+		}
+	
 	string=[[NSString alloc] initWithData:data encoding:NSASCIIStringEncoding];
 
 		if ([[NSUserDefaults standardUserDefaults] boolForKey:@"KWDebug"] == YES)
 		NSLog(string);
+		
+		if ([string rangeOfString:@"ERR:"].length > 0)
+		errorString = [errorString stringByAppendingString:string];
 
 		if ([string rangeOfString:@"Processing /"].length > 0)
 		{
@@ -893,8 +938,6 @@ NSString *string = nil;
 			}
 		}
 
-	[string release];
-	string = nil;
 	data = nil;
 	[innerPool release];
 	innerPool = [[NSAutoreleasePool alloc] init];
@@ -904,6 +947,11 @@ NSString *string = nil;
 [dvdauthor waitUntilExit];
 	
 returnCode = ([dvdauthor terminationStatus] == 0 && userCanceled == NO);
+
+	if (!returnCode)
+	[KWCommonMethods writeLogWithFilePath:path withCommand:@"dvdauthor" withLog:errorString];
+	
+[string release];
 [pipe release];
 [dvdauthor release];
 dvdauthor = nil;
