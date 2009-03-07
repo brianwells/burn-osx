@@ -37,7 +37,7 @@
 
 //Main actions
 //Create root menu (Start and Titles)
-- (BOOL)createRootMenu:(NSString *)path withName:(NSString *)name;
+- (BOOL)createRootMenu:(NSString *)path withName:(NSString *)name withTitles:(BOOL)titles withSecondButton:(BOOL)secondButton;
 //Batch create title selection menus
 - (BOOL)createSelectionMenus:(NSArray *)fileArray withChapters:(BOOL)chapters atPath:(NSString *)path;
 //Create a chapter menu (Start and Chapters)
@@ -52,9 +52,9 @@
 
 //Theme actions
 //Create menu image with titles or chapters
-- (NSImage *)rootMenuWithTitles:(BOOL)titles withName:(NSString *)name;
+- (NSImage *)rootMenuWithTitles:(BOOL)titles withName:(NSString *)name withSecondButton:(BOOL)secondButton;
 //Create menu image mask with titles or chapters
-- (NSImage *)rootMaskWithTitles:(BOOL)titles;
+- (NSImage *)rootMaskWithTitles:(BOOL)titles withSecondButton:(BOOL)secondButton;
 //Create menu image
 - (NSImage *)selectionMenuWithTitles:(BOOL)titles withObjects:(NSArray *)objects withImages:(NSArray *)images addNext:(BOOL)next addPrevious:(BOOL)previous;
 //Create menu mask

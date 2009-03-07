@@ -294,22 +294,36 @@ BOOL succes;
 	if (succes)
 	succes = [[NSFileManager defaultManager] createDirectoryAtPath:[path stringByAppendingPathComponent:@"THEME_TS"] attributes:nil];
 
-	//Create Root Menu
-	if (succes)
-	succes = [self createRootMenu:[path stringByAppendingPathComponent:@"THEME_TS"] withName:name];
+	if ([fileArray count] == 1 && [[[fileArray objectAtIndex:0] objectForKey:@"Chapters"] count] > 0)
+	{
+		//Create Chapter Root Menu
+		if (succes)
+		succes = [self createRootMenu:[path stringByAppendingPathComponent:@"THEME_TS"] withName:name withTitles:NO withSecondButton:YES];
 
-	//Create Title Selection Menu(s)
-	if (succes)
-	succes = [self createSelectionMenus:fileArray withChapters:NO atPath:[path stringByAppendingPathComponent:@"THEME_TS"]];
+		//Create Chapter Selection Menu(s)
+		if (succes)
+		succes = [self createSelectionMenus:fileArray withChapters:YES atPath:[path stringByAppendingPathComponent:@"THEME_TS"]];
+	}
+	else
+	{
+		//Create Root Menu
+		if (succes)
+		succes = [self createRootMenu:[path stringByAppendingPathComponent:@"THEME_TS"] withName:name withTitles:YES withSecondButton:([fileArray count] > 1)];
 
-	//Create Chapter Menu
-	if (succes)
-	succes = [self createChapterMenus:[path stringByAppendingPathComponent:@"THEME_TS"] withFileArray:fileArray];
+		//Create Title Selection Menu(s)
+		if (succes)
+		succes = [self createSelectionMenus:fileArray withChapters:NO atPath:[path stringByAppendingPathComponent:@"THEME_TS"]];
 
-	//Create Chapter Selection Menu(s)
-	if (succes)
-	succes = [self createSelectionMenus:fileArray withChapters:YES atPath:[path stringByAppendingPathComponent:@"THEME_TS"]];
+		//Create Chapter Menu
+		if (succes)
+		succes = [self createChapterMenus:[path stringByAppendingPathComponent:@"THEME_TS"] withFileArray:fileArray];
 
+		//Create Chapter Selection Menu(s)
+		if (succes)
+		succes = [self createSelectionMenus:fileArray withChapters:YES atPath:[path stringByAppendingPathComponent:@"THEME_TS"]];
+	}
+
+	//Create dvdauthor XML file
 	if (succes)
 	succes = [self createDVDXMLAtPath:[[path stringByAppendingPathComponent:@"THEME_TS"] stringByAppendingPathComponent:@"dvdauthor.xml"] withFileArray:fileArray atFolderPath:path];
 
@@ -340,15 +354,15 @@ return 0;
 #pragma mark •• Main actions
 
 //Create root menu (Start and Titles)
-- (BOOL)createRootMenu:(NSString *)path withName:(NSString *)name
+- (BOOL)createRootMenu:(NSString *)path withName:(NSString *)name withTitles:(BOOL)titles withSecondButton:(BOOL)secondButton
 {
 BOOL succes;
 
 NSAutoreleasePool *innerPool = [[NSAutoreleasePool alloc] init];
 
 //Create Images
-NSImage *image = [self rootMenuWithTitles:YES withName:name];
-NSImage *mask = [self rootMaskWithTitles:YES];
+NSImage *image = [self rootMenuWithTitles:titles withName:name withSecondButton:secondButton];
+NSImage *mask = [self rootMaskWithTitles:titles withSecondButton:secondButton];
 		
 //Save mask as png
 succes = [self saveImage:mask toPath:[path stringByAppendingPathComponent:@"Mask.png"]];
@@ -508,8 +522,8 @@ BOOL succes = YES;
 		NSString *name = [[[[fileArray objectAtIndex:i] objectForKey:@"Path"] lastPathComponent] stringByDeletingPathExtension];
 
 		//Create Images
-		NSImage *image = [self rootMenuWithTitles:NO withName:name];
-		NSImage *mask = [self rootMaskWithTitles:NO];
+		NSImage *image = [self rootMenuWithTitles:NO withName:name withSecondButton:YES];
+		NSImage *mask = [self rootMaskWithTitles:NO withSecondButton:YES];
 		
 		//Save mask as png
 		succes = [self saveImage:mask toPath:[path stringByAppendingPathComponent:@"Mask.png"]];
@@ -618,10 +632,20 @@ return succes;
 {
 NSString *xmlContent;
 
-	if ([[[NSUserDefaults standardUserDefaults] objectForKey:@"KWDVDThemeFormat"] intValue] == 0)
-	xmlContent = [[@"<dvdauthor dest=\"" stringByAppendingString:@"../"] stringByAppendingString:@"\" jumppad=\"1\">\n<vmgm>\n<menus>\n<video format=\"pal\"></video>\n<pgc entry=\"title\">\n<vob file=\"Title Menu.mpg\"></vob>\n<button>jump titleset 1 title 1;</button>\n<button>jump titleset 1 menu entry root;</button>\n</pgc>\n</menus>\n</vmgm>\n<titleset>\n<menus>\n"];
+	if ([fileArray count] == 1 && [[[fileArray objectAtIndex:0] objectForKey:@"Chapters"] count] == 0)
+	{
+		if ([[[NSUserDefaults standardUserDefaults] objectForKey:@"KWDVDThemeFormat"] intValue] == 0)
+		xmlContent = [[@"<dvdauthor dest=\"" stringByAppendingString:@"../"] stringByAppendingString:@"\" jumppad=\"1\">\n<vmgm>\n<menus>\n<video format=\"pal\"></video>\n<pgc entry=\"title\">\n<vob file=\"Title Menu.mpg\"></vob>\n<button>jump titleset 1 title 1;</button>\n</pgc>\n</menus>\n</vmgm>\n<titleset>\n<menus>\n"];
+		else
+		xmlContent = [[@"<dvdauthor dest=\"" stringByAppendingString:@"../"] stringByAppendingString:@"\" jumppad=\"1\">\n<vmgm>\n<menus>\n<video format=\"pal\" aspect=\"16:9\"></video>\n<pgc entry=\"title\">\n<vob file=\"Title Menu.mpg\"></vob>\n<button>jump titleset 1 title 1;</button>\n</pgc>\n</menus>\n</vmgm>\n<titleset>\n<menus>\n<video format=\"pal\" aspect=\"16:9\"></video>\n"];
+	}
 	else
-	xmlContent = [[@"<dvdauthor dest=\"" stringByAppendingString:@"../"] stringByAppendingString:@"\" jumppad=\"1\">\n<vmgm>\n<menus>\n<video format=\"pal\" aspect=\"16:9\"></video>\n<pgc entry=\"title\">\n<vob file=\"Title Menu.mpg\"></vob>\n<button>jump titleset 1 title 1;</button>\n<button>jump titleset 1 menu entry root;</button>\n</pgc>\n</menus>\n</vmgm>\n<titleset>\n<menus>\n<video format=\"pal\" aspect=\"16:9\"></video>\n"];
+	{
+		if ([[[NSUserDefaults standardUserDefaults] objectForKey:@"KWDVDThemeFormat"] intValue] == 0)
+		xmlContent = [[@"<dvdauthor dest=\"" stringByAppendingString:@"../"] stringByAppendingString:@"\" jumppad=\"1\">\n<vmgm>\n<menus>\n<video format=\"pal\"></video>\n<pgc entry=\"title\">\n<vob file=\"Title Menu.mpg\"></vob>\n<button>jump titleset 1 title 1;</button>\n<button>jump titleset 1 menu entry root;</button>\n</pgc>\n</menus>\n</vmgm>\n<titleset>\n<menus>\n"];
+		else
+		xmlContent = [[@"<dvdauthor dest=\"" stringByAppendingString:@"../"] stringByAppendingString:@"\" jumppad=\"1\">\n<vmgm>\n<menus>\n<video format=\"pal\" aspect=\"16:9\"></video>\n<pgc entry=\"title\">\n<vob file=\"Title Menu.mpg\"></vob>\n<button>jump titleset 1 title 1;</button>\n<button>jump titleset 1 menu entry root;</button>\n</pgc>\n</menus>\n</vmgm>\n<titleset>\n<menus>\n<video format=\"pal\" aspect=\"16:9\"></video>\n"];
+	}
 
 	int number;
 	if ([[theme objectForKey:@"KWSelectionMode"] intValue] != 2)
@@ -636,6 +660,12 @@ int numberOfMenus = [fileArray count] / number;
 
 int chapterMenu = numberOfMenus + 1;
 int menuItem = 0;
+
+	if ([fileArray count] == 1)
+	{
+	numberOfMenus = 0;
+	chapterMenu = 1;
+	}
 
 	int i;
 	for (i=0;i<numberOfMenus;i++)
@@ -679,20 +709,23 @@ int menuItem = 0;
 		[titlesWithChaptersNames addObject:[[[[fileArray objectAtIndex:i] objectForKey:@"Path"] lastPathComponent] stringByDeletingPathExtension]];
 		}
 	}
-
-	for (i=0;i<[titlesWithChapters count];i++)
+	
+	if ([fileArray count] > 1)
 	{
-	menuItem = menuItem + 1;
+		for (i=0;i<[titlesWithChapters count];i++)
+		{
+		menuItem = menuItem + 1;
 	
 			if (i > 0)
 			chapterMenu = chapterMenu + ([[[fileArray objectAtIndex:[[titlesWithChapters objectAtIndex:i-1] intValue]] objectForKey:@"Chapters"] count] / number);
 	
-	xmlContent = [xmlContent stringByAppendingString:@"<pgc>\n"];
-	xmlContent = [xmlContent stringByAppendingString:[[@"<vob file=\"" stringByAppendingString:[[titlesWithChaptersNames objectAtIndex:i] stringByAppendingString:@".mpg"]] stringByAppendingString:@"\"></vob>\n"]];
-	xmlContent = [xmlContent stringByAppendingString:[[@"<button>jump title " stringByAppendingString:[[NSNumber numberWithInt:[[titlesWithChapters objectAtIndex:i] intValue]+1] stringValue]] stringByAppendingString:@";</button>\n"]];
-	xmlContent = [xmlContent stringByAppendingString:[[@"<button>jump menu " stringByAppendingString:[[NSNumber numberWithInt:chapterMenu] stringValue]] stringByAppendingString:@";</button>\n"]];
-	chapterMenu = chapterMenu + 1;
-	xmlContent = [xmlContent stringByAppendingString:@"</pgc>\n"];
+		xmlContent = [xmlContent stringByAppendingString:@"<pgc>\n"];
+		xmlContent = [xmlContent stringByAppendingString:[[@"<vob file=\"" stringByAppendingString:[[titlesWithChaptersNames objectAtIndex:i] stringByAppendingString:@".mpg"]] stringByAppendingString:@"\"></vob>\n"]];
+		xmlContent = [xmlContent stringByAppendingString:[[@"<button>jump title " stringByAppendingString:[[NSNumber numberWithInt:[[titlesWithChapters objectAtIndex:i] intValue]+1] stringValue]] stringByAppendingString:@";</button>\n"]];
+		xmlContent = [xmlContent stringByAppendingString:[[@"<button>jump menu " stringByAppendingString:[[NSNumber numberWithInt:chapterMenu] stringValue]] stringByAppendingString:@";</button>\n"]];
+		chapterMenu = chapterMenu + 1;
+		xmlContent = [xmlContent stringByAppendingString:@"</pgc>\n"];
+		}
 	}
 
 	int chapterSelection = 1;
@@ -886,7 +919,7 @@ return returnCode;
 #pragma mark •• Theme actions
 
 //Create menu image with titles or chapters
-- (NSImage *)rootMenuWithTitles:(BOOL)titles withName:(NSString *)name
+- (NSImage *)rootMenuWithTitles:(BOOL)titles withName:(NSString *)name withSecondButton:(BOOL)secondButton
 {
 NSImage *newImage = nil;
 
@@ -925,7 +958,7 @@ int y = [[theme objectForKey:@"KWStartButtonY"] intValue];
 	//Draw titles if needed
 	if (titles)
 	{
-		if (![[theme objectForKey:@"KWTitleButtonDisable"] boolValue])
+		if (![[theme objectForKey:@"KWTitleButtonDisable"] boolValue] && secondButton)
 		{
 		NSImage *titleButonImage = [[[NSImage alloc] initWithData:[theme objectForKey:@"KWTitleButtonImage"]] autorelease];
 		NSRect rect = NSMakeRect([[theme objectForKey:@"KWTitleButtonX"] intValue],[[theme objectForKey:@"KWTitleButtonY"] intValue],[[theme objectForKey:@"KWTitleButtonW"] intValue],[[theme objectForKey:@"KWTitleButtonH"] intValue]);
@@ -965,7 +998,7 @@ return [self resizeImage:newImage];
 }
 
 //Create menu image mask with titles or chapters
-- (NSImage *)rootMaskWithTitles:(BOOL)titles
+- (NSImage *)rootMaskWithTitles:(BOOL)titles withSecondButton:(BOOL)secondButton
 {
 NSImage *newImage = [[[NSImage alloc] initWithSize: NSMakeSize(720,576)] autorelease]; 
 	
@@ -987,13 +1020,16 @@ NSRect rect = NSMakeRect([[theme objectForKey:@"KWStartButtonMaskX"] intValue],y
 
 	if (titles)
 	{
-	NSImage *titleMaskButtonImage = [[[NSImage alloc] initWithData:[theme objectForKey:@"KWTitleButtonMaskImage"]] autorelease];
-	NSRect rect = NSMakeRect([[theme objectForKey:@"KWTitleButtonMaskX"] intValue],[[theme objectForKey:@"KWTitleButtonMaskY"] intValue] * factor,[[theme objectForKey:@"KWTitleButtonMaskW"] intValue],[[theme objectForKey:@"KWTitleButtonMaskH"] intValue] * factor);
+		if (secondButton)
+		{
+		NSImage *titleMaskButtonImage = [[[NSImage alloc] initWithData:[theme objectForKey:@"KWTitleButtonMaskImage"]] autorelease];
+		NSRect rect = NSMakeRect([[theme objectForKey:@"KWTitleButtonMaskX"] intValue],[[theme objectForKey:@"KWTitleButtonMaskY"] intValue] * factor,[[theme objectForKey:@"KWTitleButtonMaskW"] intValue],[[theme objectForKey:@"KWTitleButtonMaskH"] intValue] * factor);
 
-		if (!titleMaskButtonImage)
-		[self drawBoxInRect:rect lineWidth:[[theme objectForKey:@"KWTitleButtonMaskLineWidth"] intValue] onImage:newImage];
-		else
-		[self drawImage:titleMaskButtonImage inRect:rect onImage:newImage];
+			if (!titleMaskButtonImage)
+			[self drawBoxInRect:rect lineWidth:[[theme objectForKey:@"KWTitleButtonMaskLineWidth"] intValue] onImage:newImage];
+			else
+			[self drawImage:titleMaskButtonImage inRect:rect onImage:newImage];
+		}
 	}
 	else
 	{
@@ -1340,11 +1376,11 @@ NSImage *image;
 
 	if (type == 0)
 	{
-	image = [self rootMenuWithTitles:YES withName:NSLocalizedString(@"Title Menu",@"Localized")];
+	image = [self rootMenuWithTitles:YES withName:NSLocalizedString(@"Title Menu",@"Localized") withSecondButton:YES];
 	}
 	else if (type == 1)
 	{
-	image = [self rootMenuWithTitles:NO withName:NSLocalizedString(@"Chapter Menu",@"Localized")];
+	image = [self rootMenuWithTitles:NO withName:NSLocalizedString(@"Chapter Menu",@"Localized") withSecondButton:YES];
 	}
 	else if (type == 2 | type == 3)
 	{
