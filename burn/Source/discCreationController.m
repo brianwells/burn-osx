@@ -146,6 +146,8 @@ succes = [SVCDImager createSVCDImage:[[dict objectForKey:@"Path"] stringByDeleti
 
 NSAlert *alert = [[[NSAlert alloc] init] autorelease];
 [alert addButtonWithTitle:NSLocalizedString(@"OK",@"Localized")];
+[alert addButtonWithTitle:NSLocalizedString(@"Open Log",@"Localized")];
+
 [alert setMessageText:NSLocalizedString(@"Authoring failed",@"Localized")];
 	if (type < 3)
 	[alert setInformativeText:NSLocalizedString(@"There was a problem authoring the DVD",@"Localized")];
@@ -153,7 +155,17 @@ NSAlert *alert = [[[NSAlert alloc] init] autorelease];
 	[alert setInformativeText:NSLocalizedString(@"There was a problem copying the disc",@"Localized")];
 [alert setAlertStyle:NSWarningAlertStyle];
 	
-[alert beginSheetModalForWindow:mainWindow modalDelegate:self didEndSelector:nil contextInfo:nil];
+[alert beginSheetModalForWindow:mainWindow modalDelegate:self didEndSelector:@selector(failedAlertDidEnd:returnCode:contextInfo:) contextInfo:nil];
+}
+
+- (void)failedAlertDidEnd:(NSAlert *)alert returnCode:(int)returnCode contextInfo:(void *)contextInfo
+{
+[[alert window] orderOut:self];
+
+	if (returnCode == NSAlertSecondButtonReturn) 
+	{
+	[[NSWorkspace sharedWorkspace] openFile:[NSHomeDirectory() stringByAppendingString:@"/Library/Logs/Burn Errors.log"] withApplication:@"TextEdit"];
+	}
 }
 
 - (void)imageFinished:(id)object
