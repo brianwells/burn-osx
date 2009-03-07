@@ -462,7 +462,7 @@ return [NSArray arrayWithObjects:NSToolbarFlexibleSpaceItemIdentifier,@"Main",NS
 {
 	if (device)
 	{
-	int space;
+	float space;
 	
 		if ([[[device status] objectForKey:DRDeviceMediaStateKey] isEqualTo:DRDeviceMediaStateMediaPresent])
 		{
