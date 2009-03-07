@@ -756,7 +756,7 @@ NSData *data;
 				if (format == 4)
 				{
 				NSMutableArray *args = [[NSMutableArray alloc] init];
-				args = [[NSArray arrayWithObjects:@"-i",path,@"-vtag",@"DIVX",@"-acodec",nil] mutableCopy];
+				args = [[NSArray arrayWithObjects:@"-threads",[[NSNumber numberWithInt:[[[NSUserDefaults standardUserDefaults] objectForKey:@"KWEncodingThreads"] intValue]] stringValue],@"-i",path,@"-vtag",@"DIVX",@"-acodec",nil] mutableCopy];
 				
 					if ([[[NSUserDefaults standardUserDefaults] objectForKey:@"KWDefaultDivXSoundType"] intValue] == 0)
 					{
@@ -828,7 +828,7 @@ NSData *data;
 				}
 				else if (format == 3)
 				{
-				NSMutableArray *args = [[NSArray arrayWithObjects:@"-i",path,@"-target",ffmpegFormat,@"-ac",@"2",@"-aspect",aspect,@"-acodec",nil] mutableCopy];
+				NSMutableArray *args = [[NSArray arrayWithObjects:@"-threads",[[NSNumber numberWithInt:[[[NSUserDefaults standardUserDefaults] objectForKey:@"KWEncodingThreads"] intValue]] stringValue],@"-i",path,@"-target",ffmpegFormat,@"-ac",@"2",@"-aspect",aspect,@"-acodec",nil] mutableCopy];
 				
 					if ([[[NSUserDefaults standardUserDefaults] objectForKey:@"KWDefaultDVDSoundType"] intValue] == 0)
 					[args addObject:@"mp2"];
@@ -870,19 +870,19 @@ NSData *data;
 			}
 			else if (format == 5)
 			{
-			[ffmpeg setArguments:[NSArray arrayWithObjects:@"-i",path,@"-ab",[[NSNumber numberWithInt:[[[NSUserDefaults standardUserDefaults] objectForKey:@"KWDefaultMP3Bitrate"] intValue]*1000] stringValue],@"-ac",[[NSNumber numberWithInt:[[[NSUserDefaults standardUserDefaults] objectForKey:@"KWDefaultMP3Mode"] intValue] + 1] stringValue],@"-ar",@"44100",[outputFile stringByAppendingString:@".mp3"],nil]];
+			[ffmpeg setArguments:[NSArray arrayWithObjects:@"-threads",[[NSNumber numberWithInt:[[[NSUserDefaults standardUserDefaults] objectForKey:@"KWEncodingThreads"] intValue]] stringValue],@"-i",path,@"-ab",[[NSNumber numberWithInt:[[[NSUserDefaults standardUserDefaults] objectForKey:@"KWDefaultMP3Bitrate"] intValue]*1000] stringValue],@"-ac",[[NSNumber numberWithInt:[[[NSUserDefaults standardUserDefaults] objectForKey:@"KWDefaultMP3Mode"] intValue] + 1] stringValue],@"-ar",@"44100",[outputFile stringByAppendingString:@".mp3"],nil]];
 			}
 			else if (format == 6)
 			{
-			[ffmpeg setArguments:[NSArray arrayWithObjects:@"-i",path,[outputFile stringByAppendingString:@".wav"],nil]];
+			[ffmpeg setArguments:[NSArray arrayWithObjects:@"-threads",[[NSNumber numberWithInt:[[[NSUserDefaults standardUserDefaults] objectForKey:@"KWEncodingThreads"] intValue]] stringValue],@"-i",path,[outputFile stringByAppendingString:@".wav"],nil]];
 			}
 			else
 			{
 				//Check if there is padding needed
 				if (![padTop isEqualTo:@""])
-				[ffmpeg setArguments:[NSArray arrayWithObjects:@"-i",path,@"-target",ffmpegFormat,@"-ac",@"2",@"-aspect",aspect,[outputFile stringByAppendingString:@".mpg"],padTop, padTopSize, padBottom, padBottomSize,nil]];
+				[ffmpeg setArguments:[NSArray arrayWithObjects:@"-threads",[[NSNumber numberWithInt:[[[NSUserDefaults standardUserDefaults] objectForKey:@"KWEncodingThreads"] intValue]] stringValue],@"-i",path,@"-target",ffmpegFormat,@"-ac",@"2",@"-aspect",aspect,[outputFile stringByAppendingString:@".mpg"],padTop, padTopSize, padBottom, padBottomSize,nil]];
 				else
-				[ffmpeg setArguments:[NSArray arrayWithObjects:@"-i",path,@"-target",ffmpegFormat,@"-ac",@"2",@"-aspect",aspect,[outputFile stringByAppendingString:@".mpg"],nil]];
+				[ffmpeg setArguments:[NSArray arrayWithObjects:@"-threads",[[NSNumber numberWithInt:[[[NSUserDefaults standardUserDefaults] objectForKey:@"KWEncodingThreads"] intValue]] stringValue],@"-i",path,@"-target",ffmpegFormat,@"-ac",@"2",@"-aspect",aspect,[outputFile stringByAppendingString:@".mpg"],nil]];
 			}
 		}
 		else
@@ -893,7 +893,7 @@ NSData *data;
 				if (format == 4)
 				{
 				NSMutableArray *args = [[NSMutableArray alloc] init];
-				args = [[NSArray arrayWithObjects:@"-i",[outputFile stringByAppendingString:@".wav"],@"-i",path,@"-vtag",@"DIVX",@"-acodec",nil] mutableCopy];
+				args = [[NSArray arrayWithObjects:@"-threads",[[NSNumber numberWithInt:[[[NSUserDefaults standardUserDefaults] objectForKey:@"KWEncodingThreads"] intValue]] stringValue],@"-i",[outputFile stringByAppendingString:@".wav"],@"-threads",[[NSNumber numberWithInt:[[[NSUserDefaults standardUserDefaults] objectForKey:@"KWEncodingThreads"] intValue]] stringValue],@"-i",path,@"-vtag",@"DIVX",@"-acodec",nil] mutableCopy];
 					
 					if ([[[NSUserDefaults standardUserDefaults] objectForKey:@"KWDefaultDivXSoundType"] intValue] == 0)
 					{
@@ -964,7 +964,7 @@ NSData *data;
 				else if (format == 3)
 				{
 				NSMutableArray *args = [[NSMutableArray alloc] init];
-				args = [[NSArray arrayWithObjects:@"-i",[outputFile stringByAppendingString:@".wav"],@"-i",path,@"-target",ffmpegFormat,@"-ac",@"2",@"-aspect",aspect,@"-acodec",nil] mutableCopy];
+				args = [[NSArray arrayWithObjects:@"-threads",[[NSNumber numberWithInt:[[[NSUserDefaults standardUserDefaults] objectForKey:@"KWEncodingThreads"] intValue]] stringValue],@"-i",[outputFile stringByAppendingString:@".wav"],@"-threads",[[NSNumber numberWithInt:[[[NSUserDefaults standardUserDefaults] objectForKey:@"KWEncodingThreads"] intValue]] stringValue],@"-i",path,@"-target",ffmpegFormat,@"-ac",@"2",@"-aspect",aspect,@"-acodec",nil] mutableCopy];
 					
 					if ([[[NSUserDefaults standardUserDefaults] objectForKey:@"KWDefaultDVDSoundType"] intValue] == 0)
 					[args addObject:@"mp2"];
@@ -1006,15 +1006,15 @@ NSData *data;
 			}
 			else if (format == 5)
 			{
-			[ffmpeg setArguments:[NSArray arrayWithObjects:@"-i",[outputFile stringByAppendingString:@".wav"],@"-ab",[[NSNumber numberWithInt:[[[NSUserDefaults standardUserDefaults] objectForKey:@"KWDefaultMP3Bitrate"] intValue]*1000] stringValue],@"-ac",[[NSNumber numberWithInt:[[[NSUserDefaults standardUserDefaults] objectForKey:@"KWDefaultMP3Mode"] intValue] + 1] stringValue],@"-ar",@"44100",[outputFile stringByAppendingString:@".mp3"],nil]];
+			[ffmpeg setArguments:[NSArray arrayWithObjects:@"-threads",[[NSNumber numberWithInt:[[[NSUserDefaults standardUserDefaults] objectForKey:@"KWEncodingThreads"] intValue]] stringValue],@"-i",[outputFile stringByAppendingString:@".wav"],@"-ab",[[NSNumber numberWithInt:[[[NSUserDefaults standardUserDefaults] objectForKey:@"KWDefaultMP3Bitrate"] intValue]*1000] stringValue],@"-ac",[[NSNumber numberWithInt:[[[NSUserDefaults standardUserDefaults] objectForKey:@"KWDefaultMP3Mode"] intValue] + 1] stringValue],@"-ar",@"44100",[outputFile stringByAppendingString:@".mp3"],nil]];
 			}
 			else
 			{
 				//Check if there is padding needed
 				if (![padTop isEqualTo:@""])
-				[ffmpeg setArguments:[NSArray arrayWithObjects:@"-i",[outputFile stringByAppendingString:@".wav"],@"-i",path,@"-target",ffmpegFormat,@"-ac",@"2",@"-aspect",aspect,[outputFile stringByAppendingString:@".mpg"],padTop, padTopSize, padBottom, padBottomSize,nil]];
+				[ffmpeg setArguments:[NSArray arrayWithObjects:@"-threads",[[NSNumber numberWithInt:[[[NSUserDefaults standardUserDefaults] objectForKey:@"KWEncodingThreads"] intValue]] stringValue],@"-i",[outputFile stringByAppendingString:@".wav"],@"-threads",[[NSNumber numberWithInt:[[[NSUserDefaults standardUserDefaults] objectForKey:@"KWEncodingThreads"] intValue]] stringValue],@"-i",path,@"-target",ffmpegFormat,@"-ac",@"2",@"-aspect",aspect,[outputFile stringByAppendingString:@".mpg"],padTop, padTopSize, padBottom, padBottomSize,nil]];
 				else
-				[ffmpeg setArguments:[NSArray arrayWithObjects:@"-i",[outputFile stringByAppendingString:@".wav"],@"-i",path,@"-target",ffmpegFormat,@"-ac",@"2",@"-aspect",aspect,[outputFile stringByAppendingString:@".mpg"],nil]];			
+				[ffmpeg setArguments:[NSArray arrayWithObjects:@"-threads",[[NSNumber numberWithInt:[[[NSUserDefaults standardUserDefaults] objectForKey:@"KWEncodingThreads"] intValue]] stringValue],@"-i",[outputFile stringByAppendingString:@".wav"],@"-threads",[[NSNumber numberWithInt:[[[NSUserDefaults standardUserDefaults] objectForKey:@"KWEncodingThreads"] intValue]] stringValue],@"-i",path,@"-target",ffmpegFormat,@"-ac",@"2",@"-aspect",aspect,[outputFile stringByAppendingString:@".mpg"],nil]];			
 			}
 		}
 	}
@@ -1029,7 +1029,7 @@ NSData *data;
 				if (format == 4)
 				{
 				NSMutableArray *args = [[NSMutableArray alloc] init];
-				args = [[NSArray arrayWithObjects:@"-f", @"yuv4mpegpipe",@"-i",@"-",@"-i",path,@"-vtag",@"DIVX",@"-acodec",nil] mutableCopy];
+				args = [[NSArray arrayWithObjects:@"-f", @"yuv4mpegpipe",@"-threads",[[NSNumber numberWithInt:[[[NSUserDefaults standardUserDefaults] objectForKey:@"KWEncodingThreads"] intValue]] stringValue],@"-i",@"-",@"-threads",[[NSNumber numberWithInt:[[[NSUserDefaults standardUserDefaults] objectForKey:@"KWEncodingThreads"] intValue]] stringValue],@"-i",path,@"-vtag",@"DIVX",@"-acodec",nil] mutableCopy];
 					
 					if ([[[NSUserDefaults standardUserDefaults] objectForKey:@"KWDefaultDivXSoundType"] intValue] == 0)
 					{
@@ -1100,7 +1100,7 @@ NSData *data;
 				else if (format == 3)
 				{
 				NSMutableArray *args = [[NSMutableArray alloc] init];
-				args = [[NSArray arrayWithObjects:@"-f", @"yuv4mpegpipe",@"-i",@"-",@"-i",path,@"-target",ffmpegFormat,@"-ac",@"2",@"-aspect",aspect,@"-acodec",nil] mutableCopy];
+				args = [[NSArray arrayWithObjects:@"-f", @"yuv4mpegpipe",@"-threads",[[NSNumber numberWithInt:[[[NSUserDefaults standardUserDefaults] objectForKey:@"KWEncodingThreads"] intValue]] stringValue],@"-i",@"-",@"-threads",[[NSNumber numberWithInt:[[[NSUserDefaults standardUserDefaults] objectForKey:@"KWEncodingThreads"] intValue]] stringValue],@"-i",path,@"-target",ffmpegFormat,@"-ac",@"2",@"-aspect",aspect,@"-acodec",nil] mutableCopy];
 					
 					if ([[[NSUserDefaults standardUserDefaults] objectForKey:@"KWDefaultDVDSoundType"] intValue] == 0)
 					[args addObject:@"mp2"];
@@ -1143,12 +1143,12 @@ NSData *data;
 			else
 			{
 			//This is a problem with earlier versions of ffmpeg
-			//[ffmpeg setArguments:[NSArray arrayWithObjects:@"-f", @"yuv4mpegpipe",@"-i",@"-",@"-i",[outputFile stringByAppendingString:@".wav"],@"-acodec",@"mp3",@"-vtag",@"DIVX",[outputFile stringByAppendingString:@".avi"],nil]];
-			[ffmpeg setArguments:[NSArray arrayWithObjects:@"-f", @"yuv4mpegpipe",@"-i",@"-",@"-i",[outputFile stringByAppendingString:@".wav"],@"-acodec",@"libmp3lame",@"-vtag",@"DIVX",[outputFile stringByAppendingString:@".avi"],nil]];	
+			//[ffmpeg setArguments:[NSArray arrayWithObjects:@"-f", @"yuv4mpegpipe",@"-threads",[[NSNumber numberWithInt:[[[NSUserDefaults standardUserDefaults] objectForKey:@"KWEncodingThreads"] intValue]] stringValue],@"-i",@"-",@"-threads",[[NSNumber numberWithInt:[[[NSUserDefaults standardUserDefaults] objectForKey:@"KWEncodingThreads"] intValue]] stringValue],@"-i",[outputFile stringByAppendingString:@".wav"],@"-acodec",@"mp3",@"-vtag",@"DIVX",[outputFile stringByAppendingString:@".avi"],nil]];
+			[ffmpeg setArguments:[NSArray arrayWithObjects:@"-f", @"yuv4mpegpipe",@"-threads",[[NSNumber numberWithInt:[[[NSUserDefaults standardUserDefaults] objectForKey:@"KWEncodingThreads"] intValue]] stringValue],@"-i",@"-",@"-threads",[[NSNumber numberWithInt:[[[NSUserDefaults standardUserDefaults] objectForKey:@"KWEncodingThreads"] intValue]] stringValue],@"-i",[outputFile stringByAppendingString:@".wav"],@"-acodec",@"libmp3lame",@"-vtag",@"DIVX",[outputFile stringByAppendingString:@".avi"],nil]];	
 				if (format == 4)
 				{
 				NSMutableArray *args = [[NSMutableArray alloc] init];
-				args = [[NSArray arrayWithObjects:@"-f", @"yuv4mpegpipe",@"-i",@"-",@"-i",[outputFile stringByAppendingString:@".wav"],@"-vtag",@"DIVX",@"-acodec",nil] mutableCopy];
+				args = [[NSArray arrayWithObjects:@"-f", @"yuv4mpegpipe",@"-threads",[[NSNumber numberWithInt:[[[NSUserDefaults standardUserDefaults] objectForKey:@"KWEncodingThreads"] intValue]] stringValue],@"-i",@"-",@"-threads",[[NSNumber numberWithInt:[[[NSUserDefaults standardUserDefaults] objectForKey:@"KWEncodingThreads"] intValue]] stringValue],@"-i",[outputFile stringByAppendingString:@".wav"],@"-vtag",@"DIVX",@"-acodec",nil] mutableCopy];
 					
 					if ([[[NSUserDefaults standardUserDefaults] objectForKey:@"KWDefaultDivXSoundType"] intValue] == 0)
 					{
@@ -1219,7 +1219,7 @@ NSData *data;
 				else if (format == 3)
 				{
 				NSMutableArray *args = [[NSMutableArray alloc] init];
-				args = [[NSArray arrayWithObjects:@"-f", @"yuv4mpegpipe",@"-i",@"-",@"-i",[outputFile stringByAppendingString:@".wav"],@"-target",ffmpegFormat,@"-ac",@"2",@"-aspect",aspect,@"-acodec",nil] mutableCopy];
+				args = [[NSArray arrayWithObjects:@"-f", @"yuv4mpegpipe",@"-threads",[[NSNumber numberWithInt:[[[NSUserDefaults standardUserDefaults] objectForKey:@"KWEncodingThreads"] intValue]] stringValue],@"-i",@"-",@"-threads",[[NSNumber numberWithInt:[[[NSUserDefaults standardUserDefaults] objectForKey:@"KWEncodingThreads"] intValue]] stringValue],@"-i",[outputFile stringByAppendingString:@".wav"],@"-target",ffmpegFormat,@"-ac",@"2",@"-aspect",aspect,@"-acodec",nil] mutableCopy];
 					
 					if ([[[NSUserDefaults standardUserDefaults] objectForKey:@"KWDefaultDVDSoundType"] intValue] == 0)
 					[args addObject:@"mp2"];
@@ -1267,17 +1267,17 @@ NSData *data;
 			{
 				//Check if we use a wave file or not
 				if (wav == NO)
-				[ffmpeg setArguments:[NSArray arrayWithObjects:@"-f", @"yuv4mpegpipe",@"-i",@"-",@"-i",path,@"-target",ffmpegFormat,@"-ac",@"2",@"-aspect",aspect,[outputFile stringByAppendingString:@".mpg"],padTop, padTopSize, padBottom, padBottomSize,nil]];
+				[ffmpeg setArguments:[NSArray arrayWithObjects:@"-f", @"yuv4mpegpipe",@"-threads",[[NSNumber numberWithInt:[[[NSUserDefaults standardUserDefaults] objectForKey:@"KWEncodingThreads"] intValue]] stringValue],@"-i",@"-",@"-threads",[[NSNumber numberWithInt:[[[NSUserDefaults standardUserDefaults] objectForKey:@"KWEncodingThreads"] intValue]] stringValue],@"-i",path,@"-target",ffmpegFormat,@"-ac",@"2",@"-aspect",aspect,[outputFile stringByAppendingString:@".mpg"],padTop, padTopSize, padBottom, padBottomSize,nil]];
 				else
-				[ffmpeg setArguments:[NSArray arrayWithObjects:@"-f", @"yuv4mpegpipe",@"-i",@"-",@"-i",[outputFile stringByAppendingString:@".wav"],@"-target",ffmpegFormat,@"-ac",@"2",@"-aspect",aspect,[outputFile stringByAppendingString:@".mpg"],padTop, padTopSize, padBottom, padBottomSize,nil]];		
+				[ffmpeg setArguments:[NSArray arrayWithObjects:@"-f", @"yuv4mpegpipe",@"-threads",[[NSNumber numberWithInt:[[[NSUserDefaults standardUserDefaults] objectForKey:@"KWEncodingThreads"] intValue]] stringValue],@"-i",@"-",@"-threads",[[NSNumber numberWithInt:[[[NSUserDefaults standardUserDefaults] objectForKey:@"KWEncodingThreads"] intValue]] stringValue],@"-i",[outputFile stringByAppendingString:@".wav"],@"-target",ffmpegFormat,@"-ac",@"2",@"-aspect",aspect,[outputFile stringByAppendingString:@".mpg"],padTop, padTopSize, padBottom, padBottomSize,nil]];		
 			}
 			else
 			{
 				//Check if we use a wave file or not
 				if (wav == NO)
-				[ffmpeg setArguments:[NSArray arrayWithObjects:@"-f", @"yuv4mpegpipe",@"-i",@"-",@"-i",path,@"-target",ffmpegFormat,@"-ac",@"2",@"-aspect",aspect,[outputFile stringByAppendingString:@".mpg"],nil]];
+				[ffmpeg setArguments:[NSArray arrayWithObjects:@"-f", @"yuv4mpegpipe",@"-threads",[[NSNumber numberWithInt:[[[NSUserDefaults standardUserDefaults] objectForKey:@"KWEncodingThreads"] intValue]] stringValue],@"-i",@"-",@"-threads",[[NSNumber numberWithInt:[[[NSUserDefaults standardUserDefaults] objectForKey:@"KWEncodingThreads"] intValue]] stringValue],@"-i",path,@"-target",ffmpegFormat,@"-ac",@"2",@"-aspect",aspect,[outputFile stringByAppendingString:@".mpg"],nil]];
 				else
-				[ffmpeg setArguments:[NSArray arrayWithObjects:@"-f", @"yuv4mpegpipe",@"-i",@"-",@"-i",[outputFile stringByAppendingString:@".wav"],@"-target",ffmpegFormat,@"-ac",@"2",@"-aspect",aspect,[outputFile stringByAppendingString:@".mpg"],nil]];
+				[ffmpeg setArguments:[NSArray arrayWithObjects:@"-f", @"yuv4mpegpipe",@"-threads",[[NSNumber numberWithInt:[[[NSUserDefaults standardUserDefaults] objectForKey:@"KWEncodingThreads"] intValue]] stringValue],@"-i",@"-",@"-threads",[[NSNumber numberWithInt:[[[NSUserDefaults standardUserDefaults] objectForKey:@"KWEncodingThreads"] intValue]] stringValue],@"-i",[outputFile stringByAppendingString:@".wav"],@"-target",ffmpegFormat,@"-ac",@"2",@"-aspect",aspect,[outputFile stringByAppendingString:@".mpg"],nil]];
 			}
 		}
 	}
@@ -1666,11 +1666,11 @@ int referenceTest = 0;
 		[ffmpeg setLaunchPath:[KWCommonMethods ffmpegPath]];
 	
 			if (audioWorks == YES && videoWorks == YES)
-			[ffmpeg setArguments:[NSArray arrayWithObjects:@"-t",@"0.1",@"-i",path,@"-target",@"pal-vcd",@"-ac",@"2",@"-r",@"25",@"-y",[[[NSUserDefaults standardUserDefaults] objectForKey:@"KWTemporaryLocation"] stringByAppendingPathComponent:@"tempkf.mpg"],nil]];
+			[ffmpeg setArguments:[NSArray arrayWithObjects:@"-t",@"0.1",@"-threads",[[NSNumber numberWithInt:[[[NSUserDefaults standardUserDefaults] objectForKey:@"KWEncodingThreads"] intValue]] stringValue],@"-i",path,@"-target",@"pal-vcd",@"-ac",@"2",@"-r",@"25",@"-y",[[[NSUserDefaults standardUserDefaults] objectForKey:@"KWTemporaryLocation"] stringByAppendingPathComponent:@"tempkf.mpg"],nil]];
 			if (audioWorks == NO)
-			[ffmpeg setArguments:[NSArray arrayWithObjects:@"-t",@"0.1",@"-i",path,@"-target",@"pal-vcd",@"-an",@"-ac",@"2",@"-r",@"25",@"-y",[[[NSUserDefaults standardUserDefaults] objectForKey:@"KWTemporaryLocation"] stringByAppendingPathComponent:@"tempkf.mpg"],nil]];
+			[ffmpeg setArguments:[NSArray arrayWithObjects:@"-t",@"0.1",@"-threads",[[NSNumber numberWithInt:[[[NSUserDefaults standardUserDefaults] objectForKey:@"KWEncodingThreads"] intValue]] stringValue],@"-i",path,@"-target",@"pal-vcd",@"-an",@"-ac",@"2",@"-r",@"25",@"-y",[[[NSUserDefaults standardUserDefaults] objectForKey:@"KWTemporaryLocation"] stringByAppendingPathComponent:@"tempkf.mpg"],nil]];
 			if (videoWorks == NO)
-			[ffmpeg setArguments:[NSArray arrayWithObjects:@"-t",@"0.1",@"-i",path,@"-target",@"pal-vcd",@"-vn",@"-ac",@"2",@"-r",@"25",@"-y",[[[NSUserDefaults standardUserDefaults] objectForKey:@"KWTemporaryLocation"] stringByAppendingPathComponent:@"tempkf.mpg"],nil]];
+			[ffmpeg setArguments:[NSArray arrayWithObjects:@"-t",@"0.1",@"-threads",[[NSNumber numberWithInt:[[[NSUserDefaults standardUserDefaults] objectForKey:@"KWEncodingThreads"] intValue]] stringValue],@"-i",path,@"-target",@"pal-vcd",@"-vn",@"-ac",@"2",@"-r",@"25",@"-y",[[[NSUserDefaults standardUserDefaults] objectForKey:@"KWTemporaryLocation"] stringByAppendingPathComponent:@"tempkf.mpg"],nil]];
 	
 		[ffmpeg setStandardError:pipe];
 		handle=[pipe fileHandleForReading];
@@ -2225,7 +2225,7 @@ int returnCode;
 
 [ffmpeg setLaunchPath:[KWCommonMethods ffmpegPath]];
 
-[ffmpeg setArguments:[NSArray arrayWithObjects:@"-i",path,nil]];
+[ffmpeg setArguments:[NSArray arrayWithObjects:@"-threads",[[NSNumber numberWithInt:[[[NSUserDefaults standardUserDefaults] objectForKey:@"KWEncodingThreads"] intValue]] stringValue],@"-i",path,nil]];
 [ffmpeg setStandardError:pipe];
 handle=[pipe fileHandleForReading];
 [ffmpeg launch];
@@ -2277,7 +2277,7 @@ BOOL returnCode;
 
 [ffmpeg setLaunchPath:[KWCommonMethods ffmpegPath]];
 
-[ffmpeg setArguments:[NSArray arrayWithObjects:@"-i",path,nil]];
+[ffmpeg setArguments:[NSArray arrayWithObjects:@"-threads",[[NSNumber numberWithInt:[[[NSUserDefaults standardUserDefaults] objectForKey:@"KWEncodingThreads"] intValue]] stringValue],@"-i",path,nil]];
 [ffmpeg setStandardError:pipe];
 handle=[pipe fileHandleForReading];
 [ffmpeg launch];
@@ -2324,7 +2324,7 @@ BOOL returnCode;
     
 [ffmpeg setLaunchPath:[KWCommonMethods ffmpegPath]];
 
-[ffmpeg setArguments:[NSArray arrayWithObjects:@"-i",path,nil]];
+[ffmpeg setArguments:[NSArray arrayWithObjects:@"-threads",[[NSNumber numberWithInt:[[[NSUserDefaults standardUserDefaults] objectForKey:@"KWEncodingThreads"] intValue]] stringValue],@"-i",path,nil]];
 [ffmpeg setStandardError:pipe];
 handle=[pipe fileHandleForReading];
 [ffmpeg launch];
@@ -2375,7 +2375,7 @@ BOOL isWide;
  
 [ffmpeg setLaunchPath:[KWCommonMethods ffmpegPath]];
 
-[ffmpeg setArguments:[NSArray arrayWithObjects:@"-i",path,nil]];
+[ffmpeg setArguments:[NSArray arrayWithObjects:@"-threads",[[NSNumber numberWithInt:[[[NSUserDefaults standardUserDefaults] objectForKey:@"KWEncodingThreads"] intValue]] stringValue],@"-i",path,nil]];
 [ffmpeg setStandardError:pipe];
 handle=[pipe fileHandleForReading];
 [ffmpeg launch];
@@ -2427,7 +2427,7 @@ BOOL returnCode;
     
 [ffmpeg setLaunchPath:[KWCommonMethods ffmpegPath]];
 
-[ffmpeg setArguments:[NSArray arrayWithObjects:@"-i",path,nil]];
+[ffmpeg setArguments:[NSArray arrayWithObjects:@"-threads",[[NSNumber numberWithInt:[[[NSUserDefaults standardUserDefaults] objectForKey:@"KWEncodingThreads"] intValue]] stringValue],@"-i",path,nil]];
 [ffmpeg setStandardError:pipe];
 handle=[pipe fileHandleForReading];
 [ffmpeg launch];
@@ -2530,7 +2530,7 @@ handle=[pipe fileHandleForReading];
     
 [ffmpeg setLaunchPath:[KWCommonMethods ffmpegPath]];
 
-[ffmpeg setArguments:[NSArray arrayWithObjects:@"-i",path,@"-y",@"-acodec",@"copy",@"-vcodec",@"copy",@"-target",@"dvd",outFile,nil]];
+[ffmpeg setArguments:[NSArray arrayWithObjects:@"-threads",[[NSNumber numberWithInt:[[[NSUserDefaults standardUserDefaults] objectForKey:@"KWEncodingThreads"] intValue]] stringValue],@"-i",path,@"-y",@"-acodec",@"copy",@"-vcodec",@"copy",@"-target",@"dvd",outFile,nil]];
 status = 2;
 [ffmpeg launch];
 string=[[NSString alloc] initWithData:[handle readDataToEndOfFile] encoding:NSASCIIStringEncoding];
@@ -2587,7 +2587,7 @@ NSString *audioFile = @"";
     
 [ffmpeg setLaunchPath:[KWCommonMethods ffmpegPath]];
 
-	[ffmpeg setArguments:[NSArray arrayWithObjects:@"-i",path,@"-i",audioFile,@"-y",@"-acodec",@"copy",@"-vcodec",@"copy",@"-target",@"dvd",outputPath,nil]];
+	[ffmpeg setArguments:[NSArray arrayWithObjects:@"-threads",[[NSNumber numberWithInt:[[[NSUserDefaults standardUserDefaults] objectForKey:@"KWEncodingThreads"] intValue]] stringValue],@"-i",path,@"-threads",[[NSNumber numberWithInt:[[[NSUserDefaults standardUserDefaults] objectForKey:@"KWEncodingThreads"] intValue]] stringValue],@"-i",audioFile,@"-y",@"-acodec",@"copy",@"-vcodec",@"copy",@"-target",@"dvd",outputPath,nil]];
 	status = 2;
 	[ffmpeg launch];
 	string=[[NSString alloc] initWithData:[handle readDataToEndOfFile] encoding:NSASCIIStringEncoding];
@@ -2627,7 +2627,7 @@ NSString *string;
 
 [ffmpeg setLaunchPath:[KWCommonMethods ffmpegPath]];
 
-[ffmpeg setArguments:[NSArray arrayWithObjects:@"-i",path,nil]];
+[ffmpeg setArguments:[NSArray arrayWithObjects:@"-threads",[[NSNumber numberWithInt:[[[NSUserDefaults standardUserDefaults] objectForKey:@"KWEncodingThreads"] intValue]] stringValue],@"-i",path,nil]];
 [ffmpeg setStandardError:pipe];
 handle=[pipe fileHandleForReading];
 [ffmpeg launch];
@@ -2660,7 +2660,7 @@ NSFileHandle *handle;
 NSFileHandle *outputHandle;
 NSImage *image;
 [ffmpeg setLaunchPath:[KWCommonMethods ffmpegPath]];
-[ffmpeg setArguments:[NSArray arrayWithObjects:@"-ss",[[NSNumber numberWithInt:time] stringValue],@"-i",path,@"-vframes",@"1" ,@"-f",@"image2",@"-",nil]];
+[ffmpeg setArguments:[NSArray arrayWithObjects:@"-ss",[[NSNumber numberWithInt:time] stringValue],@"-threads",[[NSNumber numberWithInt:[[[NSUserDefaults standardUserDefaults] objectForKey:@"KWEncodingThreads"] intValue]] stringValue],@"-i",path,@"-vframes",@"1" ,@"-f",@"image2",@"-",nil]];
 [ffmpeg setStandardOutput:outputPipe];
 	if ([[NSUserDefaults standardUserDefaults] boolForKey:@"KWDebug"] == NO)
 	{

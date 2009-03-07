@@ -553,9 +553,9 @@ BOOL succes = [[[@"<subpictures>\n<stream>\n<spu\nforce=\"yes\"\nstart=\"00:00:0
 	[ffmpeg setLaunchPath:[KWCommonMethods ffmpegPath]];
 
 		if ([[[NSUserDefaults standardUserDefaults] objectForKey:@"KWDVDThemeFormat"] intValue] == 0)
-		[ffmpeg setArguments:[NSArray arrayWithObjects:@"-f",@"image2pipe",@"-i",@"pipe:.jpg",@"-target",format,@"-",@"-an",nil]];
+		[ffmpeg setArguments:[NSArray arrayWithObjects:@"-f",@"image2pipe",@"-threads",[[NSNumber numberWithInt:[[[NSUserDefaults standardUserDefaults] objectForKey:@"KWEncodingThreads"] intValue]] stringValue],@"-i",@"pipe:.jpg",@"-target",format,@"-",@"-an",nil]];
 		else
-		[ffmpeg setArguments:[NSArray arrayWithObjects:@"-f",@"image2pipe",@"-i",@"pipe:.jpg",@"-target",format,@"-",@"-an",@"-aspect",@"16:9",nil]];
+		[ffmpeg setArguments:[NSArray arrayWithObjects:@"-f",@"image2pipe",@"-threads",[[NSNumber numberWithInt:[[[NSUserDefaults standardUserDefaults] objectForKey:@"KWEncodingThreads"] intValue]] stringValue],@"-i",@"pipe:.jpg",@"-target",format,@"-",@"-an",@"-aspect",@"16:9",nil]];
 
 	[ffmpeg setStandardInput:pipe];
 	[ffmpeg setStandardOutput:pipe2];
