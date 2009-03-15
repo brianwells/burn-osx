@@ -611,6 +611,21 @@
 		FED9FF970F2E0B4D00947B06 /* cs */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = cs; path = cs.lproj/KWProgress.nib; sourceTree = "<group>"; };
 		FEDC28FE0E4D91D200F2FEED /* KWToolbarKiller.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = KWToolbarKiller.h; path = Source/KWToolbarKiller.h; sourceTree = "<group>"; };
 		FEDC28FF0E4D91D200F2FEED /* KWToolbarKiller.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = KWToolbarKiller.m; path = Source/KWToolbarKiller.m; sourceTree = "<group>"; };
+		FEE0FF090F6D35BE009BC562 /* Greek */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = Greek; path = Greek.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		FEE0FF0A0F6D35BE009BC562 /* Greek */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = Greek; path = Greek.lproj/Localizable.strings; sourceTree = "<group>"; };
+		FEE0FF0D0F6D35DB009BC562 /* Greek */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = Greek; path = Greek.lproj/KWBurner.nib; sourceTree = "<group>"; };
+		FEE0FF0E0F6D35DB009BC562 /* Greek */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = Greek; path = Greek.lproj/KWDiskInfo.nib; sourceTree = "<group>"; };
+		FEE0FF0F0F6D35DB009BC562 /* Greek */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = Greek; path = Greek.lproj/KWDiskScanner.nib; sourceTree = "<group>"; };
+		FEE0FF100F6D35DB009BC562 /* Greek */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = Greek; path = Greek.lproj/KWDocument.nib; sourceTree = "<group>"; };
+		FEE0FF110F6D35DB009BC562 /* Greek */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = Greek; path = Greek.lproj/KWEjecter.nib; sourceTree = "<group>"; };
+		FEE0FF120F6D35DB009BC562 /* Greek */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = Greek; path = Greek.lproj/KWEraser.nib; sourceTree = "<group>"; };
+		FEE0FF130F6D35DB009BC562 /* Greek */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = Greek; path = Greek.lproj/KWInspector.nib; sourceTree = "<group>"; };
+		FEE0FF140F6D35DB009BC562 /* Greek */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = Greek; path = Greek.lproj/KWPreferences.nib; sourceTree = "<group>"; };
+		FEE0FF150F6D35DB009BC562 /* Greek */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = Greek; path = Greek.lproj/KWProgress.nib; sourceTree = "<group>"; };
+		FEE0FF160F6D35DB009BC562 /* Greek */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = Greek; path = Greek.lproj/KWRecorderInfo.nib; sourceTree = "<group>"; };
+		FEE0FF170F6D35DB009BC562 /* Greek */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = Greek; path = Greek.lproj/MainMenu.nib; sourceTree = "<group>"; };
+		FEE0FF1A0F6D35F1009BC562 /* Greek */ = {isa = PBXFileReference; lastKnownFileType = image.icns; name = Greek; path = "Greek.lproj/Copy document.icns"; sourceTree = "<group>"; };
+		FEE0FF1B0F6D35F1009BC562 /* Greek */ = {isa = PBXFileReference; lastKnownFileType = image.icns; name = Greek; path = "Greek.lproj/Theme document.icns"; sourceTree = "<group>"; };
 		FEE1255A0BAC1339001D474B /* appController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = appController.m; path = Source/appController.m; sourceTree = "<group>"; };
 		FEE1255B0BAC1339001D474B /* appController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = appController.h; path = Source/appController.h; sourceTree = "<group>"; };
 		FEE12CD40BAC57C2001D474B /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = English.lproj/KWEjecter.nib; sourceTree = "<group>"; };
@@ -1386,6 +1401,7 @@
 				ru,
 				cs,
 				Swedish,
+				Greek,
 			);
 			mainGroup = 2A37F4AAFDCFA73011CA2CEA /* Burn */;
 			projectDirPath = "";
@@ -1771,6 +1787,7 @@
 				FE5DD7D10DBD160900FC2A37 /* zh_TW */,
 				FE5DD7F80DBD27DE00FC2A37 /* ru */,
 				FE5DD8100DBD30FF00FC2A37 /* cs */,
+				FEE0FF090F6D35BE009BC562 /* Greek */,
 			);
 			name = InfoPlist.strings;
 			sourceTree = "<group>";
@@ -1787,6 +1804,7 @@
 				FE5DD7C90DBD15FA00FC2A37 /* zh_TW */,
 				FE5DD7E50DBD20B000FC2A37 /* ru */,
 				FE5DD7FD0DBD2BA600FC2A37 /* cs */,
+				FEE0FF100F6D35DB009BC562 /* Greek */,
 			);
 			name = KWDocument.nib;
 			sourceTree = "<group>";
@@ -1803,6 +1821,7 @@
 				FE5DD7D00DBD15FA00FC2A37 /* zh_TW */,
 				FE5DD7EC0DBD20B000FC2A37 /* ru */,
 				FE5DD8040DBD2BA600FC2A37 /* cs */,
+				FEE0FF170F6D35DB009BC562 /* Greek */,
 			);
 			name = MainMenu.nib;
 			sourceTree = "<group>";
@@ -1819,6 +1838,7 @@
 				FE5DD7CF0DBD15FA00FC2A37 /* zh_TW */,
 				FE5DD7EB0DBD20B000FC2A37 /* ru */,
 				FE5DD8030DBD2BA600FC2A37 /* cs */,
+				FEE0FF160F6D35DB009BC562 /* Greek */,
 			);
 			name = KWRecorderInfo.nib;
 			sourceTree = "<group>";
@@ -1835,6 +1855,7 @@
 				FE5DD7C70DBD15FA00FC2A37 /* zh_TW */,
 				FE5DD7E30DBD20B000FC2A37 /* ru */,
 				FE5DD7FB0DBD2BA600FC2A37 /* cs */,
+				FEE0FF0E0F6D35DB009BC562 /* Greek */,
 			);
 			name = KWDiskInfo.nib;
 			sourceTree = "<group>";
@@ -1851,6 +1872,7 @@
 				FE5DD7CC0DBD15FA00FC2A37 /* zh_TW */,
 				FE5DD7E80DBD20B000FC2A37 /* ru */,
 				FE5DD8000DBD2BA600FC2A37 /* cs */,
+				FEE0FF130F6D35DB009BC562 /* Greek */,
 			);
 			name = KWInspector.nib;
 			sourceTree = "<group>";
@@ -1876,6 +1898,7 @@
 				FE0413110E62D400007FD22B /* pt_BR */,
 				FE0413130E62D415007FD22B /* ru */,
 				FE0413150E62D420007FD22B /* zh_TW */,
+				FEE0FF1A0F6D35F1009BC562 /* Greek */,
 			);
 			name = "Copy document.icns";
 			sourceTree = "<group>";
@@ -1892,6 +1915,7 @@
 				FE0413120E62D400007FD22B /* pt_BR */,
 				FE0413140E62D415007FD22B /* ru */,
 				FE0413160E62D420007FD22B /* zh_TW */,
+				FEE0FF1B0F6D35F1009BC562 /* Greek */,
 			);
 			name = "Theme document.icns";
 			sourceTree = "<group>";
@@ -1922,6 +1946,7 @@
 				FE5DD7CA0DBD15FA00FC2A37 /* zh_TW */,
 				FE5DD7E60DBD20B000FC2A37 /* ru */,
 				FE5DD7FE0DBD2BA600FC2A37 /* cs */,
+				FEE0FF110F6D35DB009BC562 /* Greek */,
 			);
 			name = KWEjecter.nib;
 			sourceTree = "<group>";
@@ -1938,6 +1963,7 @@
 				FE5DD7CD0DBD15FA00FC2A37 /* zh_TW */,
 				FE5DD7E90DBD20B000FC2A37 /* ru */,
 				FE5DD8010DBD2BA600FC2A37 /* cs */,
+				FEE0FF140F6D35DB009BC562 /* Greek */,
 			);
 			name = KWPreferences.nib;
 			sourceTree = "<group>";
@@ -1967,6 +1993,7 @@
 				FE5DD7D20DBD160900FC2A37 /* zh_TW */,
 				FE5DD7F90DBD27DE00FC2A37 /* ru */,
 				FE5DD8110DBD30FF00FC2A37 /* cs */,
+				FEE0FF0A0F6D35BE009BC562 /* Greek */,
 			);
 			name = Localizable.strings;
 			sourceTree = "<group>";
@@ -1983,6 +2010,7 @@
 				FE5DD7C60DBD15FA00FC2A37 /* zh_TW */,
 				FE5DD7E20DBD20B000FC2A37 /* ru */,
 				FE5DD7FA0DBD2BA600FC2A37 /* cs */,
+				FEE0FF0D0F6D35DB009BC562 /* Greek */,
 			);
 			name = KWBurner.nib;
 			sourceTree = "<group>";
@@ -1999,6 +2027,7 @@
 				FE5DD7CB0DBD15FA00FC2A37 /* zh_TW */,
 				FE5DD7E70DBD20B000FC2A37 /* ru */,
 				FE5DD7FF0DBD2BA600FC2A37 /* cs */,
+				FEE0FF120F6D35DB009BC562 /* Greek */,
 			);
 			name = KWEraser.nib;
 			sourceTree = "<group>";
@@ -2015,6 +2044,7 @@
 				FE5DD7C80DBD15FA00FC2A37 /* zh_TW */,
 				FE5DD7E40DBD20B000FC2A37 /* ru */,
 				FE5DD7FC0DBD2BA600FC2A37 /* cs */,
+				FEE0FF0F0F6D35DB009BC562 /* Greek */,
 			);
 			name = KWDiskScanner.nib;
 			sourceTree = "<group>";
@@ -2031,6 +2061,7 @@
 				FED9FF950F2E0B3900947B06 /* zh_TW */,
 				FED9FF960F2E0B4300947B06 /* ru */,
 				FED9FF970F2E0B4D00947B06 /* cs */,
+				FEE0FF150F6D35DB009BC562 /* Greek */,
 			);
 			name = KWProgress.nib;
 			sourceTree = "<group>";
