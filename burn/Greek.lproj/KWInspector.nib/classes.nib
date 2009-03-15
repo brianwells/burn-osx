@@ -1,0 +1,305 @@
+{
+    IBClasses =     (
+                {
+            ACTIONS =             {
+                setFileName = id;
+                setIncludedBit = id;
+                setPOSIXModeProperty = id;
+                setProperty = id;
+            };
+            CLASS = FSPropertiesController;
+            LANGUAGE = ObjC;
+            OUTLETS =             {
+                attributeModDate = NSTextField;
+                backupDate = NSTextField;
+                contentModDate = NSTextField;
+                contentView = NSView;
+                creationDate = NSTextField;
+                gid = NSTextField;
+                included = NSButton;
+                lastAccessedDate = NSTextField;
+                mangledName = NSTextField;
+                perms = NSMatrix;
+                specificName = NSTextField;
+                uid = NSTextField;
+            };
+            SUPERCLASS = NSObject;
+        },
+                {
+            CLASS = FirstResponder;
+            LANGUAGE = ObjC;
+            SUPERCLASS = NSObject;
+        },
+                {
+            ACTIONS =             {
+                setFlagsProperty = id;
+                setFolderBoundsProperty = id;
+                setFolderScrollPositionProperty = id;
+                setHiddenExtension = id;
+                setIconPositionProperty = id;
+                setTypeCreatorProperty = id;
+            };
+            CLASS = HFSPlusController;
+            LANGUAGE = ObjC;
+            OUTLETS =             {
+                boundsBottom = NSTextField;
+                boundsLeft = NSTextField;
+                boundsRight = NSTextField;
+                boundsTop = NSTextField;
+                creator = NSTextField;
+                extFinderFlags = NSMatrix;
+                finderFlags = NSMatrix;
+                iconPosX = NSTextField;
+                iconPosY = NSTextField;
+                nodeID = NSTextField;
+                scrollPosX = NSTextField;
+                scrollPosY = NSTextField;
+                setHiddenExtension = NSButton;
+                tecHint = NSTextField;
+                type = NSTextField;
+                viewType = NSTextField;
+            };
+            SUPERCLASS = FSPropertiesController;
+        },
+                {
+            CLASS = ISO9660Controller;
+            LANGUAGE = ObjC;
+            OUTLETS =             {
+                level1MangledName = NSTextField;
+                level1SpecificName = NSTextField;
+                level2MangledName = NSTextField;
+                level2SpecificName = NSTextField;
+            };
+            SUPERCLASS = ISOController;
+        },
+                {
+            CLASS = ISOController;
+            LANGUAGE = ObjC;
+            OUTLETS =             {
+                effectiveDate = NSTextField;
+                expirationDate = NSTextField;
+                invisible = NSButton;
+                recordingDate = NSTextField;
+                versionNumber = NSTextField;
+            };
+            SUPERCLASS = FSPropertiesController;
+        },
+                {
+            CLASS = JolietController;
+            LANGUAGE = ObjC;
+            SUPERCLASS = ISOController;
+        },
+                {
+            ACTIONS =             {
+                optionsChanged = id;
+            };
+            CLASS = KWAudioDiscInspector;
+            LANGUAGE = ObjC;
+            OUTLETS =             {
+                arranger = id;
+                composer = id;
+                discIdent = id;
+                genreCode = id;
+                genreName = id;
+                mcn = id;
+                mcnCheckBox = id;
+                myView = id;
+                notes = id;
+                performer = id;
+                privateUse = id;
+                songwriter = id;
+                timeField = id;
+                title = id;
+            };
+            SUPERCLASS = NSObject;
+        },
+                {
+            ACTIONS =             {
+                ISRCChanged = id;
+                ISRCCheckBox = id;
+                optionsChanged = id;
+            };
+            CLASS = KWAudioInspector;
+            LANGUAGE = ObjC;
+            OUTLETS =             {
+                ISRCCDText = id;
+                ISRCCheckBox = id;
+                ISRCField = id;
+                arranger = id;
+                composer = id;
+                iconView = id;
+                indexPoints = id;
+                invalid = id;
+                myView = id;
+                nameField = id;
+                notes = id;
+                performer = id;
+                preEmphasis = id;
+                preGap = id;
+                privateUse = id;
+                songwriter = id;
+                timeField = id;
+                title = id;
+            };
+            SUPERCLASS = NSObject;
+        },
+                {
+            ACTIONS =             {
+                addImage = id;
+                nextImage = id;
+                optionsChanged = id;
+                previousImage = id;
+                removeImage = id;
+            };
+            CLASS = KWAudioMP3Inspector;
+            LANGUAGE = ObjC;
+            OUTLETS =             {
+                album = id;
+                artist = id;
+                composer = id;
+                discNumber = id;
+                discTotal = id;
+                genre = id;
+                iconView = id;
+                imageString = id;
+                imageView = id;
+                myView = id;
+                nameField = id;
+                notes = id;
+                sizeField = id;
+                tabView = id;
+                title = id;
+                trackNumber = id;
+                trackTotal = id;
+                year = id;
+            };
+            SUPERCLASS = NSObject;
+        },
+                {
+            ACTIONS =             {
+                add = id;
+                addSheet = id;
+                cancelSheet = id;
+                remove = id;
+                timeSlider = id;
+            };
+            CLASS = KWDVDInspector;
+            LANGUAGE = ObjC;
+            OUTLETS =             {
+                chapterSheet = id;
+                currentTimeField = id;
+                iconView = id;
+                myView = id;
+                nameField = id;
+                previewView = id;
+                tableView = id;
+                timeField = id;
+                timeSlider = id;
+                titleField = id;
+            };
+            SUPERCLASS = NSObject;
+        },
+                {
+            ACTIONS =             {
+                cancel = id;
+                deleteIcon = id;
+                ok = id;
+                selectRootDirFile = id;
+                setGID = id;
+                setHFSBounds = id;
+                setHFSScroll = id;
+                setHFSViewType = id;
+                setIcon = id;
+                setPermissions = id;
+                setUDFVersion = id;
+                setUID = id;
+                setVolumeName = id;
+                setVolumeProperty = id;
+                userSelectedISOLevel = id;
+            };
+            CLASS = KWDataDiscInspector;
+            LANGUAGE = ObjC;
+            OUTLETS =             {
+                AllOptions = id;
+                fileChooser = NSPanel;
+                fileList = NSTableView;
+                gid = id;
+                hfsBoundsB = id;
+                hfsBoundsL = id;
+                hfsBoundsR = id;
+                hfsBoundsT = id;
+                hfsName = NSTextField;
+                hfsOptions = NSBox;
+                hfsScrollX = id;
+                hfsScrollY = id;
+                hfsViewType = id;
+                iconView = id;
+                isoLevel = id;
+                isoName = NSTextField;
+                isoOptions = NSBox;
+                jolietName = NSTextField;
+                jolietOptions = NSBox;
+                mainIconView = id;
+                myView = id;
+                nameField = id;
+                okButton = NSButton;
+                perms = id;
+                sizeField = id;
+                tabView = id;
+                udfName = id;
+                udfOptions = id;
+                udfVersion = id;
+                uid = id;
+            };
+            SUPERCLASS = NSObject;
+        },
+                {
+            CLASS = KWDataInspector;
+            LANGUAGE = ObjC;
+            OUTLETS =             {
+                hfsController = HFSPlusController;
+                iconView = NSImageView;
+                isoController = ISOController;
+                jolietController = JolietController;
+                myView = id;
+                nameField = NSTextField;
+                sizeField = NSTextField;
+                tabs = NSTabView;
+                udfController = UDFController;
+            };
+            SUPERCLASS = NSObject;
+        },
+                {
+            CLASS = KWInspector;
+            LANGUAGE = ObjC;
+            OUTLETS =             {
+                audioController = id;
+                audioDiscController = id;
+                audioDiscView = id;
+                audioMP3Controller = id;
+                audioMP3View = id;
+                audioView = id;
+                dataController = id;
+                dataDiscController = id;
+                dataDiscView = id;
+                dataView = id;
+                dvdController = id;
+                dvdView = id;
+                emptyView = id;
+            };
+            SUPERCLASS = NSWindowController;
+        },
+                {
+            CLASS = UDFController;
+            LANGUAGE = ObjC;
+            OUTLETS =             {
+                effectiveDate = id;
+                expirationDate = id;
+                invisible = id;
+                recordingDate = id;
+            };
+            SUPERCLASS = FSPropertiesController;
+        }
+    );
+    IBVersion = 1;
+}

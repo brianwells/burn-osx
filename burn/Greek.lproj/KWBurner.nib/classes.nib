@@ -1,0 +1,39 @@
+{
+    IBClasses =     (
+                {
+            CLASS = FirstResponder;
+            LANGUAGE = ObjC;
+            SUPERCLASS = NSObject;
+        },
+                {
+            ACTIONS =             {
+                burnButton = id;
+                burnerPopup = id;
+                cancelButton = id;
+                cancelSession = id;
+                closeButton = id;
+                combineSessions = id;
+                okSession = id;
+            };
+            CLASS = KWBurner;
+            LANGUAGE = ObjC;
+            OUTLETS =             {
+                audioSession = id;
+                burnButton = id;
+                burnerPopup = id;
+                closeButton = id;
+                combineCheckBox = id;
+                dataSession = id;
+                eraseCheckBox = id;
+                sessions = id;
+                sessionsCheckBox = id;
+                sessionsPanel = id;
+                speedPopup = id;
+                statusText = id;
+                videoSession = id;
+            };
+            SUPERCLASS = NSWindowController;
+        }
+    );
+    IBVersion = 1;
+}
