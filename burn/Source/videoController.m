@@ -1003,7 +1003,7 @@ NSAlert *alert = [[[NSAlert alloc] init] autorelease];
 		{
 		[[NSNotificationCenter defaultCenter] postNotificationName:@"KWMaximumValueChanged" object:[NSNumber numberWithFloat:0]];
 		[[NSNotificationCenter defaultCenter] postNotificationName:@"KWStatusChanged" object:NSLocalizedString(@"Preparing...", Localized)];
-		return [[KWTrackProducer alloc] getTrackForFolder:outputFolder ofType:3 withDiscName:[discName stringValue]];
+		return [[KWTrackProducer alloc] getTrackForFolder:outputFolder ofType:3 withDiscName:[discName stringValue] withGlobalSize:[self totalSize]];
 		}
 		else
 		{
