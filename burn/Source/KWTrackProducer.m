@@ -128,12 +128,14 @@ int fileSize;
 return [self createDefaultTrackWithSize:fileSize];
 }
 
-- (DRTrack *)getTrackForFolder:(NSString *)path ofType:(int)imageType withDiscName:(NSString *)name
+- (DRTrack *)getTrackForFolder:(NSString *)path ofType:(int)imageType withDiscName:(NSString *)name withGlobalSize:(int)globalSize
 {
 type = imageType;
 folderPath = [path copy];
 discName = [name copy];
-	
+
+[[NSNotificationCenter defaultCenter] postNotificationName:@"KWMaximumValueChanged" object:[NSNumber numberWithFloat:globalSize]];
+
 return [self createDefaultTrackWithSize:[self imageSize]];
 }
 
@@ -542,8 +544,10 @@ NSArray *options;
 handle = [pipe fileHandleForReading];
 [mkisofs launch];
 
+[self performSelectorOnMainThread:@selector(startTimer) withObject:nil waitUntilDone:NO];
+
 NSData *data;
-int size = 0;
+float size = 0;
 
 NSAutoreleasePool *innerPool = [[NSAutoreleasePool alloc] init];
 
@@ -552,6 +556,8 @@ NSAutoreleasePool *innerPool = [[NSAutoreleasePool alloc] init];
 	size = size + [data length];
 	data = nil;
 	
+	currentImageSize = size / 2048;
+	
 	[innerPool release];
 	innerPool = [[NSAutoreleasePool alloc] init];
 	}
@@ -559,11 +565,27 @@ NSAutoreleasePool *innerPool = [[NSAutoreleasePool alloc] init];
 size = size / 2048;
 
 [mkisofs waitUntilExit];
-
+[self performSelectorOnMainThread:@selector(stopTimer) withObject:nil waitUntilDone:NO];
 [pipe release];
 [mkisofs release];
 
 return size;
+}
+
+- (void)startTimer
+{
+currentImageSize = 0;
+prepareTimer = [NSTimer scheduledTimerWithTimeInterval:0.1 target:self selector:@selector(sizeCalculationProgress) userInfo:nil repeats:YES];
+}
+
+- (void)stopTimer
+{
+[prepareTimer invalidate];
+}
+
+- (void)sizeCalculationProgress
+{
+[[NSNotificationCenter defaultCenter] postNotificationName:@"KWValueChanged" object:[NSNumber numberWithInt:currentImageSize]];
 }
 
 - (DRTrack *)createDefaultTrackWithSize:(int)size
