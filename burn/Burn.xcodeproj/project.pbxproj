@@ -283,6 +283,119 @@
 		FEC66B520F2CCD8A00086E2C /* BurnHelp in Resources */ = {isa = PBXBuildFile; fileRef = FEC66B170F2CCD8A00086E2C /* BurnHelp */; };
 		FED690E30F119A9200713D1C /* ID3.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = FE2C00C40E0643C30094FD7D /* ID3.framework */; };
 		FED690EE0F119A9800713D1C /* ID3.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = FE2C00C40E0643C30094FD7D /* ID3.framework */; };
+		FEDBF52E0F80782A00DABA72 /* MainMenu.nib in Resources */ = {isa = PBXBuildFile; fileRef = 2A37F4B6FDCFA73011CA2CEA /* MainMenu.nib */; };
+		FEDBF52F0F80782A00DABA72 /* KWDocument.nib in Resources */ = {isa = PBXBuildFile; fileRef = 2A37F4B4FDCFA73011CA2CEA /* KWDocument.nib */; };
+		FEDBF5300F80782A00DABA72 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 089C165FFE840EACC02AAC07 /* InfoPlist.strings */; };
+		FEDBF5310F80782A00DABA72 /* Advanced.tiff in Resources */ = {isa = PBXBuildFile; fileRef = FEEF6F140B92E8BB00ED64A9 /* Advanced.tiff */; };
+		FEDBF5320F80782A00DABA72 /* Audio CD.png in Resources */ = {isa = PBXBuildFile; fileRef = FEEF6F150B92E8BB00ED64A9 /* Audio CD.png */; };
+		FEDBF5330F80782A00DABA72 /* Back.png in Resources */ = {isa = PBXBuildFile; fileRef = FEEF6F180B92E8BB00ED64A9 /* Back.png */; };
+		FEDBF5340F80782A00DABA72 /* Cross.png in Resources */ = {isa = PBXBuildFile; fileRef = FEEF6F1A0B92E8BB00ED64A9 /* Cross.png */; };
+		FEDBF5350F80782A00DABA72 /* DVD.png in Resources */ = {isa = PBXBuildFile; fileRef = FEEF6F1C0B92E8BB00ED64A9 /* DVD.png */; };
+		FEDBF5360F80782A00DABA72 /* Eject.png in Resources */ = {isa = PBXBuildFile; fileRef = FEEF6F1D0B92E8BB00ED64A9 /* Eject.png */; };
+		FEDBF5370F80782A00DABA72 /* Forward.png in Resources */ = {isa = PBXBuildFile; fileRef = FEEF6F210B92E8BB00ED64A9 /* Forward.png */; };
+		FEDBF5380F80782A00DABA72 /* General.tiff in Resources */ = {isa = PBXBuildFile; fileRef = FEEF6F230B92E8BB00ED64A9 /* General.tiff */; };
+		FEDBF5390F80782A00DABA72 /* Pause.png in Resources */ = {isa = PBXBuildFile; fileRef = FEEF6F280B92E8BB00ED64A9 /* Pause.png */; };
+		FEDBF53A0F80782A00DABA72 /* Play.png in Resources */ = {isa = PBXBuildFile; fileRef = FEEF6F290B92E8BB00ED64A9 /* Play.png */; };
+		FEDBF53B0F80782A00DABA72 /* Stop.png in Resources */ = {isa = PBXBuildFile; fileRef = FEEF6F2A0B92E8BB00ED64A9 /* Stop.png */; };
+		FEDBF53C0F80782A00DABA72 /* Credits.html in Resources */ = {isa = PBXBuildFile; fileRef = FEEF71B60B92F13300ED64A9 /* Credits.html */; };
+		FEDBF53D0F80782A00DABA72 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = FEEF71CC0B92F21600ED64A9 /* Localizable.strings */; };
+		FEDBF53E0F80782A00DABA72 /* Burn.icns in Resources */ = {isa = PBXBuildFile; fileRef = FE2C34FB0BA2ED740029BA99 /* Burn.icns */; };
+		FEDBF53F0F80782A00DABA72 /* KWPreferences.nib in Resources */ = {isa = PBXBuildFile; fileRef = FEE5CDD90BA57EEC00FAD174 /* KWPreferences.nib */; };
+		FEDBF5400F80782A00DABA72 /* KWRecorderInfo.nib in Resources */ = {isa = PBXBuildFile; fileRef = FE033FFE0BA7FB6100622112 /* KWRecorderInfo.nib */; };
+		FEDBF5410F80782A00DABA72 /* KWDiskInfo.nib in Resources */ = {isa = PBXBuildFile; fileRef = FE0343750BA816AB00622112 /* KWDiskInfo.nib */; };
+		FEDBF5420F80782A00DABA72 /* KWEjecter.nib in Resources */ = {isa = PBXBuildFile; fileRef = FEE12CD30BAC57C2001D474B /* KWEjecter.nib */; };
+		FEDBF5430F80782A00DABA72 /* KWInspector.nib in Resources */ = {isa = PBXBuildFile; fileRef = FE6DBFCF0BDCED47006F5F53 /* KWInspector.nib */; };
+		FEDBF5440F80782A00DABA72 /* Multiple.png in Resources */ = {isa = PBXBuildFile; fileRef = FEEB40CA0BEDE0A90015842C /* Multiple.png */; };
+		FEDBF5450F80782A00DABA72 /* Burn document.icns in Resources */ = {isa = PBXBuildFile; fileRef = FEAB1ED80D11730000629E3E /* Burn document.icns */; };
+		FEDBF5460F80782A00DABA72 /* Copy document.icns in Resources */ = {isa = PBXBuildFile; fileRef = FEAB1EDA0D11730000629E3E /* Copy document.icns */; };
+		FEDBF5470F80782A00DABA72 /* Theme document.icns in Resources */ = {isa = PBXBuildFile; fileRef = FEAB1EDC0D11730000629E3E /* Theme document.icns */; };
+		FEDBF5480F80782A00DABA72 /* Themes in Resources */ = {isa = PBXBuildFile; fileRef = FE5E5B4C0D2A7FE300D65049 /* Themes */; };
+		FEDBF5490F80782A00DABA72 /* KWBurner.nib in Resources */ = {isa = PBXBuildFile; fileRef = FEF987880D97A88500BF78E3 /* KWBurner.nib */; };
+		FEDBF54A0F80782A00DABA72 /* KWEraser.nib in Resources */ = {isa = PBXBuildFile; fileRef = FEF9878A0D97A88500BF78E3 /* KWEraser.nib */; };
+		FEDBF54B0F80782A00DABA72 /* KWDiskScanner.nib in Resources */ = {isa = PBXBuildFile; fileRef = FEF988AD0D97ADE800BF78E3 /* KWDiskScanner.nib */; };
+		FEDBF54C0F80782A00DABA72 /* KWProgress.nib in Resources */ = {isa = PBXBuildFile; fileRef = FEF989320D97B1D200BF78E3 /* KWProgress.nib */; };
+		FEDBF54D0F80782A00DABA72 /* dvda-author in Resources */ = {isa = PBXBuildFile; fileRef = FEA4693A0D97E6EC0083527F /* dvda-author */; };
+		FEDBF54E0F80782A00DABA72 /* dvdauthor in Resources */ = {isa = PBXBuildFile; fileRef = FEA4693B0D97E6EC0083527F /* dvdauthor */; };
+		FEDBF54F0F80782A00DABA72 /* ffmpeg in Resources */ = {isa = PBXBuildFile; fileRef = FEA4693C0D97E6EC0083527F /* ffmpeg */; };
+		FEDBF5500F80782A00DABA72 /* mkisofs in Resources */ = {isa = PBXBuildFile; fileRef = FEA4693D0D97E6EC0083527F /* mkisofs */; };
+		FEDBF5510F80782A00DABA72 /* movtowav in Resources */ = {isa = PBXBuildFile; fileRef = FEA4693E0D97E6EC0083527F /* movtowav */; };
+		FEDBF5520F80782A00DABA72 /* movtoy4m in Resources */ = {isa = PBXBuildFile; fileRef = FEA4693F0D97E6EC0083527F /* movtoy4m */; };
+		FEDBF5530F80782A00DABA72 /* spumux in Resources */ = {isa = PBXBuildFile; fileRef = FEA469410D97E6EC0083527F /* spumux */; };
+		FEDBF5540F80782A00DABA72 /* 0.png in Resources */ = {isa = PBXBuildFile; fileRef = FE3EFEA00DBBBFC6003DD5AD /* 0.png */; };
+		FEDBF5550F80782A00DABA72 /* 10.png in Resources */ = {isa = PBXBuildFile; fileRef = FE3EFEA10DBBBFC6003DD5AD /* 10.png */; };
+		FEDBF5560F80782A00DABA72 /* 20.png in Resources */ = {isa = PBXBuildFile; fileRef = FE3EFEA20DBBBFC6003DD5AD /* 20.png */; };
+		FEDBF5570F80782A00DABA72 /* 30.png in Resources */ = {isa = PBXBuildFile; fileRef = FE3EFEA30DBBBFC6003DD5AD /* 30.png */; };
+		FEDBF5580F80782A00DABA72 /* 40.png in Resources */ = {isa = PBXBuildFile; fileRef = FE3EFEA40DBBBFC6003DD5AD /* 40.png */; };
+		FEDBF5590F80782A00DABA72 /* 50.png in Resources */ = {isa = PBXBuildFile; fileRef = FE3EFEA50DBBBFC6003DD5AD /* 50.png */; };
+		FEDBF55A0F80782A00DABA72 /* 60.png in Resources */ = {isa = PBXBuildFile; fileRef = FE3EFEA60DBBBFC6003DD5AD /* 60.png */; };
+		FEDBF55B0F80782A00DABA72 /* 70.png in Resources */ = {isa = PBXBuildFile; fileRef = FE3EFEA70DBBBFC6003DD5AD /* 70.png */; };
+		FEDBF55C0F80782A00DABA72 /* 80.png in Resources */ = {isa = PBXBuildFile; fileRef = FE3EFEA80DBBBFC6003DD5AD /* 80.png */; };
+		FEDBF55D0F80782A00DABA72 /* 90.png in Resources */ = {isa = PBXBuildFile; fileRef = FE3EFEA90DBBBFC6003DD5AD /* 90.png */; };
+		FEDBF55E0F80782A00DABA72 /* 100.png in Resources */ = {isa = PBXBuildFile; fileRef = FE3EFEAA0DBBBFC6003DD5AD /* 100.png */; };
+		FEDBF55F0F80782A00DABA72 /* -1.png in Resources */ = {isa = PBXBuildFile; fileRef = FE8088EB0DBC85C100F2644D /* -1.png */; };
+		FEDBF5600F80782A00DABA72 /* Gear with arrow.png in Resources */ = {isa = PBXBuildFile; fileRef = FEF6FCCD0E49E59200DB0F4B /* Gear with arrow.png */; };
+		FEDBF5610F80782A00DABA72 /* complete.aif in Resources */ = {isa = PBXBuildFile; fileRef = FE32F8500E51971A00C99F32 /* complete.aif */; };
+		FEDBF5620F80782A00DABA72 /* Empty.png in Resources */ = {isa = PBXBuildFile; fileRef = FE1883FD0EC5559D00410BA6 /* Empty.png */; };
+		FEDBF5630F80782A00DABA72 /* vcdimager in Resources */ = {isa = PBXBuildFile; fileRef = FEC3D5260EE3251E008DBECA /* vcdimager */; };
+		FEDBF5640F80782A00DABA72 /* BurnHelp in Resources */ = {isa = PBXBuildFile; fileRef = FEC66B170F2CCD8A00086E2C /* BurnHelp */; };
+		FEDBF5660F80782A00DABA72 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 2A37F4B0FDCFA73011CA2CEA /* main.m */; settings = {ATTRIBUTES = (); }; };
+		FEDBF5670F80782A00DABA72 /* dropImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = FEEF6FF40B92E9ED00ED64A9 /* dropImageView.m */; };
+		FEDBF5680F80782A00DABA72 /* copyController.m in Sources */ = {isa = PBXBuildFile; fileRef = FEEF6FF50B92E9ED00ED64A9 /* copyController.m */; };
+		FEDBF5690F80782A00DABA72 /* audioController.m in Sources */ = {isa = PBXBuildFile; fileRef = FEEF71FF0B92F44100ED64A9 /* audioController.m */; };
+		FEDBF56A0F80782A00DABA72 /* videoController.m in Sources */ = {isa = PBXBuildFile; fileRef = FEFEFFA60BA469A0004ADFD0 /* videoController.m */; };
+		FEDBF56B0F80782A00DABA72 /* dataController.m in Sources */ = {isa = PBXBuildFile; fileRef = FEFE010E0BA47E17004ADFD0 /* dataController.m */; };
+		FEDBF56C0F80782A00DABA72 /* dataView.m in Sources */ = {isa = PBXBuildFile; fileRef = FEFE010F0BA47E17004ADFD0 /* dataView.m */; };
+		FEDBF56D0F80782A00DABA72 /* FSTreeNode.m in Sources */ = {isa = PBXBuildFile; fileRef = FEFE01100BA47E17004ADFD0 /* FSTreeNode.m */; };
+		FEDBF56E0F80782A00DABA72 /* ImageAndTextCell.m in Sources */ = {isa = PBXBuildFile; fileRef = FEFE01110BA47E17004ADFD0 /* ImageAndTextCell.m */; };
+		FEDBF56F0F80782A00DABA72 /* NSArray_Extensions.m in Sources */ = {isa = PBXBuildFile; fileRef = FEFE01120BA47E17004ADFD0 /* NSArray_Extensions.m */; };
+		FEDBF5700F80782A00DABA72 /* NSOutlineView_Extensions.m in Sources */ = {isa = PBXBuildFile; fileRef = FEFE01130BA47E17004ADFD0 /* NSOutlineView_Extensions.m */; };
+		FEDBF5710F80782A00DABA72 /* TreeNode.m in Sources */ = {isa = PBXBuildFile; fileRef = FEFE01140BA47E17004ADFD0 /* TreeNode.m */; };
+		FEDBF5720F80782A00DABA72 /* KWPreferences.m in Sources */ = {isa = PBXBuildFile; fileRef = FEE5CDDE0BA583C900FAD174 /* KWPreferences.m */; };
+		FEDBF5730F80782A00DABA72 /* KWRecorderInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = FE0340020BA7FB6E00622112 /* KWRecorderInfo.m */; };
+		FEDBF5740F80782A00DABA72 /* KWDiskInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = FE03437C0BA816CE00622112 /* KWDiskInfo.m */; };
+		FEDBF5750F80782A00DABA72 /* appController.m in Sources */ = {isa = PBXBuildFile; fileRef = FEE1255A0BAC1339001D474B /* appController.m */; };
+		FEDBF5760F80782A00DABA72 /* KWEjecter.m in Sources */ = {isa = PBXBuildFile; fileRef = FEE12CDE0BAC583D001D474B /* KWEjecter.m */; };
+		FEDBF5770F80782A00DABA72 /* KWDocument.m in Sources */ = {isa = PBXBuildFile; fileRef = FEE260BE0BAE827200828AE6 /* KWDocument.m */; };
+		FEDBF5780F80782A00DABA72 /* growlController.m in Sources */ = {isa = PBXBuildFile; fileRef = FE03612E0BAFD9A900F7FA73 /* growlController.m */; };
+		FEDBF5790F80782A00DABA72 /* KWCommonMethods.m in Sources */ = {isa = PBXBuildFile; fileRef = FEEA698B0BDBADBE00471BE3 /* KWCommonMethods.m */; };
+		FEDBF57A0F80782A00DABA72 /* KWInspector.m in Sources */ = {isa = PBXBuildFile; fileRef = FEEDE01F0BDF53A300D50314 /* KWInspector.m */; };
+		FEDBF57B0F80782A00DABA72 /* HFSPlusController.m in Sources */ = {isa = PBXBuildFile; fileRef = FE195ECD0BE2A610001558D4 /* HFSPlusController.m */; };
+		FEDBF57C0F80782A00DABA72 /* ISO9660Controller.m in Sources */ = {isa = PBXBuildFile; fileRef = FE195ECF0BE2A610001558D4 /* ISO9660Controller.m */; };
+		FEDBF57D0F80782A00DABA72 /* ISOController.m in Sources */ = {isa = PBXBuildFile; fileRef = FE195ED10BE2A610001558D4 /* ISOController.m */; };
+		FEDBF57E0F80782A00DABA72 /* JolietController.m in Sources */ = {isa = PBXBuildFile; fileRef = FE195ED30BE2A610001558D4 /* JolietController.m */; };
+		FEDBF57F0F80782A00DABA72 /* FSPropertiesController.m in Sources */ = {isa = PBXBuildFile; fileRef = FE195EFB0BE2A8F3001558D4 /* FSPropertiesController.m */; };
+		FEDBF5800F80782A00DABA72 /* KWDataInspector.m in Sources */ = {isa = PBXBuildFile; fileRef = FE195EFF0BE2A8FF001558D4 /* KWDataInspector.m */; };
+		FEDBF5810F80782A00DABA72 /* UDFController.m in Sources */ = {isa = PBXBuildFile; fileRef = FE195F810BE2B398001558D4 /* UDFController.m */; };
+		FEDBF5820F80782A00DABA72 /* KWDRFolder.m in Sources */ = {isa = PBXBuildFile; fileRef = FEF5C7720BE3681200B3BCA6 /* KWDRFolder.m */; };
+		FEDBF5830F80782A00DABA72 /* KWDataDiscInspector.m in Sources */ = {isa = PBXBuildFile; fileRef = FEF089AD0BE3D7F600FF1A06 /* KWDataDiscInspector.m */; };
+		FEDBF5840F80782A00DABA72 /* KWTextField.m in Sources */ = {isa = PBXBuildFile; fileRef = FEE64C240BE4A5C300106E3B /* KWTextField.m */; };
+		FEDBF5850F80782A00DABA72 /* KWOutlineView.m in Sources */ = {isa = PBXBuildFile; fileRef = FEE64D0D0BE4B6E100106E3B /* KWOutlineView.m */; };
+		FEDBF5860F80782A00DABA72 /* KWAudioInspector.m in Sources */ = {isa = PBXBuildFile; fileRef = FEE651400BE4FCC300106E3B /* KWAudioInspector.m */; };
+		FEDBF5870F80782A00DABA72 /* KWTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = FEF0830D0BE88359007B056C /* KWTableView.m */; };
+		FEDBF5880F80782A00DABA72 /* KWAudioDiscInspector.m in Sources */ = {isa = PBXBuildFile; fileRef = FEEFF1F50BEB3DF80056C1DB /* KWAudioDiscInspector.m */; };
+		FEDBF5890F80782A00DABA72 /* KWAudioMP3Inspector.m in Sources */ = {isa = PBXBuildFile; fileRef = FEEFF5700BEB67920056C1DB /* KWAudioMP3Inspector.m */; };
+		FEDBF58A0F80782A00DABA72 /* KWDVDInspector.m in Sources */ = {isa = PBXBuildFile; fileRef = FEEA90430BECB9A9006397D0 /* KWDVDInspector.m */; };
+		FEDBF58B0F80782A00DABA72 /* KWBurner.m in Sources */ = {isa = PBXBuildFile; fileRef = FEF987770D97A83400BF78E3 /* KWBurner.m */; };
+		FEDBF58C0F80782A00DABA72 /* NSScanner-Extra.mm in Sources */ = {isa = PBXBuildFile; fileRef = FEF9877B0D97A83400BF78E3 /* NSScanner-Extra.mm */; };
+		FEDBF58D0F80782A00DABA72 /* KWEraser.m in Sources */ = {isa = PBXBuildFile; fileRef = FEF987850D97A86300BF78E3 /* KWEraser.m */; };
+		FEDBF58E0F80782A00DABA72 /* KWConverter.m in Sources */ = {isa = PBXBuildFile; fileRef = FEF9887D0D97AA9100BF78E3 /* KWConverter.m */; };
+		FEDBF58F0F80782A00DABA72 /* KWDiskScanner.m in Sources */ = {isa = PBXBuildFile; fileRef = FEF988AA0D97ADD700BF78E3 /* KWDiskScanner.m */; };
+		FEDBF5900F80782A00DABA72 /* KWDVDAuthorizer.m in Sources */ = {isa = PBXBuildFile; fileRef = FEF988C10D97AEA900BF78E3 /* KWDVDAuthorizer.m */; };
+		FEDBF5910F80782A00DABA72 /* KWProgress.m in Sources */ = {isa = PBXBuildFile; fileRef = FEF9892F0D97B1C500BF78E3 /* KWProgress.m */; };
+		FEDBF5920F80782A00DABA72 /* KWSVCDImager.m in Sources */ = {isa = PBXBuildFile; fileRef = FEF9896B0D97B30800BF78E3 /* KWSVCDImager.m */; };
+		FEDBF5930F80782A00DABA72 /* KWPantherCompatibleButton.m in Sources */ = {isa = PBXBuildFile; fileRef = FE2C01500E0653CF0094FD7D /* KWPantherCompatibleButton.m */; };
+		FEDBF5940F80782A00DABA72 /* KWToolbarKiller.m in Sources */ = {isa = PBXBuildFile; fileRef = FEDC28FF0E4D91D200F2FEED /* KWToolbarKiller.m */; };
+		FEDBF5950F80782A00DABA72 /* discCreationController.m in Sources */ = {isa = PBXBuildFile; fileRef = FE2491690ECEDB6F0028E955 /* discCreationController.m */; };
+		FEDBF5960F80782A00DABA72 /* KWTrackProducer.m in Sources */ = {isa = PBXBuildFile; fileRef = FE23C04B0EDDCDCB0048B85D /* KWTrackProducer.m */; };
+		FEDBF5980F80782A00DABA72 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FE3CA4F50BAC7D53001FB922 /* Cocoa.framework */; };
+		FEDBF5990F80782A00DABA72 /* DiscRecording.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FEEF6FFB0B92EC8800ED64A9 /* DiscRecording.framework */; };
+		FEDBF59A0F80782A00DABA72 /* QTKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FEEF72090B92F47700ED64A9 /* QTKit.framework */; };
+		FEDBF59B0F80782A00DABA72 /* QuickTime.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FEEF720A0B92F47700ED64A9 /* QuickTime.framework */; };
+		FEDBF59C0F80782A00DABA72 /* Carbon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FE3CA4E00BAC7D0E001FB922 /* Carbon.framework */; };
+		FEDBF59D0F80782A00DABA72 /* Growl.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FE03614A0BAFDA2D00F7FA73 /* Growl.framework */; };
+		FEDBF59E0F80782A00DABA72 /* ID3.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FE2C00C40E0643C30094FD7D /* ID3.framework */; };
+		FEDBF5A00F80782A00DABA72 /* ID3.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = FE2C00C40E0643C30094FD7D /* ID3.framework */; };
+		FEDBF5A10F80782A00DABA72 /* Growl.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = FE03614A0BAFDA2D00F7FA73 /* Growl.framework */; };
 		FEDC29010E4D91D200F2FEED /* KWToolbarKiller.m in Sources */ = {isa = PBXBuildFile; fileRef = FEDC28FF0E4D91D200F2FEED /* KWToolbarKiller.m */; };
 		FEDC29030E4D91D200F2FEED /* KWToolbarKiller.m in Sources */ = {isa = PBXBuildFile; fileRef = FEDC28FF0E4D91D200F2FEED /* KWToolbarKiller.m */; };
 		FEDC29050E4D91D200F2FEED /* KWToolbarKiller.m in Sources */ = {isa = PBXBuildFile; fileRef = FEDC28FF0E4D91D200F2FEED /* KWToolbarKiller.m */; };
@@ -369,6 +482,18 @@
 			files = (
 				FED690EE0F119A9800713D1C /* ID3.framework in Copy Frameworks */,
 				FEA4680E0D97BDCD0083527F /* Growl.framework in Copy Frameworks */,
+			);
+			name = "Copy Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		FEDBF59F0F80782A00DABA72 /* Copy Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				FEDBF5A00F80782A00DABA72 /* ID3.framework in Copy Frameworks */,
+				FEDBF5A10F80782A00DABA72 /* Growl.framework in Copy Frameworks */,
 			);
 			name = "Copy Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -488,6 +613,7 @@
 		FE4514240D15722E0051D717 /* French */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = French; path = French.lproj/KWRecorderInfo.nib; sourceTree = "<group>"; };
 		FE4514250D15722E0051D717 /* French */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = French; path = French.lproj/Localizable.strings; sourceTree = "<group>"; };
 		FE4514260D15722E0051D717 /* French */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = French; path = French.lproj/MainMenu.nib; sourceTree = "<group>"; };
+		FE534EA00F87CCFE00F21F71 /* Info copy.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Info copy.plist"; sourceTree = "<group>"; };
 		FE5DD7C60DBD15FA00FC2A37 /* zh_TW */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = zh_TW; path = zh_TW.lproj/KWBurner.nib; sourceTree = "<group>"; };
 		FE5DD7C70DBD15FA00FC2A37 /* zh_TW */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = zh_TW; path = zh_TW.lproj/KWDiskInfo.nib; sourceTree = "<group>"; };
 		FE5DD7C80DBD15FA00FC2A37 /* zh_TW */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = zh_TW; path = zh_TW.lproj/KWDiskScanner.nib; sourceTree = "<group>"; };
@@ -609,6 +735,7 @@
 		FED9FF950F2E0B3900947B06 /* zh_TW */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = zh_TW; path = zh_TW.lproj/KWProgress.nib; sourceTree = "<group>"; };
 		FED9FF960F2E0B4300947B06 /* ru */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = ru; path = ru.lproj/KWProgress.nib; sourceTree = "<group>"; };
 		FED9FF970F2E0B4D00947B06 /* cs */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = cs; path = cs.lproj/KWProgress.nib; sourceTree = "<group>"; };
+		FEDBF5A50F80782A00DABA72 /* Burn.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Burn.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		FEDC28FE0E4D91D200F2FEED /* KWToolbarKiller.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = KWToolbarKiller.h; path = Source/KWToolbarKiller.h; sourceTree = "<group>"; };
 		FEDC28FF0E4D91D200F2FEED /* KWToolbarKiller.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = KWToolbarKiller.m; path = Source/KWToolbarKiller.m; sourceTree = "<group>"; };
 		FEE0FF090F6D35BE009BC562 /* Greek */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = Greek; path = Greek.lproj/InfoPlist.strings; sourceTree = "<group>"; };
@@ -762,6 +889,20 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		FEDBF5970F80782A00DABA72 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				FEDBF5980F80782A00DABA72 /* Cocoa.framework in Frameworks */,
+				FEDBF5990F80782A00DABA72 /* DiscRecording.framework in Frameworks */,
+				FEDBF59A0F80782A00DABA72 /* QTKit.framework in Frameworks */,
+				FEDBF59B0F80782A00DABA72 /* QuickTime.framework in Frameworks */,
+				FEDBF59C0F80782A00DABA72 /* Carbon.framework in Frameworks */,
+				FEDBF59D0F80782A00DABA72 /* Growl.framework in Frameworks */,
+				FEDBF59E0F80782A00DABA72 /* ID3.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
@@ -794,6 +935,7 @@
 				8D15AC370486D014006FF6A4 /* Burn.app */,
 				FEA4679A0D97BDC60083527F /* Burn.app */,
 				FEA468120D97BDCD0083527F /* Burn.app */,
+				FEDBF5A50F80782A00DABA72 /* Burn.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -1259,6 +1401,7 @@
 				FEEF71B60B92F13300ED64A9 /* Credits.html */,
 				8D15AC360486D014006FF6A4 /* Info.plist */,
 				089C165FFE840EACC02AAC07 /* InfoPlist.strings */,
+				FE534EA00F87CCFE00F21F71 /* Info copy.plist */,
 			);
 			name = "Text Files";
 			sourceTree = "<group>";
@@ -1382,6 +1525,25 @@
 			productReference = FEA468120D97BDCD0083527F /* Burn.app */;
 			productType = "com.apple.product-type.application";
 		};
+		FEDBF52C0F80782A00DABA72 /* Burn (G3) */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = FEDBF5A20F80782A00DABA72 /* Build configuration list for PBXNativeTarget "Burn (G3)" */;
+			buildPhases = (
+				FEDBF52D0F80782A00DABA72 /* Resources */,
+				FEDBF5650F80782A00DABA72 /* Sources */,
+				FEDBF5970F80782A00DABA72 /* Frameworks */,
+				FEDBF59F0F80782A00DABA72 /* Copy Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "Burn (G3)";
+			productInstallPath = "$(HOME)/Applications";
+			productName = Burn;
+			productReference = FEDBF5A50F80782A00DABA72 /* Burn.app */;
+			productType = "com.apple.product-type.application";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -1410,6 +1572,7 @@
 				8D15AC270486D014006FF6A4 /* Burn (Universal) */,
 				FEA467250D97BDC60083527F /* Burn (PowerPC) */,
 				FEA4679D0D97BDCD0083527F /* Burn (Intel) */,
+				FEDBF52C0F80782A00DABA72 /* Burn (G3) */,
 			);
 		};
 /* End PBXProject section */
@@ -1601,6 +1764,68 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		FEDBF52D0F80782A00DABA72 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				FEDBF52E0F80782A00DABA72 /* MainMenu.nib in Resources */,
+				FEDBF52F0F80782A00DABA72 /* KWDocument.nib in Resources */,
+				FEDBF5300F80782A00DABA72 /* InfoPlist.strings in Resources */,
+				FEDBF5310F80782A00DABA72 /* Advanced.tiff in Resources */,
+				FEDBF5320F80782A00DABA72 /* Audio CD.png in Resources */,
+				FEDBF5330F80782A00DABA72 /* Back.png in Resources */,
+				FEDBF5340F80782A00DABA72 /* Cross.png in Resources */,
+				FEDBF5350F80782A00DABA72 /* DVD.png in Resources */,
+				FEDBF5360F80782A00DABA72 /* Eject.png in Resources */,
+				FEDBF5370F80782A00DABA72 /* Forward.png in Resources */,
+				FEDBF5380F80782A00DABA72 /* General.tiff in Resources */,
+				FEDBF5390F80782A00DABA72 /* Pause.png in Resources */,
+				FEDBF53A0F80782A00DABA72 /* Play.png in Resources */,
+				FEDBF53B0F80782A00DABA72 /* Stop.png in Resources */,
+				FEDBF53C0F80782A00DABA72 /* Credits.html in Resources */,
+				FEDBF53D0F80782A00DABA72 /* Localizable.strings in Resources */,
+				FEDBF53E0F80782A00DABA72 /* Burn.icns in Resources */,
+				FEDBF53F0F80782A00DABA72 /* KWPreferences.nib in Resources */,
+				FEDBF5400F80782A00DABA72 /* KWRecorderInfo.nib in Resources */,
+				FEDBF5410F80782A00DABA72 /* KWDiskInfo.nib in Resources */,
+				FEDBF5420F80782A00DABA72 /* KWEjecter.nib in Resources */,
+				FEDBF5430F80782A00DABA72 /* KWInspector.nib in Resources */,
+				FEDBF5440F80782A00DABA72 /* Multiple.png in Resources */,
+				FEDBF5450F80782A00DABA72 /* Burn document.icns in Resources */,
+				FEDBF5460F80782A00DABA72 /* Copy document.icns in Resources */,
+				FEDBF5470F80782A00DABA72 /* Theme document.icns in Resources */,
+				FEDBF5480F80782A00DABA72 /* Themes in Resources */,
+				FEDBF5490F80782A00DABA72 /* KWBurner.nib in Resources */,
+				FEDBF54A0F80782A00DABA72 /* KWEraser.nib in Resources */,
+				FEDBF54B0F80782A00DABA72 /* KWDiskScanner.nib in Resources */,
+				FEDBF54C0F80782A00DABA72 /* KWProgress.nib in Resources */,
+				FEDBF54D0F80782A00DABA72 /* dvda-author in Resources */,
+				FEDBF54E0F80782A00DABA72 /* dvdauthor in Resources */,
+				FEDBF54F0F80782A00DABA72 /* ffmpeg in Resources */,
+				FEDBF5500F80782A00DABA72 /* mkisofs in Resources */,
+				FEDBF5510F80782A00DABA72 /* movtowav in Resources */,
+				FEDBF5520F80782A00DABA72 /* movtoy4m in Resources */,
+				FEDBF5530F80782A00DABA72 /* spumux in Resources */,
+				FEDBF5540F80782A00DABA72 /* 0.png in Resources */,
+				FEDBF5550F80782A00DABA72 /* 10.png in Resources */,
+				FEDBF5560F80782A00DABA72 /* 20.png in Resources */,
+				FEDBF5570F80782A00DABA72 /* 30.png in Resources */,
+				FEDBF5580F80782A00DABA72 /* 40.png in Resources */,
+				FEDBF5590F80782A00DABA72 /* 50.png in Resources */,
+				FEDBF55A0F80782A00DABA72 /* 60.png in Resources */,
+				FEDBF55B0F80782A00DABA72 /* 70.png in Resources */,
+				FEDBF55C0F80782A00DABA72 /* 80.png in Resources */,
+				FEDBF55D0F80782A00DABA72 /* 90.png in Resources */,
+				FEDBF55E0F80782A00DABA72 /* 100.png in Resources */,
+				FEDBF55F0F80782A00DABA72 /* -1.png in Resources */,
+				FEDBF5600F80782A00DABA72 /* Gear with arrow.png in Resources */,
+				FEDBF5610F80782A00DABA72 /* complete.aif in Resources */,
+				FEDBF5620F80782A00DABA72 /* Empty.png in Resources */,
+				FEDBF5630F80782A00DABA72 /* vcdimager in Resources */,
+				FEDBF5640F80782A00DABA72 /* BurnHelp in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
@@ -1769,6 +1994,62 @@
 				FEDC29010E4D91D200F2FEED /* KWToolbarKiller.m in Sources */,
 				FE24916F0ECEDB6F0028E955 /* discCreationController.m in Sources */,
 				FE23C04D0EDDCDCC0048B85D /* KWTrackProducer.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		FEDBF5650F80782A00DABA72 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				FEDBF5660F80782A00DABA72 /* main.m in Sources */,
+				FEDBF5670F80782A00DABA72 /* dropImageView.m in Sources */,
+				FEDBF5680F80782A00DABA72 /* copyController.m in Sources */,
+				FEDBF5690F80782A00DABA72 /* audioController.m in Sources */,
+				FEDBF56A0F80782A00DABA72 /* videoController.m in Sources */,
+				FEDBF56B0F80782A00DABA72 /* dataController.m in Sources */,
+				FEDBF56C0F80782A00DABA72 /* dataView.m in Sources */,
+				FEDBF56D0F80782A00DABA72 /* FSTreeNode.m in Sources */,
+				FEDBF56E0F80782A00DABA72 /* ImageAndTextCell.m in Sources */,
+				FEDBF56F0F80782A00DABA72 /* NSArray_Extensions.m in Sources */,
+				FEDBF5700F80782A00DABA72 /* NSOutlineView_Extensions.m in Sources */,
+				FEDBF5710F80782A00DABA72 /* TreeNode.m in Sources */,
+				FEDBF5720F80782A00DABA72 /* KWPreferences.m in Sources */,
+				FEDBF5730F80782A00DABA72 /* KWRecorderInfo.m in Sources */,
+				FEDBF5740F80782A00DABA72 /* KWDiskInfo.m in Sources */,
+				FEDBF5750F80782A00DABA72 /* appController.m in Sources */,
+				FEDBF5760F80782A00DABA72 /* KWEjecter.m in Sources */,
+				FEDBF5770F80782A00DABA72 /* KWDocument.m in Sources */,
+				FEDBF5780F80782A00DABA72 /* growlController.m in Sources */,
+				FEDBF5790F80782A00DABA72 /* KWCommonMethods.m in Sources */,
+				FEDBF57A0F80782A00DABA72 /* KWInspector.m in Sources */,
+				FEDBF57B0F80782A00DABA72 /* HFSPlusController.m in Sources */,
+				FEDBF57C0F80782A00DABA72 /* ISO9660Controller.m in Sources */,
+				FEDBF57D0F80782A00DABA72 /* ISOController.m in Sources */,
+				FEDBF57E0F80782A00DABA72 /* JolietController.m in Sources */,
+				FEDBF57F0F80782A00DABA72 /* FSPropertiesController.m in Sources */,
+				FEDBF5800F80782A00DABA72 /* KWDataInspector.m in Sources */,
+				FEDBF5810F80782A00DABA72 /* UDFController.m in Sources */,
+				FEDBF5820F80782A00DABA72 /* KWDRFolder.m in Sources */,
+				FEDBF5830F80782A00DABA72 /* KWDataDiscInspector.m in Sources */,
+				FEDBF5840F80782A00DABA72 /* KWTextField.m in Sources */,
+				FEDBF5850F80782A00DABA72 /* KWOutlineView.m in Sources */,
+				FEDBF5860F80782A00DABA72 /* KWAudioInspector.m in Sources */,
+				FEDBF5870F80782A00DABA72 /* KWTableView.m in Sources */,
+				FEDBF5880F80782A00DABA72 /* KWAudioDiscInspector.m in Sources */,
+				FEDBF5890F80782A00DABA72 /* KWAudioMP3Inspector.m in Sources */,
+				FEDBF58A0F80782A00DABA72 /* KWDVDInspector.m in Sources */,
+				FEDBF58B0F80782A00DABA72 /* KWBurner.m in Sources */,
+				FEDBF58C0F80782A00DABA72 /* NSScanner-Extra.mm in Sources */,
+				FEDBF58D0F80782A00DABA72 /* KWEraser.m in Sources */,
+				FEDBF58E0F80782A00DABA72 /* KWConverter.m in Sources */,
+				FEDBF58F0F80782A00DABA72 /* KWDiskScanner.m in Sources */,
+				FEDBF5900F80782A00DABA72 /* KWDVDAuthorizer.m in Sources */,
+				FEDBF5910F80782A00DABA72 /* KWProgress.m in Sources */,
+				FEDBF5920F80782A00DABA72 /* KWSVCDImager.m in Sources */,
+				FEDBF5930F80782A00DABA72 /* KWPantherCompatibleButton.m in Sources */,
+				FEDBF5940F80782A00DABA72 /* KWToolbarKiller.m in Sources */,
+				FEDBF5950F80782A00DABA72 /* discCreationController.m in Sources */,
+				FEDBF5960F80782A00DABA72 /* KWTrackProducer.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2191,7 +2472,7 @@
 				GCC_ENABLE_FIX_AND_CONTINUE = YES;
 				GCC_MODEL_TUNING = G5;
 				GCC_OPTIMIZATION_LEVEL = 0;
-				INFOPLIST_FILE = "/Users/maarten/Desktop/Programmeur/Projecten/Burn/Burn 2.0/Info copy.plist";
+				INFOPLIST_FILE = /Users/maarten/Desktop/Projecten/Burn/Source/Info.plist;
 				INSTALL_PATH = "$(HOME)/Applications";
 				LIBRARY_SEARCH_PATHS = "";
 				LIBRARY_SEARCH_PATHS_QUOTED_1 = "\"$(SRCROOT)/Frameworks/KWSVCDImager/build/KWSVCDImager.build/Release/KWSVCDImager.build/Objects-normal/i386\"";
@@ -2235,7 +2516,7 @@
 				FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_1 = "\"$(SRCROOT)/Frameworks\"";
 				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
 				GCC_MODEL_TUNING = G5;
-				INFOPLIST_FILE = "/Users/maarten/Desktop/Programmeur/Projecten/Burn/Burn 2.0/Info copy.plist";
+				INFOPLIST_FILE = /Users/maarten/Desktop/Projecten/Burn/Source/Info.plist;
 				INSTALL_PATH = "$(HOME)/Applications";
 				LIBRARY_SEARCH_PATHS = "";
 				LIBRARY_SEARCH_PATHS_QUOTED_1 = "\"$(SRCROOT)/Frameworks/KWSVCDImager/build/KWSVCDImager.build/Release/KWSVCDImager.build/Objects-normal/i386\"";
@@ -2249,6 +2530,7 @@
 		FEA468100D97BDCD0083527F /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ARCHS = i386;
 				COPY_PHASE_STRIP = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -2281,7 +2563,7 @@
 				GCC_ENABLE_FIX_AND_CONTINUE = YES;
 				GCC_MODEL_TUNING = G5;
 				GCC_OPTIMIZATION_LEVEL = 0;
-				INFOPLIST_FILE = "/Users/maarten/Desktop/Programmeur/Projecten/Burn/Burn 2.0/Info copy 2.plist";
+				INFOPLIST_FILE = /Users/maarten/Desktop/Projecten/Burn/Source/Info.plist;
 				INSTALL_PATH = "$(HOME)/Applications";
 				LIBRARY_SEARCH_PATHS = "";
 				LIBRARY_SEARCH_PATHS_QUOTED_1 = "\"$(SRCROOT)/Frameworks/KWSVCDImager/build/KWSVCDImager.build/Release/KWSVCDImager.build/Objects-normal/i386\"";
@@ -2325,12 +2607,103 @@
 				FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_1 = "\"$(SRCROOT)/Frameworks\"";
 				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
 				GCC_MODEL_TUNING = G5;
-				INFOPLIST_FILE = "/Users/maarten/Desktop/Programmeur/Projecten/Burn/Burn 2.0/Info copy 2.plist";
+				INFOPLIST_FILE = /Users/maarten/Desktop/Projecten/Burn/Source/Info.plist;
 				INSTALL_PATH = "$(HOME)/Applications";
 				LIBRARY_SEARCH_PATHS = "";
 				LIBRARY_SEARCH_PATHS_QUOTED_1 = "\"$(SRCROOT)/Frameworks/KWSVCDImager/build/KWSVCDImager.build/Release/KWSVCDImager.build/Objects-normal/i386\"";
 				LIBRARY_SEARCH_PATHS_QUOTED_2 = "\"$(SRCROOT)/Frameworks/KWSVCDImager/build/KWSVCDImager.build/Release/KWSVCDImager.build/Objects-normal/ppc\"";
 				MACOSX_DEPLOYMENT_TARGET = 10.4;
+				PRODUCT_NAME = Burn;
+				WRAPPER_EXTENSION = app;
+			};
+			name = Release;
+		};
+		FEDBF5A30F80782A00DABA72 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = ppc;
+				COPY_PHASE_STRIP = NO;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_9)",
+					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_10)",
+					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_11)",
+					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_12)",
+					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_13)",
+					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_14)",
+					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_15)",
+					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_1)",
+				);
+				FRAMEWORK_SEARCH_PATHS_QUOTED_1 = "\"$(SRCROOT)/../../../../TestFramework/build/Release\"";
+				FRAMEWORK_SEARCH_PATHS_QUOTED_10 = "\"$(SRCROOT)/Frameworks\"";
+				FRAMEWORK_SEARCH_PATHS_QUOTED_11 = "\"$(SRCROOT)/Frameworks\"";
+				FRAMEWORK_SEARCH_PATHS_QUOTED_12 = "\"$(SRCROOT)/Frameworks\"";
+				FRAMEWORK_SEARCH_PATHS_QUOTED_13 = "\"$(SRCROOT)/Frameworks\"";
+				FRAMEWORK_SEARCH_PATHS_QUOTED_14 = "\"$(SRCROOT)/Frameworks\"";
+				FRAMEWORK_SEARCH_PATHS_QUOTED_15 = "\"$(SRCROOT)/Frameworks\"";
+				FRAMEWORK_SEARCH_PATHS_QUOTED_2 = "\"$(SRCROOT)/../../../../Library/Frameworks\"";
+				FRAMEWORK_SEARCH_PATHS_QUOTED_3 = "\"$(SRCROOT)/../../../../Library/Frameworks\"";
+				FRAMEWORK_SEARCH_PATHS_QUOTED_4 = "\"$(SRCROOT)\"";
+				FRAMEWORK_SEARCH_PATHS_QUOTED_5 = "\"$(SRCROOT)/Frameworks\"";
+				FRAMEWORK_SEARCH_PATHS_QUOTED_6 = "\"$(SRCROOT)/Frameworks/KWSVCDImager/build/Release\"";
+				FRAMEWORK_SEARCH_PATHS_QUOTED_7 = "\"$(SRCROOT)/Frameworks\"";
+				FRAMEWORK_SEARCH_PATHS_QUOTED_8 = "\"$(SRCROOT)/Frameworks\"";
+				FRAMEWORK_SEARCH_PATHS_QUOTED_9 = "\"$(SRCROOT)/Frameworks\"";
+				FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_1 = "\"$(SRCROOT)/Frameworks\"";
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_FIX_AND_CONTINUE = YES;
+				GCC_MODEL_TUNING = G3;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				INFOPLIST_FILE = /Users/maarten/Desktop/Projecten/Burn/Source/Info.plist;
+				INSTALL_PATH = "$(HOME)/Applications";
+				LIBRARY_SEARCH_PATHS = "";
+				LIBRARY_SEARCH_PATHS_QUOTED_1 = "\"$(SRCROOT)/Frameworks/KWSVCDImager/build/KWSVCDImager.build/Release/KWSVCDImager.build/Objects-normal/i386\"";
+				LIBRARY_SEARCH_PATHS_QUOTED_2 = "\"$(SRCROOT)/Frameworks/KWSVCDImager/build/KWSVCDImager.build/Release/KWSVCDImager.build/Objects-normal/ppc\"";
+				PRODUCT_NAME = Burn;
+				WRAPPER_EXTENSION = app;
+				ZERO_LINK = YES;
+			};
+			name = Debug;
+		};
+		FEDBF5A40F80782A00DABA72 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = ppc;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_9)",
+					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_10)",
+					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_11)",
+					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_12)",
+					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_13)",
+					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_14)",
+					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_15)",
+					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_1)",
+				);
+				FRAMEWORK_SEARCH_PATHS_QUOTED_1 = "\"$(SRCROOT)/../../../../TestFramework/build/Release\"";
+				FRAMEWORK_SEARCH_PATHS_QUOTED_10 = "\"$(SRCROOT)/Frameworks\"";
+				FRAMEWORK_SEARCH_PATHS_QUOTED_11 = "\"$(SRCROOT)/Frameworks\"";
+				FRAMEWORK_SEARCH_PATHS_QUOTED_12 = "\"$(SRCROOT)/Frameworks\"";
+				FRAMEWORK_SEARCH_PATHS_QUOTED_13 = "\"$(SRCROOT)/Frameworks\"";
+				FRAMEWORK_SEARCH_PATHS_QUOTED_14 = "\"$(SRCROOT)/Frameworks\"";
+				FRAMEWORK_SEARCH_PATHS_QUOTED_15 = "\"$(SRCROOT)/Frameworks\"";
+				FRAMEWORK_SEARCH_PATHS_QUOTED_2 = "\"$(SRCROOT)/../../../../Library/Frameworks\"";
+				FRAMEWORK_SEARCH_PATHS_QUOTED_3 = "\"$(SRCROOT)/../../../../Library/Frameworks\"";
+				FRAMEWORK_SEARCH_PATHS_QUOTED_4 = "\"$(SRCROOT)\"";
+				FRAMEWORK_SEARCH_PATHS_QUOTED_5 = "\"$(SRCROOT)/Frameworks\"";
+				FRAMEWORK_SEARCH_PATHS_QUOTED_6 = "\"$(SRCROOT)/Frameworks/KWSVCDImager/build/Release\"";
+				FRAMEWORK_SEARCH_PATHS_QUOTED_7 = "\"$(SRCROOT)/Frameworks\"";
+				FRAMEWORK_SEARCH_PATHS_QUOTED_8 = "\"$(SRCROOT)/Frameworks\"";
+				FRAMEWORK_SEARCH_PATHS_QUOTED_9 = "\"$(SRCROOT)/Frameworks\"";
+				FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_1 = "\"$(SRCROOT)/Frameworks\"";
+				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
+				GCC_MODEL_TUNING = G3;
+				INFOPLIST_FILE = /Users/maarten/Desktop/Projecten/Burn/Source/Info.plist;
+				INSTALL_PATH = "$(HOME)/Applications";
+				LIBRARY_SEARCH_PATHS = "";
+				LIBRARY_SEARCH_PATHS_QUOTED_1 = "\"$(SRCROOT)/Frameworks/KWSVCDImager/build/KWSVCDImager.build/Release/KWSVCDImager.build/Objects-normal/i386\"";
+				LIBRARY_SEARCH_PATHS_QUOTED_2 = "\"$(SRCROOT)/Frameworks/KWSVCDImager/build/KWSVCDImager.build/Release/KWSVCDImager.build/Objects-normal/ppc\"";
+				MACOSX_DEPLOYMENT_TARGET = 10.3;
 				PRODUCT_NAME = Burn;
 				WRAPPER_EXTENSION = app;
 			};
@@ -2371,6 +2744,15 @@
 			buildConfigurations = (
 				FEA468100D97BDCD0083527F /* Debug */,
 				FEA468110D97BDCD0083527F /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		FEDBF5A20F80782A00DABA72 /* Build configuration list for PBXNativeTarget "Burn (G3)" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				FEDBF5A30F80782A00DABA72 /* Debug */,
+				FEDBF5A40F80782A00DABA72 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
