@@ -2292,7 +2292,7 @@ string=[[NSString alloc] initWithData:[handle readDataToEndOfFile] encoding:NSAS
 		
 		if ([saveString rangeOfString:@"mpeg1video"].length > 0 
 		&& [saveString rangeOfString:@"352x288"].length > 0 | [saveString rangeOfString:@"352x240"].length > 0
-		&& [saveString rangeOfString:@"25.00 tb(r)"].length > 0 | [saveString rangeOfString:@"29.97 tb(r)"].length > 0)
+		&& [saveString rangeOfString:@"25.00 tb(r)"].length > 0 | [saveString rangeOfString:@"29.97 tb(r)"].length > 0 | [saveString rangeOfString:@"25 tbr"].length > 0 | [saveString rangeOfString:@"29.97 tbr"].length > 0)
 		//&& [string rangeOfString:@"mp2"].length > 0
 		//&& [string rangeOfString:@"224 kb/s"].length > 0
 		//&& [string rangeOfString:@"stereo"].length > 0)
@@ -2339,7 +2339,7 @@ string=[[NSString alloc] initWithData:[handle readDataToEndOfFile] encoding:NSAS
 		
 		if ([saveString rangeOfString:@"mpeg2video"].length > 0 
 		&& [saveString rangeOfString:@"480x576"].length > 0 | [saveString rangeOfString:@"480x480"].length > 0
-		&& [saveString rangeOfString:@"25.00 tb(r)"].length > 0 | [saveString rangeOfString:@"29.97 tb(r)"].length > 0)
+		&& [saveString rangeOfString:@"25.00 tb(r)"].length > 0 | [saveString rangeOfString:@"29.97 tb(r)"].length > 0 | [saveString rangeOfString:@"25 tbr"].length > 0 | [saveString rangeOfString:@"29.97 tbr"].length > 0)
 		//&& [string rangeOfString:@"mp2"].length > 0
 		//&& [string rangeOfString:@"224 kb/s"].length > 0
 		//&& [string rangeOfString:@"stereo"].length > 0)
@@ -2390,7 +2390,7 @@ string=[[NSString alloc] initWithData:[handle readDataToEndOfFile] encoding:NSAS
 
 		if ([saveString rangeOfString:@"mpeg2video"].length > 0 
 		&& [saveString rangeOfString:@"720x576"].length > 0 | [saveString rangeOfString:@"720x480"].length > 0
-		&& [saveString rangeOfString:@"25.00 tb(r)"].length > 0 | [saveString rangeOfString:@"29.97 tb(r)"].length > 0)
+		&& [saveString rangeOfString:@"25.00 tb(r)"].length > 0 | [saveString rangeOfString:@"29.97 tb(r)"].length > 0 | [saveString rangeOfString:@"25 tbr"].length > 0 | [saveString rangeOfString:@"29.97 tbr"].length > 0)
 		returnCode = YES;
 		else
 		returnCode = NO;
