@@ -236,7 +236,7 @@ NSString *fileType = NSFileTypeForHFSTypeCode([[[[NSFileManager defaultManager] 
 	[rowData setObject:[[NSNumber numberWithInt:time] stringValue] forKey:@"RealTime"];
 	[rowData setObject:[[[NSWorkspace sharedWorkspace] iconForFile:path] retain] forKey:@"Icon"];
 	
-		if ([tableData count] > 0 && [[[[tableData objectAtIndex:0] objectForKey:@"Name"] lowercaseString] isEqualTo:@"audio_ts"] && [[tableViewPopup title] isEqualTo:@"DVD-Audio"])
+		if ([tableData count] > 0 && [[[[tableData objectAtIndex:0] objectForKey:@"Name"] lowercaseString] isEqualTo:@"audio_ts"] && [[tableViewPopup title] isEqualTo:NSLocalizedString(@"DVD-Audio",@"Localized")])
 		{
 		[previousButton setEnabled:YES];
 		[playButton setEnabled:YES];
@@ -409,11 +409,11 @@ return NO;
 //Needed because we're in a new thread
 NSAutoreleasePool *pool=[[NSAutoreleasePool alloc] init];
 
-	if ([paths count] == 1 && [[[[paths objectAtIndex:0] lastPathComponent] lowercaseString] isEqualTo:@"audio_ts"] && [[tableViewPopup title] isEqualTo:@"DVD-Audio"])
+	if ([paths count] == 1 && [[[[paths objectAtIndex:0] lastPathComponent] lowercaseString] isEqualTo:@"audio_ts"] && [[tableViewPopup title] isEqualTo:NSLocalizedString(@"DVD-Audio",@"Localized")])
 	{
 	[self addDVDFolder:[paths objectAtIndex:0]];
 	}
-	else if ([paths count] == 1 && [[NSFileManager defaultManager] fileExistsAtPath:[[paths objectAtIndex:0] stringByAppendingPathComponent:@"AUDIO_TS"]] && [[tableViewPopup title] isEqualTo:@"DVD-Audio"])
+	else if ([paths count] == 1 && [[NSFileManager defaultManager] fileExistsAtPath:[[paths objectAtIndex:0] stringByAppendingPathComponent:@"AUDIO_TS"]] && [[tableViewPopup title] isEqualTo:NSLocalizedString(@"DVD-Audio",@"Localized")])
 	{
 	[self addDVDFolder:[[paths objectAtIndex:0] stringByAppendingPathComponent:@"AUDIO_TS"]];
 	}
@@ -932,9 +932,9 @@ NSAlert *alert = [[[NSAlert alloc] init] autorelease];
 
 	return [discRoot retain];
 	}
-	else if ([[tableViewPopup title] isEqualTo:@"DVD-Audio"])
+	else if ([[tableViewPopup title] isEqualTo:NSLocalizedString(@"DVD-Audio",@"Localized")])
 	{
-		if ([tableData count] > 0 && [[[[tableData objectAtIndex:0] objectForKey:@"Name"] lowercaseString] isEqualTo:@"audio_ts"] && [[tableViewPopup title] isEqualTo:@"DVD-Audio"])
+		if ([tableData count] > 0 && [[[[tableData objectAtIndex:0] objectForKey:@"Name"] lowercaseString] isEqualTo:@"audio_ts"] && [[tableViewPopup title] isEqualTo:NSLocalizedString(@"DVD-Audio",@"Localized")])
 		{
 		DRFolder *rootFolder = [DRFolder virtualFolderWithName:[discName stringValue]];
 		[rootFolder addChild:[DRFolder folderWithPath:[[tableData objectAtIndex:0] objectForKey:@"Path"]]];
@@ -1984,7 +1984,7 @@ return saveTracks;
 
 - (BOOL)isCompatible
 {
-	if ([[tableViewPopup titleOfSelectedItem] isEqualToString:@"DVD-Audio"] && [KWCommonMethods isPanther])
+	if ([[tableViewPopup titleOfSelectedItem] isEqualToString:NSLocalizedString(@"DVD-Audio",@"Localized")] && [KWCommonMethods isPanther])
 	return NO;
 	
 return YES;
