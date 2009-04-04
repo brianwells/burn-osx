@@ -275,6 +275,7 @@
 		FEAB1EDE0D11730000629E3E /* Burn document.icns in Resources */ = {isa = PBXBuildFile; fileRef = FEAB1ED80D11730000629E3E /* Burn document.icns */; };
 		FEAB1EDF0D11730000629E3E /* Copy document.icns in Resources */ = {isa = PBXBuildFile; fileRef = FEAB1EDA0D11730000629E3E /* Copy document.icns */; };
 		FEAB1EE00D11730000629E3E /* Theme document.icns in Resources */ = {isa = PBXBuildFile; fileRef = FEAB1EDC0D11730000629E3E /* Theme document.icns */; };
+		FEB279090F87E10C0027F2B1 /* ffmpeg in Resources */ = {isa = PBXBuildFile; fileRef = FEB279080F87E10C0027F2B1 /* ffmpeg */; };
 		FEC3D5250EE32502008DBECA /* vcdimager in Resources */ = {isa = PBXBuildFile; fileRef = FEC3D5240EE32502008DBECA /* vcdimager */; };
 		FEC3D5270EE3251E008DBECA /* vcdimager in Resources */ = {isa = PBXBuildFile; fileRef = FEC3D5260EE3251E008DBECA /* vcdimager */; };
 		FEC3D5290EE32541008DBECA /* vcdimager in Resources */ = {isa = PBXBuildFile; fileRef = FEC3D5280EE32541008DBECA /* vcdimager */; };
@@ -316,7 +317,6 @@
 		FEDBF54C0F80782A00DABA72 /* KWProgress.nib in Resources */ = {isa = PBXBuildFile; fileRef = FEF989320D97B1D200BF78E3 /* KWProgress.nib */; };
 		FEDBF54D0F80782A00DABA72 /* dvda-author in Resources */ = {isa = PBXBuildFile; fileRef = FEA4693A0D97E6EC0083527F /* dvda-author */; };
 		FEDBF54E0F80782A00DABA72 /* dvdauthor in Resources */ = {isa = PBXBuildFile; fileRef = FEA4693B0D97E6EC0083527F /* dvdauthor */; };
-		FEDBF54F0F80782A00DABA72 /* ffmpeg in Resources */ = {isa = PBXBuildFile; fileRef = FEA4693C0D97E6EC0083527F /* ffmpeg */; };
 		FEDBF5500F80782A00DABA72 /* mkisofs in Resources */ = {isa = PBXBuildFile; fileRef = FEA4693D0D97E6EC0083527F /* mkisofs */; };
 		FEDBF5510F80782A00DABA72 /* movtowav in Resources */ = {isa = PBXBuildFile; fileRef = FEA4693E0D97E6EC0083527F /* movtowav */; };
 		FEDBF5520F80782A00DABA72 /* movtoy4m in Resources */ = {isa = PBXBuildFile; fileRef = FEA4693F0D97E6EC0083527F /* movtoy4m */; };
@@ -713,6 +713,7 @@
 		FEAC31360D2A75C000555250 /* German */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = German; path = German.lproj/KWPreferences.nib; sourceTree = "<group>"; };
 		FEAC31370D2A75C000555250 /* German */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = German; path = German.lproj/KWRecorderInfo.nib; sourceTree = "<group>"; };
 		FEAC3B560EFBFF0300D6F2B5 /* German */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = German; path = German.lproj/Localizable.strings; sourceTree = "<group>"; };
+		FEB279080F87E10C0027F2B1 /* ffmpeg */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.executable"; path = ffmpeg; sourceTree = "<group>"; };
 		FEC3D5240EE32502008DBECA /* vcdimager */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.executable"; name = vcdimager; path = Binaries/Universal/vcdimager; sourceTree = "<group>"; };
 		FEC3D5260EE3251E008DBECA /* vcdimager */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.executable"; name = vcdimager; path = Binaries/PowerPC/vcdimager; sourceTree = "<group>"; };
 		FEC3D5280EE32541008DBECA /* vcdimager */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.executable"; name = vcdimager; path = Binaries/Intel/vcdimager; sourceTree = "<group>"; };
@@ -982,6 +983,15 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		FE01CD990F87E036002C7645 /* G3 */ = {
+			isa = PBXGroup;
+			children = (
+				FEB279080F87E10C0027F2B1 /* ffmpeg */,
+			);
+			name = G3;
+			path = Binaries/G3;
+			sourceTree = "<group>";
+		};
 		FE0340060BA7FBD300622112 /* KWRecorderInfo */ = {
 			isa = PBXGroup;
 			children = (
@@ -1246,6 +1256,7 @@
 		FEEF72460B92FCAF00ED64A9 /* Binaries */ = {
 			isa = PBXGroup;
 			children = (
+				FE01CD990F87E036002C7645 /* G3 */,
 				FEA468150D97BDF60083527F /* Universal */,
 				FEA468160D97BDFC0083527F /* PowerPC */,
 				FEA468170D97BE0D0083527F /* Intel */,
@@ -1799,7 +1810,6 @@
 				FEDBF54C0F80782A00DABA72 /* KWProgress.nib in Resources */,
 				FEDBF54D0F80782A00DABA72 /* dvda-author in Resources */,
 				FEDBF54E0F80782A00DABA72 /* dvdauthor in Resources */,
-				FEDBF54F0F80782A00DABA72 /* ffmpeg in Resources */,
 				FEDBF5500F80782A00DABA72 /* mkisofs in Resources */,
 				FEDBF5510F80782A00DABA72 /* movtowav in Resources */,
 				FEDBF5520F80782A00DABA72 /* movtoy4m in Resources */,
@@ -1821,6 +1831,7 @@
 				FEDBF5620F80782A00DABA72 /* Empty.png in Resources */,
 				FEDBF5630F80782A00DABA72 /* vcdimager in Resources */,
 				FEDBF5640F80782A00DABA72 /* BurnHelp in Resources */,
+				FEB279090F87E10C0027F2B1 /* ffmpeg in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
