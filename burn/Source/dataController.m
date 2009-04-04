@@ -667,7 +667,7 @@ BOOL pantherUDFSelected = [udfSheet state] == NSOnState && [KWCommonMethods isPa
 		[[NSFileManager defaultManager] createDirectoryAtPath:outputFolder attributes:nil];
 		[self createVirtualFolder:[SAFENODE(treeData) children] atPath:outputFolder];
 	
-		return [[KWTrackProducer alloc] getTrackForFolder:outputFolder ofType:1 withDiscName:[discName stringValue]];
+		return [[KWTrackProducer alloc] getTrackForFolder:outputFolder ofType:1 withDiscName:[discName stringValue] withGlobalSize:[self totalSize]];
 		}
 		else
 		{
@@ -684,7 +684,7 @@ BOOL pantherUDFSelected = [udfSheet state] == NSOnState && [KWCommonMethods isPa
 		[[NSFileManager defaultManager] createDirectoryAtPath:outputFolder attributes:nil];
 		[self createVirtualFolder:[SAFENODE(treeData) children] atPath:outputFolder];
 	
-		return [[KWTrackProducer alloc] getTrackForFolder:outputFolder ofType:2 withDiscName:[discName stringValue]];
+		return [[KWTrackProducer alloc] getTrackForFolder:outputFolder ofType:2 withDiscName:[discName stringValue] withGlobalSize:[self totalSize]];
 		}
 		else
 		{
