@@ -24,12 +24,14 @@
 	BOOL createdTrack;
 	NSTask *imageCreator;
 	NSPipe *imagePipe;
+	int currentImageSize;
+	NSTimer *prepareTimer;
 }
 
 //Track actions
 - (NSArray *)getTracksOfCueFile:(NSString *)path;
 - (DRTrack *)getTrackForImage:(NSString *)path withSize:(int)size;
-- (DRTrack *)getTrackForFolder:(NSString *)path ofType:(int)imageType withDiscName:(NSString *)name;
+- (DRTrack *)getTrackForFolder:(NSString *)path ofType:(int)imageType withDiscName:(NSString *)name withGlobalSize:(int)globalSize;
 - (NSArray *)getTrackForVCDMPEGFiles:(NSArray *)files withDiscName:(NSString *)name ofType:(int)imageType;
 - (NSArray *)getTracksOfLayout:(NSString *)layout withTotalSize:(int)size;
 - (NSArray *)getTracksOfVcd;
