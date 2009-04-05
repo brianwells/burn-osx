@@ -616,6 +616,8 @@
 		FE3EFEF00DBBD523003DD5AD /* Japanese */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = Japanese; path = Japanese.lproj/MainMenu.nib; sourceTree = "<group>"; };
 		FE3EFEF10DBBD535003DD5AD /* Japanese */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = Japanese; path = Japanese.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		FE3EFEF20DBBD535003DD5AD /* Japanese */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = Japanese; path = Japanese.lproj/Localizable.strings; sourceTree = "<group>"; };
+		FE3F2C890F88DCBF001364D1 /* ko */ = {isa = PBXFileReference; lastKnownFileType = image.icns; name = ko; path = "ko.lproj/Copy document.icns"; sourceTree = "<group>"; };
+		FE3F2C8A0F88DCBF001364D1 /* ko */ = {isa = PBXFileReference; lastKnownFileType = image.icns; name = ko; path = "ko.lproj/Theme document.icns"; sourceTree = "<group>"; };
 		FE4514050D15720F0051D717 /* French */ = {isa = PBXFileReference; lastKnownFileType = image.icns; name = French; path = "French.lproj/Copy document.icns"; sourceTree = "<group>"; };
 		FE4514060D15720F0051D717 /* French */ = {isa = PBXFileReference; lastKnownFileType = image.icns; name = French; path = "French.lproj/Theme document.icns"; sourceTree = "<group>"; };
 		FE45141D0D15722E0051D717 /* French */ = {isa = PBXFileReference; lastKnownFileType = text.html; name = French; path = French.lproj/Credits.html; sourceTree = "<group>"; };
@@ -2211,6 +2213,7 @@
 				FE0413130E62D415007FD22B /* ru */,
 				FE0413150E62D420007FD22B /* zh_TW */,
 				FEE0FF1A0F6D35F1009BC562 /* Greek */,
+				FE3F2C890F88DCBF001364D1 /* ko */,
 			);
 			name = "Copy document.icns";
 			sourceTree = "<group>";
@@ -2228,6 +2231,7 @@
 				FE0413140E62D415007FD22B /* ru */,
 				FE0413160E62D420007FD22B /* zh_TW */,
 				FEE0FF1B0F6D35F1009BC562 /* Greek */,
+				FE3F2C8A0F88DCBF001364D1 /* ko */,
 			);
 			name = "Theme document.icns";
 			sourceTree = "<group>";
