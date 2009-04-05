@@ -1597,9 +1597,9 @@
 			projectRoot = "";
 			targets = (
 				8D15AC270486D014006FF6A4 /* Burn (Universal) */,
+				FEDBF52C0F80782A00DABA72 /* Burn (G3) */,
 				FEA467250D97BDC60083527F /* Burn (PowerPC) */,
 				FEA4679D0D97BDCD0083527F /* Burn (Intel) */,
-				FEDBF52C0F80782A00DABA72 /* Burn (G3) */,
 			);
 		};
 /* End PBXProject section */
