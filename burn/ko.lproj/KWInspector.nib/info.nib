@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>IBFramework Version</key>
+	<string>670</string>
+	<key>IBOldestOS</key>
+	<integer>5</integer>
+	<key>IBOpenObjects</key>
+	<array>
+		<integer>1195</integer>
+		<integer>7</integer>
+		<integer>1827</integer>
+		<integer>1839</integer>
+		<integer>1120</integer>
+		<integer>1216</integer>
+		<integer>9</integer>
+		<integer>1587</integer>
+	</array>
+	<key>IBSystem Version</key>
+	<string>9G55</string>
+	<key>targetFramework</key>
+	<string>IBCocoaFramework</string>
+</dict>
+</plist>

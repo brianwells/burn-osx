@@ -1,0 +1,26 @@
+{
+    IBClasses =     (
+                {
+            CLASS = FirstResponder;
+            LANGUAGE = ObjC;
+            SUPERCLASS = NSObject;
+        },
+                {
+            ACTIONS =             {
+                cancelScan = id;
+                chooseScan = id;
+            };
+            CLASS = KWDiskScanner;
+            LANGUAGE = ObjC;
+            OUTLETS =             {
+                cancelScan = id;
+                chooseScan = id;
+                progressScan = id;
+                progressTextScan = id;
+                tableView = id;
+            };
+            SUPERCLASS = NSWindowController;
+        }
+    );
+    IBVersion = 1;
+}
