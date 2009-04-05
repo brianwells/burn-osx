@@ -311,13 +311,13 @@ BOOL succes;
 		if (succes)
 		succes = [self createRootMenu:[path stringByAppendingPathComponent:@"THEME_TS"] withName:name withTitles:NO withSecondButton:YES];
 		else
-		errorString = @"Failed to create root menu/n";
+		errorString = @"Failed to create root menu\r";
 		
 		//Create Chapter Selection Menu(s)
 		if (succes)
 		succes = [self createSelectionMenus:fileArray withChapters:YES atPath:[path stringByAppendingPathComponent:@"THEME_TS"]];
 		else
-		errorString = @"Failed to create chapter selection menus/n";
+		errorString = @"Failed to create chapter selection menus\r";
 	}
 	else
 	{
@@ -325,25 +325,25 @@ BOOL succes;
 		if (succes)
 		succes = [self createRootMenu:[path stringByAppendingPathComponent:@"THEME_TS"] withName:name withTitles:YES withSecondButton:([fileArray count] > 1)];
 		else
-		errorString = @"Failed to create root menu/n";
+		errorString = @"Failed to create root menu\r";
 		
 		//Create Title Selection Menu(s)
 		if (succes)
 		succes = [self createSelectionMenus:fileArray withChapters:NO atPath:[path stringByAppendingPathComponent:@"THEME_TS"]];
 		else
-		errorString = @"Failed to create title selection menus/n";
+		errorString = @"Failed to create title selection menus\r";
 		
 		//Create Chapter Menu
 		if (succes)
 		succes = [self createChapterMenus:[path stringByAppendingPathComponent:@"THEME_TS"] withFileArray:fileArray];
 		else
-		errorString = @"Failed to create chapter menu/n";
+		errorString = @"Failed to create chapter menu\r";
 		
 		//Create Chapter Selection Menu(s)
 		if (succes)
 		succes = [self createSelectionMenus:fileArray withChapters:YES atPath:[path stringByAppendingPathComponent:@"THEME_TS"]];
 		else
-		errorString = @"Failed to create chapter selection menus/n";
+		errorString = @"Failed to create chapter selection menus\r";
 	}
 	
 	BOOL authoringFailed = NO;
@@ -352,7 +352,7 @@ BOOL succes;
 	if (succes)
 	succes = [self createDVDXMLAtPath:[[path stringByAppendingPathComponent:@"THEME_TS"] stringByAppendingPathComponent:@"dvdauthor.xml"] withFileArray:fileArray atFolderPath:path];
 	else
-	errorString = @"Failed to create DVD xml menu/n";
+	errorString = @"Failed to create DVD xml menu\r";
 	
 	//Author DVD
 	if (succes)
