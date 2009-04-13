@@ -21,7 +21,7 @@
 	NSString *folderPath;
 	NSString *discName;
 	NSArray *mpegFiles;
-	//Types 1 = hfsstandard; 2 = udf; 3 = dvd-video; 4 = vcd; 5 = svcd; 6 = audiocd
+	//Types 1 = hfsstandard; 2 = udf; 3 = dvd-video; 4 = vcd; 5 = svcd; 6 = audiocd 7 = dvd-audio
 	int	type;
 	BOOL createdTrack;
 	NSTask *trackCreator;

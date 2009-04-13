@@ -491,6 +491,8 @@ NSArray *options;
 	options = [NSArray arrayWithObjects:@"-V",discName,@"-f",@"-udf",folderPath,nil];
 	else if (type == 3)
 	options = [NSArray arrayWithObjects:@"-V",discName,@"-f",@"-dvd-video",folderPath,nil];
+	else if (type == 7)
+	options = [NSArray arrayWithObjects:@"-V",discName,@"-f",@"-dvd-audio",folderPath,nil]
 	
 [trackCreator setArguments:options];
 [trackCreator setStandardOutput:trackPipe];
@@ -538,7 +540,7 @@ file = fdopen([readHandle fileDescriptor], "r");
 NSAutoreleasePool *pool=[[NSAutoreleasePool alloc] init];
 
 [trackCreator launch];
-
+[trackCreator waitUntilExit];
 [readHandle closeFile];
 readHandle = nil;
 [trackPipe release];
@@ -638,6 +640,8 @@ NSArray *options;
 	options = [NSArray arrayWithObjects:@"-V",discName,@"-f",@"-udf",folderPath,nil];
 	else if (type == 3)
 	options = [NSArray arrayWithObjects:@"-V",discName,@"-f",@"-dvd-video",folderPath,nil];
+	else if (type == 7)
+	options = [NSArray arrayWithObjects:@"-V",discName,@"-f",@"-dvd-audio",folderPath,nil];
 
 [mkisofs setArguments:options];
 [mkisofs setStandardError:handle2];

@@ -184,6 +184,8 @@ NSData *data;
 
 dvdauthor = [[NSTask alloc] init];
 [dvdauthor setLaunchPath:[[NSBundle mainBundle] pathForResource:@"dvda-author" ofType:@""]];
+[options addObject:@"-p"];
+[options addObject:@"278"];
 [options addObject:@"-o"];
 [options addObject:path];
 [options addObject:@"-g"];
@@ -193,8 +195,6 @@ dvdauthor = [[NSTask alloc] init];
 [dvdauthor setArguments:options];
 [dvdauthor setStandardOutput:pipe];
 handle=[pipe fileHandleForReading];
-
-//int currentFile = 1;
 
 [self performSelectorOnMainThread:@selector(startTimer:) withObject:[path stringByAppendingPathComponent:@"AUDIO_TS/ATS_01_1.AOB"] waitUntilDone:NO];
 

@@ -865,7 +865,7 @@ NSAlert *alert = [[[NSAlert alloc] init] autorelease];
 	if ([KWCommonMethods isQuickTimeSevenInstalled])
 	[self stop:self];
 
-	if ([KWCommonMethods isPanther] && [[tableViewPopup title] isEqualTo:NSLocalizedString(@"DVD-Audio",@"Localized")])
+	if ([[tableViewPopup title] isEqualTo:NSLocalizedString(@"DVD-Audio",@"Localized")])
 	{
 	NSString *outputFolder = [KWCommonMethods temporaryLocation:[discName stringValue] saveDescription:NSLocalizedString(@"Choose a location to save a temporary folder",@"Localized")];
 		
@@ -876,7 +876,7 @@ NSAlert *alert = [[[NSAlert alloc] init] autorelease];
 		int succes = [self authorizeFolderAtPathIfNeededAtPath:outputFolder];
 	
 			if (succes == 0)
-			return [[KWTrackProducer alloc] getTrackForFolder:outputFolder ofType:2 withDiscName:[discName stringValue] withGlobalSize:[self totalSize]];
+			return [[KWTrackProducer alloc] getTrackForFolder:outputFolder ofType:7 withDiscName:[discName stringValue] withGlobalSize:[self totalSize]];
 			else
 			return [NSNumber numberWithInt:succes];
 		}
@@ -931,48 +931,6 @@ NSAlert *alert = [[[NSAlert alloc] init] autorelease];
 	[discRoot setExplicitFilesystemMask: (DRFilesystemInclusionMaskJoliet)];
 
 	return [discRoot retain];
-	}
-	else if ([[tableViewPopup title] isEqualTo:NSLocalizedString(@"DVD-Audio",@"Localized")])
-	{
-		if ([tableData count] > 0 && [[[[tableData objectAtIndex:0] objectForKey:@"Name"] lowercaseString] isEqualTo:@"audio_ts"] && [[tableViewPopup title] isEqualTo:NSLocalizedString(@"DVD-Audio",@"Localized")])
-		{
-		DRFolder *rootFolder = [DRFolder virtualFolderWithName:[discName stringValue]];
-		[rootFolder addChild:[DRFolder folderWithPath:[[tableData objectAtIndex:0] objectForKey:@"Path"]]];
-		
-		[rootFolder setExplicitFilesystemMask:(DRFilesystemInclusionMaskUDF)];
-			
-		return [rootFolder retain];
-		}
-		else
-		{
-		int succes = NSOKButton;
-		
-		NSString *outputFile = [KWCommonMethods temporaryLocation:[discName stringValue] saveDescription:NSLocalizedString(@"Choose a location to save the DVD folder",@"Localized")];
-				
-			if (outputFile)
-			{
-			[temporaryFiles addObject:outputFile];
-			
-			succes = [self authorizeFolderAtPathIfNeededAtPath:outputFile];
-			}
-			else
-			{
-			return [NSNumber numberWithInt:2];
-			}
-			
-			if (succes == 0)
-			{
-			DRFolder *newObject = [DRFolder virtualFolderWithName:[discName stringValue]];
-			[newObject addChild:[DRFolder folderWithPath:[outputFile stringByAppendingPathComponent:@"AUDIO_TS"]]];
-			[newObject setExplicitFilesystemMask:DRFilesystemInclusionMaskUDF];
-				
-			return [newObject retain];
-			}
-			else
-			{
-			return [NSNumber numberWithInt:succes];
-			}
-		}
 	}
 	else
 	{
