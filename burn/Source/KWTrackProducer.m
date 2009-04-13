@@ -11,6 +11,7 @@
 #import "KWTrackProducer.h"
 #import "NSScanner-Extra.h"
 #import "KWCommonMethods.h"
+#import <KWConverter.h>
 
 @interface KWTrackProducer (DiscRecording)
 
@@ -33,6 +34,14 @@
 	{
 	[self createVcdImage];
 	createdTrack = YES;
+	}
+	else if (type == 6)
+	{
+	NSMutableDictionary *trackProperties = [[track properties] mutableCopy];
+	
+	[trackProperties setObject:[NSNumber numberWithInt:[[trackProperties objectForKey:DRTrackLengthKey] intValue] + 1] forKey:DRTrackLengthKey]; 
+	[track setProperties:trackProperties];
+	[self createAudioTrack:[[track properties] objectForKey:@"KWAudioPath"] withTrackSize:[[[track properties] objectForKey:DRTrackLengthKey] intValue]];
 	}
 
 return YES;
@@ -435,6 +444,30 @@ NSMutableArray *myTracks = [NSMutableArray array];
 return myTracks;
 }
 
+- (DRTrack *)getAudioTrackForPath:(NSString *)path
+{
+//Set disc: type 6 = custom audio cd
+type = 6;
+
+//Create our audio track
+DRTrack *track = [[DRTrack alloc] initWithProducer:self];
+NSMutableDictionary *properties = [NSMutableDictionary dictionary];
+		
+[properties setObject:[DRMSF msfWithString:[[KWConverter alloc] mediaTimeString:path]] forKey:DRTrackLengthKey];
+[properties setObject:[NSNumber numberWithInt:2352] forKey:DRBlockSizeKey];
+[properties setObject:[NSNumber numberWithInt:0] forKey:DRBlockTypeKey];
+[properties setObject:[NSNumber numberWithInt:0] forKey:DRDataFormKey];
+[properties setObject:[NSNumber numberWithInt:0] forKey:DRSessionFormatKey];
+[properties setObject:[NSNumber numberWithInt:0] forKey:DRTrackModeKey];
+[properties setObject:path forKey:@"KWAudioPath"];
+[properties setObject:[NSNumber numberWithBool:YES] forKey:@"KWFirstTrack"];
+[properties setObject:DRVerificationTypeNone forKey:DRVerificationTypeKey];
+		
+[track setProperties:properties];
+
+return track;
+}
+
 ////////////////////
 // Stream actions //
 ////////////////////
@@ -444,11 +477,11 @@ return myTracks;
 
 - (void)createImage
 {
-imageCreator = [[NSTask alloc] init];
-imagePipe=[[NSPipe alloc] init];
+trackCreator = [[NSTask alloc] init];
+trackPipe=[[NSPipe alloc] init];
 NSFileHandle *handle2 = [NSFileHandle fileHandleWithNullDevice];
-[imageCreator setStandardError:handle2];
-[imageCreator setLaunchPath:[[NSBundle mainBundle] pathForResource:@"mkisofs" ofType:@""]];
+[trackCreator setStandardError:handle2];
+[trackCreator setLaunchPath:[[NSBundle mainBundle] pathForResource:@"mkisofs" ofType:@""]];
 
 NSArray *options;
 
@@ -459,10 +492,10 @@ NSArray *options;
 	else if (type == 3)
 	options = [NSArray arrayWithObjects:@"-V",discName,@"-f",@"-dvd-video",folderPath,nil];
 	
-[imageCreator setArguments:options];
-[imageCreator setStandardOutput:imagePipe];
-fileHandle=[imagePipe fileHandleForReading];
-file = fdopen([fileHandle fileDescriptor], "r");
+[trackCreator setArguments:options];
+[trackCreator setStandardOutput:trackPipe];
+readHandle=[trackPipe fileHandleForReading];
+file = fdopen([readHandle fileDescriptor], "r");
 
 [NSThread detachNewThreadSelector:@selector(startCreating) toTarget:self withObject:nil];
 }
@@ -487,15 +520,15 @@ NSMutableArray *arguments = [NSMutableArray array];
 	[arguments addObject:[mpegFiles objectAtIndex:i]];
 	}
 
-imageCreator = [[NSTask alloc] init];
-[imageCreator setLaunchPath:[[NSBundle bundleForClass:[self class]] pathForResource:@"vcdimager" ofType:@""]];
-[imageCreator setArguments:arguments];
-imagePipe=[[NSPipe alloc] init];
+trackCreator = [[NSTask alloc] init];
+[trackCreator setLaunchPath:[[NSBundle bundleForClass:[self class]] pathForResource:@"vcdimager" ofType:@""]];
+[trackCreator setArguments:arguments];
+trackPipe=[[NSPipe alloc] init];
 NSFileHandle *handle2 = [NSFileHandle fileHandleWithNullDevice];
-[imageCreator setStandardError:imagePipe];
-[imageCreator setStandardOutput:handle2];
-fileHandle=[imagePipe fileHandleForReading];
-file = fdopen([fileHandle fileDescriptor], "r");
+[trackCreator setStandardError:trackPipe];
+[trackCreator setStandardOutput:handle2];
+readHandle=[trackPipe fileHandleForReading];
+file = fdopen([readHandle fileDescriptor], "r");
 
 [NSThread detachNewThreadSelector:@selector(startCreating) toTarget:self withObject:nil];
 }
@@ -504,12 +537,80 @@ file = fdopen([fileHandle fileDescriptor], "r");
 {
 NSAutoreleasePool *pool=[[NSAutoreleasePool alloc] init];
 
-[imageCreator launch];
-[imageCreator waitUntilExit];
-[fileHandle closeFile];
-fileHandle = nil;
-[imagePipe release];
-[imageCreator release];
+[trackCreator launch];
+
+[readHandle closeFile];
+readHandle = nil;
+[trackPipe release];
+[trackCreator release];
+
+[pool release];
+}
+
+- (void)createAudioTrack:(NSString *)path withTrackSize:(int)trackSize
+{
+trackCreator = [[NSTask alloc] init];
+
+calcPipe = [[NSPipe alloc] init];
+trackPipe = [[NSPipe alloc] init];
+
+calcHandle = [calcPipe fileHandleForReading];
+writeHandle = [trackPipe fileHandleForWriting];
+readHandle = [trackPipe fileHandleForReading];
+
+[trackCreator setLaunchPath:[KWCommonMethods ffmpegPath]];
+[trackCreator setArguments:[NSArray arrayWithObjects:@"-i",path,@"-f",@"s16le",@"-",nil]];
+	if ([[NSUserDefaults standardUserDefaults] boolForKey:@"KWDebug"] == NO)
+	[trackCreator setStandardError:[NSFileHandle fileHandleWithNullDevice]];
+[trackCreator setStandardOutput:calcPipe];
+
+file = fdopen([readHandle fileDescriptor], "r");
+
+[NSThread detachNewThreadSelector:@selector(startAudioTrackCreation:) toTarget:self withObject:[NSNumber numberWithInt:trackSize]];
+}
+
+- (void)startAudioTrackCreation:(NSNumber *)trackSize
+{
+NSAutoreleasePool *pool= [[NSAutoreleasePool alloc] init];
+
+[trackCreator launch];
+
+NSData *data;
+NSAutoreleasePool *innerPool = [[NSAutoreleasePool alloc] init];
+int bytes = 0;
+
+		while([data=[calcHandle availableData] length])
+		{
+		bytes = bytes + [data length];
+		
+		[writeHandle writeData:data];
+		
+		[innerPool release];
+		innerPool = [[NSAutoreleasePool alloc] init];
+		}
+		
+[trackCreator waitUntilExit];
+
+	//Write overhead
+	if ([trackSize intValue] * 2352 > bytes)
+	{
+	NSTask *dd = [[NSTask alloc] init];
+	[dd setLaunchPath:@"/bin/dd"];
+	[dd setArguments:[NSArray arrayWithObjects:@"if=/dev/zero",[@"count=" stringByAppendingString:[[NSNumber numberWithInt:([trackSize intValue] * 2352) - bytes] stringValue]], @"bs=1", nil]];
+		if ([[NSUserDefaults standardUserDefaults] boolForKey:@"KWDebug"] == NO)
+		[dd setStandardError:[NSFileHandle fileHandleWithNullDevice]];
+	[dd setStandardOutput:writeHandle];
+	[dd launch];
+	[dd waitUntilExit];
+	[dd release];
+	dd = nil;
+	}
+
+[writeHandle closeFile];
+writeHandle = nil;
+[calcPipe release];
+[trackPipe release];
+[trackCreator release];
 
 [pool release];
 }
@@ -521,7 +622,7 @@ fileHandle = nil;
 #pragma mark -
 #pragma mark •• Other actions
 
-- (int)imageSize
+- (float)imageSize
 {
 NSTask *mkisofs = [[NSTask alloc] init];
 NSPipe *pipe=[[NSPipe alloc] init];

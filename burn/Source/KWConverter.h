@@ -78,6 +78,7 @@ NSString *inputFormat;
 - (BOOL)canCombineStreams:(NSString *)path;
 - (BOOL)combineStreams:(NSString *)path atOutputPath:(NSString *)outputPath;
 - (int)totalTimeInSeconds:(NSString *)path;
+- (NSString *)mediaTimeString:(NSString *)path;
 - (NSImage *)getImageAtPath:(NSString *)path atTime:(int)time isWideScreen:(BOOL)wide;
 
 @end

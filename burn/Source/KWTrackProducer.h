@@ -11,19 +11,21 @@
 #import <Cocoa/Cocoa.h>
 #import <DiscRecording/DiscRecording.h>
 
-
 @interface KWTrackProducer : NSObject 
 {
 	FILE     *file;
-	NSFileHandle *fileHandle;
+	NSFileHandle *readHandle;
+	NSFileHandle *writeHandle;
+	NSFileHandle *calcHandle;
+	NSPipe *calcPipe;
 	NSString *folderPath;
 	NSString *discName;
 	NSArray *mpegFiles;
-	//Types 1 = hfsstandard; 2 = udf; 3 = dvd-video; 4 = vcd; 5 svcd
+	//Types 1 = hfsstandard; 2 = udf; 3 = dvd-video; 4 = vcd; 5 = svcd; 6 = audiocd
 	int	type;
 	BOOL createdTrack;
-	NSTask *imageCreator;
-	NSPipe *imagePipe;
+	NSTask *trackCreator;
+	NSPipe *trackPipe;
 	int currentImageSize;
 	NSTimer *prepareTimer;
 }
@@ -35,15 +37,16 @@
 - (NSArray *)getTrackForVCDMPEGFiles:(NSArray *)files withDiscName:(NSString *)name ofType:(int)imageType;
 - (NSArray *)getTracksOfLayout:(NSString *)layout withTotalSize:(int)size;
 - (NSArray *)getTracksOfVcd;
-
 - (NSArray *)getTracksOfAudioCD:(NSString *)path withToc:(NSDictionary *)toc;
+- (DRTrack *)getAudioTrackForPath:(NSString *)path;
 
 //Stream actions
 - (void)createImage;
 - (void)createVcdImage;
+- (void)createAudioTrack:(NSString *)path withTrackSize:(int)trackSize;
 
 //Other
-- (int)imageSize;
+- (float)imageSize;
 - (DRTrack *)createDefaultTrackWithSize:(int)size;
 
 @end

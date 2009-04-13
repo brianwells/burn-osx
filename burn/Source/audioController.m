@@ -5,7 +5,7 @@
 #import "KWDocument.h"
 #import "KWCommonMethods.h"
 #import "discCreationController.h"
-#import "KWTrackProducer.h"KWTrackProducer
+#import "KWTrackProducer.h"
 
 @implementation audioController
 
@@ -988,17 +988,21 @@ NSAlert *alert = [[[NSAlert alloc] init] autorelease];
 		else
 		{
 		NSMutableArray*	trackArray = [NSMutableArray arrayWithCapacity:[tableData count]];
+		[[NSNotificationCenter defaultCenter] postNotificationName:@"KWMaximumValueChanged" object:[NSNumber numberWithFloat:[tableData count]]];
 		
 			int i;
 			for (i=0;i<[tableData count];i++)
 			{
-			DRTrack* track = [DRTrack trackForAudioFile:[[tableData objectAtIndex:i] valueForKey: @"Path"]];
+			DRTrack* track = [[KWTrackProducer alloc] getAudioTrackForPath:[[tableData objectAtIndex:i] valueForKey: @"Path"]];
 			NSMutableDictionary* properties;
 			
 			properties = [[track properties] mutableCopy];
+			if (i != 0)
 			[properties setObject:[NSNumber numberWithInt:[[[NSUserDefaults standardUserDefaults] objectForKey:@"KWDefaultPregap"] intValue]*75] forKey:DRPreGapLengthKey];
 			[track setProperties:properties];
 			[trackArray addObject:[track retain]];
+			
+			[[NSNotificationCenter defaultCenter] postNotificationName:@"KWValueChanged" object:[NSNumber numberWithInt:i+1]];
 			}
 
 		return trackArray;
@@ -1893,7 +1897,7 @@ NSMovie *theMovie = [[NSMovie alloc] initWithURL:[NSURL fileURLWithPath:path] by
 	duration = GetMovieDuration([theMovie QTMovie]) / GetMovieTimeScale([theMovie QTMovie]);
 	[theMovie release];
 	}
-	
+
 return duration;
 }
 
@@ -1960,6 +1964,7 @@ NSMutableArray *saveTracks = [NSMutableArray arrayWithCapacity:[tableData count]
 NSString *outputFolder = [KWCommonMethods uniquePathNameFromPath:[[[NSUserDefaults standardUserDefaults] objectForKey:@"KWTemporaryLocation"] stringByAppendingPathComponent:[discName stringValue]] withLength:0];
 
 [[NSFileManager defaultManager] createDirectoryAtPath:outputFolder attributes:nil];
+[[NSNotificationCenter defaultCenter] postNotificationName:@"KWMaximumValueChanged" object:[NSNumber numberWithFloat:[tableData count]]];
 
 	int i;
 	for (i=0;i<[tableData count];i++)
@@ -1969,14 +1974,17 @@ NSString *outputFolder = [KWCommonMethods uniquePathNameFromPath:[[[NSUserDefaul
 		if ([[NSFileManager defaultManager] linkPath:[[tableData objectAtIndex:i] valueForKey: @"Path"] toPath:saveTrack handler:nil] == NO)
 		[[NSFileManager defaultManager] copyPath:[[tableData objectAtIndex:i] valueForKey: @"Path"] toPath:saveTrack handler:nil];
 	
-	DRTrack* track = [DRTrack trackForAudioFile:saveTrack];
+	DRTrack* track = [[KWTrackProducer alloc] getAudioTrackForPath:saveTrack];
 	
 	NSMutableDictionary* properties;
 		
 	properties = [[track properties] mutableCopy];
-	[properties setObject:[NSNumber numberWithInt:[[[NSUserDefaults standardUserDefaults] objectForKey:@"KWDefaultPregap"] intValue]*75] forKey:DRPreGapLengthKey];
+		if (i != 0)
+		[properties setObject:[NSNumber numberWithInt:[[[NSUserDefaults standardUserDefaults] objectForKey:@"KWDefaultPregap"] intValue]*75] forKey:DRPreGapLengthKey];
 	[track setProperties:properties];
 	[saveTracks addObject:[track retain]];
+	
+	[[NSNotificationCenter defaultCenter] postNotificationName:@"KWValueChanged" object:[NSNumber numberWithInt:i+1]];
 	}
 	
 return saveTracks;
@@ -2110,6 +2118,7 @@ return burnProperties;
 {
 	unsigned i, count = [tableData count];
 	NSMutableArray	*tracks = [NSMutableArray arrayWithCapacity:count];
+	[[NSNotificationCenter defaultCenter] postNotificationName:@"KWMaximumValueChanged" object:[NSNumber numberWithFloat:[tableData count]]];
 	
 	for (i=0; i<count; ++i)
 	{
@@ -2118,7 +2127,7 @@ return burnProperties;
 	//[trackInfo objectForKey:EABTrackFilePath];
 		
 	// Create the track.
-	DRTrack	*track = [DRTrack trackForAudioFile:path];
+	DRTrack	*track = [[KWTrackProducer alloc] getAudioTrackForPath:path];
 		
 		if (track == nil)
 		{
@@ -2132,7 +2141,9 @@ return burnProperties;
 		unsigned	preGapLengthInFrames = (unsigned)([[trackInfo objectForKey:@"Pregap"] floatValue] * 75.0);
 		
 		NSMutableDictionary	*trackProperties = [[track properties] mutableCopy];
-		[trackProperties setObject:[NSNumber numberWithUnsignedInt:preGapLengthInFrames] forKey:DRPreGapLengthKey];
+			
+			if (i != 0)
+			[trackProperties setObject:[NSNumber numberWithUnsignedInt:preGapLengthInFrames] forKey:DRPreGapLengthKey];
 		[trackProperties setObject:[trackInfo objectForKey:@"Pre-emphasis"] forKey:DRAudioPreEmphasisKey];
 		if ([[trackInfo objectForKey:@"EnableISRC"] boolValue])
 		{
@@ -2150,6 +2161,8 @@ return burnProperties;
 		
 		// Add this track to the list.
 		[tracks addObject:track];
+		
+		[[NSNotificationCenter defaultCenter] postNotificationName:@"KWValueChanged" object:[NSNumber numberWithInt:i+1]];
 	}
 	
 	return tracks;

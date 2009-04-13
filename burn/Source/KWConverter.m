@@ -2651,6 +2651,34 @@ int totalTime = seconds + (minutes * 60) + (hours * 60 * 60);
 return totalTime;
 }
 
+- (NSString *)mediaTimeString:(NSString *)path
+{
+ffmpeg=[[NSTask alloc] init];
+NSPipe *pipe=[[NSPipe alloc] init];
+NSFileHandle *handle;
+NSString *string;
+
+[ffmpeg setLaunchPath:[KWCommonMethods ffmpegPath]];
+
+[ffmpeg setArguments:[NSArray arrayWithObjects:@"-threads",[[NSNumber numberWithInt:[[[NSUserDefaults standardUserDefaults] objectForKey:@"KWEncodingThreads"] intValue]] stringValue],@"-i",path,nil]];
+[ffmpeg setStandardError:pipe];
+handle=[pipe fileHandleForReading];
+[ffmpeg launch];
+string=[[NSString alloc] initWithData:[handle readDataToEndOfFile] encoding:NSASCIIStringEncoding];
+
+	if ([[NSUserDefaults standardUserDefaults] boolForKey:@"KWDebug"] == YES)
+	NSLog(string);
+		
+NSString *durationsString = [[[[[[[string componentsSeparatedByString:@"Duration: "] objectAtIndex:1] componentsSeparatedByString:@","] objectAtIndex:0] componentsSeparatedByString:@":"] objectAtIndex:1] stringByAppendingString:[@":" stringByAppendingString:[[[[[[string componentsSeparatedByString:@"Duration: "] objectAtIndex:1] componentsSeparatedByString:@","] objectAtIndex:0] componentsSeparatedByString:@":"] objectAtIndex:2]]];
+
+[string release];
+[pipe release];
+[ffmpeg release];
+ffmpeg = nil;
+
+return durationsString;
+}
+
 - (NSImage *)getImageAtPath:(NSString *)path atTime:(int)time isWideScreen:(BOOL)wide
 {
 ffmpeg=[[NSTask alloc] init];
