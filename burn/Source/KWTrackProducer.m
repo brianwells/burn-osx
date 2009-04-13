@@ -492,7 +492,7 @@ NSArray *options;
 	else if (type == 3)
 	options = [NSArray arrayWithObjects:@"-V",discName,@"-f",@"-dvd-video",folderPath,nil];
 	else if (type == 7)
-	options = [NSArray arrayWithObjects:@"-V",discName,@"-f",@"-dvd-audio",folderPath,nil]
+	options = [NSArray arrayWithObjects:@"-V",discName,@"-f",@"-dvd-audio",folderPath,nil];
 	
 [trackCreator setArguments:options];
 [trackCreator setStandardOutput:trackPipe];
