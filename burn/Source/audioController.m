@@ -1924,7 +1924,7 @@ return YES;
 {
 	if (![self hasRows])
 	return NO;
-	else if ([KWCommonMethods isPanther] && [[tableViewPopup title] isEqualTo:NSLocalizedString(@"DVD-Audio",@"Localized")])
+	else if ([[tableViewPopup title] isEqualTo:NSLocalizedString(@"DVD-Audio",@"Localized")])
 	return NO;
 	else if (needAudioCDCheck && [[tableViewPopup title] isEqualTo:NSLocalizedString(@"Audio CD",@"Localized")])
 	return NO;
