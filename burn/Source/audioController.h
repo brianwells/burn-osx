@@ -110,7 +110,6 @@
 - (id)myCDTextDict;
 - (DRFolder *)checkArray:(NSArray *)array forFolderWithName:(NSString *)name;
 - (void)createVirtualFolderAtPath:(NSString *)path;
-- (NSArray *)getSavePantherAudioCDArray;
 - (BOOL)isCompatible;
 - (BOOL)isCombinable:(BOOL)needAudioCDCheck;
 - (BOOL)isAudioCD;

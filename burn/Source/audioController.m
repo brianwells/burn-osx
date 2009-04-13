@@ -934,14 +934,10 @@ NSAlert *alert = [[[NSAlert alloc] init] autorelease];
 	}
 	else
 	{
-		if ([[NSUserDefaults standardUserDefaults] boolForKey:@"KWUseCDText"] == YES && ![KWCommonMethods isPanther])
+		if ([[NSUserDefaults standardUserDefaults] boolForKey:@"KWUseCDText"] == YES)
 		{
 		[burner addBurnProperties:[self getBurnProperties]];
 		return (NSArray *)[self createLayoutForBurn];
-		}
-		else if ([KWCommonMethods isPanther])
-		{
-		return [self getSavePantherAudioCDArray];
 		}
 		else
 		{
@@ -1914,38 +1910,6 @@ NSString *lastPath;
 		if ([[NSFileManager defaultManager] linkPath:[[tableData objectAtIndex:i] valueForKey:@"Path"] toPath:[lastPath stringByAppendingPathComponent:[[[tableData objectAtIndex:i] valueForKey:@"Path"] lastPathComponent]] handler:nil] == NO)
 		[[NSFileManager defaultManager] copyPath:[[tableData objectAtIndex:i] valueForKey:@"Path"] toPath:[lastPath stringByAppendingPathComponent:[[[tableData objectAtIndex:i] valueForKey:@"Path"] lastPathComponent]] handler:nil];
 	}
-}
-
-- (NSArray *)getSavePantherAudioCDArray
-{
-NSMutableArray *saveTracks = [NSMutableArray arrayWithCapacity:[tableData count]];
-NSString *outputFolder = [KWCommonMethods uniquePathNameFromPath:[[[NSUserDefaults standardUserDefaults] objectForKey:@"KWTemporaryLocation"] stringByAppendingPathComponent:[discName stringValue]] withLength:0];
-
-[[NSFileManager defaultManager] createDirectoryAtPath:outputFolder attributes:nil];
-[[NSNotificationCenter defaultCenter] postNotificationName:@"KWMaximumValueChanged" object:[NSNumber numberWithFloat:[tableData count]]];
-
-	int i;
-	for (i=0;i<[tableData count];i++)
-	{
-	NSString *saveTrack = [[outputFolder stringByAppendingPathComponent:[@"Track " stringByAppendingString:[[NSNumber numberWithInt:i+1] stringValue]]] stringByAppendingPathExtension:[[[tableData objectAtIndex:i] valueForKey: @"Path"] pathExtension]];
-	
-		if ([[NSFileManager defaultManager] linkPath:[[tableData objectAtIndex:i] valueForKey: @"Path"] toPath:saveTrack handler:nil] == NO)
-		[[NSFileManager defaultManager] copyPath:[[tableData objectAtIndex:i] valueForKey: @"Path"] toPath:saveTrack handler:nil];
-	
-	DRTrack* track = [[KWTrackProducer alloc] getAudioTrackForPath:saveTrack];
-	
-	NSMutableDictionary* properties;
-		
-	properties = [[track properties] mutableCopy];
-		if (i != 0)
-		[properties setObject:[NSNumber numberWithInt:[[[NSUserDefaults standardUserDefaults] objectForKey:@"KWDefaultPregap"] intValue]*75] forKey:DRPreGapLengthKey];
-	[track setProperties:properties];
-	[saveTracks addObject:[track retain]];
-	
-	[[NSNotificationCenter defaultCenter] postNotificationName:@"KWValueChanged" object:[NSNumber numberWithInt:i+1]];
-	}
-	
-return saveTracks;
 }
 
 - (BOOL)isCompatible
