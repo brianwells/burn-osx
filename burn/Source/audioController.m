@@ -876,7 +876,7 @@ NSAlert *alert = [[[NSAlert alloc] init] autorelease];
 		int succes = [self authorizeFolderAtPathIfNeededAtPath:outputFolder];
 	
 			if (succes == 0)
-			return [[KWTrackProducer alloc] getTrackForFolder:outputFolder ofType:7 withDiscName:[discName stringValue] withGlobalSize:[self totalSize]];
+			return [[KWTrackProducer alloc] getTrackForFolder:outputFolder ofType:7 withDiscName:[discName stringValue]];
 			else
 			return [NSNumber numberWithInt:succes];
 		}

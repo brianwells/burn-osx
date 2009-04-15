@@ -34,7 +34,7 @@
 //Track actions
 - (NSArray *)getTracksOfCueFile:(NSString *)path;
 - (DRTrack *)getTrackForImage:(NSString *)path withSize:(int)size;
-- (DRTrack *)getTrackForFolder:(NSString *)path ofType:(int)imageType withDiscName:(NSString *)name withGlobalSize:(int)globalSize;
+- (DRTrack *)getTrackForFolder:(NSString *)path ofType:(int)imageType withDiscName:(NSString *)name;
 - (NSArray *)getTrackForVCDMPEGFiles:(NSArray *)files withDiscName:(NSString *)name ofType:(int)imageType;
 - (NSArray *)getTracksOfLayout:(NSString *)layout withTotalSize:(int)size;
 - (NSArray *)getTracksOfVcd;

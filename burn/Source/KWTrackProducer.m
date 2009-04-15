@@ -139,13 +139,11 @@ int fileSize;
 return [self createDefaultTrackWithSize:fileSize];
 }
 
-- (DRTrack *)getTrackForFolder:(NSString *)path ofType:(int)imageType withDiscName:(NSString *)name withGlobalSize:(int)globalSize
+- (DRTrack *)getTrackForFolder:(NSString *)path ofType:(int)imageType withDiscName:(NSString *)name
 {
 type = imageType;
 folderPath = [path copy];
 discName = [name copy];
-
-[[NSNotificationCenter defaultCenter] postNotificationName:@"KWMaximumValueChanged" object:[NSNumber numberWithFloat:globalSize]];
 
 return [self createDefaultTrackWithSize:[self imageSize]];
 }
@@ -637,68 +635,35 @@ writeHandle = nil;
 NSTask *mkisofs = [[NSTask alloc] init];
 NSPipe *pipe=[[NSPipe alloc] init];
 NSFileHandle *handle;
-NSFileHandle *handle2 = [NSFileHandle fileHandleWithNullDevice];
 [mkisofs setLaunchPath:[[NSBundle mainBundle] pathForResource:@"mkisofs" ofType:@""]];
 
 NSArray *options;
 
 	if (type == 1)
-	options = [NSArray arrayWithObjects:@"-V",discName,@"-f",@"-hfs",@"--osx-hfs",@"-r",@"-joliet",folderPath,nil];
+	options = [NSArray arrayWithObjects:@"-print-size", @"-V",discName,@"-f",@"-hfs",@"--osx-hfs",@"-r",@"-joliet",folderPath,nil];
 	else if (type == 2)
-	options = [NSArray arrayWithObjects:@"-V",discName,@"-f",@"-udf",folderPath,nil];
+	options = [NSArray arrayWithObjects:@"-print-size", @"-V",discName,@"-f",@"-udf",folderPath,nil];
 	else if (type == 3)
-	options = [NSArray arrayWithObjects:@"-V",discName,@"-f",@"-dvd-video",folderPath,nil];
+	options = [NSArray arrayWithObjects:@"-print-size", @"-V",discName,@"-f",@"-dvd-video",folderPath,nil];
 	else if (type == 7)
-	options = [NSArray arrayWithObjects:@"-V",discName,@"-f",@"-dvd-audio",folderPath,nil];
+	options = [NSArray arrayWithObjects:@"-print-size", @"-V",discName,@"-f",@"-dvd-audio",folderPath,nil];
 
 [mkisofs setArguments:options];
-[mkisofs setStandardError:handle2];
+[mkisofs setStandardError:[NSFileHandle fileHandleWithNullDevice]];
 [mkisofs setStandardOutput:pipe];
 handle = [pipe fileHandleForReading];
 [mkisofs launch];
 
-[self performSelectorOnMainThread:@selector(startTimer) withObject:nil waitUntilDone:NO];
-
-NSData *data;
-float size = 0;
-
-NSAutoreleasePool *innerPool = [[NSAutoreleasePool alloc] init];
-
-	while([data=[handle availableData] length])
-	{
-	size = size + [data length];
-	data = nil;
-	
-	currentImageSize = size / 2048;
-	
-	[innerPool release];
-	innerPool = [[NSAutoreleasePool alloc] init];
-	}
-
-size = size / 2048;
+NSData *data = [handle readDataToEndOfFile];
+NSString *string = [[NSString alloc] initWithData:data encoding:NSASCIIStringEncoding];
+float size = [string intValue];
+[string release];
 
 [mkisofs waitUntilExit];
-[self performSelectorOnMainThread:@selector(stopTimer) withObject:nil waitUntilDone:NO];
 [pipe release];
 [mkisofs release];
 
 return size;
-}
-
-- (void)startTimer
-{
-currentImageSize = 0;
-prepareTimer = [NSTimer scheduledTimerWithTimeInterval:0.1 target:self selector:@selector(sizeCalculationProgress) userInfo:nil repeats:YES];
-}
-
-- (void)stopTimer
-{
-[prepareTimer invalidate];
-}
-
-- (void)sizeCalculationProgress
-{
-[[NSNotificationCenter defaultCenter] postNotificationName:@"KWValueChanged" object:[NSNumber numberWithInt:currentImageSize]];
 }
 
 - (DRTrack *)createDefaultTrackWithSize:(int)size
