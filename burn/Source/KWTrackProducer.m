@@ -11,7 +11,7 @@
 #import "KWTrackProducer.h"
 #import "NSScanner-Extra.h"
 #import "KWCommonMethods.h"
-#import <KWConverter.h>
+#import "KWConverter.h"
 
 @interface KWTrackProducer (DiscRecording)
 
@@ -67,6 +67,8 @@ return bufferLength;
 
 - (uint32_t)produceDataForTrack:(DRTrack *)track intoBuffer:(char *)buffer length:(uint32_t)bufferLength atAddress:(uint64_t)address blockSize:(uint32_t)blockSize ioFlags:(uint32_t *)flags
 {
+	currentAudioTrack = [[track properties] objectForKey:@"KWAudioPath"];
+
 	if (file)
 	{
 	uint32_t i;
@@ -574,6 +576,12 @@ file = fdopen([readHandle fileDescriptor], "r");
 - (void)startAudioTrackCreation:(NSNumber *)trackSize
 {
 NSAutoreleasePool *pool= [[NSAutoreleasePool alloc] init];
+
+	while (![currentAudioTrack isEqualTo:[[trackCreator arguments] objectAtIndex:1]]) 
+	{
+	//Stop don't loop that fast (our processor doesn't like that
+	usleep(1000000);
+	}
 
 [trackCreator launch];
 

@@ -28,6 +28,7 @@
 	NSPipe *trackPipe;
 	int currentImageSize;
 	NSTimer *prepareTimer;
+	NSString *currentAudioTrack;
 }
 
 //Track actions
