@@ -266,6 +266,8 @@ BOOL hasTracks = YES;
 					size = size + [[(NSArray *)newTrack objectAtIndex:i] estimateLength];
 					}
 				}
+				
+			size = size * 2048 / 1024;
 			}
 		}
 		else
@@ -337,6 +339,8 @@ BOOL hasTracks = YES;
 					}
 				}
 			}
+			
+		size = size * 2048 / 1024;
 		}
 		else
 		{
@@ -866,7 +870,6 @@ int space;
 	}
 	else
 	{
-	
 	space = [[DRMSF msfWithString:[[KWCommonMethods defaultSizeForMedia:1] stringByAppendingString:@":00:00"]] intValue] * 2048 / 1024;
 	}
 		
@@ -874,7 +877,7 @@ int space;
 	{
 	return YES;
 	}
-	else if (space < size)
+	else if (space < size * 1024 / 2048)
 	{
 	NSAlert *alert = [[[NSAlert alloc] init] autorelease];
 	[alert addButtonWithTitle:NSLocalizedString(@"Yes", Localized)];
