@@ -304,20 +304,22 @@ BOOL succes;
 	
 	if (succes)
 	succes = [[NSFileManager defaultManager] createDirectoryAtPath:[path stringByAppendingPathComponent:@"THEME_TS"] attributes:nil];
-
+	else
+	errorString = @"Failed to create temporary DVD folder\r";
+	
 	if ([fileArray count] == 1 && [[[fileArray objectAtIndex:0] objectForKey:@"Chapters"] count] > 0)
 	{
 		//Create Chapter Root Menu
 		if (succes)
 		succes = [self createRootMenu:[path stringByAppendingPathComponent:@"THEME_TS"] withName:name withTitles:NO withSecondButton:YES];
 		else
-		errorString = @"Failed to create root menu\r";
+		errorString = @"Failed to create temporary DVD Theme folder\r";
 		
 		//Create Chapter Selection Menu(s)
 		if (succes)
 		succes = [self createSelectionMenus:fileArray withChapters:YES atPath:[path stringByAppendingPathComponent:@"THEME_TS"]];
 		else
-		errorString = @"Failed to create chapter selection menus\r";
+		errorString = @"Failed to create root menu\r";
 	}
 	else
 	{
@@ -325,25 +327,25 @@ BOOL succes;
 		if (succes)
 		succes = [self createRootMenu:[path stringByAppendingPathComponent:@"THEME_TS"] withName:name withTitles:YES withSecondButton:([fileArray count] > 1)];
 		else
-		errorString = @"Failed to create root menu\r";
+		errorString = @"Failed to create temporary DVD Theme folder\r";
 		
 		//Create Title Selection Menu(s)
 		if (succes)
 		succes = [self createSelectionMenus:fileArray withChapters:NO atPath:[path stringByAppendingPathComponent:@"THEME_TS"]];
 		else
-		errorString = @"Failed to create title selection menus\r";
+		errorString = @"Failed to create root menu\r";
 		
 		//Create Chapter Menu
 		if (succes)
 		succes = [self createChapterMenus:[path stringByAppendingPathComponent:@"THEME_TS"] withFileArray:fileArray];
 		else
-		errorString = @"Failed to create chapter menu\r";
+		errorString = @"Failed to create title selection menus\r";
 		
 		//Create Chapter Selection Menu(s)
 		if (succes)
 		succes = [self createSelectionMenus:fileArray withChapters:YES atPath:[path stringByAppendingPathComponent:@"THEME_TS"]];
 		else
-		errorString = @"Failed to create chapter selection menus\r";
+		errorString = @"Failed to create chapter menu\r";
 	}
 	
 	BOOL authoringFailed = NO;
@@ -352,14 +354,17 @@ BOOL succes;
 	if (succes)
 	succes = [self createDVDXMLAtPath:[[path stringByAppendingPathComponent:@"THEME_TS"] stringByAppendingPathComponent:@"dvdauthor.xml"] withFileArray:fileArray atFolderPath:path];
 	else
-	errorString = @"Failed to create DVD xml menu\r";
+	errorString = @"Failed to create chapter selection menus\r";
 	
 	//Author DVD
 	if (succes)
 	{
 	succes = [self authorDVDWithXMLFile:[[path stringByAppendingPathComponent:@"THEME_TS"] stringByAppendingPathComponent:@"dvdauthor.xml"] withFileArray:fileArray atPath:path];
 	authoringFailed = !succes;
+	errorString = @"Failed to author DVD\r";
 	}
+	else
+	errorString = @"Failed to create DVD xml menu\r";
 	
 	if (!succes)
 	{
