@@ -1,449 +1,246 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
-<plist version="1.0">
-<dict>
-	<key>IBClasses</key>
-	<array>
-		<dict>
-			<key>CLASS</key>
-			<string>NSSegmentedControl</string>
-			<key>LANGUAGE</key>
-			<string>ObjC</string>
-			<key>SUPERCLASS</key>
-			<string>NSControl</string>
-		</dict>
-		<dict>
-			<key>CLASS</key>
-			<string>KWOutlineView</string>
-			<key>LANGUAGE</key>
-			<string>ObjC</string>
-			<key>SUPERCLASS</key>
-			<string>NSOutlineView</string>
-		</dict>
-		<dict>
-			<key>ACTIONS</key>
-			<dict>
-				<key>saveCombineSessions</key>
-				<string>id</string>
-			</dict>
-			<key>CLASS</key>
-			<string>discCreationController</string>
-			<key>LANGUAGE</key>
-			<string>ObjC</string>
-			<key>OUTLETS</key>
-			<dict>
-				<key>audioControllerOutlet</key>
-				<string>id</string>
-				<key>copyControllerOutlet</key>
-				<string>id</string>
-				<key>dataControllerOutlet</key>
-				<string>id</string>
-				<key>mainTabView</key>
-				<string>id</string>
-				<key>mainWindow</key>
-				<string>id</string>
-				<key>saveCombineSessions</key>
-				<string>id</string>
-				<key>saveImageView</key>
-				<string>id</string>
-				<key>videoControllerOutlet</key>
-				<string>id</string>
-			</dict>
-			<key>SUPERCLASS</key>
-			<string>NSObject</string>
-		</dict>
-		<dict>
-			<key>ACTIONS</key>
-			<dict>
-				<key>accessOptions</key>
-				<string>id</string>
-				<key>cancel</key>
-				<string>id</string>
-				<key>cancelSheet</key>
-				<string>id</string>
-				<key>changeBaseName</key>
-				<string>id</string>
-				<key>dataPopupChanged</key>
-				<string>id</string>
-				<key>deleteFiles</key>
-				<string>id</string>
-				<key>filesystemSelectionChanged</key>
-				<string>id</string>
-				<key>newVirtualFolder</key>
-				<string>id</string>
-				<key>ok</key>
-				<string>id</string>
-				<key>okSheet</key>
-				<string>id</string>
-				<key>openFiles</key>
-				<string>id</string>
-				<key>outlineViewAction</key>
-				<string>id</string>
-				<key>setOption</key>
-				<string>id</string>
-			</dict>
-			<key>CLASS</key>
-			<string>dataController</string>
-			<key>LANGUAGE</key>
-			<string>ObjC</string>
-			<key>OUTLETS</key>
-			<dict>
-				<key>advancedSheet</key>
-				<string>id</string>
-				<key>discName</key>
-				<string>id</string>
-				<key>fileSystemPopup</key>
-				<string>id</string>
-				<key>folderIcon</key>
-				<string>id</string>
-				<key>folderName</key>
-				<string>id</string>
-				<key>hfsSheet</key>
-				<string>id</string>
-				<key>hfsStandardSheet</key>
-				<string>id</string>
-				<key>iconView</key>
-				<string>id</string>
-				<key>isoSheet</key>
-				<string>id</string>
-				<key>jolietSheet</key>
-				<string>id</string>
-				<key>mainWindow</key>
-				<string>id</string>
-				<key>myDiscCreationController</key>
-				<string>id</string>
-				<key>newFolderSheet</key>
-				<string>id</string>
-				<key>okSheet</key>
-				<string>id</string>
-				<key>optionsPopup</key>
-				<string>id</string>
-				<key>outlineView</key>
-				<string>id</string>
-				<key>totalSizeText</key>
-				<string>id</string>
-				<key>udfSheet</key>
-				<string>id</string>
-			</dict>
-			<key>SUPERCLASS</key>
-			<string>NSObject</string>
-		</dict>
-		<dict>
-			<key>CLASS</key>
-			<string>NSOutlineView</string>
-			<key>LANGUAGE</key>
-			<string>ObjC</string>
-			<key>SUPERCLASS</key>
-			<string>NSTableView</string>
-		</dict>
-		<dict>
-			<key>ACTIONS</key>
-			<dict>
-				<key>accessOptions</key>
-				<string>id</string>
-				<key>changePopup</key>
-				<string>id</string>
-				<key>deleteFiles</key>
-				<string>id</string>
-				<key>openFiles</key>
-				<string>id</string>
-				<key>optionsForce43</key>
-				<string>id</string>
-				<key>optionsForceDIVX</key>
-				<string>id</string>
-				<key>optionsForceMPEG2</key>
-				<string>id</string>
-				<key>optionsLoopDVD</key>
-				<string>id</string>
-				<key>optionsMuxSeperate</key>
-				<string>id</string>
-				<key>optionsRemuxMPEG2</key>
-				<string>id</string>
-				<key>optionsUseTheme</key>
-				<string>id</string>
-			</dict>
-			<key>CLASS</key>
-			<string>videoController</string>
-			<key>LANGUAGE</key>
-			<string>ObjC</string>
-			<key>OUTLETS</key>
-			<dict>
-				<key>accessOptions</key>
-				<string>id</string>
-				<key>discName</key>
-				<string>id</string>
-				<key>mainWindow</key>
-				<string>id</string>
-				<key>myDiscCreationController</key>
-				<string>id</string>
-				<key>optionsForce43</key>
-				<string>id</string>
-				<key>optionsForceDIVX</key>
-				<string>id</string>
-				<key>optionsForceMPEG2</key>
-				<string>id</string>
-				<key>optionsLoopDVD</key>
-				<string>id</string>
-				<key>optionsMuxSeperate</key>
-				<string>id</string>
-				<key>optionsPopupDIVX</key>
-				<string>id</string>
-				<key>optionsPopupDVD</key>
-				<string>id</string>
-				<key>optionsRemuxMPEG2</key>
-				<string>id</string>
-				<key>optionsUseTheme</key>
-				<string>id</string>
-				<key>popupIcon</key>
-				<string>id</string>
-				<key>regionPopup</key>
-				<string>id</string>
-				<key>saveView</key>
-				<string>id</string>
-				<key>tableData</key>
-				<string>id</string>
-				<key>tableView</key>
-				<string>id</string>
-				<key>tableViewPopup</key>
-				<string>id</string>
-				<key>totalSizeText</key>
-				<string>id</string>
-			</dict>
-			<key>SUPERCLASS</key>
-			<string>NSObject</string>
-		</dict>
-		<dict>
-			<key>ACTIONS</key>
-			<dict>
-				<key>clearDisk</key>
-				<string>id</string>
-				<key>mountImage</key>
-				<string>id</string>
-				<key>openFiles</key>
-				<string>id</string>
-				<key>scanDisks</key>
-				<string>id</string>
-			</dict>
-			<key>CLASS</key>
-			<string>copyController</string>
-			<key>LANGUAGE</key>
-			<string>ObjC</string>
-			<key>OUTLETS</key>
-			<dict>
-				<key>browseButton</key>
-				<string>id</string>
-				<key>clearDisk</key>
-				<string>id</string>
-				<key>dropIcon</key>
-				<string>id</string>
-				<key>dropText</key>
-				<string>id</string>
-				<key>dropView</key>
-				<string>id</string>
-				<key>fileSystemField</key>
-				<string>id</string>
-				<key>iconView</key>
-				<string>id</string>
-				<key>mainWindow</key>
-				<string>id</string>
-				<key>mountButton</key>
-				<string>id</string>
-				<key>myDiscCreationController</key>
-				<string>id</string>
-				<key>nameField</key>
-				<string>id</string>
-				<key>sizeField</key>
-				<string>id</string>
-			</dict>
-			<key>SUPERCLASS</key>
-			<string>NSObject</string>
-		</dict>
-		<dict>
-			<key>CLASS</key>
-			<string>dropImageView</string>
-			<key>LANGUAGE</key>
-			<string>ObjC</string>
-			<key>OUTLETS</key>
-			<dict>
-				<key>imageControl</key>
-				<string>id</string>
-			</dict>
-			<key>SUPERCLASS</key>
-			<string>NSView</string>
-		</dict>
-		<dict>
-			<key>CLASS</key>
-			<string>KWPantherCompatibleButton</string>
-			<key>LANGUAGE</key>
-			<string>ObjC</string>
-			<key>SUPERCLASS</key>
-			<string>NSButton</string>
-		</dict>
-		<dict>
-			<key>ACTIONS</key>
-			<dict>
-				<key>accessOptions</key>
-				<string>id</string>
-				<key>back</key>
-				<string>id</string>
-				<key>deleteFiles</key>
-				<string>id</string>
-				<key>forward</key>
-				<string>id</string>
-				<key>openFiles</key>
-				<string>id</string>
-				<key>play</key>
-				<string>id</string>
-				<key>setDisplay</key>
-				<string>id</string>
-				<key>setOption</key>
-				<string>id</string>
-				<key>stop</key>
-				<string>id</string>
-				<key>tableViewPopup</key>
-				<string>id</string>
-			</dict>
-			<key>CLASS</key>
-			<string>audioController</string>
-			<key>LANGUAGE</key>
-			<string>ObjC</string>
-			<key>OUTLETS</key>
-			<dict>
-				<key>accessOptions</key>
-				<string>id</string>
-				<key>audioOptionsPopup</key>
-				<string>id</string>
-				<key>discName</key>
-				<string>id</string>
-				<key>mainWindow</key>
-				<string>id</string>
-				<key>mp3OptionsPopup</key>
-				<string>id</string>
-				<key>myDiscCreationController</key>
-				<string>id</string>
-				<key>nextButton</key>
-				<string>id</string>
-				<key>playButton</key>
-				<string>id</string>
-				<key>popupIcon</key>
-				<string>id</string>
-				<key>previousButton</key>
-				<string>id</string>
-				<key>stopButton</key>
-				<string>id</string>
-				<key>tableData</key>
-				<string>id</string>
-				<key>tableView</key>
-				<string>id</string>
-				<key>tableViewPopup</key>
-				<string>id</string>
-				<key>totalTimeText</key>
-				<string>id</string>
-			</dict>
-			<key>SUPERCLASS</key>
-			<string>NSObject</string>
-		</dict>
-		<dict>
-			<key>CLASS</key>
-			<string>FirstResponder</string>
-			<key>LANGUAGE</key>
-			<string>ObjC</string>
-			<key>SUPERCLASS</key>
-			<string>NSObject</string>
-		</dict>
-		<dict>
-			<key>CLASS</key>
-			<string>dataView</string>
-			<key>LANGUAGE</key>
-			<string>ObjC</string>
-			<key>OUTLETS</key>
-			<dict>
-				<key>myController</key>
-				<string>id</string>
-			</dict>
-			<key>SUPERCLASS</key>
-			<string>NSView</string>
-		</dict>
-		<dict>
-			<key>ACTIONS</key>
-			<dict>
-				<key>addItems</key>
-				<string>id</string>
-				<key>burnRecorder</key>
-				<string>id</string>
-				<key>changeRecorder</key>
-				<string>id</string>
-				<key>createFolderItems</key>
-				<string>id</string>
-				<key>deleteItems</key>
-				<string>id</string>
-				<key>eraseRecorder</key>
-				<string>id</string>
-				<key>mountImageItems</key>
-				<string>id</string>
-				<key>newTabViewAction</key>
-				<string>id</string>
-				<key>openFile</key>
-				<string>id</string>
-				<key>returnToDefaultSize</key>
-				<string>id</string>
-				<key>saveAsFile</key>
-				<string>id</string>
-				<key>saveImage</key>
-				<string>id</string>
-				<key>scanDiscsItems</key>
-				<string>id</string>
-				<key>showItemHelp</key>
-				<string>id</string>
-			</dict>
-			<key>CLASS</key>
-			<string>KWDocument</string>
-			<key>LANGUAGE</key>
-			<string>ObjC</string>
-			<key>OUTLETS</key>
-			<dict>
-				<key>audioControllerOutlet</key>
-				<string>id</string>
-				<key>burnButton</key>
-				<string>id</string>
-				<key>copyControllerOutlet</key>
-				<string>id</string>
-				<key>dataControllerOutlet</key>
-				<string>id</string>
-				<key>defaultBurner</key>
-				<string>id</string>
-				<key>mainTabView</key>
-				<string>id</string>
-				<key>mainWindow</key>
-				<string>id</string>
-				<key>newTabView</key>
-				<string>id</string>
-				<key>tabView</key>
-				<string>id</string>
-				<key>videoControllerOutlet</key>
-				<string>id</string>
-			</dict>
-			<key>SUPERCLASS</key>
-			<string>NSDocument</string>
-		</dict>
-		<dict>
-			<key>CLASS</key>
-			<string>KWTableView</string>
-			<key>LANGUAGE</key>
-			<string>ObjC</string>
-			<key>SUPERCLASS</key>
-			<string>NSTableView</string>
-		</dict>
-		<dict>
-			<key>CLASS</key>
-			<string>KWTextField</string>
-			<key>LANGUAGE</key>
-			<string>ObjC</string>
-			<key>SUPERCLASS</key>
-			<string>NSTextField</string>
-		</dict>
-	</array>
-	<key>IBVersion</key>
-	<string>1</string>
-</dict>
-</plist>
+{
+    IBClasses =     (
+                {
+            CLASS = FirstResponder;
+            LANGUAGE = ObjC;
+            SUPERCLASS = NSObject;
+        },
+                {
+            ACTIONS =             {
+                addItems = id;
+                burnRecorder = id;
+                changeRecorder = id;
+                createFolderItems = id;
+                deleteItems = id;
+                eraseRecorder = id;
+                mountImageItems = id;
+                newTabViewAction = id;
+                openFile = id;
+                returnToDefaultSize = id;
+                saveAsFile = id;
+                saveImage = id;
+                scanDiscsItems = id;
+                showItemHelp = id;
+            };
+            CLASS = KWDocument;
+            LANGUAGE = ObjC;
+            OUTLETS =             {
+                audioControllerOutlet = id;
+                burnButton = id;
+                copyControllerOutlet = id;
+                dataControllerOutlet = id;
+                defaultBurner = id;
+                mainTabView = id;
+                mainWindow = id;
+                newTabView = id;
+                tabView = id;
+                videoControllerOutlet = id;
+            };
+            SUPERCLASS = NSDocument;
+        },
+                {
+            CLASS = KWOutlineView;
+            LANGUAGE = ObjC;
+            SUPERCLASS = NSOutlineView;
+        },
+                {
+            CLASS = KWPantherCompatibleButton;
+            LANGUAGE = ObjC;
+            SUPERCLASS = NSButton;
+        },
+                {
+            CLASS = KWTableView;
+            LANGUAGE = ObjC;
+            SUPERCLASS = NSTableView;
+        },
+                {
+            CLASS = KWTextField;
+            LANGUAGE = ObjC;
+            SUPERCLASS = NSTextField;
+        },
+                {
+            CLASS = NSOutlineView;
+            LANGUAGE = ObjC;
+            SUPERCLASS = NSTableView;
+        },
+                {
+            CLASS = NSSegmentedControl;
+            LANGUAGE = ObjC;
+            SUPERCLASS = NSControl;
+        },
+                {
+            ACTIONS =             {
+                accessOptions = id;
+                back = id;
+                deleteFiles = id;
+                forward = id;
+                openFiles = id;
+                play = id;
+                setDisplay = id;
+                setOption = id;
+                stop = id;
+                tableViewPopup = id;
+            };
+            CLASS = audioController;
+            LANGUAGE = ObjC;
+            OUTLETS =             {
+                accessOptions = id;
+                audioOptionsPopup = id;
+                discName = id;
+                mainWindow = id;
+                mp3OptionsPopup = id;
+                myDiscCreationController = id;
+                nextButton = id;
+                playButton = id;
+                popupIcon = id;
+                previousButton = id;
+                stopButton = id;
+                tableData = id;
+                tableView = id;
+                tableViewPopup = id;
+                totalTimeText = id;
+            };
+            SUPERCLASS = NSObject;
+        },
+                {
+            ACTIONS =             {
+                clearDisk = id;
+                mountImage = id;
+                openFiles = id;
+                scanDisks = id;
+            };
+            CLASS = copyController;
+            LANGUAGE = ObjC;
+            OUTLETS =             {
+                browseButton = id;
+                clearDisk = id;
+                dropIcon = id;
+                dropText = id;
+                dropView = id;
+                fileSystemField = id;
+                iconView = id;
+                mainWindow = id;
+                mountButton = id;
+                myDiscCreationController = id;
+                nameField = id;
+                sizeField = id;
+            };
+            SUPERCLASS = NSObject;
+        },
+                {
+            ACTIONS =             {
+                accessOptions = id;
+                cancel = id;
+                cancelSheet = id;
+                changeBaseName = id;
+                dataPopupChanged = id;
+                deleteFiles = id;
+                filesystemSelectionChanged = id;
+                newVirtualFolder = id;
+                ok = id;
+                okSheet = id;
+                openFiles = id;
+                outlineViewAction = id;
+                setOption = id;
+            };
+            CLASS = dataController;
+            LANGUAGE = ObjC;
+            OUTLETS =             {
+                advancedSheet = id;
+                discName = id;
+                fileSystemPopup = id;
+                folderIcon = id;
+                folderName = id;
+                hfsSheet = id;
+                hfsStandardSheet = id;
+                iconView = id;
+                isoSheet = id;
+                jolietSheet = id;
+                mainWindow = id;
+                myDiscCreationController = id;
+                newFolderSheet = id;
+                okSheet = id;
+                optionsPopup = id;
+                outlineView = id;
+                totalSizeText = id;
+                udfSheet = id;
+            };
+            SUPERCLASS = NSObject;
+        },
+                {
+            CLASS = dataView;
+            LANGUAGE = ObjC;
+            OUTLETS =             {
+                myController = id;
+            };
+            SUPERCLASS = NSView;
+        },
+                {
+            ACTIONS =             {
+                saveCombineSessions = id;
+            };
+            CLASS = discCreationController;
+            LANGUAGE = ObjC;
+            OUTLETS =             {
+                audioControllerOutlet = id;
+                copyControllerOutlet = id;
+                dataControllerOutlet = id;
+                mainTabView = id;
+                mainWindow = id;
+                saveCombineSessions = id;
+                saveImageView = id;
+                videoControllerOutlet = id;
+            };
+            SUPERCLASS = NSObject;
+        },
+                {
+            CLASS = dropImageView;
+            LANGUAGE = ObjC;
+            OUTLETS =             {
+                imageControl = id;
+            };
+            SUPERCLASS = NSView;
+        },
+                {
+            ACTIONS =             {
+                accessOptions = id;
+                changePopup = id;
+                deleteFiles = id;
+                openFiles = id;
+                optionsForce43 = id;
+                optionsForceDIVX = id;
+                optionsForceMPEG2 = id;
+                optionsLoopDVD = id;
+                optionsMuxSeperate = id;
+                optionsRemuxMPEG2 = id;
+                optionsUseTheme = id;
+            };
+            CLASS = videoController;
+            LANGUAGE = ObjC;
+            OUTLETS =             {
+                accessOptions = id;
+                discName = id;
+                mainWindow = id;
+                myDiscCreationController = id;
+                optionsForce43 = id;
+                optionsForceDIVX = id;
+                optionsForceMPEG2 = id;
+                optionsLoopDVD = id;
+                optionsMuxSeperate = id;
+                optionsPopupDIVX = id;
+                optionsPopupDVD = id;
+                optionsRemuxMPEG2 = id;
+                optionsUseTheme = id;
+                popupIcon = id;
+                regionPopup = id;
+                saveView = id;
+                tableData = id;
+                tableView = id;
+                tableViewPopup = id;
+                totalSizeText = id;
+            };
+            SUPERCLASS = NSObject;
+        }
+    );
+    IBVersion = 1;
+}
