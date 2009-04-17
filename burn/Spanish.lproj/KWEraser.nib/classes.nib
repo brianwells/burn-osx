@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>IBClasses</key>
+	<array>
+		<dict>
+			<key>CLASS</key>
+			<string>FirstResponder</string>
+			<key>LANGUAGE</key>
+			<string>ObjC</string>
+			<key>SUPERCLASS</key>
+			<string>NSObject</string>
+		</dict>
+		<dict>
+			<key>ACTIONS</key>
+			<dict>
+				<key>burnerPopup</key>
+				<string>id</string>
+				<key>cancelButton</key>
+				<string>id</string>
+				<key>closeButton</key>
+				<string>id</string>
+				<key>eraseButton</key>
+				<string>id</string>
+			</dict>
+			<key>CLASS</key>
+			<string>KWEraser</string>
+			<key>LANGUAGE</key>
+			<string>ObjC</string>
+			<key>OUTLETS</key>
+			<dict>
+				<key>burnerPopup</key>
+				<string>id</string>
+				<key>closeButton</key>
+				<string>id</string>
+				<key>completelyErase</key>
+				<string>id</string>
+				<key>eraseButton</key>
+				<string>id</string>
+				<key>quicklyErase</key>
+				<string>id</string>
+				<key>statusText</key>
+				<string>id</string>
+			</dict>
+			<key>SUPERCLASS</key>
+			<string>NSWindowController</string>
+		</dict>
+	</array>
+	<key>IBVersion</key>
+	<string>1</string>
+</dict>
+</plist>

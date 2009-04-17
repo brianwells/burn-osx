@@ -1,0 +1,438 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple Computer//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>
+(Note: there are a few protected mp4 files which can't be converted)</key>
+	<string>
+(Note: there are a few protected mp4 files which can't be converted)</string>
+	<key>
+(Note: there is a protected mp4 file which can't be converted)</key>
+	<string>
+(Note: there is a protected mp4 file which can't be converted)</string>
+	<key> (Couldn't get attributes)</key>
+	<string> (No se encuentran atributos)</string>
+	<key> (No audio)</key>
+	<string> (Sin audio)</string>
+	<key> (No audio/video)</key>
+	<string> (Sin audio/vídeo)</string>
+	<key> (No video)</key>
+	<string> (Sin vídeo)</string>
+	<key> (Unknown error)</key>
+	<string> (Error desconocido)</string>
+	<key> (Unknown format)</key>
+	<string> (Formato desconocido)</string>
+	<key> (Unsupported audio)</key>
+	<string> (Audio no soportado)</string>
+	<key> GB</key>
+	<string> GB</string>
+	<key> KB</key>
+	<string> KB</string>
+	<key> MB</key>
+	<string> MB</string>
+	<key> TB</key>
+	<string> TB</string>
+	<key> file</key>
+	<string> archivo</string>
+	<key> files</key>
+	<string> archivos</string>
+	<key> free</key>
+	<string> libre</string>
+	<key> of </key>
+	<string> de </string>
+	<key> to DVD mpg</key>
+	<string> a DVD MPg</string>
+	<key> to DivX avi</key>
+	<string> a DivX AVI</string>
+	<key> to SVCD mpg</key>
+	<string> a SVCD MPG</string>
+	<key> to VCD mpg</key>
+	<string> a VCD MPG</string>
+	<key> to mp3</key>
+	<string> a MP3</string>
+	<key> to wav</key>
+	<string> a WAV</string>
+	<key> was burned successfully</key>
+	<string> ha sido grabado con éxito</string>
+	<key>4 KB</key>
+	<string>4 KB</string>
+	<key>A cue/bin file needs to be burned on a CD</key>
+	<string>Se necesita un archivo CUE/BIN</string>
+	<key>Advanced</key>
+	<string>Avanzado</string>
+	<key>Audio</key>
+	<string>Audio</string>
+	<key>Audio CD</key>
+	<string>Audio CD</string>
+	<key>Audio Help</key>
+	<string>Ayuda para Audio</string>
+	<key>Authoring DVD...</key>
+	<string>Creando DVD...</string>
+	<key>Authoring failed</key>
+	<string>Fallo al crear DVD</string>
+	<key>Burn</key>
+	<string>Grabar</string>
+	<key>Burn Temporary</key>
+	<string>Carpeta temporal</string>
+	<key>Burn failed to encode one file</key>
+	<string>Burn no ha podido codificar un archivo</string>
+	<key>Burn failed to encode some files</key>
+	<string>Burn ha fallado codificando algunos archivos</string>
+	<key>Burner</key>
+	<string>Grabadora</string>
+	<key>Burning </key>
+	<string>Grabando </string>
+	<key>Burning failed</key>
+	<string>Grabación fallida</string>
+	<key>Can't determine disc format</key>
+	<string>Imposible determinar el formato del disco</string>
+	<key>Cancel</key>
+	<string>Cancelar</string>
+	<key>Chapter Menu</key>
+	<string>Menú Capítulos</string>
+	<key>Checking file...</key>
+	<string>Comprobando archivo...</string>
+	<key>Checking files...</key>
+	<string>Comprobando archivos...</string>
+	<key>Choose</key>
+	<string>Selecciona</string>
+	<key>Choose a location to save a copy of the disc</key>
+	<string>Elige destino para la copia del disco</string>
+	<key>Choose a location to save a temporary folder</key>
+	<string>Elige destino para una carpeta temporal</string>
+	<key>Choose a location to save the DVD folder</key>
+	<string>Selecciona destino para la carpeta del DVD</string>
+	<key>Choose a location to save the avi files</key>
+	<string>Selecciona un destino para los archivos AVI</string>
+	<key>Choose a location to save the burn file</key>
+	<string>Selecciona destino para el archivo BURN</string>
+	<key>Choose a location to save the image file</key>
+	<string>Selecciona destino para la imagen del disco</string>
+	<key>Choose a location to save the mp3 files</key>
+	<string>Selecciona destino para los archivos MP3</string>
+	<key>Choose a location to save the mpg files</key>
+	<string>Selecciona destino para los archivos MPG</string>
+	<key>Choose a location to save the muxed file</key>
+	<string>Elige destino para el archivo mezclado</string>
+	<key>Choose a location to save the re-muxed files</key>
+	<string>Elige destino para los archivos remezclados</string>
+	<key>Choose a location to save the wav files</key>
+	<string>Elige destino para los archivos WAV</string>
+	<key>Choose an image file</key>
+	<string>Selecciona un archivo de imagen</string>
+	<key>Close</key>
+	<string>Cerrar</string>
+	<key>Closing session</key>
+	<string>Cerando la sesión</string>
+	<key>Closing track</key>
+	<string>Cerrando pista</string>
+	<key>Closing track </key>
+	<string>Cerrando la pista </string>
+	<key>Compressed</key>
+	<string>Comprimido</string>
+	<key>Compressed (ADC)</key>
+	<string>Comprimido (ADC)</string>
+	<key>Compressed (bzip2)</key>
+	<string>Comprimido (bzip2)</string>
+	<key>Continue</key>
+	<string>Continuar</string>
+	<key>Copy</key>
+	<string>Copiar</string>
+	<key>Copy Help</key>
+	<string>Ayuda para Copia</string>
+	<key>Copying disc</key>
+	<string>Copiando el disco</string>
+	<key>Creating DVD Theme</key>
+	<string>Creando tema del DVD</string>
+	<key>Creating image file</key>
+	<string>Creando archivo de imagen</string>
+	<key>Creating: </key>
+	<string>Creando: </string>
+	<key>DVD-Audio</key>
+	<string>DVD-Audio</string>
+	<key>DVD-Video</key>
+	<string>DVD-Vídeo</string>
+	<key>DVD/CD-master</key>
+	<string>DVD/CD-master</string>
+	<key>Data</key>
+	<string>Datos</string>
+	<key>Data Help</key>
+	<string>Ayuda para Datos</string>
+	<key>Decoding sound: </key>
+	<string>Descodificando el audio: </string>
+	<key>Disk Copy 4.2</key>
+	<string>Disk Copy 4.2</string>
+	<key>DivX</key>
+	<string>DivX</string>
+	<key>Eject</key>
+	<string>Extraer</string>
+	<key>Eject Disk</key>
+	<string>Expulsar disco</string>
+	<key>Encoding file </key>
+	<string>Codificando el archivo </string>
+	<key>Encoding: </key>
+	<string>Codificando: </string>
+	<key>Erasing disc</key>
+	<string>Borrando disco</string>
+	<key>Erasing failed</key>
+	<string>Fallo al borrar</string>
+	<key>Failed converting</key>
+	<string>Error al convertir</string>
+	<key>Failed to burn </key>
+	<string>Error al grabar </string>
+	<key>Failed to create </key>
+	<string>Error al crear </string>
+	<key>Finished burning</key>
+	<string>Grabación finalizada</string>
+	<key>Finished converting</key>
+	<string>Conversión finalizada</string>
+	<key>Finished converting </key>
+	<string>Conversión finalizada </string>
+	<key>Finished erasing</key>
+	<string>Borrado terminado</string>
+	<key>Finishing...</key>
+	<string>Terminando...</string>
+	<key>General</key>
+	<string>General</string>
+	<key>Generating DVD folder</key>
+	<string>Creando la carpeta del DVD</string>
+	<key>Image created</key>
+	<string>Imagen creada</string>
+	<key>Image failed</key>
+	<string>Imagen con errores</string>
+	<key>Image not supported on Panther.
+
+To still use it:
+Mount the image and drop the mounted image in the window.</key>
+	<string>Imagen no soportada en Panther.
+</string>
+	<key>Limited</key>
+	<string>Limitado</string>
+	<key>MP3 Disc</key>
+	<string>Disco MP3</string>
+	<key>Maximum Possible</key>
+	<string>Máxima posible</string>
+	<key>Missing files</key>
+	<string>Archivos no encontrados</string>
+	<key>Mount</key>
+	<string>Montar</string>
+	<key>Mounting disk image</key>
+	<string>Montando la imagen de disco</string>
+	<key>Mounting image failed</key>
+	<string>No se ha podido montar la imagen de disco</string>
+	<key>Mounting: </key>
+	<string>Montando: </string>
+	<key>NDIF compressed</key>
+	<string>Comprimido en NDIF</string>
+	<key>NDIF compressed (KenCode)</key>
+	<string>Comprimido en NDIF (KenCode)</string>
+	<key>NDIF read-only</key>
+	<string>NDIF de sólo-lectura</string>
+	<key>NDIF read/write</key>
+	<string>NDIF lectura/escritura</string>
+	<key>No</key>
+	<string>No</string>
+	<key>No CD</key>
+	<string>Sin CD</string>
+	<key>No Recorder</key>
+	<string>No hay Grabadora</string>
+	<key>No disc</key>
+	<string>Sin disco</string>
+	<key>No discs, try inserting a cd/dvd.</key>
+	<string>Sin disco, inserta un CD/DVD.</string>
+	<key>Not enough space</key>
+	<string>No hay suficiente espacio</string>
+	<key>OK</key>
+	<string>¡Hecho!</string>
+	<key>One incompatible file</key>
+	<string>Un archivo no compatible</string>
+	<key>One protected mp4 file</key>
+	<string>Un archivo MP4 protegido</string>
+	<key>Only Mode1 and Audio tracks are supported</key>
+	<string>Sólo está soportado Modo 1 y pistas de Audio</string>
+	<key>Open</key>
+	<string>Abrir</string>
+	<key>Open Log</key>
+	<string>Abrir Log</string>
+	<key>Open...</key>
+	<string>Abrir...</string>
+	<key>Opening track</key>
+	<string>Abriendo pista</string>
+	<key>Opening track </key>
+	<string>Abriendo pista </string>
+	<key>Preferences Help</key>
+	<string>Ayuda para Preferencias</string>
+	<key>Preparing to encode</key>
+	<string>Preparando para codificar</string>
+	<key>Preparing...</key>
+	<string>Preparando...</string>
+	<key>Preview</key>
+	<string>Vista previa</string>
+	<key>Processing: </key>
+	<string>En curso: </string>
+	<key>Raw</key>
+	<string>Raw</string>
+	<key>Read-only</key>
+	<string>Sólo-lectura</string>
+	<key>Read/write</key>
+	<string>Lectura-escritura</string>
+	<key>Ready to burn</key>
+	<string>Listo para grabar</string>
+	<key>Ready to copy</key>
+	<string>Listo para copiar</string>
+	<key>Ready to erase</key>
+	<string>Listo para borrar</string>
+	<key>Remuxing: </key>
+	<string>Remezclando: </string>
+	<key>Save...</key>
+	<string>Guardar...</string>
+	<key>Scanning for disks...</key>
+	<string>Buscando discos...</string>
+	<key>Scanning for for file and folders</key>
+	<string>Buscando archivos y carpetas</string>
+	<key>Size</key>
+	<string>Tamaño</string>
+	<key>Some files are to large</key>
+	<string>Archivos demasiado grandes</string>
+	<key>Some files specified in the Toc file are missing.</key>
+	<string>Faltan algunos archivos especificados en la TOC.</string>
+	<key>Some incompatible files</key>
+	<string>Algunos archivos son incompatibles</string>
+	<key>Some protected mp4 files</key>
+	<string>Algunos ficheros MP4 protegidos</string>
+	<key>Still try to burn the disc?</key>
+	<string>¿Aún deseas grabar el disco?</string>
+	<key>Succesfully created a disk image</key>
+	<string>Imagen de disco creada con éxito</string>
+	<key>The PC (Joliet) or ISO9660 filesystem can only handle files smaller than 2GB</key>
+	<string>El sistema de archivos PC (Joliet) o ISO9660 no acepta archivos mayores de 2GB</string>
+	<key>The disc has been succesfully erased</key>
+	<string>El disco ha sido borrado</string>
+	<key>There was a problem authoring the DVD</key>
+	<string>Ha habido un problema creando el DVD</string>
+	<key>There was a problem copying the disc</key>
+	<string>Hay un problema al copiar el disco</string>
+	<key>There was a problem creating the image</key>
+	<string>Ha habido un error al crear la imagen</string>
+	<key>There was a problem erasing the disc?</key>
+	<string>¿Hay problemas al borrar el disco?</string>
+	<key>There was a problem mounting the image</key>
+	<string>Hay problemas al montar la imagen</string>
+	<key>There was a problem erasing the disc</key>
+	<string>Hay un problema al borrar el disco</string>
+	<key>These files can't be converted</key>
+	<string>Estos archivos no se convertirán</string>
+	<key>These files can't be converted, would you like to continue?</key>
+	<string>Estos archivos no se pueden convertir, ¿quieres continuar?</string>
+	<key>This file can't be converted</key>
+	<string>Este archivo no se puede convertir</string>
+	<key>This file can't be converted, would you like to continue?</key>
+	<string>Este archivo no se puede convertir, ¿deseas continuar?</string>
+	<key>Time</key>
+	<string>Tiempo</string>
+	<key>Title Menu</key>
+	<string>Menú Títulos</string>
+	<key>To burn a Audio-CD the media should be a CD</key>
+	<string>Para grabar un CD de Audio es necesario un CD</string>
+	<key>Total size: </key>
+	<string>Tamaño total: </string>
+	<key>Total time: </key>
+	<string>Tiempo total: </string>
+	<key>Track </key>
+	<string>Pista </string>
+	<key>UDF / ISO9660 (only)</key>
+	<string>UDF / ISO9660 (sólo)</string>
+	<key>UDIF-stub</key>
+	<string>UDIF-stub</string>
+	<key>Unknown</key>
+	<string>Desconocido</string>
+	<key>Unknown disk image</key>
+	<string>Imagen de disco desconocida</string>
+	<key>Unmount</key>
+	<string>Desmontar</string>
+	<key>Unsuported Toc file</key>
+	<string>Archivo TOC no soportado</string>
+	<key>Unsupported Image</key>
+	<string>Imagen no soportada</string>
+	<key>Untitled</key>
+	<string>Sin título</string>
+	<key>Verifying...</key>
+	<string>Verificando...</string>
+	<key>Video</key>
+	<string>Vídeo</string>
+	<key>Video Help</key>
+	<string>Ayuda para Vídeo</string>
+	<key>Waiting for a disc to be inserted...</key>
+	<string>Esperando la inserción de un disco...</string>
+	<key>Waiting for the drive...</key>
+	<string>Esperando a la unidad...</string>
+	<key>Whole device</key>
+	<string>El dispositivo entero</string>
+	<key>Would you like to convert that file to DVD mpg?</key>
+	<string>¿Quieres convertir este archivo a DVD MPG?</string>
+	<key>Would you like to convert that file to DivX avi?</key>
+	<string>¿Quieres convertir este archivo a DivX AVI?</string>
+	<key>Would you like to convert that file to SVCD mpg?</key>
+	<string>¿Quieres convertir este archivo a SVCD MPG?</string>
+	<key>Would you like to convert that file to VCD mpg?</key>
+	<string>¿Quieres convertir este archivo a VCD MPG?</string>
+	<key>Would you like to convert that file to mp3?</key>
+	<string>¿Quieres convertir este archivo a MP3?</string>
+	<key>Would you like to convert that file to mp3?
+(Note: there are a few protected mp4 files which can't be converted)</key>
+	<string>¿Quieres convertir este archivo a MP3?
+(Nota unos pocos MP4 protegidos no pueden ser convertidos)</string>
+	<key>Would you like to convert that file to mp3?
+(Note: there is a protected mp4 file which can't be converted)</key>
+	<string>¿Quieres convertir este archivo a MP3?
+(Nota un MP4 protegido no puede ser convertido)</string>
+	<key>Would you like to convert that file to wav?</key>
+	<string>¿Quieres convertir este archivo a WAV?</string>
+	<key>Would you like to convert that file to wav?
+(Note: there are a few protected mp4 files which can't be converted)</key>
+	<string>¿Quieres convertir este archivo a WAV?
+(Nota unos pocos MP4 protegidos no pueden ser convertidos)</string>
+	<key>Would you like to convert that file to wav?
+(Note: there is a protected mp4 file which can't be converted)</key>
+	<string>¿Quieres convertir este archivo a WAV?
+(Nota un MP4 protegido no puede ser convertido)</string>
+	<key>Would you like to convert those files to DVD mpg?</key>
+	<string>¿Quieres convertir estos archivos a DVD MPG?</string>
+	<key>Would you like to convert those files to DivX avi?</key>
+	<string>¿Quieres convertir estos archivos a DivX AVI?</string>
+	<key>Would you like to convert those files to SVCD mpg?</key>
+	<string>¿Quieres convertir estos archivos a SVCD MPG?</string>
+	<key>Would you like to convert those files to VCD mpg?</key>
+	<string>¿Quieres convertir estos archivos a VCD MPG?</string>
+	<key>Would you like to convert those files to mp3?</key>
+	<string>¿Quieres convertir estos archivos a MP3?</string>
+	<key>Would you like to convert those files to mp3?
+(Note: there are a few protected mp4 files which can't be converted)</key>
+	<string>¿Quieres convertir estos archivos a MP3?
+(Nota unos pocos MP4 protegidos no pueden ser convertidos)</string>
+	<key>Would you like to convert those files to mp3?
+(Note: there is a protected mp4 file which can't be converted)</key>
+	<string>¿Quieres convertir estos archivos a MP3?
+(Nota un MP4 protegido no puede ser convertido)</string>
+	<key>Would you like to convert those files to wav?</key>
+	<string>¿Quieres convertir estos archivos a WAV?</string>
+	<key>Would you like to convert those files to wav?
+(Note: there are a few protected mp4 files which can't be converted)</key>
+	<string>¿Quieres convertir estos archivos a WAV?
+(Nota unos pocos MP4 protegidos no pueden ser convertidos)</string>
+	<key>Would you like to convert those files to wav?
+(Note: there is a protected mp4 file which can't be converted)</key>
+	<string>¿Quieres convertir estos archivos a WAV?
+(Nota un MP4 protegido no puede ser convertido)</string>
+	<key>Writing track</key>
+	<string>Escribiendo pista</string>
+	<key>Writing track </key>
+	<string>Escribiendo pista </string>
+	<key>Writing tracks</key>
+	<string>Escribiendo pistas</string>
+	<key>Yes</key>
+	<string>Sí</string>
+	<key>iPod image</key>
+	<string>Imagen de iPod</string>
+</dict>
+</plist>
