@@ -786,7 +786,7 @@ NSData *data;
 					if ([[NSUserDefaults standardUserDefaults] boolForKey:@"KWCustomDivXSize"])
 					{
 					[args addObject:@"-s"];
-					[args addObject:[[[[NSUserDefaults standardUserDefaults] objectForKey:@"KWDefaultDivXWidth"] stringByAppendingString:@"x"] stringByAppendingString:[[NSUserDefaults standardUserDefaults] objectForKey:@"KWDefaultDivXHeight"]]];
+					[args addObject:[[[[[NSUserDefaults standardUserDefaults] objectForKey:@"KWDefaultDivXWidth"] stringValue] stringByAppendingString:@"x"] stringByAppendingString:[[[NSUserDefaults standardUserDefaults] objectForKey:@"KWDefaultDivXHeight"] stringValue]]];
 					}
 					else if ([inputFormat isEqualTo:@"DV"] && aspectValue == 2)
 					{
@@ -921,7 +921,7 @@ NSData *data;
 					if ([[NSUserDefaults standardUserDefaults] boolForKey:@"KWCustomDivXSize"])
 					{
 					[args addObject:@"-s"];
-					[args addObject:[[[[NSUserDefaults standardUserDefaults] objectForKey:@"KWDefaultDivXWidth"] stringByAppendingString:@"x"] stringByAppendingString:[[NSUserDefaults standardUserDefaults] objectForKey:@"KWDefaultDivXHeight"]]];
+					[args addObject:[[[[[NSUserDefaults standardUserDefaults] objectForKey:@"KWDefaultDivXWidth"] stringValue] stringByAppendingString:@"x"] stringByAppendingString:[[[NSUserDefaults standardUserDefaults] objectForKey:@"KWDefaultDivXHeight"] stringValue]]];
 					}
 					else if ([inputFormat isEqualTo:@"DV"] && aspectValue == 2)
 					{
@@ -1057,7 +1057,7 @@ NSData *data;
 					if ([[NSUserDefaults standardUserDefaults] boolForKey:@"KWCustomDivXSize"])
 					{
 					[args addObject:@"-s"];
-					[args addObject:[[[[NSUserDefaults standardUserDefaults] objectForKey:@"KWDefaultDivXWidth"] stringByAppendingString:@"x"] stringByAppendingString:[[NSUserDefaults standardUserDefaults] objectForKey:@"KWDefaultDivXHeight"]]];
+					[args addObject:[[[[[NSUserDefaults standardUserDefaults] objectForKey:@"KWDefaultDivXWidth"] stringValue] stringByAppendingString:@"x"] stringByAppendingString:[[[NSUserDefaults standardUserDefaults] objectForKey:@"KWDefaultDivXHeight"] stringValue]]];
 					}
 					else if ([inputFormat isEqualTo:@"DV"] && aspectValue == 2)
 					{
@@ -1176,7 +1176,7 @@ NSData *data;
 					if ([[NSUserDefaults standardUserDefaults] boolForKey:@"KWCustomDivXSize"])
 					{
 					[args addObject:@"-s"];
-					[args addObject:[[[[NSUserDefaults standardUserDefaults] objectForKey:@"KWDefaultDivXWidth"] stringByAppendingString:@"x"] stringByAppendingString:[[NSUserDefaults standardUserDefaults] objectForKey:@"KWDefaultDivXHeight"]]];
+					[args addObject:[[[[[NSUserDefaults standardUserDefaults] objectForKey:@"KWDefaultDivXWidth"] stringValue] stringByAppendingString:@"x"] stringByAppendingString:[[[NSUserDefaults standardUserDefaults] objectForKey:@"KWDefaultDivXHeight"] stringValue]]];
 					}
 					else if ([inputFormat isEqualTo:@"DV"] && aspectValue == 2)
 					{
