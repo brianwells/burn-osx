@@ -238,6 +238,7 @@ size = [self getImageSizeAtPath:path];
 - (void)burnTrack:(id)track
 {
 BOOL hasTracks = YES;
+id burnTrack = track;
 	
 	if ([track isKindOfClass:[DRTrack class]])
 	{
@@ -253,6 +254,12 @@ BOOL hasTracks = YES;
 			for (i=0;i<numberOfTracks;i++)
 			{
 			id newTrack = [(NSArray *)track objectAtIndex:i];
+			
+				if ([newTrack isKindOfClass:[NSDictionary class]])
+				{
+				burnTrack = newTrack;
+				newTrack = [newTrack objectForKey:@"_DRBurnCueLayout"];
+				}
 
 				if ([newTrack isKindOfClass:[DRTrack class]])
 				{
@@ -284,7 +291,7 @@ BOOL hasTracks = YES;
 		if (extraBurnProperties)
 		[burnProperties addEntriesFromDictionary:extraBurnProperties];
 	[burn setProperties:burnProperties];
-	[burn writeLayout:track];
+	[burn writeLayout:burnTrack];
 	
 		if ([[savedDevice status] objectForKey:DRDeviceMediaInfoKey])
 		isOverwritable = [[[[savedDevice status] objectForKey:DRDeviceMediaInfoKey] objectForKey:DRDeviceMediaIsOverwritableKey] boolValue];
