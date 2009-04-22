@@ -39,10 +39,15 @@ NSArray *currentObjects;
 [ISRCCheckBox setObjectValue:[self getObjectForKey:@"EnableISRC" inObjects:currentObjects]];
 [ISRCField setEnabled:([[self getObjectForKey:@"EnableISRC" inObjects:currentObjects] boolValue])];
 [ISRCCDText setEnabled:([[self getObjectForKey:@"EnableISRC" inObjects:currentObjects] boolValue])];
-[invalid setHidden:(![[self getObjectForKey:@"EnableISRC" inObjects:currentObjects] boolValue])];
+//[invalid setHidden:(![[self getObjectForKey:@"EnableISRC" inObjects:currentObjects] boolValue])];
 [ISRCField setStringValue:[self getObjectForKey:@"ISRC" inObjects:currentObjects]];
 [ISRCCDText setObjectValue:[self getObjectForKey:@"ISRCCDText" inObjects:currentObjects]];
 [indexPoints setObjectValue:[self getObjectForKey:@"IndexPoints" inObjects:currentObjects]];
+
+	if ([[self getObjectForKey:@"EnableISRC" inObjects:currentObjects] boolValue])
+	[self ISRCChanged:self];
+	else
+	[invalid setHidden:YES];
 }
 
 - (id)getObjectForKey:(NSString *)key inObjects:(NSArray *)objects
@@ -127,7 +132,12 @@ NSArray *currentObjects;
 
 - (IBAction)ISRCChanged:(id)sender
 {
-[invalid setHidden:([self isValidISRC:[ISRCField stringValue]])];
+BOOL isValue = [self isValidISRC:[ISRCField stringValue]];
+
+	if (isValue)
+	[self optionsChanged:self];
+
+[invalid setHidden:isValue];
 }
 
 - (BOOL)isValidISRC:(NSString*)isrc
