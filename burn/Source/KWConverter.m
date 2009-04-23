@@ -2190,6 +2190,9 @@ return NO;
 	aspectValue = -1;
 	}
 	
+	if ([output rangeOfString:@"DAR 119:90"].length > 0)
+	aspectValue = 5;
+	
 	if ([output rangeOfString:@"Duration:"].length > 0)	
 	{
 	double total = 0;
