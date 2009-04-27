@@ -141,7 +141,10 @@ NSImage *folderImage = [[NSWorkspace sharedWorkspace] iconForFile:temporaryFolde
 NSString *defaultThemePath = [[[NSBundle mainBundle] pathForResource:@"Themes" ofType:nil] stringByAppendingPathComponent:@"Default.burnTheme"];
 NSBundle *themeBundle = [NSBundle bundleWithPath:defaultThemePath];
 NSDictionary *theme = [[NSArray arrayWithContentsOfFile:[themeBundle pathForResource:@"Theme" ofType:@"plist"]] objectAtIndex:[[[NSUserDefaults standardUserDefaults] objectForKey:@"KWDVDThemeFormat"] intValue]];
-		
+	
+themePaths = [[NSMutableArray alloc] init];
+[themePaths addObject:defaultThemePath];
+	
 [themePopup addItemWithTitle:[theme objectForKey:@"KWThemeTitle"]];
 		
 	NSArray *mightBeThemes = [[NSFileManager defaultManager] directoryContentsAtPath:[[NSBundle mainBundle] pathForResource:@"Themes" ofType:@""]];
@@ -152,11 +155,37 @@ NSDictionary *theme = [[NSArray arrayWithContentsOfFile:[themeBundle pathForReso
 		{
 			if ([[[mightBeThemes objectAtIndex:y] pathExtension] isEqualTo:@"burnTheme"])
 			{
-			NSBundle *themeBundle = [NSBundle bundleWithPath:[[[NSBundle mainBundle] pathForResource:@"Themes" ofType:@""] stringByAppendingPathComponent:[mightBeThemes objectAtIndex:y]]];
+			NSString *themePath = [[NSBundle mainBundle] pathForResource:@"Themes" ofType:@""];
+			NSBundle *themeBundle = [NSBundle bundleWithPath:[themePath stringByAppendingPathComponent:[mightBeThemes objectAtIndex:y]]];
 			NSDictionary *theme = [[NSArray arrayWithContentsOfFile:[themeBundle pathForResource:@"Theme" ofType:@"plist"]] objectAtIndex:[[[NSUserDefaults standardUserDefaults] objectForKey:@"KWDVDThemeFormat"] intValue]];
-		
+			
+			[themePaths addObject:[themePath stringByAppendingPathComponent:[mightBeThemes objectAtIndex:y]]];
 			[themePopup addItemWithTitle:[theme objectForKey:@"KWThemeTitle"]];
 			}
+		}
+	}
+	
+	NSString *userThemefolder = @"~/Library/Application Support/Burn/Themes";
+	userThemefolder = [userThemefolder stringByExpandingTildeInPath];
+	mightBeThemes = [[NSFileManager defaultManager] directoryContentsAtPath:userThemefolder];
+	y = 0;
+	
+		if ([mightBeThemes count] > 0)
+		{
+		[themePaths addObject:@"Seperator"];
+		[[themePopup menu] addItem:[NSMenuItem separatorItem]];
+		}
+		
+	for (y=0;y<[mightBeThemes count];y++)
+	{
+		if ([[[mightBeThemes objectAtIndex:y] pathExtension] isEqualTo:@"burnTheme"])
+		{
+		NSString *themePath = [userThemefolder stringByAppendingPathComponent:[mightBeThemes objectAtIndex:y]];
+		NSBundle *themeBundle = [NSBundle bundleWithPath:themePath];
+		NSDictionary *theme = [[NSArray arrayWithContentsOfFile:[themeBundle pathForResource:@"Theme" ofType:@"plist"]] objectAtIndex:[[[NSUserDefaults standardUserDefaults] objectForKey:@"KWDVDThemeFormat"] intValue]];
+			
+			[themePaths addObject:themePath];
+			[themePopup addItemWithTitle:[theme objectForKey:@"KWThemeTitle"]];
 		}
 	}
 		
@@ -310,7 +339,7 @@ NSMutableDictionary *burnDict = [NSMutableDictionary dictionary];
 - (IBAction)setTheme:(id)sender
 {
 [[NSUserDefaults standardUserDefaults] setObject:[sender objectValue] forKey:@"KWDVDTheme"];
-[[NSUserDefaults standardUserDefaults] setObject:[self getCurrentThemePath] forKey:@"KWDVDThemePath"];
+[[NSUserDefaults standardUserDefaults] setObject:[themePaths objectAtIndex:[themePopup indexOfSelectedItem]] forKey:@"KWDVDThemePath"];
 
 [self setPreviewImage:self];
 }
@@ -338,13 +367,14 @@ NSOpenPanel *sheet = [NSOpenPanel openPanel];
 {
 	if ([themePopup indexOfSelectedItem] != 0)
 	{
-	NSString *themePath = [self getCurrentThemePath];
+	NSString *themePath = [themePaths objectAtIndex:[themePopup indexOfSelectedItem]];
 		
 		if (themePath)
 		{
-		[[NSFileManager defaultManager] removeFileAtPath:[self getCurrentThemePath] handler:nil];
+		[[NSFileManager defaultManager] removeFileAtPath:[themePaths objectAtIndex:[themePopup indexOfSelectedItem]] handler:nil];
 		[themePopup removeItemAtIndex:[themePopup indexOfSelectedItem]];
-	
+		[themePaths removeObject:themePath];
+		
 		[self setTheme:themePopup];
 		}
 		else
@@ -373,7 +403,7 @@ NSOpenPanel *sheet = [NSOpenPanel openPanel];
 
 - (IBAction)setPreviewImage:(id)sender
 {
-NSString *themePath = [self getCurrentThemePath];
+NSString *themePath = [themePaths objectAtIndex:[themePopup indexOfSelectedItem]];
 
 	if (themePath)
 	{
@@ -535,16 +565,27 @@ return [NSArray arrayWithObjects:@"General",@"Burner",@"Data",@"Audio",@"Video",
 [self toolbarAction:@"Video"];
 [videoTab selectTabViewItemAtIndex:1];
 
+NSString *burnASFolder = @"~/Library/Application Support/Burn";
+burnASFolder = [burnASFolder stringByExpandingTildeInPath];
+NSString *userThemefolder = [burnASFolder stringByAppendingPathComponent:@"Themes"];
+
+	if (![[NSFileManager defaultManager] fileExistsAtPath:burnASFolder])
+	[[NSFileManager defaultManager] createDirectoryAtPath:burnASFolder attributes:nil];
+	
+	if (![[NSFileManager defaultManager] fileExistsAtPath:userThemefolder])
+	[[NSFileManager defaultManager] createDirectoryAtPath:userThemefolder attributes:nil];
+
 	int i = 0;
 	for (i=0;i<[files count];i++)
 	{
-	NSString *newFile = [KWCommonMethods uniquePathNameFromPath:[[[NSBundle mainBundle] pathForResource:@"Themes" ofType:@""] stringByAppendingPathComponent:[[files objectAtIndex:i] lastPathComponent]] withLength:0];
+	NSString *newFile = [KWCommonMethods uniquePathNameFromPath:[userThemefolder stringByAppendingPathComponent:[[files objectAtIndex:i] lastPathComponent]] withLength:0];
 		
 	[[NSFileManager defaultManager] copyPath:[files objectAtIndex:i] toPath:newFile handler:nil];
 		
 	NSBundle *themeBundle = [NSBundle bundleWithPath:newFile];
 	NSDictionary *theme = [[NSArray arrayWithContentsOfFile:[themeBundle pathForResource:@"Theme" ofType:@"plist"]] objectAtIndex:[[[NSUserDefaults standardUserDefaults] objectForKey:@"KWDVDThemeFormat"] intValue]];
-
+	
+	[themePaths addObject:newFile];
 	[themePopup addItemWithTitle:[theme objectForKey:@"KWThemeTitle"]];
 	}
 		
@@ -659,26 +700,6 @@ NSControl *cntl;
 	
 	if ([button tag] == 7 | [button tag] == 8 | [button tag] == 9 | [button tag] == 10)
 	[[NSNotificationCenter defaultCenter] postNotificationName:@"KWMediaChanged" object:nil];
-}
-
-- (NSString *)getCurrentThemePath
-{
-NSArray *mightBeThemes = [[NSFileManager defaultManager] directoryContentsAtPath:[[NSBundle mainBundle] pathForResource:@"Themes" ofType:@""]];
-	
-	int y;
-	for (y=0;y<[mightBeThemes count];y++)
-	{
-		if ([[[mightBeThemes objectAtIndex:y] pathExtension] isEqualTo:@"burnTheme"])
-		{
-		NSBundle *themeBundle = [NSBundle bundleWithPath:[[[NSBundle mainBundle] pathForResource:@"Themes" ofType:@""] stringByAppendingPathComponent:[mightBeThemes objectAtIndex:y]]];
-		NSDictionary *theme = [[NSArray arrayWithContentsOfFile:[themeBundle pathForResource:@"Theme" ofType:@"plist"]] objectAtIndex:[[[NSUserDefaults standardUserDefaults] objectForKey:@"KWDVDThemeFormat"] intValue]];
-		
-			if ([[themePopup title] isEqualTo:[theme objectForKey:@"KWThemeTitle"]])
-			return [[[NSBundle mainBundle] pathForResource:@"Themes" ofType:@""] stringByAppendingPathComponent:[mightBeThemes objectAtIndex:y]];
-		}
-	}
-	
-return nil;
 }
 
 @end

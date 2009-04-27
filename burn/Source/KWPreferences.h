@@ -37,6 +37,7 @@
 	
 	NSArray *preferenceMappings;
 	int dataViewHeight;
+	NSMutableArray *themePaths;
 }
 //PrefPane actions
 - (void)showPreferences;
@@ -68,6 +69,5 @@
 - (void)addThemeAndShow:(NSArray *)files;
 - (void)setViewOptions:(NSArray *)views;
 - (void)checkForExceptions:(NSButton *)button;
-- (NSString *)getCurrentThemePath;
 
 @end
