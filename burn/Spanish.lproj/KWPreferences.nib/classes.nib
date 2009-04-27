@@ -1,96 +1,51 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
-<plist version="1.0">
-<dict>
-	<key>IBClasses</key>
-	<array>
-		<dict>
-			<key>ACTIONS</key>
-			<dict>
-				<key>addTheme</key>
-				<string>id</string>
-				<key>chooseFFMPEG</key>
-				<string>id</string>
-				<key>deleteTheme</key>
-				<string>id</string>
-				<key>setBurner</key>
-				<string>id</string>
-				<key>setCompletionAction</key>
-				<string>id</string>
-				<key>setPreferenceOption</key>
-				<string>id</string>
-				<key>setPreviewImage</key>
-				<string>id</string>
-				<key>setTheme</key>
-				<string>id</string>
-				<key>showPreview</key>
-				<string>id</string>
-			</dict>
-			<key>CLASS</key>
-			<string>KWPreferences</string>
-			<key>LANGUAGE</key>
-			<string>ObjC</string>
-			<key>OUTLETS</key>
-			<dict>
-				<key>advancedView</key>
-				<string>id</string>
-				<key>audioTab</key>
-				<string>id</string>
-				<key>audioTabGeneral</key>
-				<string>id</string>
-				<key>audioView</key>
-				<string>id</string>
-				<key>burnerPopup</key>
-				<string>id</string>
-				<key>burnerView</key>
-				<string>id</string>
-				<key>completionActionMatrix</key>
-				<string>id</string>
-				<key>dataView</key>
-				<string>id</string>
-				<key>generalView</key>
-				<string>id</string>
-				<key>previewImagePopup</key>
-				<string>id</string>
-				<key>previewImageView</key>
-				<string>id</string>
-				<key>previewWindow</key>
-				<string>id</string>
-				<key>temporaryFolderPopup</key>
-				<string>id</string>
-				<key>themePopup</key>
-				<string>id</string>
-				<key>videoTab</key>
-				<string>id</string>
-				<key>videoView</key>
-				<string>id</string>
-			</dict>
-			<key>SUPERCLASS</key>
-			<string>NSWindowController</string>
-		</dict>
-		<dict>
-			<key>ACTIONS</key>
-			<dict>
-				<key></key>
-				<string>id</string>
-				<key>addRow</key>
-				<string>id</string>
-				<key>deleteRow</key>
-				<string>id</string>
-				<key>mountImage</key>
-				<string>id</string>
-				<key>scan</key>
-				<string>id</string>
-			</dict>
-			<key>CLASS</key>
-			<string>FirstResponder</string>
-			<key>LANGUAGE</key>
-			<string>ObjC</string>
-			<key>SUPERCLASS</key>
-			<string>NSObject</string>
-		</dict>
-	</array>
-	<key>IBVersion</key>
-	<string>1</string>
-</dict>
-</plist>
+{
+    IBClasses =     (
+                {
+            ACTIONS =             {
+                "" = id;
+                addRow = id;
+                deleteRow = id;
+                mountImage = id;
+                scan = id;
+            };
+            CLASS = FirstResponder;
+            LANGUAGE = ObjC;
+            SUPERCLASS = NSObject;
+        },
+                {
+            ACTIONS =             {
+                addTheme = id;
+                chooseFFMPEG = id;
+                deleteTheme = id;
+                setBurner = id;
+                setCompletionAction = id;
+                setPreferenceOption = id;
+                setPreviewImage = id;
+                setTheme = id;
+                showPreview = id;
+            };
+            CLASS = KWPreferences;
+            LANGUAGE = ObjC;
+            OUTLETS =             {
+                advancedView = id;
+                audioTab = id;
+                audioTabGeneral = id;
+                audioView = id;
+                burnerPopup = id;
+                burnerView = id;
+                completionActionMatrix = id;
+                dataView = id;
+                generalView = id;
+                previewImagePopup = id;
+                previewImageView = id;
+                previewWindow = id;
+                temporaryFolderPopup = id;
+                themePopup = id;
+                videoTab = id;
+                videoView = id;
+            };
+            SUPERCLASS = NSWindowController;
+        }
+    );
+    IBVersion = 1;
+}
