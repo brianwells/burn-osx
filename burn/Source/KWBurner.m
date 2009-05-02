@@ -290,6 +290,9 @@ id burnTrack = track;
 	NSMutableDictionary *burnProperties = [[[NSMutableDictionary alloc] initWithDictionary:properties copyItems:YES] autorelease];
 		if (extraBurnProperties)
 		[burnProperties addEntriesFromDictionary:extraBurnProperties];
+	
+	[burnProperties setObject:[[NSUserDefaults standardUserDefaults] objectForKey:@"KWSimulateBurn"] forKey:DRBurnTestingKey];
+		
 	[burn setProperties:burnProperties];
 	[burn writeLayout:burnTrack];
 	
