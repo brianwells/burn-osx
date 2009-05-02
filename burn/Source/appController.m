@@ -342,6 +342,11 @@ CFTypeRef myBookName = CFBundleGetValueForInfoDictionaryKey(myApplicationBundle,
 	AHLookupAnchor(myBookName, CFSTR("preferences"));
 }
 
+- (IBAction)openBurnSite:(id)sender
+{
+[[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:@"http://burn-osx.sourceforge.net"]];
+}
+
 //////////////////////////
 // Notification actions //
 //////////////////////////

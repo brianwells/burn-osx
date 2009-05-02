@@ -71,6 +71,7 @@
 - (IBAction)diskInfoWindow:(id)sender;
 //Help Menu
 - (IBAction)itemHelp:(id)sender;
+- (IBAction)openBurnSite:(id)sender;
 
 //Notification Actions
 - (void)controlMenus:(NSNotification *)notif;
