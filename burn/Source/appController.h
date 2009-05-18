@@ -9,6 +9,7 @@
 #import "KWDiskInfo.h"
 #import "KWEjecter.h"
 #import "KWInspector.h"
+#import "KWConsole.h"
 
 @interface appController : NSObject
 {
@@ -51,6 +52,7 @@
 	KWDiskInfo *diskInfo;
 	KWEjecter *ejecter;
 	KWInspector *inspector;
+	KWConsole *console;
 	
 	id currentObject;
 	NSString *currentType;

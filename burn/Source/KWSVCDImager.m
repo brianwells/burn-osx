@@ -91,8 +91,11 @@ NSFileHandle *handle=[pipe fileHandleForReading];
 
 	NSString *string=[[NSString alloc] initWithData:data encoding:NSASCIIStringEncoding];
 	
-		if ([[NSUserDefaults standardUserDefaults] boolForKey:@"KWDebug"] == YES)
+		if ([[NSUserDefaults standardUserDefaults] boolForKey:@"KWConsoleEnabled"] == YES)
+		{
+		[[NSNotificationCenter defaultCenter] postNotificationName:@"KWConsoleNotification" object:string];
 		NSLog(string);
+		}
 		
 	[string release];
 	}

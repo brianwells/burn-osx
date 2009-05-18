@@ -84,16 +84,29 @@ succes = 0;
 	if (succes == 0)
 	{
 	dvdauthor = [[NSTask alloc] init];
+	NSPipe *errorPipe = [[NSPipe alloc] init];
+	NSFileHandle *errorHandle;
 			
-		if ([[NSUserDefaults standardUserDefaults] boolForKey:@"KWDebug"] == NO)
+		if ([[NSUserDefaults standardUserDefaults] boolForKey:@"KWConsoleEnabled"] == NO)
 		{
 		NSFileHandle *handle = [NSFileHandle fileHandleWithNullDevice];
 		[dvdauthor setStandardError:handle];
+		}
+		else
+		{
+		[dvdauthor setStandardError:errorPipe];
+		errorHandle = [errorPipe fileHandleForReading];
 		}
 			
 	[dvdauthor setLaunchPath:[[NSBundle mainBundle] pathForResource:@"dvdauthor" ofType:@""]];
 	[dvdauthor setArguments:[NSArray arrayWithObjects:@"-T",@"-o",path,nil]];
 	[dvdauthor launch];
+		if ([[NSUserDefaults standardUserDefaults] boolForKey:@"KWConsoleEnabled"] == YES)
+		{
+		NSString *string=[[NSString alloc] initWithData:[errorHandle readDataToEndOfFile] encoding:NSASCIIStringEncoding];
+		NSLog(string);
+		[[NSNotificationCenter defaultCenter] postNotificationName:@"KWConsoleNotification" object:string];
+		}
 	[dvdauthor waitUntilExit];
 	succes = [dvdauthor terminationStatus];
 	[dvdauthor release];
@@ -216,8 +229,11 @@ NSString *string = nil;
 	
 	string=[[NSString alloc] initWithData:data encoding:NSASCIIStringEncoding];
 	
-	if ([[NSUserDefaults standardUserDefaults] boolForKey:@"KWDebug"] == YES)
+	if ([[NSUserDefaults standardUserDefaults] boolForKey:@"KWConsoleEnabled"] == YES)
+	{
+	[[NSNotificationCenter defaultCenter] postNotificationName:@"KWConsoleNotification" object:string];
 	NSLog(string);
+	}
 		
 		/*if ([string rangeOfString:@"Processing "].length > 0)
 		{
@@ -644,8 +660,11 @@ BOOL succes = [[[@"<subpictures>\n<stream>\n<spu\nforce=\"yes\"\nstart=\"00:00:0
 
 	NSString *string=[[NSString alloc] initWithData:[handle readDataToEndOfFile] encoding:NSASCIIStringEncoding];
 	
-		if ([[NSUserDefaults standardUserDefaults] boolForKey:@"KWDebug"] == YES)
+		if ([[NSUserDefaults standardUserDefaults] boolForKey:@"KWConsoleEnabled"] == YES)
+		{
+		[[NSNotificationCenter defaultCenter] postNotificationName:@"KWConsoleNotification" object:string];
 		NSLog(string);
+		}
 
 	[spumux waitUntilExit];
 
@@ -904,8 +923,11 @@ NSString *errorString = @"";
 	
 	string=[[NSString alloc] initWithData:data encoding:NSASCIIStringEncoding];
 
-		if ([[NSUserDefaults standardUserDefaults] boolForKey:@"KWDebug"] == YES)
+		if ([[NSUserDefaults standardUserDefaults] boolForKey:@"KWConsoleEnabled"] == YES)
+		{
+		[[NSNotificationCenter defaultCenter] postNotificationName:@"KWConsoleNotification" object:string];
 		NSLog(string);
+		}
 		
 		if ([string rangeOfString:@"ERR:"].length > 0)
 		errorString = [errorString stringByAppendingString:string];

@@ -727,7 +727,7 @@ NSPipe *errorPipe;
 		[movtoy4m setArguments:[NSArray arrayWithObjects:@"-w",inputWidth,@"-h",inputHeight,@"-F",[inputFps stringByAppendingString:@":1"],@"-a",[[inputWidth stringByAppendingString:@":"] stringByAppendingString:inputHeight],path, nil]];
 		
 	[movtoy4m setStandardOutput:pipe2];
-		if ([[NSUserDefaults standardUserDefaults] boolForKey:@"KWDebug"] == NO)
+		if ([[NSUserDefaults standardUserDefaults] boolForKey:@"KWConsoleEnabled"] == NO)
 		{
 		errorPipe = [[NSPipe alloc] init];
 		[movtoy4m setStandardError:errorPipe];
@@ -1352,7 +1352,7 @@ handle=[pipe fileHandleForReading];
 	[ffmpeg setArguments:[tempMute copy]];
 	}
 	
-	if ([[NSUserDefaults standardUserDefaults] boolForKey:@"KWDebug"] == YES)
+	if ([[NSUserDefaults standardUserDefaults] boolForKey:@"KWConsoleEnabled"] == YES)
 	{
 	NSArray *showArgs = [ffmpeg arguments];
 	NSString *command = @"ffmpeg";
@@ -1365,6 +1365,7 @@ handle=[pipe fileHandleForReading];
 		}
 	
 	NSLog(command);
+	[[NSNotificationCenter defaultCenter] postNotificationName:@"KWConsoleNotification" object:command];
 	}
 	
 [ffmpeg launch];
@@ -1386,8 +1387,11 @@ NSString *string = nil;
 	//The string containing ffmpeg's output
 	string=[[NSString alloc] initWithData:data encoding:NSASCIIStringEncoding];
 	
-		if ([[NSUserDefaults standardUserDefaults] boolForKey:@"KWDebug"] == YES)
+		if ([[NSUserDefaults standardUserDefaults] boolForKey:@"KWConsoleEnabled"] == YES)
+		{
+		[[NSNotificationCenter defaultCenter] postNotificationName:@"KWConsoleNotification" object:string];
 		NSLog(string);
+		}
 		
 		//Format the time sting ffmpeg outputs and format it to percent
 		if ([string rangeOfString:@"time="].length > 0)
@@ -1432,7 +1436,7 @@ int taskStatus = [ffmpeg terminationStatus];
 	{	
 	[movtoy4m release];
 	[pipe2 release];
-		if ([[NSUserDefaults standardUserDefaults] boolForKey:@"KWDebug"] == NO)
+		if ([[NSUserDefaults standardUserDefaults] boolForKey:@"KWConsoleEnabled"] == NO)
 		[errorPipe release];
 	}
 	
@@ -1528,8 +1532,11 @@ NSFileHandle *handle=[pipe fileHandleForReading];
 [movtowav launch];
 NSString *string=[[NSString alloc] initWithData:[handle readDataToEndOfFile] encoding:NSASCIIStringEncoding];
 
-	if ([[NSUserDefaults standardUserDefaults] boolForKey:@"KWDebug"] == YES)
+	if ([[NSUserDefaults standardUserDefaults] boolForKey:@"KWConsoleEnabled"] == YES)
+	{
+	[[NSNotificationCenter defaultCenter] postNotificationName:@"KWConsoleNotification" object:string];
 	NSLog(string);
+	}
 
 status = 1;
 [movtowav waitUntilExit];
@@ -1681,8 +1688,11 @@ int referenceTest = 0;
 		[ffmpeg release];
 		[pipe release];
 		
-			if ([[NSUserDefaults standardUserDefaults] boolForKey:@"KWDebug"] == YES)
+			if ([[NSUserDefaults standardUserDefaults] boolForKey:@"KWConsoleEnabled"] == YES)
+			{
+			[[NSNotificationCenter defaultCenter] postNotificationName:@"KWConsoleNotification" object:string];
 			NSLog(string);
+			}
 		
 		keepGoing = NO;	
 		
@@ -2234,8 +2244,11 @@ handle=[pipe fileHandleForReading];
 [ffmpeg launch];
 string=[[NSString alloc] initWithData:[handle readDataToEndOfFile] encoding:NSASCIIStringEncoding];
 
-	if ([[NSUserDefaults standardUserDefaults] boolForKey:@"KWDebug"] == YES)
+	if ([[NSUserDefaults standardUserDefaults] boolForKey:@"KWConsoleEnabled"] == YES)
+	{
+	[[NSNotificationCenter defaultCenter] postNotificationName:@"KWConsoleNotification" object:string];
 	NSLog(string);
+	}
 		
 	if ([string rangeOfString:@"Could not find codec parameters"].length > 0 && [string rangeOfString:@"mov,mp4,"].length > 0)
 	{
@@ -2286,8 +2299,11 @@ handle=[pipe fileHandleForReading];
 [ffmpeg launch];
 string=[[NSString alloc] initWithData:[handle readDataToEndOfFile] encoding:NSASCIIStringEncoding];
 
-	if ([[NSUserDefaults standardUserDefaults] boolForKey:@"KWDebug"] == YES)
+	if ([[NSUserDefaults standardUserDefaults] boolForKey:@"KWConsoleEnabled"] == YES)
+	{
+	[[NSNotificationCenter defaultCenter] postNotificationName:@"KWConsoleNotification" object:string];
 	NSLog(string);
+	}
 	
 	if (![string rangeOfString:@"Unknown format"].length > 0 && [string rangeOfString:@"Input #0"].length > 0)
 	{
@@ -2333,8 +2349,11 @@ handle=[pipe fileHandleForReading];
 [ffmpeg launch];
 string=[[NSString alloc] initWithData:[handle readDataToEndOfFile] encoding:NSASCIIStringEncoding];
 
-	if ([[NSUserDefaults standardUserDefaults] boolForKey:@"KWDebug"] == YES)
+	if ([[NSUserDefaults standardUserDefaults] boolForKey:@"KWConsoleEnabled"] == YES)
+	{
+	[[NSNotificationCenter defaultCenter] postNotificationName:@"KWConsoleNotification" object:string];
 	NSLog(string);
+	}
 	
 	if (![string rangeOfString:@"Unknown format"].length > 0 && [string rangeOfString:@"Input #0"].length > 0)
 	{
@@ -2384,8 +2403,11 @@ handle=[pipe fileHandleForReading];
 [ffmpeg launch];
 string=[[NSString alloc] initWithData:[handle readDataToEndOfFile] encoding:NSASCIIStringEncoding];
 
-	if ([[NSUserDefaults standardUserDefaults] boolForKey:@"KWDebug"] == YES)
+	if ([[NSUserDefaults standardUserDefaults] boolForKey:@"KWConsoleEnabled"] == YES)
+	{
+	[[NSNotificationCenter defaultCenter] postNotificationName:@"KWConsoleNotification" object:string];
 	NSLog(string);
+	}
 
 	if (![string rangeOfString:@"Unknown format"].length > 0 && [string rangeOfString:@"Input #0"].length > 0)
 	{
@@ -2436,8 +2458,11 @@ handle=[pipe fileHandleForReading];
 [ffmpeg launch];
 string=[[NSString alloc] initWithData:[handle readDataToEndOfFile] encoding:NSASCIIStringEncoding];
 
-	if ([[NSUserDefaults standardUserDefaults] boolForKey:@"KWDebug"] == YES)
+	if ([[NSUserDefaults standardUserDefaults] boolForKey:@"KWConsoleEnabled"] == YES)
+	{
+	[[NSNotificationCenter defaultCenter] postNotificationName:@"KWConsoleNotification" object:string];
 	NSLog(string);
+	}
 	
 	if (![string rangeOfString:@"Unknown format"].length > 0 && [string rangeOfString:@"Input #0"].length > 0)
 	{
@@ -2538,8 +2563,11 @@ status = 2;
 [ffmpeg launch];
 string=[[NSString alloc] initWithData:[handle readDataToEndOfFile] encoding:NSASCIIStringEncoding];
 
-	if ([[NSUserDefaults standardUserDefaults] boolForKey:@"KWDebug"] == YES)
+	if ([[NSUserDefaults standardUserDefaults] boolForKey:@"KWConsoleEnabled"] == YES)
+	{
+	[[NSNotificationCenter defaultCenter] postNotificationName:@"KWConsoleNotification" object:string];
 	NSLog(string);
+	}
 
 [ffmpeg waitUntilExit];
 int taskStatus = [ffmpeg terminationStatus];
@@ -2595,8 +2623,11 @@ NSString *audioFile = @"";
 	[ffmpeg launch];
 	string=[[NSString alloc] initWithData:[handle readDataToEndOfFile] encoding:NSASCIIStringEncoding];
 	
-		if ([[NSUserDefaults standardUserDefaults] boolForKey:@"KWDebug"] == YES)
+		if ([[NSUserDefaults standardUserDefaults] boolForKey:@"KWConsoleEnabled"] == YES)
+		{
+		[[NSNotificationCenter defaultCenter] postNotificationName:@"KWConsoleNotification" object:string];
 		NSLog(string);
+		}
 	
 	[ffmpeg waitUntilExit];
 	int taskStatus = [ffmpeg terminationStatus];
@@ -2636,8 +2667,11 @@ handle=[pipe fileHandleForReading];
 [ffmpeg launch];
 string=[[NSString alloc] initWithData:[handle readDataToEndOfFile] encoding:NSASCIIStringEncoding];
 
-	if ([[NSUserDefaults standardUserDefaults] boolForKey:@"KWDebug"] == YES)
+	if ([[NSUserDefaults standardUserDefaults] boolForKey:@"KWConsoleEnabled"] == YES)
+	{
+	[[NSNotificationCenter defaultCenter] postNotificationName:@"KWConsoleNotification" object:string];
 	NSLog(string);
+	}
 		
 NSString *durationsString = [[[[string componentsSeparatedByString:@"Duration: "] objectAtIndex:1] componentsSeparatedByString:@"."] objectAtIndex:0];
 
@@ -2669,8 +2703,11 @@ handle=[pipe fileHandleForReading];
 [ffmpeg launch];
 string=[[NSString alloc] initWithData:[handle readDataToEndOfFile] encoding:NSASCIIStringEncoding];
 
-	if ([[NSUserDefaults standardUserDefaults] boolForKey:@"KWDebug"] == YES)
+	if ([[NSUserDefaults standardUserDefaults] boolForKey:@"KWConsoleEnabled"] == YES)
+	{
+	[[NSNotificationCenter defaultCenter] postNotificationName:@"KWConsoleNotification" object:string];
 	NSLog(string);
+	}
 		
 NSString *durationsString = [[[[[[[string componentsSeparatedByString:@"Duration: "] objectAtIndex:1] componentsSeparatedByString:@","] objectAtIndex:0] componentsSeparatedByString:@":"] objectAtIndex:1] stringByAppendingString:[@":" stringByAppendingString:[[[[[[string componentsSeparatedByString:@"Duration: "] objectAtIndex:1] componentsSeparatedByString:@","] objectAtIndex:0] componentsSeparatedByString:@":"] objectAtIndex:2]]];
 
@@ -2693,7 +2730,7 @@ NSImage *image;
 [ffmpeg setLaunchPath:[KWCommonMethods ffmpegPath]];
 [ffmpeg setArguments:[NSArray arrayWithObjects:@"-ss",[[NSNumber numberWithInt:time] stringValue],@"-i",path,@"-vframes",@"1" ,@"-f",@"image2",@"-",nil]];
 [ffmpeg setStandardOutput:outputPipe];
-	if ([[NSUserDefaults standardUserDefaults] boolForKey:@"KWDebug"] == NO)
+	if ([[NSUserDefaults standardUserDefaults] boolForKey:@"KWConsoleEnabled"] == NO)
 	{
 	[ffmpeg setStandardError:pipe];
 	handle=[pipe fileHandleForReading];

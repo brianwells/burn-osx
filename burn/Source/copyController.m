@@ -136,8 +136,11 @@ NSFileHandle *handle=[pipe fileHandleForReading];
 
 NSString *string=[[NSString alloc] initWithData:[handle readDataToEndOfFile] encoding:NSASCIIStringEncoding];
 
-	if ([[NSUserDefaults standardUserDefaults] boolForKey:@"KWDebug"] == YES)
+	if ([[NSUserDefaults standardUserDefaults] boolForKey:@"KWConsoleEnabled"] == YES)
+	{
+	[[NSNotificationCenter defaultCenter] postNotificationName:@"KWConsoleNotification" object:string];
 	NSLog(string);
+	}
 
 [hdiutil waitUntilExit];
 
@@ -447,8 +450,11 @@ NSFileHandle *handle=[pipe fileHandleForReading];
 	
 NSString *string=[[NSString alloc] initWithData:[handle readDataToEndOfFile] encoding:NSASCIIStringEncoding];
 
-	if ([[NSUserDefaults standardUserDefaults] boolForKey:@"KWDebug"] == YES)
+	if ([[NSUserDefaults standardUserDefaults] boolForKey:@"KWConsoleEnabled"] == YES)
+	{
+	[[NSNotificationCenter defaultCenter] postNotificationName:@"KWConsoleNotification" object:string];
 	NSLog(string);
+	}
 			
 [hdiutil waitUntilExit];
 status = [hdiutil terminationStatus];

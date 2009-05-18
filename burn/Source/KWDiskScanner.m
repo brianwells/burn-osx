@@ -59,8 +59,11 @@ NSString *rootName = @"";
 	[diskutil launch];
 	NSString *string=[[NSString alloc] initWithData:[handle readDataToEndOfFile] encoding:NSASCIIStringEncoding]; // convert NSData -> NSString
 	
-		if ([[NSUserDefaults standardUserDefaults] boolForKey:@"KWDebug"] == YES)
+		if ([[NSUserDefaults standardUserDefaults] boolForKey:@"KWConsoleEnabled"] == YES)
+		{
+		[[NSNotificationCenter defaultCenter] postNotificationName:@"KWConsoleNotification" object:string];
 		NSLog(string);
+		}
 		
 	NSDictionary *information = [KWCommonMethods getDictionaryFromString:string];
 	

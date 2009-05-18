@@ -19,6 +19,14 @@
 		FE03614B0BAFDA2D00F7FA73 /* Growl.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FE03614A0BAFDA2D00F7FA73 /* Growl.framework */; };
 		FE03615E0BAFDA3500F7FA73 /* Growl.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = FE03614A0BAFDA2D00F7FA73 /* Growl.framework */; };
 		FE0543020BAC7DCE003F1377 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FE3CA4F50BAC7D53001FB922 /* Cocoa.framework */; };
+		FE15A2FA0FC017ED00A3E0D5 /* KWConsole.nib in Resources */ = {isa = PBXBuildFile; fileRef = FE15A2F80FC017ED00A3E0D5 /* KWConsole.nib */; };
+		FE15A2FB0FC017ED00A3E0D5 /* KWConsole.nib in Resources */ = {isa = PBXBuildFile; fileRef = FE15A2F80FC017ED00A3E0D5 /* KWConsole.nib */; };
+		FE15A2FC0FC017ED00A3E0D5 /* KWConsole.nib in Resources */ = {isa = PBXBuildFile; fileRef = FE15A2F80FC017ED00A3E0D5 /* KWConsole.nib */; };
+		FE15A2FD0FC017ED00A3E0D5 /* KWConsole.nib in Resources */ = {isa = PBXBuildFile; fileRef = FE15A2F80FC017ED00A3E0D5 /* KWConsole.nib */; };
+		FE15A31B0FC01B9600A3E0D5 /* KWConsole.m in Sources */ = {isa = PBXBuildFile; fileRef = FE15A31A0FC01B9600A3E0D5 /* KWConsole.m */; };
+		FE15A31C0FC01B9600A3E0D5 /* KWConsole.m in Sources */ = {isa = PBXBuildFile; fileRef = FE15A31A0FC01B9600A3E0D5 /* KWConsole.m */; };
+		FE15A31D0FC01B9600A3E0D5 /* KWConsole.m in Sources */ = {isa = PBXBuildFile; fileRef = FE15A31A0FC01B9600A3E0D5 /* KWConsole.m */; };
+		FE15A31E0FC01B9600A3E0D5 /* KWConsole.m in Sources */ = {isa = PBXBuildFile; fileRef = FE15A31A0FC01B9600A3E0D5 /* KWConsole.m */; };
 		FE1884040EC5559D00410BA6 /* Empty.png in Resources */ = {isa = PBXBuildFile; fileRef = FE1883FD0EC5559D00410BA6 /* Empty.png */; };
 		FE18840B0EC5559D00410BA6 /* Empty.png in Resources */ = {isa = PBXBuildFile; fileRef = FE1883FD0EC5559D00410BA6 /* Empty.png */; };
 		FE1884120EC5559D00410BA6 /* Empty.png in Resources */ = {isa = PBXBuildFile; fileRef = FE1883FD0EC5559D00410BA6 /* Empty.png */; };
@@ -566,6 +574,9 @@
 		FE1398050F88D8820056809A /* ko */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = ko; path = ko.lproj/KWProgress.nib; sourceTree = "<group>"; };
 		FE1398060F88D8820056809A /* ko */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = ko; path = ko.lproj/KWRecorderInfo.nib; sourceTree = "<group>"; };
 		FE1398070F88D8820056809A /* ko */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = ko; path = ko.lproj/MainMenu.nib; sourceTree = "<group>"; };
+		FE15A2F90FC017ED00A3E0D5 /* Dutch */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = Dutch; path = Dutch.lproj/KWConsole.nib; sourceTree = "<group>"; };
+		FE15A3190FC01B9600A3E0D5 /* KWConsole.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = KWConsole.h; path = Source/KWConsole.h; sourceTree = "<group>"; };
+		FE15A31A0FC01B9600A3E0D5 /* KWConsole.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = KWConsole.m; path = Source/KWConsole.m; sourceTree = "<group>"; };
 		FE1883FD0EC5559D00410BA6 /* Empty.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Empty.png; path = Images/Empty.png; sourceTree = "<group>"; };
 		FE195ECC0BE2A610001558D4 /* HFSPlusController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = HFSPlusController.h; path = Source/HFSPlusController.h; sourceTree = "<group>"; };
 		FE195ECD0BE2A610001558D4 /* HFSPlusController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = HFSPlusController.m; path = Source/HFSPlusController.m; sourceTree = "<group>"; };
@@ -838,6 +849,17 @@
 		FEF0830D0BE88359007B056C /* KWTableView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = KWTableView.m; path = Source/KWTableView.m; sourceTree = "<group>"; };
 		FEF089AC0BE3D7F600FF1A06 /* KWDataDiscInspector.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = KWDataDiscInspector.h; path = Source/KWDataDiscInspector.h; sourceTree = "<group>"; };
 		FEF089AD0BE3D7F600FF1A06 /* KWDataDiscInspector.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = KWDataDiscInspector.m; path = Source/KWDataDiscInspector.m; sourceTree = "<group>"; };
+		FEF1FDB20FC1237900053DE9 /* cs */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = cs; path = cs.lproj/KWConsole.nib; sourceTree = "<group>"; };
+		FEF1FDB50FC1238400053DE9 /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = English.lproj/KWConsole.nib; sourceTree = "<group>"; };
+		FEF1FDB80FC1239100053DE9 /* French */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = French; path = French.lproj/KWConsole.nib; sourceTree = "<group>"; };
+		FEF1FDBB0FC1239C00053DE9 /* German */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = German; path = German.lproj/KWConsole.nib; sourceTree = "<group>"; };
+		FEF1FDBE0FC123A700053DE9 /* Greek */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = Greek; path = Greek.lproj/KWConsole.nib; sourceTree = "<group>"; };
+		FEF1FDC10FC123B100053DE9 /* Japanese */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = Japanese; path = Japanese.lproj/KWConsole.nib; sourceTree = "<group>"; };
+		FEF1FDC40FC123BB00053DE9 /* ko */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = ko; path = ko.lproj/KWConsole.nib; sourceTree = "<group>"; };
+		FEF1FDC70FC123C500053DE9 /* pt_BR */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = pt_BR; path = pt_BR.lproj/KWConsole.nib; sourceTree = "<group>"; };
+		FEF1FDCA0FC123CD00053DE9 /* ru */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = ru; path = ru.lproj/KWConsole.nib; sourceTree = "<group>"; };
+		FEF1FDCD0FC123D600053DE9 /* Spanish */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = Spanish; path = Spanish.lproj/KWConsole.nib; sourceTree = "<group>"; };
+		FEF1FDD00FC123DF00053DE9 /* zh_TW */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = zh_TW; path = zh_TW.lproj/KWConsole.nib; sourceTree = "<group>"; };
 		FEF5C7710BE3681200B3BCA6 /* KWDRFolder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = KWDRFolder.h; path = Source/KWDRFolder.h; sourceTree = "<group>"; };
 		FEF5C7720BE3681200B3BCA6 /* KWDRFolder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = KWDRFolder.m; path = Source/KWDRFolder.m; sourceTree = "<group>"; };
 		FEF6FCCD0E49E59200DB0F4B /* Gear with arrow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Gear with arrow.png"; path = "Images/Gear with arrow.png"; sourceTree = "<group>"; };
@@ -1105,6 +1127,7 @@
 				FEE1255B0BAC1339001D474B /* appController.h */,
 				FEE1255A0BAC1339001D474B /* appController.m */,
 				FEE12CD70BAC5821001D474B /* KWEjecter */,
+				FEB016910FC1260F009520C8 /* KWConsole */,
 				FE0342600BA8050200622112 /* KWDiskInfo */,
 				FE0340060BA7FBD300622112 /* KWRecorderInfo */,
 				FEE5CDDD0BA583AC00FAD174 /* KWPreferences */,
@@ -1196,6 +1219,15 @@
 				FEC3D5280EE32541008DBECA /* vcdimager */,
 			);
 			name = Intel;
+			sourceTree = "<group>";
+		};
+		FEB016910FC1260F009520C8 /* KWConsole */ = {
+			isa = PBXGroup;
+			children = (
+				FE15A3190FC01B9600A3E0D5 /* KWConsole.h */,
+				FE15A31A0FC01B9600A3E0D5 /* KWConsole.m */,
+			);
+			name = KWConsole;
 			sourceTree = "<group>";
 		};
 		FEE12CD70BAC5821001D474B /* KWEjecter */ = {
@@ -1413,6 +1445,7 @@
 		FEF9897C0D97B34300BF78E3 /* Interface Files */ = {
 			isa = PBXGroup;
 			children = (
+				FE15A2F80FC017ED00A3E0D5 /* KWConsole.nib */,
 				2A37F4B6FDCFA73011CA2CEA /* MainMenu.nib */,
 				2A37F4B4FDCFA73011CA2CEA /* KWDocument.nib */,
 				FEE5CDD90BA57EEC00FAD174 /* KWPreferences.nib */,
@@ -1681,6 +1714,7 @@
 				FE1884120EC5559D00410BA6 /* Empty.png in Resources */,
 				FEC3D5250EE32502008DBECA /* vcdimager in Resources */,
 				FEC66B520F2CCD8A00086E2C /* BurnHelp in Resources */,
+				FE15A2FA0FC017ED00A3E0D5 /* KWConsole.nib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1743,6 +1777,7 @@
 				FE18840B0EC5559D00410BA6 /* Empty.png in Resources */,
 				FEC3D5270EE3251E008DBECA /* vcdimager in Resources */,
 				FEC66B510F2CCD8A00086E2C /* BurnHelp in Resources */,
+				FE15A2FC0FC017ED00A3E0D5 /* KWConsole.nib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1805,6 +1840,7 @@
 				FE1884040EC5559D00410BA6 /* Empty.png in Resources */,
 				FEC3D5290EE32541008DBECA /* vcdimager in Resources */,
 				FEC66B500F2CCD8A00086E2C /* BurnHelp in Resources */,
+				FE15A2FD0FC017ED00A3E0D5 /* KWConsole.nib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1867,6 +1903,7 @@
 				FEDBF5630F80782A00DABA72 /* vcdimager in Resources */,
 				FEDBF5640F80782A00DABA72 /* BurnHelp in Resources */,
 				FEB279090F87E10C0027F2B1 /* ffmpeg in Resources */,
+				FE15A2FB0FC017ED00A3E0D5 /* KWConsole.nib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1926,6 +1963,7 @@
 				FEDC29050E4D91D200F2FEED /* KWToolbarKiller.m in Sources */,
 				FE24916B0ECEDB6F0028E955 /* discCreationController.m in Sources */,
 				FE23C0510EDDCDCC0048B85D /* KWTrackProducer.m in Sources */,
+				FE15A31B0FC01B9600A3E0D5 /* KWConsole.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1982,6 +2020,7 @@
 				FEDC29030E4D91D200F2FEED /* KWToolbarKiller.m in Sources */,
 				FE24916D0ECEDB6F0028E955 /* discCreationController.m in Sources */,
 				FE23C04F0EDDCDCC0048B85D /* KWTrackProducer.m in Sources */,
+				FE15A31D0FC01B9600A3E0D5 /* KWConsole.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2038,6 +2077,7 @@
 				FEDC29010E4D91D200F2FEED /* KWToolbarKiller.m in Sources */,
 				FE24916F0ECEDB6F0028E955 /* discCreationController.m in Sources */,
 				FE23C04D0EDDCDCC0048B85D /* KWTrackProducer.m in Sources */,
+				FE15A31E0FC01B9600A3E0D5 /* KWConsole.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2094,6 +2134,7 @@
 				FEDBF5940F80782A00DABA72 /* KWToolbarKiller.m in Sources */,
 				FEDBF5950F80782A00DABA72 /* discCreationController.m in Sources */,
 				FEDBF5960F80782A00DABA72 /* KWTrackProducer.m in Sources */,
+				FE15A31C0FC01B9600A3E0D5 /* KWConsole.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2193,6 +2234,25 @@
 				FED4EEEF0FA5BF2D00E6C255 /* Spanish */,
 			);
 			name = KWDiskInfo.nib;
+			sourceTree = "<group>";
+		};
+		FE15A2F80FC017ED00A3E0D5 /* KWConsole.nib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				FE15A2F90FC017ED00A3E0D5 /* Dutch */,
+				FEF1FDB20FC1237900053DE9 /* cs */,
+				FEF1FDB50FC1238400053DE9 /* English */,
+				FEF1FDB80FC1239100053DE9 /* French */,
+				FEF1FDBB0FC1239C00053DE9 /* German */,
+				FEF1FDBE0FC123A700053DE9 /* Greek */,
+				FEF1FDC10FC123B100053DE9 /* Japanese */,
+				FEF1FDC40FC123BB00053DE9 /* ko */,
+				FEF1FDC70FC123C500053DE9 /* pt_BR */,
+				FEF1FDCA0FC123CD00053DE9 /* ru */,
+				FEF1FDCD0FC123D600053DE9 /* Spanish */,
+				FEF1FDD00FC123DF00053DE9 /* zh_TW */,
+			);
+			name = KWConsole.nib;
 			sourceTree = "<group>";
 		};
 		FE6DBFCF0BDCED47006F5F53 /* KWInspector.nib */ = {

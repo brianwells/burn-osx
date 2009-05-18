@@ -620,8 +620,11 @@ handle=[pipe fileHandleForReading];
 [du launch];
 string=[[NSString alloc] initWithData:[handle readDataToEndOfFile] encoding:NSASCIIStringEncoding];
 
-	if ([[NSUserDefaults standardUserDefaults] boolForKey:@"KWDebug"] == YES)
+	if ([[NSUserDefaults standardUserDefaults] boolForKey:@"KWConsoleEnabled"] == YES)
+	{
+	[[NSNotificationCenter defaultCenter] postNotificationName:@"KWConsoleNotification" object:string];
 	NSLog(string);
+	}
 
 [du waitUntilExit];
 [pipe release];
@@ -752,8 +755,11 @@ handle=[pipe fileHandleForReading];
 [df launch];
 string=[[NSString alloc] initWithData:[handle readDataToEndOfFile] encoding:NSASCIIStringEncoding];
 
-	if ([[NSUserDefaults standardUserDefaults] boolForKey:@"KWDebug"] == YES)
+	if ([[NSUserDefaults standardUserDefaults] boolForKey:@"KWConsoleEnabled"] == YES)
+	{
+	[[NSNotificationCenter defaultCenter] postNotificationName:@"KWConsoleNotification" object:string];
 	NSLog(string);
+	}
 
 [df waitUntilExit];
 [pipe release];

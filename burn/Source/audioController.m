@@ -810,7 +810,7 @@ NSArray *onlyFiles = [onlyFilesMutable copy];
 {
 NSAlert *alert = [[[NSAlert alloc] init] autorelease];
 [alert addButtonWithTitle:NSLocalizedString(@"OK",@"Localized")];
-[alert addButtonWithTitle:NSLocalizedString(@"Open Log",@"Localized")];
+[alert addButtonWithTitle:NSLocalizedString(@"Console",@"Localized")];
 		
 	if ([descriptions count] > 1)
 	[alert setMessageText:NSLocalizedString(@"Burn failed to encode some files",@"Localized")];
@@ -838,7 +838,7 @@ NSAlert *alert = [[[NSAlert alloc] init] autorelease];
 
 	if (returnCode == NSAlertSecondButtonReturn) 
 	{
-	[[NSWorkspace sharedWorkspace] openFile:[NSHomeDirectory() stringByAppendingString:@"/Library/Logs/Burn Errors.log"] withApplication:@"TextEdit"];
+	[[NSNotificationCenter defaultCenter] postNotificationName:@"KWOpenConsole" object:self];
 	}
 }
 

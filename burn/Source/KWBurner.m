@@ -292,7 +292,8 @@ id burnTrack = track;
 		[burnProperties addEntriesFromDictionary:extraBurnProperties];
 	
 	[burnProperties setObject:[[NSUserDefaults standardUserDefaults] objectForKey:@"KWSimulateBurn"] forKey:DRBurnTestingKey];
-		
+	[burnProperties setObject:[NSNumber numberWithInt:0.5] forKey:@"DRBurnDoubleLayerL0DataZoneBlocksKey"];
+	
 	[burn setProperties:burnProperties];
 	[burn writeLayout:burnTrack];
 	
@@ -616,8 +617,11 @@ BOOL hasTracks = YES;
 {
 NSDictionary *status = [notification userInfo];
 	
-	if ([[NSUserDefaults standardUserDefaults] boolForKey:@"KWDebug"] == YES)
+	if ([[NSUserDefaults standardUserDefaults] boolForKey:@"KWConsoleEnabled"] == YES)
+	{
+	[[NSNotificationCenter defaultCenter] postNotificationName:@"KWConsoleNotification" object:[status description]];
 	NSLog([status description]);
+	}
 
 NSString *time = @"";
 	

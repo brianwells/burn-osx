@@ -173,7 +173,7 @@ NSScanner *scanner   = [NSScanner scannerWithString:layout];
 	
 	if (![scanner skipPastString:@"BINARY"])
 	{
-		if ([[NSUserDefaults standardUserDefaults] boolForKey:@"KWDebug"] == YES)
+		if ([[NSUserDefaults standardUserDefaults] boolForKey:@"KWConsoleEnabled"] == YES)
 		NSLog(@"Could not find BINARY marker.");
 	return nil;
 	}
@@ -200,7 +200,7 @@ BOOL firstTrack = YES;
 		
 		if (![scanner scanInt:&trackID])
 		{
-			if ([[NSUserDefaults standardUserDefaults] boolForKey:@"KWDebug"] == YES)
+			if ([[NSUserDefaults standardUserDefaults] boolForKey:@"KWConsoleEnabled"] == YES)
 			NSLog(@"Could not parse track number.");
 		return nil;
 		}
@@ -246,14 +246,14 @@ BOOL firstTrack = YES;
 		}
 		else
 		{
-			if ([[NSUserDefaults standardUserDefaults] boolForKey:@"KWDebug"] == YES)
+			if ([[NSUserDefaults standardUserDefaults] boolForKey:@"KWConsoleEnabled"] == YES)
 			NSLog(@"Unknown track type.");
 		return nil;
 		}
 			
 		if (![scanner skipPastString:@"INDEX 01"])
 		{
-			if ([[NSUserDefaults standardUserDefaults] boolForKey:@"KWDebug"] == YES)
+			if ([[NSUserDefaults standardUserDefaults] boolForKey:@"KWConsoleEnabled"] == YES)
 			NSLog(@"Could not determine track starting time.");
 		return nil;
 		}
@@ -317,7 +317,7 @@ BOOL firstTrack = YES;
 	[track setProperties:dict];
 	[array addObject:track];
 
-		if ([[NSUserDefaults standardUserDefaults] boolForKey:@"KWDebug"] == YES)
+		if ([[NSUserDefaults standardUserDefaults] boolForKey:@"KWConsoleEnabled"] == YES)
 		NSLog(@"%@", [[track properties] description]);
 	}
 
@@ -562,7 +562,7 @@ readHandle = [trackPipe fileHandleForReading];
 
 [trackCreator setLaunchPath:[KWCommonMethods ffmpegPath]];
 [trackCreator setArguments:[NSArray arrayWithObjects:@"-i",path,@"-f",@"s16le",@"-",nil]];
-	if ([[NSUserDefaults standardUserDefaults] boolForKey:@"KWDebug"] == NO)
+	if ([[NSUserDefaults standardUserDefaults] boolForKey:@"KWConsoleEnabled"] == NO)
 	[trackCreator setStandardError:[NSFileHandle fileHandleWithNullDevice]];
 [trackCreator setStandardOutput:calcPipe];
 
@@ -605,7 +605,7 @@ int bytes = 0;
 	NSTask *dd = [[NSTask alloc] init];
 	[dd setLaunchPath:@"/bin/dd"];
 	[dd setArguments:[NSArray arrayWithObjects:@"if=/dev/zero",[@"count=" stringByAppendingString:[[NSNumber numberWithInt:([trackSize intValue] * 2352) - bytes] stringValue]], @"bs=1", nil]];
-		if ([[NSUserDefaults standardUserDefaults] boolForKey:@"KWDebug"] == NO)
+		if ([[NSUserDefaults standardUserDefaults] boolForKey:@"KWConsoleEnabled"] == NO)
 		[dd setStandardError:[NSFileHandle fileHandleWithNullDevice]];
 	[dd setStandardOutput:writeHandle];
 	[dd launch];

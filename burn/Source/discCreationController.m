@@ -146,7 +146,7 @@ succes = [SVCDImager createSVCDImage:[[dict objectForKey:@"Path"] stringByDeleti
 
 NSAlert *alert = [[[NSAlert alloc] init] autorelease];
 [alert addButtonWithTitle:NSLocalizedString(@"OK",@"Localized")];
-[alert addButtonWithTitle:NSLocalizedString(@"Open Log",@"Localized")];
+[alert addButtonWithTitle:NSLocalizedString(@"Console",@"Localized")];
 
 [alert setMessageText:NSLocalizedString(@"Authoring failed",@"Localized")];
 	if (type < 3)
@@ -164,7 +164,7 @@ NSAlert *alert = [[[NSAlert alloc] init] autorelease];
 
 	if (returnCode == NSAlertSecondButtonReturn) 
 	{
-	[[NSWorkspace sharedWorkspace] openFile:[NSHomeDirectory() stringByAppendingString:@"/Library/Logs/Burn Errors.log"] withApplication:@"TextEdit"];
+	[[NSNotificationCenter defaultCenter] postNotificationName:@"KWOpenConsole" object:self];
 	}
 }
 

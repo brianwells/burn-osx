@@ -77,6 +77,7 @@ NSArray *defaultKeys = [NSArray arrayWithObjects:
 @"KWFirstRun",
 @"KWEncodingThreads",
 @"KWSimulateBurn",
+@"KWConsoleEnabled",
 nil];
 
 NSArray *defaultValues = [NSArray arrayWithObjects:
@@ -147,6 +148,7 @@ NSArray *defaultValues = [NSArray arrayWithObjects:
 [NSNumber numberWithBool:YES],		//KWFirstRun
 [NSNumber numberWithInt:8],			//KWEncodingThreads
 [NSNumber numberWithBool:NO],		//KWSimulateBurn
+[NSNumber numberWithBool:YES],		//KWConsoleEnabled
 nil];
 
 NSDictionary *appDefaults = [NSDictionary dictionaryWithObjects:defaultValues forKeys:defaultKeys];
@@ -200,6 +202,18 @@ return self;
 [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(changeInspector:) name:@"KWInspectorItemDeselected" object:nil];
 
 [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(openPreferencesAndAddTheme:) name:@"KWDVDThemeOpened" object:nil];
+
+[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(showConsole:) name:@"KWOpenConsole" object:nil];
+
+	if ([[NSUserDefaults standardUserDefaults] boolForKey:@"KWConsoleEnabled"] == YES)
+	{
+	NSMenuItem *consoleMenu = [[NSMenuItem alloc] initWithTitle:NSLocalizedString(@"Console",@"Localized") action:@selector(showConsole:) keyEquivalent:@"c"];
+	[consoleMenu setKeyEquivalentModifierMask:(NSCommandKeyMask | NSShiftKeyMask)];
+	[windowMenu insertItem:[NSMenuItem separatorItem] atIndex:10];
+	[windowMenu insertItem:consoleMenu atIndex:11];
+	
+	console = [[KWConsole alloc] init];
+	}
 
 [[growlController alloc] init];
 }
@@ -294,6 +308,14 @@ return self;
 	diskInfo = [[KWDiskInfo alloc] init];
 
 [diskInfo startDiskPanelwithDevice:[KWCommonMethods getCurrentDevice]];
+}
+
+- (void)showConsole:(id)sender
+{
+	if (console == nil)
+	console = [[KWConsole alloc] init];
+	
+[console show];
 }
 
 //Help menu
