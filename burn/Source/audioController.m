@@ -416,6 +416,7 @@ NSAutoreleasePool *pool=[[NSAutoreleasePool alloc] init];
 	else if ([paths count] == 1 && [[NSFileManager defaultManager] fileExistsAtPath:[[paths objectAtIndex:0] stringByAppendingPathComponent:@"AUDIO_TS"]] && [[tableViewPopup title] isEqualTo:NSLocalizedString(@"DVD-Audio",@"Localized")])
 	{
 	[self addDVDFolder:[[paths objectAtIndex:0] stringByAppendingPathComponent:@"AUDIO_TS"]];
+	[discName setStringValue:[[paths objectAtIndex:0] lastPathComponent]];
 	}
 	else
 	{
@@ -969,20 +970,48 @@ return nil;
 - (int)authorizeFolderAtPathIfNeededAtPath:(NSString *)path
 {
 int succes;
+	int x, z = 0;
+	NSArray *audioFiles = [NSArray arrayWithObjects:@"AUDIO_TS.IFO", @"AUDIO_TS.VOB", @"AUDIO_TS.BUP", @"AUDIO_PP.IFO",
+													@"AUDIO_SV.IFO", @"AUDIO_SV.VOB", @"AUDIO_SV.BUP", nil];
+	NSPredicate *audioTrackPredicate = [NSPredicate predicateWithFormat:@"SELF MATCHES 'ATS_\\\\d\\\\d_\\\\d\\\\.(?:IFO|AOB|BUP)'"];
 
 	if ([tableData count] > 0 && [[[[tableData objectAtIndex:0] objectForKey:@"Name"] lowercaseString] isEqualTo:@"audio_ts"])
 	{
-	[[NSFileManager defaultManager] createDirectoryAtPath:path attributes:nil];
-	
-	BOOL result = [[NSFileManager defaultManager] linkPath:[[tableData objectAtIndex:0] objectForKey:@"Path"] toPath:[path stringByAppendingPathComponent:[[tableData objectAtIndex:0] objectForKey:@"Name"]] handler:nil];
-
-		if (result == NO)
-		result = [[NSFileManager defaultManager] copyPath:[[tableData objectAtIndex:0] objectForKey:@"Path"] toPath:[path stringByAppendingPathComponent:[[tableData objectAtIndex:0] objectForKey:@"Name"]] handler:nil];
-	
-		if (result)
+		[[NSFileManager defaultManager] createDirectoryAtPath:path attributes:nil];
+		
+		// create DVD folder
+		[[NSFileManager defaultManager] createDirectoryAtPath:[path stringByAppendingPathComponent:@"AUDIO_TS"] attributes:nil];
+		[[NSFileManager defaultManager] createDirectoryAtPath:[path stringByAppendingPathComponent:@"VIDEO_TS"] attributes:nil];
+		
+		// folderName should be AUDIO_TS
+		NSString *folderPath = [[tableData objectAtIndex:0] objectForKey:@"Path"];
+		NSString *folderName = [[tableData objectAtIndex:0] objectForKey:@"Name"];
+		
+		// copy or link contents that conform to standard
 		succes = 0;
-		else
-		succes = 1;
+		NSArray *folderContents = [[NSFileManager defaultManager] directoryContentsAtPath:folderPath];
+		for (x = 0; x < [folderContents count]; x++) {
+			NSString *fileName = [[folderContents objectAtIndex:x] uppercaseString];
+			NSString *filePath = [folderPath stringByAppendingPathComponent:[folderContents objectAtIndex:x]];
+			BOOL isDir;
+			if ([[NSFileManager defaultManager] fileExistsAtPath:filePath isDirectory:&isDir] && !isDir) {
+				// normal file... check name
+				if ([audioFiles containsObject:fileName] || [audioTrackPredicate evaluateWithObject:fileName]) {
+					// proper name... link or copy
+					NSString *dstPath = [[path stringByAppendingPathComponent:folderName] stringByAppendingPathComponent:fileName];
+					BOOL result = [[NSFileManager defaultManager] linkPath:filePath toPath:dstPath handler:nil];
+					if (result == NO)
+						result = [[NSFileManager defaultManager] copyPath:filePath toPath:dstPath handler:nil];
+					if (result == NO)
+						succes = 1;
+					if (succes == 1)
+						break; 
+					z++;
+				}
+			}
+		}
+		if (z == 0)
+			succes = 1;		
 	}
 	else
 	{

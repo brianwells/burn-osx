@@ -456,6 +456,7 @@ NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
 	{
 	//Add Video_TS from inside dropped folder
 	[self addDVDFolder:[[paths objectAtIndex:0] stringByAppendingPathComponent:@"VIDEO_TS"]];
+	[discName setStringValue:[[paths objectAtIndex:0] lastPathComponent]];
 	}
 	else if ([paths count] == 1 && ([[[paths objectAtIndex:0] pathExtension] isEqualTo:@"cue"] | [[[paths objectAtIndex:0] pathExtension] isEqualTo:@"iso"]))
 	{
@@ -1053,20 +1054,47 @@ return nil;
 - (int)authorizeFolderAtPathIfNeededAtPath:(NSString *)path
 {
 int succes;
-
+	int x, z = 0;
+	NSArray *videoFiles = [NSArray arrayWithObjects:@"VIDEO_TS.IFO", @"VIDEO_TS.VOB", @"VIDEO_TS.BUP", @"VTS.IFO", @"VTS.BUP", nil];
+	NSPredicate *videoTrackPredicate = [NSPredicate predicateWithFormat:@"SELF MATCHES 'VTS_\\\\d\\\\d_\\\\d\\\\.(?:IFO|VOB|BUP)'"];
+	
 	if ([tableData count] > 0 && [[[[tableData objectAtIndex:0] objectForKey:@"Name"] lowercaseString] isEqualTo:@"video_ts"])
 	{
-	[[NSFileManager defaultManager] createDirectoryAtPath:path attributes:nil];
-	
-	BOOL result = [[NSFileManager defaultManager] linkPath:[[tableData objectAtIndex:0] objectForKey:@"Path"] toPath:[path stringByAppendingPathComponent:[[tableData objectAtIndex:0] objectForKey:@"Name"]] handler:nil];
-
-		if (result == NO)
-		result = [[NSFileManager defaultManager] copyPath:[[tableData objectAtIndex:0] objectForKey:@"Path"] toPath:[path stringByAppendingPathComponent:[[tableData objectAtIndex:0] objectForKey:@"Name"]] handler:nil];
-	
-		if (result)
+		[[NSFileManager defaultManager] createDirectoryAtPath:path attributes:nil];
+		
+		// create DVD folders
+		[[NSFileManager defaultManager] createDirectoryAtPath:[path stringByAppendingPathComponent:@"AUDIO_TS"] attributes:nil];
+		[[NSFileManager defaultManager] createDirectoryAtPath:[path stringByAppendingPathComponent:@"VIDEO_TS"] attributes:nil];
+		
+		// folderName should be VIDEO_TS
+		NSString *folderPath = [[tableData objectAtIndex:0] objectForKey:@"Path"];
+		NSString *folderName = [[tableData objectAtIndex:0] objectForKey:@"Name"];
+		
+		// copy or link contents that conform to standard
 		succes = 0;
-		else
-		succes = 1;
+		NSArray *folderContents = [[NSFileManager defaultManager] directoryContentsAtPath:folderPath];
+		for (x = 0; x < [folderContents count]; x++) {
+			NSString *fileName = [[folderContents objectAtIndex:x] uppercaseString];
+			NSString *filePath = [folderPath stringByAppendingPathComponent:[folderContents objectAtIndex:x]];
+			BOOL isDir;
+			if ([[NSFileManager defaultManager] fileExistsAtPath:filePath isDirectory:&isDir] && !isDir) {
+				// normal file... check name
+				if ([videoFiles containsObject:fileName] || [videoTrackPredicate evaluateWithObject:fileName]) {
+					// proper name... link or copy
+					NSString *dstPath = [[path stringByAppendingPathComponent:folderName] stringByAppendingPathComponent:fileName];
+					BOOL result = [[NSFileManager defaultManager] linkPath:filePath toPath:dstPath handler:nil];
+					if (result == NO)
+						result = [[NSFileManager defaultManager] copyPath:filePath toPath:dstPath handler:nil];
+					if (result == NO)
+                        succes = 1;
+					if (succes == 1)
+						break; 
+					z++;
+				}
+			}
+		}
+		if (z == 0)
+			succes = 1;
 	}
 	else
 	{
