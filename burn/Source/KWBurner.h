@@ -40,10 +40,11 @@
 	BOOL ignoreMode;
 	BOOL isOverwritable;
 }
+
 //Main actions
-//- (void)beginBurnSetupSheetForWindow:(NSWindow *)window modalDelegate:(id)delegate didEndSelector:(SEL)selector;
 - (void)beginBurnSetupSheetForWindow:(NSWindow *)window modalDelegate:(id)delegate didEndSelector:(SEL)selector contextInfo:(void *)contextInfo;
 - (void)burnDiskImageAtPath:(NSString *)path;
+- (void)writeTrack:(id)track;
 - (void)burnTrack:(id)track;
 - (void)burnTrackToImage:(NSDictionary *)dict;
 - (int)getImageSizeAtPath:(NSString *)path;
