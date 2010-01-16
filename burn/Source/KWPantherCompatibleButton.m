@@ -6,7 +6,7 @@
 - (void)awakeFromNib
 {
 	if (![KWCommonMethods isPanther])
-	[self setBezelStyle:NSSmallSquareBezelStyle];
+		[self setBezelStyle:NSSmallSquareBezelStyle];
 }
 
 @end
