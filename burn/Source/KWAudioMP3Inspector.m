@@ -1,145 +1,160 @@
 #import "KWAudioMP3Inspector.h"
 #import "KWCommonMethods.h"
+#import "KWAudioController.h"
 
 @implementation KWAudioMP3Inspector
 
-- (void)updateView:(id)objects
+- (id)init
 {
-Tag = [[TagAPI alloc] initWithGenreList:nil];
-currentObjects = objects;
-
-	if ([objects count] == 1)
+	if (self = [super init])
 	{
-	[Tag examineFile:[[objects objectAtIndex:0] objectForKey:@"Path"]];
-	[nameField setStringValue:[[currentObjects objectAtIndex:0] objectForKey:@"Name"]];
-	//[sizeField setStringValue:[[currentObjects objectAtIndex:0] objectForKey:@"Time"]];
-	[sizeField setStringValue:[KWCommonMethods formatTime:[[[currentObjects objectAtIndex:0] objectForKey:@"RealTime"] floatValue]]];
-	[iconView setImage:[[currentObjects objectAtIndex:0] objectForKey:@"Icon"]];
+		methodMappings = [[NSArray alloc] initWithObjects:	//NSStrings
+															@"Title",				//1
+															@"Artist",				//2
+															@"Composer",			//3
+															@"Album",				//4
+															@"Comments",			//5
+															//ints
+															@"Year",				//6
+															@"Track",				//7
+															@"TotalNumberTracks",	//8
+															@"Disk",				//9
+															@"TotalNumberDisks",	//10
+															//NSArray
+															@"GenreNames",			//11
+		nil];
+		
+		currentIndex = 0;
+		
+		Tag = [[TagAPI alloc] initWithGenreList:nil];
 	}
-	else
-	{
-	[iconView setImage:[NSImage imageNamed:@"Multiple"]];
-	[nameField setStringValue:@"Multiple Selection"];
-	[sizeField setStringValue:[[[NSNumber numberWithInt:[currentObjects count]] stringValue] stringByAppendingString:@" files"]];
-	}
 
-[title setStringValue:[self getObjectWithSelector:@selector(getTitle) fromObjects:currentObjects returnsInt:NO]];
-[artist setStringValue:[self getObjectWithSelector:@selector(getArtist) fromObjects:currentObjects returnsInt:NO]];
-[composer setStringValue:[self getObjectWithSelector:@selector(getComposer) fromObjects:currentObjects returnsInt:NO]];
-[album setStringValue:[self getObjectWithSelector:@selector(getAlbum) fromObjects:currentObjects returnsInt:NO]];
-	if ([[self getObjectWithSelector:@selector(getGenreNames) fromObjects:currentObjects returnsInt:NO] count] > 0)
-	[genre setStringValue:[[self getObjectWithSelector:@selector(getGenreNames) fromObjects:currentObjects returnsInt:NO] objectAtIndex:0]];
-	else
-	[genre setStringValue:@""];
-[year setObjectValue:[self getObjectWithSelector:@selector(getYear) fromObjects:currentObjects returnsInt:YES]];
-[trackNumber setObjectValue:[self getObjectWithSelector:@selector(getTrack) fromObjects:currentObjects returnsInt:YES]];
-[trackTotal setObjectValue:[self getObjectWithSelector:@selector(getTotalNumberTracks) fromObjects:currentObjects returnsInt:YES]];
-[discNumber setObjectValue:[self getObjectWithSelector:@selector(getDisk) fromObjects:currentObjects returnsInt:YES]];
-[discTotal setObjectValue:[self getObjectWithSelector:@selector(getTotalNumberDisks) fromObjects:currentObjects returnsInt:YES]];
-[notes setStringValue:[self getObjectWithSelector:@selector(getComments) fromObjects:currentObjects returnsInt:NO]];
-
-	NSArray *images = [self getObjectWithSelector:@selector(getImage) fromObjects:currentObjects returnsInt:NO];
-	
-		if ([images count] > 0)
-		{
-		NSImage *Image1 = [[NSImage alloc] init];
-		[Image1 addRepresentation:[[images objectAtIndex:0] objectForKey:@"Image"]];
-		[imageView setImage:Image1];
-		[Image1 release];
-		[imageString setStringValue:[[@"1" stringByAppendingString:NSLocalizedString(@" of ", Localized)] stringByAppendingString:[[NSNumber numberWithInt:[images count]] stringValue]]];
-		}
-		else
-		{
-		[imageView setImage:nil];
-		[imageString setStringValue:[[@"0" stringByAppendingString:NSLocalizedString(@" of ", Localized)] stringByAppendingString:@"0"]];
-		}
-
-[Tag release];
+	return self;
 }
 
-- (id)getObjectWithSelector:(SEL)selector fromObjects:(NSArray *)objects returnsInt:(BOOL)isInt
+- (void)dealloc
 {
-	if ([objects count] > 1)
-	[Tag examineFile:[[objects objectAtIndex:0] objectForKey:@"Path"]];
+	[methodMappings release];
+	[Tag release];
 	
-id tagObject = [Tag performSelector:selector];
-	
-	if ([objects count] == 1)
+	[super dealloc];
+}
+
+
+- (void)updateView:(id)object
+{
+	currentTableView = object;
+	KWAudioController *controller = [currentTableView delegate];
+	NSArray *tableData = [controller myDataSource];
+	NSArray *currentObjects = [KWCommonMethods allSelectedItemsInTableView:currentTableView fromArray:tableData];
+
+	if ([currentObjects count] == 1)
 	{
-		if (isInt)
-		{
-			if ((int)tagObject > 0)
-			return [NSNumber numberWithInt:(int)tagObject];
-			else
-			return nil;
-		}
-		else
-		{
-		return tagObject;
-		}
+		[iconView setImage:[[currentObjects objectAtIndex:0] objectForKey:@"Icon"]];
+		[nameField setStringValue:[[currentObjects objectAtIndex:0] objectForKey:@"Name"]];
+		[sizeField setStringValue:[[currentObjects objectAtIndex:0] objectForKey:@"Time"]];
+		
 	}
 	else
+	{
+		[iconView setImage:[NSImage imageNamed:@"Multiple"]];
+		[nameField setStringValue:@"Multiple Selection"];
+		[sizeField setStringValue:[NSString localizedStringWithFormat:@"%ld files",[currentObjects count]]];
+	}
+
+	NSView *firstTabViewItem = [[tabView tabViewItemAtIndex:0] view];
+	NSEnumerator *iter = [[firstTabViewItem subviews] objectEnumerator];
+	id cntl;
+
+	while ((cntl = [iter nextObject]) != NULL)
+	{
+		int index = [cntl tag] - 1;
+		
+		if (index > -1 && index < 11)
+		{	
+			id currentMethod = [methodMappings objectAtIndex:index];
+			NSString *methodString = [NSString stringWithFormat:@"get%@", currentMethod];
+			SEL method = NSSelectorFromString(methodString);
+			id property = [self getObjectWithSelector:method fromObjects:currentObjects];
+			
+			if ([property isKindOfClass:[NSArray class]])
+			{
+				NSString *genreList = [property objectAtIndex:0];
+			
+				int i;
+				for (i=1;i<[property count];i++)
+				{
+					NSString *newGenre = [property objectAtIndex:i];
+					genreList = [NSString stringWithFormat:@"%@, %@", genreList, newGenre];
+				}
+				
+				[cntl setObjectValue:genreList];
+			}
+			else 
+			{
+				if (property)
+					[cntl setObjectValue:property];
+			}
+		}
+	}
+		
+	[self updateArtWork];
+}
+
+- (id)getObjectWithSelector:(SEL)selector fromObjects:(NSArray *)objects
+{
+	[Tag examineFile:[[objects objectAtIndex:0] objectForKey:@"Path"]];
+	
+	id baseValue = [Tag performSelector:selector];
+
+	if ([objects count] == 1)
+	{
+		if (selector == @selector(getYear))
+			return [NSNumber numberWithInt:[baseValue intValue]];
+		else if ([baseValue isKindOfClass:[NSNumber class]] && [baseValue intValue] == -1)
+			return @"";
+		else
+			return baseValue;
+	}
+	else 
 	{
 		int i;
 		for (i=0;i<[objects count];i++)
 		{
-		[Tag examineFile:[[objects objectAtIndex:i] objectForKey:@"Path"]];
-			if (isInt == NO)
-			{
-				if (![[Tag performSelector:selector] isEqualTo:tagObject])
+			[Tag examineFile:[[objects objectAtIndex:i] objectForKey:@"Path"]];
+			id currentValue = [Tag performSelector:selector];
+			
+				if (![currentValue isEqualTo:baseValue])
 				{
-					if ([tagObject isKindOfClass:[NSString class]])
-					return @"";
+					if ([baseValue isKindOfClass:[NSString class]])
+						return @"";
 					else
-					return nil;
+						return nil;
 				}
-			}
-			else
-			{
-				if (!((int)[Tag performSelector:selector] == (int)tagObject))
-				{
-				return nil;
-				}
-			}
 		}
 	}
 	
-	if (isInt)
-	{
-		if ((int)tagObject > 0)
-		return [NSNumber numberWithInt:(int)tagObject];
+		if ([baseValue isKindOfClass:[NSNumber class]] && [baseValue intValue] == -1)
+			return @"";
 		else
-		return nil;
-	}
-	else
-	{
-	return tagObject;
-	}
+			return baseValue;
 }
 
 - (void)setObjectWithSelector:(SEL)selector forObjects:(NSArray *)objects withObject:(id)object
 {
-	if ([objects count] > 1)
-	[Tag examineFile:[[objects objectAtIndex:0] objectForKey:@"Path"]];
+	int i;
+	for (i=0;i<[objects count];i++)
+	{
+		id finalObject = object;
+		NSString *method = NSStringFromSelector(selector);
+		
+		if ([method isEqualTo:@"setGenreNames:"])
+			finalObject = [object componentsSeparatedByString:@", "];
 	
-	if ([objects count] == 1)
-	{
-	[Tag performSelector:selector withObject:object];
-		if ([object isKindOfClass:[NSMutableArray class]])
-		[Tag setTitle:[Tag getTitle]];
-	[Tag updateFile];
-	}
-	else
-	{
-		int i;
-		for (i=0;i<[objects count];i++)
-		{
-		[Tag examineFile:[[objects objectAtIndex:i] objectForKey:@"Path"]];
-		[Tag performSelector:selector withObject:object];
-			if ([object isKindOfClass:[NSMutableArray class]])
-			[Tag setTitle:[Tag getTitle]];
+		NSString *path = [[objects objectAtIndex:i] objectForKey:@"Path"];
+		[Tag examineFile:path];
+		[Tag performSelector:selector withObject:finalObject];
 		[Tag updateFile];
-		}
 	}
 }
 
@@ -147,248 +162,141 @@ id tagObject = [Tag performSelector:selector];
 {
 	if ([[tabViewItem label] isEqualTo:@"Artwork"])
 	{
-	[self updateArtWorkAtIndex:0];
+		[self updateArtWork];
 	}
 }
 
-- (void)updateArtWorkAtIndex:(int)index
+- (void)updateArtWork
 {
-Tag = [[TagAPI alloc] initWithGenreList:nil];
+	KWAudioController *controller = [currentTableView delegate];
+	NSArray *tableData = [controller myDataSource];
+	NSArray *currentObjects = [KWCommonMethods allSelectedItemsInTableView:currentTableView fromArray:tableData];
 
-	if ([currentObjects count] == 1)
-	[Tag examineFile:[[currentObjects objectAtIndex:0] objectForKey:@"Path"]];
+	NSArray *images = [self getObjectWithSelector:@selector(getImage) fromObjects:currentObjects];
 	
-	NSArray *images = [self getObjectWithSelector:@selector(getImage) fromObjects:currentObjects returnsInt:NO];
+	if (currentIndex > [images count] - 1)
+		currentIndex = 0;
 		
-	if ([images count] > 0)
+	if (images && [images count] > 0)
 	{
-	NSImage *Image1 = [[NSImage alloc] init];
-	[Image1 addRepresentation:[[images objectAtIndex:index] objectForKey:@"Image"]];
-	[imageView setImage:Image1];
-	[imageString setStringValue:[[[[NSNumber numberWithInt:index + 1] stringValue] stringByAppendingString:NSLocalizedString(@" of ", Localized)] stringByAppendingString:[[NSNumber numberWithInt:[images count]] stringValue]]];
+		NSImage *Image1 = [[NSImage alloc] init];
+		[Image1 addRepresentation:[[images objectAtIndex:currentIndex] objectForKey:@"Image"]];
+		[imageView setImage:Image1];
+		
+		NSString *countString = [NSString stringWithFormat:@"%ld of %ld", currentIndex + 1, [images count]];
+		[imageString setStringValue:countString];
 	}
 	else
 	{
-	[imageView setImage:nil];
-	[imageString setStringValue:[[@"0" stringByAppendingString:NSLocalizedString(@" of ", Localized)] stringByAppendingString:@"0"]];
+		[imageView setImage:nil];
+		NSString *countString = [NSString stringWithFormat:@"%ld of %ld",0,0];
+		[imageString setStringValue:countString];
 	}
-		
-[Tag release];
 }
 
 - (IBAction)addImage:(id)sender
 {
-NSOpenPanel *openPanel = [NSOpenPanel openPanel];
+	NSOpenPanel *openPanel = [NSOpenPanel openPanel];
 	
-[openPanel setCanChooseDirectories:NO];
-[openPanel setCanChooseFiles:YES];
-[openPanel setAllowsMultipleSelection:NO];
-[openPanel setResolvesAliases:YES];
+	[openPanel setCanChooseDirectories:NO];
+	[openPanel setCanChooseFiles:YES];
+	[openPanel setAllowsMultipleSelection:NO];
+	[openPanel setResolvesAliases:YES];
 
-[openPanel beginSheetForDirectory:nil file:nil types:[NSImage imageFileTypes] modalForWindow:[myView window] modalDelegate:self didEndSelector:@selector(openFileEnded:returnCode:contextInfo:) contextInfo:nil];
+	[openPanel beginSheetForDirectory:nil file:nil types:[NSImage imageFileTypes] modalForWindow:[myView window] modalDelegate:self didEndSelector:@selector(openFileEnded:returnCode:contextInfo:) contextInfo:nil];
 }
 
 - (void)openFileEnded:(NSOpenPanel*)panel returnCode:(int)returnCode contextInfo:(void *)contextInfo
 {
-[panel orderOut:self];
+	[panel orderOut:self];
 
 	if (returnCode == NSOKButton)
 	{
-	Tag = [[TagAPI alloc] initWithGenreList:nil];
-		
-	if ([currentObjects count] == 1)
-	[Tag examineFile:[[currentObjects objectAtIndex:0] objectForKey:@"Path"]];
+		KWAudioController *controller = [currentTableView delegate];
+		NSArray *tableData = [controller myDataSource];
+		NSArray *currentObjects = [KWCommonMethods allSelectedItemsInTableView:currentTableView fromArray:tableData];
 	
-	NSMutableArray *pictures = [self getObjectWithSelector:@selector(getImage) fromObjects:currentObjects returnsInt:NO];
-	int currentImage;
+		NSMutableArray *pictures = [self getObjectWithSelector:@selector(getImage) fromObjects:currentObjects];
 	
 		if ([pictures count] == 0)
-		{
-		currentImage = 0;
-		pictures = [[NSMutableArray array] retain];
-		}
-		else
-		{
-		currentImage = [[[[imageString stringValue] componentsSeparatedByString:@" of"] objectAtIndex:0] intValue] -1;
-		}
+			pictures = [[NSMutableArray alloc] init];
 
-	int lastImage;
-	
 		NSArray *files = [panel filenames];
+		
 		int i;
 		for (i=0;i<[files count];i++)
 		{
-	    NSMutableDictionary *image = [NSMutableDictionary dictionaryWithCapacity:4];
+			NSMutableDictionary *image = [NSMutableDictionary dictionaryWithCapacity:4];
 	    
-	    [image setObject:[[NSBitmapImageRep imageRepsWithData:[NSData dataWithContentsOfFile:[files objectAtIndex:i]]] objectAtIndex:0] forKey:@"Image"];
-	    [image setObject:@"Other" forKey:@"Picture Type"];
-	    [image setObject:[NSString stringWithFormat:@"image/%@", [[files objectAtIndex:i] pathExtension]] forKey:@"Mime Type"];
-	    [image setObject:@"" forKey:@"Description"];
+			[image setObject:[[NSBitmapImageRep imageRepsWithData:[NSData dataWithContentsOfFile:[files objectAtIndex:i]]] objectAtIndex:0] forKey:@"Image"];
+			[image setObject:@"Other" forKey:@"Picture Type"];
+			[image setObject:[NSString stringWithFormat:@"image/%@", [[files objectAtIndex:i] pathExtension]] forKey:@"Mime Type"];
+			[image setObject:@"" forKey:@"Description"];
 			
 			if ([currentObjects count] == 1)
-			[pictures insertObject:image atIndex:currentImage+i];
+			{
+				[pictures insertObject:image atIndex:currentIndex + 1];
+				currentIndex = currentIndex + 1;
+			}
 			else
-			[pictures addObject:image];
-			
-		lastImage = currentImage+i;
+			{
+				[pictures addObject:image];
+			}
 		}
 	
-	[self setObjectWithSelector:@selector(setImages:) forObjects:currentObjects withObject:pictures];
-	[Tag release];
-	[self updateArtWorkAtIndex:lastImage];
+		[self setObjectWithSelector:@selector(setImages:) forObjects:currentObjects withObject:pictures];
+		
+		[self updateArtWork];
 	}
 }
 
 - (IBAction)nextImage:(id)sender
 {
-Tag = [[TagAPI alloc] initWithGenreList:nil];
-	
-	if ([currentObjects count] == 1)
-	[Tag examineFile:[[currentObjects objectAtIndex:0] objectForKey:@"Path"]];
-	
-int currentImage = [[[[imageString stringValue] componentsSeparatedByString:@" of"] objectAtIndex:0] intValue] -1;
-	
-	if (currentImage + 1 < [[Tag getImage] count])
-	currentImage = currentImage + 1;
-	else
-	currentImage = 0;
-
-NSArray *images = [self getObjectWithSelector:@selector(getImage) fromObjects:currentObjects returnsInt:NO];
-	
-	if ([images count] > 0)
-	{
-	NSImage *Image1 = [[NSImage alloc] init];
-	[Image1 addRepresentation:[[images objectAtIndex:currentImage] objectForKey:@"Image"]];
-	[imageView setImage:Image1];
-	[imageString setStringValue:[[[NSNumber numberWithInt:currentImage + 1] stringValue] stringByAppendingString:[NSLocalizedString(@" of ", Localized) stringByAppendingString:[[NSNumber numberWithInt:[images count]] stringValue]]]];
-	}
-	
-[Tag release];
+	currentIndex = currentIndex + 1;
+	[self updateArtWork];
 }
 
 - (IBAction)optionsChanged:(id)sender
 {
-Tag = [[TagAPI alloc] initWithGenreList:nil];
-BOOL setTitle = YES;
-BOOL setArtist = YES;
-BOOL setComposer = YES;
-BOOL setAlbum = YES;
-BOOL setGenre = YES;
-BOOL setNotes = YES;
-
-	if ([currentObjects count] == 1)
-	{
-	[Tag examineFile:[[currentObjects objectAtIndex:0] objectForKey:@"Path"]];
-	}
-	else
-	{
-	setTitle = (![[self getObjectWithSelector:@selector(getTitle) fromObjects:currentObjects returnsInt:NO] isEqualTo:[title stringValue]]);
-	setArtist = (![[self getObjectWithSelector:@selector(getArtist) fromObjects:currentObjects returnsInt:NO] isEqualTo:[artist stringValue]]);
-	setComposer = (![[self getObjectWithSelector:@selector(getComposer) fromObjects:currentObjects returnsInt:NO] isEqualTo:[composer stringValue]]);
-	setAlbum = (![[self getObjectWithSelector:@selector(getAlbum) fromObjects:currentObjects returnsInt:NO] isEqualTo:[album stringValue]]);
-	setGenre = (![[self getObjectWithSelector:@selector(getGenreNames) fromObjects:currentObjects returnsInt:NO] isEqualTo:[NSArray arrayWithObject:[genre stringValue]]]);
-	setNotes = (![[self getObjectWithSelector:@selector(getComments) fromObjects:currentObjects returnsInt:NO] isEqualTo:[notes stringValue]]);
-	}
+	KWAudioController *controller = [currentTableView delegate];
+	NSArray *tableData = [controller myDataSource];
+	NSArray *currentObjects = [KWCommonMethods allSelectedItemsInTableView:currentTableView fromArray:tableData];
 	
-	int i;
-	TagAPI *saveTag = [[TagAPI alloc] initWithGenreList:nil];
-	for (i=0;i<[currentObjects count];i++)
-	{
-	[saveTag examineFile:[[currentObjects objectAtIndex:i] objectForKey:@"Path"]];
-	
-		if (setTitle)
-		[saveTag setTitle:[title stringValue]];
-		if (setArtist)
-		[saveTag setArtist:[artist stringValue]];
-		if (setComposer)
-		[saveTag setComposer:[composer stringValue]];
-		if (setAlbum)
-		[saveTag setAlbum:[album stringValue]];
-		if (setGenre)
-		[saveTag setGenreName:[[NSArray arrayWithObject:[genre stringValue]] retain]];
-		if ([year objectValue])
-		[saveTag setYear:[[year objectValue] intValue]];
-		if ([trackNumber objectValue] && [trackTotal objectValue])
-		[saveTag setTrack:[[trackNumber objectValue] intValue] totalTracks:[[trackTotal objectValue] intValue]];
-		else if ([trackNumber objectValue] && ![trackTotal objectValue])
-		[saveTag setTrack:[[trackNumber objectValue] intValue] totalTracks:[saveTag getTotalNumberTracks]];
-		else if (![trackNumber objectValue] && [trackTotal objectValue])
-		[saveTag setTrack:[saveTag getTrack] totalTracks:[[trackTotal objectValue] intValue]];
-		if ([discNumber objectValue] && [discTotal objectValue])
-		[saveTag setDisk:[[discNumber objectValue] intValue] totalDisks:[[discTotal objectValue] intValue]];
-		else if ([discNumber objectValue] && ![discTotal objectValue])
-		[saveTag setDisk:[[discNumber objectValue] intValue] totalDisks:[saveTag getTotalNumberDisks]];
-		else if (![discNumber objectValue] && [discTotal objectValue])
-		[saveTag setDisk:[saveTag getDisk] totalDisks:[[discTotal objectValue] intValue]];
-		if (setNotes)
-		[saveTag setComments:[notes stringValue]];
-		
-	[saveTag updateFile];
-	}
+	int index = [sender tag] - 1;
+	id currentMethod = [methodMappings objectAtIndex:index];
+	NSString *methodString = [NSString stringWithFormat:@"set%@:", currentMethod];
+	SEL method = NSSelectorFromString(methodString);
 
-[saveTag release];
-[Tag release];
+	[self setObjectWithSelector:method forObjects:currentObjects withObject:[sender objectValue]];
 }
 
 - (IBAction)previousImage:(id)sender
 {
-Tag = [[TagAPI alloc] initWithGenreList:nil];
-	
-	if ([currentObjects count] == 1)
-	[Tag examineFile:[[currentObjects objectAtIndex:0] objectForKey:@"Path"]];
-	
-int currentImage = [[[[imageString stringValue] componentsSeparatedByString:@" of"] objectAtIndex:0] intValue] -1;
-	
-	if (currentImage - 1 > - 1)
-	currentImage = currentImage - 1;
-	else
-	currentImage = [[Tag getImage] count] - 1;
-	
-NSArray *images = [self getObjectWithSelector:@selector(getImage) fromObjects:currentObjects returnsInt:NO];
-NSImage *Image1 = [[NSImage alloc] init];
-[Image1 addRepresentation:[[images objectAtIndex:currentImage] objectForKey:@"Image"]];
-[imageView setImage:Image1];
-[imageString setStringValue:[[[NSNumber numberWithInt:currentImage + 1] stringValue] stringByAppendingString:[NSLocalizedString(@" of ", Localized) stringByAppendingString:[[NSNumber numberWithInt:[images count]] stringValue]]]];
-	
-[Tag release];
+	currentIndex = currentIndex - 1;
+	[self updateArtWork];
 }
 
 - (IBAction)removeImage:(id)sender
 {
-Tag = [[TagAPI alloc] initWithGenreList:nil];
-	
-	if ([currentObjects count] == 1)
-	[Tag examineFile:[[currentObjects objectAtIndex:0] objectForKey:@"Path"]];
-	
-NSMutableArray *images = [self getObjectWithSelector:@selector(getImage) fromObjects:currentObjects returnsInt:NO];
+	KWAudioController *controller = [currentTableView delegate];
+	NSArray *tableData = [controller myDataSource];
+	NSArray *currentObjects = [KWCommonMethods allSelectedItemsInTableView:currentTableView fromArray:tableData];
+
+	NSMutableArray *images = [self getObjectWithSelector:@selector(getImage) fromObjects:currentObjects];
 	
 	if ([images count] > 1)
 	{
-	int currentImage = [[[[imageString stringValue] componentsSeparatedByString:@" of"] objectAtIndex:0] intValue] - 1;
-	[images removeObjectAtIndex:currentImage];
-	[self setObjectWithSelector:@selector(setImages:) forObjects:currentObjects withObject:images];
-	
-	[Tag release];
-
-		if (currentImage < [images count])
-		[self updateArtWorkAtIndex:currentImage];
-		else
-		[self updateArtWorkAtIndex:currentImage - 1];
-	}
-	else
-	{
-		if ([[Tag getImage] count] > 0)
-		{
-		[self setObjectWithSelector:@selector(setImages:) forObjects:currentObjects withObject:[[NSMutableArray arrayWithCapacity:2] retain]];
-		[Tag release];
-		[self updateArtWorkAtIndex:0];
-		}
+		[images removeObjectAtIndex:currentIndex];
+		[self setObjectWithSelector:@selector(setImages:) forObjects:currentObjects withObject:images];
+		
+		currentIndex = currentIndex - 1;
+		[self updateArtWork];
 	}
 }
 
 - (id)myView
 {
-return myView;
+	return myView;
 }
 
 @end
