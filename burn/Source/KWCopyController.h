@@ -3,10 +3,10 @@
 #import <Cocoa/Cocoa.h>
 #import <DiscRecording/DiscRecording.h>
 #import <KWProgress.h>
-#import <KWDiskScanner.h>
+#import <KWDiscScanner.h>
 #import <KWBurner.h>
 
-@interface copyController : NSObject
+@interface KWCopyController : NSObject
 {
     //Main Window
 	IBOutlet id mainWindow;
@@ -20,6 +20,7 @@
 	IBOutlet id clearDisk;
 	IBOutlet id dropIcon;
 	IBOutlet id browseButton;
+	IBOutlet id mountMenu;
 	
 	//Disc creation
 	IBOutlet id myDiscCreationController;
@@ -38,7 +39,7 @@
 	NSString *savedPath;
 	//Out little helpers
 	KWProgress *progressPanel;
-	KWDiskScanner* scanner;
+	KWDiscScanner* scanner;
 	KWBurner *burner;
 	
 	NSMutableArray *temporaryFiles;
@@ -46,33 +47,33 @@
 
 //Main actions
 - (IBAction)openFiles:(id)sender;
-- (IBAction)mountImage:(id)sender;
+- (IBAction)mountDisc:(id)sender;
 - (void)mount:(NSString *)path;
 - (IBAction)scanDisks:(id)sender;
 - (IBAction)clearDisk:(id)sender;
 - (BOOL)checkImage:(NSString *)path;
 - (BOOL)isImageMounted:(NSString *)path;
-- (NSString *)formatDescription:(NSString *)format;
 
 //Disc creation actions
-- (void)burn;
-- (void)saveImage;
-- (id)myTrack;
+- (void)burn:(id)sender;
+- (void)saveImage:(id)sender;
+- (id)myTrackWithErrorString:(NSString **)error;
 - (void)remount:(id)object;
 
 //Other actions
 - (NSString *)myDisc;
 - (float)totalSize;
-- (BOOL)hasRows;
+- (int)numberOfRows;
 - (BOOL)isMounted;
 - (BOOL)isRealDisk;
 - (BOOL)isCompatible;
 - (NSString *)getRealDevicePath:(NSString *)path;
-- (void)stopHdiutil;
+- (void)changeMountState:(BOOL)state forDevicePath:(NSString *)path;
 - (void)deviceUnmounted:(NSNotification *)notif;
 - (void)deviceMounted:(NSNotification *)notif;
 - (void)deleteTemporayFiles:(BOOL)needed;
 - (BOOL)isCueFile;
 - (BOOL)isAudioCD;
+- (int)cueImageSizeAtPath:(NSString *)path;
 
 @end
