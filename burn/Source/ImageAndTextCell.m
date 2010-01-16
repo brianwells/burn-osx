@@ -49,7 +49,7 @@
 
 #import "ImageAndTextCell.h"
 #import <DiscRecording/DiscRecording.h>
-#import "dataController.h"
+#import "KWDataController.h"
 #import "KWDRFolder.h"
 
 @implementation ImageAndTextCell
@@ -62,105 +62,111 @@
 
 - copyWithZone:(NSZone *)zone 
 {
-ImageAndTextCell *cell = (ImageAndTextCell *)[super copyWithZone:zone];
-cell->image = [image retain];
-
-return cell;
+	ImageAndTextCell *cell = (ImageAndTextCell *)[super copyWithZone:zone];
+	cell->image = [image retain];
+	
+	return cell;
 }
 
 - (void)setImage:(NSImage *)anImage 
 {
     if (anImage != image) 
 	{
-	[image release];
-	image = [anImage retain];
+		[image release];
+		image = [anImage retain];
     }
 }
 
 - (NSImage *)image 
 {
-return image;
+	return image;
 }
 
-- (NSRect)imageFrameForCellFrame:(NSRect)cellFrame {
-    if (image != nil) {
+- (NSRect)imageFrameForCellFrame:(NSRect)cellFrame 
+{
+    if (image != nil) 
+	{
         NSRect imageFrame;
         imageFrame.size = [image size];
         imageFrame.origin = cellFrame.origin;
         imageFrame.origin.x += 3;
         imageFrame.origin.y += ceil((cellFrame.size.height - imageFrame.size.height) / 2);
+
         return imageFrame;
     }
     else
+	{
         return NSZeroRect;
+	}
 }
 
-- (void)editWithFrame:(NSRect)aRect inView:(NSView *)controlView editor:(NSText *)textObj delegate:(id)anObject event:(NSEvent *)theEvent {
-	
+- (void)editWithFrame:(NSRect)aRect inView:(NSView *)controlView editor:(NSText *)textObj delegate:(id)anObject event:(NSEvent *)theEvent 
+{	
 	NSRect textFrame, imageFrame;
     NSDivideRect (aRect, &imageFrame, &textFrame, 3 + [image size].width, NSMinXEdge);
     [super editWithFrame: textFrame inView: controlView editor:textObj delegate:anObject event: theEvent];
 }
 
-- (void)selectWithFrame:(NSRect)aRect inView:(NSView *)controlView editor:(NSText *)textObj delegate:(id)anObject start:(int)selStart length:(int)selLength {
+- (void)selectWithFrame:(NSRect)aRect inView:(NSView *)controlView editor:(NSText *)textObj delegate:(id)anObject start:(int)selStart length:(int)selLength
+{
     NSRect textFrame, imageFrame;
     NSDivideRect (aRect, &imageFrame, &textFrame, 3 + 16, NSMinXEdge);
 	
 
-KWDRFolder *folder = [[(dataController *)[anObject delegate] selectedDRFSObjects] objectAtIndex:0];	
+	KWDRFolder *folder = [[(KWDataController *)[anObject delegate] selectedDRFSObjects] objectAtIndex:0];	
 	
-BOOL isDir;
+	BOOL isDir;
 	if (![folder isVirtual])
-	[[NSFileManager defaultManager] fileExistsAtPath:[folder sourcePath] isDirectory:&isDir];
+		[[NSFileManager defaultManager] fileExistsAtPath:[folder sourcePath] isDirectory:&isDir];
 
 	int newSelLength;
 	if ([folder isVirtual] && ![folder isFilePackage])
-	newSelLength = ([[self stringValue] length]);
+		newSelLength = ([[self stringValue] length]);
 	else if (![folder isVirtual] && isDir && ![[NSWorkspace sharedWorkspace] isFilePackageAtPath:[folder sourcePath]])
-	newSelLength = ([[self stringValue] length]);
+		newSelLength = ([[self stringValue] length]);
 	else if (![[[self stringValue] pathExtension] isEqualTo:@""])
-	newSelLength = ([[self stringValue] length]) - ([[[self stringValue] pathExtension] length] + 1);
+		newSelLength = ([[self stringValue] length]) - ([[[self stringValue] pathExtension] length] + 1);
 	else
-	newSelLength = ([[self stringValue] length]);
+		newSelLength = ([[self stringValue] length]);
 
     [super selectWithFrame:textFrame inView:controlView editor:textObj delegate:anObject start:selStart length:newSelLength];
 }
 
 - (void)drawWithFrame:(NSRect)cellFrame inView:(NSView *)controlView 
 {
-   if (image != nil) 
-   {
-	NSSize	imageSize;
-	NSRect	imageFrame;
+	if (image != nil) 
+	{
+		NSSize	imageSize;
+		NSRect	imageFrame;
 	
-	NSSize originalSize = [image size];
-	[image setScalesWhenResized:YES];
-	[image setSize:NSMakeSize(16,16)];
+		NSSize originalSize = [image size];
+		[image setScalesWhenResized:YES];
+		[image setSize:NSMakeSize(16,16)];
 
-	imageSize = [image size];
-	NSDivideRect(cellFrame, &imageFrame, &cellFrame, 3 + imageSize.width, NSMinXEdge);
+		imageSize = [image size];
+		NSDivideRect(cellFrame, &imageFrame, &cellFrame, 3 + imageSize.width, NSMinXEdge);
         
 		if ([self drawsBackground]) 
 		{
-		[[self backgroundColor] set];
-		NSRectFill(imageFrame);
+			[[self backgroundColor] set];
+			NSRectFill(imageFrame);
         }
 		
-	imageFrame.origin.x += 3;
-	imageFrame.size = imageSize;
+		imageFrame.origin.x += 3;
+		imageFrame.size = imageSize;
 
         if ([controlView isFlipped])
-		imageFrame.origin.y += ceil((cellFrame.size.height + imageFrame.size.height) / 2);
+			imageFrame.origin.y += ceil((cellFrame.size.height + imageFrame.size.height) / 2);
         else
-		imageFrame.origin.y += ceil((cellFrame.size.height - imageFrame.size.height) / 2);
+			imageFrame.origin.y += ceil((cellFrame.size.height - imageFrame.size.height) / 2);
 	
-	[image compositeToPoint:imageFrame.origin operation:NSCompositeSourceOver];
+		[image compositeToPoint:imageFrame.origin operation:NSCompositeSourceOver];
 	
-	[image setScalesWhenResized:YES];
-	[image setSize:originalSize];
+		[image setScalesWhenResized:YES];
+		[image setSize:originalSize];
     }
 	
-[super drawWithFrame:cellFrame inView:controlView];
+	[super drawWithFrame:cellFrame inView:controlView];
 }
 
 - (NSSize)cellSize 
