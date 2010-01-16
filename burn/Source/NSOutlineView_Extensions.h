@@ -53,7 +53,6 @@
 
 - (NSArray*)allSelectedItems;
 - (void)selectItems:(NSArray*)items byExtendingSelection:(BOOL)extend;
-- (NSArray*)allSelectedItemIndexes;
 
 @end
 
