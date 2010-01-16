@@ -8,7 +8,25 @@
 
 #import "KWCommonMethods.h"
 #import "KWDRFolder.h"
-#import "KWDocument.h"
+#import "KWWindowController.h"
+#import <QuickTime/QuickTime.h>
+#import <QTKit/QTKit.h>
+
+@interface NSFileManager (MyUndocumentedMethodsForNSTheClass)
+
+- (BOOL)createDirectoryAtPath:(NSString *)path withIntermediateDirectories:(BOOL)createIntermediates attributes:(NSDictionary *)attributes error:(NSError **)error;
+- (BOOL)copyItemAtPath:(NSString *)srcPath toPath:(NSString *)dstPath error:(NSError **)error;
+- (BOOL)createSymbolicLinkAtPath:(NSString *)path withDestinationPath:(NSString *)destPath error:(NSError **)error;
+- (BOOL)removeItemAtPath:(NSString *)path error:(NSError **)error;
+
+@end
+
+@interface NSString (NewMethodsForNSString)
+
+- (BOOL)writeToFile:(NSString *)path atomically:(BOOL)useAuxiliaryFile encoding:(NSStringEncoding)enc error:(NSError **)error;
+
+@end
+
 
 @implementation KWCommonMethods
 
@@ -19,30 +37,22 @@
 #pragma mark -
 #pragma mark •• OS actions
 
-+ (BOOL)isPanther
++ (int)OSVersion
 {
 	SInt32 MacVersion;
-	if (Gestalt(gestaltSystemVersion, &MacVersion) == noErr)
-	{
-		if (MacVersion >= 0x1040)
-		return NO;
-		else
-		return YES;
-	}
-
-return NO;
+	
+	Gestalt(gestaltSystemVersion, &MacVersion);
+	
+	return (int)MacVersion;
 }
 
 + (BOOL)isQuickTimeSevenInstalled
 {
-long version;
-OSErr result;
+	long version;
+	OSErr result;
 
-     result = Gestalt(gestaltQuickTime,&version);
-     if ((result == noErr) && (version >= 0x07000000))
-     return YES;
-	 else
-	 return NO;
+	result = Gestalt(gestaltQuickTime,&version);
+	return ((result == noErr) && (version >= 0x07000000));
 }
 
 ///////////////////////////
@@ -52,110 +62,79 @@ OSErr result;
 #pragma mark -
 #pragma mark •• String format actions
 
-+ (NSString *)commentString:(NSString *)string
++ (NSString *)formatTime:(int)time
 {
-return [[@"\"" stringByAppendingString:string] stringByAppendingString:@"\""];
-}
+	float hours = time / 60 / 60;
+	float minutes = time / 60 - (hours * 60);
+	float seconds = time - (minutes * 60) - (hours * 60 * 60);
 
-+ (NSString *)formatTime:(int)totalSeconds
-{
-int hours = totalSeconds / 60 / 60;
-int minutes = totalSeconds / 60 - (hours * 60);
-int seconds = totalSeconds - (minutes * 60) - (hours * 60 * 60);
-	
-NSString *hourString = [[[NSNumber numberWithInt:hours] stringValue] stringByAppendingString:@":"];
-	
-	if (hours < 10)
-	hourString = [@"0" stringByAppendingString:hourString];
-	
-NSString *minuteString = [[[NSNumber numberWithInt:minutes] stringValue] stringByAppendingString:@":"];
-		
-	if (minutes < 10)
-	minuteString = [@"0" stringByAppendingString:minuteString];
-
-NSString *secondString = [[NSNumber numberWithInt:seconds] stringValue];
-	
-	if (seconds < 10)
-	secondString = [@"0" stringByAppendingString:secondString];
-		
-return [[hourString stringByAppendingString:minuteString] stringByAppendingString:secondString];
+	return [NSString stringWithFormat:@"%02.0f:%02.0f:%02.0f", hours, minutes, seconds];
 }
 
 + (NSString *)makeSizeFromFloat:(float)size
 {
-NSString *formattedSize = @"";
+	float blockSize;
+	
+	if ([KWCommonMethods OSVersion] >= 4192)
+		blockSize = 1000;
+	else
+		blockSize = 1024;
 
-float floatSize = size;
-
-	if (floatSize < 1024)
-		if (floatSize > 0)
-		formattedSize = NSLocalizedString(@"4 KB",@"Localized");
+	if (size < blockSize)
+	{
+		if (size > 0)
+			return [NSString localizedStringWithFormat: @"%.0f KB", 4];
 		else
-		formattedSize = [[NSString localizedStringWithFormat: @"%.0f", size] stringByAppendingString:NSLocalizedString(@" KB",@"Localized")];
-	
-	if (floatSize > 1024)
-	{
-	floatSize = size / 1024;
-	
-	formattedSize = [[NSString localizedStringWithFormat: @"%.0f", floatSize] stringByAppendingString:NSLocalizedString(@" KB",@"Localized")];
+			return [NSString localizedStringWithFormat: @"%.0f KB", size];
 	}
 	
-	if (floatSize > 1024)
+	
+		
+	BOOL isKB = (size < blockSize * blockSize);
+	BOOL isMB = (size < blockSize * blockSize * blockSize);
+	BOOL isGB = (size < blockSize * blockSize * blockSize * blockSize);
+	BOOL isTB = (size < blockSize * blockSize * blockSize * blockSize * blockSize);
+	
+	if (isKB)
+		return [NSString localizedStringWithFormat: @"%.0f KB", size / blockSize];
+	
+	if (isMB)
 	{
-	floatSize = size  / 1024 / 1024;
-
-	formattedSize = [NSString localizedStringWithFormat: @"%.1f", floatSize];
-
-		if ([[formattedSize substringFromIndex:[formattedSize length] -1] isEqualTo:@"0"])
-		formattedSize = [[NSString localizedStringWithFormat: @"%.0f", floatSize] stringByAppendingString:NSLocalizedString(@" MB",@"Localized")];
-		else
-		formattedSize = [formattedSize stringByAppendingString:NSLocalizedString(@" MB",@"Localized")];
+		NSString *sizeString = [NSString localizedStringWithFormat: @"%.1f", size  / blockSize / blockSize];
+		
+			if ([[sizeString substringFromIndex:[sizeString length] - 1] isEqualTo:@"0"])
+			sizeString = [sizeString substringWithRange:NSMakeRange(0, [sizeString length] - 2)];
+	
+		return [NSString localizedStringWithFormat: @"%@ MB", sizeString];
 	}
 	
-	if (floatSize > 1024)
+	if (isGB)
 	{
-	floatSize = size  / 1024 / 1024 / 1024;
-	
-	formattedSize = [NSString localizedStringWithFormat: @"%.2f", floatSize];
+		NSString *sizeString = [NSString localizedStringWithFormat: @"%.2f", size  / blockSize / blockSize / blockSize];
 		
-		if ([[formattedSize substringFromIndex:[formattedSize length] -1] isEqualTo:@"0"])
-		{
-		formattedSize = [NSString localizedStringWithFormat: @"%.1f", floatSize];
-		
-			if ([[formattedSize substringFromIndex:[formattedSize length] -1] isEqualTo:@"0"])
-			{
-			formattedSize = [NSString localizedStringWithFormat: @"%.0f", floatSize];
-			}
-		}
-		
-	formattedSize = [formattedSize stringByAppendingString:NSLocalizedString(@" GB",@"Localized")];
-	}
-	
-	if (floatSize > 1024)
-	{
-	floatSize = size / 1024 / 1024 / 1024 / 1024;
-	
-	formattedSize = [NSString localizedStringWithFormat: @"%.3f", floatSize];
-	
-		if ([[formattedSize substringFromIndex:[formattedSize length] -1] isEqualTo:@"0"])
-		{
-		formattedSize = [NSString localizedStringWithFormat: @"%.2f", floatSize];
-		
-			if ([[formattedSize substringFromIndex:[formattedSize length] -1] isEqualTo:@"0"])
-			{
-			formattedSize = [NSString localizedStringWithFormat: @"%.1f", floatSize];
+			if ([[sizeString substringFromIndex:[sizeString length] - 1] isEqualTo:@"0"])
+			sizeString = [sizeString substringWithRange:NSMakeRange(0, [sizeString length] - 1)];
 			
-				if ([[formattedSize substringFromIndex:[formattedSize length] -1] isEqualTo:@"0"])
-				{
-				formattedSize = [NSString localizedStringWithFormat: @"%.0f", floatSize];
-				}
-			}
-		}
-				
-	formattedSize = [formattedSize stringByAppendingString:NSLocalizedString(@" TB",@"Localized")];
+			if ([[sizeString substringFromIndex:[sizeString length] - 1] isEqualTo:@"0"])
+			sizeString = [sizeString substringWithRange:NSMakeRange(0, [sizeString length] - 2)];
+	
+		return [NSString localizedStringWithFormat: @"%@ GB", sizeString];
+	}
+	
+	if (isTB)
+	{
+		NSString *sizeString = [NSString localizedStringWithFormat: @"%.2f", size  / blockSize / blockSize / blockSize / blockSize];
+		
+			if ([[sizeString substringFromIndex:[sizeString length] - 1] isEqualTo:@"0"])
+			sizeString = [sizeString substringWithRange:NSMakeRange(0, [sizeString length] - 1)];
+			
+			if ([[sizeString substringFromIndex:[sizeString length] - 1] isEqualTo:@"0"])
+			sizeString = [sizeString substringWithRange:NSMakeRange(0, [sizeString length] - 2)];
+	
+		return [NSString localizedStringWithFormat: @"%@ TB", sizeString];
 	}	
 
-return formattedSize;
+	return [NSString localizedStringWithFormat: @"%.0f KB", 0];
 }
 
 //////////////////
@@ -165,50 +144,32 @@ return formattedSize;
 #pragma mark -
 #pragma mark •• File actions
 
-+ (BOOL)isSavediMovieProject:(NSString *)path
-{
-	if ([path rangeOfString:@".iMovieProject"].length > 0)
-	{
-		if (![[[path stringByDeletingLastPathComponent] lastPathComponent] isEqualTo:@"iDVD"])
-		return NO;
-	}
-
-return YES;
-}
-
-+ (NSString *)uniquePathNameFromPath:(NSString *)path withLength:(unsigned int)length
++ (NSString *)uniquePathNameFromPath:(NSString *)path
 {
 	if ([[NSFileManager defaultManager] fileExistsAtPath:path])
 	{
-	NSString *newPath = [path stringByDeletingPathExtension];
-	unsigned int fileLength;
-	NSString *pathExtension;
+		NSString *newPath = [path stringByDeletingPathExtension];
+		NSString *pathExtension;
 
 		if ([[path pathExtension] isEqualTo:@""])
-		pathExtension = @"";
+			pathExtension = @"";
 		else
-		pathExtension = [@"." stringByAppendingString:[path pathExtension]];
-
-		if (length > 0)
-		fileLength = 29 - [pathExtension length];
+			pathExtension = [@"." stringByAppendingString:[path pathExtension]];
 
 		int y = 0;
 		while ([[NSFileManager defaultManager] fileExistsAtPath:[newPath stringByAppendingString:pathExtension]])
 		{
-			if (length > 0 && [[path lastPathComponent] length] > 31)
-			newPath = [[path stringByDeletingLastPathComponent] stringByAppendingPathComponent:[[path lastPathComponent] substringWithRange:NSMakeRange(0,fileLength)]];
-			else
 			newPath = [path stringByDeletingPathExtension];
 			
-		y = y + 1;
-		newPath = [[newPath stringByAppendingString:@" "] stringByAppendingString:[[NSNumber numberWithInt:y] stringValue]];
+			y = y + 1;
+			newPath = [NSString stringWithFormat:@"%@ %i", newPath, y];
 		}
 
-	return [newPath stringByAppendingString:pathExtension];
+		return [newPath stringByAppendingString:pathExtension];
 	}
 	else
 	{
-	return path;
+		return path;
 	}
 }
 
@@ -216,34 +177,38 @@ return YES;
 {
 	if ([[[NSUserDefaults standardUserDefaults] objectForKey:@"KWTemporaryLocationPopup"] intValue] == 2)
 	{
-	NSSavePanel *sheet = [NSSavePanel savePanel];
-	[sheet setMessage:description];
-	[sheet setRequiredFileType:[file pathExtension]];
-	[sheet setCanSelectHiddenExtension:NO];
+		NSSavePanel *sheet = [NSSavePanel savePanel];
+		[sheet setMessage:description];
+		[sheet setRequiredFileType:[file pathExtension]];
+		[sheet setCanSelectHiddenExtension:NO];
 		
-	BOOL succes = [sheet runModalForDirectory:nil file:file];
-	
-		if (succes == YES)
-		return [sheet filename];
+		if ([sheet runModalForDirectory:nil file:file] == NSFileHandlingPanelOKButton)
+			return [sheet filename];
 		else
-		return nil;
+			return nil;
 	}
 	else
 	{
-	return [KWCommonMethods uniquePathNameFromPath:[[[NSUserDefaults standardUserDefaults] objectForKey:@"KWTemporaryLocation"] stringByAppendingPathComponent:file] withLength:0];
+		return [KWCommonMethods uniquePathNameFromPath:[[[NSUserDefaults standardUserDefaults] objectForKey:@"KWTemporaryLocation"] stringByAppendingPathComponent:file]];
 	}
 }
 
 + (BOOL)isBundleExtension:(NSString *)extension
 {
-NSString *testFile = [@"/tmp/kiwiburntest" stringByAppendingPathExtension:extension];
-BOOL isPackage;
+	NSString *testFile = [@"/tmp/kiwiburntest" stringByAppendingPathExtension:extension];
+	BOOL isPackage;
+	
+	if ([KWCommonMethods createDirectoryAtPath:testFile errorString:nil])
+	{
+		isPackage = [[NSWorkspace sharedWorkspace] isFilePackageAtPath:testFile];
+		[KWCommonMethods removeItemAtPath:testFile];
+	}
+	else
+	{
+		isPackage = NO;
+	}
 
-[[NSFileManager defaultManager] createDirectoryAtPath:testFile attributes:nil];
-isPackage = [[NSWorkspace sharedWorkspace] isFilePackageAtPath:testFile];
-[[NSFileManager defaultManager] removeFileAtPath:testFile handler:nil];
-
-return isPackage;
+	return isPackage;
 }
 
 //////////////////
@@ -255,127 +220,117 @@ return isPackage;
 
 + (BOOL)hasCustomIcon:(DRFSObject *)object
 {
-FSRef possibleCustomIcon;
-FSCatalogInfo catalogInfo;
-OSStatus errStat;
-errStat = FSPathMakeRef((unsigned char *)[[object sourcePath] fileSystemRepresentation], &possibleCustomIcon, nil);
-FSGetCatalogInfo(&possibleCustomIcon, kFSCatInfoFinderInfo, &catalogInfo, nil, nil, nil);
+	if ([object isVirtual])
+	return NO;
+
+	FSRef possibleCustomIcon;
+	FSCatalogInfo catalogInfo;
+	OSStatus errStat;
+	errStat = FSPathMakeRef((unsigned char *)[[object sourcePath] fileSystemRepresentation], &possibleCustomIcon, nil);
+	FSGetCatalogInfo(&possibleCustomIcon, kFSCatInfoFinderInfo, &catalogInfo, nil, nil, nil);
 		
 	if (((FileInfo*)catalogInfo.finderInfo)->finderFlags & kHasCustomIcon)
-	return YES;
+		return YES;
+	
+	NSString *pathExtension = [[object baseName] pathExtension];
+	BOOL isFile = [object isKindOfClass:[DRFile class]];
+	
+	if ([pathExtension isEqualTo:@"app"] && !isFile | [pathExtension isEqualTo:@"prefPane"] && !isFile)
+		return YES;
 
-	if ([[[object baseName] pathExtension] isEqualTo:@"app"] && ![object isKindOfClass:[DRFile class]] | [[[object baseName] pathExtension] isEqualTo:@"prefPane"] && ![object isKindOfClass:[DRFile class]])
-	return YES;
-
-return NO;
+	return NO;
 }
 
-+ (NSImage *)getFolderIcon:(DRFSObject *)fsObj
++ (NSImage *)getIcon:(DRFSObject *)fsObj
 {
-NSImage *img;
+	NSImage *img;
+	NSWorkspace *sharedWorkspace = [NSWorkspace sharedWorkspace];
+	NSString *baseName = [fsObj baseName];
+	NSString *pathExtension = [baseName pathExtension];
+	NSString *sourcePath;
+	BOOL containsHFS = [KWCommonMethods fsObjectContainsHFS:fsObj];
+	BOOL hasCustomIcon = [KWCommonMethods hasCustomIcon:fsObj];
 
-	if ([fsObj isVirtual])
+	if (![fsObj isVirtual])
+		sourcePath = [fsObj sourcePath];
+
+	if ([fsObj isKindOfClass:[DRFile class]])
 	{
-		if ([KWCommonMethods fsObjectContainsHFS:fsObj] && [(KWDRFolder *)fsObj folderIcon])
+		if (containsHFS && hasCustomIcon)
 		{
-		img = [(KWDRFolder *)fsObj folderIcon];
-		}
-		else if ([(KWDRFolder *)fsObj isFilePackage] && [[fsObj baseName] isEqualTo:[KWCommonMethods fsObjectFileName:fsObj]] | [[[fsObj baseName] stringByDeletingPathExtension] isEqualTo:[KWCommonMethods fsObjectFileName:fsObj]] | [[KWCommonMethods fsObjectFileName:fsObj] isEqualTo:[(KWDRFolder *)fsObj displayName]])
-		// && (![[[KWCommonMethods fsObjectFileName:fsObj] pathExtension] isEqualTo:@""] | [[[fsObj baseName] stringByDeletingPathExtension] isEqualTo:[KWCommonMethods fsObjectFileName:fsObj]] | [[KWCommonMethods fsObjectFileName:fsObj] isEqualTo:[(KWDRFolder *)fsObj displayName]]))
-		{
-			if ([[[(KWDRFolder *)fsObj baseName] pathExtension] isEqualTo:@"app"])
-			{
-			img = [(KWDRFolder *)fsObj folderIcon];
-			}
-			else
-			{
-			img = [[NSWorkspace sharedWorkspace] iconForFileType:[[(KWDRFolder *)fsObj baseName] pathExtension]];
-			}
+			img = [sharedWorkspace iconForFile:sourcePath];
 		}
 		else
 		{
-		//Just a folder kGenericFolderIcon creates weird folders on Intel
-		img = [[NSWorkspace sharedWorkspace] iconForFile:@"/bin"];
-		}
-	}
-	else
-	{
-		if ([KWCommonMethods hasCustomIcon:fsObj])
-		{
-		[(KWDRFolder *)fsObj setFolderIcon:[[NSWorkspace sharedWorkspace] iconForFile:[fsObj sourcePath]]];
-		}
-	
-		if ([KWCommonMethods fsObjectContainsHFS:fsObj] && [(KWDRFolder *)fsObj folderIcon])
-		{
-		img = [(KWDRFolder *)fsObj folderIcon];
-		}
-		else if ([(KWDRFolder *)fsObj isFilePackage] && [[fsObj baseName] isEqualTo:[KWCommonMethods fsObjectFileName:fsObj]] | [[[fsObj baseName] stringByDeletingPathExtension] isEqualTo:[KWCommonMethods fsObjectFileName:fsObj]] | [[KWCommonMethods fsObjectFileName:fsObj] isEqualTo:[(KWDRFolder *)fsObj displayName]])
-		{
-			if ([[[(KWDRFolder *)fsObj baseName] pathExtension] isEqualTo:@"app"])
-			{
-			img = [(KWDRFolder *)fsObj folderIcon];
-			}
-			else
-			{
-			img = [[NSWorkspace sharedWorkspace] iconForFileType:[[(KWDRFolder *)fsObj baseName] pathExtension]];
-			}
-		}
-		else
-		{
-		//Just a folder kGenericFolderIcon creates weird folders on Intel
-		img = [[NSWorkspace sharedWorkspace] iconForFile:@"/bin"];
-		}
-	}
-	
-	if (![KWCommonMethods isDRFSObjectVisible:fsObj])
-	{
-	NSImage* dragImage=[[[NSImage alloc] initWithSize:[img size]] autorelease];
-			
-	[dragImage lockFocus];
-	[img dissolveToPoint: NSZeroPoint fraction: .5];
-	[dragImage unlockFocus];
-			
-	[dragImage setScalesWhenResized:YES];
-			
-	return dragImage;
-	}
-
-return img;
-}
-
-+ (NSImage *)getFileIcon:(DRFSObject *)fsObj
-{
-NSImage *img;
-	
-	if ([KWCommonMethods fsObjectContainsHFS:fsObj] && [KWCommonMethods hasCustomIcon:fsObj])
-	{
-	img = [[NSWorkspace sharedWorkspace] iconForFile:[fsObj sourcePath]];
-	}
-	else
-	{
-	NSString *fileType = @"";
+			NSString *fileType = @"";
 		
-		if ([KWCommonMethods fsObjectContainsHFS:fsObj])
-		fileType = NSFileTypeForHFSTypeCode([[[[NSFileManager defaultManager] fileAttributesAtPath:[fsObj sourcePath] traverseLink:YES] objectForKey:NSFileHFSTypeCode] longValue]);
+			if (containsHFS)
+				fileType = NSFileTypeForHFSTypeCode([[[[NSFileManager defaultManager] fileAttributesAtPath:sourcePath traverseLink:YES] objectForKey:NSFileHFSTypeCode] longValue]);
 	
-		if (![KWCommonMethods isBundleExtension:[[(KWDRFolder *)fsObj baseName] pathExtension]] && ![[[(KWDRFolder *)fsObj baseName] pathExtension] isEqualTo:@""])
-		img = [[NSWorkspace sharedWorkspace] iconForFileType:[[(KWDRFolder *)fsObj baseName] pathExtension]];
+			if (![KWCommonMethods isBundleExtension:pathExtension] && ![pathExtension isEqualTo:@""])
+				img = [sharedWorkspace iconForFileType:pathExtension];
+			else
+				img = [sharedWorkspace iconForFileType:fileType];
+		}
+	}
+	else
+	{
+		NSString *fsObjectFileName = [KWCommonMethods fsObjectFileName:fsObj];
+		NSString *displayName = [(KWDRFolder *)fsObj displayName];
+		NSImage *folderIcon = [(KWDRFolder *)fsObj folderIcon];
+		BOOL isFilePackage = [(KWDRFolder *)fsObj isFilePackage];
+		
+		if ([fsObj isVirtual])
+		{
+			if (containsHFS && folderIcon)
+			{
+				img = folderIcon;
+			}
+			else if (isFilePackage && [baseName isEqualTo:fsObjectFileName] | [[baseName stringByDeletingPathExtension] isEqualTo:fsObjectFileName] | [fsObjectFileName isEqualTo:displayName])
+			{
+				if ([pathExtension isEqualTo:@"app"])
+					img = folderIcon;
+				else
+					img = [sharedWorkspace iconForFileType:pathExtension];
+			}
+			else
+			{
+				//Just a folder kGenericFolderIcon creates weird folders on Intel
+				img = [sharedWorkspace iconForFile:@"/bin"];
+			}
+		}
 		else
-		img = [[NSWorkspace sharedWorkspace] iconForFileType:fileType];
+		{
+			if (containsHFS && hasCustomIcon)
+			{
+				img = [sharedWorkspace iconForFile:sourcePath];
+			}
+			else if (isFilePackage && [baseName isEqualTo:fsObjectFileName] | [[baseName stringByDeletingPathExtension] isEqualTo:fsObjectFileName] | [fsObjectFileName isEqualTo:displayName])
+			{
+				img = [sharedWorkspace iconForFile:sourcePath];
+			}
+			else
+			{
+				//Just a folder kGenericFolderIcon creates weird folders on Intel
+				img = [sharedWorkspace iconForFile:@"/bin"];
+			}
+		}
 	}
 	
 	if (![KWCommonMethods isDRFSObjectVisible:fsObj])
 	{
-	NSImage* dragImage=[[[NSImage alloc] initWithSize:[img size]] autorelease];
+		NSImage* dragImage=[[[NSImage alloc] initWithSize:[img size]] autorelease];
 			
-	[dragImage lockFocus];
-	[img dissolveToPoint: NSZeroPoint fraction: .5];
-	[dragImage unlockFocus];
+		[dragImage lockFocus];
+		[img dissolveToPoint: NSZeroPoint fraction: .5];
+		[dragImage unlockFocus];
 			
-	return dragImage;
+		[dragImage setScalesWhenResized:YES];
+			
+		return dragImage;
 	}
 
-return img;
+	return [img retain];
 }
 
 ////////////////////////
@@ -387,197 +342,167 @@ return img;
 
 + (BOOL)isDRFSObjectVisible:(DRFSObject *)object 
 {
-	if ([[object parent] effectiveFilesystemMask] & DRFilesystemInclusionMaskHFSPlus)
-	{
-		if ([[object baseName] hasPrefix:@"."])
-		return NO;
+	NSString *fileSystemType = nil;
 
-		if ([object propertyForKey:DRInvisible inFilesystem:DRHFSPlus mergeWithOtherFilesystems:NO])
-		{
-			if ([[object propertyForKey:DRInvisible inFilesystem:DRHFSPlus mergeWithOtherFilesystems:NO] boolValue])
-			{
-			return NO;
-			}
-			else
-			{
-			return YES;
-			}
-		}
-	}
+	if ([[object parent] effectiveFilesystemMask] & DRFilesystemInclusionMaskHFSPlus)
+		fileSystemType = DRHFSPlus;
 	else if ([[object parent] effectiveFilesystemMask] & DRFilesystemInclusionMaskJoliet)
-	{
-		if ([object propertyForKey:DRInvisible inFilesystem:DRJoliet mergeWithOtherFilesystems:NO])
-		{
-			if ([[object propertyForKey:DRInvisible inFilesystem:DRJoliet mergeWithOtherFilesystems:NO] boolValue])
-			return NO;
-			else
-			return YES;
-		}
-	}
+		fileSystemType = DRJoliet;
 	else if ([[object parent] effectiveFilesystemMask] & DRFilesystemInclusionMaskISO9660)
-	{
-		if ([object propertyForKey:DRInvisible inFilesystem:DRISO9660 mergeWithOtherFilesystems:NO])
-		{
-			if ([[object propertyForKey:DRInvisible inFilesystem:DRISO9660 mergeWithOtherFilesystems:NO] boolValue])
-			return NO;
-			else
-			return YES;
-		}
-	}
-	else if (![KWCommonMethods isPanther])
-	{
-		if ([[object parent] effectiveFilesystemMask] & DRFilesystemInclusionMaskUDF)
-		{
-			if ([object propertyForKey:DRInvisible inFilesystem:DRUDF mergeWithOtherFilesystems:NO])
-			{
-				if ([[object propertyForKey:DRInvisible inFilesystem:DRUDF mergeWithOtherFilesystems:NO] boolValue])
-				return NO;
-				else
-				return YES;
-			}
-		}
-	}
-	
+		fileSystemType = DRISO9660;
+	else if ([[object parent] effectiveFilesystemMask] & 1<<2)
+		fileSystemType = @"DRUDF";
+
+	NSNumber *invisible = nil;
+		
+	if (fileSystemType)
+		invisible = [object propertyForKey:DRInvisible inFilesystem:fileSystemType mergeWithOtherFilesystems:NO];
+
+	if (invisible)
+		return ![invisible boolValue];
+
 	if ([object isVirtual])
 	{
-	return YES;
+		return YES;
 	}
 	else
 	{
-	NSString *path = [object sourcePath];
+		NSString *path = [object sourcePath];
 
 		if ([[path lastPathComponent] hasPrefix:@"."]) 
 		{
-		return NO;
+			return NO;
 		}
 		else 
 		{
-		// check if file is in .hidden
-		NSString *hiddenFile = [NSString stringWithContentsOfFile:@"/.hidden"];
-		NSArray *dotHiddens = [hiddenFile componentsSeparatedByString:@"\n"];
+			// check if file is in .hidden
+			NSString *hiddenFile = [NSString stringWithContentsOfFile:@"/.hidden"];
+			NSArray *dotHiddens = [hiddenFile componentsSeparatedByString:@"\n"];
 		
 			if ([dotHiddens containsObject:[path lastPathComponent]])
-			return NO;
-		// use Carbon to check if file has kIsInvisible finder flag
-		FSRef possibleInvisibleFile;
-		FSCatalogInfo catalogInfo;
-		OSStatus errStat;
-		errStat = FSPathMakeRef((unsigned char *)[path fileSystemRepresentation], &possibleInvisibleFile, nil);
-		FSGetCatalogInfo(&possibleInvisibleFile, kFSCatInfoFinderInfo, &catalogInfo, nil, nil, nil);
+				return NO;
+		
+			// use Carbon to check if file has kIsInvisible finder flag
+			FSRef possibleInvisibleFile;
+			FSCatalogInfo catalogInfo;
+			OSStatus errStat;
+			errStat = FSPathMakeRef((unsigned char *)[path fileSystemRepresentation], &possibleInvisibleFile, nil);
+			FSGetCatalogInfo(&possibleInvisibleFile, kFSCatInfoFinderInfo, &catalogInfo, nil, nil, nil);
 		
 			if (((FileInfo*)catalogInfo.finderInfo)->finderFlags & kIsInvisible)
-			return NO;
+				return NO;
 		}
 	}
 
-return YES;
+	return YES;
 }
 
 + (BOOL)fsObjectContainsHFS:(DRFSObject *)object
 {
 	if ([[object parent] effectiveFilesystemMask] & DRFilesystemInclusionMaskHFSPlus | [[object parent] effectiveFilesystemMask] & (1<<4))
-	return YES;
+		return YES;
 	else if ([object effectiveFilesystemMask] & DRFilesystemInclusionMaskHFSPlus | [object effectiveFilesystemMask] & (1<<4))
-	return YES;
+		return YES;
 	
-return NO;
+	return NO;
 }
 
 + (NSString *)fsObjectFileName:(DRFSObject *)object
 {
+	NSString *baseName = [object baseName];
+	NSString *pathExtension = [baseName pathExtension];
+
 	if ([KWCommonMethods fsObjectContainsHFS:object])
 	{
-	BOOL hideExtension = NO;
-	NSNumber *fFlags = [object propertyForKey:DRMacFinderFlags inFilesystem:DRHFSPlus mergeWithOtherFilesystems:NO];
-	unsigned short fndrFlags = [fFlags unsignedShortValue];
+		BOOL hideExtension = NO;
+		NSNumber *fFlags = [object propertyForKey:DRMacFinderFlags inFilesystem:DRHFSPlus mergeWithOtherFilesystems:NO];
+		unsigned short fndrFlags = [fFlags unsignedShortValue];
 	
-		if (([[[object baseName] pathExtension] isEqualTo:@"app"] | [KWCommonMethods isDRFolderIsLocalized:(DRFolder *)object]) && ![object isKindOfClass:[DRFile class]])
+		if (([pathExtension isEqualTo:@"app"] | [KWCommonMethods isDRFolderIsLocalized:(DRFolder *)object]) && ![object isKindOfClass:[DRFile class]])
 		{
-			if ([[object baseName] isEqualTo:[(KWDRFolder *)object originalName]])
-			return [(KWDRFolder *)object displayName];
+			if ([baseName isEqualTo:[(KWDRFolder *)object originalName]])
+				return [(KWDRFolder *)object displayName];
 			else
-			hideExtension = YES;
+				hideExtension = YES;
 		}
-		else if ([[[object baseName] pathExtension] isEqualTo:@"localized"])
+		else if ([pathExtension isEqualTo:nil])
 		{
-		hideExtension = YES;
+			hideExtension = YES;
 		}
 		else if ([object isVirtual])
 		{
-		hideExtension = (0x0010 & fndrFlags);
+			hideExtension = (0x0010 & fndrFlags);
 		}
 		else
 		{
 			if (fFlags)
-			hideExtension = (0x0010 & fndrFlags);
+				hideExtension = (0x0010 & fndrFlags);
 			else
-			hideExtension = [[[[NSFileManager defaultManager] fileAttributesAtPath:[object sourcePath] traverseLink:YES] objectForKey:NSFileExtensionHidden] boolValue];
+				hideExtension = [[[[NSFileManager defaultManager] fileAttributesAtPath:[object sourcePath] traverseLink:YES] objectForKey:NSFileExtensionHidden] boolValue];
 		}
 		
-		NSString *baseName = [object baseName];
-		
-			if ([[object parent] effectiveFilesystemMask] & (1<<4))
+		if ([[object parent] effectiveFilesystemMask] & (1<<4))
+		{
+			if ([baseName hasPrefix:@"."]) 
 			{
-				if ([[baseName substringWithRange:NSMakeRange(0,1)] isEqualTo:@"."])
-				{
 				baseName = [baseName substringWithRange:NSMakeRange(1,[baseName length] - 1)];
-				}
+			}
 				
-				if ([baseName length] > 31)
-				{
-				NSString *pathExtension;
+			if ([baseName length] > 31)
+			{
+				NSString *newPathExtension;
 
-					if ([[baseName pathExtension] isEqualTo:@""])
-					pathExtension = @"";
-					else
-					pathExtension = [@"." stringByAppendingString:[baseName pathExtension]];
+				if ([pathExtension isEqualTo:@""])
+					newPathExtension = @"";
+				else
+					newPathExtension = [@"." stringByAppendingString:pathExtension];
 
 	
-				unsigned int fileLength = 31 - [pathExtension length];
+				unsigned int fileLength = 31 - [newPathExtension length];
 
-				baseName = [[baseName substringWithRange:NSMakeRange(0,fileLength)] stringByAppendingString:pathExtension];
-				}
+				baseName = [[baseName substringWithRange:NSMakeRange(0,fileLength)] stringByAppendingString:newPathExtension];
 			}
+		}
 		
 		if (hideExtension)
-		return [baseName stringByDeletingPathExtension];
+			return [baseName stringByDeletingPathExtension];
 		else
-		return baseName;
+			return baseName;
 	}
 	else if ([[object parent] effectiveFilesystemMask] & DRFilesystemInclusionMaskISO9660)
 	{
-	return [object mangledNameForFilesystem:DRISO9660LevelTwo];
+		return [object mangledNameForFilesystem:DRISO9660LevelTwo];
 	}
 	else
 	{
-		if (([[[object baseName] pathExtension] isEqualTo:@"app"] | [KWCommonMethods isDRFolderIsLocalized:(DRFolder *)object]) && ![object isKindOfClass:[DRFile class]])
+		if (([pathExtension isEqualTo:@"app"] | [KWCommonMethods isDRFolderIsLocalized:(DRFolder *)object]) && ![object isKindOfClass:[DRFile class]])
 		{
 			NSString *displayName = [(KWDRFolder *)object displayName];
-			if ([[object baseName] isEqualTo:[(KWDRFolder *)object originalName]])
-			return displayName;
+			if ([baseName isEqualTo:[(KWDRFolder *)object originalName]])
+				return displayName;
 			else
-			return [[object baseName] stringByDeletingPathExtension];
+				return [baseName stringByDeletingPathExtension];
 		}
-		else if ([[[object baseName] pathExtension] isEqualTo:@"localized"])
+		else if ([pathExtension isEqualTo:nil])
 		{
-		return [[object baseName] stringByDeletingPathExtension];
+			return [baseName stringByDeletingPathExtension];
 		}
 		else
 		{
-		return [object baseName];
+			return baseName;
 		}
 	}
 }
 
 + (unsigned long)getFinderFlagsAtPath:(NSString *)path
 {
-FSRef possibleInvisibleFile;
-FSCatalogInfo catalogInfo;
-OSStatus errStat;
-errStat = FSPathMakeRef((unsigned char *)[path fileSystemRepresentation], &possibleInvisibleFile, nil);
-FSGetCatalogInfo(&possibleInvisibleFile, kFSCatInfoFinderInfo, &catalogInfo, nil, nil, nil);
+	FSRef possibleInvisibleFile;
+	FSCatalogInfo catalogInfo;
+	OSStatus errStat;
+	errStat = FSPathMakeRef((unsigned char *)[path fileSystemRepresentation], &possibleInvisibleFile, nil);
+	FSGetCatalogInfo(&possibleInvisibleFile, kFSCatInfoFinderInfo, &catalogInfo, nil, nil, nil);
 		
-return ((FileInfo*)catalogInfo.finderInfo)->finderFlags;
+	return ((FileInfo*)catalogInfo.finderInfo)->finderFlags;
 }
 
 + (BOOL)isDRFolderIsLocalized:(DRFolder *)folder
@@ -588,15 +513,181 @@ return ((FileInfo*)catalogInfo.finderInfo)->finderFlags;
 		for (i=0;i<[[folder children] count];i++)
 		{
 			if ([[[[folder children] objectAtIndex:i] baseName] isEqualTo:@".localized"])
-			return YES;
+				return YES;
 		}
 	}
 	else
 	{
-	return [[NSFileManager defaultManager] fileExistsAtPath:[[folder sourcePath] stringByAppendingPathComponent:@".localized"]];
+		return [[NSFileManager defaultManager] fileExistsAtPath:[[folder sourcePath] stringByAppendingPathComponent:@".localized"]];
 	}
 	
-return NO;
+	return NO;
+}
+
+///////////////////
+// Error actions //
+///////////////////
+
+#pragma mark -
+#pragma mark •• Error actions
+
++ (BOOL)createDirectoryAtPath:(NSString *)path errorString:(NSString **)error
+{
+	BOOL succes = YES;
+	NSString *details;
+	NSFileManager *defaultManager = [NSFileManager defaultManager];
+	
+	if (![defaultManager fileExistsAtPath:path])
+	{
+		if ([KWCommonMethods OSVersion] >= 0x1050)
+		{
+			NSError *myError;
+			succes = [defaultManager createDirectoryAtPath:path withIntermediateDirectories:NO attributes:nil error:&myError];
+			
+			if (!succes)
+				details = [myError localizedDescription];
+		}
+		else
+		{
+			succes = [defaultManager createDirectoryAtPath:path attributes:nil];
+			NSString *folder = [defaultManager displayNameAtPath:path];
+			NSString *parent = [defaultManager displayNameAtPath:[path stringByDeletingLastPathComponent]];
+			details = [NSString stringWithFormat:@"Failed to create folder '%@' in '%@'.", folder, parent];
+		}
+		
+		if (!succes)
+			*error = details;
+	}
+
+	return succes;
+}
+
++ (BOOL)copyItemAtPath:(NSString *)inPath toPath:(NSString *)newPath errorString:(NSString **)error
+{
+	BOOL succes = YES;
+	NSString *details = @"";
+	NSFileManager *defaultManager = [NSFileManager defaultManager];
+
+	if ([KWCommonMethods OSVersion] >= 0x1050)
+	{
+		NSError *myError;
+		succes = [defaultManager copyItemAtPath:inPath toPath:newPath error:&myError];
+			
+		if (!succes)
+			details = [myError localizedDescription];
+	}
+	else
+	{
+		succes = [defaultManager copyPath:inPath toPath:newPath handler:nil];
+	}
+		
+	if (!succes)
+	{
+		NSString *inFile = [defaultManager displayNameAtPath:inPath];
+		NSString *outFile = [defaultManager displayNameAtPath:[newPath stringByDeletingLastPathComponent]];
+		details = [NSString stringWithFormat:NSLocalizedString(@"Failed to copy '%@' to '%@'. %@", nil), inFile, outFile, details];
+		*error = details;
+	}
+		
+
+	return succes;
+}
+
++ (BOOL)createSymbolicLinkAtPath:(NSString *)path withDestinationPath:(NSString *)dest errorString:(NSString **)error;
+{
+	BOOL succes;
+	NSFileManager *defaultManager = [NSFileManager defaultManager];
+	
+	NSError *tempError;
+	
+	if ([KWCommonMethods OSVersion] >= 0x1050)
+		succes = [defaultManager createSymbolicLinkAtPath:path withDestinationPath:dest error:&tempError];
+	else
+		succes = [defaultManager createSymbolicLinkAtPath:path pathContent:dest];
+		
+	if (!succes)
+	{
+		NSLog(@"Path: %@, Destination: %@", path, dest);
+		NSLog([tempError localizedDescription]);
+		succes = [KWCommonMethods copyItemAtPath:path toPath:dest errorString:&*error];
+	}
+	
+	return succes;
+}
+
++ (BOOL)removeItemAtPath:(NSString *)path
+{
+	BOOL succes = YES;
+	NSString *details;
+	NSFileManager *defaultManager = [NSFileManager defaultManager];
+	
+	if ([defaultManager fileExistsAtPath:path])
+	{
+		if ([KWCommonMethods OSVersion] >= 0x1050)
+		{
+			NSError *myError;
+			succes = [defaultManager removeItemAtPath:path error:&myError];
+			
+			if (!succes)
+				details = [myError localizedDescription];
+		}
+		else
+		{
+			succes = [defaultManager removeFileAtPath:path handler:nil];
+			details = [NSString stringWithFormat:NSLocalizedString(@"File path: %@", nil), path];
+		}
+		
+		if (!succes)
+		{
+			NSString *file = [defaultManager displayNameAtPath:path];
+			[KWCommonMethods standardAlertWithMessageText:[NSString stringWithFormat:NSLocalizedString(@"Failed to delete '%@'.", nil), file ] withInformationText:details withParentWindow:nil];
+		}
+	}
+
+	return succes;
+}
+
++ (BOOL)writeString:(NSString *)string toFile:(NSString *)path errorString:(NSString **)error
+{
+	BOOL succes;
+	NSString *details;
+	
+	if ([KWCommonMethods OSVersion] >= 0x1040)
+	{
+		NSError *myError;
+		succes = [string writeToFile:path atomically:YES encoding:NSUTF8StringEncoding error:&myError];
+			
+			if (!succes)
+			details = [myError localizedDescription];
+	}
+	else
+	{
+		succes = [string writeToFile:path atomically:YES];
+		NSFileManager *defaultManager = [NSFileManager defaultManager];
+		NSString *file = [defaultManager displayNameAtPath:path];
+		NSString *parent = [defaultManager displayNameAtPath:[path stringByDeletingLastPathComponent]];
+		details = [NSString stringWithFormat:NSLocalizedString(@"Failed to write '%@' to '%@'", nil), file, parent];
+	}
+
+	if (!succes)
+		*error = details;
+
+	return succes;
+}
+
++ (BOOL)writeDictionary:(NSDictionary *)dictionary toFile:(NSString *)path errorString:(NSString **)error
+{
+	if (![dictionary writeToFile:path atomically:YES])
+	{
+		NSFileManager *defaultManager = [NSFileManager defaultManager];
+		NSString *file = [defaultManager displayNameAtPath:path];
+		NSString *parent = [defaultManager displayNameAtPath:[path stringByDeletingLastPathComponent]];
+		*error = [NSString stringWithFormat:NSLocalizedString(@"Failed to write '%@' to '%@'", nil), file, parent];
+	
+		return NO;
+	}
+
+	return YES;
 }
 
 ///////////////////
@@ -608,199 +699,170 @@ return NO;
 
 + (float)calculateRealFolderSize:(NSString *)path
 {
-NSTask *du = [[NSTask alloc] init];
-NSPipe *pipe = [[NSPipe alloc] init];
-NSFileHandle *handle;
-NSString *string;
-[du setLaunchPath:@"/usr/bin/du"];
-[du setArguments:[NSArray arrayWithObjects:@"-s",path,nil]];
-[du setStandardOutput:pipe];
-[du setStandardError:[NSFileHandle fileHandleWithNullDevice]];
-handle=[pipe fileHandleForReading];
-[du launch];
-string=[[NSString alloc] initWithData:[handle readDataToEndOfFile] encoding:NSASCIIStringEncoding];
-
-	if ([[NSUserDefaults standardUserDefaults] boolForKey:@"KWConsoleEnabled"] == YES)
-	{
-	[[NSNotificationCenter defaultCenter] postNotificationName:@"KWConsoleNotification" object:string];
-	NSLog(string);
-	}
-
-[du waitUntilExit];
-[pipe release];
-[du release];
-
-float size = [[[string componentsSeparatedByString:@" "] objectAtIndex:0] floatValue] / 4;
+	NSTask *du = [[NSTask alloc] init];
+	NSPipe *pipe = [[NSPipe alloc] init];
+	NSFileHandle *handle;
+	NSString *string;
+	[du setLaunchPath:@"/usr/bin/du"];
+	[du setArguments:[NSArray arrayWithObjects:@"-s",path,nil]];
+	[du setStandardOutput:pipe];
+	[du setStandardError:[NSFileHandle fileHandleWithNullDevice]];
+	handle=[pipe fileHandleForReading];
+	[du launch];
+	string=[[NSString alloc] initWithData:[handle readDataToEndOfFile] encoding:NSASCIIStringEncoding];
 	
-[string release];
+	if ([[NSUserDefaults standardUserDefaults] boolForKey:@"KWDebug"])
+		NSLog(string);
 
-return size;
+	[du waitUntilExit];
+	[pipe release];
+	[du release];
+
+	float size = [[[string componentsSeparatedByString:@" "] objectAtIndex:0] floatValue] / 4;
+	
+	[string release];
+
+	return size;
 }
 
 + (float)calculateVirtualFolderSize:(DRFSObject *)obj
 {
-NSArray *children = [(DRFolder *)obj children];
-float size = 0;
-
+	float size = 0;
+	
+	NSArray *children = [(DRFolder *)obj children];
 	int i = 0;
 	for (i=0;i<[children count];i++)
 	{
-	NSAutoreleasePool *subPool = [[NSAutoreleasePool alloc] init];
+		NSAutoreleasePool *subPool = [[NSAutoreleasePool alloc] init];
+		
+		DRFSObject *child = [children objectAtIndex:i];
 	
-		if (![[children objectAtIndex:i] isVirtual])
+		if (![child isVirtual])
 		{
 			BOOL isDir;
-			if ([[NSFileManager defaultManager] fileExistsAtPath:[[children objectAtIndex:i] sourcePath] isDirectory:&isDir] && isDir)
-			size = size + [KWCommonMethods calculateRealFolderSize:[[children objectAtIndex:i] sourcePath]];
+			NSString *sourcePath = [child sourcePath];
+			NSFileManager *defaultManager = [NSFileManager defaultManager];
+			
+			if ([defaultManager fileExistsAtPath:sourcePath isDirectory:&isDir] && isDir)
+				size = size + [KWCommonMethods calculateRealFolderSize:sourcePath];
 			else
-			size = size + [[[[NSFileManager defaultManager] fileAttributesAtPath:[[children objectAtIndex:i] sourcePath] traverseLink:YES] objectForKey:NSFileSize] floatValue]/2048;
+				size = size + [[[defaultManager fileAttributesAtPath:sourcePath traverseLink:YES] objectForKey:NSFileSize] floatValue] / 2048;
 		}
 		else
 		{
-		size = size + [self calculateVirtualFolderSize:[children objectAtIndex:i]];
+			size = size + [self calculateVirtualFolderSize:child];
 		}
 	
-	[subPool release];
+		[subPool release];
 	}
 
-return size;
+	return size;
 }
 
 + (NSArray*)allSelectedItemsInTableView:(NSTableView *)tableView fromArray:(NSArray *)array
 {
-NSMutableArray *items = [NSMutableArray array];
-NSEnumerator *selectedRows = [tableView selectedRowEnumerator];
-    
-	NSNumber *selRow = nil;
-    while( (selRow = [selectedRows nextObject]) ) 
-	{
-        if ([array objectAtIndex:[selRow intValue]]) 
-		[items addObject: [array objectAtIndex:[selRow intValue]]];
+	NSMutableArray *items = [NSMutableArray array];
+	NSIndexSet *indexSet = [tableView selectedRowIndexes];
+	
+	unsigned current_index = [indexSet firstIndex];
+    while (current_index != NSNotFound)
+    {
+		if ([array objectAtIndex:current_index]) 
+			[items addObject:[array objectAtIndex:current_index]];
+			
+        current_index = [indexSet indexGreaterThanIndex: current_index];
     }
 
-return items;
+	return items;
 }
 
 + (DRDevice *)getCurrentDevice
 {
-NSArray *devices = [NSArray arrayWithArray:[DRDevice devices]];
-
+	NSArray *devices = [NSArray arrayWithArray:[DRDevice devices]];
+	
 	if ([devices count] > 0)
 	{
 		int i;
 		for (i=0;i< [devices count];i++)
 		{
-			if ([[[[devices objectAtIndex:i] info] objectForKey:@"DRDeviceProductNameKey"] isEqualTo:[[[NSUserDefaults standardUserDefaults] dictionaryForKey:@"KWDefaultDeviceIdentifier"] objectForKey:@"Product"]])
-			return [devices objectAtIndex:i];
+		DRDevice *device = [devices objectAtIndex:i];
+		
+			if ([[[device info] objectForKey:@"DRDeviceProductNameKey"] isEqualTo:[[[NSUserDefaults standardUserDefaults] dictionaryForKey:@"KWDefaultDeviceIdentifier"] objectForKey:@"Product"]])
+				return device;
 		}
 	
-	return [devices objectAtIndex:0];
+		return [devices objectAtIndex:0];
 	}
 
-return nil;
-}
-
-+ (NSWindow *)firstBurnWindow
-{
-NSArray *windows = [NSApp orderedWindows];
-
-	int x;
-	for (x=0;x<[windows count];x++)
-	{
-		if ([[[windows objectAtIndex:x] delegate] isKindOfClass:[KWDocument class]])
-		return [windows objectAtIndex:x];
-	}
-
-return nil;
+	return nil;
 }
 
 + (NSDictionary *)getDictionaryFromString:(NSString *)string
 {
-NSArray *lines = [string componentsSeparatedByString:@"\n"];
-NSMutableDictionary *dictionary = [NSMutableDictionary dictionary];
+	NSArray *lines = [string componentsSeparatedByString:@"\n"];
+	NSMutableDictionary *dictionary = [NSMutableDictionary dictionary];
 
 	int x;
 	for (x=0;x<[lines count];x++)
 	{
-	NSArray *elements = [[lines objectAtIndex:x] componentsSeparatedByString:@":"];
+		NSArray *elements = [[lines objectAtIndex:x] componentsSeparatedByString:@":"];
 	
 		if ([elements count] > 1)
 		{
-		NSString *key = [[elements objectAtIndex:0] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
-		id value = [[elements objectAtIndex:1]stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+			NSString *key = [[elements objectAtIndex:0] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+			id value = [[elements objectAtIndex:1]stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
 	
 			if ([[value lowercaseString] isEqualTo:@"yes"])
-			value = [NSNumber numberWithBool:YES];
+				value = [NSNumber numberWithBool:YES];
 			else if ([[value lowercaseString] isEqualTo:@"no"])
-			value = [NSNumber numberWithBool:NO];
+				value = [NSNumber numberWithBool:NO];
 			
-		[dictionary setObject:value forKey:key];
+			[dictionary setObject:value forKey:key];
 		}
 	}
 	
-return dictionary;
+	return dictionary;
 }
 
 + (int)getSizeFromMountedVolume:(NSString *)mountPoint
 {
-NSTask *df = [[NSTask alloc] init];
-NSPipe *pipe = [[NSPipe alloc] init];
-NSFileHandle *handle;
-NSString *string;
-[df setLaunchPath:@"/bin/df"];
+	NSTask *df = [[NSTask alloc] init];
+	NSPipe *pipe = [[NSPipe alloc] init];
+	NSFileHandle *handle;
+	NSString *string;
+	[df setLaunchPath:@"/bin/df"];
+	[df setArguments:[NSArray arrayWithObject:mountPoint]];
+	[df setStandardOutput:pipe];
+	handle=[pipe fileHandleForReading];
+	[df launch];
 
-[df setArguments:[NSArray arrayWithObject:mountPoint]];
-[df setStandardOutput:pipe];
-handle=[pipe fileHandleForReading];
-[df launch];
-string=[[NSString alloc] initWithData:[handle readDataToEndOfFile] encoding:NSASCIIStringEncoding];
+	string=[[NSString alloc] initWithData:[handle readDataToEndOfFile] encoding:NSASCIIStringEncoding];
+	
+	if ([[NSUserDefaults standardUserDefaults] boolForKey:@"KWDebug"] == YES)
+		NSLog(string);
 
-	if ([[NSUserDefaults standardUserDefaults] boolForKey:@"KWConsoleEnabled"] == YES)
-	{
-	[[NSNotificationCenter defaultCenter] postNotificationName:@"KWConsoleNotification" object:string];
-	NSLog(string);
-	}
+	[df waitUntilExit];
+	[pipe release];
+	[df release];
 
-[df waitUntilExit];
-[pipe release];
-[df release];
+	NSArray *objects = [[[string componentsSeparatedByString:@"\n"] objectAtIndex:1] componentsSeparatedByString:@" "];
 
-NSArray *objects = [[[string componentsSeparatedByString:@"\n"] objectAtIndex:1] componentsSeparatedByString:@" "];
-
-int size = 0;
-int x = 1;
+	int size = 0;
+	int x = 1;
 
 	while (size == 0)
 	{
-	NSString *object = [objects objectAtIndex:x];
+		NSString *object = [objects objectAtIndex:x];
 	
 		if (![object isEqualTo:@""])
-		size = [object intValue];
+			size = [object intValue];
 		
-	x = x + 1;
+		x = x + 1;
 	}
 	
-[string release];
+	[string release];
 
-return size;
-}
-
-+ (void)writeLogWithFilePath:(NSString *)path withCommand:(NSString *)command withLog:(NSString *)log
-{
-NSString *errorLog;
-errorLog = [@"File: " stringByAppendingString:[[NSFileManager defaultManager] displayNameAtPath:path]];
-errorLog = [errorLog stringByAppendingString:[@"\rPath: " stringByAppendingString:path]];
-errorLog = [errorLog stringByAppendingString:[@"\rTask: " stringByAppendingString:command]];
-errorLog = [errorLog stringByAppendingString:[@"\rDate and Time: " stringByAppendingString:[[NSDate date] description]]];
-errorLog = [errorLog stringByAppendingString:@"\rLog:\r"];
-errorLog = [errorLog stringByAppendingString:log];
-		
-NSString *logFile = [NSHomeDirectory() stringByAppendingString:@"/Library/Logs/Burn Errors.log"];
-			
-	if ([[NSFileManager defaultManager] fileExistsAtPath:logFile])
-	errorLog = [[[NSString stringWithContentsOfFile:logFile] stringByAppendingString:@"-------------------------------------------------------\r\r"] stringByAppendingString:errorLog];
-			
-[errorLog writeToFile:logFile atomically:YES];
+	return size;
 }
 
 + (DRDevice *)savedDevice
@@ -811,69 +873,63 @@ NSString *logFile = [NSHomeDirectory() stringByAppendingString:@"/Library/Logs/B
 	for (i=0;i< [devices count];i++)
 	{
 		if ([[[[devices objectAtIndex:i] info] objectForKey:@"DRDeviceProductNameKey"] isEqualTo:[[[NSUserDefaults standardUserDefaults] dictionaryForKey:@"KWDefaultDeviceIdentifier"] objectForKey:@"Product"]])
-		return [devices objectAtIndex:i];
+			return [devices objectAtIndex:i];
 	}
 	
-return [devices objectAtIndex:0];
+	return [devices objectAtIndex:0];
 }
 
-+ (NSString *)defaultSizeForMedia:(int)media
++ (NSString *)defaultSizeForMedia:(NSString *)media
 {
-NSArray *sizes;
+	NSArray *sizes;
 
-	if (media == 1)
-	{
-	sizes = [NSArray arrayWithObjects:@"63", @"74", @"80", @"90", @"99", nil];
-		
-	return [sizes objectAtIndex:[[[NSUserDefaults standardUserDefaults] objectForKey:@"KWDefaultCDMedia"] intValue]];
-	}
+	if ([media isEqualTo:@"KWDefaultCDMedia"])
+		sizes = [NSArray arrayWithObjects:@"63", @"74", @"80", @"90", @"99", nil];
 	else
-	{
-	sizes = [NSArray arrayWithObjects:@"4506", @"8110", @"8960", @"12687", @"16321", nil];
-	
-	return [sizes objectAtIndex:[[[NSUserDefaults standardUserDefaults] objectForKey:@"KWDefaultDVDMedia"] intValue]];
-	}
+		sizes = [NSArray arrayWithObjects:@"4506", @"8110", @"8960", @"12687", @"16321", nil];
+
+	return [sizes objectAtIndex:[[[NSUserDefaults standardUserDefaults] objectForKey:media] intValue]];
 }
 
 + (NSImage *)getImageForName:(NSString *)name
 {
-NSDictionary *customImageDictionary = [NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:[NSImage imageNamed:@"General"], [NSImage imageNamed:@"Burn"], [[NSWorkspace sharedWorkspace] iconForFileType:NSFileTypeForHFSTypeCode(kGenericCDROMIcon)], [NSImage imageNamed:@"Audio CD"], [NSImage imageNamed:@"DVD"], [NSImage imageNamed:@"Advanced"], nil] forKeys:[NSArray arrayWithObjects:@"General", @"Burner",@"Data",@"Audio",@"Video",@"Advanced",nil]];
+	NSDictionary *customImageDictionary = [NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:[NSImage imageNamed:@"General"], [NSImage imageNamed:@"Burn"], [[NSWorkspace sharedWorkspace] iconForFileType:NSFileTypeForHFSTypeCode(kGenericCDROMIcon)], [NSImage imageNamed:@"Audio CD"], [NSImage imageNamed:@"DVD"], [NSImage imageNamed:@"Advanced"], nil] forKeys:[NSArray arrayWithObjects:@"General", @"Burner",@"Data",@"Audio",@"Video",@"Advanced",nil]];
 
-return [customImageDictionary objectForKey:name];
+	return [customImageDictionary objectForKey:name];
 }
 
 + (void)setupBurnerPopup:(NSPopUpButton *)popup
 {
-[popup removeAllItems];
+	[popup removeAllItems];
 		
 	int i;
 	NSArray *devices = [DRDevice devices];
 	for (i=0;i< [devices count];i++)
 	{
-	[popup addItemWithTitle:[[devices objectAtIndex:i] displayName]];
+		[popup addItemWithTitle:[[devices objectAtIndex:i] displayName]];
 	}
 		
 	if ([devices count] > 0)
 	{
 		if ([[NSUserDefaults standardUserDefaults] dictionaryForKey:@"KWDefaultDeviceIdentifier"])
 		{
-		[popup selectItemWithTitle:[[KWCommonMethods getCurrentDevice] displayName]];
+			[popup selectItemWithTitle:[[KWCommonMethods getCurrentDevice] displayName]];
 		}
 		else
 		{
-		NSMutableDictionary *burnDict = [[NSMutableDictionary alloc] init];
+			NSMutableDictionary *burnDict = [[NSMutableDictionary alloc] init];
 	
-		[burnDict setObject:[[[devices objectAtIndex:0] info] objectForKey:@"DRDeviceProductNameKey"] forKey:@"Product"];
-		[burnDict setObject:[[[devices objectAtIndex:0] info] objectForKey:@"DRDeviceVendorNameKey"] forKey:@"Vendor"];
-		[burnDict setObject:@"" forKey:@"SerialNumber"];
+			[burnDict setObject:[[[devices objectAtIndex:0] info] objectForKey:@"DRDeviceProductNameKey"] forKey:@"Product"];
+			[burnDict setObject:[[[devices objectAtIndex:0] info] objectForKey:@"DRDeviceVendorNameKey"] forKey:@"Vendor"];
+			[burnDict setObject:@"" forKey:@"SerialNumber"];
 
-		[[NSUserDefaults standardUserDefaults] setObject:[burnDict copy] forKey:@"KWDefaultDeviceIdentifier"];
+			[[NSUserDefaults standardUserDefaults] setObject:[burnDict copy] forKey:@"KWDefaultDeviceIdentifier"];
 		
-		[[NSNotificationCenter defaultCenter] postNotificationName:@"KWMediaChanged" object:nil];
+			[[NSNotificationCenter defaultCenter] postNotificationName:@"KWMediaChanged" object:nil];
 	
-		[popup selectItemWithTitle:[[devices objectAtIndex:0] displayName]];
+			[popup selectItemWithTitle:[[devices objectAtIndex:0] displayName]];
 
-		[burnDict release];
+			[burnDict release];
 		}
 	}
 }
@@ -881,17 +937,249 @@ return [customImageDictionary objectForKey:name];
 + (NSString *)ffmpegPath
 {
 	if ([[NSUserDefaults standardUserDefaults] boolForKey:@"KWUseCustomFFMPEG"] == YES && [[NSFileManager defaultManager] fileExistsAtPath:[[NSUserDefaults standardUserDefaults] objectForKey:@"KWCustomFFMPEG"]])
-	return [[NSUserDefaults standardUserDefaults] objectForKey:@"KWCustomFFMPEG"];
+		return [[NSUserDefaults standardUserDefaults] objectForKey:@"KWCustomFFMPEG"];
 	else
-	return [[NSBundle mainBundle] pathForResource:@"ffmpeg" ofType:@""];
+		return [[NSBundle mainBundle] pathForResource:@"ffmpeg" ofType:@""];
 }
 
 + (NSArray *)diskImageTypes
 {
-	if ([KWCommonMethods isPanther])
-	return [NSArray arrayWithObjects:@"sparseimage",@"toast",@"img", @"dmg", @"iso", @"cue",@"cdr", nil];
+	if ([KWCommonMethods OSVersion] < 0x1040)
+		return [NSArray arrayWithObjects:@"sparseimage",@"toast",@"img", @"dmg", @"iso", @"cue",@"cdr", nil];
 	else
-	return [NSArray arrayWithObjects:@"sparseimage",@"toast", @"img", @"dmg", @"iso", @"cue", @"toc",@"cdr", nil];
+		return [NSArray arrayWithObjects:@"sparseimage",@"toast", @"img", @"dmg", @"iso", @"cue", @"toc",@"cdr", nil];
+}
+
+//Create an array with indexes of selected rows in a tableview
++ (NSArray *)selectedRowsAtRowIndexes:(NSIndexSet *)indexSet
+{
+	//Get the selected rows and save them
+	NSMutableArray *selectedRows = [NSMutableArray array];
+	
+	unsigned current_index = [indexSet lastIndex];
+    while (current_index != NSNotFound)
+    {
+		[selectedRows addObject:[NSNumber numberWithUnsignedInt:current_index]];
+		current_index = [indexSet indexLessThanIndex: current_index];
+    }
+	
+	return selectedRows;
+}
+
+//Return an array of QuickTime and ffmpeg filetypes
++ (NSArray *)mediaTypes
+{
+	NSMutableArray *addFileTypes = [NSMutableArray arrayWithArray:[KWCommonMethods quicktimeTypes]];
+	NSArray *extraExtensions = [NSArray arrayWithObjects:@"vob",@"wma",@"wmv",@"asf",@"asx",@"ogg",@"flv",@"rm",@"flac",nil];
+		
+	int i;
+	for (i=0;i<[extraExtensions count];i++)
+	{
+		NSString *extension = [extraExtensions objectAtIndex:i];
+		
+		if ([addFileTypes indexOfObject:extension] == NSNotFound)
+			[addFileTypes addObject:extension];
+	}
+
+	return addFileTypes;
+}
+
+//Return an array of QuickTime filetypes
++ (NSArray *)quicktimeTypes
+{
+	NSMutableArray *filetypes = [NSMutableArray array];
+	
+	//Add protected files HFS Type, needed to warn
+	[filetypes addObject:NSFileTypeForHFSTypeCode('M4P ')];
+	[filetypes addObject:NSFileTypeForHFSTypeCode('M4B ')];
+
+	if ([KWCommonMethods isQuickTimeSevenInstalled])
+	{
+		[filetypes addObjectsFromArray:[QTMovie movieFileTypes:QTIncludeCommonTypes]];
+	}
+	else
+	{
+		NSMutableArray *qtTypes = [NSMutableArray array];
+		ComponentDescription findCD = {0, 0, 0, 0, 0};
+		ComponentDescription infoCD = {0, 0, 0, 0, 0};
+		Component comp = NULL;
+		OSErr err = noErr;
+
+		findCD.componentType = MovieImportType;
+		findCD.componentFlags = 0;
+
+		while (comp = FindNextComponent(comp, &findCD)) 
+		{
+			err = GetComponentInfo(comp, &infoCD, nil, nil, nil);
+			if (err == noErr) 
+			{
+				if (infoCD.componentFlags & movieImportSubTypeIsFileExtension)
+					[qtTypes addObject:[[[NSString stringWithCString:(char *)&infoCD.componentSubType length:sizeof(OSType)] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]] lowercaseString]];
+				else 
+					[qtTypes addObject:[NSString stringWithFormat:@"\'%@\'", [NSString stringWithCString:(char *)&infoCD.componentSubType length:sizeof(OSType)]]];
+			}
+		}
+	
+		[filetypes addObjectsFromArray:qtTypes];
+	}
+	
+	return filetypes;
+}
+
++ (int)createDVDFolderAtPath:(NSString *)path ofType:(int)type fromTableData:(id)tableData errorString:(NSString **)error
+{
+	int succes;
+	int x, z = 0;
+	NSArray *files;
+	NSPredicate *trackPredicate;
+
+	if (type == 0)
+	{
+		files = [NSArray arrayWithObjects:@"AUDIO_TS.IFO", @"AUDIO_TS.VOB", @"AUDIO_TS.BUP", @"AUDIO_PP.IFO",
+													@"AUDIO_SV.IFO", @"AUDIO_SV.VOB", @"AUDIO_SV.BUP", nil];
+		trackPredicate = [NSPredicate predicateWithFormat:@"SELF MATCHES 'ATS_\\\\d\\\\d_\\\\d\\\\.(?:IFO|AOB|BUP)'"];
+	}
+	else
+	{
+		files = [NSArray arrayWithObjects:@"VIDEO_TS.IFO", @"VIDEO_TS.VOB", @"VIDEO_TS.BUP", @"VTS.IFO", @"VTS.BUP", nil];
+		trackPredicate = [NSPredicate predicateWithFormat:@"SELF MATCHES 'VTS_\\\\d\\\\d_\\\\d\\\\.(?:IFO|VOB|BUP)'"];
+	}
+
+	NSDictionary *currentData = [tableData objectAtIndex:0];
+	
+	NSFileManager *defaultManager = [NSFileManager defaultManager];
+	
+	if (![KWCommonMethods createDirectoryAtPath:path errorString:&*error])
+		return 1;
+		
+	// create DVD folder
+	if (![KWCommonMethods createDirectoryAtPath:[path stringByAppendingPathComponent:@"AUDIO_TS"] errorString:&*error])
+		return 1;
+	if (![KWCommonMethods createDirectoryAtPath:[path stringByAppendingPathComponent:@"VIDEO_TS"] errorString:&*error])
+		return 1;
+	
+	// folderName should be AUDIO_TS or VIDEO_TS depending on the type
+	NSString *folderPath = [currentData objectForKey:@"Path"];
+	NSString *folderName = [currentData objectForKey:@"Name"];
+		
+	// copy or link contents that conform to standard
+	succes = 0;
+	NSArray *folderContents = [defaultManager directoryContentsAtPath:folderPath];
+		
+	for (x = 0; x < [folderContents count]; x++) 
+	{
+		NSString *fileName = [[folderContents objectAtIndex:x] uppercaseString];
+		NSString *filePath = [folderPath stringByAppendingPathComponent:[folderContents objectAtIndex:x]];
+		BOOL isDir;
+			
+		if ([defaultManager fileExistsAtPath:filePath isDirectory:&isDir] && !isDir) 
+		{
+				// normal file... check name
+			if ([files containsObject:fileName] || [trackPredicate evaluateWithObject:fileName]) 
+			{
+					// proper name... link or copy
+				NSString *dstPath = [[path stringByAppendingPathComponent:folderName] stringByAppendingPathComponent:fileName];
+				BOOL result = [KWCommonMethods createSymbolicLinkAtPath:dstPath withDestinationPath:filePath errorString:&*error];
+					
+				if (result == NO)
+					succes = 1;
+				if (succes == 1)
+					break; 
+				z++;
+			}
+		}
+	}
+		
+	if (z == 0)
+		succes = 1;
+		
+	return succes;
+}
+
++ (void)logCommandIfNeeded:(NSTask *)command
+{
+	if ([[NSUserDefaults standardUserDefaults] boolForKey:@"KWDebug"] == YES)
+	{
+		NSArray *showArgs = [command arguments];
+		NSString *commandString = [command launchPath];
+
+		int i;
+		for (i=0;i<[showArgs count];i++)
+		{
+			commandString = [NSString stringWithFormat:@"%@ %@", commandString, [showArgs objectAtIndex:i]];
+		}
+	
+		NSLog(commandString);
+	}
+}
+
++ (BOOL)launchNSTaskAtPath:(NSString *)path withArguments:(NSArray *)arguments outputError:(BOOL)error outputString:(BOOL)string output:(id *)data
+{
+	id output;
+	NSTask *task = [[NSTask alloc] init];
+	NSPipe *pipe =[ [NSPipe alloc] init];
+	NSPipe *outputPipe = [[NSPipe alloc] init];
+	NSFileHandle *handle;
+	NSFileHandle *outputHandle;
+	NSString *errorString = @"";
+	[task setLaunchPath:path];
+	[task setArguments:arguments];
+	[task setStandardError:pipe];
+	handle = [pipe fileHandleForReading];
+	
+	if (!error)
+	{
+		[task setStandardOutput:outputPipe];
+		outputHandle=[outputPipe fileHandleForReading];
+	}
+	
+	[KWCommonMethods logCommandIfNeeded:task];
+	
+	[task launch];
+	
+	if (error)
+		output = [handle readDataToEndOfFile];
+	else
+		output = [outputHandle readDataToEndOfFile];
+		
+	if (string)
+	{
+		output = [[[NSString alloc] initWithData:output encoding:NSASCIIStringEncoding] autorelease];
+		
+		if (!error)
+			errorString = [[[NSString alloc] initWithData:[handle readDataToEndOfFile] encoding:NSASCIIStringEncoding] autorelease];
+
+		if ([[NSUserDefaults standardUserDefaults] boolForKey:@"KWDebug"])
+			NSLog(@"%@\n%@", output, errorString);
+	}
+		
+	[task waitUntilExit];
+	
+	int result = [task terminationStatus];
+
+	if (!error && result != 0)
+		output = errorString;
+	
+	[pipe release];
+	[outputPipe release];
+	[task release];
+
+	*data = output;
+	
+	return (result == 0);
+}
+
++ (void)standardAlertWithMessageText:(NSString *)message withInformationText:(NSString *)information withParentWindow:(NSWindow *)parent
+{
+	NSAlert *alert = [[[NSAlert alloc] init] autorelease];
+	[alert addButtonWithTitle:NSLocalizedString(@"OK", Localized)];
+	[alert setMessageText:message];
+	[alert setInformativeText:information];
+	
+	if (parent)
+		[alert beginSheetModalForWindow:parent modalDelegate:self didEndSelector:nil contextInfo:nil];
+	else
+		[alert runModal];
 }
 
 @end
