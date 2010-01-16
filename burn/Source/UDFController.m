@@ -28,23 +28,23 @@
 
 - (NSString*) filesystem
 {
-// We're the controller for the UDF filesystem, so return the correct value.
-return DRUDF;
+	// We're the controller for the UDF filesystem, so return the correct value.
+	return @"DRUDF";
 }
 
 - (DRFilesystemInclusionMask) mask
 {
-// We're the controller for the UDF filesystem, so return the correct value.
-return DRFilesystemInclusionMaskUDF;
+	// We're the controller for the UDF filesystem, so return the correct value.
+	return 1<<2;
 }
 
 - (void)updateSpecific
 {
-[invisible setObjectValue:[self getPropertyForKey:DRInvisible]];
+	[invisible setObjectValue:[self getPropertyForKey:DRInvisible]];
 
-[effectiveDate setObjectValue:[self getPropertyForKey:[propertyMappings objectAtIndex:[effectiveDate tag]]]];
-[expirationDate setObjectValue:[self getPropertyForKey:[propertyMappings objectAtIndex:[expirationDate tag]]]];
-[recordingDate setObjectValue:[self getPropertyForKey:[propertyMappings objectAtIndex:[recordingDate tag]]]];
+	[effectiveDate setObjectValue:[self getPropertyForKey:[propertyMappings objectAtIndex:[effectiveDate tag]]]];
+	[expirationDate setObjectValue:[self getPropertyForKey:[propertyMappings objectAtIndex:[expirationDate tag]]]];
+	[recordingDate setObjectValue:[self getPropertyForKey:[propertyMappings objectAtIndex:[recordingDate tag]]]];
 }
 
 @end
