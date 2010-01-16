@@ -51,10 +51,10 @@
 
 @interface ISO9660Controller : ISOController 
 {
-	IBOutlet NSTextField*	level1MangledName;
-	IBOutlet NSTextField*	level1SpecificName;
-	IBOutlet NSTextField*	level2MangledName;
-	IBOutlet NSTextField*	level2SpecificName;
+	IBOutlet id	level1MangledName;
+	IBOutlet id	level1SpecificName;
+	IBOutlet id	level2MangledName;
+	IBOutlet id	level2SpecificName;
 }
 
 @end
