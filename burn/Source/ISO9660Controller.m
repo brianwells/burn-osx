@@ -66,29 +66,33 @@
 
 - (void) updateNames
 {
-	[baseName setObjectValue:[[inspectedItems objectAtIndex:0] baseName]];
+	DRFSObject *firstItem = [inspectedItems objectAtIndex:0];
+
+	[baseName setObjectValue:[firstItem baseName]];
 
 	// Ah ha! It's this troublesome ISO filesystem issue with the filenames. Instead of being able
 	// to just get the simple specific/mangled filename for the object, we need to specialze
 	// for the ISO Level 1 or Level 2 name as appropriate
-	[level1SpecificName setObjectValue:[[inspectedItems objectAtIndex:0] specificNameForFilesystem:DRISO9660LevelOne]];
-	[level1MangledName setObjectValue:[[inspectedItems objectAtIndex:0] mangledNameForFilesystem:DRISO9660LevelOne]];
+	[level1SpecificName setObjectValue:[firstItem specificNameForFilesystem:DRISO9660LevelOne]];
+	[level1MangledName setObjectValue:[firstItem mangledNameForFilesystem:DRISO9660LevelOne]];
 
-	[level2SpecificName setObjectValue:[[inspectedItems objectAtIndex:0] specificNameForFilesystem:DRISO9660LevelTwo]];
-	[level2MangledName setObjectValue:[[inspectedItems objectAtIndex:0] mangledNameForFilesystem:DRISO9660LevelTwo]];
+	[level2SpecificName setObjectValue:[firstItem specificNameForFilesystem:DRISO9660LevelTwo]];
+	[level2MangledName setObjectValue:[firstItem mangledNameForFilesystem:DRISO9660LevelTwo]];
 }
 
 - (IBAction) setFileName:(id)sender
 {
+	DRFSObject *firstItem = [inspectedItems objectAtIndex:0];
+
 	// Same this as in updateNames, we need to specialize the filename for the correct 
 	// ISO Level.
 	if (sender == level2SpecificName)
 	{
-		[[inspectedItems objectAtIndex:0] setSpecificName:[sender objectValue] forFilesystem:DRISO9660LevelTwo];
+		[firstItem setSpecificName:[sender objectValue] forFilesystem:DRISO9660LevelTwo];
 	}
 	else if (sender == level1SpecificName)
 	{
-		[[inspectedItems objectAtIndex:0] setSpecificName:[sender objectValue] forFilesystem:DRISO9660LevelOne];
+		[firstItem setSpecificName:[sender objectValue] forFilesystem:DRISO9660LevelOne];
 	}
 	
 	[self updateNames];
@@ -96,12 +100,9 @@
 
 - (void)clearForMultipleSelection
 {
-[level1SpecificName setStringValue:@""];
-[level2SpecificName setStringValue:@""];
-[level1MangledName setStringValue:@""];
-[level2MangledName setStringValue:@""];
-[level1SpecificName setEnabled:NO];
-[level2SpecificName setEnabled:NO];
+	[[NSArray arrayWithObjects:level1SpecificName, level2SpecificName, level1MangledName, level2MangledName, nil] makeObjectsPerformSelector:@selector(setStringValue:) withObject:@""];
+	[level1SpecificName setEnabled:NO];
+	[level2SpecificName setEnabled:NO];
 }
 
 @end
