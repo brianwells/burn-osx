@@ -1,10 +1,12 @@
-/* growlController */
+/* KWGrowlController */
 
 #import <Cocoa/Cocoa.h>
 #import "Growl/Growl.h"
 
-@interface growlController : NSObject<GrowlApplicationBridgeDelegate>
+@interface KWGrowlController : NSObject<GrowlApplicationBridgeDelegate>
 {
+	NSArray *notifications;
+	NSArray *notificationNames;
 }
 
 @end
