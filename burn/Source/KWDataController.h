@@ -7,7 +7,7 @@
 
 @class TreeNode;
 
-@interface dataController : NSObject 
+@interface KWDataController : NSObject 
 {	
     //Main Window
 	IBOutlet id	mainWindow;
@@ -16,6 +16,7 @@
 	IBOutlet id	discName;
 	IBOutlet id	totalSizeText;
 	IBOutlet id	iconView;
+	IBOutlet id progressIndicator;
 	
 	//Options menu
 	IBOutlet id optionsPopup;
@@ -28,11 +29,7 @@
 	
 	//Advanced Sheet
 	IBOutlet id	advancedSheet;
-	IBOutlet id	hfsSheet;
-	IBOutlet id	isoSheet;
-	IBOutlet id	jolietSheet;
-	IBOutlet id	udfSheet;
-	IBOutlet id	hfsStandardSheet;
+	IBOutlet id advancedCheckboxes;
 	IBOutlet id	okSheet;
 	
 	//Disc creation
@@ -46,6 +43,8 @@
 	BOOL loadingBurnFile;
 	NSArray *optionsMappings;
 	NSMutableArray *temporaryFiles;
+	NSArray *mainFilesystems;
+	NSArray *advancedFilesystems;
 }
 
 //Main actions
@@ -64,23 +63,20 @@
 - (IBAction)accessOptions:(id)sender;
 - (IBAction)setOption:(id)sender;
 
-//New Folder Sheet actions
-- (IBAction)ok:(id)sender;
-- (IBAction)cancel:(id)sender;
-
 //Advanced Sheet actions
 - (IBAction)filesystemSelectionChanged:(id)sender;
 - (IBAction)okSheet:(id)sender;
 - (IBAction)cancelSheet:(id)sender;
+- (void)setupAdvancedSheet;
 
 //Disc creation actions
-- (void)burn;
-- (void)saveImage;
-- (id)myTrack;
-- (void)createVirtualFolder:(NSArray *)inputItems atPath:(NSString *)path;
+- (void)burn:(id)sender;
+- (void)saveImage:(id)sender;
+- (id)myTrackWithErrorString:(NSString **)error;
+- (BOOL)createVirtualFolder:(NSArray *)items atPath:(NSString *)path errorString:(NSString **)error;
 
 //Save actions
-- (void)saveDocument;
+- (void)saveDocument:(id)sender;
 - (NSDictionary *)getSaveDictionary;
 - (NSArray *)getFileArray:(NSArray *)items;
 - (void)openBurnDocument:(NSString *)path;
@@ -94,19 +90,18 @@
 - (BOOL)isCombinable;
 - (BOOL)isCompatible;
 - (BOOL)isOnlyHFSPlus;
-- (BOOL)isHFSStandardSupportedFile:(NSString *)file;
 - (void)deleteTemporayFiles:(BOOL)needed;
 
-//Outside variables
-- (NSWindow*)window;
-- (NSArray*)rootFiles;
-- (KWDRFolder*)filesystemRoot;
+//Inspector actions
+- (void)volumeLabelSelected:(NSNotification *)notif;
+- (void)outlineViewSelectionDidChange:(NSNotification *)notification;
+- (NSArray *)selectedDRFSObjects;
 
 //Outline actions
 - (void)reloadOutlineView;
 - (NSArray *)selectedDRFSObjects;
 - (void)setOutlineViewState:(NSNotification *)notif;
 - (IBAction)outlineViewAction:(id)sender;
-- (BOOL)hasRows;
+- (int)numberOfRows;
 
 @end
