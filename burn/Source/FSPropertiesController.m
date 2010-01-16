@@ -97,20 +97,20 @@
 
 - (void)inspect:(NSArray *)items
 {
-inspectedItems = items;
+	inspectedItems = items;
 
-[included setEnabled:[self checkForFileSystemMasksInParentsOfObjects:inspectedItems]];
-[included setState:[self checkForFileSystemMasksInObjects:inspectedItems]];
-[contentView setEnabled:([included state] && [included isEnabled]) deep:YES];
+	[included setEnabled:[self checkForFileSystemMasksInParentsOfObjects:inspectedItems]];
+	[included setState:[self checkForFileSystemMasksInObjects:inspectedItems]];
+	[contentView setEnabled:([included state] && [included isEnabled]) deep:YES];
 
 	if ([inspectedItems count] == 1)
-	[self updateNames];
+		[self updateNames];
 	else
-	[self clearForMultipleSelection];
+		[self clearForMultipleSelection];
 
-[self updateDates];
-[self updatePOSIX];
-[self updateSpecific];
+	[self updateDates];
+	[self updatePOSIX];
+	[self updateSpecific];
 }
 
 - (BOOL)checkForFileSystemMasksInObjects:(NSArray *)objects
@@ -119,10 +119,10 @@ inspectedItems = items;
 	for (x=0;x<[objects count];x++)
 	{
 		if ([[objects objectAtIndex:x] explicitFilesystemMask] & [self mask])
-		return YES;
+			return YES;
 	}
 	
-return NO;
+	return NO;
 }
 
 - (BOOL)checkForFileSystemMasksInParentsOfObjects:(NSArray *)objects
@@ -131,24 +131,24 @@ return NO;
 	for (x=0;x<[objects count];x++)
 	{
 		if ([[(DRFSObject *)[objects objectAtIndex:x] parent] effectiveFilesystemMask] & [self mask])
-		return YES;
+			return YES;
 	}
 	
-return NO;
+	return NO;
 }
 
 - (id)getPropertyForKey:(NSString *)key
 {
-id object = [[inspectedItems objectAtIndex:0] propertyForKey:key inFilesystem:[self filesystem] mergeWithOtherFilesystems:NO];
+	id object = [[inspectedItems objectAtIndex:0] propertyForKey:key inFilesystem:[self filesystem] mergeWithOtherFilesystems:NO];
 
 	int x;
 	for (x=0;x<[inspectedItems count];x++)
 	{
 		if (![object isEqualTo:[[inspectedItems objectAtIndex:x] propertyForKey:key inFilesystem:[self filesystem] mergeWithOtherFilesystems:NO]])
-		return nil;
+			return nil;
 	}
 	
-return object;
+	return object;
 }
 
 - (IBAction)setIncludedBit:(id)sender
@@ -156,34 +156,38 @@ return object;
 	int x;
 	for (x=0;x<[inspectedItems count];x++)
 	{
-	DRFilesystemInclusionMask	mask = [[inspectedItems objectAtIndex:x] explicitFilesystemMask];
+		id currentItem = [inspectedItems objectAtIndex:x];
+	
+		DRFilesystemInclusionMask	mask = [currentItem explicitFilesystemMask];
 	
 	if ([sender state])
-	mask |= [self mask];
+		mask |= [self mask];
 	else
-	mask &= ~[self mask];
+		mask &= ~[self mask];
 	
-	[[inspectedItems objectAtIndex:x] setExplicitFilesystemMask:mask];
+		[currentItem setExplicitFilesystemMask:mask];
 	}
 	
-[contentView setEnabled:([sender state]) deep:YES];
+	[contentView setEnabled:([sender state]) deep:YES];
 
-[[NSNotificationCenter defaultCenter] postNotificationName:@"KWLeaveTab" object:nil];
-[[NSNotificationCenter defaultCenter] postNotificationName:@"KWReloadRequested" object:nil];
+	[[NSNotificationCenter defaultCenter] postNotificationName:@"KWLeaveTab" object:nil];
+	[[NSNotificationCenter defaultCenter] postNotificationName:@"KWReloadRequested" object:nil];
 }
 
 - (void)clearForMultipleSelection
 {
-[specificName setStringValue:@""];
-[mangledName setStringValue:@""];
-[specificName setEnabled:NO];
+	[specificName setStringValue:@""];
+	[mangledName setStringValue:@""];
+	[specificName setEnabled:NO];
 }
 
 - (void)updateNames
 {	
-[baseName setStringValue:[[inspectedItems objectAtIndex:0] baseName]];
-[specificName setStringValue:[[inspectedItems objectAtIndex:0] specificNameForFilesystem:[self filesystem]]];
-[mangledName setStringValue:[(DRFSObject *)[inspectedItems objectAtIndex:0] mangledNameForFilesystem:[self filesystem]]];
+	DRFSObject *firstItem = [inspectedItems objectAtIndex:0];
+	
+	[baseName setStringValue:[firstItem baseName]];
+	[specificName setStringValue:[firstItem specificNameForFilesystem:[self filesystem]]];
+	[mangledName setStringValue:[firstItem mangledNameForFilesystem:[self filesystem]]];
 }
 
 - (void)updateDates
@@ -252,31 +256,31 @@ return object;
 	// querying this array by using the tag obtained from the sender
 	// [propertyMappings objectAtIndex:[sender tag]]
 	
-[[inspectedItems objectAtIndex:0] setSpecificName:[sender objectValue] forFilesystem:[self filesystem]];
+	[[inspectedItems objectAtIndex:0] setSpecificName:[sender objectValue] forFilesystem:[self filesystem]];
 	
-[self updateNames];
+	[self updateNames];
 }
 
 - (IBAction)setProperty:(id)sender
 {
-id objValue = [sender objectValue];
+	id objValue = [sender objectValue];
 	
 	if (!objValue && [sender isKindOfClass:[NSTextField class]])
-	objValue = @"";
+		objValue = @"";
 
 	if (objValue)
 	{
 		int x;
 		for (x=0;x<[inspectedItems count];x++)
 		{
-		[[inspectedItems objectAtIndex:x] setProperty:objValue forKey:[propertyMappings objectAtIndex:[sender tag]] inFilesystem:[self filesystem]];
+			[[inspectedItems objectAtIndex:x] setProperty:objValue forKey:[propertyMappings objectAtIndex:[sender tag]] inFilesystem:[self filesystem]];
 		}
 	}
 	
 	if ([[propertyMappings objectAtIndex:[sender tag]] isEqualTo:DRInvisible])
 	{
-	[[NSNotificationCenter defaultCenter] postNotificationName:@"KWLeaveTab" object:nil];
-	[[NSNotificationCenter defaultCenter] postNotificationName:@"KWReloadRequested" object:nil];
+		[[NSNotificationCenter defaultCenter] postNotificationName:@"KWLeaveTab" object:nil];
+		[[NSNotificationCenter defaultCenter] postNotificationName:@"KWReloadRequested" object:nil];
 	}
 }
 
@@ -310,7 +314,7 @@ id objValue = [sender objectValue];
 	int x;
 	for (x=0;x<[inspectedItems count];x++)
 	{
-	[[inspectedItems objectAtIndex:x] setProperty:[NSNumber numberWithUnsignedShort:mode] forKey:[propertyMappings objectAtIndex:[sender tag]] inFilesystem:[self filesystem]];
+		[[inspectedItems objectAtIndex:x] setProperty:[NSNumber numberWithUnsignedShort:mode] forKey:[propertyMappings objectAtIndex:[sender tag]] inFilesystem:[self filesystem]];
 	}
 }
 	
