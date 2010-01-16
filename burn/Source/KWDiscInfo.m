@@ -1,42 +1,99 @@
-#import "KWDiskInfo.h"
+#import "KWDiscInfo.h"
 #import "KWCommonMethods.h"
 
-@implementation KWDiskInfo
+@implementation KWDiscInfo
 
 - (id)init
 {
-self = [super init];
-
-[NSBundle loadNibNamed:@"KWDiskInfo" owner:self];
+	if( self = [super init] )
+	{
+		NSArray *objects = [NSArray arrayWithObjects:	@"CD-ROM",
+														@"DVD-ROM",
+														@"CD-R",
+														@"CD-RW",
+														@"DVD-R",
+														@"DVD-RW",
+														@"DVD-RAM",
+														@"DVD+R",
+														@"DVD+RW",
+		nil];
+		
+		NSArray *keys = [NSArray arrayWithObjects:	@"DRDeviceMediaTypeCDROM",
+													@"DRDeviceMediaTypeDVDROM",
+													@"DRDeviceMediaTypeCDR",
+													@"DRDeviceMediaTypeCDRW",
+													@"DRDeviceMediaTypeDVDR",
+													@"DRDeviceMediaTypeDVDRW",
+													@"DRDeviceMediaTypeDVDRAM",
+													@"DRDeviceMediaTypeDVDPlusR",
+													@"DRDeviceMediaTypeDVDPlusRW",
+		nil];
 	
-return self;
+		discTypes = [[NSDictionary alloc] initWithObjects:objects forKeys:keys];
+		
+		[NSBundle loadNibNamed:@"KWDiscInfo" owner:self];
+	}
+	
+	return self;
 }
 
 - (void)dealloc
 {
-[[DRNotificationCenter currentRunLoopCenter] removeObserver:self name:DRDeviceStatusChangedNotification object:nil];
-[[NSNotificationCenter defaultCenter] removeObserver:self];
+	[discTypes release];
 
-[super dealloc];
+	[[DRNotificationCenter currentRunLoopCenter] removeObserver:self name:DRDeviceStatusChangedNotification object:nil];
+	[[NSNotificationCenter defaultCenter] removeObserver:self];
+
+	[super dealloc];
 }
 
 - (void)awakeFromNib
 {
-[[DRNotificationCenter currentRunLoopCenter] addObserver:self selector:@selector(updateDiskInfo) name:DRDeviceDisappearedNotification object:nil];
-[[DRNotificationCenter currentRunLoopCenter] addObserver:self selector:@selector(updateDiskInfo) name:DRDeviceAppearedNotification object:nil];
+	NSWindow *myWindow = [self window];
+	DRNotificationCenter *currentCenter = [DRNotificationCenter currentRunLoopCenter];
 
-[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(saveFrame) name:NSWindowWillCloseNotification object:nil];
+	[currentCenter addObserver:self selector:@selector(updateDiskInfo) name:DRDeviceDisappearedNotification object:nil];
+	[currentCenter addObserver:self selector:@selector(updateDiskInfo) name:DRDeviceAppearedNotification object:nil];
 
-[[self window] setFrameUsingName:@"Disc Info"];
+	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(saveFrame) name:NSWindowWillCloseNotification object:nil];
+
+	[myWindow setFrameUsingName:@"Disc Info"];
 
 	if ([[NSUserDefaults standardUserDefaults] boolForKey:@"KWFirstRun"] == YES)
-	[[self window] setFrameOrigin:NSMakePoint(500,[[NSScreen mainScreen] frame].size.height - 500)];
+		[myWindow setFrameOrigin:NSMakePoint(500,[[NSScreen mainScreen] frame].size.height - 500)];
 }
 
-- (void)saveFrame
-{
-[[self window] saveFrameUsingName:@"Disc Info"];
-[[NSUserDefaults standardUserDefaults] synchronize];
+//////////////////
+// Main actions //
+//////////////////
+
+#pragma mark -
+#pragma mark •• Main actions
+
+- (void)startDiskPanelwithDevice:(DRDevice *)device
+{	
+	NSWindow *myWindow = [self window];
+
+	if ([myWindow isVisible])
+	{
+		[myWindow orderOut:self];
+	}
+	else 
+	{
+		[recorderPopup removeAllItems];
+	
+		NSArray *devices = [DRDevice devices];
+		int i;
+		for (i=0;i< [devices count];i++)
+		{
+			[recorderPopup addItemWithTitle:[[devices objectAtIndex:i] displayName]];
+		}
+			
+		[recorderPopup selectItemWithTitle:[device displayName]];
+		
+		[self setDiskInfo:device];
+		[myWindow makeKeyAndOrderFront:self];
+	}
 }
 
 ///////////////////////
@@ -48,128 +105,69 @@ return self;
 
 - (IBAction)recorderPopup:(id)sender
 {
-NSArray *devices = [DRDevice devices];
-[self setDiskInfo:[devices objectAtIndex:[recorderPopup indexOfSelectedItem]]];
+	NSArray *devices = [DRDevice devices];
+	[self setDiskInfo:[devices objectAtIndex:[recorderPopup indexOfSelectedItem]]];
 }
 
-/////////////////
-// Own actions //
-/////////////////
+//////////////////////
+// Internal actions //
+//////////////////////
 
 #pragma mark -
-#pragma mark •• Own actions
-
-- (void)startDiskPanelwithDevice:(DRDevice *)device
-{
-NSArray *devices = [DRDevice devices];
-
-[recorderPopup removeAllItems];
-		
-	int i;
-	for (i=0;i< [devices count];i++)
-	{
-	[recorderPopup addItemWithTitle:[[devices objectAtIndex:i] displayName]];
-	}
-			
-[recorderPopup selectItemWithTitle:[device displayName]];
-		
-[self setDiskInfo:device];
-
-	if ([[self window] isVisible])
-	[[self window] orderOut:self];
-	else
-	[[self window] makeKeyAndOrderFront:self];
-}
+#pragma mark •• Internal actions
 
 - (void)setDiskInfo:(DRDevice *)device
 {
-NSString *type = [[[device status] objectForKey:DRDeviceMediaInfoKey] objectForKey:DRDeviceMediaTypeKey];
+	NSDictionary *mediaInfo = [[device status] objectForKey:DRDeviceMediaInfoKey];
+	NSString *type = [mediaInfo objectForKey:DRDeviceMediaTypeKey];
+	NSString *kind = [discTypes objectForKey:type];
 
-	if ([type isEqualTo:@"DRDeviceMediaTypeCDROM"])
+	if (kind)
 	{
-	[kindDisk setStringValue:@"CD-ROM"];
-	}
-	else if ([type isEqualTo:@"DRDeviceMediaTypeDVDROM"])
-	{
-	[kindDisk setStringValue:@"DVD-ROM"];
-	}
-	else if ([type isEqualTo:@"DRDeviceMediaTypeCDR"])
-	{
-	[kindDisk setStringValue:@"CD-R"];
-	}
-	else if ([type isEqualTo:@"DRDeviceMediaTypeCDRW"])
-	{
-	[kindDisk setStringValue:@"CD-RW"];
-	}
-	else if ([type isEqualTo:@"DRDeviceMediaTypeDVDR"])
-	{
-	[kindDisk setStringValue:@"DVD-R"];
-	}
-	else if ([type isEqualTo:@"DRDeviceMediaTypeDVDRW"])
-	{
-	[kindDisk setStringValue:@"DVD-RW"];
-	}
-	else if ([type isEqualTo:@"DRDeviceMediaTypeDVDRAM"])
-	{
-	[kindDisk setStringValue:@"DVD-RAM"];
-	}
-	else if ([type isEqualTo:@"DRDeviceMediaTypeDVDPlusR"])
-	{
-	[kindDisk setStringValue:@"DVD+R"];
-	}
-	else if ([type isEqualTo:@"DRDeviceMediaTypeDVDPlusRW"])
-	{
-	[kindDisk setStringValue:@"DVD+RW"];
-	}
-	else
-	{
-	[kindDisk setStringValue:NSLocalizedString(@"No disc",@"Localized")];
-	
-		if (![KWCommonMethods isPanther])
-			if ([type isEqualTo:@"DRDeviceMediaTypeDVDPlusRDoubleLayer"])
-			[kindDisk setStringValue:@"DVD+R Double Layer"];
-	}
+		[kindDisk setStringValue:kind];
+		[freeSpaceDisk setStringValue:[KWCommonMethods makeSizeFromFloat:[[mediaInfo objectForKey:DRDeviceMediaFreeSpaceKey] floatValue] * 2048]];
+		[usedSpaceDisk setStringValue:[KWCommonMethods makeSizeFromFloat:[[mediaInfo objectForKey:DRDeviceMediaUsedSpaceKey] floatValue] * 2048]];
 
-	if (![[kindDisk stringValue] isEqualTo:NSLocalizedString(@"No disc",@"Localized")])
-	{
-	[freeSpaceDisk setStringValue:[KWCommonMethods makeSizeFromFloat:[[[[device status] objectForKey:DRDeviceMediaInfoKey] objectForKey:DRDeviceMediaFreeSpaceKey] floatValue] * 2048]];
-	[usedSpaceDisk setStringValue:[KWCommonMethods makeSizeFromFloat:[[[[device status] objectForKey:DRDeviceMediaInfoKey] objectForKey:DRDeviceMediaUsedSpaceKey] floatValue] * 2048]];
-
-		if ([[[[[device status] objectForKey:DRDeviceMediaInfoKey] objectForKey:DRDeviceMediaBlocksOverwritableKey] stringValue] isEqualTo:@"0"])
-		{
-		[writableDisk setStringValue:NSLocalizedString(@"No",@"Localized")];
-		}
+		if ([[[mediaInfo objectForKey:DRDeviceMediaBlocksOverwritableKey] stringValue] isEqualTo:@"0"])
+			[writableDisk setStringValue:NSLocalizedString(@"No",nil)];
 		else
-		{
-		[writableDisk setStringValue:NSLocalizedString(@"Yes",@"Localized")];
-		}
+			[writableDisk setStringValue:NSLocalizedString(@"Yes",nil)];
 	}
 	else
 	{
-	[freeSpaceDisk setStringValue:@""];
-	[usedSpaceDisk setStringValue:@""];
-	[writableDisk setStringValue:@""];
+		[kindDisk setStringValue:NSLocalizedString(@"No disc",nil)];
+		[freeSpaceDisk setStringValue:@""];
+		[usedSpaceDisk setStringValue:@""];
+		[writableDisk setStringValue:@""];
 	}
 }
 
 - (void)updateDiskInfo
 {
-NSArray *devices = [DRDevice devices];
+	NSArray *devices = [DRDevice devices];
+	
+	NSString *title = [[recorderPopup title] copy];
 
-NSString *title = [[recorderPopup title] copy];
-BOOL deviceStillExsists = NO;
-[recorderPopup removeAllItems];
+	[recorderPopup removeAllItems];
 		
 	int i;
 	for (i=0;i< [devices count];i++)
 	{
-	[recorderPopup addItemWithTitle:[[devices objectAtIndex:i] displayName]];
-		if ([title isEqualTo:[[devices objectAtIndex:i] displayName]])
-		deviceStillExsists = YES;
+		[recorderPopup addItemWithTitle:[[devices objectAtIndex:i] displayName]];
 	}
 		
-	if (deviceStillExsists == YES)
-	[recorderPopup selectItemWithTitle:title];
+		if ([recorderPopup indexOfItemWithTitle:title] > -1)
+		[recorderPopup selectItemWithTitle:title];
+		
+	[title release];
+	
+	[self recorderPopup:self];
+}
+
+- (void)saveFrame
+{
+	[[self window] saveFrameUsingName:@"Disc Info"];
+	[[NSUserDefaults standardUserDefaults] synchronize];
 }
 
 @end
