@@ -2,53 +2,60 @@
 
 @implementation KWOutlineView
 
+- (void)reloadData
+{	
+	[super reloadData];
+	[[NSNotificationCenter defaultCenter] postNotificationName:@"KWChangeBurnStatus" object:[NSNumber numberWithBool:([self numberOfRows] > 0)]];
+	[[self delegate] performSelector:@selector(setTotalSize)];
+}
+
 - (BOOL)becomeFirstResponder 
 {
-[[NSNotificationCenter defaultCenter] postNotificationName:@"KWDataListSelected" object:self];
+	[[NSNotificationCenter defaultCenter] postNotificationName:@"KWDataListSelected" object:self];
 
-return [super becomeFirstResponder];
+	return [super becomeFirstResponder];
 }
 
 - (NSDragOperation)draggingSourceOperationMaskForLocal:(BOOL)isLocal 
 {
 	if (isLocal) 
-	return NSDragOperationEvery;
+		return NSDragOperationEvery;
     else
-	return NSDragOperationCopy;
+		return NSDragOperationCopy;
 }
 
 - (void)textDidEndEditing:(NSNotification *)notification
 {
-NSDictionary *userInfo = [notification userInfo];
+	NSDictionary *userInfo = [notification userInfo];
 
-int textMovement = [[userInfo valueForKey:@"NSTextMovement"] intValue];
+	int textMovement = [[userInfo valueForKey:@"NSTextMovement"] intValue];
 
 	if (textMovement == NSReturnTextMovement || textMovement == NSTabTextMovement || textMovement == NSBacktabTextMovement)
 	{
-	NSMutableDictionary *newInfo;
-	newInfo = [NSMutableDictionary dictionaryWithDictionary:userInfo];
+		NSMutableDictionary *newInfo;
+		newInfo = [NSMutableDictionary dictionaryWithDictionary:userInfo];
 
-	[newInfo setObject: [NSNumber numberWithInt: NSIllegalTextMovement] forKey: @"NSTextMovement"];
+		[newInfo setObject: [NSNumber numberWithInt: NSIllegalTextMovement] forKey: @"NSTextMovement"];
 
-	notification = [NSNotification notificationWithName: [notification name] object: [notification object] userInfo: newInfo];
+		notification = [NSNotification notificationWithName: [notification name] object: [notification object] userInfo: newInfo];
     }
 
-[super textDidEndEditing: notification];
-[[self window] makeFirstResponder:self];
+	[super textDidEndEditing: notification];
+	[[self window] makeFirstResponder:self];
 }
 
 - (void)keyDown:(NSEvent *)theEvent             
 {
-unichar pressedKey = [[theEvent characters] characterAtIndex:0];
+	unichar pressedKey = [[theEvent characters] characterAtIndex:0];
 
 	if (pressedKey == 13 | pressedKey == 3)
-	[self  editColumn:0 row:[self selectedRow] withEvent:nil select:YES];
+		[self  editColumn:0 row:[self selectedRow] withEvent:nil select:YES];
 	else if ([theEvent keyCode] == 0x35)
-	[self deselectAll:self];
+		[self deselectAll:self];
 	else if (pressedKey == 9)
-	[[self window] selectNextKeyView:self];
+		[[self window] selectNextKeyView:self];
 	else
-	[super keyDown:theEvent];
+		[super keyDown:theEvent];
 }
 
 @end
