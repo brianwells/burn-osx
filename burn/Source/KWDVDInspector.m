@@ -1,5 +1,5 @@
 #import "KWDVDInspector.h"
-#import "videoController.h"
+#import "KWVideoController.h"
 #import <KWConverter.h>
 #import "KWCommonMethods.h"
 
@@ -10,7 +10,7 @@
 @implementation NSSliderCell (isPressed)
 - (BOOL)isPressed
 {
-return _scFlags.isPressed;
+	return _scFlags.isPressed;
 }
 @end
 
@@ -18,113 +18,109 @@ return _scFlags.isPressed;
 
 - (id) init
 {
-self = [super init];
+	self = [super init];
 
-tableData = [[NSMutableArray alloc] init];
+	tableData = [[NSMutableArray alloc] init];
 
-return self;
+	return self;
 }
 
 - (void)dealloc
 {
-[tableData release];
+	[tableData release];
 
-[super dealloc];
+	[super dealloc];
 }
 
 - (void)updateView:(id)object
 {
-currentTableView = object;
-currentObject = [[(videoController *)[object dataSource] myDataSource] objectAtIndex:[object selectedRow]];
+	currentTableView = object;
+	currentObject = [[(KWVideoController *)[object dataSource] myDataSource] objectAtIndex:[object selectedRow]];
 
-[nameField setStringValue:[currentObject objectForKey:@"Name"]];
-[timeField setStringValue:[currentObject objectForKey:@"Size"]];
-[iconView setImage:[currentObject objectForKey:@"Icon"]];
+	[nameField setStringValue:[currentObject objectForKey:@"Name"]];
+	[timeField setStringValue:[currentObject objectForKey:@"Size"]];
+	[iconView setImage:[currentObject objectForKey:@"Icon"]];
 
-KWConverter *converter = [[KWConverter alloc] init];
-[timeSlider setMaxValue:(double)[converter totalTimeInSeconds:[currentObject objectForKey:@"Path"]]];
-[timeSlider setDoubleValue:0];
-[converter release];
+	KWConverter *converter = [[KWConverter alloc] init];
+	[timeSlider setMaxValue:(double)[converter totalTimeInSeconds:[currentObject objectForKey:@"Path"]]];
+	[timeSlider setDoubleValue:0];
+	[converter release];
 
-[tableData removeAllObjects];
+	[tableData removeAllObjects];
 	
 	if ([currentObject objectForKey:@"Chapters"])
-	tableData = [[currentObject objectForKey:@"Chapters"] mutableCopy];
+		[tableData addObjectsFromArray:[currentObject objectForKey:@"Chapters"]];
 
-[tableView reloadData];
+	[tableView reloadData];
 
-[previewView setImage:nil];
+	[previewView setImage:nil];
 }
 
 - (IBAction)add:(id)sender
 {
-[previewView setImage:[[KWConverter alloc] getImageAtPath:[currentObject objectForKey:@"Path"] atTime:0 isWideScreen:[[currentObject objectForKey:@"WideScreen"] boolValue]]];	
-[titleField setStringValue:@""];
-[NSApp beginSheet:chapterSheet modalForWindow:[myView window] modalDelegate:self didEndSelector:@selector(endChapterSheet) contextInfo:nil];
+	[previewView setImage:[[KWConverter alloc] getImageAtPath:[currentObject objectForKey:@"Path"] atTime:0 isWideScreen:[[currentObject objectForKey:@"WideScreen"] boolValue]]];	
+	[titleField setStringValue:@""];
+	[NSApp beginSheet:chapterSheet modalForWindow:[myView window] modalDelegate:self didEndSelector:@selector(endChapterSheet) contextInfo:nil];
 }
 
 - (void)endChapterSheet
 {
-[chapterSheet orderOut:self];
+	[chapterSheet orderOut:self];
 }
 
 - (IBAction)addSheet:(id)sender
 {
-NSMutableDictionary *rowData = [NSMutableDictionary dictionary];
+	NSMutableDictionary *rowData = [NSMutableDictionary dictionary];
 
-[rowData setObject:[KWCommonMethods formatTime:(int)[timeSlider doubleValue]] forKey:@"Time"];
-[rowData setObject:[titleField stringValue] forKey:@"Title"];
-[rowData setObject:[NSNumber numberWithDouble:[timeSlider doubleValue]] forKey:@"RealTime"];
-[rowData setObject:[[previewView image] TIFFRepresentationUsingCompression:NSTIFFCompressionLZW factor:0] forKey:@"Image"];
+	[rowData setObject:[KWCommonMethods formatTime:(int)[timeSlider doubleValue]] forKey:@"Time"];
+	[rowData setObject:[titleField stringValue] forKey:@"Title"];
+	[rowData setObject:[NSNumber numberWithDouble:[timeSlider doubleValue]] forKey:@"RealTime"];
+	[rowData setObject:[[previewView image] TIFFRepresentationUsingCompression:NSTIFFCompressionLZW factor:0] forKey:@"Image"];
 
-[tableData addObject:[rowData copy]];
+	[tableData addObject:rowData];
 
-NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"Time" ascending:YES];
-[tableData sortUsingDescriptors:[NSArray arrayWithObject:sortDescriptor]];
-[sortDescriptor release];
+	NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"Time" ascending:YES];
+	[tableData sortUsingDescriptors:[NSArray arrayWithObject:sortDescriptor]];
+	[sortDescriptor release];
+	
+	NSMutableDictionary *tempDict = [NSMutableDictionary dictionaryWithDictionary:currentObject];
+	NSMutableArray *controller = [(KWVideoController *)[currentTableView dataSource] myDataSource];
+	
+	[tempDict setObject:[NSArray arrayWithArray:tableData] forKey:@"Chapters"];
+	[controller replaceObjectAtIndex:[currentTableView selectedRow] withObject:[tempDict copy]];
+	
+	[currentTableView reloadData];
+	currentObject = [controller objectAtIndex:[currentTableView selectedRow]];
 
-NSMutableDictionary *tempDict = [currentObject mutableCopy];
-[tempDict setObject:[tableData copy] forKey:@"Chapters"];
-[[(videoController *)[currentTableView dataSource] myDataSource] replaceObjectAtIndex:[currentTableView selectedRow] withObject:[tempDict copy]];
-[currentTableView reloadData];
-currentObject = [[(videoController *)[currentTableView dataSource] myDataSource] objectAtIndex:[currentTableView selectedRow]];
-
-[tableView reloadData];
+	[tableView reloadData];
 }
 
 - (IBAction)cancelSheet:(id)sender
 {
-[NSApp endSheet:chapterSheet];
+	[NSApp endSheet:chapterSheet];
 }
 
 - (IBAction)remove:(id)sender
 {
-id myObject;
-
-	// get and sort enumerator in descending order
-	NSEnumerator *selectedItemsEnum = [[[[tableView selectedRowEnumerator] allObjects]
-			sortedArrayUsingSelector:@selector(compare:)] reverseObjectEnumerator];
+	NSArray *selectedObjects = [KWCommonMethods allSelectedItemsInTableView:tableView fromArray:tableData];
+	[tableData removeObjectsInArray:selectedObjects];
 	
-	// remove object in descending order
-	myObject = [selectedItemsEnum nextObject];
-	while (myObject) {
-		[tableData removeObjectAtIndex:[myObject intValue]];
-		myObject = [selectedItemsEnum nextObject];
-	}
-	
-NSMutableDictionary *tempDict = [currentObject mutableCopy];
-[tempDict setObject:[tableData copy] forKey:@"Chapters"];
-[[(videoController *)[currentTableView dataSource] myDataSource] replaceObjectAtIndex:[currentTableView selectedRow] withObject:[tempDict copy]];
+	NSMutableDictionary *tempDict = [NSMutableDictionary dictionaryWithDictionary:currentObject];
+	NSMutableArray *controller = [(KWVideoController *)[currentTableView dataSource] myDataSource];
 
-[tableView deselectAll:nil];
-[tableView reloadData];
+	[tempDict setObject:[NSArray arrayWithArray:tableData] forKey:@"Chapters"];
+
+	[controller replaceObjectAtIndex:[currentTableView selectedRow] withObject:[tempDict copy]];
+
+	[tableView deselectAll:nil];
+	[tableView reloadData];
 }
 
 - (IBAction)timeSlider:(id)sender
 {
-[previewView setImage:[[KWConverter alloc] getImageAtPath:[currentObject objectForKey:@"Path"] atTime:(int)[timeSlider doubleValue] isWideScreen:[[currentObject objectForKey:@"WideScreen"] boolValue]]];
+	[previewView setImage:[[KWConverter alloc] getImageAtPath:[currentObject objectForKey:@"Path"] atTime:(int)[timeSlider doubleValue] isWideScreen:[[currentObject objectForKey:@"WideScreen"] boolValue]]];
 
-[currentTimeField setStringValue:[KWCommonMethods formatTime:(int)[timeSlider doubleValue]]];
+	[currentTimeField setStringValue:[KWCommonMethods formatTime:(int)[timeSlider doubleValue]]];
 }
 
 ///////////////////////
@@ -155,13 +151,13 @@ NSMutableDictionary *tempDict = [currentObject mutableCopy];
     forTableColumn:(NSTableColumn *)tableColumn
     row:(int)row
 {
-NSMutableDictionary *rowData = [tableData objectAtIndex:row];
-[rowData setObject:anObject forKey:[tableColumn identifier]];
+	NSMutableDictionary *rowData = [tableData objectAtIndex:row];
+	[rowData setObject:anObject forKey:[tableColumn identifier]];
 }
 
 - (id)myView
 {
-return myView;
+	return myView;
 }
 
 @end
