@@ -1,6 +1,6 @@
-#import "growlController.h"
+#import "KWGrowlController.h"
 
-@implementation growlController
+@implementation KWGrowlController
 
 /////////////////////
 // Default actions //
@@ -11,32 +11,52 @@
 
 - (id) init
 {
-self = [super init];
-[GrowlApplicationBridge setGrowlDelegate:self];
-[self registrationDictionaryForGrowl];
+	self = [super init];
 	
-[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(finishedConverting:) name:@"growlFinishedConverting" object:nil];
-[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(failedConverting:) name:@"growlFailedConverting" object:nil];
-[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(finishedBurning:) name:@"growlFinishedBurning" object:nil];
-[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(failedBurning:) name:@"growlFailedBurning" object:nil];
-[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(createdDiskImage:) name:@"growlCreateImage" object:nil];
-[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(failedDiskImage:) name:@"growlFailedImage" object:nil];
-[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(finishedErasing:) name:@"growlFinishedErasing" object:nil];
-[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(failedErasing:) name:@"growlFailedErasing" object:nil];
+	notifications = [[NSArray alloc] initWithObjects:	NSLocalizedString(@"Finished converting",nil),
+														NSLocalizedString(@"Finished burning",nil),
+														NSLocalizedString(@"Image created",nil),
+														NSLocalizedString(@"Finished erasing",nil),
+														NSLocalizedString(@"Failed converting",nil),
+														NSLocalizedString(@"Burning failed",nil),
+														NSLocalizedString(@"Image failed",nil),
+														NSLocalizedString(@"Erasing failed",nil),
+														nil];
+														
+	notificationNames = [[NSArray alloc] initWithObjects:	@"growlFinishedConverting",
+															@"growlFinishedBurning",
+															@"growlCreateImage",
+															@"growlFinishedErasing",
+															@"growlFailedConverting",
+															@"growlFailedBurning",
+															@"growlFailedImage",
+															@"growlFailedErasing",
+															nil];
+	
+	NSNotificationCenter *defaultCenter = [NSNotificationCenter defaultCenter];
+	int i;
+	for (i=0;i< [notificationNames count];i++)
+	{
+		[defaultCenter addObserver:self selector:@selector(growlMessage:) name:[notificationNames objectAtIndex:i] object:nil];
+	}
+	
+	[GrowlApplicationBridge setGrowlDelegate:self];
+	[self registrationDictionaryForGrowl];
 
-return self;
+	return self;
 }
 
 - (void)dealloc
 {
-[super dealloc];
+	[notifications release];
+	[notificationNames release];
+
+	[super dealloc];
 }
 
 - (NSDictionary *)registrationDictionaryForGrowl
 {
-NSArray *notifications = [NSArray arrayWithObjects:NSLocalizedString(@"Finished converting",@"Localized"),NSLocalizedString(@"Failed converting",@"Localized"),NSLocalizedString(@"Finished burning",@"Localized"),NSLocalizedString(@"Burning failed",@"Localized"),NSLocalizedString(@"Image created",@"Localized"),NSLocalizedString(@"Image failed",@"Localized"),NSLocalizedString(@"Finished erasing",@"Localized"),NSLocalizedString(@"Erasing failed",@"Localized"), nil];
-
-return [NSDictionary dictionaryWithObjectsAndKeys:notifications, GROWL_NOTIFICATIONS_ALL, notifications, GROWL_NOTIFICATIONS_DEFAULT, nil];
+	return [NSDictionary dictionaryWithObjectsAndKeys:notifications, GROWL_NOTIFICATIONS_ALL, notifications, GROWL_NOTIFICATIONS_DEFAULT, nil];
 }
 
 //////////////////////////
@@ -46,68 +66,21 @@ return [NSDictionary dictionaryWithObjectsAndKeys:notifications, GROWL_NOTIFICAT
 #pragma mark -
 #pragma mark •• Notification actions
 
-- (void)finishedConverting:(NSNotification *)notif
+- (void)growlMessage:(NSNotification *)notif
 {
-	if ([[NSUserDefaults standardUserDefaults] boolForKey:@"KWUseSoundEffects"])
-	[[NSSound soundNamed:@"complete"] play];
-
-[GrowlApplicationBridge notifyWithTitle:NSLocalizedString(@"Finished converting",@"Localized") description:[notif object] notificationName:NSLocalizedString(@"Finished converting",@"Localized") iconData:[NSData dataWithData:[[NSImage imageNamed:@"Burn"] TIFFRepresentation]] priority:0 isSticky:NO clickContext:nil];
-}
-
-- (void)failedConverting:(NSNotification *)notif
-{
-	if ([[NSUserDefaults standardUserDefaults] boolForKey:@"KWUseSoundEffects"])
-	[[NSSound soundNamed:@"Basso"] play];
-
-[GrowlApplicationBridge notifyWithTitle:NSLocalizedString(@"Failed converting",@"Localized") description:[notif object] notificationName:NSLocalizedString(@"Failed converting",@"Localized") iconData:[NSData dataWithData:[[NSImage imageNamed:@"Burn"] TIFFRepresentation]] priority:0 isSticky:NO clickContext:nil];
-}
-
-- (void)finishedBurning:(NSNotification *)notif
-{
-	if ([[NSUserDefaults standardUserDefaults] boolForKey:@"KWUseSoundEffects"])
-	[[NSSound soundNamed:@"complete"] play];
-
-[GrowlApplicationBridge notifyWithTitle:NSLocalizedString(@"Finished burning",@"Localized") description:[notif object] notificationName:NSLocalizedString(@"Finished burning",@"Localized") iconData:[NSData dataWithData:[[NSImage imageNamed:@"Burn"] TIFFRepresentation]] priority:0 isSticky:NO clickContext:nil];
-}
-
-- (void)failedBurning:(NSNotification *)notif
-{
-	if ([[NSUserDefaults standardUserDefaults] boolForKey:@"KWUseSoundEffects"])
-	[[NSSound soundNamed:@"Basso"] play];
-
-[GrowlApplicationBridge notifyWithTitle:NSLocalizedString(@"Burning failed",@"Localized") description:[notif object] notificationName:NSLocalizedString(@"Burning failed",@"Localized") iconData:[NSData dataWithData:[[NSImage imageNamed:@"Burn"] TIFFRepresentation]] priority:0 isSticky:NO clickContext:nil];
-}
-
-- (void)createdDiskImage:(NSNotification *)notif
-{
-	if ([[NSUserDefaults standardUserDefaults] boolForKey:@"KWUseSoundEffects"])
-	[[NSSound soundNamed:@"complete"] play];
-
-[GrowlApplicationBridge notifyWithTitle:NSLocalizedString(@"Image created",@"Localized") description:[notif object] notificationName:NSLocalizedString(@"Image created",@"Localized") iconData:[NSData dataWithData:[[NSImage imageNamed:@"Burn"] TIFFRepresentation]] priority:0 isSticky:NO clickContext:nil];
-}
-
-- (void)failedDiskImage:(NSNotification *)notif
-{
-	if ([[NSUserDefaults standardUserDefaults] boolForKey:@"KWUseSoundEffects"])
-	[[NSSound soundNamed:@"Basso"] play];
-
-[GrowlApplicationBridge notifyWithTitle:NSLocalizedString(@"Image failed",@"Localized") description:[notif object] notificationName:NSLocalizedString(@"Image failed",@"Localized") iconData:[NSData dataWithData:[[NSImage imageNamed:@"Burn"] TIFFRepresentation]] priority:0 isSticky:NO clickContext:nil];
-}
-
-- (void)finishedErasing:(NSNotification *)notif
-{
-	if ([[NSUserDefaults standardUserDefaults] boolForKey:@"KWUseSoundEffects"])
-	[[NSSound soundNamed:@"complete"] play];
-
-[GrowlApplicationBridge notifyWithTitle:NSLocalizedString(@"Finished erasing",@"Localized") description:[notif object] notificationName:NSLocalizedString(@"Finished erasing",@"Localized") iconData:[NSData dataWithData:[[NSImage imageNamed:@"Burn"] TIFFRepresentation]] priority:0 isSticky:NO clickContext:nil];
-}
-
-- (void)failedErasing:(NSNotification *)notif
-{
-	if ([[NSUserDefaults standardUserDefaults] boolForKey:@"KWUseSoundEffects"])
-	[[NSSound soundNamed:@"Basso"] play];
-
-[GrowlApplicationBridge notifyWithTitle:NSLocalizedString(@"Erasing failed",@"Localized") description:[notif object] notificationName:NSLocalizedString(@"Erasing failed",@"Localized") iconData:[NSData dataWithData:[[NSImage imageNamed:@"Burn"] TIFFRepresentation]] priority:0 isSticky:NO clickContext:nil];
+	int index = [notificationNames indexOfObject:[notif name]];
+	
+		if ([[NSUserDefaults standardUserDefaults] boolForKey:@"KWUseSoundEffects"])
+		{
+			if (index > 3)
+				[[NSSound soundNamed:@"Basso"] play];
+			else
+				[[NSSound soundNamed:@"complete"] play];
+		}
+	
+	NSString *notificationName = [notifications objectAtIndex:index];
+	
+	[GrowlApplicationBridge notifyWithTitle:notificationName description:[notif object] notificationName:notificationName iconData:[NSData dataWithData:[[NSImage imageNamed:@"Burn"] TIFFRepresentation]] priority:0 isSticky:NO clickContext:nil];
 }
 
 @end
