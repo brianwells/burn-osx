@@ -24,31 +24,31 @@
 }
 
 //Standard DVD-Video
-- (int)createStandardDVDFolderAtPath:(NSString *)path withFileArray:(NSArray *)fileArray withSize:(NSNumber *)size;
+- (int)createStandardDVDFolderAtPath:(NSString *)path withFileArray:(NSArray *)fileArray withSize:(NSNumber *)size errorString:(NSString **)error;
 - (void)createStandardDVDXMLAtPath:(NSString *)path withFileArray:(NSArray *)fileArray;
 //Standard DVD-Audio
-- (int)createStandardDVDAudioFolderAtPath:(NSString *)path withFiles:(NSArray *)files;
+- (int)createStandardDVDAudioFolderAtPath:(NSString *)path withFiles:(NSArray *)files errorString:(NSString **)error;
 - (void)startTimer:(NSArray *)object;
 - (void)imageProgress:(NSTimer *)theTimer;
 
 //DVD-Video with menu
 //Create a menu with given files and chapters
-- (int)createDVDMenuFiles:(NSString *)path withTheme:(NSDictionary *)currentTheme withFileArray:(NSArray *)fileArray withSize:(NSNumber *)size withName:(NSString *)name;
+- (int)createDVDMenuFiles:(NSString *)path withTheme:(NSDictionary *)currentTheme withFileArray:(NSArray *)fileArray withSize:(NSNumber *)size withName:(NSString *)name errorString:(NSString **)error;
 
 //Main actions
 //Create root menu (Start and Titles)
-- (BOOL)createRootMenu:(NSString *)path withName:(NSString *)name withTitles:(BOOL)titles withSecondButton:(BOOL)secondButton;
+- (BOOL)createRootMenu:(NSString *)path withName:(NSString *)name withTitles:(BOOL)titles withSecondButton:(BOOL)secondButton errorString:(NSString **)error;
 //Batch create title selection menus
-- (BOOL)createSelectionMenus:(NSArray *)fileArray withChapters:(BOOL)chapters atPath:(NSString *)path;
+- (BOOL)createSelectionMenus:(NSArray *)fileArray withChapters:(BOOL)chapters atPath:(NSString *)path errorString:(NSString **)error;
 //Create a chapter menu (Start and Chapters)
-- (BOOL)createChapterMenus:(NSString *)path withFileArray:(NSArray *)fileArray;
+- (BOOL)createChapterMenus:(NSString *)path withFileArray:(NSArray *)fileArray errorString:(NSString **)error;
 
 //DVD actions
-- (BOOL)createDVDMenuFile:(NSString *)path withImage:(NSImage *)image withMaskFile:(NSString *)maskFile;
+- (BOOL)createDVDMenuFile:(NSString *)path withImage:(NSImage *)image withMaskFile:(NSString *)maskFile errorString:(NSString **)error;
 //Create a xml file for dvdauthor
--(BOOL)createDVDXMLAtPath:(NSString *)path withFileArray:(NSArray *)fileArray atFolderPath:(NSString *)folderPath;
+-(BOOL)createDVDXMLAtPath:(NSString *)path withFileArray:(NSArray *)fileArray atFolderPath:(NSString *)folderPath errorString:(NSString **)error;
 //Create DVD folders with dvdauthor
-- (BOOL)authorDVDWithXMLFile:(NSString *)xmlFile withFileArray:(NSArray *)fileArray atPath:(NSString *)path;
+- (BOOL)authorDVDWithXMLFile:(NSString *)xmlFile withFileArray:(NSArray *)fileArray atPath:(NSString *)path errorString:(NSString **)error;
 
 //Theme actions
 //Create menu image with titles or chapters
@@ -66,7 +66,7 @@
 - (void)drawString:(NSString *)string inRect:(NSRect)rect onImage:(NSImage *)image withFontName:(NSString *)fontName withSize:(int)size withColor:(NSColor *)color useAlignment:(NSTextAlignment)alignment;
 - (void)drawBoxInRect:(NSRect)rect lineWidth:(int)width onImage:(NSImage *)image;
 - (void)drawImage:(NSImage *)drawImage inRect:(NSRect)rect onImage:(NSImage *)image;
-- (BOOL)saveImage:(NSImage *)image toPath:(NSString *)path;
+- (BOOL)saveImage:(NSImage *)image toPath:(NSString *)path errorString:(NSString **)error;
 - (NSImage *)resizeImage:(NSImage *)image;
 
 @end
