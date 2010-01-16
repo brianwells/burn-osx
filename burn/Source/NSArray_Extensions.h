@@ -57,4 +57,3 @@
 - (void)insertObjectsFromArray:(NSArray *)array atIndex:(int)index;
 - (void)insertObject:(NSObject *)array sortedBySelector:(SEL)selector;
 @end
-
