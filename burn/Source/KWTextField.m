@@ -5,16 +5,16 @@
 //Needed for the inspector
 - (BOOL)becomeFirstResponder 
 {
-[[NSNotificationCenter defaultCenter] postNotificationName:@"KWDiscNameSelected" object:self];
+	[[NSNotificationCenter defaultCenter] postNotificationName:@"KWDiscNameSelected" object:self];
 
-return [super becomeFirstResponder];
+	return [super becomeFirstResponder];
 }
 
 - (BOOL)textShouldEndEditing:(NSText *)textObject
 {
-[[NSNotificationCenter defaultCenter] postNotificationName:@"KWDiscNameChanged" object:self];
+	[[NSNotificationCenter defaultCenter] postNotificationName:@"KWDiscNameChanged" object:self];
 
-return YES;
+	return YES;
 }
 
 @end
