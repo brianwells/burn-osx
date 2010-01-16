@@ -1,11 +1,11 @@
-/* dropImageView */
+/* KWCopyView */
 
 #import <Cocoa/Cocoa.h>
-#import "copyController.h"
+#import "KWCopyController.h"
 
-@interface dropImageView : NSView
+@interface KWCopyView : NSView
 {
-IBOutlet id imageControl;
+	IBOutlet id imageControl;
 }
 - (void)setViewState:(NSNotification *)notif;
 @end

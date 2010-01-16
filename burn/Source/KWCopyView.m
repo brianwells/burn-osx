@@ -1,19 +1,18 @@
-#import "dropImageView.h"
-#import "copyController.h"
+#import "KWCopyView.h"
+#import "KWCopyController.h"
 
-@implementation dropImageView
+@implementation KWCopyView
 
 - (void)awakeFromNib
 {
-[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(setViewState:) name:@"KWSetDropState" object:nil];
+	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(setViewState:) name:@"KWSetDropState" object:nil];
 }
 
 - (id)initWithFrame:(NSRect)frameRect
 {
-	if ((self = [super initWithFrame:frameRect]) != nil) {
-		// Add initialization code here
+	if ((self = [super initWithFrame:frameRect]) != nil)
 		[self registerForDraggedTypes:[NSArray arrayWithObjects:NSFilenamesPboardType, nil]];
-	}
+	
 	return self;
 }
 
@@ -30,8 +29,7 @@
 
 - (NSDragOperation)draggingEntered:(id <NSDraggingInfo>)sender
 {
-    if ((NSDragOperationGeneric & [sender draggingSourceOperationMask]) 
-                == NSDragOperationGeneric)
+    if ((NSDragOperationGeneric & [sender draggingSourceOperationMask]) == NSDragOperationGeneric)
     {
         //this means that the sender is offering the type of operation we want
         //return that we want the NSDragOperationGeneric operation that they 
@@ -103,15 +101,16 @@
             return NO;
         }
     }
+	
     return YES;
 }
 
 - (void)setViewState:(NSNotification *)notif
 {
 	if ([[notif object] boolValue])
-	[self registerForDraggedTypes:[NSArray arrayWithObjects:NSFilenamesPboardType, nil]];
+		[self registerForDraggedTypes:[NSArray arrayWithObjects:NSFilenamesPboardType, nil]];
 	else
-	[self unregisterDraggedTypes];
+		[self unregisterDraggedTypes];
 }
 
 @end
