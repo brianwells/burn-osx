@@ -5,17 +5,17 @@
 
 - (id)init
 {
-self = [super init];
+	self = [super init];
 
-shouldClose = NO;
-[NSBundle loadNibNamed:@"KWEraser" owner:self];
+	shouldClose = NO;
+	[NSBundle loadNibNamed:@"KWEraser" owner:self];
 
-return self;
+	return self;
 }
 
 - (void)dealloc
 {
-[super dealloc];
+	[super dealloc];
 }
 
 ///////////////////
@@ -25,140 +25,131 @@ return self;
 #pragma mark -
 #pragma mark •• Main actions
 
+- (void)setupWindow
+{
+	[burnerPopup removeAllItems];
+	
+	NSArray *devices = [DRDevice devices];
+	int i;
+	for (i=0;i< [devices count];i++)
+	{
+		[burnerPopup addItemWithTitle:[[devices objectAtIndex:i] displayName]];
+	}
+	
+	NSString *displayName = [[self savedDevice] displayName];
+	if ([burnerPopup indexOfItemWithTitle:displayName] > -1)
+	{
+		[burnerPopup selectItemAtIndex:[burnerPopup indexOfItemWithTitle:displayName]];
+	}
+	
+	[self updateDevice:[self currentDevice]];
+
+	[[DRNotificationCenter currentRunLoopCenter] addObserver:self selector:@selector(statusChanged:) name:DRDeviceStatusChangedNotification object:nil];
+}
+
 - (void)beginEraseSheetForWindow:(NSWindow *)window modalDelegate:(id)delegate didEndSelector:(SEL)selector
 {
-endSelector = selector;
-endDelegate = delegate;
-
-[burnerPopup removeAllItems];
-
-	int i;
-	for (i=0;i< [[DRDevice devices] count];i++)
-	{
-	[burnerPopup addItemWithTitle:[[[DRDevice devices] objectAtIndex:i] displayName]];
-	}
+	endSelector = selector;
+	endDelegate = delegate;
 	
-	if ([burnerPopup indexOfItemWithTitle:[[self savedDevice] displayName]] > -1)
-	{
-	[burnerPopup selectItemAtIndex:[burnerPopup indexOfItemWithTitle:[[self savedDevice] displayName]]];
-	}
+	[self setupWindow];
 	
-[self updateDevice:[self currentDevice]];
-
-[[DRNotificationCenter currentRunLoopCenter] addObserver:self selector:@selector(statusChanged:) name:DRDeviceStatusChangedNotification object:nil];
-[NSApp beginSheet:[self window] modalForWindow:window modalDelegate:self didEndSelector:@selector(sheetDidEnd:returnCode:contextInfo:) contextInfo:window];
+	[NSApp beginSheet:[self window] modalForWindow:window modalDelegate:self didEndSelector:@selector(sheetDidEnd:returnCode:contextInfo:) contextInfo:window];
 }
 
 - (int)beginEraseWindow
 {
-[burnerPopup removeAllItems];
-
-	int i;
-	for (i=0;i< [[DRDevice devices] count];i++)
-	{
-	[burnerPopup addItemWithTitle:[[[DRDevice devices] objectAtIndex:i] displayName]];
-	}
+	[burnerPopup removeAllItems];
 	
-	if ([burnerPopup indexOfItemWithTitle:[[self savedDevice] displayName]] > -1)
-	{
-	[burnerPopup selectItemAtIndex:[burnerPopup indexOfItemWithTitle:[[self savedDevice] displayName]]];
-	}
+	[self setupWindow];
 	
-[self updateDevice:[self currentDevice]];
+	int x = [NSApp runModalForWindow:[self window]];
+	[[self window] close];
 
-[[DRNotificationCenter currentRunLoopCenter] addObserver:self selector:@selector(statusChanged:) name:DRDeviceStatusChangedNotification object:nil];
-
-int x = [NSApp runModalForWindow:[self window]];
-[[self window] close];
-
-return x;
+	return x;
 }
 
 - (void)sheetDidEnd:(NSWindow *)sheet returnCode:(int)returnCode contextInfo:(void *)contextInfo
 {
-[sheet orderOut:self];
-[[DRNotificationCenter currentRunLoopCenter] removeObserver:self name:DRDeviceStatusChangedNotification object:nil];
+	[sheet orderOut:self];
+	[[DRNotificationCenter currentRunLoopCenter] removeObserver:self name:DRDeviceStatusChangedNotification object:nil];
 
-	if (returnCode == NSOKButton)
-	{
-	[endDelegate performSelector:endSelector withObject:self withObject:(id)NSOKButton];
-	}
-	else
-	{
-	[endDelegate performSelector:endSelector withObject:self withObject:(id)NSCancelButton];
-	}
+	[endDelegate performSelector:endSelector withObject:self withObject:(id)returnCode];
 }
 
 - (void)erase
 {
-DRErase* erase = [[DRErase alloc] initWithDevice:[self currentDevice]];
+	DRErase* erase = [[DRErase alloc] initWithDevice:[self currentDevice]];
 
 	if ([completelyErase state] == NSOnState)
-	[erase setEraseType:DREraseTypeComplete];
+		[erase setEraseType:DREraseTypeComplete];
 	else
-	[erase setEraseType:DREraseTypeQuick];	
+		[erase setEraseType:DREraseTypeQuick];	
 		
-//Save burner
-NSMutableDictionary *burnDict = [[NSMutableDictionary alloc] init];
+	//Save burner
+	NSMutableDictionary *burnDict = [[NSMutableDictionary alloc] init];
 
-[burnDict setObject:[[[self currentDevice] info] objectForKey:@"DRDeviceProductNameKey"] forKey:@"Product"];
-[burnDict setObject:[[[self currentDevice] info] objectForKey:@"DRDeviceVendorNameKey"] forKey:@"Vendor"];
-[burnDict setObject:@"" forKey:@"SerialNumber"];
+	[burnDict setObject:[[[self currentDevice] info] objectForKey:@"DRDeviceProductNameKey"] forKey:@"Product"];
+	[burnDict setObject:[[[self currentDevice] info] objectForKey:@"DRDeviceVendorNameKey"] forKey:@"Vendor"];
+	[burnDict setObject:@"" forKey:@"SerialNumber"];
 
-[[NSUserDefaults standardUserDefaults] setObject:burnDict forKey:@"KWDefaultDeviceIdentifier"];
+	[[NSUserDefaults standardUserDefaults] setObject:burnDict forKey:@"KWDefaultDeviceIdentifier"];
 
-[[NSNotificationCenter defaultCenter] postNotificationName:@"KWMediaChanged" object:nil];
+	[[NSNotificationCenter defaultCenter] postNotificationName:@"KWMediaChanged" object:nil];
 	
-[burnDict release];
+	[burnDict release];
 
-[[DRNotificationCenter currentRunLoopCenter] addObserver:self selector:@selector(eraseNotification:) name:DREraseStatusChangedNotification object:erase];	
+	[[DRNotificationCenter currentRunLoopCenter] addObserver:self selector:@selector(eraseNotification:) name:DREraseStatusChangedNotification object:erase];	
 
-[erase start];
+	[erase start];
 }
 
 - (void)updateDevice:(DRDevice *)device
 {
-	if ([[[device status] objectForKey:DRDeviceMediaStateKey] isEqualTo:DRDeviceMediaStateMediaPresent])
+	NSDictionary *deviceStatus = [device status];
+	NSString *statusString = [deviceStatus objectForKey:DRDeviceMediaStateKey];
+
+	if ([statusString isEqualTo:DRDeviceMediaStateMediaPresent])
 	{
-		if ([[[[device status] objectForKey:DRDeviceMediaInfoKey] objectForKey:DRDeviceMediaIsErasableKey] boolValue])
+		if ([[[deviceStatus objectForKey:DRDeviceMediaInfoKey] objectForKey:DRDeviceMediaIsErasableKey] boolValue])
 		{
-		[closeButton setEnabled:YES];
-		[closeButton setTitle:NSLocalizedString(@"Eject", Localized)];
+			[closeButton setEnabled:YES];
+			[closeButton setTitle:NSLocalizedString(@"Eject", Localized)];
 		
-		[statusText setStringValue:NSLocalizedString(@"Ready to erase", Localized)];
+			[statusText setStringValue:NSLocalizedString(@"Ready to erase", Localized)];
 		
-		[eraseButton setEnabled:YES];
+			[eraseButton setEnabled:YES];
 		}
 		else
 		{
-		[device ejectMedia];
+			[device ejectMedia];
 		}
 	}
-	else if ([[[device status] objectForKey:DRDeviceMediaStateKey] isEqualTo:DRDeviceMediaStateInTransition])
+	else if ([statusString isEqualTo:DRDeviceMediaStateInTransition])
 	{
-	[closeButton setEnabled:NO];
-	[statusText setStringValue:NSLocalizedString(@"Waiting for the drive...", Localized)];
-	[eraseButton setEnabled:NO];
+		[closeButton setEnabled:NO];
+		[statusText setStringValue:NSLocalizedString(@"Waiting for the drive...", Localized)];
+		[eraseButton setEnabled:NO];
 	}
-	else if ([[[device status] objectForKey:DRDeviceMediaStateKey] isEqualTo:DRDeviceMediaStateNone])
+	else if ([statusString isEqualTo:DRDeviceMediaStateNone])
 	{
 		if ([[[device info] objectForKey:DRDeviceLoadingMechanismCanOpenKey] boolValue])
 		{
-		[closeButton setEnabled:YES];
+			[closeButton setEnabled:YES];
 		
-			if ([[[device status] objectForKey:DRDeviceIsTrayOpenKey] boolValue])
-			[closeButton setTitle:NSLocalizedString(@"Close", Localized)];
+			if ([[deviceStatus objectForKey:DRDeviceIsTrayOpenKey] boolValue])
+				[closeButton setTitle:NSLocalizedString(@"Close", Localized)];
 			else
-			[closeButton setTitle:NSLocalizedString(@"Open", Localized)];
+				[closeButton setTitle:NSLocalizedString(@"Open", Localized)];
 		}
 		else
 		{
-		[closeButton setTitle:NSLocalizedString(@"Close", Localized)];
-		[closeButton setEnabled:NO];
+			[closeButton setTitle:NSLocalizedString(@"Close", Localized)];
+			[closeButton setEnabled:NO];
 		}
 		
-	[statusText setStringValue:NSLocalizedString(@"Waiting for a disc to be inserted...", Localized)];
-	[eraseButton setEnabled:NO];
+		[statusText setStringValue:NSLocalizedString(@"Waiting for a disc to be inserted...", Localized)];
+		[eraseButton setEnabled:NO];
 	}
 }
 
@@ -171,69 +162,77 @@ NSMutableDictionary *burnDict = [[NSMutableDictionary alloc] init];
 
 - (IBAction)burnerPopup:(id)sender
 {
-	if ([[[[self currentDevice] info] objectForKey:DRDeviceLoadingMechanismCanOpenKey] boolValue])
+	DRDevice *currentDevice = [self currentDevice];
+
+	if ([[[currentDevice info] objectForKey:DRDeviceLoadingMechanismCanOpenKey] boolValue])
 	{
-		if ([[[[self currentDevice] status] objectForKey:DRDeviceIsTrayOpenKey] boolValue] == NO)
+		if (![[[currentDevice status] objectForKey:DRDeviceIsTrayOpenKey] boolValue])
 		{
-		[[self currentDevice] openTray];
-		shouldClose = YES;
+			[currentDevice openTray];
+			shouldClose = YES;
 		}
 	}
 	
+	NSArray *devices = [DRDevice devices];
 	int z;
-	for (z=0;z<[[DRDevice devices] count];z++)
+	for (z=0;z<[devices count];z++)
 	{
-	DRDevice *device = [[DRDevice devices] objectAtIndex:z];
+		DRDevice *device = [devices objectAtIndex:z];
+		
 		if ([[[device info] objectForKey:DRDeviceLoadingMechanismCanOpenKey] boolValue] && [[[device status] objectForKey:DRDeviceIsTrayOpenKey] boolValue] && !z == [burnerPopup indexOfSelectedItem])
-		[device closeTray];
+			[device closeTray];
 	}
 
-[self updateDevice:[self currentDevice]];
+	[self updateDevice:currentDevice];
 }
 
 - (IBAction)cancelButton:(id)sender
 {
 	if (shouldClose)
-	[[[DRDevice devices] objectAtIndex:[burnerPopup indexOfSelectedItem]] closeTray];
+		[[[DRDevice devices] objectAtIndex:[burnerPopup indexOfSelectedItem]] closeTray];
+		
+	[[DRNotificationCenter currentRunLoopCenter] removeObserver:self name:DREraseStatusChangedNotification object:nil];
 	
 	if ([[self window] isSheet])
 	{
-	[NSApp endSheet:[self window] returnCode:NSCancelButton];
+		[NSApp endSheet:[self window] returnCode:NSCancelButton];
 	}
 	else
 	{
-	[[DRNotificationCenter currentRunLoopCenter] removeObserver:self name:DREraseStatusChangedNotification object:nil];
-	[NSApp stopModalWithCode:NSCancelButton];
+		[NSApp stopModalWithCode:NSCancelButton];
 	}
 }
 
 - (IBAction)closeButton:(id)sender
 {
+	DRDevice *selectedDevice = [[DRDevice devices] objectAtIndex:[burnerPopup indexOfSelectedItem]];
+
 	if ([[closeButton title] isEqualTo:NSLocalizedString(@"Eject", Localized)])
 	{
-	[[[DRDevice devices] objectAtIndex:[burnerPopup indexOfSelectedItem]] ejectMedia];
+		[selectedDevice ejectMedia];
 	}
 	else if ([[closeButton title] isEqualTo:NSLocalizedString(@"Close", Localized)])
 	{
-	[[[DRDevice devices] objectAtIndex:[burnerPopup indexOfSelectedItem]] closeTray];
+		[selectedDevice closeTray];
 	}
 	else if ([[closeButton title] isEqualTo:NSLocalizedString(@"Open", Localized)])
 	{
-	shouldClose = YES;
-	[[[DRDevice devices] objectAtIndex:[burnerPopup indexOfSelectedItem]] openTray];
+		shouldClose = YES;
+		[selectedDevice openTray];
 	}
 }
 
 - (IBAction)eraseButton:(id)sender
 {
+	[[DRNotificationCenter currentRunLoopCenter] removeObserver:self name:DREraseStatusChangedNotification object:nil];
+	
 	if ([[self window] isSheet])
 	{
-	[NSApp endSheet:[self window] returnCode:NSOKButton];
+		[NSApp endSheet:[self window] returnCode:NSOKButton];
 	}
 	else
 	{
-	[[DRNotificationCenter currentRunLoopCenter] removeObserver:self name:DREraseStatusChangedNotification object:nil];
-	[NSApp stopModalWithCode:NSOKButton];
+		[NSApp stopModalWithCode:NSOKButton];
 	}
 }
 
@@ -246,51 +245,61 @@ NSMutableDictionary *burnDict = [[NSMutableDictionary alloc] init];
 
 - (void)statusChanged:(NSNotification *)notif
 {
-	if ([[[notif object] displayName] isEqualTo:[burnerPopup title]])
-	[self updateDevice:[notif object]];
+	DRDevice *notifDevice = [notif object];
+
+	if ([[notifDevice displayName] isEqualTo:[burnerPopup title]])
+	[self updateDevice:notifDevice];
 }
 
 - (void)eraseNotification:(NSNotification*)notification	
 {	
-NSDictionary* status = [notification userInfo];
-NSString *time = @"";
+	NSDictionary* status = [notification userInfo];
+	DRErase *eraseObject = [notification object];
+	NSString *currentStatusString = [status objectForKey:DRStatusStateKey];
+	NSNotificationCenter *defaultCenter = [NSNotificationCenter defaultCenter];
+	NSString *time = @"";
+	NSString *statusString = nil;
 	
 	if ([[status objectForKey:DRStatusPercentCompleteKey] floatValue] > 0)
 	{
-	[[NSNotificationCenter defaultCenter] postNotificationName:@"KWMaximumValueChanged" object:[NSNumber numberWithFloat:1.0]];
-	[[NSNotificationCenter defaultCenter] postNotificationName:@"KWValueChanged" object:[status objectForKey:DRStatusPercentCompleteKey]];
-	time = [KWCommonMethods formatTime:[[[status objectForKey:DRStatusProgressInfoKey] objectForKey:@"DRStatusProgressRemainingTime"] intValue]];
-	time = [[@" (" stringByAppendingString:time] stringByAppendingString:@")"];
+		[defaultCenter postNotificationName:@"KWMaximumValueChanged" object:[NSNumber numberWithFloat:1.0]];
+		[defaultCenter postNotificationName:@"KWValueChanged" object:[status objectForKey:DRStatusPercentCompleteKey]];
+		time = [NSString stringWithFormat:@" (%@)", [KWCommonMethods formatTime:[[[status objectForKey:DRStatusProgressInfoKey] objectForKey:@"DRStatusProgressRemainingTime"] intValue]]];
 	}
 	else
 	{
-	[[NSNotificationCenter defaultCenter] postNotificationName:@"KWMaximumValueChanged" object:[NSNumber numberWithFloat:0]];
+		[defaultCenter postNotificationName:@"KWMaximumValueChanged" object:[NSNumber numberWithFloat:0]];
 	}
 
-	if ([[status objectForKey:DRStatusStateKey] isEqualTo:DRStatusStatePreparing])
+	if ([currentStatusString isEqualTo:DRStatusStatePreparing])
 	{
-	[[NSNotificationCenter defaultCenter] postNotificationName:@"KWStatusChanged" object:NSLocalizedString(@"Preparing...", Localized)];
+		statusString = NSLocalizedString(@"Preparing...", Localized);
 	}
-	else if ([[status objectForKey:DRStatusStateKey] isEqualTo:DRStatusStateErasing])
+	else if ([currentStatusString isEqualTo:DRStatusStateErasing])
 	{
-	[[NSNotificationCenter defaultCenter] postNotificationName:@"KWStatusChanged" object:[NSLocalizedString(@"Erasing disc", Localized) stringByAppendingString:time]];
+		statusString = [NSLocalizedString(@"Erasing disc", Localized) stringByAppendingString:time];
 	}
-	else if ([[status objectForKey:DRStatusStateKey] isEqualTo:DRStatusStateFinishing])
+	else if ([currentStatusString isEqualTo:DRStatusStateFinishing])
 	{
-	[[NSNotificationCenter defaultCenter] postNotificationName:@"KWStatusChanged" object:NSLocalizedString(@"Finishing...", Localized)];
+		statusString = NSLocalizedString(@"Finishing...", Localized);
 	}
-	else if ([[status objectForKey:DRStatusStateKey] isEqualTo:DRStatusStateDone])
+	else if ([currentStatusString isEqualTo:DRStatusStateDone])
 	{
-	[[DRNotificationCenter currentRunLoopCenter] removeObserver:self name:DREraseStatusChangedNotification object:[notification object]];
-	[[notification object] release];
-	[[NSNotificationCenter defaultCenter] postNotificationName:@"KWEraseFinished" object:self userInfo:[NSDictionary dictionaryWithObject:@"KWSucces" forKey:@"ReturnCode"]];
+		[[DRNotificationCenter currentRunLoopCenter] removeObserver:self name:DREraseStatusChangedNotification object:eraseObject];
+		[eraseObject release];
+		
+		[defaultCenter postNotificationName:@"KWEraseFinished" object:self userInfo:[NSDictionary dictionaryWithObject:@"KWSucces" forKey:@"ReturnCode"]];
 	}
-	else if ([[status objectForKey:DRStatusStateKey] isEqualTo:DRStatusStateFailed])
+	else if ([currentStatusString isEqualTo:DRStatusStateFailed])
 	{
-	[[DRNotificationCenter currentRunLoopCenter] removeObserver:self name:DREraseStatusChangedNotification object:[notification object]];
-	[[notification object] release];
-	[[NSNotificationCenter defaultCenter] postNotificationName:@"KWEraseFinished" object:self userInfo:[NSDictionary dictionaryWithObject:@"KWFailure" forKey:@"ReturnCode"]];
+		[[DRNotificationCenter currentRunLoopCenter] removeObserver:self name:DREraseStatusChangedNotification object:eraseObject];
+		[eraseObject release];
+	
+		[defaultCenter postNotificationName:@"KWEraseFinished" object:self userInfo:[NSDictionary dictionaryWithObject:@"KWFailure" forKey:@"ReturnCode"]];
 	}
+	
+	if (statusString)
+		[defaultCenter postNotificationName:@"KWStatusChanged" object:statusString];
 }
 
 ///////////////////
@@ -302,23 +311,24 @@ NSString *time = @"";
 
 - (DRDevice *)currentDevice
 {
-return [[DRDevice devices] objectAtIndex:[burnerPopup indexOfSelectedItem]];
+	return [[DRDevice devices] objectAtIndex:[burnerPopup indexOfSelectedItem]];
 }
 
 - (DRDevice *)savedDevice
 {
 	NSArray *devices = [DRDevice devices];
-	
 	int i;
 	for (i=0;i< [devices count];i++)
 	{
-		if ([[[[devices objectAtIndex:i] info] objectForKey:@"DRDeviceProductNameKey"] isEqualTo:[[[NSUserDefaults standardUserDefaults] dictionaryForKey:@"KWDefaultDeviceIdentifier"] objectForKey:@"Product"]])
+	DRDevice *currentDevice = [devices objectAtIndex:i];
+	
+		if ([[[currentDevice info] objectForKey:@"DRDeviceProductNameKey"] isEqualTo:[[[NSUserDefaults standardUserDefaults] dictionaryForKey:@"KWDefaultDeviceIdentifier"] objectForKey:@"Product"]])
 		{
-		return [devices objectAtIndex:i];
+			return currentDevice;
 		}
 	}
 	
-return [devices objectAtIndex:0];
+	return [devices objectAtIndex:0];
 }
 
 @end
