@@ -80,12 +80,12 @@
 
 - (void)updateSpecific
 {
-[versionNumber setObjectValue:[self getPropertyForKey:DRISO9660VersionNumber]];
-[invisible setObjectValue:[self getPropertyForKey:DRInvisible]];
+	[versionNumber setObjectValue:[self getPropertyForKey:DRISO9660VersionNumber]];
+	[invisible setObjectValue:[self getPropertyForKey:DRInvisible]];
 
-[effectiveDate setObjectValue:[self getPropertyForKey:[propertyMappings objectAtIndex:[effectiveDate tag]]]];
-[expirationDate setObjectValue:[self getPropertyForKey:[propertyMappings objectAtIndex:[expirationDate tag]]]];
-[recordingDate setObjectValue:[self getPropertyForKey:[propertyMappings objectAtIndex:[recordingDate tag]]]];
+	[effectiveDate setObjectValue:[self getPropertyForKey:[propertyMappings objectAtIndex:[effectiveDate tag]]]];
+	[expirationDate setObjectValue:[self getPropertyForKey:[propertyMappings objectAtIndex:[expirationDate tag]]]];
+	[recordingDate setObjectValue:[self getPropertyForKey:[propertyMappings objectAtIndex:[recordingDate tag]]]];
 }
 
 @end
