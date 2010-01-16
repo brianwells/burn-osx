@@ -4,9 +4,9 @@
 
 - (BOOL)becomeFirstResponder 
 {
-[[NSNotificationCenter defaultCenter] postNotificationName:@"KWListSelected" object:self];
+	[[NSNotificationCenter defaultCenter] postNotificationName:@"KWListSelected" object:self];
 
-return [super becomeFirstResponder];
+	return [super becomeFirstResponder];
 }
 
 @end
