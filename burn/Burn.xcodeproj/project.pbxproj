@@ -8,14 +8,13 @@
 
 /* Begin PBXBuildFile section */
 		8D15AC2D0486D014006FF6A4 /* MainMenu.nib in Resources */ = {isa = PBXBuildFile; fileRef = 2A37F4B6FDCFA73011CA2CEA /* MainMenu.nib */; };
-		8D15AC2E0486D014006FF6A4 /* KWDocument.nib in Resources */ = {isa = PBXBuildFile; fileRef = 2A37F4B4FDCFA73011CA2CEA /* KWDocument.nib */; };
 		8D15AC2F0486D014006FF6A4 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 089C165FFE840EACC02AAC07 /* InfoPlist.strings */; };
 		8D15AC320486D014006FF6A4 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 2A37F4B0FDCFA73011CA2CEA /* main.m */; settings = {ATTRIBUTES = (); }; };
 		FE0340000BA7FB6100622112 /* KWRecorderInfo.nib in Resources */ = {isa = PBXBuildFile; fileRef = FE033FFE0BA7FB6100622112 /* KWRecorderInfo.nib */; };
 		FE0340040BA7FB6E00622112 /* KWRecorderInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = FE0340020BA7FB6E00622112 /* KWRecorderInfo.m */; };
-		FE0343770BA816AB00622112 /* KWDiskInfo.nib in Resources */ = {isa = PBXBuildFile; fileRef = FE0343750BA816AB00622112 /* KWDiskInfo.nib */; };
-		FE03437E0BA816CE00622112 /* KWDiskInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = FE03437C0BA816CE00622112 /* KWDiskInfo.m */; };
-		FE0361300BAFD9A900F7FA73 /* growlController.m in Sources */ = {isa = PBXBuildFile; fileRef = FE03612E0BAFD9A900F7FA73 /* growlController.m */; };
+		FE0343770BA816AB00622112 /* KWDiscInfo.nib in Resources */ = {isa = PBXBuildFile; fileRef = FE0343750BA816AB00622112 /* KWDiscInfo.nib */; };
+		FE03437E0BA816CE00622112 /* KWDiscInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = FE03437C0BA816CE00622112 /* KWDiscInfo.m */; };
+		FE0361300BAFD9A900F7FA73 /* KWGrowlController.m in Sources */ = {isa = PBXBuildFile; fileRef = FE03612E0BAFD9A900F7FA73 /* KWGrowlController.m */; };
 		FE03614B0BAFDA2D00F7FA73 /* Growl.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FE03614A0BAFDA2D00F7FA73 /* Growl.framework */; };
 		FE03615E0BAFDA3500F7FA73 /* Growl.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = FE03614A0BAFDA2D00F7FA73 /* Growl.framework */; };
 		FE0543020BAC7DCE003F1377 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FE3CA4F50BAC7D53001FB922 /* Cocoa.framework */; };
@@ -23,10 +22,6 @@
 		FE15A2FB0FC017ED00A3E0D5 /* KWConsole.nib in Resources */ = {isa = PBXBuildFile; fileRef = FE15A2F80FC017ED00A3E0D5 /* KWConsole.nib */; };
 		FE15A2FC0FC017ED00A3E0D5 /* KWConsole.nib in Resources */ = {isa = PBXBuildFile; fileRef = FE15A2F80FC017ED00A3E0D5 /* KWConsole.nib */; };
 		FE15A2FD0FC017ED00A3E0D5 /* KWConsole.nib in Resources */ = {isa = PBXBuildFile; fileRef = FE15A2F80FC017ED00A3E0D5 /* KWConsole.nib */; };
-		FE15A31B0FC01B9600A3E0D5 /* KWConsole.m in Sources */ = {isa = PBXBuildFile; fileRef = FE15A31A0FC01B9600A3E0D5 /* KWConsole.m */; };
-		FE15A31C0FC01B9600A3E0D5 /* KWConsole.m in Sources */ = {isa = PBXBuildFile; fileRef = FE15A31A0FC01B9600A3E0D5 /* KWConsole.m */; };
-		FE15A31D0FC01B9600A3E0D5 /* KWConsole.m in Sources */ = {isa = PBXBuildFile; fileRef = FE15A31A0FC01B9600A3E0D5 /* KWConsole.m */; };
-		FE15A31E0FC01B9600A3E0D5 /* KWConsole.m in Sources */ = {isa = PBXBuildFile; fileRef = FE15A31A0FC01B9600A3E0D5 /* KWConsole.m */; };
 		FE1884040EC5559D00410BA6 /* Empty.png in Resources */ = {isa = PBXBuildFile; fileRef = FE1883FD0EC5559D00410BA6 /* Empty.png */; };
 		FE18840B0EC5559D00410BA6 /* Empty.png in Resources */ = {isa = PBXBuildFile; fileRef = FE1883FD0EC5559D00410BA6 /* Empty.png */; };
 		FE1884120EC5559D00410BA6 /* Empty.png in Resources */ = {isa = PBXBuildFile; fileRef = FE1883FD0EC5559D00410BA6 /* Empty.png */; };
@@ -40,9 +35,9 @@
 		FE23C04D0EDDCDCC0048B85D /* KWTrackProducer.m in Sources */ = {isa = PBXBuildFile; fileRef = FE23C04B0EDDCDCB0048B85D /* KWTrackProducer.m */; };
 		FE23C04F0EDDCDCC0048B85D /* KWTrackProducer.m in Sources */ = {isa = PBXBuildFile; fileRef = FE23C04B0EDDCDCB0048B85D /* KWTrackProducer.m */; };
 		FE23C0510EDDCDCC0048B85D /* KWTrackProducer.m in Sources */ = {isa = PBXBuildFile; fileRef = FE23C04B0EDDCDCB0048B85D /* KWTrackProducer.m */; };
-		FE24916B0ECEDB6F0028E955 /* discCreationController.m in Sources */ = {isa = PBXBuildFile; fileRef = FE2491690ECEDB6F0028E955 /* discCreationController.m */; };
-		FE24916D0ECEDB6F0028E955 /* discCreationController.m in Sources */ = {isa = PBXBuildFile; fileRef = FE2491690ECEDB6F0028E955 /* discCreationController.m */; };
-		FE24916F0ECEDB6F0028E955 /* discCreationController.m in Sources */ = {isa = PBXBuildFile; fileRef = FE2491690ECEDB6F0028E955 /* discCreationController.m */; };
+		FE24916B0ECEDB6F0028E955 /* KWDiscCreator.m in Sources */ = {isa = PBXBuildFile; fileRef = FE2491690ECEDB6F0028E955 /* KWDiscCreator.m */; };
+		FE24916D0ECEDB6F0028E955 /* KWDiscCreator.m in Sources */ = {isa = PBXBuildFile; fileRef = FE2491690ECEDB6F0028E955 /* KWDiscCreator.m */; };
+		FE24916F0ECEDB6F0028E955 /* KWDiscCreator.m in Sources */ = {isa = PBXBuildFile; fileRef = FE2491690ECEDB6F0028E955 /* KWDiscCreator.m */; };
 		FE2C00C50E0643C30094FD7D /* ID3.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FE2C00C40E0643C30094FD7D /* ID3.framework */; };
 		FE2C00C60E0643C30094FD7D /* ID3.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FE2C00C40E0643C30094FD7D /* ID3.framework */; };
 		FE2C00C70E0643C30094FD7D /* ID3.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FE2C00C40E0643C30094FD7D /* ID3.framework */; };
@@ -89,12 +84,31 @@
 		FE3EFECD0DBBBFC6003DD5AD /* 90.png in Resources */ = {isa = PBXBuildFile; fileRef = FE3EFEA90DBBBFC6003DD5AD /* 90.png */; };
 		FE3EFECE0DBBBFC6003DD5AD /* 100.png in Resources */ = {isa = PBXBuildFile; fileRef = FE3EFEAA0DBBBFC6003DD5AD /* 100.png */; };
 		FE5E5B600D2A7FE300D65049 /* Themes in Resources */ = {isa = PBXBuildFile; fileRef = FE5E5B4C0D2A7FE300D65049 /* Themes */; };
+		FE6134CE1101FF2800C086EA /* KWTabViewItem.m in Sources */ = {isa = PBXBuildFile; fileRef = FE6134C91101FF2800C086EA /* KWTabViewItem.m */; };
+		FE6134CF1101FF2800C086EA /* KWWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = FE6134CB1101FF2800C086EA /* KWWindow.m */; };
+		FE6134D01101FF2800C086EA /* KWWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = FE6134CD1101FF2800C086EA /* KWWindowController.m */; };
+		FE6134D11101FF2800C086EA /* KWTabViewItem.m in Sources */ = {isa = PBXBuildFile; fileRef = FE6134C91101FF2800C086EA /* KWTabViewItem.m */; };
+		FE6134D21101FF2800C086EA /* KWWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = FE6134CB1101FF2800C086EA /* KWWindow.m */; };
+		FE6134D31101FF2800C086EA /* KWWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = FE6134CD1101FF2800C086EA /* KWWindowController.m */; };
+		FE6134D41101FF2800C086EA /* KWTabViewItem.m in Sources */ = {isa = PBXBuildFile; fileRef = FE6134C91101FF2800C086EA /* KWTabViewItem.m */; };
+		FE6134D51101FF2800C086EA /* KWWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = FE6134CB1101FF2800C086EA /* KWWindow.m */; };
+		FE6134D61101FF2800C086EA /* KWWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = FE6134CD1101FF2800C086EA /* KWWindowController.m */; };
+		FE6134D71101FF2800C086EA /* KWTabViewItem.m in Sources */ = {isa = PBXBuildFile; fileRef = FE6134C91101FF2800C086EA /* KWTabViewItem.m */; };
+		FE6134D81101FF2800C086EA /* KWWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = FE6134CB1101FF2800C086EA /* KWWindow.m */; };
+		FE6134D91101FF2800C086EA /* KWWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = FE6134CD1101FF2800C086EA /* KWWindowController.m */; };
+		FE6134F61102016400C086EA /* KWAlert.m in Sources */ = {isa = PBXBuildFile; fileRef = FE6134F31102016400C086EA /* KWAlert.m */; };
+		FE6134F71102016400C086EA /* KWMediaListController.m in Sources */ = {isa = PBXBuildFile; fileRef = FE6134F51102016400C086EA /* KWMediaListController.m */; };
+		FE6134F81102016400C086EA /* KWAlert.m in Sources */ = {isa = PBXBuildFile; fileRef = FE6134F31102016400C086EA /* KWAlert.m */; };
+		FE6134F91102016400C086EA /* KWMediaListController.m in Sources */ = {isa = PBXBuildFile; fileRef = FE6134F51102016400C086EA /* KWMediaListController.m */; };
+		FE6134FA1102016400C086EA /* KWAlert.m in Sources */ = {isa = PBXBuildFile; fileRef = FE6134F31102016400C086EA /* KWAlert.m */; };
+		FE6134FB1102016400C086EA /* KWMediaListController.m in Sources */ = {isa = PBXBuildFile; fileRef = FE6134F51102016400C086EA /* KWMediaListController.m */; };
+		FE6134FC1102016400C086EA /* KWAlert.m in Sources */ = {isa = PBXBuildFile; fileRef = FE6134F31102016400C086EA /* KWAlert.m */; };
+		FE6134FD1102016400C086EA /* KWMediaListController.m in Sources */ = {isa = PBXBuildFile; fileRef = FE6134F51102016400C086EA /* KWMediaListController.m */; };
 		FE6DBFD10BDCED47006F5F53 /* KWInspector.nib in Resources */ = {isa = PBXBuildFile; fileRef = FE6DBFCF0BDCED47006F5F53 /* KWInspector.nib */; };
 		FE8088EC0DBC85C100F2644D /* -1.png in Resources */ = {isa = PBXBuildFile; fileRef = FE8088EB0DBC85C100F2644D /* -1.png */; };
 		FE8088ED0DBC85C100F2644D /* -1.png in Resources */ = {isa = PBXBuildFile; fileRef = FE8088EB0DBC85C100F2644D /* -1.png */; };
 		FE8088EE0DBC85C100F2644D /* -1.png in Resources */ = {isa = PBXBuildFile; fileRef = FE8088EB0DBC85C100F2644D /* -1.png */; };
 		FEA467270D97BDC60083527F /* MainMenu.nib in Resources */ = {isa = PBXBuildFile; fileRef = 2A37F4B6FDCFA73011CA2CEA /* MainMenu.nib */; };
-		FEA467280D97BDC60083527F /* KWDocument.nib in Resources */ = {isa = PBXBuildFile; fileRef = 2A37F4B4FDCFA73011CA2CEA /* KWDocument.nib */; };
 		FEA467290D97BDC60083527F /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 089C165FFE840EACC02AAC07 /* InfoPlist.strings */; };
 		FEA4672A0D97BDC60083527F /* Advanced.tiff in Resources */ = {isa = PBXBuildFile; fileRef = FEEF6F140B92E8BB00ED64A9 /* Advanced.tiff */; };
 		FEA4672B0D97BDC60083527F /* Audio CD.png in Resources */ = {isa = PBXBuildFile; fileRef = FEEF6F150B92E8BB00ED64A9 /* Audio CD.png */; };
@@ -112,7 +126,7 @@
 		FEA467430D97BDC60083527F /* Burn.icns in Resources */ = {isa = PBXBuildFile; fileRef = FE2C34FB0BA2ED740029BA99 /* Burn.icns */; };
 		FEA467440D97BDC60083527F /* KWPreferences.nib in Resources */ = {isa = PBXBuildFile; fileRef = FEE5CDD90BA57EEC00FAD174 /* KWPreferences.nib */; };
 		FEA467460D97BDC60083527F /* KWRecorderInfo.nib in Resources */ = {isa = PBXBuildFile; fileRef = FE033FFE0BA7FB6100622112 /* KWRecorderInfo.nib */; };
-		FEA467470D97BDC60083527F /* KWDiskInfo.nib in Resources */ = {isa = PBXBuildFile; fileRef = FE0343750BA816AB00622112 /* KWDiskInfo.nib */; };
+		FEA467470D97BDC60083527F /* KWDiscInfo.nib in Resources */ = {isa = PBXBuildFile; fileRef = FE0343750BA816AB00622112 /* KWDiscInfo.nib */; };
 		FEA467480D97BDC60083527F /* KWEjecter.nib in Resources */ = {isa = PBXBuildFile; fileRef = FEE12CD30BAC57C2001D474B /* KWEjecter.nib */; };
 		FEA4674A0D97BDC60083527F /* KWInspector.nib in Resources */ = {isa = PBXBuildFile; fileRef = FE6DBFCF0BDCED47006F5F53 /* KWInspector.nib */; };
 		FEA4674B0D97BDC60083527F /* Multiple.png in Resources */ = {isa = PBXBuildFile; fileRef = FEEB40CA0BEDE0A90015842C /* Multiple.png */; };
@@ -125,12 +139,12 @@
 		FEA467560D97BDC60083527F /* KWDiskScanner.nib in Resources */ = {isa = PBXBuildFile; fileRef = FEF988AD0D97ADE800BF78E3 /* KWDiskScanner.nib */; };
 		FEA467570D97BDC60083527F /* KWProgress.nib in Resources */ = {isa = PBXBuildFile; fileRef = FEF989320D97B1D200BF78E3 /* KWProgress.nib */; };
 		FEA467590D97BDC60083527F /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 2A37F4B0FDCFA73011CA2CEA /* main.m */; settings = {ATTRIBUTES = (); }; };
-		FEA4675A0D97BDC60083527F /* dropImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = FEEF6FF40B92E9ED00ED64A9 /* dropImageView.m */; };
-		FEA4675B0D97BDC60083527F /* copyController.m in Sources */ = {isa = PBXBuildFile; fileRef = FEEF6FF50B92E9ED00ED64A9 /* copyController.m */; };
-		FEA4675C0D97BDC60083527F /* audioController.m in Sources */ = {isa = PBXBuildFile; fileRef = FEEF71FF0B92F44100ED64A9 /* audioController.m */; };
-		FEA4675D0D97BDC60083527F /* videoController.m in Sources */ = {isa = PBXBuildFile; fileRef = FEFEFFA60BA469A0004ADFD0 /* videoController.m */; };
-		FEA4675E0D97BDC60083527F /* dataController.m in Sources */ = {isa = PBXBuildFile; fileRef = FEFE010E0BA47E17004ADFD0 /* dataController.m */; };
-		FEA4675F0D97BDC60083527F /* dataView.m in Sources */ = {isa = PBXBuildFile; fileRef = FEFE010F0BA47E17004ADFD0 /* dataView.m */; };
+		FEA4675A0D97BDC60083527F /* KWCopyView.m in Sources */ = {isa = PBXBuildFile; fileRef = FEEF6FF40B92E9ED00ED64A9 /* KWCopyView.m */; };
+		FEA4675B0D97BDC60083527F /* KWCopyController.m in Sources */ = {isa = PBXBuildFile; fileRef = FEEF6FF50B92E9ED00ED64A9 /* KWCopyController.m */; };
+		FEA4675C0D97BDC60083527F /* KWAudioController.m in Sources */ = {isa = PBXBuildFile; fileRef = FEEF71FF0B92F44100ED64A9 /* KWAudioController.m */; };
+		FEA4675D0D97BDC60083527F /* KWVideoController.m in Sources */ = {isa = PBXBuildFile; fileRef = FEFEFFA60BA469A0004ADFD0 /* KWVideoController.m */; };
+		FEA4675E0D97BDC60083527F /* KWDataController.m in Sources */ = {isa = PBXBuildFile; fileRef = FEFE010E0BA47E17004ADFD0 /* KWDataController.m */; };
+		FEA4675F0D97BDC60083527F /* KWDataView.m in Sources */ = {isa = PBXBuildFile; fileRef = FEFE010F0BA47E17004ADFD0 /* KWDataView.m */; };
 		FEA467600D97BDC60083527F /* FSTreeNode.m in Sources */ = {isa = PBXBuildFile; fileRef = FEFE01100BA47E17004ADFD0 /* FSTreeNode.m */; };
 		FEA467610D97BDC60083527F /* ImageAndTextCell.m in Sources */ = {isa = PBXBuildFile; fileRef = FEFE01110BA47E17004ADFD0 /* ImageAndTextCell.m */; };
 		FEA467620D97BDC60083527F /* NSArray_Extensions.m in Sources */ = {isa = PBXBuildFile; fileRef = FEFE01120BA47E17004ADFD0 /* NSArray_Extensions.m */; };
@@ -138,11 +152,10 @@
 		FEA467640D97BDC60083527F /* TreeNode.m in Sources */ = {isa = PBXBuildFile; fileRef = FEFE01140BA47E17004ADFD0 /* TreeNode.m */; };
 		FEA467650D97BDC60083527F /* KWPreferences.m in Sources */ = {isa = PBXBuildFile; fileRef = FEE5CDDE0BA583C900FAD174 /* KWPreferences.m */; };
 		FEA467660D97BDC60083527F /* KWRecorderInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = FE0340020BA7FB6E00622112 /* KWRecorderInfo.m */; };
-		FEA467670D97BDC60083527F /* KWDiskInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = FE03437C0BA816CE00622112 /* KWDiskInfo.m */; };
-		FEA467680D97BDC60083527F /* appController.m in Sources */ = {isa = PBXBuildFile; fileRef = FEE1255A0BAC1339001D474B /* appController.m */; };
+		FEA467670D97BDC60083527F /* KWDiscInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = FE03437C0BA816CE00622112 /* KWDiscInfo.m */; };
+		FEA467680D97BDC60083527F /* KWApplication.m in Sources */ = {isa = PBXBuildFile; fileRef = FEE1255A0BAC1339001D474B /* KWApplication.m */; };
 		FEA467690D97BDC60083527F /* KWEjecter.m in Sources */ = {isa = PBXBuildFile; fileRef = FEE12CDE0BAC583D001D474B /* KWEjecter.m */; };
-		FEA4676A0D97BDC60083527F /* KWDocument.m in Sources */ = {isa = PBXBuildFile; fileRef = FEE260BE0BAE827200828AE6 /* KWDocument.m */; };
-		FEA4676B0D97BDC60083527F /* growlController.m in Sources */ = {isa = PBXBuildFile; fileRef = FE03612E0BAFD9A900F7FA73 /* growlController.m */; };
+		FEA4676B0D97BDC60083527F /* KWGrowlController.m in Sources */ = {isa = PBXBuildFile; fileRef = FE03612E0BAFD9A900F7FA73 /* KWGrowlController.m */; };
 		FEA4676C0D97BDC60083527F /* KWCommonMethods.m in Sources */ = {isa = PBXBuildFile; fileRef = FEEA698B0BDBADBE00471BE3 /* KWCommonMethods.m */; };
 		FEA4676D0D97BDC60083527F /* KWInspector.m in Sources */ = {isa = PBXBuildFile; fileRef = FEEDE01F0BDF53A300D50314 /* KWInspector.m */; };
 		FEA4676E0D97BDC60083527F /* HFSPlusController.m in Sources */ = {isa = PBXBuildFile; fileRef = FE195ECD0BE2A610001558D4 /* HFSPlusController.m */; };
@@ -165,7 +178,7 @@
 		FEA467810D97BDC60083527F /* NSScanner-Extra.mm in Sources */ = {isa = PBXBuildFile; fileRef = FEF9877B0D97A83400BF78E3 /* NSScanner-Extra.mm */; };
 		FEA467820D97BDC60083527F /* KWEraser.m in Sources */ = {isa = PBXBuildFile; fileRef = FEF987850D97A86300BF78E3 /* KWEraser.m */; };
 		FEA467830D97BDC60083527F /* KWConverter.m in Sources */ = {isa = PBXBuildFile; fileRef = FEF9887D0D97AA9100BF78E3 /* KWConverter.m */; };
-		FEA467840D97BDC60083527F /* KWDiskScanner.m in Sources */ = {isa = PBXBuildFile; fileRef = FEF988AA0D97ADD700BF78E3 /* KWDiskScanner.m */; };
+		FEA467840D97BDC60083527F /* KWDiscScanner.m in Sources */ = {isa = PBXBuildFile; fileRef = FEF988AA0D97ADD700BF78E3 /* KWDiscScanner.m */; };
 		FEA467850D97BDC60083527F /* KWDVDAuthorizer.m in Sources */ = {isa = PBXBuildFile; fileRef = FEF988C10D97AEA900BF78E3 /* KWDVDAuthorizer.m */; };
 		FEA467870D97BDC60083527F /* KWProgress.m in Sources */ = {isa = PBXBuildFile; fileRef = FEF9892F0D97B1C500BF78E3 /* KWProgress.m */; };
 		FEA467880D97BDC60083527F /* KWSVCDImager.m in Sources */ = {isa = PBXBuildFile; fileRef = FEF9896B0D97B30800BF78E3 /* KWSVCDImager.m */; };
@@ -177,7 +190,6 @@
 		FEA467900D97BDC60083527F /* Growl.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FE03614A0BAFDA2D00F7FA73 /* Growl.framework */; };
 		FEA467960D97BDC60083527F /* Growl.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = FE03614A0BAFDA2D00F7FA73 /* Growl.framework */; };
 		FEA4679F0D97BDCD0083527F /* MainMenu.nib in Resources */ = {isa = PBXBuildFile; fileRef = 2A37F4B6FDCFA73011CA2CEA /* MainMenu.nib */; };
-		FEA467A00D97BDCD0083527F /* KWDocument.nib in Resources */ = {isa = PBXBuildFile; fileRef = 2A37F4B4FDCFA73011CA2CEA /* KWDocument.nib */; };
 		FEA467A10D97BDCD0083527F /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 089C165FFE840EACC02AAC07 /* InfoPlist.strings */; };
 		FEA467A20D97BDCD0083527F /* Advanced.tiff in Resources */ = {isa = PBXBuildFile; fileRef = FEEF6F140B92E8BB00ED64A9 /* Advanced.tiff */; };
 		FEA467A30D97BDCD0083527F /* Audio CD.png in Resources */ = {isa = PBXBuildFile; fileRef = FEEF6F150B92E8BB00ED64A9 /* Audio CD.png */; };
@@ -195,7 +207,7 @@
 		FEA467BB0D97BDCD0083527F /* Burn.icns in Resources */ = {isa = PBXBuildFile; fileRef = FE2C34FB0BA2ED740029BA99 /* Burn.icns */; };
 		FEA467BC0D97BDCD0083527F /* KWPreferences.nib in Resources */ = {isa = PBXBuildFile; fileRef = FEE5CDD90BA57EEC00FAD174 /* KWPreferences.nib */; };
 		FEA467BE0D97BDCD0083527F /* KWRecorderInfo.nib in Resources */ = {isa = PBXBuildFile; fileRef = FE033FFE0BA7FB6100622112 /* KWRecorderInfo.nib */; };
-		FEA467BF0D97BDCD0083527F /* KWDiskInfo.nib in Resources */ = {isa = PBXBuildFile; fileRef = FE0343750BA816AB00622112 /* KWDiskInfo.nib */; };
+		FEA467BF0D97BDCD0083527F /* KWDiscInfo.nib in Resources */ = {isa = PBXBuildFile; fileRef = FE0343750BA816AB00622112 /* KWDiscInfo.nib */; };
 		FEA467C00D97BDCD0083527F /* KWEjecter.nib in Resources */ = {isa = PBXBuildFile; fileRef = FEE12CD30BAC57C2001D474B /* KWEjecter.nib */; };
 		FEA467C20D97BDCD0083527F /* KWInspector.nib in Resources */ = {isa = PBXBuildFile; fileRef = FE6DBFCF0BDCED47006F5F53 /* KWInspector.nib */; };
 		FEA467C30D97BDCD0083527F /* Multiple.png in Resources */ = {isa = PBXBuildFile; fileRef = FEEB40CA0BEDE0A90015842C /* Multiple.png */; };
@@ -208,12 +220,12 @@
 		FEA467CE0D97BDCD0083527F /* KWDiskScanner.nib in Resources */ = {isa = PBXBuildFile; fileRef = FEF988AD0D97ADE800BF78E3 /* KWDiskScanner.nib */; };
 		FEA467CF0D97BDCD0083527F /* KWProgress.nib in Resources */ = {isa = PBXBuildFile; fileRef = FEF989320D97B1D200BF78E3 /* KWProgress.nib */; };
 		FEA467D10D97BDCD0083527F /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 2A37F4B0FDCFA73011CA2CEA /* main.m */; settings = {ATTRIBUTES = (); }; };
-		FEA467D20D97BDCD0083527F /* dropImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = FEEF6FF40B92E9ED00ED64A9 /* dropImageView.m */; };
-		FEA467D30D97BDCD0083527F /* copyController.m in Sources */ = {isa = PBXBuildFile; fileRef = FEEF6FF50B92E9ED00ED64A9 /* copyController.m */; };
-		FEA467D40D97BDCD0083527F /* audioController.m in Sources */ = {isa = PBXBuildFile; fileRef = FEEF71FF0B92F44100ED64A9 /* audioController.m */; };
-		FEA467D50D97BDCD0083527F /* videoController.m in Sources */ = {isa = PBXBuildFile; fileRef = FEFEFFA60BA469A0004ADFD0 /* videoController.m */; };
-		FEA467D60D97BDCD0083527F /* dataController.m in Sources */ = {isa = PBXBuildFile; fileRef = FEFE010E0BA47E17004ADFD0 /* dataController.m */; };
-		FEA467D70D97BDCD0083527F /* dataView.m in Sources */ = {isa = PBXBuildFile; fileRef = FEFE010F0BA47E17004ADFD0 /* dataView.m */; };
+		FEA467D20D97BDCD0083527F /* KWCopyView.m in Sources */ = {isa = PBXBuildFile; fileRef = FEEF6FF40B92E9ED00ED64A9 /* KWCopyView.m */; };
+		FEA467D30D97BDCD0083527F /* KWCopyController.m in Sources */ = {isa = PBXBuildFile; fileRef = FEEF6FF50B92E9ED00ED64A9 /* KWCopyController.m */; };
+		FEA467D40D97BDCD0083527F /* KWAudioController.m in Sources */ = {isa = PBXBuildFile; fileRef = FEEF71FF0B92F44100ED64A9 /* KWAudioController.m */; };
+		FEA467D50D97BDCD0083527F /* KWVideoController.m in Sources */ = {isa = PBXBuildFile; fileRef = FEFEFFA60BA469A0004ADFD0 /* KWVideoController.m */; };
+		FEA467D60D97BDCD0083527F /* KWDataController.m in Sources */ = {isa = PBXBuildFile; fileRef = FEFE010E0BA47E17004ADFD0 /* KWDataController.m */; };
+		FEA467D70D97BDCD0083527F /* KWDataView.m in Sources */ = {isa = PBXBuildFile; fileRef = FEFE010F0BA47E17004ADFD0 /* KWDataView.m */; };
 		FEA467D80D97BDCD0083527F /* FSTreeNode.m in Sources */ = {isa = PBXBuildFile; fileRef = FEFE01100BA47E17004ADFD0 /* FSTreeNode.m */; };
 		FEA467D90D97BDCD0083527F /* ImageAndTextCell.m in Sources */ = {isa = PBXBuildFile; fileRef = FEFE01110BA47E17004ADFD0 /* ImageAndTextCell.m */; };
 		FEA467DA0D97BDCD0083527F /* NSArray_Extensions.m in Sources */ = {isa = PBXBuildFile; fileRef = FEFE01120BA47E17004ADFD0 /* NSArray_Extensions.m */; };
@@ -221,11 +233,10 @@
 		FEA467DC0D97BDCD0083527F /* TreeNode.m in Sources */ = {isa = PBXBuildFile; fileRef = FEFE01140BA47E17004ADFD0 /* TreeNode.m */; };
 		FEA467DD0D97BDCD0083527F /* KWPreferences.m in Sources */ = {isa = PBXBuildFile; fileRef = FEE5CDDE0BA583C900FAD174 /* KWPreferences.m */; };
 		FEA467DE0D97BDCD0083527F /* KWRecorderInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = FE0340020BA7FB6E00622112 /* KWRecorderInfo.m */; };
-		FEA467DF0D97BDCD0083527F /* KWDiskInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = FE03437C0BA816CE00622112 /* KWDiskInfo.m */; };
-		FEA467E00D97BDCD0083527F /* appController.m in Sources */ = {isa = PBXBuildFile; fileRef = FEE1255A0BAC1339001D474B /* appController.m */; };
+		FEA467DF0D97BDCD0083527F /* KWDiscInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = FE03437C0BA816CE00622112 /* KWDiscInfo.m */; };
+		FEA467E00D97BDCD0083527F /* KWApplication.m in Sources */ = {isa = PBXBuildFile; fileRef = FEE1255A0BAC1339001D474B /* KWApplication.m */; };
 		FEA467E10D97BDCD0083527F /* KWEjecter.m in Sources */ = {isa = PBXBuildFile; fileRef = FEE12CDE0BAC583D001D474B /* KWEjecter.m */; };
-		FEA467E20D97BDCD0083527F /* KWDocument.m in Sources */ = {isa = PBXBuildFile; fileRef = FEE260BE0BAE827200828AE6 /* KWDocument.m */; };
-		FEA467E30D97BDCD0083527F /* growlController.m in Sources */ = {isa = PBXBuildFile; fileRef = FE03612E0BAFD9A900F7FA73 /* growlController.m */; };
+		FEA467E30D97BDCD0083527F /* KWGrowlController.m in Sources */ = {isa = PBXBuildFile; fileRef = FE03612E0BAFD9A900F7FA73 /* KWGrowlController.m */; };
 		FEA467E40D97BDCD0083527F /* KWCommonMethods.m in Sources */ = {isa = PBXBuildFile; fileRef = FEEA698B0BDBADBE00471BE3 /* KWCommonMethods.m */; };
 		FEA467E50D97BDCD0083527F /* KWInspector.m in Sources */ = {isa = PBXBuildFile; fileRef = FEEDE01F0BDF53A300D50314 /* KWInspector.m */; };
 		FEA467E60D97BDCD0083527F /* HFSPlusController.m in Sources */ = {isa = PBXBuildFile; fileRef = FE195ECD0BE2A610001558D4 /* HFSPlusController.m */; };
@@ -248,7 +259,7 @@
 		FEA467F90D97BDCD0083527F /* NSScanner-Extra.mm in Sources */ = {isa = PBXBuildFile; fileRef = FEF9877B0D97A83400BF78E3 /* NSScanner-Extra.mm */; };
 		FEA467FA0D97BDCD0083527F /* KWEraser.m in Sources */ = {isa = PBXBuildFile; fileRef = FEF987850D97A86300BF78E3 /* KWEraser.m */; };
 		FEA467FB0D97BDCD0083527F /* KWConverter.m in Sources */ = {isa = PBXBuildFile; fileRef = FEF9887D0D97AA9100BF78E3 /* KWConverter.m */; };
-		FEA467FC0D97BDCD0083527F /* KWDiskScanner.m in Sources */ = {isa = PBXBuildFile; fileRef = FEF988AA0D97ADD700BF78E3 /* KWDiskScanner.m */; };
+		FEA467FC0D97BDCD0083527F /* KWDiscScanner.m in Sources */ = {isa = PBXBuildFile; fileRef = FEF988AA0D97ADD700BF78E3 /* KWDiscScanner.m */; };
 		FEA467FD0D97BDCD0083527F /* KWDVDAuthorizer.m in Sources */ = {isa = PBXBuildFile; fileRef = FEF988C10D97AEA900BF78E3 /* KWDVDAuthorizer.m */; };
 		FEA467FF0D97BDCD0083527F /* KWProgress.m in Sources */ = {isa = PBXBuildFile; fileRef = FEF9892F0D97B1C500BF78E3 /* KWProgress.m */; };
 		FEA468000D97BDCD0083527F /* KWSVCDImager.m in Sources */ = {isa = PBXBuildFile; fileRef = FEF9896B0D97B30800BF78E3 /* KWSVCDImager.m */; };
@@ -293,7 +304,6 @@
 		FED690E30F119A9200713D1C /* ID3.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = FE2C00C40E0643C30094FD7D /* ID3.framework */; };
 		FED690EE0F119A9800713D1C /* ID3.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = FE2C00C40E0643C30094FD7D /* ID3.framework */; };
 		FEDBF52E0F80782A00DABA72 /* MainMenu.nib in Resources */ = {isa = PBXBuildFile; fileRef = 2A37F4B6FDCFA73011CA2CEA /* MainMenu.nib */; };
-		FEDBF52F0F80782A00DABA72 /* KWDocument.nib in Resources */ = {isa = PBXBuildFile; fileRef = 2A37F4B4FDCFA73011CA2CEA /* KWDocument.nib */; };
 		FEDBF5300F80782A00DABA72 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 089C165FFE840EACC02AAC07 /* InfoPlist.strings */; };
 		FEDBF5310F80782A00DABA72 /* Advanced.tiff in Resources */ = {isa = PBXBuildFile; fileRef = FEEF6F140B92E8BB00ED64A9 /* Advanced.tiff */; };
 		FEDBF5320F80782A00DABA72 /* Audio CD.png in Resources */ = {isa = PBXBuildFile; fileRef = FEEF6F150B92E8BB00ED64A9 /* Audio CD.png */; };
@@ -311,7 +321,7 @@
 		FEDBF53E0F80782A00DABA72 /* Burn.icns in Resources */ = {isa = PBXBuildFile; fileRef = FE2C34FB0BA2ED740029BA99 /* Burn.icns */; };
 		FEDBF53F0F80782A00DABA72 /* KWPreferences.nib in Resources */ = {isa = PBXBuildFile; fileRef = FEE5CDD90BA57EEC00FAD174 /* KWPreferences.nib */; };
 		FEDBF5400F80782A00DABA72 /* KWRecorderInfo.nib in Resources */ = {isa = PBXBuildFile; fileRef = FE033FFE0BA7FB6100622112 /* KWRecorderInfo.nib */; };
-		FEDBF5410F80782A00DABA72 /* KWDiskInfo.nib in Resources */ = {isa = PBXBuildFile; fileRef = FE0343750BA816AB00622112 /* KWDiskInfo.nib */; };
+		FEDBF5410F80782A00DABA72 /* KWDiscInfo.nib in Resources */ = {isa = PBXBuildFile; fileRef = FE0343750BA816AB00622112 /* KWDiscInfo.nib */; };
 		FEDBF5420F80782A00DABA72 /* KWEjecter.nib in Resources */ = {isa = PBXBuildFile; fileRef = FEE12CD30BAC57C2001D474B /* KWEjecter.nib */; };
 		FEDBF5430F80782A00DABA72 /* KWInspector.nib in Resources */ = {isa = PBXBuildFile; fileRef = FE6DBFCF0BDCED47006F5F53 /* KWInspector.nib */; };
 		FEDBF5440F80782A00DABA72 /* Multiple.png in Resources */ = {isa = PBXBuildFile; fileRef = FEEB40CA0BEDE0A90015842C /* Multiple.png */; };
@@ -347,12 +357,12 @@
 		FEDBF5630F80782A00DABA72 /* vcdimager in Resources */ = {isa = PBXBuildFile; fileRef = FEC3D5260EE3251E008DBECA /* vcdimager */; };
 		FEDBF5640F80782A00DABA72 /* BurnHelp in Resources */ = {isa = PBXBuildFile; fileRef = FEC66B170F2CCD8A00086E2C /* BurnHelp */; };
 		FEDBF5660F80782A00DABA72 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 2A37F4B0FDCFA73011CA2CEA /* main.m */; settings = {ATTRIBUTES = (); }; };
-		FEDBF5670F80782A00DABA72 /* dropImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = FEEF6FF40B92E9ED00ED64A9 /* dropImageView.m */; };
-		FEDBF5680F80782A00DABA72 /* copyController.m in Sources */ = {isa = PBXBuildFile; fileRef = FEEF6FF50B92E9ED00ED64A9 /* copyController.m */; };
-		FEDBF5690F80782A00DABA72 /* audioController.m in Sources */ = {isa = PBXBuildFile; fileRef = FEEF71FF0B92F44100ED64A9 /* audioController.m */; };
-		FEDBF56A0F80782A00DABA72 /* videoController.m in Sources */ = {isa = PBXBuildFile; fileRef = FEFEFFA60BA469A0004ADFD0 /* videoController.m */; };
-		FEDBF56B0F80782A00DABA72 /* dataController.m in Sources */ = {isa = PBXBuildFile; fileRef = FEFE010E0BA47E17004ADFD0 /* dataController.m */; };
-		FEDBF56C0F80782A00DABA72 /* dataView.m in Sources */ = {isa = PBXBuildFile; fileRef = FEFE010F0BA47E17004ADFD0 /* dataView.m */; };
+		FEDBF5670F80782A00DABA72 /* KWCopyView.m in Sources */ = {isa = PBXBuildFile; fileRef = FEEF6FF40B92E9ED00ED64A9 /* KWCopyView.m */; };
+		FEDBF5680F80782A00DABA72 /* KWCopyController.m in Sources */ = {isa = PBXBuildFile; fileRef = FEEF6FF50B92E9ED00ED64A9 /* KWCopyController.m */; };
+		FEDBF5690F80782A00DABA72 /* KWAudioController.m in Sources */ = {isa = PBXBuildFile; fileRef = FEEF71FF0B92F44100ED64A9 /* KWAudioController.m */; };
+		FEDBF56A0F80782A00DABA72 /* KWVideoController.m in Sources */ = {isa = PBXBuildFile; fileRef = FEFEFFA60BA469A0004ADFD0 /* KWVideoController.m */; };
+		FEDBF56B0F80782A00DABA72 /* KWDataController.m in Sources */ = {isa = PBXBuildFile; fileRef = FEFE010E0BA47E17004ADFD0 /* KWDataController.m */; };
+		FEDBF56C0F80782A00DABA72 /* KWDataView.m in Sources */ = {isa = PBXBuildFile; fileRef = FEFE010F0BA47E17004ADFD0 /* KWDataView.m */; };
 		FEDBF56D0F80782A00DABA72 /* FSTreeNode.m in Sources */ = {isa = PBXBuildFile; fileRef = FEFE01100BA47E17004ADFD0 /* FSTreeNode.m */; };
 		FEDBF56E0F80782A00DABA72 /* ImageAndTextCell.m in Sources */ = {isa = PBXBuildFile; fileRef = FEFE01110BA47E17004ADFD0 /* ImageAndTextCell.m */; };
 		FEDBF56F0F80782A00DABA72 /* NSArray_Extensions.m in Sources */ = {isa = PBXBuildFile; fileRef = FEFE01120BA47E17004ADFD0 /* NSArray_Extensions.m */; };
@@ -360,11 +370,10 @@
 		FEDBF5710F80782A00DABA72 /* TreeNode.m in Sources */ = {isa = PBXBuildFile; fileRef = FEFE01140BA47E17004ADFD0 /* TreeNode.m */; };
 		FEDBF5720F80782A00DABA72 /* KWPreferences.m in Sources */ = {isa = PBXBuildFile; fileRef = FEE5CDDE0BA583C900FAD174 /* KWPreferences.m */; };
 		FEDBF5730F80782A00DABA72 /* KWRecorderInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = FE0340020BA7FB6E00622112 /* KWRecorderInfo.m */; };
-		FEDBF5740F80782A00DABA72 /* KWDiskInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = FE03437C0BA816CE00622112 /* KWDiskInfo.m */; };
-		FEDBF5750F80782A00DABA72 /* appController.m in Sources */ = {isa = PBXBuildFile; fileRef = FEE1255A0BAC1339001D474B /* appController.m */; };
+		FEDBF5740F80782A00DABA72 /* KWDiscInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = FE03437C0BA816CE00622112 /* KWDiscInfo.m */; };
+		FEDBF5750F80782A00DABA72 /* KWApplication.m in Sources */ = {isa = PBXBuildFile; fileRef = FEE1255A0BAC1339001D474B /* KWApplication.m */; };
 		FEDBF5760F80782A00DABA72 /* KWEjecter.m in Sources */ = {isa = PBXBuildFile; fileRef = FEE12CDE0BAC583D001D474B /* KWEjecter.m */; };
-		FEDBF5770F80782A00DABA72 /* KWDocument.m in Sources */ = {isa = PBXBuildFile; fileRef = FEE260BE0BAE827200828AE6 /* KWDocument.m */; };
-		FEDBF5780F80782A00DABA72 /* growlController.m in Sources */ = {isa = PBXBuildFile; fileRef = FE03612E0BAFD9A900F7FA73 /* growlController.m */; };
+		FEDBF5780F80782A00DABA72 /* KWGrowlController.m in Sources */ = {isa = PBXBuildFile; fileRef = FE03612E0BAFD9A900F7FA73 /* KWGrowlController.m */; };
 		FEDBF5790F80782A00DABA72 /* KWCommonMethods.m in Sources */ = {isa = PBXBuildFile; fileRef = FEEA698B0BDBADBE00471BE3 /* KWCommonMethods.m */; };
 		FEDBF57A0F80782A00DABA72 /* KWInspector.m in Sources */ = {isa = PBXBuildFile; fileRef = FEEDE01F0BDF53A300D50314 /* KWInspector.m */; };
 		FEDBF57B0F80782A00DABA72 /* HFSPlusController.m in Sources */ = {isa = PBXBuildFile; fileRef = FE195ECD0BE2A610001558D4 /* HFSPlusController.m */; };
@@ -387,13 +396,13 @@
 		FEDBF58C0F80782A00DABA72 /* NSScanner-Extra.mm in Sources */ = {isa = PBXBuildFile; fileRef = FEF9877B0D97A83400BF78E3 /* NSScanner-Extra.mm */; };
 		FEDBF58D0F80782A00DABA72 /* KWEraser.m in Sources */ = {isa = PBXBuildFile; fileRef = FEF987850D97A86300BF78E3 /* KWEraser.m */; };
 		FEDBF58E0F80782A00DABA72 /* KWConverter.m in Sources */ = {isa = PBXBuildFile; fileRef = FEF9887D0D97AA9100BF78E3 /* KWConverter.m */; };
-		FEDBF58F0F80782A00DABA72 /* KWDiskScanner.m in Sources */ = {isa = PBXBuildFile; fileRef = FEF988AA0D97ADD700BF78E3 /* KWDiskScanner.m */; };
+		FEDBF58F0F80782A00DABA72 /* KWDiscScanner.m in Sources */ = {isa = PBXBuildFile; fileRef = FEF988AA0D97ADD700BF78E3 /* KWDiscScanner.m */; };
 		FEDBF5900F80782A00DABA72 /* KWDVDAuthorizer.m in Sources */ = {isa = PBXBuildFile; fileRef = FEF988C10D97AEA900BF78E3 /* KWDVDAuthorizer.m */; };
 		FEDBF5910F80782A00DABA72 /* KWProgress.m in Sources */ = {isa = PBXBuildFile; fileRef = FEF9892F0D97B1C500BF78E3 /* KWProgress.m */; };
 		FEDBF5920F80782A00DABA72 /* KWSVCDImager.m in Sources */ = {isa = PBXBuildFile; fileRef = FEF9896B0D97B30800BF78E3 /* KWSVCDImager.m */; };
 		FEDBF5930F80782A00DABA72 /* KWPantherCompatibleButton.m in Sources */ = {isa = PBXBuildFile; fileRef = FE2C01500E0653CF0094FD7D /* KWPantherCompatibleButton.m */; };
 		FEDBF5940F80782A00DABA72 /* KWToolbarKiller.m in Sources */ = {isa = PBXBuildFile; fileRef = FEDC28FF0E4D91D200F2FEED /* KWToolbarKiller.m */; };
-		FEDBF5950F80782A00DABA72 /* discCreationController.m in Sources */ = {isa = PBXBuildFile; fileRef = FE2491690ECEDB6F0028E955 /* discCreationController.m */; };
+		FEDBF5950F80782A00DABA72 /* KWDiscCreator.m in Sources */ = {isa = PBXBuildFile; fileRef = FE2491690ECEDB6F0028E955 /* KWDiscCreator.m */; };
 		FEDBF5960F80782A00DABA72 /* KWTrackProducer.m in Sources */ = {isa = PBXBuildFile; fileRef = FE23C04B0EDDCDCB0048B85D /* KWTrackProducer.m */; };
 		FEDBF5980F80782A00DABA72 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FE3CA4F50BAC7D53001FB922 /* Cocoa.framework */; };
 		FEDBF5990F80782A00DABA72 /* DiscRecording.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FEEF6FFB0B92EC8800ED64A9 /* DiscRecording.framework */; };
@@ -407,10 +416,9 @@
 		FEDC29010E4D91D200F2FEED /* KWToolbarKiller.m in Sources */ = {isa = PBXBuildFile; fileRef = FEDC28FF0E4D91D200F2FEED /* KWToolbarKiller.m */; };
 		FEDC29030E4D91D200F2FEED /* KWToolbarKiller.m in Sources */ = {isa = PBXBuildFile; fileRef = FEDC28FF0E4D91D200F2FEED /* KWToolbarKiller.m */; };
 		FEDC29050E4D91D200F2FEED /* KWToolbarKiller.m in Sources */ = {isa = PBXBuildFile; fileRef = FEDC28FF0E4D91D200F2FEED /* KWToolbarKiller.m */; };
-		FEE1255C0BAC1339001D474B /* appController.m in Sources */ = {isa = PBXBuildFile; fileRef = FEE1255A0BAC1339001D474B /* appController.m */; };
+		FEE1255C0BAC1339001D474B /* KWApplication.m in Sources */ = {isa = PBXBuildFile; fileRef = FEE1255A0BAC1339001D474B /* KWApplication.m */; };
 		FEE12CD50BAC57C2001D474B /* KWEjecter.nib in Resources */ = {isa = PBXBuildFile; fileRef = FEE12CD30BAC57C2001D474B /* KWEjecter.nib */; };
 		FEE12CE00BAC583D001D474B /* KWEjecter.m in Sources */ = {isa = PBXBuildFile; fileRef = FEE12CDE0BAC583D001D474B /* KWEjecter.m */; };
-		FEE260C00BAE827200828AE6 /* KWDocument.m in Sources */ = {isa = PBXBuildFile; fileRef = FEE260BE0BAE827200828AE6 /* KWDocument.m */; };
 		FEE5CDDB0BA57EEC00FAD174 /* KWPreferences.nib in Resources */ = {isa = PBXBuildFile; fileRef = FEE5CDD90BA57EEC00FAD174 /* KWPreferences.nib */; };
 		FEE5CDDF0BA583C900FAD174 /* KWPreferences.m in Sources */ = {isa = PBXBuildFile; fileRef = FEE5CDDE0BA583C900FAD174 /* KWPreferences.m */; };
 		FEE64C260BE4A5C300106E3B /* KWTextField.m in Sources */ = {isa = PBXBuildFile; fileRef = FEE64C240BE4A5C300106E3B /* KWTextField.m */; };
@@ -431,12 +439,12 @@
 		FEEF6F400B92E8BC00ED64A9 /* Pause.png in Resources */ = {isa = PBXBuildFile; fileRef = FEEF6F280B92E8BB00ED64A9 /* Pause.png */; };
 		FEEF6F410B92E8BC00ED64A9 /* Play.png in Resources */ = {isa = PBXBuildFile; fileRef = FEEF6F290B92E8BB00ED64A9 /* Play.png */; };
 		FEEF6F420B92E8BC00ED64A9 /* Stop.png in Resources */ = {isa = PBXBuildFile; fileRef = FEEF6F2A0B92E8BB00ED64A9 /* Stop.png */; };
-		FEEF6FF70B92E9ED00ED64A9 /* dropImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = FEEF6FF40B92E9ED00ED64A9 /* dropImageView.m */; };
-		FEEF6FF80B92E9ED00ED64A9 /* copyController.m in Sources */ = {isa = PBXBuildFile; fileRef = FEEF6FF50B92E9ED00ED64A9 /* copyController.m */; };
+		FEEF6FF70B92E9ED00ED64A9 /* KWCopyView.m in Sources */ = {isa = PBXBuildFile; fileRef = FEEF6FF40B92E9ED00ED64A9 /* KWCopyView.m */; };
+		FEEF6FF80B92E9ED00ED64A9 /* KWCopyController.m in Sources */ = {isa = PBXBuildFile; fileRef = FEEF6FF50B92E9ED00ED64A9 /* KWCopyController.m */; };
 		FEEF6FFD0B92EC8800ED64A9 /* DiscRecording.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FEEF6FFB0B92EC8800ED64A9 /* DiscRecording.framework */; };
 		FEEF71B80B92F13300ED64A9 /* Credits.html in Resources */ = {isa = PBXBuildFile; fileRef = FEEF71B60B92F13300ED64A9 /* Credits.html */; };
 		FEEF71CE0B92F21600ED64A9 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = FEEF71CC0B92F21600ED64A9 /* Localizable.strings */; };
-		FEEF72010B92F44100ED64A9 /* audioController.m in Sources */ = {isa = PBXBuildFile; fileRef = FEEF71FF0B92F44100ED64A9 /* audioController.m */; };
+		FEEF72010B92F44100ED64A9 /* KWAudioController.m in Sources */ = {isa = PBXBuildFile; fileRef = FEEF71FF0B92F44100ED64A9 /* KWAudioController.m */; };
 		FEEF720B0B92F47700ED64A9 /* QTKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FEEF72090B92F47700ED64A9 /* QTKit.framework */; settings = {ATTRIBUTES = (Required, ); }; };
 		FEEF720C0B92F47700ED64A9 /* QuickTime.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FEEF720A0B92F47700ED64A9 /* QuickTime.framework */; };
 		FEEFF1F70BEB3DF80056C1DB /* KWAudioDiscInspector.m in Sources */ = {isa = PBXBuildFile; fileRef = FEEFF1F50BEB3DF80056C1DB /* KWAudioDiscInspector.m */; };
@@ -453,20 +461,20 @@
 		FEF9878C0D97A88500BF78E3 /* KWBurner.nib in Resources */ = {isa = PBXBuildFile; fileRef = FEF987880D97A88500BF78E3 /* KWBurner.nib */; };
 		FEF9878D0D97A88500BF78E3 /* KWEraser.nib in Resources */ = {isa = PBXBuildFile; fileRef = FEF9878A0D97A88500BF78E3 /* KWEraser.nib */; };
 		FEF9887F0D97AA9100BF78E3 /* KWConverter.m in Sources */ = {isa = PBXBuildFile; fileRef = FEF9887D0D97AA9100BF78E3 /* KWConverter.m */; };
-		FEF988AC0D97ADD700BF78E3 /* KWDiskScanner.m in Sources */ = {isa = PBXBuildFile; fileRef = FEF988AA0D97ADD700BF78E3 /* KWDiskScanner.m */; };
+		FEF988AC0D97ADD700BF78E3 /* KWDiscScanner.m in Sources */ = {isa = PBXBuildFile; fileRef = FEF988AA0D97ADD700BF78E3 /* KWDiscScanner.m */; };
 		FEF988AF0D97ADE800BF78E3 /* KWDiskScanner.nib in Resources */ = {isa = PBXBuildFile; fileRef = FEF988AD0D97ADE800BF78E3 /* KWDiskScanner.nib */; };
 		FEF988C30D97AEA900BF78E3 /* KWDVDAuthorizer.m in Sources */ = {isa = PBXBuildFile; fileRef = FEF988C10D97AEA900BF78E3 /* KWDVDAuthorizer.m */; };
 		FEF989310D97B1C500BF78E3 /* KWProgress.m in Sources */ = {isa = PBXBuildFile; fileRef = FEF9892F0D97B1C500BF78E3 /* KWProgress.m */; };
 		FEF989340D97B1D200BF78E3 /* KWProgress.nib in Resources */ = {isa = PBXBuildFile; fileRef = FEF989320D97B1D200BF78E3 /* KWProgress.nib */; };
 		FEF9896D0D97B30800BF78E3 /* KWSVCDImager.m in Sources */ = {isa = PBXBuildFile; fileRef = FEF9896B0D97B30800BF78E3 /* KWSVCDImager.m */; };
-		FEFE01150BA47E17004ADFD0 /* dataController.m in Sources */ = {isa = PBXBuildFile; fileRef = FEFE010E0BA47E17004ADFD0 /* dataController.m */; };
-		FEFE01160BA47E17004ADFD0 /* dataView.m in Sources */ = {isa = PBXBuildFile; fileRef = FEFE010F0BA47E17004ADFD0 /* dataView.m */; };
+		FEFE01150BA47E17004ADFD0 /* KWDataController.m in Sources */ = {isa = PBXBuildFile; fileRef = FEFE010E0BA47E17004ADFD0 /* KWDataController.m */; };
+		FEFE01160BA47E17004ADFD0 /* KWDataView.m in Sources */ = {isa = PBXBuildFile; fileRef = FEFE010F0BA47E17004ADFD0 /* KWDataView.m */; };
 		FEFE01170BA47E17004ADFD0 /* FSTreeNode.m in Sources */ = {isa = PBXBuildFile; fileRef = FEFE01100BA47E17004ADFD0 /* FSTreeNode.m */; };
 		FEFE01180BA47E17004ADFD0 /* ImageAndTextCell.m in Sources */ = {isa = PBXBuildFile; fileRef = FEFE01110BA47E17004ADFD0 /* ImageAndTextCell.m */; };
 		FEFE01190BA47E17004ADFD0 /* NSArray_Extensions.m in Sources */ = {isa = PBXBuildFile; fileRef = FEFE01120BA47E17004ADFD0 /* NSArray_Extensions.m */; };
 		FEFE011A0BA47E17004ADFD0 /* NSOutlineView_Extensions.m in Sources */ = {isa = PBXBuildFile; fileRef = FEFE01130BA47E17004ADFD0 /* NSOutlineView_Extensions.m */; };
 		FEFE011B0BA47E17004ADFD0 /* TreeNode.m in Sources */ = {isa = PBXBuildFile; fileRef = FEFE01140BA47E17004ADFD0 /* TreeNode.m */; };
-		FEFEFFA70BA469A0004ADFD0 /* videoController.m in Sources */ = {isa = PBXBuildFile; fileRef = FEFEFFA60BA469A0004ADFD0 /* videoController.m */; };
+		FEFEFFA70BA469A0004ADFD0 /* KWVideoController.m in Sources */ = {isa = PBXBuildFile; fileRef = FEFEFFA60BA469A0004ADFD0 /* KWVideoController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -522,7 +530,6 @@
 
 /* Begin PBXFileReference section */
 		2A37F4B0FDCFA73011CA2CEA /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
-		2A37F4B5FDCFA73011CA2CEA /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = English.lproj/KWDocument.nib; sourceTree = "<group>"; };
 		2A37F4B7FDCFA73011CA2CEA /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = English.lproj/MainMenu.nib; sourceTree = "<group>"; };
 		2A37F4C4FDCFA73011CA2CEA /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = /System/Library/Frameworks/AppKit.framework; sourceTree = "<absolute>"; };
 		2A37F4C5FDCFA73011CA2CEA /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = /System/Library/Frameworks/Foundation.framework; sourceTree = "<absolute>"; };
@@ -532,11 +539,11 @@
 		FE033FFF0BA7FB6100622112 /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = English.lproj/KWRecorderInfo.nib; sourceTree = "<group>"; };
 		FE0340010BA7FB6E00622112 /* KWRecorderInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = KWRecorderInfo.h; path = Source/KWRecorderInfo.h; sourceTree = "<group>"; };
 		FE0340020BA7FB6E00622112 /* KWRecorderInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = KWRecorderInfo.m; path = Source/KWRecorderInfo.m; sourceTree = "<group>"; };
-		FE0343760BA816AB00622112 /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = English.lproj/KWDiskInfo.nib; sourceTree = "<group>"; };
-		FE03437C0BA816CE00622112 /* KWDiskInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = KWDiskInfo.m; path = Source/KWDiskInfo.m; sourceTree = "<group>"; };
-		FE03437D0BA816CE00622112 /* KWDiskInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = KWDiskInfo.h; path = Source/KWDiskInfo.h; sourceTree = "<group>"; };
-		FE03612D0BAFD9A900F7FA73 /* growlController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = growlController.h; path = Source/growlController.h; sourceTree = "<group>"; };
-		FE03612E0BAFD9A900F7FA73 /* growlController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = growlController.m; path = Source/growlController.m; sourceTree = "<group>"; };
+		FE0343760BA816AB00622112 /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = English.lproj/KWDiscInfo.nib; sourceTree = "<group>"; };
+		FE03437C0BA816CE00622112 /* KWDiscInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = KWDiscInfo.m; path = Source/KWDiscInfo.m; sourceTree = "<group>"; };
+		FE03437D0BA816CE00622112 /* KWDiscInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = KWDiscInfo.h; path = Source/KWDiscInfo.h; sourceTree = "<group>"; };
+		FE03612D0BAFD9A900F7FA73 /* KWGrowlController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = KWGrowlController.h; path = Source/KWGrowlController.h; sourceTree = "<group>"; };
+		FE03612E0BAFD9A900F7FA73 /* KWGrowlController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = KWGrowlController.m; path = Source/KWGrowlController.m; sourceTree = "<group>"; };
 		FE03614A0BAFDA2D00F7FA73 /* Growl.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Growl.framework; path = Frameworks/Growl.framework; sourceTree = "<group>"; };
 		FE04130B0E62D3D3007FD22B /* cs */ = {isa = PBXFileReference; lastKnownFileType = image.icns; name = cs; path = "cs.lproj/Copy document.icns"; sourceTree = "<group>"; };
 		FE04130C0E62D3D3007FD22B /* cs */ = {isa = PBXFileReference; lastKnownFileType = image.icns; name = cs; path = "cs.lproj/Theme document.icns"; sourceTree = "<group>"; };
@@ -564,9 +571,8 @@
 		FE1396CA0F88D82F0056809A /* ko */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ko; path = ko.lproj/Localizable.strings; sourceTree = "<group>"; };
 		FE1397C30F88D86D0056809A /* ko */ = {isa = PBXFileReference; lastKnownFileType = folder; name = ko; path = ko.lproj/BurnHelp; sourceTree = "<group>"; };
 		FE1397FD0F88D8820056809A /* ko */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = ko; path = ko.lproj/KWBurner.nib; sourceTree = "<group>"; };
-		FE1397FE0F88D8820056809A /* ko */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = ko; path = ko.lproj/KWDiskInfo.nib; sourceTree = "<group>"; };
+		FE1397FE0F88D8820056809A /* ko */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = ko; path = ko.lproj/KWDiscInfo.nib; sourceTree = "<group>"; };
 		FE1397FF0F88D8820056809A /* ko */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = ko; path = ko.lproj/KWDiskScanner.nib; sourceTree = "<group>"; };
-		FE1398000F88D8820056809A /* ko */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = ko; path = ko.lproj/KWDocument.nib; sourceTree = "<group>"; };
 		FE1398010F88D8820056809A /* ko */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = ko; path = ko.lproj/KWEjecter.nib; sourceTree = "<group>"; };
 		FE1398020F88D8820056809A /* ko */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = ko; path = ko.lproj/KWEraser.nib; sourceTree = "<group>"; };
 		FE1398030F88D8820056809A /* ko */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = ko; path = ko.lproj/KWInspector.nib; sourceTree = "<group>"; };
@@ -575,8 +581,6 @@
 		FE1398060F88D8820056809A /* ko */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = ko; path = ko.lproj/KWRecorderInfo.nib; sourceTree = "<group>"; };
 		FE1398070F88D8820056809A /* ko */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = ko; path = ko.lproj/MainMenu.nib; sourceTree = "<group>"; };
 		FE15A2F90FC017ED00A3E0D5 /* Dutch */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = Dutch; path = Dutch.lproj/KWConsole.nib; sourceTree = "<group>"; };
-		FE15A3190FC01B9600A3E0D5 /* KWConsole.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = KWConsole.h; path = Source/KWConsole.h; sourceTree = "<group>"; };
-		FE15A31A0FC01B9600A3E0D5 /* KWConsole.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = KWConsole.m; path = Source/KWConsole.m; sourceTree = "<group>"; };
 		FE1883FD0EC5559D00410BA6 /* Empty.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Empty.png; path = Images/Empty.png; sourceTree = "<group>"; };
 		FE195ECC0BE2A610001558D4 /* HFSPlusController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = HFSPlusController.h; path = Source/HFSPlusController.h; sourceTree = "<group>"; };
 		FE195ECD0BE2A610001558D4 /* HFSPlusController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = HFSPlusController.m; path = Source/HFSPlusController.m; sourceTree = "<group>"; };
@@ -594,8 +598,8 @@
 		FE195F810BE2B398001558D4 /* UDFController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = UDFController.m; path = Source/UDFController.m; sourceTree = "<group>"; };
 		FE23C04A0EDDCDCB0048B85D /* KWTrackProducer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = KWTrackProducer.h; path = Source/KWTrackProducer.h; sourceTree = "<group>"; };
 		FE23C04B0EDDCDCB0048B85D /* KWTrackProducer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = KWTrackProducer.m; path = Source/KWTrackProducer.m; sourceTree = "<group>"; };
-		FE2491680ECEDB6F0028E955 /* discCreationController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = discCreationController.h; path = Source/discCreationController.h; sourceTree = "<group>"; };
-		FE2491690ECEDB6F0028E955 /* discCreationController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = discCreationController.m; path = Source/discCreationController.m; sourceTree = "<group>"; };
+		FE2491680ECEDB6F0028E955 /* KWDiscCreator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = KWDiscCreator.h; path = Source/KWDiscCreator.h; sourceTree = "<group>"; };
+		FE2491690ECEDB6F0028E955 /* KWDiscCreator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = KWDiscCreator.m; path = Source/KWDiscCreator.m; sourceTree = "<group>"; };
 		FE2C00C40E0643C30094FD7D /* ID3.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ID3.framework; path = Frameworks/ID3.framework; sourceTree = "<group>"; };
 		FE2C01500E0653CF0094FD7D /* KWPantherCompatibleButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = KWPantherCompatibleButton.m; path = Source/KWPantherCompatibleButton.m; sourceTree = "<group>"; };
 		FE2C01510E0653CF0094FD7D /* KWPantherCompatibleButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = KWPantherCompatibleButton.h; path = Source/KWPantherCompatibleButton.h; sourceTree = "<group>"; };
@@ -616,9 +620,8 @@
 		FE3EFEA90DBBBFC6003DD5AD /* 90.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = 90.png; path = Images/ProgressIndicator/90.png; sourceTree = "<group>"; };
 		FE3EFEAA0DBBBFC6003DD5AD /* 100.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = 100.png; path = Images/ProgressIndicator/100.png; sourceTree = "<group>"; };
 		FE3EFEE60DBBD523003DD5AD /* Japanese */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = Japanese; path = Japanese.lproj/KWBurner.nib; sourceTree = "<group>"; };
-		FE3EFEE70DBBD523003DD5AD /* Japanese */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = Japanese; path = Japanese.lproj/KWDiskInfo.nib; sourceTree = "<group>"; };
+		FE3EFEE70DBBD523003DD5AD /* Japanese */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = Japanese; path = Japanese.lproj/KWDiscInfo.nib; sourceTree = "<group>"; };
 		FE3EFEE80DBBD523003DD5AD /* Japanese */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = Japanese; path = Japanese.lproj/KWDiskScanner.nib; sourceTree = "<group>"; };
-		FE3EFEE90DBBD523003DD5AD /* Japanese */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = Japanese; path = Japanese.lproj/KWDocument.nib; sourceTree = "<group>"; };
 		FE3EFEEA0DBBD523003DD5AD /* Japanese */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = Japanese; path = Japanese.lproj/KWEjecter.nib; sourceTree = "<group>"; };
 		FE3EFEEB0DBBD523003DD5AD /* Japanese */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = Japanese; path = Japanese.lproj/KWEraser.nib; sourceTree = "<group>"; };
 		FE3EFEEC0DBBD523003DD5AD /* Japanese */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = Japanese; path = Japanese.lproj/KWInspector.nib; sourceTree = "<group>"; };
@@ -633,8 +636,7 @@
 		FE4514060D15720F0051D717 /* French */ = {isa = PBXFileReference; lastKnownFileType = image.icns; name = French; path = "French.lproj/Theme document.icns"; sourceTree = "<group>"; };
 		FE45141D0D15722E0051D717 /* French */ = {isa = PBXFileReference; lastKnownFileType = text.html; name = French; path = French.lproj/Credits.html; sourceTree = "<group>"; };
 		FE45141E0D15722E0051D717 /* French */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = French; path = French.lproj/InfoPlist.strings; sourceTree = "<group>"; };
-		FE45141F0D15722E0051D717 /* French */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = French; path = French.lproj/KWDiskInfo.nib; sourceTree = "<group>"; };
-		FE4514200D15722E0051D717 /* French */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = French; path = French.lproj/KWDocument.nib; sourceTree = "<group>"; };
+		FE45141F0D15722E0051D717 /* French */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = French; path = French.lproj/KWDiscInfo.nib; sourceTree = "<group>"; };
 		FE4514210D15722E0051D717 /* French */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = French; path = French.lproj/KWEjecter.nib; sourceTree = "<group>"; };
 		FE4514220D15722E0051D717 /* French */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = French; path = French.lproj/KWInspector.nib; sourceTree = "<group>"; };
 		FE4514230D15722E0051D717 /* French */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = French; path = French.lproj/KWPreferences.nib; sourceTree = "<group>"; };
@@ -642,9 +644,8 @@
 		FE4514250D15722E0051D717 /* French */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = French; path = French.lproj/Localizable.strings; sourceTree = "<group>"; };
 		FE4514260D15722E0051D717 /* French */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = French; path = French.lproj/MainMenu.nib; sourceTree = "<group>"; };
 		FE5DD7C60DBD15FA00FC2A37 /* zh_TW */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = zh_TW; path = zh_TW.lproj/KWBurner.nib; sourceTree = "<group>"; };
-		FE5DD7C70DBD15FA00FC2A37 /* zh_TW */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = zh_TW; path = zh_TW.lproj/KWDiskInfo.nib; sourceTree = "<group>"; };
+		FE5DD7C70DBD15FA00FC2A37 /* zh_TW */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = zh_TW; path = zh_TW.lproj/KWDiscInfo.nib; sourceTree = "<group>"; };
 		FE5DD7C80DBD15FA00FC2A37 /* zh_TW */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = zh_TW; path = zh_TW.lproj/KWDiskScanner.nib; sourceTree = "<group>"; };
-		FE5DD7C90DBD15FA00FC2A37 /* zh_TW */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = zh_TW; path = zh_TW.lproj/KWDocument.nib; sourceTree = "<group>"; };
 		FE5DD7CA0DBD15FA00FC2A37 /* zh_TW */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = zh_TW; path = zh_TW.lproj/KWEjecter.nib; sourceTree = "<group>"; };
 		FE5DD7CB0DBD15FA00FC2A37 /* zh_TW */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = zh_TW; path = zh_TW.lproj/KWEraser.nib; sourceTree = "<group>"; };
 		FE5DD7CC0DBD15FA00FC2A37 /* zh_TW */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = zh_TW; path = zh_TW.lproj/KWInspector.nib; sourceTree = "<group>"; };
@@ -654,9 +655,8 @@
 		FE5DD7D10DBD160900FC2A37 /* zh_TW */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = zh_TW; path = zh_TW.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		FE5DD7D20DBD160900FC2A37 /* zh_TW */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = zh_TW; path = zh_TW.lproj/Localizable.strings; sourceTree = "<group>"; };
 		FE5DD7E20DBD20B000FC2A37 /* ru */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = ru; path = ru.lproj/KWBurner.nib; sourceTree = "<group>"; };
-		FE5DD7E30DBD20B000FC2A37 /* ru */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = ru; path = ru.lproj/KWDiskInfo.nib; sourceTree = "<group>"; };
+		FE5DD7E30DBD20B000FC2A37 /* ru */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = ru; path = ru.lproj/KWDiscInfo.nib; sourceTree = "<group>"; };
 		FE5DD7E40DBD20B000FC2A37 /* ru */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = ru; path = ru.lproj/KWDiskScanner.nib; sourceTree = "<group>"; };
-		FE5DD7E50DBD20B000FC2A37 /* ru */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = ru; path = ru.lproj/KWDocument.nib; sourceTree = "<group>"; };
 		FE5DD7E60DBD20B000FC2A37 /* ru */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = ru; path = ru.lproj/KWEjecter.nib; sourceTree = "<group>"; };
 		FE5DD7E70DBD20B000FC2A37 /* ru */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = ru; path = ru.lproj/KWEraser.nib; sourceTree = "<group>"; };
 		FE5DD7E80DBD20B000FC2A37 /* ru */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = ru; path = ru.lproj/KWInspector.nib; sourceTree = "<group>"; };
@@ -666,9 +666,8 @@
 		FE5DD7F80DBD27DE00FC2A37 /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		FE5DD7F90DBD27DE00FC2A37 /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/Localizable.strings; sourceTree = "<group>"; };
 		FE5DD7FA0DBD2BA600FC2A37 /* cs */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = cs; path = cs.lproj/KWBurner.nib; sourceTree = "<group>"; };
-		FE5DD7FB0DBD2BA600FC2A37 /* cs */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = cs; path = cs.lproj/KWDiskInfo.nib; sourceTree = "<group>"; };
+		FE5DD7FB0DBD2BA600FC2A37 /* cs */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = cs; path = cs.lproj/KWDiscInfo.nib; sourceTree = "<group>"; };
 		FE5DD7FC0DBD2BA600FC2A37 /* cs */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = cs; path = cs.lproj/KWDiskScanner.nib; sourceTree = "<group>"; };
-		FE5DD7FD0DBD2BA600FC2A37 /* cs */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = cs; path = cs.lproj/KWDocument.nib; sourceTree = "<group>"; };
 		FE5DD7FE0DBD2BA600FC2A37 /* cs */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = cs; path = cs.lproj/KWEjecter.nib; sourceTree = "<group>"; };
 		FE5DD7FF0DBD2BA600FC2A37 /* cs */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = cs; path = cs.lproj/KWEraser.nib; sourceTree = "<group>"; };
 		FE5DD8000DBD2BA600FC2A37 /* cs */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = cs; path = cs.lproj/KWInspector.nib; sourceTree = "<group>"; };
@@ -678,13 +677,22 @@
 		FE5DD8100DBD30FF00FC2A37 /* cs */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = cs; path = cs.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		FE5DD8110DBD30FF00FC2A37 /* cs */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = cs; path = cs.lproj/Localizable.strings; sourceTree = "<group>"; };
 		FE5E5B4C0D2A7FE300D65049 /* Themes */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Themes; sourceTree = "<group>"; };
+		FE6134C81101FF2800C086EA /* KWTabViewItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = KWTabViewItem.h; path = Source/KWTabViewItem.h; sourceTree = "<group>"; };
+		FE6134C91101FF2800C086EA /* KWTabViewItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = KWTabViewItem.m; path = Source/KWTabViewItem.m; sourceTree = "<group>"; };
+		FE6134CA1101FF2800C086EA /* KWWindow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = KWWindow.h; path = Source/KWWindow.h; sourceTree = "<group>"; };
+		FE6134CB1101FF2800C086EA /* KWWindow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = KWWindow.m; path = Source/KWWindow.m; sourceTree = "<group>"; };
+		FE6134CC1101FF2800C086EA /* KWWindowController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = KWWindowController.h; path = Source/KWWindowController.h; sourceTree = "<group>"; };
+		FE6134CD1101FF2800C086EA /* KWWindowController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = KWWindowController.m; path = Source/KWWindowController.m; sourceTree = "<group>"; };
+		FE6134F21102016400C086EA /* KWAlert.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = KWAlert.h; path = Source/KWAlert.h; sourceTree = "<group>"; };
+		FE6134F31102016400C086EA /* KWAlert.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = KWAlert.m; path = Source/KWAlert.m; sourceTree = "<group>"; };
+		FE6134F41102016400C086EA /* KWMediaListController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = KWMediaListController.h; path = Source/KWMediaListController.h; sourceTree = "<group>"; };
+		FE6134F51102016400C086EA /* KWMediaListController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = KWMediaListController.m; path = Source/KWMediaListController.m; sourceTree = "<group>"; };
 		FE6DBFD00BDCED47006F5F53 /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = English.lproj/KWInspector.nib; sourceTree = "<group>"; };
 		FE7371CA0F5B0B7600EBC82E /* German */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = German; path = German.lproj/MainMenu.nib; sourceTree = "<group>"; };
 		FE8088EB0DBC85C100F2644D /* -1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "-1.png"; path = "Images/ProgressIndicator/-1.png"; sourceTree = "<group>"; };
 		FE888CB70CF9B4BA003620F1 /* Dutch */ = {isa = PBXFileReference; lastKnownFileType = text.html; name = Dutch; path = Dutch.lproj/Credits.html; sourceTree = "<group>"; };
 		FE888CB80CF9B4BA003620F1 /* Dutch */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = Dutch; path = Dutch.lproj/InfoPlist.strings; sourceTree = "<group>"; };
-		FE888CB90CF9B4BA003620F1 /* Dutch */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = Dutch; path = Dutch.lproj/KWDiskInfo.nib; sourceTree = "<group>"; };
-		FE888CBA0CF9B4BA003620F1 /* Dutch */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = Dutch; path = Dutch.lproj/KWDocument.nib; sourceTree = "<group>"; };
+		FE888CB90CF9B4BA003620F1 /* Dutch */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = Dutch; path = Dutch.lproj/KWDiscInfo.nib; sourceTree = "<group>"; };
 		FE888CBB0CF9B4BA003620F1 /* Dutch */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = Dutch; path = Dutch.lproj/KWEjecter.nib; sourceTree = "<group>"; };
 		FE888CBC0CF9B4BA003620F1 /* Dutch */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = Dutch; path = Dutch.lproj/KWInspector.nib; sourceTree = "<group>"; };
 		FE888CBD0CF9B4BA003620F1 /* Dutch */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = Dutch; path = Dutch.lproj/KWPreferences.nib; sourceTree = "<group>"; };
@@ -692,8 +700,7 @@
 		FE888CBF0CF9B4BA003620F1 /* Dutch */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = Dutch; path = Dutch.lproj/Localizable.strings; sourceTree = "<group>"; };
 		FE888CC00CF9B4BA003620F1 /* Dutch */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = Dutch; path = Dutch.lproj/MainMenu.nib; sourceTree = "<group>"; };
 		FE9F920E0D312811002A7BDC /* pt_BR */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = pt_BR; path = pt_BR.lproj/InfoPlist.strings; sourceTree = "<group>"; };
-		FE9F920F0D312811002A7BDC /* pt_BR */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = pt_BR; path = pt_BR.lproj/KWDiskInfo.nib; sourceTree = "<group>"; };
-		FE9F92100D312811002A7BDC /* pt_BR */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = pt_BR; path = pt_BR.lproj/KWDocument.nib; sourceTree = "<group>"; };
+		FE9F920F0D312811002A7BDC /* pt_BR */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = pt_BR; path = pt_BR.lproj/KWDiscInfo.nib; sourceTree = "<group>"; };
 		FE9F92110D312811002A7BDC /* pt_BR */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = pt_BR; path = pt_BR.lproj/KWEjecter.nib; sourceTree = "<group>"; };
 		FE9F92120D312811002A7BDC /* pt_BR */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = pt_BR; path = pt_BR.lproj/KWInspector.nib; sourceTree = "<group>"; };
 		FE9F92130D312811002A7BDC /* pt_BR */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = pt_BR; path = pt_BR.lproj/KWPreferences.nib; sourceTree = "<group>"; };
@@ -734,8 +741,7 @@
 		FEAB1EE30D11730E00629E3E /* Dutch */ = {isa = PBXFileReference; lastKnownFileType = image.icns; name = Dutch; path = "Dutch.lproj/Theme document.icns"; sourceTree = "<group>"; };
 		FEAC31300D2A75C000555250 /* German */ = {isa = PBXFileReference; lastKnownFileType = text.html; name = German; path = German.lproj/Credits.html; sourceTree = "<group>"; };
 		FEAC31310D2A75C000555250 /* German */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = German; path = German.lproj/InfoPlist.strings; sourceTree = "<group>"; };
-		FEAC31320D2A75C000555250 /* German */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = German; path = German.lproj/KWDiskInfo.nib; sourceTree = "<group>"; };
-		FEAC31330D2A75C000555250 /* German */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = German; path = German.lproj/KWDocument.nib; sourceTree = "<group>"; };
+		FEAC31320D2A75C000555250 /* German */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = German; path = German.lproj/KWDiscInfo.nib; sourceTree = "<group>"; };
 		FEAC31340D2A75C000555250 /* German */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = German; path = German.lproj/KWEjecter.nib; sourceTree = "<group>"; };
 		FEAC31350D2A75C000555250 /* German */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = German; path = German.lproj/KWInspector.nib; sourceTree = "<group>"; };
 		FEAC31360D2A75C000555250 /* German */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = German; path = German.lproj/KWPreferences.nib; sourceTree = "<group>"; };
@@ -756,9 +762,8 @@
 		FED4EEEA0FA5BF1B00E6C255 /* Spanish */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = Spanish; path = Spanish.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		FED4EEEB0FA5BF1B00E6C255 /* Spanish */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = Spanish; path = Spanish.lproj/Localizable.strings; sourceTree = "<group>"; };
 		FED4EEEE0FA5BF2D00E6C255 /* Spanish */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = Spanish; path = Spanish.lproj/KWBurner.nib; sourceTree = "<group>"; };
-		FED4EEEF0FA5BF2D00E6C255 /* Spanish */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = Spanish; path = Spanish.lproj/KWDiskInfo.nib; sourceTree = "<group>"; };
+		FED4EEEF0FA5BF2D00E6C255 /* Spanish */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = Spanish; path = Spanish.lproj/KWDiscInfo.nib; sourceTree = "<group>"; };
 		FED4EEF00FA5BF2D00E6C255 /* Spanish */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = Spanish; path = Spanish.lproj/KWDiskScanner.nib; sourceTree = "<group>"; };
-		FED4EEF10FA5BF2D00E6C255 /* Spanish */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = Spanish; path = Spanish.lproj/KWDocument.nib; sourceTree = "<group>"; };
 		FED4EEF20FA5BF2D00E6C255 /* Spanish */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = Spanish; path = Spanish.lproj/KWEjecter.nib; sourceTree = "<group>"; };
 		FED4EEF30FA5BF2D00E6C255 /* Spanish */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = Spanish; path = Spanish.lproj/KWEraser.nib; sourceTree = "<group>"; };
 		FED4EEF40FA5BF2D00E6C255 /* Spanish */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = Spanish; path = Spanish.lproj/KWInspector.nib; sourceTree = "<group>"; };
@@ -785,9 +790,8 @@
 		FEE0FF090F6D35BE009BC562 /* Greek */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = Greek; path = Greek.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		FEE0FF0A0F6D35BE009BC562 /* Greek */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = Greek; path = Greek.lproj/Localizable.strings; sourceTree = "<group>"; };
 		FEE0FF0D0F6D35DB009BC562 /* Greek */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = Greek; path = Greek.lproj/KWBurner.nib; sourceTree = "<group>"; };
-		FEE0FF0E0F6D35DB009BC562 /* Greek */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = Greek; path = Greek.lproj/KWDiskInfo.nib; sourceTree = "<group>"; };
+		FEE0FF0E0F6D35DB009BC562 /* Greek */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = Greek; path = Greek.lproj/KWDiscInfo.nib; sourceTree = "<group>"; };
 		FEE0FF0F0F6D35DB009BC562 /* Greek */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = Greek; path = Greek.lproj/KWDiskScanner.nib; sourceTree = "<group>"; };
-		FEE0FF100F6D35DB009BC562 /* Greek */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = Greek; path = Greek.lproj/KWDocument.nib; sourceTree = "<group>"; };
 		FEE0FF110F6D35DB009BC562 /* Greek */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = Greek; path = Greek.lproj/KWEjecter.nib; sourceTree = "<group>"; };
 		FEE0FF120F6D35DB009BC562 /* Greek */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = Greek; path = Greek.lproj/KWEraser.nib; sourceTree = "<group>"; };
 		FEE0FF130F6D35DB009BC562 /* Greek */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = Greek; path = Greek.lproj/KWInspector.nib; sourceTree = "<group>"; };
@@ -797,13 +801,11 @@
 		FEE0FF170F6D35DB009BC562 /* Greek */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = Greek; path = Greek.lproj/MainMenu.nib; sourceTree = "<group>"; };
 		FEE0FF1A0F6D35F1009BC562 /* Greek */ = {isa = PBXFileReference; lastKnownFileType = image.icns; name = Greek; path = "Greek.lproj/Copy document.icns"; sourceTree = "<group>"; };
 		FEE0FF1B0F6D35F1009BC562 /* Greek */ = {isa = PBXFileReference; lastKnownFileType = image.icns; name = Greek; path = "Greek.lproj/Theme document.icns"; sourceTree = "<group>"; };
-		FEE1255A0BAC1339001D474B /* appController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = appController.m; path = Source/appController.m; sourceTree = "<group>"; };
-		FEE1255B0BAC1339001D474B /* appController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = appController.h; path = Source/appController.h; sourceTree = "<group>"; };
+		FEE1255A0BAC1339001D474B /* KWApplication.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = KWApplication.m; path = Source/KWApplication.m; sourceTree = "<group>"; };
+		FEE1255B0BAC1339001D474B /* KWApplication.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = KWApplication.h; path = Source/KWApplication.h; sourceTree = "<group>"; };
 		FEE12CD40BAC57C2001D474B /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = English.lproj/KWEjecter.nib; sourceTree = "<group>"; };
 		FEE12CDD0BAC583D001D474B /* KWEjecter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = KWEjecter.h; path = Source/KWEjecter.h; sourceTree = "<group>"; };
 		FEE12CDE0BAC583D001D474B /* KWEjecter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = KWEjecter.m; path = Source/KWEjecter.m; sourceTree = "<group>"; };
-		FEE260BD0BAE827200828AE6 /* KWDocument.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = KWDocument.h; path = Source/KWDocument.h; sourceTree = "<group>"; };
-		FEE260BE0BAE827200828AE6 /* KWDocument.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = KWDocument.m; path = Source/KWDocument.m; sourceTree = "<group>"; };
 		FEE5CDDA0BA57EEC00FAD174 /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = English.lproj/KWPreferences.nib; sourceTree = "<group>"; };
 		FEE5CDDE0BA583C900FAD174 /* KWPreferences.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = KWPreferences.m; path = Source/KWPreferences.m; sourceTree = "<group>"; };
 		FEE5CDE00BA583DB00FAD174 /* KWPreferences.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = KWPreferences.h; path = Source/KWPreferences.h; sourceTree = "<group>"; };
@@ -831,14 +833,14 @@
 		FEEF6F280B92E8BB00ED64A9 /* Pause.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Pause.png; path = Images/Pause.png; sourceTree = "<group>"; };
 		FEEF6F290B92E8BB00ED64A9 /* Play.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Play.png; path = Images/Play.png; sourceTree = "<group>"; };
 		FEEF6F2A0B92E8BB00ED64A9 /* Stop.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Stop.png; path = Images/Stop.png; sourceTree = "<group>"; };
-		FEEF6FF10B92E9E200ED64A9 /* dropImageView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = dropImageView.h; path = Source/dropImageView.h; sourceTree = "<group>"; };
-		FEEF6FF20B92E9E200ED64A9 /* copyController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = copyController.h; path = Source/copyController.h; sourceTree = "<group>"; };
-		FEEF6FF40B92E9ED00ED64A9 /* dropImageView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = dropImageView.m; path = Source/dropImageView.m; sourceTree = "<group>"; };
-		FEEF6FF50B92E9ED00ED64A9 /* copyController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = copyController.m; path = Source/copyController.m; sourceTree = "<group>"; };
+		FEEF6FF10B92E9E200ED64A9 /* KWCopyView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = KWCopyView.h; path = Source/KWCopyView.h; sourceTree = "<group>"; };
+		FEEF6FF20B92E9E200ED64A9 /* KWCopyController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = KWCopyController.h; path = Source/KWCopyController.h; sourceTree = "<group>"; };
+		FEEF6FF40B92E9ED00ED64A9 /* KWCopyView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = KWCopyView.m; path = Source/KWCopyView.m; sourceTree = "<group>"; };
+		FEEF6FF50B92E9ED00ED64A9 /* KWCopyController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = KWCopyController.m; path = Source/KWCopyController.m; sourceTree = "<group>"; };
 		FEEF6FFB0B92EC8800ED64A9 /* DiscRecording.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = DiscRecording.framework; path = /System/Library/Frameworks/DiscRecording.framework; sourceTree = "<absolute>"; };
 		FEEF71B70B92F13300ED64A9 /* English */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; name = English; path = English.lproj/Credits.html; sourceTree = "<group>"; };
-		FEEF71FF0B92F44100ED64A9 /* audioController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = audioController.m; path = Source/audioController.m; sourceTree = "<group>"; };
-		FEEF72070B92F44E00ED64A9 /* audioController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = audioController.h; path = Source/audioController.h; sourceTree = "<group>"; };
+		FEEF71FF0B92F44100ED64A9 /* KWAudioController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = KWAudioController.m; path = Source/KWAudioController.m; sourceTree = "<group>"; };
+		FEEF72070B92F44E00ED64A9 /* KWAudioController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = KWAudioController.h; path = Source/KWAudioController.h; sourceTree = "<group>"; };
 		FEEF72090B92F47700ED64A9 /* QTKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QTKit.framework; path = /System/Library/Frameworks/QTKit.framework; sourceTree = "<absolute>"; };
 		FEEF720A0B92F47700ED64A9 /* QuickTime.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuickTime.framework; path = /System/Library/Frameworks/QuickTime.framework; sourceTree = "<absolute>"; };
 		FEEFF1F40BEB3DF80056C1DB /* KWAudioDiscInspector.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = KWAudioDiscInspector.h; path = Source/KWAudioDiscInspector.h; sourceTree = "<group>"; };
@@ -873,8 +875,8 @@
 		FEF9878B0D97A88500BF78E3 /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = English.lproj/KWEraser.nib; sourceTree = "<group>"; };
 		FEF9887C0D97AA9100BF78E3 /* KWConverter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = KWConverter.h; path = Source/KWConverter.h; sourceTree = "<group>"; };
 		FEF9887D0D97AA9100BF78E3 /* KWConverter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = KWConverter.m; path = Source/KWConverter.m; sourceTree = "<group>"; };
-		FEF988A90D97ADD700BF78E3 /* KWDiskScanner.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = KWDiskScanner.h; path = Source/KWDiskScanner.h; sourceTree = "<group>"; };
-		FEF988AA0D97ADD700BF78E3 /* KWDiskScanner.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = KWDiskScanner.m; path = Source/KWDiskScanner.m; sourceTree = "<group>"; };
+		FEF988A90D97ADD700BF78E3 /* KWDiscScanner.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = KWDiscScanner.h; path = Source/KWDiscScanner.h; sourceTree = "<group>"; };
+		FEF988AA0D97ADD700BF78E3 /* KWDiscScanner.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = KWDiscScanner.m; path = Source/KWDiscScanner.m; sourceTree = "<group>"; };
 		FEF988AE0D97ADE800BF78E3 /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = English.lproj/KWDiskScanner.nib; sourceTree = "<group>"; };
 		FEF988C00D97AEA900BF78E3 /* KWDVDAuthorizer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = KWDVDAuthorizer.h; path = Source/KWDVDAuthorizer.h; sourceTree = "<group>"; };
 		FEF988C10D97AEA900BF78E3 /* KWDVDAuthorizer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = KWDVDAuthorizer.m; path = Source/KWDVDAuthorizer.m; sourceTree = "<group>"; };
@@ -883,22 +885,22 @@
 		FEF989330D97B1D200BF78E3 /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = English.lproj/KWProgress.nib; sourceTree = "<group>"; };
 		FEF9896A0D97B30800BF78E3 /* KWSVCDImager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = KWSVCDImager.h; path = Source/KWSVCDImager.h; sourceTree = "<group>"; };
 		FEF9896B0D97B30800BF78E3 /* KWSVCDImager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = KWSVCDImager.m; path = Source/KWSVCDImager.m; sourceTree = "<group>"; };
-		FEFE010E0BA47E17004ADFD0 /* dataController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = dataController.m; path = Source/dataController.m; sourceTree = "<group>"; };
-		FEFE010F0BA47E17004ADFD0 /* dataView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = dataView.m; path = Source/dataView.m; sourceTree = "<group>"; };
+		FEFE010E0BA47E17004ADFD0 /* KWDataController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = KWDataController.m; path = Source/KWDataController.m; sourceTree = "<group>"; };
+		FEFE010F0BA47E17004ADFD0 /* KWDataView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = KWDataView.m; path = Source/KWDataView.m; sourceTree = "<group>"; };
 		FEFE01100BA47E17004ADFD0 /* FSTreeNode.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FSTreeNode.m; path = Source/FSTreeNode.m; sourceTree = "<group>"; };
 		FEFE01110BA47E17004ADFD0 /* ImageAndTextCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ImageAndTextCell.m; path = Source/ImageAndTextCell.m; sourceTree = "<group>"; };
 		FEFE01120BA47E17004ADFD0 /* NSArray_Extensions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = NSArray_Extensions.m; path = Source/NSArray_Extensions.m; sourceTree = "<group>"; };
 		FEFE01130BA47E17004ADFD0 /* NSOutlineView_Extensions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = NSOutlineView_Extensions.m; path = Source/NSOutlineView_Extensions.m; sourceTree = "<group>"; };
 		FEFE01140BA47E17004ADFD0 /* TreeNode.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TreeNode.m; path = Source/TreeNode.m; sourceTree = "<group>"; };
-		FEFE011C0BA47E2E004ADFD0 /* dataController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = dataController.h; path = Source/dataController.h; sourceTree = "<group>"; };
-		FEFE011D0BA47E2E004ADFD0 /* dataView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = dataView.h; path = Source/dataView.h; sourceTree = "<group>"; };
+		FEFE011C0BA47E2E004ADFD0 /* KWDataController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = KWDataController.h; path = Source/KWDataController.h; sourceTree = "<group>"; };
+		FEFE011D0BA47E2E004ADFD0 /* KWDataView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = KWDataView.h; path = Source/KWDataView.h; sourceTree = "<group>"; };
 		FEFE011E0BA47E2E004ADFD0 /* FSTreeNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FSTreeNode.h; path = Source/FSTreeNode.h; sourceTree = "<group>"; };
 		FEFE011F0BA47E2E004ADFD0 /* ImageAndTextCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ImageAndTextCell.h; path = Source/ImageAndTextCell.h; sourceTree = "<group>"; };
 		FEFE01200BA47E2E004ADFD0 /* NSArray_Extensions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = NSArray_Extensions.h; path = Source/NSArray_Extensions.h; sourceTree = "<group>"; };
 		FEFE01210BA47E2E004ADFD0 /* NSOutlineView_Extensions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = NSOutlineView_Extensions.h; path = Source/NSOutlineView_Extensions.h; sourceTree = "<group>"; };
 		FEFE01220BA47E2E004ADFD0 /* TreeNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TreeNode.h; path = Source/TreeNode.h; sourceTree = "<group>"; };
-		FEFEFFA60BA469A0004ADFD0 /* videoController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = videoController.m; path = Source/videoController.m; sourceTree = "<group>"; };
-		FEFEFFA80BA469BA004ADFD0 /* videoController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = videoController.h; path = Source/videoController.h; sourceTree = "<group>"; };
+		FEFEFFA60BA469A0004ADFD0 /* KWVideoController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = KWVideoController.m; path = Source/KWVideoController.m; sourceTree = "<group>"; };
+		FEFEFFA80BA469BA004ADFD0 /* KWVideoController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = KWVideoController.h; path = Source/KWVideoController.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -1056,13 +1058,13 @@
 			name = KWRecorderInfo;
 			sourceTree = "<group>";
 		};
-		FE0342600BA8050200622112 /* KWDiskInfo */ = {
+		FE0342600BA8050200622112 /* KWDiscInfo */ = {
 			isa = PBXGroup;
 			children = (
-				FE03437D0BA816CE00622112 /* KWDiskInfo.h */,
-				FE03437C0BA816CE00622112 /* KWDiskInfo.m */,
+				FE03437D0BA816CE00622112 /* KWDiscInfo.h */,
+				FE03437C0BA816CE00622112 /* KWDiscInfo.m */,
 			);
-			name = KWDiskInfo;
+			name = KWDiscInfo;
 			sourceTree = "<group>";
 		};
 		FE0F52D00BA1CAF000D9D56B /* Source */ = {
@@ -1077,8 +1079,8 @@
 		FE0F52D40BA1CB4900D9D56B /* Audio */ = {
 			isa = PBXGroup;
 			children = (
-				FEEF72070B92F44E00ED64A9 /* audioController.h */,
-				FEEF71FF0B92F44100ED64A9 /* audioController.m */,
+				FEEF72070B92F44E00ED64A9 /* KWAudioController.h */,
+				FEEF71FF0B92F44100ED64A9 /* KWAudioController.m */,
 				FEF0830C0BE88359007B056C /* KWTableView.h */,
 				FEF0830D0BE88359007B056C /* KWTableView.m */,
 			);
@@ -1124,11 +1126,10 @@
 		FE19BD770BA70E310020FBC2 /* Application */ = {
 			isa = PBXGroup;
 			children = (
-				FEE1255B0BAC1339001D474B /* appController.h */,
-				FEE1255A0BAC1339001D474B /* appController.m */,
+				FEE1255B0BAC1339001D474B /* KWApplication.h */,
+				FEE1255A0BAC1339001D474B /* KWApplication.m */,
 				FEE12CD70BAC5821001D474B /* KWEjecter */,
-				FEB016910FC1260F009520C8 /* KWConsole */,
-				FE0342600BA8050200622112 /* KWDiskInfo */,
+				FE0342600BA8050200622112 /* KWDiscInfo */,
 				FE0340060BA7FBD300622112 /* KWRecorderInfo */,
 				FEE5CDDD0BA583AC00FAD174 /* KWPreferences */,
 				FEF9892D0D97B1A100BF78E3 /* KWProgress */,
@@ -1143,8 +1144,12 @@
 		FE2491710ECEDB800028E955 /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
-				FE2491680ECEDB6F0028E955 /* discCreationController.h */,
-				FE2491690ECEDB6F0028E955 /* discCreationController.m */,
+				FE6134F21102016400C086EA /* KWAlert.h */,
+				FE6134F31102016400C086EA /* KWAlert.m */,
+				FE6134F41102016400C086EA /* KWMediaListController.h */,
+				FE6134F51102016400C086EA /* KWMediaListController.m */,
+				FE2491680ECEDB6F0028E955 /* KWDiscCreator.h */,
+				FE2491690ECEDB6F0028E955 /* KWDiscCreator.m */,
 			);
 			name = Controllers;
 			sourceTree = "<group>";
@@ -1221,15 +1226,6 @@
 			name = Intel;
 			sourceTree = "<group>";
 		};
-		FEB016910FC1260F009520C8 /* KWConsole */ = {
-			isa = PBXGroup;
-			children = (
-				FE15A3190FC01B9600A3E0D5 /* KWConsole.h */,
-				FE15A31A0FC01B9600A3E0D5 /* KWConsole.m */,
-			);
-			name = KWConsole;
-			sourceTree = "<group>";
-		};
 		FEE12CD70BAC5821001D474B /* KWEjecter */ = {
 			isa = PBXGroup;
 			children = (
@@ -1251,8 +1247,12 @@
 		FEE5CE3E0BA5867600FAD174 /* Main Window */ = {
 			isa = PBXGroup;
 			children = (
-				FEE260BD0BAE827200828AE6 /* KWDocument.h */,
-				FEE260BE0BAE827200828AE6 /* KWDocument.m */,
+				FE6134CC1101FF2800C086EA /* KWWindowController.h */,
+				FE6134CD1101FF2800C086EA /* KWWindowController.m */,
+				FE6134CA1101FF2800C086EA /* KWWindow.h */,
+				FE6134CB1101FF2800C086EA /* KWWindow.m */,
+				FE6134C81101FF2800C086EA /* KWTabViewItem.h */,
+				FE6134C91101FF2800C086EA /* KWTabViewItem.m */,
 				FE2491710ECEDB800028E955 /* Controllers */,
 				FEFE010D0BA47DE7004ADFD0 /* Data */,
 				FE0F52D40BA1CB4900D9D56B /* Audio */,
@@ -1310,10 +1310,10 @@
 		FEEF6FF00B92E9CF00ED64A9 /* Copy */ = {
 			isa = PBXGroup;
 			children = (
-				FEEF6FF20B92E9E200ED64A9 /* copyController.h */,
-				FEEF6FF50B92E9ED00ED64A9 /* copyController.m */,
-				FEEF6FF10B92E9E200ED64A9 /* dropImageView.h */,
-				FEEF6FF40B92E9ED00ED64A9 /* dropImageView.m */,
+				FEEF6FF20B92E9E200ED64A9 /* KWCopyController.h */,
+				FEEF6FF50B92E9ED00ED64A9 /* KWCopyController.m */,
+				FEEF6FF10B92E9E200ED64A9 /* KWCopyView.h */,
+				FEEF6FF40B92E9ED00ED64A9 /* KWCopyView.m */,
 			);
 			name = Copy;
 			sourceTree = "<group>";
@@ -1406,13 +1406,13 @@
 			name = KWConverter;
 			sourceTree = "<group>";
 		};
-		FEF988A80D97ADB600BF78E3 /* KWDiskScanner */ = {
+		FEF988A80D97ADB600BF78E3 /* KWDiscScanner */ = {
 			isa = PBXGroup;
 			children = (
-				FEF988A90D97ADD700BF78E3 /* KWDiskScanner.h */,
-				FEF988AA0D97ADD700BF78E3 /* KWDiskScanner.m */,
+				FEF988A90D97ADD700BF78E3 /* KWDiscScanner.h */,
+				FEF988AA0D97ADD700BF78E3 /* KWDiscScanner.m */,
 			);
-			name = KWDiskScanner;
+			name = KWDiscScanner;
 			sourceTree = "<group>";
 		};
 		FEF988C40D97AEAE00BF78E3 /* KWDVDAuthorizer */ = {
@@ -1447,10 +1447,9 @@
 			children = (
 				FE15A2F80FC017ED00A3E0D5 /* KWConsole.nib */,
 				2A37F4B6FDCFA73011CA2CEA /* MainMenu.nib */,
-				2A37F4B4FDCFA73011CA2CEA /* KWDocument.nib */,
 				FEE5CDD90BA57EEC00FAD174 /* KWPreferences.nib */,
 				FE033FFE0BA7FB6100622112 /* KWRecorderInfo.nib */,
-				FE0343750BA816AB00622112 /* KWDiskInfo.nib */,
+				FE0343750BA816AB00622112 /* KWDiscInfo.nib */,
 				FEE12CD30BAC57C2001D474B /* KWEjecter.nib */,
 				FE6DBFCF0BDCED47006F5F53 /* KWInspector.nib */,
 				FEF989320D97B1D200BF78E3 /* KWProgress.nib */,
@@ -1484,8 +1483,8 @@
 		FEF98A2C0D97B43D00BF78E3 /* Other */ = {
 			isa = PBXGroup;
 			children = (
-				FE03612D0BAFD9A900F7FA73 /* growlController.h */,
-				FE03612E0BAFD9A900F7FA73 /* growlController.m */,
+				FE03612D0BAFD9A900F7FA73 /* KWGrowlController.h */,
+				FE03612E0BAFD9A900F7FA73 /* KWGrowlController.m */,
 				FEEA698A0BDBADBE00471BE3 /* KWCommonMethods.h */,
 				FEEA698B0BDBADBE00471BE3 /* KWCommonMethods.m */,
 				FE2C01510E0653CF0094FD7D /* KWPantherCompatibleButton.h */,
@@ -1501,7 +1500,7 @@
 				FEDC28FF0E4D91D200F2FEED /* KWToolbarKiller.m */,
 				FEF989690D97B2F300BF78E3 /* KWSVCDImager */,
 				FEF988C40D97AEAE00BF78E3 /* KWDVDAuthorizer */,
-				FEF988A80D97ADB600BF78E3 /* KWDiskScanner */,
+				FEF988A80D97ADB600BF78E3 /* KWDiscScanner */,
 				FEF9887B0D97AA7900BF78E3 /* KWConverter */,
 				FEF98A2E0D97B55100BF78E3 /* KWTextField */,
 			);
@@ -1520,10 +1519,10 @@
 		FEFE010D0BA47DE7004ADFD0 /* Data */ = {
 			isa = PBXGroup;
 			children = (
-				FEFE011C0BA47E2E004ADFD0 /* dataController.h */,
-				FEFE010E0BA47E17004ADFD0 /* dataController.m */,
-				FEFE011D0BA47E2E004ADFD0 /* dataView.h */,
-				FEFE010F0BA47E17004ADFD0 /* dataView.m */,
+				FEFE011C0BA47E2E004ADFD0 /* KWDataController.h */,
+				FEFE010E0BA47E17004ADFD0 /* KWDataController.m */,
+				FEFE011D0BA47E2E004ADFD0 /* KWDataView.h */,
+				FEFE010F0BA47E17004ADFD0 /* KWDataView.m */,
 				FEE64D0C0BE4B6E100106E3B /* KWOutlineView.h */,
 				FEE64D0D0BE4B6E100106E3B /* KWOutlineView.m */,
 				FEF5C8630BE374D800B3BCA6 /* Extra Classes */,
@@ -1534,8 +1533,8 @@
 		FEFEFFA30BA46965004ADFD0 /* Video */ = {
 			isa = PBXGroup;
 			children = (
-				FEFEFFA80BA469BA004ADFD0 /* videoController.h */,
-				FEFEFFA60BA469A0004ADFD0 /* videoController.m */,
+				FEFEFFA80BA469BA004ADFD0 /* KWVideoController.h */,
+				FEFEFFA60BA469A0004ADFD0 /* KWVideoController.m */,
 			);
 			name = Video;
 			sourceTree = "<group>";
@@ -1660,7 +1659,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				8D15AC2D0486D014006FF6A4 /* MainMenu.nib in Resources */,
-				8D15AC2E0486D014006FF6A4 /* KWDocument.nib in Resources */,
 				8D15AC2F0486D014006FF6A4 /* InfoPlist.strings in Resources */,
 				FEEF6F2C0B92E8BB00ED64A9 /* Advanced.tiff in Resources */,
 				FEEF6F2D0B92E8BC00ED64A9 /* Audio CD.png in Resources */,
@@ -1678,7 +1676,7 @@
 				FE2C34FC0BA2ED740029BA99 /* Burn.icns in Resources */,
 				FEE5CDDB0BA57EEC00FAD174 /* KWPreferences.nib in Resources */,
 				FE0340000BA7FB6100622112 /* KWRecorderInfo.nib in Resources */,
-				FE0343770BA816AB00622112 /* KWDiskInfo.nib in Resources */,
+				FE0343770BA816AB00622112 /* KWDiscInfo.nib in Resources */,
 				FEE12CD50BAC57C2001D474B /* KWEjecter.nib in Resources */,
 				FE6DBFD10BDCED47006F5F53 /* KWInspector.nib in Resources */,
 				FEEB40CB0BEDE0A90015842C /* Multiple.png in Resources */,
@@ -1723,7 +1721,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				FEA467270D97BDC60083527F /* MainMenu.nib in Resources */,
-				FEA467280D97BDC60083527F /* KWDocument.nib in Resources */,
 				FEA467290D97BDC60083527F /* InfoPlist.strings in Resources */,
 				FEA4672A0D97BDC60083527F /* Advanced.tiff in Resources */,
 				FEA4672B0D97BDC60083527F /* Audio CD.png in Resources */,
@@ -1741,7 +1738,7 @@
 				FEA467430D97BDC60083527F /* Burn.icns in Resources */,
 				FEA467440D97BDC60083527F /* KWPreferences.nib in Resources */,
 				FEA467460D97BDC60083527F /* KWRecorderInfo.nib in Resources */,
-				FEA467470D97BDC60083527F /* KWDiskInfo.nib in Resources */,
+				FEA467470D97BDC60083527F /* KWDiscInfo.nib in Resources */,
 				FEA467480D97BDC60083527F /* KWEjecter.nib in Resources */,
 				FEA4674A0D97BDC60083527F /* KWInspector.nib in Resources */,
 				FEA4674B0D97BDC60083527F /* Multiple.png in Resources */,
@@ -1786,7 +1783,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				FEA4679F0D97BDCD0083527F /* MainMenu.nib in Resources */,
-				FEA467A00D97BDCD0083527F /* KWDocument.nib in Resources */,
 				FEA467A10D97BDCD0083527F /* InfoPlist.strings in Resources */,
 				FEA467A20D97BDCD0083527F /* Advanced.tiff in Resources */,
 				FEA467A30D97BDCD0083527F /* Audio CD.png in Resources */,
@@ -1804,7 +1800,7 @@
 				FEA467BB0D97BDCD0083527F /* Burn.icns in Resources */,
 				FEA467BC0D97BDCD0083527F /* KWPreferences.nib in Resources */,
 				FEA467BE0D97BDCD0083527F /* KWRecorderInfo.nib in Resources */,
-				FEA467BF0D97BDCD0083527F /* KWDiskInfo.nib in Resources */,
+				FEA467BF0D97BDCD0083527F /* KWDiscInfo.nib in Resources */,
 				FEA467C00D97BDCD0083527F /* KWEjecter.nib in Resources */,
 				FEA467C20D97BDCD0083527F /* KWInspector.nib in Resources */,
 				FEA467C30D97BDCD0083527F /* Multiple.png in Resources */,
@@ -1849,7 +1845,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				FEDBF52E0F80782A00DABA72 /* MainMenu.nib in Resources */,
-				FEDBF52F0F80782A00DABA72 /* KWDocument.nib in Resources */,
 				FEDBF5300F80782A00DABA72 /* InfoPlist.strings in Resources */,
 				FEDBF5310F80782A00DABA72 /* Advanced.tiff in Resources */,
 				FEDBF5320F80782A00DABA72 /* Audio CD.png in Resources */,
@@ -1867,7 +1862,7 @@
 				FEDBF53E0F80782A00DABA72 /* Burn.icns in Resources */,
 				FEDBF53F0F80782A00DABA72 /* KWPreferences.nib in Resources */,
 				FEDBF5400F80782A00DABA72 /* KWRecorderInfo.nib in Resources */,
-				FEDBF5410F80782A00DABA72 /* KWDiskInfo.nib in Resources */,
+				FEDBF5410F80782A00DABA72 /* KWDiscInfo.nib in Resources */,
 				FEDBF5420F80782A00DABA72 /* KWEjecter.nib in Resources */,
 				FEDBF5430F80782A00DABA72 /* KWInspector.nib in Resources */,
 				FEDBF5440F80782A00DABA72 /* Multiple.png in Resources */,
@@ -1915,12 +1910,12 @@
 			buildActionMask = 2147483647;
 			files = (
 				8D15AC320486D014006FF6A4 /* main.m in Sources */,
-				FEEF6FF70B92E9ED00ED64A9 /* dropImageView.m in Sources */,
-				FEEF6FF80B92E9ED00ED64A9 /* copyController.m in Sources */,
-				FEEF72010B92F44100ED64A9 /* audioController.m in Sources */,
-				FEFEFFA70BA469A0004ADFD0 /* videoController.m in Sources */,
-				FEFE01150BA47E17004ADFD0 /* dataController.m in Sources */,
-				FEFE01160BA47E17004ADFD0 /* dataView.m in Sources */,
+				FEEF6FF70B92E9ED00ED64A9 /* KWCopyView.m in Sources */,
+				FEEF6FF80B92E9ED00ED64A9 /* KWCopyController.m in Sources */,
+				FEEF72010B92F44100ED64A9 /* KWAudioController.m in Sources */,
+				FEFEFFA70BA469A0004ADFD0 /* KWVideoController.m in Sources */,
+				FEFE01150BA47E17004ADFD0 /* KWDataController.m in Sources */,
+				FEFE01160BA47E17004ADFD0 /* KWDataView.m in Sources */,
 				FEFE01170BA47E17004ADFD0 /* FSTreeNode.m in Sources */,
 				FEFE01180BA47E17004ADFD0 /* ImageAndTextCell.m in Sources */,
 				FEFE01190BA47E17004ADFD0 /* NSArray_Extensions.m in Sources */,
@@ -1928,11 +1923,10 @@
 				FEFE011B0BA47E17004ADFD0 /* TreeNode.m in Sources */,
 				FEE5CDDF0BA583C900FAD174 /* KWPreferences.m in Sources */,
 				FE0340040BA7FB6E00622112 /* KWRecorderInfo.m in Sources */,
-				FE03437E0BA816CE00622112 /* KWDiskInfo.m in Sources */,
-				FEE1255C0BAC1339001D474B /* appController.m in Sources */,
+				FE03437E0BA816CE00622112 /* KWDiscInfo.m in Sources */,
+				FEE1255C0BAC1339001D474B /* KWApplication.m in Sources */,
 				FEE12CE00BAC583D001D474B /* KWEjecter.m in Sources */,
-				FEE260C00BAE827200828AE6 /* KWDocument.m in Sources */,
-				FE0361300BAFD9A900F7FA73 /* growlController.m in Sources */,
+				FE0361300BAFD9A900F7FA73 /* KWGrowlController.m in Sources */,
 				FEEA698D0BDBADBE00471BE3 /* KWCommonMethods.m in Sources */,
 				FEEDE0210BDF53A300D50314 /* KWInspector.m in Sources */,
 				FE195ED50BE2A610001558D4 /* HFSPlusController.m in Sources */,
@@ -1955,15 +1949,19 @@
 				FEF987830D97A83400BF78E3 /* NSScanner-Extra.mm in Sources */,
 				FEF987870D97A86300BF78E3 /* KWEraser.m in Sources */,
 				FEF9887F0D97AA9100BF78E3 /* KWConverter.m in Sources */,
-				FEF988AC0D97ADD700BF78E3 /* KWDiskScanner.m in Sources */,
+				FEF988AC0D97ADD700BF78E3 /* KWDiscScanner.m in Sources */,
 				FEF988C30D97AEA900BF78E3 /* KWDVDAuthorizer.m in Sources */,
 				FEF989310D97B1C500BF78E3 /* KWProgress.m in Sources */,
 				FEF9896D0D97B30800BF78E3 /* KWSVCDImager.m in Sources */,
 				FE2C01520E0653CF0094FD7D /* KWPantherCompatibleButton.m in Sources */,
 				FEDC29050E4D91D200F2FEED /* KWToolbarKiller.m in Sources */,
-				FE24916B0ECEDB6F0028E955 /* discCreationController.m in Sources */,
+				FE24916B0ECEDB6F0028E955 /* KWDiscCreator.m in Sources */,
 				FE23C0510EDDCDCC0048B85D /* KWTrackProducer.m in Sources */,
-				FE15A31B0FC01B9600A3E0D5 /* KWConsole.m in Sources */,
+				FE6134CE1101FF2800C086EA /* KWTabViewItem.m in Sources */,
+				FE6134CF1101FF2800C086EA /* KWWindow.m in Sources */,
+				FE6134D01101FF2800C086EA /* KWWindowController.m in Sources */,
+				FE6134F61102016400C086EA /* KWAlert.m in Sources */,
+				FE6134F71102016400C086EA /* KWMediaListController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1972,12 +1970,12 @@
 			buildActionMask = 2147483647;
 			files = (
 				FEA467590D97BDC60083527F /* main.m in Sources */,
-				FEA4675A0D97BDC60083527F /* dropImageView.m in Sources */,
-				FEA4675B0D97BDC60083527F /* copyController.m in Sources */,
-				FEA4675C0D97BDC60083527F /* audioController.m in Sources */,
-				FEA4675D0D97BDC60083527F /* videoController.m in Sources */,
-				FEA4675E0D97BDC60083527F /* dataController.m in Sources */,
-				FEA4675F0D97BDC60083527F /* dataView.m in Sources */,
+				FEA4675A0D97BDC60083527F /* KWCopyView.m in Sources */,
+				FEA4675B0D97BDC60083527F /* KWCopyController.m in Sources */,
+				FEA4675C0D97BDC60083527F /* KWAudioController.m in Sources */,
+				FEA4675D0D97BDC60083527F /* KWVideoController.m in Sources */,
+				FEA4675E0D97BDC60083527F /* KWDataController.m in Sources */,
+				FEA4675F0D97BDC60083527F /* KWDataView.m in Sources */,
 				FEA467600D97BDC60083527F /* FSTreeNode.m in Sources */,
 				FEA467610D97BDC60083527F /* ImageAndTextCell.m in Sources */,
 				FEA467620D97BDC60083527F /* NSArray_Extensions.m in Sources */,
@@ -1985,11 +1983,10 @@
 				FEA467640D97BDC60083527F /* TreeNode.m in Sources */,
 				FEA467650D97BDC60083527F /* KWPreferences.m in Sources */,
 				FEA467660D97BDC60083527F /* KWRecorderInfo.m in Sources */,
-				FEA467670D97BDC60083527F /* KWDiskInfo.m in Sources */,
-				FEA467680D97BDC60083527F /* appController.m in Sources */,
+				FEA467670D97BDC60083527F /* KWDiscInfo.m in Sources */,
+				FEA467680D97BDC60083527F /* KWApplication.m in Sources */,
 				FEA467690D97BDC60083527F /* KWEjecter.m in Sources */,
-				FEA4676A0D97BDC60083527F /* KWDocument.m in Sources */,
-				FEA4676B0D97BDC60083527F /* growlController.m in Sources */,
+				FEA4676B0D97BDC60083527F /* KWGrowlController.m in Sources */,
 				FEA4676C0D97BDC60083527F /* KWCommonMethods.m in Sources */,
 				FEA4676D0D97BDC60083527F /* KWInspector.m in Sources */,
 				FEA4676E0D97BDC60083527F /* HFSPlusController.m in Sources */,
@@ -2012,15 +2009,19 @@
 				FEA467810D97BDC60083527F /* NSScanner-Extra.mm in Sources */,
 				FEA467820D97BDC60083527F /* KWEraser.m in Sources */,
 				FEA467830D97BDC60083527F /* KWConverter.m in Sources */,
-				FEA467840D97BDC60083527F /* KWDiskScanner.m in Sources */,
+				FEA467840D97BDC60083527F /* KWDiscScanner.m in Sources */,
 				FEA467850D97BDC60083527F /* KWDVDAuthorizer.m in Sources */,
 				FEA467870D97BDC60083527F /* KWProgress.m in Sources */,
 				FEA467880D97BDC60083527F /* KWSVCDImager.m in Sources */,
 				FE2C01540E0653CF0094FD7D /* KWPantherCompatibleButton.m in Sources */,
 				FEDC29030E4D91D200F2FEED /* KWToolbarKiller.m in Sources */,
-				FE24916D0ECEDB6F0028E955 /* discCreationController.m in Sources */,
+				FE24916D0ECEDB6F0028E955 /* KWDiscCreator.m in Sources */,
 				FE23C04F0EDDCDCC0048B85D /* KWTrackProducer.m in Sources */,
-				FE15A31D0FC01B9600A3E0D5 /* KWConsole.m in Sources */,
+				FE6134D41101FF2800C086EA /* KWTabViewItem.m in Sources */,
+				FE6134D51101FF2800C086EA /* KWWindow.m in Sources */,
+				FE6134D61101FF2800C086EA /* KWWindowController.m in Sources */,
+				FE6134FA1102016400C086EA /* KWAlert.m in Sources */,
+				FE6134FB1102016400C086EA /* KWMediaListController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2029,12 +2030,12 @@
 			buildActionMask = 2147483647;
 			files = (
 				FEA467D10D97BDCD0083527F /* main.m in Sources */,
-				FEA467D20D97BDCD0083527F /* dropImageView.m in Sources */,
-				FEA467D30D97BDCD0083527F /* copyController.m in Sources */,
-				FEA467D40D97BDCD0083527F /* audioController.m in Sources */,
-				FEA467D50D97BDCD0083527F /* videoController.m in Sources */,
-				FEA467D60D97BDCD0083527F /* dataController.m in Sources */,
-				FEA467D70D97BDCD0083527F /* dataView.m in Sources */,
+				FEA467D20D97BDCD0083527F /* KWCopyView.m in Sources */,
+				FEA467D30D97BDCD0083527F /* KWCopyController.m in Sources */,
+				FEA467D40D97BDCD0083527F /* KWAudioController.m in Sources */,
+				FEA467D50D97BDCD0083527F /* KWVideoController.m in Sources */,
+				FEA467D60D97BDCD0083527F /* KWDataController.m in Sources */,
+				FEA467D70D97BDCD0083527F /* KWDataView.m in Sources */,
 				FEA467D80D97BDCD0083527F /* FSTreeNode.m in Sources */,
 				FEA467D90D97BDCD0083527F /* ImageAndTextCell.m in Sources */,
 				FEA467DA0D97BDCD0083527F /* NSArray_Extensions.m in Sources */,
@@ -2042,11 +2043,10 @@
 				FEA467DC0D97BDCD0083527F /* TreeNode.m in Sources */,
 				FEA467DD0D97BDCD0083527F /* KWPreferences.m in Sources */,
 				FEA467DE0D97BDCD0083527F /* KWRecorderInfo.m in Sources */,
-				FEA467DF0D97BDCD0083527F /* KWDiskInfo.m in Sources */,
-				FEA467E00D97BDCD0083527F /* appController.m in Sources */,
+				FEA467DF0D97BDCD0083527F /* KWDiscInfo.m in Sources */,
+				FEA467E00D97BDCD0083527F /* KWApplication.m in Sources */,
 				FEA467E10D97BDCD0083527F /* KWEjecter.m in Sources */,
-				FEA467E20D97BDCD0083527F /* KWDocument.m in Sources */,
-				FEA467E30D97BDCD0083527F /* growlController.m in Sources */,
+				FEA467E30D97BDCD0083527F /* KWGrowlController.m in Sources */,
 				FEA467E40D97BDCD0083527F /* KWCommonMethods.m in Sources */,
 				FEA467E50D97BDCD0083527F /* KWInspector.m in Sources */,
 				FEA467E60D97BDCD0083527F /* HFSPlusController.m in Sources */,
@@ -2069,15 +2069,19 @@
 				FEA467F90D97BDCD0083527F /* NSScanner-Extra.mm in Sources */,
 				FEA467FA0D97BDCD0083527F /* KWEraser.m in Sources */,
 				FEA467FB0D97BDCD0083527F /* KWConverter.m in Sources */,
-				FEA467FC0D97BDCD0083527F /* KWDiskScanner.m in Sources */,
+				FEA467FC0D97BDCD0083527F /* KWDiscScanner.m in Sources */,
 				FEA467FD0D97BDCD0083527F /* KWDVDAuthorizer.m in Sources */,
 				FEA467FF0D97BDCD0083527F /* KWProgress.m in Sources */,
 				FEA468000D97BDCD0083527F /* KWSVCDImager.m in Sources */,
 				FE2C01560E0653CF0094FD7D /* KWPantherCompatibleButton.m in Sources */,
 				FEDC29010E4D91D200F2FEED /* KWToolbarKiller.m in Sources */,
-				FE24916F0ECEDB6F0028E955 /* discCreationController.m in Sources */,
+				FE24916F0ECEDB6F0028E955 /* KWDiscCreator.m in Sources */,
 				FE23C04D0EDDCDCC0048B85D /* KWTrackProducer.m in Sources */,
-				FE15A31E0FC01B9600A3E0D5 /* KWConsole.m in Sources */,
+				FE6134D71101FF2800C086EA /* KWTabViewItem.m in Sources */,
+				FE6134D81101FF2800C086EA /* KWWindow.m in Sources */,
+				FE6134D91101FF2800C086EA /* KWWindowController.m in Sources */,
+				FE6134FC1102016400C086EA /* KWAlert.m in Sources */,
+				FE6134FD1102016400C086EA /* KWMediaListController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2086,12 +2090,12 @@
 			buildActionMask = 2147483647;
 			files = (
 				FEDBF5660F80782A00DABA72 /* main.m in Sources */,
-				FEDBF5670F80782A00DABA72 /* dropImageView.m in Sources */,
-				FEDBF5680F80782A00DABA72 /* copyController.m in Sources */,
-				FEDBF5690F80782A00DABA72 /* audioController.m in Sources */,
-				FEDBF56A0F80782A00DABA72 /* videoController.m in Sources */,
-				FEDBF56B0F80782A00DABA72 /* dataController.m in Sources */,
-				FEDBF56C0F80782A00DABA72 /* dataView.m in Sources */,
+				FEDBF5670F80782A00DABA72 /* KWCopyView.m in Sources */,
+				FEDBF5680F80782A00DABA72 /* KWCopyController.m in Sources */,
+				FEDBF5690F80782A00DABA72 /* KWAudioController.m in Sources */,
+				FEDBF56A0F80782A00DABA72 /* KWVideoController.m in Sources */,
+				FEDBF56B0F80782A00DABA72 /* KWDataController.m in Sources */,
+				FEDBF56C0F80782A00DABA72 /* KWDataView.m in Sources */,
 				FEDBF56D0F80782A00DABA72 /* FSTreeNode.m in Sources */,
 				FEDBF56E0F80782A00DABA72 /* ImageAndTextCell.m in Sources */,
 				FEDBF56F0F80782A00DABA72 /* NSArray_Extensions.m in Sources */,
@@ -2099,11 +2103,10 @@
 				FEDBF5710F80782A00DABA72 /* TreeNode.m in Sources */,
 				FEDBF5720F80782A00DABA72 /* KWPreferences.m in Sources */,
 				FEDBF5730F80782A00DABA72 /* KWRecorderInfo.m in Sources */,
-				FEDBF5740F80782A00DABA72 /* KWDiskInfo.m in Sources */,
-				FEDBF5750F80782A00DABA72 /* appController.m in Sources */,
+				FEDBF5740F80782A00DABA72 /* KWDiscInfo.m in Sources */,
+				FEDBF5750F80782A00DABA72 /* KWApplication.m in Sources */,
 				FEDBF5760F80782A00DABA72 /* KWEjecter.m in Sources */,
-				FEDBF5770F80782A00DABA72 /* KWDocument.m in Sources */,
-				FEDBF5780F80782A00DABA72 /* growlController.m in Sources */,
+				FEDBF5780F80782A00DABA72 /* KWGrowlController.m in Sources */,
 				FEDBF5790F80782A00DABA72 /* KWCommonMethods.m in Sources */,
 				FEDBF57A0F80782A00DABA72 /* KWInspector.m in Sources */,
 				FEDBF57B0F80782A00DABA72 /* HFSPlusController.m in Sources */,
@@ -2126,15 +2129,19 @@
 				FEDBF58C0F80782A00DABA72 /* NSScanner-Extra.mm in Sources */,
 				FEDBF58D0F80782A00DABA72 /* KWEraser.m in Sources */,
 				FEDBF58E0F80782A00DABA72 /* KWConverter.m in Sources */,
-				FEDBF58F0F80782A00DABA72 /* KWDiskScanner.m in Sources */,
+				FEDBF58F0F80782A00DABA72 /* KWDiscScanner.m in Sources */,
 				FEDBF5900F80782A00DABA72 /* KWDVDAuthorizer.m in Sources */,
 				FEDBF5910F80782A00DABA72 /* KWProgress.m in Sources */,
 				FEDBF5920F80782A00DABA72 /* KWSVCDImager.m in Sources */,
 				FEDBF5930F80782A00DABA72 /* KWPantherCompatibleButton.m in Sources */,
 				FEDBF5940F80782A00DABA72 /* KWToolbarKiller.m in Sources */,
-				FEDBF5950F80782A00DABA72 /* discCreationController.m in Sources */,
+				FEDBF5950F80782A00DABA72 /* KWDiscCreator.m in Sources */,
 				FEDBF5960F80782A00DABA72 /* KWTrackProducer.m in Sources */,
-				FE15A31C0FC01B9600A3E0D5 /* KWConsole.m in Sources */,
+				FE6134D11101FF2800C086EA /* KWTabViewItem.m in Sources */,
+				FE6134D21101FF2800C086EA /* KWWindow.m in Sources */,
+				FE6134D31101FF2800C086EA /* KWWindowController.m in Sources */,
+				FE6134F81102016400C086EA /* KWAlert.m in Sources */,
+				FE6134F91102016400C086EA /* KWMediaListController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2158,25 +2165,6 @@
 				FED4EEEA0FA5BF1B00E6C255 /* Spanish */,
 			);
 			name = InfoPlist.strings;
-			sourceTree = "<group>";
-		};
-		2A37F4B4FDCFA73011CA2CEA /* KWDocument.nib */ = {
-			isa = PBXVariantGroup;
-			children = (
-				2A37F4B5FDCFA73011CA2CEA /* English */,
-				FE888CBA0CF9B4BA003620F1 /* Dutch */,
-				FE4514200D15722E0051D717 /* French */,
-				FEAC31330D2A75C000555250 /* German */,
-				FE9F92100D312811002A7BDC /* pt_BR */,
-				FE3EFEE90DBBD523003DD5AD /* Japanese */,
-				FE5DD7C90DBD15FA00FC2A37 /* zh_TW */,
-				FE5DD7E50DBD20B000FC2A37 /* ru */,
-				FE5DD7FD0DBD2BA600FC2A37 /* cs */,
-				FEE0FF100F6D35DB009BC562 /* Greek */,
-				FE1398000F88D8820056809A /* ko */,
-				FED4EEF10FA5BF2D00E6C255 /* Spanish */,
-			);
-			name = KWDocument.nib;
 			sourceTree = "<group>";
 		};
 		2A37F4B6FDCFA73011CA2CEA /* MainMenu.nib */ = {
@@ -2217,7 +2205,7 @@
 			name = KWRecorderInfo.nib;
 			sourceTree = "<group>";
 		};
-		FE0343750BA816AB00622112 /* KWDiskInfo.nib */ = {
+		FE0343750BA816AB00622112 /* KWDiscInfo.nib */ = {
 			isa = PBXVariantGroup;
 			children = (
 				FE0343760BA816AB00622112 /* English */,
@@ -2233,7 +2221,7 @@
 				FE1397FE0F88D8820056809A /* ko */,
 				FED4EEEF0FA5BF2D00E6C255 /* Spanish */,
 			);
-			name = KWDiskInfo.nib;
+			name = KWDiscInfo.nib;
 			sourceTree = "<group>";
 		};
 		FE15A2F80FC017ED00A3E0D5 /* KWConsole.nib */ = {
