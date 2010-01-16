@@ -12,13 +12,19 @@
     IBOutlet id recorderProduct;
     IBOutlet id recorderVendor;
     IBOutlet id recorderWrites;
+	
+	NSDictionary *discTypes;
 }
+
+//Main actions
+- (void)startRecorderPanelwithDevice:(DRDevice *)device;
+
 //Interface actions
 - (IBAction)recorderPopup:(id)sender;
 
-//Own actions
-- (void)startRecorderPanelwithDevice:(DRDevice *)device;
+//Internal actions
 - (void)setRecorderInfo:(DRDevice *)device;
 - (void)updateRecorderInfo;
+- (void)saveFrame;
 
 @end
