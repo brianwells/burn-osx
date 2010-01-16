@@ -2,7 +2,7 @@
 
 #import <Cocoa/Cocoa.h>
 
-@interface dataView : NSView
+@interface KWDataView : NSView
 {
 	IBOutlet id myController;
 }
