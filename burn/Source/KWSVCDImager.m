@@ -7,145 +7,165 @@
 //
 
 #import "KWSVCDImager.h"
+#import "KWCommonMethods.h"
 
 @implementation KWSVCDImager
 
 - (id) init
 {
-self = [super init];
+	self = [super init];
 
-[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(stopVcdimager) name:@"KWStopVcdimager" object:nil];
-userCanceled = NO;
+	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(stopVcdimager) name:@"KWStopVcdimager" object:nil];
+	userCanceled = NO;
 	
-return self;
+	return self;
 }
 
 - (void)dealloc
 {
-[[NSNotificationCenter defaultCenter] removeObserver:self];
+	[[NSNotificationCenter defaultCenter] removeObserver:self];
 
-[super dealloc];
+	[super dealloc];
 }
 
-- (int)createSVCDImage:(NSString *)path withFiles:(NSArray *)files withLabel:(NSString *)label createVCD:(BOOL)VCD hideExtension:(NSNumber *)hide
+- (int)createSVCDImage:(NSString *)path withFiles:(NSArray *)files withLabel:(NSString *)label createVCD:(BOOL)VCD hideExtension:(NSNumber *)hide errorString:(NSString **)error
 {
-totalSize = 0;
+	NSNotificationCenter *defaultCenter = [NSNotificationCenter defaultCenter];
+	NSFileManager *defaultManager = [NSFileManager defaultManager];
+	NSString *cueFile = [path stringByAppendingPathExtension:@"cue"];
+	NSString *binFile = [path stringByAppendingPathExtension:@"bin"];
+	totalSize = 0;
 	
 		int i;
 		for (i=0;i<[files count];i++)
 		{
-		totalSize = totalSize + [[[[NSFileManager defaultManager] fileAttributesAtPath:[files objectAtIndex:i] traverseLink:YES] objectForKey:NSFileSize] floatValue] / 2048;
+			totalSize = totalSize + [[[defaultManager fileAttributesAtPath:[files objectAtIndex:i] traverseLink:YES] objectForKey:NSFileSize] floatValue] / 2048;
 		}
 		
-[[NSNotificationCenter defaultCenter] postNotificationName:@"KWMaximumValueChanged" object:[NSNumber numberWithFloat:totalSize]];
+	[defaultCenter postNotificationName:@"KWMaximumValueChanged" object:[NSNumber numberWithFloat:totalSize]];
 
-	if ([[NSFileManager defaultManager] fileExistsAtPath:[path stringByAppendingPathExtension:@"cue"]])
+	if ([defaultManager fileExistsAtPath:cueFile])
 	{
-	[[NSFileManager defaultManager] removeFileAtPath:[path stringByAppendingPathExtension:@"cue"] handler:nil];
-	[[NSFileManager defaultManager] removeFileAtPath:[path stringByAppendingPathExtension:@"bin"] handler:nil];
+		[KWCommonMethods removeItemAtPath:cueFile];
+		[KWCommonMethods removeItemAtPath:binFile];
 	}
 	
+	NSString *status;
 	if ([files count] > 1)
-	[[NSNotificationCenter defaultCenter] postNotificationName:@"KWStatusChanged" object:NSLocalizedString(@"Writing tracks", Localized)];
+		status = NSLocalizedString(@"Writing tracks", Localized);
 	else
-	[[NSNotificationCenter defaultCenter] postNotificationName:@"KWStatusChanged" object:NSLocalizedString(@"Writing track", Localized)];
-
-NSMutableArray *arguments = [NSMutableArray array];
-
-[arguments addObject:@"-t"];
-	if (VCD == YES)
-	[arguments addObject:@"vcd2"];
-	else
-	[arguments addObject:@"svcd"];
-[arguments addObject:@"--update-scan-offsets"];
-[arguments addObject:@"-l"];
-[arguments addObject:label];
-[arguments addObject:[@"--cue-file=" stringByAppendingString:[path stringByAppendingPathExtension:@"cue"]]];
-[arguments addObject:[@"--bin-file=" stringByAppendingString:[path stringByAppendingPathExtension:@"bin"]]];
-
-	for (i=0;i<[files count];i++)
-	{
-	[arguments addObject:[files objectAtIndex:i]];
-	}
-
-vcdimager = [[NSTask alloc] init];
+		status = NSLocalizedString(@"Writing track", Localized);
 	
-[vcdimager setLaunchPath:[[NSBundle bundleForClass:[self class]] pathForResource:@"vcdimager" ofType:@""]];
-[vcdimager setArguments:arguments];
-NSPipe *pipe=[[NSPipe alloc] init];
-[vcdimager setCurrentDirectoryPath:[path stringByDeletingLastPathComponent]];
-[vcdimager setStandardOutput:pipe];
-NSFileHandle *handle=[pipe fileHandleForReading];
-[vcdimager launch];
-[[NSNotificationCenter defaultCenter] postNotificationName:@"KWCancelNotificationChanged" object:@"KWStopVcdimager"];
-[self performSelectorOnMainThread:@selector(startTimer:) withObject:[path stringByAppendingPathExtension:@"bin"] waitUntilDone:NO];
+	[defaultCenter postNotificationName:@"KWStatusChanged" object:status];
+
+	NSMutableArray *arguments = [NSMutableArray array];
+
+	[arguments addObject:@"-t"];
+	
+	if (VCD)
+		[arguments addObject:@"vcd2"];
+	else
+		[arguments addObject:@"svcd"];
+		
+	[arguments addObject:@"--dupdate-scan-offsets"];
+	[arguments addObject:@"-l"];
+	[arguments addObject:label];
+	[arguments addObject:[@"--cue-file=" stringByAppendingString:cueFile]];
+	[arguments addObject:[@"--bin-file=" stringByAppendingString:binFile]];
+	[arguments addObjectsFromArray:files];
+
+	vcdimager = [[NSTask alloc] init];
+	[vcdimager setLaunchPath:[[NSBundle bundleForClass:[self class]] pathForResource:@"vcdimager" ofType:@""]];
+	[vcdimager setArguments:arguments];
+	NSPipe *pipe=[[NSPipe alloc] init];
+	NSPipe *errorPipe=[[NSPipe alloc] init];
+	[vcdimager setCurrentDirectoryPath:[path stringByDeletingLastPathComponent]];
+	[vcdimager setStandardOutput:pipe];
+	[vcdimager setStandardError:errorPipe];
+	NSFileHandle *handle=[pipe fileHandleForReading];
+	NSFileHandle *errorHandle=[errorPipe fileHandleForReading];
+	[vcdimager launch];
+	
+	[defaultCenter postNotificationName:@"KWCancelNotificationChanged" object:@"KWStopVcdimager"];
+	[self performSelectorOnMainThread:@selector(startTimer:) withObject:binFile waitUntilDone:NO];
+	
+	NSAutoreleasePool *innerPool = [[NSAutoreleasePool alloc] init];
 
 	NSData *data;
+	NSString *string;
+
 	while([data=[handle availableData] length])
 	{
-		if ([[NSFileManager defaultManager] fileExistsAtPath:[path stringByAppendingPathExtension:@"cue"]])
-		[[NSFileManager defaultManager] changeFileAttributes:[NSDictionary dictionaryWithObjectsAndKeys:hide, NSFileExtensionHidden,nil] atPath:[path stringByAppendingPathExtension:@"cue"]];
+		if ([defaultManager fileExistsAtPath:cueFile])
+			[defaultManager changeFileAttributes:[NSDictionary dictionaryWithObjectsAndKeys:hide, NSFileExtensionHidden,nil] atPath:cueFile];
 		
-		if ([[NSFileManager defaultManager] fileExistsAtPath:[path stringByAppendingPathExtension:@"bin"]])
-		[[NSFileManager defaultManager] changeFileAttributes:[NSDictionary dictionaryWithObjectsAndKeys:hide, NSFileExtensionHidden,nil] atPath:[path stringByAppendingPathExtension:@"bin"]];
+		if ([defaultManager fileExistsAtPath:binFile])
+			[defaultManager changeFileAttributes:[NSDictionary dictionaryWithObjectsAndKeys:hide, NSFileExtensionHidden,nil] atPath:binFile];
 
-	NSString *string=[[NSString alloc] initWithData:data encoding:NSASCIIStringEncoding];
+		string=[[NSString alloc] initWithData:data encoding:NSASCIIStringEncoding];
 	
-		if ([[NSUserDefaults standardUserDefaults] boolForKey:@"KWConsoleEnabled"] == YES)
-		{
-		[[NSNotificationCenter defaultCenter] postNotificationName:@"KWConsoleNotification" object:string];
-		NSLog(string);
-		}
+		if ([[NSUserDefaults standardUserDefaults] boolForKey:@"Debug"])
+			NSLog(string);
+			
+		[string release];
 		
-	[string release];
+		[innerPool release];
+		innerPool = [[NSAutoreleasePool alloc] init];
 	}
 	
-[vcdimager waitUntilExit];
-[timer invalidate];
+	[vcdimager waitUntilExit];
+	
+	NSString *errorString = [[[NSString alloc] initWithData:[errorHandle readDataToEndOfFile] encoding:NSASCIIStringEncoding] autorelease];
+	
+	[timer invalidate];
 
-[[NSNotificationCenter defaultCenter] postNotificationName:@"KWCancelNotificationChanged" object:nil];
+	[defaultCenter postNotificationName:@"KWCancelNotificationChanged" object:nil];
 
 	int taskStatus = [vcdimager terminationStatus];
 	
-	[vcdimager release];
-	[pipe release];
+		[vcdimager release];
+		[pipe release];
 	   
 	if (taskStatus == 0)
 	{
-	return 0;
-	}
-	else if (userCanceled == YES)
-	{
-	[[NSFileManager defaultManager] removeFileAtPath:[path stringByAppendingString:@".cue"] handler:nil];
-	[[NSFileManager defaultManager] removeFileAtPath:[path stringByAppendingString:@".bin"] handler:nil];
-	return 2;
+		return 0;
 	}
 	else
 	{
-	[[NSFileManager defaultManager] removeFileAtPath:[path stringByAppendingString:@".cue"] handler:nil];
-	[[NSFileManager defaultManager] removeFileAtPath:[path stringByAppendingString:@".bin"] handler:nil];
-	return 1;
+		*error = [NSString stringWithFormat:@"KWConsole:\nTask: vcdimager\n%@", errorString];
+		
+		[KWCommonMethods removeItemAtPath:cueFile];
+		[KWCommonMethods removeItemAtPath:binFile];
+		
+		if (userCanceled)
+			return 2;
+		else
+			return 1;
 	}
 }
 
 - (void)startTimer:(NSArray *)object
 {
-timer = [NSTimer scheduledTimerWithTimeInterval:0.1 target:self selector:@selector(imageProgress:) userInfo:object repeats:YES];
+	timer = [NSTimer scheduledTimerWithTimeInterval:0.1 target:self selector:@selector(imageProgress:) userInfo:object repeats:YES];
 }
 
 - (void)imageProgress:(NSTimer *)theTimer
 {
+	NSNotificationCenter *defaultCenter = [NSNotificationCenter defaultCenter];
+
 	float currentSize = [[[[NSFileManager defaultManager] fileAttributesAtPath:[theTimer userInfo] traverseLink:YES] objectForKey:NSFileSize] floatValue] / 2048;
-	double percent = [[[[[NSNumber numberWithDouble:currentSize / totalSize * 100] stringValue] componentsSeparatedByString:@"."] objectAtIndex:0] doubleValue];
+	float percent = currentSize / totalSize * 100;
+		
 		if (percent < 101)
-		[[NSNotificationCenter defaultCenter] postNotificationName:@"KWStatusByAddingPercentChanged" object:[[@" (" stringByAppendingString:[[NSNumber numberWithDouble:percent] stringValue]] stringByAppendingString:@"%)"]];
-	[[NSNotificationCenter defaultCenter] postNotificationName:@"KWValueChanged" object:[NSNumber numberWithFloat:currentSize]];
+		[defaultCenter postNotificationName:@"KWStatusByAddingPercentChanged" object:[NSString stringWithFormat:@" (%.0f%@)", percent, @"%"]];
+
+	[defaultCenter postNotificationName:@"KWValueChanged" object:[NSNumber numberWithFloat:currentSize]];
 }
 
 - (void)stopVcdimager
 {
-userCanceled = YES;
-[vcdimager terminate];
+	userCanceled = YES;
+	[vcdimager terminate];
 }
 
 @end

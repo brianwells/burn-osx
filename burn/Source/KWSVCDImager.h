@@ -11,13 +11,13 @@
 
 @interface KWSVCDImager : NSObject 
 {
-BOOL userCanceled;
-NSTask *vcdimager;
-NSTimer *timer;
-float totalSize;
+	BOOL userCanceled;
+	NSTask *vcdimager;
+	NSTimer *timer;
+	float totalSize;
 }
 
-- (int)createSVCDImage:(NSString *)path withFiles:(NSArray *)files withLabel:(NSString *)label createVCD:(BOOL)VCD hideExtension:(NSNumber *)hide;
+- (int)createSVCDImage:(NSString *)path withFiles:(NSArray *)files withLabel:(NSString *)label createVCD:(BOOL)VCD hideExtension:(NSNumber *)hide errorString:(NSString **)error;
 - (void)stopVcdimager;
 
 @end
