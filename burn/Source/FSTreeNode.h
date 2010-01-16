@@ -93,5 +93,3 @@ int myNumber;
 - (int) myNumber;
 
 @end
-
-
