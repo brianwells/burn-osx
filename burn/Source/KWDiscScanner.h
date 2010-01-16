@@ -1,8 +1,8 @@
-/* scanTableViewController */
+/* KWDiscScanner */
 
 #import <Cocoa/Cocoa.h>
 
-@interface KWDiskScanner : NSWindowController
+@interface KWDiscScanner : NSWindowController
 {
     //Sheet outlets
 	IBOutlet id tableView;

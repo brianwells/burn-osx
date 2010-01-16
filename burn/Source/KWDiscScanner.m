@@ -1,29 +1,31 @@
-#import "KWDiskScanner.h"
+#import "KWDiscScanner.h"
 #import "KWCommonMethods.h"
 
-@implementation KWDiskScanner
+@implementation KWDiscScanner
 
 //We need to have table datasource
 - (id)init
 {
-self = [super init];
+	self = [super init];
 
-tableData = [[NSMutableArray alloc] init];
-[NSBundle loadNibNamed:@"KWDiskScanner" owner:self];
-[tableView setDoubleAction:@selector(chooseScan:)];
-[[[NSWorkspace sharedWorkspace] notificationCenter] addObserver:self selector:@selector(beginScanning) name:NSWorkspaceDidMountNotification object:nil];
-[[[NSWorkspace sharedWorkspace] notificationCenter] addObserver:self selector:@selector(beginScanning) name:NSWorkspaceDidUnmountNotification object:nil];
+	tableData = [[NSMutableArray alloc] init];
+	[NSBundle loadNibNamed:@"KWDiscScanner" owner:self];
+	[tableView setDoubleAction:@selector(chooseScan:)];
+	
+	NSWorkspace *sharedWorkspace = [NSWorkspace sharedWorkspace];
+	[[sharedWorkspace notificationCenter] addObserver:self selector:@selector(beginScanning) name:NSWorkspaceDidMountNotification object:nil];
+	[[sharedWorkspace notificationCenter] addObserver:self selector:@selector(beginScanning) name:NSWorkspaceDidUnmountNotification object:nil];
    
-return self;
+	return self;
 }
 
 //Delocate datasource
 - (void)dealloc
 {
-[[[NSWorkspace sharedWorkspace] notificationCenter] removeObserver:self];
-[tableData release];
+	[[[NSWorkspace sharedWorkspace] notificationCenter] removeObserver:self];
+	[tableData release];
 
-[super dealloc];
+	[super dealloc];
 }
 
 //////////////////
@@ -35,94 +37,80 @@ return self;
 
 - (void)beginSetupSheetForWindow:(NSWindow *)window modelessDelegate:(id)modelessDelegate didEndSelector:(SEL)didEndSelector contextInfo:(void *)contextInfo
 {
-[self beginScanning];
-[NSApp beginSheet:[self window] modalForWindow:window modalDelegate:modelessDelegate didEndSelector:didEndSelector contextInfo:contextInfo];
+	[self beginScanning];
+	[NSApp beginSheet:[self window] modalForWindow:window modalDelegate:modelessDelegate didEndSelector:didEndSelector contextInfo:contextInfo];
 }
 
 //Check for removable disks, also check their bsd name and if they're read only
 - (void)scanDisks
 {
-int i;
-NSString *rootName = @"";
-
-	for( i=0; i<[[[NSWorkspace sharedWorkspace] mountedRemovableMedia] count]; i++ )
+	NSString *rootName = @"";
+	NSArray *mountedRemovableMedia = [[NSWorkspace sharedWorkspace] mountedRemovableMedia];
+	
+	int i;
+	for( i=0; i<[mountedRemovableMedia count]; i++ )
 	{
-	//NSAutoreleasePool *innerPool = [[NSAutoreleasePool alloc] init];
-	
-	NSTask *diskutil=[[NSTask alloc] init];
-	NSPipe *pipe=[[NSPipe alloc] init];
-	NSFileHandle *handle;
-	[diskutil setLaunchPath:@"/usr/sbin/diskutil"];
-	[diskutil setArguments:[NSArray arrayWithObjects:@"info",[[[NSWorkspace sharedWorkspace] mountedRemovableMedia] objectAtIndex:i], nil]];
-	[diskutil setStandardOutput:pipe];
-	handle=[pipe fileHandleForReading];
-	[diskutil launch];
-	NSString *string=[[NSString alloc] initWithData:[handle readDataToEndOfFile] encoding:NSASCIIStringEncoding]; // convert NSData -> NSString
-	
-		if ([[NSUserDefaults standardUserDefaults] boolForKey:@"KWConsoleEnabled"] == YES)
+		NSString *path = [mountedRemovableMedia objectAtIndex:i];
+		
+		NSString *string;
+		NSArray *arguments = [NSArray arrayWithObjects:@"info", path, nil];
+		BOOL succes = [KWCommonMethods launchNSTaskAtPath:@"/usr/sbin/diskutil" withArguments:arguments outputError:NO outputString:YES output:&string];
+		NSDictionary *information = nil;
+		
+		if (succes)
+			information = [KWCommonMethods getDictionaryFromString:string];
+		
+		if (information)
 		{
-		[[NSNotificationCenter defaultCenter] postNotificationName:@"KWConsoleNotification" object:string];
-		NSLog(string);
-		}
+			rootName = [@"/dev/rdisk" stringByAppendingString:[[[information objectForKey:@"Device Node"] componentsSeparatedByString:@"/dev/disk"] objectAtIndex:1]];
 		
-	NSDictionary *information = [KWCommonMethods getDictionaryFromString:string];
-	
-	[diskutil waitUntilExit];
-	[diskutil release];
-	[pipe release];
-	
-	[string release];
-	string = nil;
-	
-	rootName = [@"/dev/rdisk" stringByAppendingString:[[[information objectForKey:@"Device Node"] componentsSeparatedByString:@"/dev/disk"] objectAtIndex:1]];
+			if ([[information objectForKey:@"Read Only"] boolValue] == YES | [[information objectForKey:@"Read-Only Media"] boolValue] == YES )
+			{ 
+				NSMutableDictionary *rowData = [NSMutableDictionary dictionary];
 		
-		if ([[information objectForKey:@"Read Only"] boolValue] == YES)
-		{ 
-		NSMutableDictionary *rowData = [NSMutableDictionary dictionary];
-		
-		int size = [KWCommonMethods getSizeFromMountedVolume:[[[NSWorkspace sharedWorkspace] mountedRemovableMedia] objectAtIndex:i]] * 512 / 2048;
-		
-		[rowData setObject:[[[[NSWorkspace sharedWorkspace] mountedRemovableMedia] objectAtIndex:i] lastPathComponent] forKey:@"Name"];
-		[rowData setObject:[[[NSWorkspace sharedWorkspace] iconForFile:[[[NSWorkspace sharedWorkspace] mountedRemovableMedia] objectAtIndex:i]] retain] forKey:@"Icon"];
-		[rowData setObject:[KWCommonMethods makeSizeFromFloat:size] forKey:@"Device"];
-		[rowData setObject:[[[NSWorkspace sharedWorkspace] mountedRemovableMedia] objectAtIndex:i] forKey:@"Mounted Path"];
-		[tableData addObject:rowData];
-		[tableView reloadData];
-		}
-		
-	//[innerPool release];
-	}
+				int size = [KWCommonMethods getSizeFromMountedVolume:path] * 512;
 
-[cancelScan setEnabled:YES];
-[progressScan setHidden:YES];
+				[rowData setObject:[path lastPathComponent] forKey:@"Name"];
+				[rowData setObject:[[[NSWorkspace sharedWorkspace] iconForFile:path] retain] forKey:@"Icon"];
+				[rowData setObject:[KWCommonMethods makeSizeFromFloat:size] forKey:@"Device"];
+				[rowData setObject:path forKey:@"Mounted Path"];
+			
+				[tableData addObject:rowData];
+				[tableView reloadData];
+			}
+		}
+
+		[cancelScan setEnabled:YES];
+		[progressScan setHidden:YES];
 	
-	if (![rootName isEqualTo:@""])
-	{
-	[progressTextScan setHidden:YES];
-	[chooseScan setEnabled:YES];
-	}
-	else
-	{
-	[progressTextScan setStringValue:NSLocalizedString(@"No discs, try inserting a cd/dvd.", Localized)];
-	[chooseScan setEnabled:NO];
+		if (![rootName isEqualTo:@""])
+		{
+			[progressTextScan setHidden:YES];
+			[chooseScan setEnabled:YES];
+		}
+		else
+		{
+			[progressTextScan setStringValue:NSLocalizedString(@"No discs, try inserting a cd/dvd.", Localized)];
+			[chooseScan setEnabled:NO];
+		}
 	}
 	
-[progressScan stopAnimation:self];
+	[progressScan stopAnimation:self];
 }
 
 //Throw the scanning in a thread, so the app stays responding
 -(void)beginScanning
 {
-[cancelScan setEnabled:NO];
-[chooseScan setEnabled:NO];
-[progressScan setHidden:NO];
-[progressTextScan setHidden:NO];
-[progressTextScan setStringValue:NSLocalizedString(@"Scanning for disks...", Localized)];
-[progressScan startAnimation:self];
-[tableData removeAllObjects];
-[tableView reloadData];
+	[cancelScan setEnabled:NO];
+	[chooseScan setEnabled:NO];
+	[progressScan setHidden:NO];
+	[progressTextScan setHidden:NO];
+	[progressTextScan setStringValue:NSLocalizedString(@"Scanning for disks...", Localized)];
+	[progressScan startAnimation:self];
+	[tableData removeAllObjects];
+	[tableView reloadData];
 
-[NSThread detachNewThreadSelector:@selector(scan:) toTarget:self withObject:nil];
+	[NSThread detachNewThreadSelector:@selector(scan:) toTarget:self withObject:nil];
 }
 
 //The thread
@@ -142,12 +130,12 @@ NSString *rootName = @"";
 
 - (IBAction)chooseScan:(id)sender
 {
-[NSApp endSheet:[self window] returnCode:NSOKButton];
+	[NSApp endSheet:[self window] returnCode:NSOKButton];
 }
 
 - (IBAction)cancelScan:(id)sender
 {
-[NSApp endSheet:[self window] returnCode:0];
+	[NSApp endSheet:[self window] returnCode:0];
 }
 
 ////////////////////
@@ -161,25 +149,25 @@ NSString *rootName = @"";
 - (NSString *)disk
 {
 	if ([tableView selectedRow] == -1)
-	return nil;
+		return nil;
 	else
-	return [[tableData objectAtIndex:[tableView selectedRow]] objectForKey:@"Mounted Path"];
+		return [[tableData objectAtIndex:[tableView selectedRow]] objectForKey:@"Mounted Path"];
 }
 
 - (NSString *)name
 {
 	if ([tableView selectedRow] == -1)
-	return nil;
+		return nil;
 	else
-	return [[[tableData objectAtIndex:[tableView selectedRow]] objectForKey:@"Name"] lastPathComponent];
+		return [[[tableData objectAtIndex:[tableView selectedRow]] objectForKey:@"Name"] lastPathComponent];
 }
 
 - (NSImage *)image
 {
 	if ([tableView selectedRow] == -1)
-	return nil;
+		return nil;
 	else
-	return [[tableData objectAtIndex:[tableView selectedRow]] objectForKey:@"Icon"];
+		return [[tableData objectAtIndex:[tableView selectedRow]] objectForKey:@"Icon"];
 }
 
 ///////////////////////
@@ -190,7 +178,9 @@ NSString *rootName = @"";
 #pragma mark •• Tableview actions
 
 - (BOOL)tableView:(NSTableView *)tableView shouldEditTableColumn:(NSTableColumn *)tableColumn row:(int)row
-{    return NO; }
+{    
+	return NO;
+}
 
 - (int) numberOfRowsInTableView:(NSTableView *)tableView
 {
