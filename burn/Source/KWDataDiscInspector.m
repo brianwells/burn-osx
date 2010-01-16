@@ -63,99 +63,48 @@ static NSArray* filesystemNameTagMappings = nil;
 	// When one of out UI items changes and sends it's action, we look up that
 	// objects tag in this array, which gives us back the proper property to 
 	// use as the dictionary key for the object value of the UI object.
-	if (![KWCommonMethods isPanther])
-	{
-	propertyTagMappings = [[NSArray alloc] initWithObjects:	DRISOMacExtensions,					//1
-															DRISORockRidgeExtensions,			//2
-															DRISOLevel,							//3
-															DRVolumeSet,						//4
-															DRPublisher,						//5
-															DRDataPreparer,						//6
-															DRApplicationIdentifier,			//7
-															DRSystemIdentifier,					//8
-															DRVolumeExpirationDate,				//9
-															DRVolumeEffectiveDate,				//10
-															DRCopyrightFile,					//11
-															DRBibliographicFile,				//12
-															DRAbstractFile,						//13
-															DRDefaultDate,						//14
-															DRVolumeCreationDate,				//15
-															DRVolumeModificationDate,			//16
-															DRVolumeCheckedDate,				//17
-															DRUDFVolumeSetIdentifier,			//18
-															DRUDFVolumeSetTimestamp,			//19
-															DRApplicationIdentifier,			//20
-															DRUDFPrimaryVolumeDescriptorNumber,	//21
-															DRUDFVolumeSequenceNumber,			//22
-															DRUDFMaxVolumeSequenceNumber,		//23
-															DRUDFInterchangeLevel,				//24
-															DRUDFMaxInterchangeLevel,			//25
-															DRUDFApplicationIdentifierSuffix,	//26
-															DRUDFVolumeSetImplementationUse,	//27
-															DRPosixFileMode,					//28
-															DRPosixUID,							//29
-															DRPosixGID,							//30
+	propertyTagMappings = [[NSArray alloc] initWithObjects:	DRISOMacExtensions,						//1
+															DRISORockRidgeExtensions,				//2
+															DRISOLevel,								//3
+															DRVolumeSet,							//4
+															DRPublisher,							//5
+															DRDataPreparer,							//6
+															DRApplicationIdentifier,				//7
+															DRSystemIdentifier,						//8
+															DRVolumeExpirationDate,					//9
+															DRVolumeEffectiveDate,					//10
+															DRCopyrightFile,						//11
+															DRBibliographicFile,					//12
+															DRAbstractFile,							//13
+															DRDefaultDate,							//14
+															DRVolumeCreationDate,					//15
+															DRVolumeModificationDate,				//16
+															DRVolumeCheckedDate,					//17
+															@"DRUDFVolumeSetIdentifier",			//18
+															@"DRUDFVolumeSetTimestamp",				//19
+															DRApplicationIdentifier,				//20
+															@"DRUDFPrimaryVolumeDescriptorNumber",	//21
+															@"DRUDFVolumeSequenceNumber",			//22
+															@"DRUDFMaxVolumeSequenceNumber",		//23
+															@"DRUDFInterchangeLevel",				//24
+															@"DRUDFMaxInterchangeLevel",			//25
+															@"DRUDFApplicationIdentifierSuffix",	//26
+															@"DRUDFVolumeSetImplementationUse",		//27
+															DRPosixFileMode,						//28
+															DRPosixUID,								//29
+															DRPosixGID,								//30
 															nil];
-	}
-	else
-	{
-	propertyTagMappings = [[NSArray alloc] initWithObjects:	DRISOMacExtensions,					//1
-															DRISORockRidgeExtensions,			//2
-															DRISOLevel,							//3
-															DRVolumeSet,						//4
-															DRPublisher,						//5
-															DRDataPreparer,						//6
-															DRApplicationIdentifier,			//7
-															DRSystemIdentifier,					//8
-															DRVolumeExpirationDate,				//9
-															DRVolumeEffectiveDate,				//10
-															DRCopyrightFile,					//11
-															DRBibliographicFile,				//12
-															DRAbstractFile,						//13
-															DRDefaultDate,						//14
-															DRVolumeCreationDate,				//15
-															DRVolumeModificationDate,			//16
-															DRVolumeCheckedDate,				//17
-															@"",
-															@"",
-															DRApplicationIdentifier,			//20
-															@"",
-															@"",
-															@"",
-															@"",
-															@"",
-															@"",
-															@"",
-															DRPosixFileMode,					//28
-															DRPosixUID,							//29
-															DRPosixGID,							//30
-															nil];
-	}
 															
 	// In a similar arrangement to above, we do the same object tag -> index mappings
 	// for the filesystem names.
-	if (![KWCommonMethods isPanther])
-	{
 	filesystemNameTagMappings = [[NSArray alloc] initWithObjects:	DRAllFilesystems,			//31
 																	DRISO9660,					//32
 																	DRISO9660LevelOne,			//33
 																	DRISO9660LevelTwo,			//34
 																	DRJoliet,					//35
 																	DRHFSPlus,					//36
-																	DRUDF,						//37
+																	@"DRUDF",					//37
 																	nil];
-	}
-	else
-	{
-	filesystemNameTagMappings = [[NSArray alloc] initWithObjects:	DRAllFilesystems,			//31
-																	DRISO9660,					//32
-																	DRISO9660LevelOne,			//33
-																	DRISO9660LevelTwo,			//34
-																	DRJoliet,					//35
-																	DRHFSPlus,					//36
-																	@"",
-																	nil];
-	}
 }
 
 - (id) init
@@ -171,45 +120,48 @@ static NSArray* filesystemNameTagMappings = nil;
 - (void) dealloc
 {
 	[fsProperties release];
-	fsProperties = nil;
 	
 	[super dealloc];
 }
 
 - (void)awakeFromNib
 {
-[mainIconView setImage:[[NSWorkspace sharedWorkspace] iconForFileType:NSFileTypeForHFSTypeCode(kGenericCDROMIcon)]];
+	[mainIconView setImage:[[NSWorkspace sharedWorkspace] iconForFileType:NSFileTypeForHFSTypeCode(kGenericCDROMIcon)]];
 
-	if ([KWCommonMethods isPanther])
-	[tabView removeTabViewItem:[tabView tabViewItemAtIndex:3]];
+	if ([KWCommonMethods OSVersion] < 0x1040)
+		[tabView removeTabViewItem:[tabView tabViewItemAtIndex:3]];
 	
-[fileList setDoubleAction:@selector(ok:)];
+	[fileList setDoubleAction:@selector(ok:)];
 
-//Needs to be set in Tiger (Took me a while to figure out since it worked since Jaguar without target)
-[fileList setTarget:self];
+	//Needs to be set in Tiger (Took me a while to figure out since it worked since Jaguar without target)
+	[fileList setTarget:self];
 }
 
 - (IBAction)ok:(id)sender
 {
 	if ([fileList selectedRow] > -1)
-	[NSApp stopModalWithCode:NSOKButton];
+		[NSApp stopModalWithCode:NSOKButton];
 }
 
 - (IBAction)cancel:(id)sender
 {
-[NSApp stopModalWithCode:NSCancelButton];
+	[NSApp stopModalWithCode:NSCancelButton];
 }
 
 - (IBAction)setVolumeProperty:(id)sender
 {
-	if ([DRISOLevel isEqualTo:[propertyTagMappings objectAtIndex:[sender tag] - 1]])
+	int currentIndex = [sender tag] - 1;
+	NSString *propertyTag = [propertyTagMappings objectAtIndex:[sender tag] - 1];
+	id objectValue = [sender objectValue];
+
+	if ([DRISOLevel isEqualTo:propertyTag])
 	{
 		// The ISO level needs special handling since the objectValue of a popup menu is the index of the
 		// menu item, which starts at zero. We need it to start at 1.
 		if ([NSNumber numberWithInt:[sender indexOfSelectedItem] + 1])
 		{
-		[fsProperties setObject:[NSNumber numberWithInt:[sender indexOfSelectedItem] + 1] forKey:DRISOLevel];
-		[[NSNotificationCenter defaultCenter] postNotificationName:@"KWDiscPropertiesChanged" object:[fsProperties retain]];
+			[fsProperties setObject:[NSNumber numberWithInt:[sender indexOfSelectedItem] + 1] forKey:DRISOLevel];
+			[[NSNotificationCenter defaultCenter] postNotificationName:@"KWDiscPropertiesChanged" object:[fsProperties retain]];
 		}
 	}
 	else
@@ -219,12 +171,12 @@ static NSArray* filesystemNameTagMappings = nil;
 		// passing that along.
 		if ([sender objectValue])
 		{
-			if ([sender tag] == 26 | [sender tag] == 27)
-			[fsProperties setObject:[[sender objectValue] dataUsingEncoding:NSASCIIStringEncoding allowLossyConversion:YES] forKey:[propertyTagMappings objectAtIndex:[sender tag] - 1]];
+			if (currentIndex == 27 | currentIndex == 28)
+				[fsProperties setObject:[objectValue dataUsingEncoding:NSASCIIStringEncoding allowLossyConversion:YES] forKey:propertyTag];
 			else
-			[fsProperties setObject:[sender objectValue] forKey:[propertyTagMappings objectAtIndex:[sender tag] - 1]];
+				[fsProperties setObject:objectValue forKey:propertyTag];
 		
-		[[NSNotificationCenter defaultCenter] postNotificationName:@"KWDiscPropertiesChanged" object:[fsProperties retain]];
+			[[NSNotificationCenter defaultCenter] postNotificationName:@"KWDiscPropertiesChanged" object:[fsProperties retain]];
 		}
 	}
 }
@@ -244,16 +196,18 @@ static NSArray* filesystemNameTagMappings = nil;
 	int i;
 	for (i=0;i<[rootChildren count];i++)
 	{
+		id currentObject = [rootChildren objectAtIndex:i];
+	
 		// A cheap (but somewhat lame) way of identifing a file is to check to see if it's expandable.
 		// If not, it's a file.
-		if ([[rootChildren objectAtIndex:i] isKindOfClass:[DRFile class]])
+		if ([currentObject isKindOfClass:[DRFile class]])
 		{
-			if (![[[rootChildren objectAtIndex:i] baseName] isEqualTo:@".VolumeIcon.icns"])
+			if (![[currentObject baseName] isEqualTo:@".VolumeIcon.icns"])
 			{
-			NSMutableDictionary *rowData = [NSMutableDictionary dictionary];
-			[rowData setObject:[[rootChildren objectAtIndex:i] baseName] forKey:@"name"];
-			[rowData setObject:[rootChildren objectAtIndex:i] forKey:@"drfsobject"];
-			[mutableRootFiles addObject:rowData];
+				NSMutableDictionary *rowData = [NSMutableDictionary dictionary];
+				[rowData setObject:[currentObject baseName] forKey:@"name"];
+				[rowData setObject:currentObject forKey:@"drfsobject"];
+				[mutableRootFiles addObject:rowData];
 			}
 		}
 	}
@@ -275,7 +229,7 @@ static NSArray* filesystemNameTagMappings = nil;
 		// button that was pressed and subtracting off 100. Then we look up the text field
 		// in the info window using viewWithTag:. We use this to set the text shown in the 
 		// field to let the user know what file they selected.
-		NSTextField*	propertyView = [myView viewWithTag:[sender tag] - 99];
+		NSTextField* propertyView = [myView viewWithTag:[sender tag] - 99];
 		
 		[propertyView setObjectValue:[selectedItem valueForKey:@"name"]];
 		[fsProperties setObject:[selectedItem valueForKey:@"drfsobject"] forKey:[propertyTagMappings objectAtIndex:[propertyView tag] - 1]];
@@ -345,212 +299,76 @@ static NSArray* filesystemNameTagMappings = nil;
 - (IBAction)setUDFVersion:(id)sender
 {
 	if ([sender indexOfSelectedItem] == 0)
-	[filesystemRoot setProperty:DRUDFVersion102 forKey:DRUDFWriteVersion inFilesystem:DRUDF];
+		[filesystemRoot setProperty:DRUDFVersion102 forKey:DRUDFWriteVersion inFilesystem:@"DRUDF"];
 	else
-	[filesystemRoot setProperty:DRUDFVersion150 forKey:DRUDFWriteVersion inFilesystem:DRUDF];
+		[filesystemRoot setProperty:DRUDFVersion150 forKey:DRUDFWriteVersion inFilesystem:@"DRUDF"];
 }
 
 - (void)updateView:(KWDRFolder *)object
 {
-NSEnumerator *iter = [[[NSEnumerator alloc] init] autorelease];
-NSControl *cntl;
-
 	NSDictionary *properties = [object discProperties];
+	BOOL containsHFS = ([filesystemRoot effectiveFilesystemMask] & DRFilesystemInclusionMaskHFSPlus);
+	BOOL containsISO = ([filesystemRoot effectiveFilesystemMask] & DRFilesystemInclusionMaskISO9660);
+	BOOL containsJoliet = ([filesystemRoot effectiveFilesystemMask] & DRFilesystemInclusionMaskJoliet);
+	BOOL containsUDF = NO;
 		
-		if (properties)
-		{
+	if (properties)
+	{
 		NSMutableDictionary *tempDict = [NSMutableDictionary dictionary];
 		[tempDict addEntriesFromDictionary:properties];
-	
-			if ([properties objectForKey:DRCopyrightFile])
-			{
-				if ([[NSFileManager defaultManager] fileExistsAtPath:[properties objectForKey:DRCopyrightFile]])
-				[tempDict setObject:[DRFile fileWithPath:[properties objectForKey:DRCopyrightFile]] forKey:DRCopyrightFile];
-			}
 		
-			if ([properties objectForKey:DRBibliographicFile])
-			{
-				if ([[NSFileManager defaultManager] fileExistsAtPath:[properties objectForKey:DRBibliographicFile]])
-				[tempDict setObject:[DRFile fileWithPath:[properties objectForKey:DRBibliographicFile]] forKey:DRBibliographicFile];
-			}
+		NSArray *fileKeys = [NSArray arrayWithObjects:DRCopyrightFile, DRBibliographicFile, DRAbstractFile,nil];
 		
-			if ([properties objectForKey:DRAbstractFile])
+		int x;
+		for (x=0;x<[fileKeys count];x++)
+		{
+			NSString *currentKey = [fileKeys objectAtIndex:x];
+			NSString *currentFile = [properties objectForKey:currentKey];
+			
+			if (currentFile)
 			{
-				if ([[NSFileManager defaultManager] fileExistsAtPath:[properties objectForKey:DRAbstractFile]])
-				[tempDict setObject:[DRFile fileWithPath:[properties objectForKey:DRAbstractFile]] forKey:DRAbstractFile];
+				if ([[NSFileManager defaultManager] fileExistsAtPath:currentFile])
+					[tempDict setObject:[DRFile fileWithPath:currentFile] forKey:currentKey];
 			}
-
-		[fsProperties addEntriesFromDictionary:tempDict];
 		}
+	
+		[fsProperties addEntriesFromDictionary:tempDict];
+	}
 
 	if (fsProperties)
 	{
-	//Set the different properties saved in a Burn file and attached to our root DRFolder
-		iter = [[[hfsOptions contentView] subviews] objectEnumerator];
-		while ((cntl = [iter nextObject]) != NULL)
-		{
-		int index = [cntl tag] - 1;
-		id property;
-		
-			if (index > -1 && index < 30)
-			property = [fsProperties objectForKey:[propertyTagMappings objectAtIndex:index]];
-		
-			if (property)
-			[cntl setObjectValue:property];
-			
-		property = nil;
-		}
-		
-		iter = [[[isoOptions contentView] subviews] objectEnumerator];
-		while ((cntl = [iter nextObject]) != NULL)
-		{
-		int index = [cntl tag] - 1;
-		id property;
-		
-			if (index > -1 && index < 30)
-			{	
-				if ([[propertyTagMappings objectAtIndex:index] isEqualTo:DRCopyrightFile] | [[propertyTagMappings objectAtIndex:index] isEqualTo:DRBibliographicFile] | [[propertyTagMappings objectAtIndex:index] isEqualTo:DRAbstractFile])
-				property = [[fsProperties objectForKey:[propertyTagMappings objectAtIndex:index]] baseName];
-				else
-				property = [fsProperties objectForKey:[propertyTagMappings objectAtIndex:index]];
-			}
-		
-			if (property)
-			[cntl setObjectValue:property];
-			
-		property = nil;
-		}
-		
-		iter = [[[jolietOptions contentView] subviews] objectEnumerator];
-		while ((cntl = [iter nextObject]) != NULL)
-		{
-		int index = [cntl tag] - 1;
-		id property;
-		
-			if (index > -1 && index < 30)
-			property = [fsProperties objectForKey:[propertyTagMappings objectAtIndex:index]];
-		
-			if (property)
-			[cntl setObjectValue:property];
-			
-		property = nil;
-		}
-		
-		if (![KWCommonMethods isPanther])
-		{
-			iter = [[[udfOptions contentView] subviews] objectEnumerator];
-			while ((cntl = [iter nextObject]) != NULL)
-			{
-			int index = [cntl tag] - 1;
-			id property;
-		
-				if (index > -1 && index < 30)
-				property = [fsProperties objectForKey:[propertyTagMappings objectAtIndex:index]];
-		
-				if (property)
-				[cntl setObjectValue:property];
-				
-			property = nil;
-			}
-		}
-		
-		iter = [[[allOptions contentView] subviews] objectEnumerator];
-		while ((cntl = [iter nextObject]) != NULL)
-		{
-		int index = [cntl tag] - 1;
-		id property;
-		
-			if (index > -1 && index < 30)
-			property = [fsProperties objectForKey:[propertyTagMappings objectAtIndex:index]];
-		
-			if (property)
-			[cntl setObjectValue:property];
-			
-		property = nil;
-		}
-		
-	//Set ISO level
-	NSString *isoLevelString = [[fsProperties objectForKey:DRISOLevel] stringValue];
+			if ([KWCommonMethods OSVersion] >= 0x1040)
+			containsUDF = ([filesystemRoot effectiveFilesystemMask] & 1<<2);
 	
-		if (isoLevelString)
-		{
-			if ([isoLevelString isEqualTo:@"1"])
-			[isoLevel selectItemAtIndex:0];
-			else
-			[isoLevel selectItemAtIndex:1];
-		}
+		[self setOptionsForViews:[[hfsOptions contentView] subviews] setEnabled:containsHFS];
+		[self setOptionsForViews:[[isoOptions contentView] subviews] setEnabled:containsISO];
+		[self setOptionsForViews:[[jolietOptions contentView] subviews] setEnabled:containsJoliet];
+			if ([KWCommonMethods OSVersion] >= 0x1040)
+			[self setOptionsForViews:[[udfOptions contentView] subviews] setEnabled:containsUDF];
+		[self setOptionsForViews:[[allOptions contentView] subviews] setEnabled:YES];
 		
-	isoLevelString = nil;
+		//Set ISO level
+		int isoLevelNumber = [[fsProperties objectForKey:DRISOLevel] intValue] - 1;
+		[isoLevel selectItemAtIndex:isoLevelNumber];
 	}
 	
 	[object setDiscProperties:nil];
 	
-	if (![KWCommonMethods isPanther])
+	if ([KWCommonMethods OSVersion] >= 0x1040)
 	{
-	//Set UDF version
-	NSString *udfVersionString = [[filesystemRoot propertiesForFilesystem:DRUDF mergeWithOtherFilesystems:NO] objectForKey:DRUDFWriteVersion];
-	
-		if (udfVersionString)
-		{
-			if ([udfVersionString isEqualTo:DRUDFVersion150])
-			[udfVersion selectItemAtIndex:1];
-			else
-			[udfVersion selectItemAtIndex:0];
-		}
-		
-	udfVersionString = nil;
+		//Set UDF version
+		int udfVersionNumber = [[NSNumber numberWithBool:[[[filesystemRoot propertiesForFilesystem:@"DRUDF" mergeWithOtherFilesystems:NO] objectForKey:DRUDFWriteVersion] isEqualTo:DRUDFVersion150]] intValue] + 1;
+		[udfVersion selectItemAtIndex:udfVersionNumber];
 	}
 
-	iter = [[[hfsOptions contentView] subviews] objectEnumerator];
-	while ((cntl = [iter nextObject]) != NULL)
-	{
-		if ([cntl respondsToSelector:@selector(setEnabled:)])
-			[cntl setEnabled:([filesystemRoot effectiveFilesystemMask] & DRFilesystemInclusionMaskHFSPlus)];
-	}
-
-	iter = [[[isoOptions contentView] subviews] objectEnumerator];
-	while ((cntl = [iter nextObject]) != NULL)
-	{
-		if ([cntl respondsToSelector:@selector(setEnabled:)])
-			[cntl setEnabled:([filesystemRoot effectiveFilesystemMask] & DRFilesystemInclusionMaskISO9660)];
-	}
-
-	iter = [[[jolietOptions contentView] subviews] objectEnumerator];
-	while ((cntl = [iter nextObject]) != NULL)
-	{
-		if ([cntl respondsToSelector:@selector(setEnabled:)])
-			[cntl setEnabled:([filesystemRoot effectiveFilesystemMask] & DRFilesystemInclusionMaskJoliet)];
-	}
-
-		if (![KWCommonMethods isPanther])
-		{
-			iter = [[[udfOptions contentView] subviews] objectEnumerator];
-			while ((cntl = [iter nextObject]) != NULL)
-			{
-			if ([cntl respondsToSelector:@selector(setEnabled:)])
-			[cntl setEnabled:([filesystemRoot effectiveFilesystemMask] & DRFilesystemInclusionMaskUDF)];
-			}
-		}
-
-	if ([filesystemRoot effectiveFilesystemMask] & DRFilesystemInclusionMaskHFSPlus)
-	{
-	[tabView selectTabViewItemWithIdentifier:@"HFS+"];
-	}
-	else if ([filesystemRoot effectiveFilesystemMask] & DRFilesystemInclusionMaskISO9660)
-	{
-	[tabView selectTabViewItemWithIdentifier:@"ISO"];
-	}
-	else if ([filesystemRoot effectiveFilesystemMask] & DRFilesystemInclusionMaskJoliet)
-	{
-	[tabView selectTabViewItemWithIdentifier:@"Joliet"];
-	}
-	else if (![KWCommonMethods isPanther])
-	{
-		if ([filesystemRoot effectiveFilesystemMask] & DRFilesystemInclusionMaskUDF)
-		{
+	if (containsHFS)
+		[tabView selectTabViewItemWithIdentifier:@"HFS+"];
+	else if (containsISO)
+		[tabView selectTabViewItemWithIdentifier:@"ISO"];
+	else if (containsJoliet)
+		[tabView selectTabViewItemWithIdentifier:@"Joliet"];
+	else if (containsUDF)
 		[tabView selectTabViewItemWithIdentifier:@"UDF"];
-		}
-	}
 
 	NSString*	volumeName;
 	
@@ -565,8 +383,8 @@ NSControl *cntl;
 	// when we update the filesystem root, make sure that the text fields for the 
 	// different filesystem names are all in sync.
 	[hfsName setStringValue:[filesystemRoot specificNameForFilesystem:DRHFSPlus]];
-		if (![KWCommonMethods isPanther])
-		[udfName setStringValue:[filesystemRoot specificNameForFilesystem:DRUDF]];
+		if ([KWCommonMethods OSVersion] >= 0x1040)
+			[udfName setStringValue:[filesystemRoot specificNameForFilesystem:@"DRUDF"]];
 	
 	if ([[fsProperties objectForKey:DRISOLevel] intValue] == 1)
 	{
@@ -585,62 +403,59 @@ NSControl *cntl;
 		[filesystemRoot setSpecificName:volumeName forFilesystem:DRJoliet];
 	}
 
-[jolietName setStringValue:volumeName];
+	[jolietName setStringValue:volumeName];
 
-[uid setObjectValue:[filesystemRoot propertyForKey:[propertyTagMappings objectAtIndex:[uid tag] - 1] inFilesystem:DRAllFilesystems mergeWithOtherFilesystems:NO]];
-[gid setObjectValue:[filesystemRoot propertyForKey:[propertyTagMappings objectAtIndex:[gid tag] - 1] inFilesystem:DRAllFilesystems mergeWithOtherFilesystems:NO]];
+	[uid setObjectValue:[filesystemRoot propertyForKey:[propertyTagMappings objectAtIndex:[uid tag] - 1] inFilesystem:DRAllFilesystems mergeWithOtherFilesystems:NO]];
+	[gid setObjectValue:[filesystemRoot propertyForKey:[propertyTagMappings objectAtIndex:[gid tag] - 1] inFilesystem:DRAllFilesystems mergeWithOtherFilesystems:NO]];
 
-unsigned short mode = [[filesystemRoot propertyForKey:[propertyTagMappings objectAtIndex:27] inFilesystem:DRAllFilesystems mergeWithOtherFilesystems:NO] unsignedShortValue];
+	unsigned short mode = [[filesystemRoot propertyForKey:[propertyTagMappings objectAtIndex:27] inFilesystem:DRAllFilesystems mergeWithOtherFilesystems:NO] unsignedShortValue];
 
-[[perms cellWithTag:2] setState:(0x0001 & (mode >> 6))];
-[[perms cellWithTag:1] setState:(0x0001 & (mode >> 7))];
-[[perms cellWithTag:0] setState:(0x0001 & (mode >> 8))];
+	[[perms cellWithTag:2] setState:(0x0001 & (mode >> 6))];
+	[[perms cellWithTag:1] setState:(0x0001 & (mode >> 7))];
+	[[perms cellWithTag:0] setState:(0x0001 & (mode >> 8))];
 
-[[perms cellWithTag:5] setState:(0x0001 & (mode >> 3))];	
-[[perms cellWithTag:4] setState:(0x0001 & (mode >> 4))];
-[[perms cellWithTag:3] setState:(0x0001 & (mode >> 5))];
+	[[perms cellWithTag:5] setState:(0x0001 & (mode >> 3))];	
+	[[perms cellWithTag:4] setState:(0x0001 & (mode >> 4))];
+	[[perms cellWithTag:3] setState:(0x0001 & (mode >> 5))];
 	
-[[perms cellWithTag:8] setState:(0x0001 & (mode >> 0))];
-[[perms cellWithTag:7] setState:(0x0001 & (mode >> 1))];
-[[perms cellWithTag:6] setState:(0x0001 & (mode >> 2))];
+	[[perms cellWithTag:8] setState:(0x0001 & (mode >> 0))];
+	[[perms cellWithTag:7] setState:(0x0001 & (mode >> 1))];
+	[[perms cellWithTag:6] setState:(0x0001 & (mode >> 2))];
 
-[[perms cellWithTag:11] setState:(0x0001 & (mode >> 9))];
-[[perms cellWithTag:10] setState:(0x0001 & (mode >> 10))];
-[[perms cellWithTag:9] setState:(0x0001 & (mode >> 11))];
+	[[perms cellWithTag:11] setState:(0x0001 & (mode >> 9))];
+	[[perms cellWithTag:10] setState:(0x0001 & (mode >> 10))];
+	[[perms cellWithTag:9] setState:(0x0001 & (mode >> 11))];
 
 	NSData *data = [filesystemRoot propertyForKey:DRMacWindowBounds inFilesystem:DRHFSPlus mergeWithOtherFilesystems:NO];
 	if (data)
 	{
-	Rect *windowBounds = (Rect*)[data bytes];
+		Rect *windowBounds = (Rect*)[data bytes];
 	
-	[hfsBoundsT setIntValue:windowBounds->top];
-	[hfsBoundsL setIntValue:windowBounds->left];
-	[hfsBoundsB setIntValue:windowBounds->bottom];
-	[hfsBoundsR setIntValue:windowBounds->right];
+		[hfsBoundsT setIntValue:windowBounds->top];
+		[hfsBoundsL setIntValue:windowBounds->left];
+		[hfsBoundsB setIntValue:windowBounds->bottom];
+		[hfsBoundsR setIntValue:windowBounds->right];
 	}
 	else
 	{
-	[hfsBoundsT setStringValue:@""];
-	[hfsBoundsL setStringValue:@""];
-	[hfsBoundsB setStringValue:@""];
-	[hfsBoundsR setStringValue:@""];
+		[[NSArray arrayWithObjects:hfsBoundsT, hfsBoundsL, hfsBoundsB, hfsBoundsR,nil] makeObjectsPerformSelector:@selector(setStringValue:) withObject:@""];
 	}
 	
 	data = [filesystemRoot propertyForKey:DRMacScrollPosition inFilesystem:DRHFSPlus mergeWithOtherFilesystems:NO];
 	if (data)
 	{
-	Point *scrollPosition = (Point*)[data bytes];
+		Point *scrollPosition = (Point*)[data bytes];
 		
-	[hfsScrollX setIntValue:scrollPosition->h];
-	[hfsScrollY setIntValue:scrollPosition->v];
+		[hfsScrollX setIntValue:scrollPosition->h];
+		[hfsScrollY setIntValue:scrollPosition->v];
 	}
 	else
 	{
-	[hfsScrollX setStringValue:@""];
-	[hfsScrollY setStringValue:@""];
+		[hfsScrollX setStringValue:@""];
+		[hfsScrollY setStringValue:@""];
 	}
 
-[hfsViewType setObjectValue:[filesystemRoot propertyForKey:DRMacWindowView inFilesystem:DRHFSPlus mergeWithOtherFilesystems:NO]];
+	[hfsViewType setObjectValue:[filesystemRoot propertyForKey:DRMacWindowView inFilesystem:DRHFSPlus mergeWithOtherFilesystems:NO]];
 
 	//Check for disc icon
 	NSArray *rootChildren = [(DRFolder *)object children];
@@ -649,33 +464,33 @@ unsigned short mode = [[filesystemRoot propertyForKey:[propertyTagMappings objec
 	{
 		if ([[[rootChildren objectAtIndex:i] baseName] isEqualTo:@".VolumeIcon.icns"])
 		{
-		NSImage *icon = [[[NSImage alloc] initWithContentsOfFile:[[rootChildren objectAtIndex:i] sourcePath]] autorelease];
-		[iconView setImage:icon];
+			NSImage *icon = [[[NSImage alloc] initWithContentsOfFile:[[rootChildren objectAtIndex:i] sourcePath]] autorelease];
+			[iconView setImage:icon];
 		}
 	}
 }
 
 - (IBAction)setPermissions:(id)sender
 {
-unsigned short mode = 0;
+	unsigned short mode = 0;
 
-mode |= [[sender cellWithTag:2] intValue] << 6;
-mode |= [[sender cellWithTag:1] intValue] << 7;
-mode |= [[sender cellWithTag:0] intValue] << 8;
+	mode |= [[sender cellWithTag:2] intValue] << 6;
+	mode |= [[sender cellWithTag:1] intValue] << 7;
+	mode |= [[sender cellWithTag:0] intValue] << 8;
 
-mode |= [[sender cellWithTag:5] intValue] << 3;	
-mode |= [[sender cellWithTag:4] intValue] << 4;
-mode |= [[sender cellWithTag:3] intValue] << 5;
+	mode |= [[sender cellWithTag:5] intValue] << 3;	
+	mode |= [[sender cellWithTag:4] intValue] << 4;
+	mode |= [[sender cellWithTag:3] intValue] << 5;
 	
-mode |= [[sender cellWithTag:8] intValue] << 0;
-mode |= [[sender cellWithTag:7] intValue] << 1;
-mode |= [[sender cellWithTag:6] intValue] << 2;
+	mode |= [[sender cellWithTag:8] intValue] << 0;
+	mode |= [[sender cellWithTag:7] intValue] << 1;
+	mode |= [[sender cellWithTag:6] intValue] << 2;
 
-mode |= [[sender cellWithTag:11] intValue] << 9;
-mode |= [[sender cellWithTag:10] intValue] << 10;
-mode |= [[sender cellWithTag:9] intValue] << 11;
+	mode |= [[sender cellWithTag:11] intValue] << 9;
+	mode |= [[sender cellWithTag:10] intValue] << 10;
+	mode |= [[sender cellWithTag:9] intValue] << 11;
 
-[filesystemRoot setProperty:[NSNumber numberWithUnsignedShort:mode] forKey:[propertyTagMappings objectAtIndex:[sender tag] -1] inFilesystem:DRAllFilesystems];
+	[filesystemRoot setProperty:[NSNumber numberWithUnsignedShort:mode] forKey:[propertyTagMappings objectAtIndex:[sender tag] -1] inFilesystem:DRAllFilesystems];
 }
 
 - (NSDictionary*)volumeProperties
@@ -685,29 +500,29 @@ mode |= [[sender cellWithTag:9] intValue] << 11;
 
 - (IBAction)setIcon:(id)sender;
 {
-NSOpenPanel *openPanel = [NSOpenPanel openPanel];
+	NSOpenPanel *openPanel = [NSOpenPanel openPanel];
 	
-[openPanel setCanChooseDirectories:NO];
-[openPanel setCanChooseFiles:YES];
-[openPanel setAllowsMultipleSelection:NO];
-[openPanel setResolvesAliases:YES];
+	[openPanel setCanChooseDirectories:NO];
+	[openPanel setCanChooseFiles:YES];
+	[openPanel setAllowsMultipleSelection:NO];
+	[openPanel setResolvesAliases:YES];
 
-[openPanel beginSheetForDirectory:nil file:nil types:[NSArray arrayWithObject:@"icns"] modalForWindow:[myView window] modalDelegate:self didEndSelector:@selector(openFileEnded:returnCode:contextInfo:) contextInfo:nil];
+	[openPanel beginSheetForDirectory:nil file:nil types:[NSArray arrayWithObject:@"icns"] modalForWindow:[myView window] modalDelegate:self didEndSelector:@selector(openFileEnded:returnCode:contextInfo:) contextInfo:nil];
 }
 
 - (void)openFileEnded:(NSOpenPanel*)panel returnCode:(int)returnCode contextInfo:(void *)contextInfo
 {
-[panel orderOut:self];
+	[panel orderOut:self];
 
 	if (returnCode == NSOKButton)
 	{
-	[self deleteIcon:self];
-	DRFile *icon = [DRFile fileWithPath:[panel filename]];
-	[icon setBaseName:@".VolumeIcon.icns"];
-	[icon setExplicitFilesystemMask:DRFilesystemInclusionMaskHFSPlus];
-	[filesystemRoot addChild:icon];
-	[filesystemRoot setProperty:[NSNumber numberWithUnsignedShort:1024] forKey:DRMacFinderFlags inFilesystem:DRHFSPlus];
-	[iconView setImage:[[NSImage alloc] initWithContentsOfFile:[panel filename]]];
+		[self deleteIcon:self];
+		DRFile *icon = [DRFile fileWithPath:[panel filename]];
+		[icon setBaseName:@".VolumeIcon.icns"];
+		[icon setExplicitFilesystemMask:DRFilesystemInclusionMaskHFSPlus];
+		[filesystemRoot addChild:icon];
+		[filesystemRoot setProperty:[NSNumber numberWithUnsignedShort:1024] forKey:DRMacFinderFlags inFilesystem:DRHFSPlus];
+		[iconView setImage:[[NSImage alloc] initWithContentsOfFile:[panel filename]]];
 	}
 }
 
@@ -720,38 +535,38 @@ NSOpenPanel *openPanel = [NSOpenPanel openPanel];
 	{
 		if ([[[rootChildren objectAtIndex:i] baseName] isEqualTo:@".VolumeIcon.icns"])
 		{
-		[filesystemRoot removeChild:[rootChildren objectAtIndex:i]];
-		[iconView setImage:nil];
+			[filesystemRoot removeChild:[rootChildren objectAtIndex:i]];
+			[iconView setImage:nil];
 		}
 	}
 }
 
 - (IBAction)setHFSBounds:(id)sender
 {
-NSData*	boundsData;
-Rect	windowBounds;
+	NSData*	boundsData;
+	Rect	windowBounds;
 	
-windowBounds.top = [hfsBoundsT intValue];
-windowBounds.left = [hfsBoundsL intValue];
-windowBounds.bottom = [hfsBoundsB intValue];
-windowBounds.right = [hfsBoundsR intValue];
+	windowBounds.top = [hfsBoundsT intValue];
+	windowBounds.left = [hfsBoundsL intValue];
+	windowBounds.bottom = [hfsBoundsB intValue];
+	windowBounds.right = [hfsBoundsR intValue];
 	
-boundsData = [NSData dataWithBytes:&windowBounds length:sizeof(windowBounds)];
+	boundsData = [NSData dataWithBytes:&windowBounds length:sizeof(windowBounds)];
 
-[filesystemRoot setProperty:boundsData forKey:DRMacWindowBounds inFilesystem:DRHFSPlus];
+	[filesystemRoot setProperty:boundsData forKey:DRMacWindowBounds inFilesystem:DRHFSPlus];
 }
 
 - (IBAction)setHFSScroll:(id)sender
 {
-NSData*	positionData;
-Point	scrollPosition;
+	NSData*	positionData;
+	Point	scrollPosition;
 	
-scrollPosition.h = [hfsScrollX intValue];
-scrollPosition.v = [hfsScrollY intValue];
+	scrollPosition.h = [hfsScrollX intValue];
+	scrollPosition.v = [hfsScrollY intValue];
 	
-positionData = [NSData dataWithBytes:&scrollPosition length:sizeof(scrollPosition)];
+	positionData = [NSData dataWithBytes:&scrollPosition length:sizeof(scrollPosition)];
 
-[filesystemRoot setProperty:positionData forKey:DRMacScrollPosition inFilesystem:DRHFSPlus];
+	[filesystemRoot setProperty:positionData forKey:DRMacScrollPosition inFilesystem:DRHFSPlus];
 }
 
 - (IBAction)setHFSViewType:(id)sender
@@ -776,34 +591,75 @@ positionData = [NSData dataWithBytes:&scrollPosition length:sizeof(scrollPositio
 #pragma mark •• Data source methods
 - (int)numberOfRowsInTableView:(NSTableView *)aTableView
 {
-return [rootFiles count];
+	return [rootFiles count];
 }
 
 - (id)tableView:(NSTableView *)aTableView objectValueForTableColumn:(NSTableColumn *)tableColumn row:(int)rowIndex
 {
-return [[rootFiles objectAtIndex:rowIndex]valueForKey:[tableColumn identifier]];
+	return [[rootFiles objectAtIndex:rowIndex]valueForKey:[tableColumn identifier]];
 }
 
 #pragma mark -
 #pragma mark •• Table delegate methods
 - (void)tableViewSelectionDidChange:(NSNotification *)aNotification
 {
-NSTableView*	tv = [aNotification object];
+	NSTableView*	tv = [aNotification object];
+	BOOL rowSelected = ([tv selectedRow] != -1); 
 	
-	if ([tv selectedRow] != -1)
-	{
-	selectedItem = [rootFiles objectAtIndex:[tv selectedRow]];
-	[okButton setEnabled:YES];
-	}
-	else
-	{
-	[okButton setEnabled:NO];
-	}
+	if (rowSelected)
+		selectedItem = [rootFiles objectAtIndex:[tv selectedRow]];
+	
+	[okButton setEnabled:rowSelected];
 }
 
 - (id)myView
 {
-return myView;
+	return myView;
+}
+
+#pragma mark -
+#pragma mark •• Convenience methods
+
+- (void)setOptionsForViews:(NSArray *)views setEnabled:(BOOL)enabled
+{
+	NSEnumerator *iter = [views objectEnumerator];
+	id cntl;
+	
+	while ((cntl = [iter nextObject]) != NULL)
+	{
+		if ([cntl isKindOfClass:[NSTabView class]])
+		{
+			NSArray *views = [tabView subviews];
+			
+			int x;
+			for (x=0;x<[views count];x++)
+			{
+				id currentView = [views objectAtIndex:x];
+				[self setOptionsForViews:[currentView subviews] setEnabled:enabled];
+			}
+		}
+		else
+		{
+			int index = [cntl tag] - 1;
+		
+			if (index > -1 && index < 30)
+			{
+				id property;
+			
+				id currentTag = [propertyTagMappings objectAtIndex:index];
+				property = [fsProperties objectForKey:currentTag];
+			
+				if ([currentTag isEqualTo:DRCopyrightFile] | [currentTag isEqualTo:DRBibliographicFile] | [currentTag isEqualTo:DRAbstractFile])
+					property = [property baseName];
+					
+				if (property)
+					[cntl setObjectValue:property];
+			}
+		
+				if ([cntl respondsToSelector:@selector(setEnabled:)])
+				[cntl setEnabled:enabled];
+		}
+	}
 }
 
 @end
