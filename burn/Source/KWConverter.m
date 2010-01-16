@@ -13,30 +13,25 @@
 
 - (id) init
 {
-self = [super init];
+	self = [super init];
 
-status = 0;
-inputWidth = @"";
-inputHeight = @"";
-inputTotalTime = @"";
-inputFps = @"";
-aspectValue = -1;
-userCanceled = NO;
-convertedFiles = [[NSMutableArray alloc] init];
-failedFilesExplained = [[NSMutableArray alloc] init];
-[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(cancelEncoding) name:@"KWStopConverter" object:nil];
-[[NSNotificationCenter defaultCenter] postNotificationName:@"KWCancelNotificationChanged" object:@"KWStopConverter"];
+	status = 0;
+	userCanceled = NO;
 	
-return self;
+	convertedFiles = [[NSMutableArray alloc] init];
+
+	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(cancelEncoding) name:@"KWStopConverter" object:nil];
+	[[NSNotificationCenter defaultCenter] postNotificationName:@"KWCancelNotificationChanged" object:@"KWStopConverter"];
+	
+	return self;
 }
 
 - (void)dealloc
 {
-[convertedFiles release];
-[failedFilesExplained release];
-[[NSNotificationCenter defaultCenter] removeObserver:self];
+	[convertedFiles release];
+	[[NSNotificationCenter defaultCenter] removeObserver:self];
 
-[super dealloc];
+	[super dealloc];
 }
 
 /////////////////////
@@ -46,1365 +41,399 @@ return self;
 #pragma mark -
 #pragma mark •• Encode actions
 
-- (int)batchConvert:(NSArray *)files destination:(NSString *)path useRegion:(NSString *)region useKind:(NSString *)kind
+- (int)batchConvert:(NSArray *)files withOptions:(NSDictionary *)options errorString:(NSString **)error
 {
-NSString *outputFolder = [path stringByAppendingString:@"/"];
-int regionInt;
-int kindInt;
-NSString *formatTaskString;
+	//Set the options
+	convertDestination = [options objectForKey:@"KWConvertDestination"];
+	convertExtension = [options objectForKey:@"KWConvertExtension"];
+	convertRegion = [[options objectForKey:@"KWConvertRegion"] intValue];
+	convertKind = [[options objectForKey:@"KWConvertKind"] intValue];
 
-	if ([region isEqualTo:@"PAL"])
-	regionInt = 1;
-	else
-	regionInt = 2;
-	
-	if ([kind isEqualTo:@"VCD"])
-	{
-	formatTaskString = NSLocalizedString(@" to VCD mpg", Localized);
-	kindInt = 1;
-	}
-	else if ([kind isEqualTo:@"SVCD"])
-	{
-	formatTaskString = NSLocalizedString(@" to SVCD mpg", Localized);
-	kindInt = 2;
-	}
-	else if ([kind isEqualTo:NSLocalizedString(@"DVD-Video",@"Localized")])
-	{
-	formatTaskString = NSLocalizedString(@" to DVD mpg", Localized);
-	kindInt = 3;
-	}
-	else if ([kind isEqualTo:@"DivX"])
-	{
-	formatTaskString = NSLocalizedString(@" to DivX avi", Localized);
-	kindInt = 4;
-	}
-	else if ([kind isEqualTo:@"mp3"])
-	{
-	formatTaskString = NSLocalizedString(@" to mp3", Localized);
-	kindInt = 5;
-	}
-	else if ([kind isEqualTo:@"wav"])
-	{
-	formatTaskString = NSLocalizedString(@" to wav", Localized);
-	kindInt = 6;
-	}
-	
-	
 	int i;
 	for (i=0;i<[files count];i++)
 	{
+		NSString *currentPath = [files objectAtIndex:i];
+	
 		if (userCanceled == NO)
 		{
-		number = i;
-		[[NSNotificationCenter defaultCenter] postNotificationName:@"KWTaskChanged" object:[[[[NSLocalizedString(@"Encoding file ", Localized) stringByAppendingString:[[NSNumber numberWithInt:i+1] stringValue]] stringByAppendingString:NSLocalizedString(@" of ", Localized)] stringByAppendingString:[[NSNumber numberWithInt:[files count]] stringValue]] stringByAppendingString:formatTaskString]];
+			number = i;
 		
-		int output = [self encodeFile:[files objectAtIndex:i] setOutputFolder:outputFolder setRegion:regionInt setFormat:kindInt];
+			[[NSNotificationCenter defaultCenter] postNotificationName:@"KWTaskChanged" object:[NSString stringWithFormat:NSLocalizedString(@"Encoding file %i of %i to %@", nil), i + 1, [files count], [options objectForKey:@"KWConvertExtension"]]];
+		
+			//Test the file on how to encode it
+			int output = [self testFile:currentPath];
+			
+			useWav = (output == 2 | output == 4 | output == 8);
+			useQuickTime = (output == 2 | output == 3 | output == 6);
+			
+			if (useWav)
+				output = [self encodeAudioAtPath:currentPath];
+			else if (output != 0)
+				output = [self encodeFileAtPath:currentPath];
+			else
+				output = 3;
 		
 			if (output == 0)
 			{
-			[convertedFiles addObject:encodedOutputFile];
+				[convertedFiles addObject:encodedOutputFile];
 			}
 			else if (output == 1)
 			{
-			[failedFilesExplained addObject:[[[NSFileManager defaultManager] displayNameAtPath:[files objectAtIndex:i]] stringByAppendingString:NSLocalizedString(@" (Unknown error)", Localized)]];
+				NSString *displayName = [[NSFileManager defaultManager] displayNameAtPath:currentPath];
+				
+				[self setErrorStringWithString:[NSString stringWithFormat:NSLocalizedString(@"%@ (Unknown error)", nil), displayName]];
 			}
 			else if (output == 2)
 			{
-				if ([failedFilesExplained count] > 0)
-				return 1;
+				if (errorString)
+				{
+					*error = errorString;
+					
+					return 1;
+				}
 				else
+				{
+					return 2;
+				}
+			}
+		}
+		else
+		{
+			if (errorString)
+			{
+				*error = errorString;
+					
+				return 1;
+			}
+			else
+			{
 				return 2;
 			}
 		}
-		else
-		{
-			if ([failedFilesExplained count] > 0)
-			return 1;
-			else
-			return 2;
-		}
 	}
 	
-	if ([failedFilesExplained count] > 0)
-	return 1;
+	if (errorString)
+	{
+		*error = errorString;
+					
+		return 1;
+	}
 	
-return 0;
+	return 0;
 }
 
 //Encode the file, use wav file if quicktime created it, use pipe (from movtoy4m)
--(int)encodeFile:(NSString *)path useWavFile:(BOOL)wav useQuickTime:(BOOL)mov setOutputFolder:(NSString *)outputFolder setRegion:(int)region setFormat:(int)format
+- (int)encodeFileAtPath:(NSString *)path
 {
-[[NSNotificationCenter defaultCenter] postNotificationName:@"KWStatusChanged" object:[NSLocalizedString(@"Encoding: ", Localized) stringByAppendingString:[[NSFileManager defaultManager] displayNameAtPath:path]]];
-// Encoder options for ffmpeg, movtoy4m
-NSString *aspect;
-NSString *ffmpegFormat = @"";
-NSString *outputFile = [outputFolder stringByAppendingString:[[path lastPathComponent] stringByDeletingPathExtension]];
+	[[NSNotificationCenter defaultCenter] postNotificationName:@"KWStatusChanged" object:[NSLocalizedString(@"Encoding: ", Localized) stringByAppendingString:[[NSFileManager defaultManager] displayNameAtPath:path]]];
+	NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
 	
-	if (format == 4)
-	{
-	outputFile = [[KWCommonMethods uniquePathNameFromPath:[outputFile stringByAppendingString:@".avi"] withLength:0] stringByDeletingPathExtension];
-	}
-	else if (format == 5)
-	{
-	outputFile = [[KWCommonMethods uniquePathNameFromPath:[outputFile stringByAppendingString:@".mp3"] withLength:0] stringByDeletingPathExtension];
-	}
-	else if (format == 6)
-	{
-	outputFile = [[KWCommonMethods uniquePathNameFromPath:[outputFile stringByAppendingString:@".wav"] withLength:0] stringByDeletingPathExtension];
-	}
+	// Encoder options for ffmpeg, movtoy4m
+	NSString *aspect;
+	NSString *ffmpegFormat = @"";
+	NSString *outFileWithExtension = [KWCommonMethods uniquePathNameFromPath:[NSString stringWithFormat:@"%@/%@.%@", convertDestination, [[path lastPathComponent] stringByDeletingPathExtension], convertExtension]];
+	NSString *outputFile = [outFileWithExtension stringByDeletingPathExtension];
+	
+	NSArray *quicktimeOptions = [NSArray array];
+	NSArray *wavOptions = [NSArray array];
+	NSArray *inputOptions = [NSArray array];
+	
+	// To keep the aspect ratio ffmpeg needs to pad the movie
+	NSArray *padOptions = [NSArray array];
+	NSSize aspectSize = NSMakeSize(4, 3);
+	int dvdAspectMode = [[defaults objectForKey:@"KWDVDAspectMode"] intValue];
+	int calculateSize;
+	BOOL topBars;
+	
+	if (convertRegion == 0)
+		ffmpegFormat = @"pal";
 	else
+		ffmpegFormat = @"ntsc";
+	
+	if (convertKind == 1 | convertKind == 2)
 	{
-	outputFile = [[KWCommonMethods uniquePathNameFromPath:[outputFile stringByAppendingString:@".mpg"] withLength:0] stringByDeletingPathExtension];
+		aspect = @"4:3";
+		aspectSize = NSMakeSize(4, 3);
+		topBars = (inputAspect >= (float)4 / (float)3);
 	}
 	
-// To keep the aspect ratio ffmpeg needs to pad the movie
-NSString *padTop = @"";
-NSString *padBottom = @"";
-NSString *padTopSize = @"";
-NSString *padBottomSize = @"";
-		
-	//VCD
-	if (format == 1)
+	if (convertKind == 1)
 	{
-		//PAL
-		if (region == 1)
-		{
-		aspect = @"4:3";
-		ffmpegFormat = @"pal-vcd";
-			
-			if (aspectValue == 1)
-			{
-			NSString *padSize = [self getPadSize:288 withAspectW:4 withAspectH:3 withWidth:1.85 withHeight:1 withBlackBars:YES];
-			padTop = @"-padtop";
-			padBottom = @"-padbottom";
-			padTopSize = padSize;		
-			padBottomSize = padSize;
-			}
-			else if (aspectValue == 2)
-			{
-			NSString *padSize = [self getPadSize:288 withAspectW:4 withAspectH:3 withWidth:16 withHeight:9 withBlackBars:YES];
-			padTop = @"-padtop";
-			padBottom = @"-padbottom";
-			padTopSize = padSize;		
-			padBottomSize = padSize;
-			}
-			else if (aspectValue == 3)
-			{
-			NSString *padSize = [self getPadSize:288 withAspectW:4 withAspectH:3 withWidth:2.35 withHeight:1 withBlackBars:YES];
-			padTop = @"-padtop";
-			padBottom = @"-padbottom";
-			padTopSize = padSize;		
-			padBottomSize = padSize;
-			}
-			else if (aspectValue == 4)
-			{
-			NSString *padSize = [self getPadSize:288 withAspectW:4 withAspectH:3 withWidth:2.20 withHeight:1 withBlackBars:YES];
-			padTop = @"-padtop";
-			padBottom = @"-padbottom";
-			padTopSize = padSize;		
-			padBottomSize = padSize;
-			}
-			else if (aspectValue == 5)
-			{
-			aspect = @"4:3";
-			}
-			else if (aspectValue == 6)
-			{
-			NSString *padSize = [self getPadSize:288 withAspectW:4 withAspectH:3 withWidth:[inputWidth floatValue] withHeight:[inputHeight floatValue] withBlackBars:YES];
-			padTop = @"-padtop";
-			padBottom = @"-padbottom";
-			padTopSize = padSize;		
-			padBottomSize = padSize;
-			}
-			else if (aspectValue == 7)
-			{
-			NSString *padSize = [self getPadSize:288 withAspectW:4 withAspectH:3 withWidth:[inputWidth floatValue] withHeight:[inputHeight floatValue] withBlackBars:YES];
-			padTop = @"-padtop";
-			padBottom = @"-padbottom";
-			padTopSize = padSize;		
-			padBottomSize = padSize;
-			}
-			else if (aspectValue == 8)
-			{
-			NSString *padSize = [self getPadSize:352 withAspectW:4 withAspectH:3 withWidth:[inputWidth floatValue] withHeight:[inputHeight floatValue] withBlackBars:NO];
-			padTop = @"-padleft";
-			padBottom = @"-padright";
-			padTopSize = padSize;		
-			padBottomSize = padSize;
-			}
-		}
-		//NTSC
-		else if (region == 2)
-		{
-		aspect = @"4:3";
-		ffmpegFormat = @"ntsc-vcd";
-		
-			if (aspectValue == 1)
-			{
-			NSString *padSize = [self getPadSize:240 withAspectW:4 withAspectH:3 withWidth:1.85 withHeight:1 withBlackBars:YES];
-			padTop = @"-padtop";
-			padBottom = @"-padbottom";
-			padTopSize = padSize;		
-			padBottomSize = padSize;
-			}
-			else if (aspectValue == 2)
-			{
-			NSString *padSize = [self getPadSize:240 withAspectW:4 withAspectH:3 withWidth:16 withHeight:9 withBlackBars:YES];
-			padTop = @"-padtop";
-			padBottom = @"-padbottom";
-			padTopSize = padSize;		
-			padBottomSize = padSize;
-			}
-			else if (aspectValue == 3)
-			{
-			NSString *padSize = [self getPadSize:240 withAspectW:4 withAspectH:3 withWidth:2.35 withHeight:1 withBlackBars:YES];
-			padTop = @"-padtop";
-			padBottom = @"-padbottom";
-			padTopSize = padSize;		
-			padBottomSize = padSize;
-			}
-			else if (aspectValue == 4)
-			{
-			NSString *padSize = [self getPadSize:240 withAspectW:4 withAspectH:3 withWidth:2.20 withHeight:1 withBlackBars:YES];
-			padTop = @"-padtop";
-			padBottom = @"-padbottom";
-			padTopSize = padSize;		
-			padBottomSize = padSize;
-			}
-			else if (aspectValue == 5)
-			{
-			aspect = @"4:3";
-			}
-			else if (aspectValue == 6)
-			{
-			NSString *padSize = [self getPadSize:240 withAspectW:4 withAspectH:3 withWidth:[inputWidth floatValue] withHeight:[inputHeight floatValue] withBlackBars:YES];
-			padTop = @"-padtop";
-			padBottom = @"-padbottom";
-			padTopSize = padSize;		
-			padBottomSize = padSize;
-			}
-			else if (aspectValue == 7)
-			{
-			NSString *padSize = [self getPadSize:240 withAspectW:4 withAspectH:3 withWidth:[inputWidth floatValue] withHeight:[inputHeight floatValue] withBlackBars:YES];
-			padTop = @"-padtop";
-			padBottom = @"-padbottom";
-			padTopSize = padSize;		
-			padBottomSize = padSize;
-			}
-			else if (aspectValue == 8)
-			{
-			NSString *padSize = [self getPadSize:352 withAspectW:4 withAspectH:3 withWidth:[inputWidth floatValue] withHeight:[inputHeight floatValue] withBlackBars:NO];
-			padTop = @"-padleft";
-			padBottom = @"-padright";
-			padTopSize = padSize;		
-			padBottomSize = padSize;
-			}
-		}
+		ffmpegFormat = [NSString stringWithFormat:@"%@-vcd", ffmpegFormat];
+	
+		if (inputAspect < (float)4 / (float)3)
+			calculateSize = 352;
+		else if (convertRegion == 0)
+			calculateSize = 288;
+		else
+			calculateSize = 244;
 	}
-	//SVCD
-	else if (format == 2)
+	
+	if (convertKind == 2)
 	{
-		//PAL
-		if (region == 1)
-		{
-		aspect = @"4:3";
-		ffmpegFormat = @"pal-svcd";
-		
-			if (aspectValue == 1)
-			{
-			NSString *padSize = [self getPadSize:576 withAspectW:4 withAspectH:3 withWidth:1.85 withHeight:1 withBlackBars:YES];
-			padTop = @"-padtop";
-			padBottom = @"-padbottom";
-			padTopSize = padSize;		
-			padBottomSize = padSize;
-			}
-			else if (aspectValue == 2)
-			{
-			NSString *padSize = [self getPadSize:576 withAspectW:4 withAspectH:3 withWidth:16 withHeight:9 withBlackBars:YES];
-			padTop = @"-padtop";
-			padBottom = @"-padbottom";
-			padTopSize = padSize;		
-			padBottomSize = padSize;
-			}
-			else if (aspectValue == 3)
-			{
-			NSString *padSize = [self getPadSize:576 withAspectW:4 withAspectH:3 withWidth:2.35 withHeight:1 withBlackBars:YES];
-			padTop = @"-padtop";
-			padBottom = @"-padbottom";
-			padTopSize = padSize;		
-			padBottomSize = padSize;
-			}
-			else if (aspectValue == 4)
-			{
-			NSString *padSize = [self getPadSize:576 withAspectW:4 withAspectH:3 withWidth:2.20 withHeight:1 withBlackBars:YES];
-			padTop = @"-padtop";
-			padBottom = @"-padbottom";
-			padTopSize = padSize;		
-			padBottomSize = padSize;
-			}
-			else if (aspectValue == 5)
-			{
-			aspect = @"4:3";
-			}
-			else if (aspectValue == 6)
-			{
-			NSString *padSize = [self getPadSize:576 withAspectW:4 withAspectH:3 withWidth:[inputWidth floatValue] withHeight:[inputHeight floatValue] withBlackBars:YES];
-			padTop = @"-padtop";
-			padBottom = @"-padbottom";
-			padTopSize = padSize;		
-			padBottomSize = padSize;
-			}
-			else if (aspectValue == 7)
-			{
-			NSString *padSize = [self getPadSize:576 withAspectW:4 withAspectH:3 withWidth:[inputWidth floatValue] withHeight:[inputHeight floatValue] withBlackBars:YES];
-			padTop = @"-padtop";
-			padBottom = @"-padbottom";
-			padTopSize = padSize;		
-			padBottomSize = padSize;
-			}
-			else if (aspectValue == 8)
-			{
-			NSString *padSize = [self getPadSize:480 withAspectW:4 withAspectH:3 withWidth:[inputWidth floatValue] withHeight:[inputHeight floatValue] withBlackBars:NO];
-			padTop = @"-padleft";
-			padBottom = @"-padright";
-			padTopSize = padSize;		
-			padBottomSize = padSize;
-			}
-		}
-		//NTSC
-		else if (region == 2)
-		{
-		aspect = @"4:3";
-		ffmpegFormat = @"ntsc-svcd";
-			
-			if (aspectValue == 1)
-			{
-			NSString *padSize = [self getPadSize:480 withAspectW:4 withAspectH:3 withWidth:1.85 withHeight:1 withBlackBars:YES];
-			padTop = @"-padtop";
-			padBottom = @"-padbottom";
-			padTopSize = padSize;		
-			padBottomSize = padSize;
-			}
-			else if (aspectValue == 2)
-			{
-			NSString *padSize = [self getPadSize:480 withAspectW:4 withAspectH:3 withWidth:16 withHeight:9 withBlackBars:YES];
-			padTop = @"-padtop";
-			padBottom = @"-padbottom";
-			padTopSize = padSize;		
-			padBottomSize = padSize;
-			}
-			else if (aspectValue == 3)
-			{
-			NSString *padSize = [self getPadSize:480 withAspectW:4 withAspectH:3 withWidth:2.35 withHeight:1 withBlackBars:YES];
-			padTop = @"-padtop";
-			padBottom = @"-padbottom";
-			padTopSize = padSize;		
-			padBottomSize = padSize;
-			}
-			else if (aspectValue == 4)
-			{
-			NSString *padSize = [self getPadSize:480 withAspectW:4 withAspectH:3 withWidth:2.20 withHeight:1 withBlackBars:YES];
-			padTop = @"-padtop";
-			padBottom = @"-padbottom";
-			padTopSize = padSize;		
-			padBottomSize = padSize;
-			}
-			else if (aspectValue == 5)
-			{
-			aspect = @"4:3";
-			}
-			else if (aspectValue == 6)
-			{
-			NSString *padSize = [self getPadSize:480 withAspectW:4 withAspectH:3 withWidth:[inputWidth floatValue] withHeight:[inputHeight floatValue] withBlackBars:YES];
-			padTop = @"-padtop";
-			padBottom = @"-padbottom";
-			padTopSize = padSize;		
-			padBottomSize = padSize;
-			}
-			else if (aspectValue == 7)
-			{
-			NSString *padSize = [self getPadSize:480 withAspectW:4 withAspectH:3 withWidth:[inputWidth floatValue] withHeight:[inputHeight floatValue] withBlackBars:YES];
-			padTop = @"-padtop";
-			padBottom = @"-padbottom";
-			padTopSize = padSize;		
-			padBottomSize = padSize;
-			}
-			else if (aspectValue == 8)
-			{
-			NSString *padSize = [self getPadSize:480 withAspectW:4 withAspectH:3 withWidth:[inputWidth floatValue] withHeight:[inputHeight floatValue] withBlackBars:NO];
-			padTop = @"-padleft";
-			padBottom = @"-padright";
-			padTopSize = padSize;		
-			padBottomSize = padSize;
-			}
-		}
+		ffmpegFormat = [NSString stringWithFormat:@"%@-svcd", ffmpegFormat];
+	
+		if (convertRegion == 1 && inputAspect < (float)4 / (float)3)
+			calculateSize = 576;
+		else
+			calculateSize = 480;
 	}
-	//DVD
-	else if (format == 3)
+	
+	if (convertKind == 3)
 	{
-		//PAL
-		if (region == 1)
+		ffmpegFormat = [NSString stringWithFormat:@"%@-dvd", ffmpegFormat];
+	
+		if ((inputAspect <= (float)4 / (float)3 && dvdAspectMode != 2) | dvdAspectMode == 1)
 		{
-		ffmpegFormat = @"pal-dvd";
+			aspectSize = NSMakeSize(4, 3);
+			calculateSize = 720;
+			topBars = (inputAspect > (float)4 / (float)3);
+		}
+		else
+		{
+			aspectSize = NSMakeSize(16, 9);
 		
-			if (aspectValue == 1)
-			{
-				NSString *padSize;
-				if (![[NSUserDefaults standardUserDefaults] boolForKey:@"KWDVDForce43"])
-				{
-				padSize = [self getPadSize:576 withAspectW:16 withAspectH:9 withWidth:1.85 withHeight:1 withBlackBars:YES];
-				aspect = @"16:9";
-				}
-				else
-				{
-				padSize = [self getPadSize:576 withAspectW:4 withAspectH:3 withWidth:1.85 withHeight:1 withBlackBars:YES];
-				aspect = @"4:3";
-				}
-			
-			padTop = @"-padtop";
-			padBottom = @"-padbottom";
-			padTopSize = padSize;		
-			padBottomSize = padSize;
-			}
-			else if (aspectValue == 2)
-			{
-				NSString *padSize;
-				if (![[NSUserDefaults standardUserDefaults] boolForKey:@"KWDVDForce43"])
-				{
-				aspect = @"16:9";
-				}
-				else
-				{
-				padSize = [self getPadSize:576 withAspectW:4 withAspectH:3 withWidth:16 withHeight:9 withBlackBars:YES];
-				aspect = @"4:3";
+			if (convertRegion == 1)
+				calculateSize = 576;
+			else
+				calculateSize = 480;
 				
-				padTop = @"-padtop";
-				padBottom = @"-padbottom";
-				padTopSize = padSize;		
-				padBottomSize = padSize;
-				}
-			}
-			else if (aspectValue == 3)
-			{
-				NSString *padSize;
-				if (![[NSUserDefaults standardUserDefaults] boolForKey:@"KWDVDForce43"])
-				{
-				padSize = [self getPadSize:576 withAspectW:16 withAspectH:9 withWidth:2.35 withHeight:1 withBlackBars:YES];
-				aspect = @"16:9";
-				}
-				else
-				{
-				padSize = [self getPadSize:576 withAspectW:4 withAspectH:3 withWidth:2.35 withHeight:1 withBlackBars:YES];
-				aspect = @"4:3";
-				}
-			
-			padTop = @"-padtop";
-			padBottom = @"-padbottom";
-			padTopSize = padSize;		
-			padBottomSize = padSize;
-			}
-			else if (aspectValue == 4)
-			{
-				NSString *padSize;
-				if (![[NSUserDefaults standardUserDefaults] boolForKey:@"KWDVDForce43"])
-				{
-				padSize = [self getPadSize:576 withAspectW:16 withAspectH:9 withWidth:2.20 withHeight:1 withBlackBars:YES];
-				aspect = @"16:9";
-				}
-				else
-				{
-				padSize = [self getPadSize:576 withAspectW:4 withAspectH:3 withWidth:2.20 withHeight:1 withBlackBars:YES];
-				aspect = @"4:3";
-				}
-			
-			padTop = @"-padtop";
-			padBottom = @"-padbottom";
-			padTopSize = padSize;		
-			padBottomSize = padSize;
-			}
-			else if (aspectValue == 5)
-			{
-			aspect = @"4:3";
-			}
-			else if (aspectValue == 6)
-			{
-				NSString *padSize;
-				if (![[NSUserDefaults standardUserDefaults] boolForKey:@"KWDVDForce43"])
-				{
-				padSize = [self getPadSize:576 withAspectW:16 withAspectH:9 withWidth:[inputWidth floatValue] withHeight:[inputHeight floatValue] withBlackBars:YES];
-				aspect = @"16:9";
-				}
-				else
-				{
-				padSize = [self getPadSize:576 withAspectW:4 withAspectH:3 withWidth:[inputWidth floatValue] withHeight:[inputHeight floatValue] withBlackBars:YES];
-				aspect = @"4:3";
-				}
-			
-			padTop = @"-padtop";
-			padBottom = @"-padbottom";
-			padTopSize = padSize;		
-			padBottomSize = padSize;
-			}
-			else if (aspectValue == 7)
-			{
-				NSString *padSize;
-				if (![[NSUserDefaults standardUserDefaults] boolForKey:@"KWDVDForce43"])
-				{
-				padSize = [self getPadSize:720 withAspectW:16 withAspectH:9 withWidth:[inputWidth floatValue] withHeight:[inputHeight floatValue] withBlackBars:NO];
-				aspect = @"16:9";
-				}
-				else
-				{
-				padSize = [self getPadSize:720 withAspectW:4 withAspectH:3 withWidth:[inputWidth floatValue] withHeight:[inputHeight floatValue] withBlackBars:NO];
-				aspect = @"4:3";
-				}
-			
-			padTop = @"-padleft";
-			padBottom = @"-padright";
-			padTopSize = padSize;		
-			padBottomSize = padSize;
-			}
-			else if (aspectValue == 8)
-			{
-			NSString *padSize = [self getPadSize:720 withAspectW:4 withAspectH:3 withWidth:[inputWidth floatValue] withHeight:[inputHeight floatValue] withBlackBars:NO];
-			aspect = @"4:3";
-			
-			padTop = @"-padleft";
-			padBottom = @"-padright";
-			padTopSize = padSize;		
-			padBottomSize = padSize;
-			}
+			topBars = (inputAspect > (float)16 / (float)9);
 		}
-		//NTSC
-		else if (region == 2)
-		{
-		ffmpegFormat = @"ntsc-dvd";
-		
-			if (aspectValue == 1)
-			{
-				NSString *padSize;
-				if (![[NSUserDefaults standardUserDefaults] boolForKey:@"KWDVDForce43"])
-				{
-				padSize = [self getPadSize:480 withAspectW:16 withAspectH:9 withWidth:1.85 withHeight:1 withBlackBars:YES];
-				aspect = @"16:9";
-				}
-				else
-				{
-				padSize = [self getPadSize:480 withAspectW:4 withAspectH:3 withWidth:1.85 withHeight:1 withBlackBars:YES];
-				aspect = @"4:3";
-				}
-			
-			padTop = @"-padtop";
-			padBottom = @"-padbottom";
-			padTopSize = padSize;		
-			padBottomSize = padSize;
-			}
-			else if (aspectValue == 2)
-			{
-				NSString *padSize;
-				if (![[NSUserDefaults standardUserDefaults] boolForKey:@"KWDVDForce43"])
-				{
-				aspect = @"16:9";
-				}
-				else
-				{
-				padSize = [self getPadSize:480 withAspectW:4 withAspectH:3 withWidth:16 withHeight:9 withBlackBars:YES];
-				aspect = @"4:3";
-				
-				padTop = @"-padtop";
-				padBottom = @"-padbottom";
-				padTopSize = padSize;		
-				padBottomSize = padSize;
-				}
-			}
-			else if (aspectValue == 3)
-			{
-				NSString *padSize;
-				if (![[NSUserDefaults standardUserDefaults] boolForKey:@"KWDVDForce43"])
-				{
-				padSize = [self getPadSize:480 withAspectW:16 withAspectH:9 withWidth:2.35 withHeight:1 withBlackBars:YES];
-				aspect = @"16:9";
-				}
-				else
-				{
-				padSize = [self getPadSize:480 withAspectW:4 withAspectH:3 withWidth:2.35 withHeight:1 withBlackBars:YES];
-				aspect = @"4:3";
-				}
-			
-			padTop = @"-padtop";
-			padBottom = @"-padbottom";
-			padTopSize = padSize;		
-			padBottomSize = padSize;
-			}
-			else if (aspectValue == 4)
-			{
-				NSString *padSize;
-				if (![[NSUserDefaults standardUserDefaults] boolForKey:@"KWDVDForce43"])
-				{
-				padSize = [self getPadSize:480 withAspectW:16 withAspectH:9 withWidth:2.20 withHeight:1 withBlackBars:YES];
-				aspect = @"16:9";
-				}
-				else
-				{
-				padSize = [self getPadSize:480 withAspectW:4 withAspectH:3 withWidth:2.20 withHeight:1 withBlackBars:YES];
-				aspect = @"4:3";
-				}
-			
-			padTop = @"-padtop";
-			padBottom = @"-padbottom";
-			padTopSize = padSize;		
-			padBottomSize = padSize;
-			}
-			else if (aspectValue == 5)
-			{
-			aspect = @"4:3";
-			}
-			else if (aspectValue == 6)
-			{
-				NSString *padSize;
-				if (![[NSUserDefaults standardUserDefaults] boolForKey:@"KWDVDForce43"])
-				{
-				padSize = [self getPadSize:480 withAspectW:16 withAspectH:9 withWidth:[inputWidth floatValue] withHeight:[inputHeight floatValue] withBlackBars:YES];
-				aspect = @"16:9";
-				}
-				else
-				{
-				padSize = [self getPadSize:480 withAspectW:4 withAspectH:3 withWidth:[inputWidth floatValue] withHeight:[inputHeight floatValue] withBlackBars:YES];
-				aspect = @"4:3";
-				}
-			
-			padTop = @"-padtop";
-			padBottom = @"-padbottom";
-			padTopSize = padSize;		
-			padBottomSize = padSize;
-			}
-			else if (aspectValue == 7)
-			{
-				NSString *padSize;
-				if (![[NSUserDefaults standardUserDefaults] boolForKey:@"KWDVDForce43"])
-				{
-				padSize = [self getPadSize:720 withAspectW:16 withAspectH:9 withWidth:[inputWidth floatValue] withHeight:[inputHeight floatValue] withBlackBars:NO];
-				aspect = @"16:9";
-				}
-				else
-				{
-				padSize = [self getPadSize:720 withAspectW:4 withAspectH:3 withWidth:[inputWidth floatValue] withHeight:[inputHeight floatValue] withBlackBars:NO];
-				aspect = @"4:3";
-				}
-			
-			padTop = @"-padleft";
-			padBottom = @"-padright";
-			padTopSize = padSize;		
-			padBottomSize = padSize;
-			}
-			else if (aspectValue == 8)
-			{
-			NSString *padSize = [self getPadSize:720 withAspectW:4 withAspectH:3 withWidth:[inputWidth floatValue] withHeight:[inputHeight floatValue] withBlackBars:NO];
-			aspect = @"4:3";
-			
-			padTop = @"-padleft";
-			padBottom = @"-padright";
-			padTopSize = padSize;		
-			padBottomSize = padSize;
-			}
-		}	
 	}
+		
+	if ((convertKind == 1 | convertKind == 2 | convertKind == 3) && ((inputAspect != (float)4 / (float)3 | (inputAspect == (float)4 / (float)3 && dvdAspectMode == 2 && convertKind == 3)) && (inputAspect != (float)16 / (float)9) | (inputAspect == (float)16 / (float)9 && convertKind == 1 | convertKind == 2 | dvdAspectMode == 1)))
+	{
+		NSString *padSize = [self getPadSize:calculateSize withAspect:aspectSize withTopBars:topBars];
+		
+		if (topBars)
+			padOptions = [NSArray arrayWithObjects:@"-padtop", padSize, @"-padbottom", padSize, nil];
+		else
+			padOptions = [NSArray arrayWithObjects:@"-padleft", padSize, @"-padright", padSize, nil];
+	}
+	
+	aspect = [NSString stringWithFormat:@"%.0f:%.0f", aspectSize.width, aspectSize.height];
 
-ffmpeg = [[NSTask alloc] init];
-NSPipe *pipe2;
-NSPipe *errorPipe;
+	ffmpeg = [[NSTask alloc] init];
+	NSPipe *pipe2;
+	NSPipe *errorPipe;
 
 	//Check if we need to use movtoy4m to decode
-	if (mov == YES)
+	if (useQuickTime == YES)
 	{
-	movtoy4m = [[NSTask alloc] init];
-	pipe2 = [[NSPipe alloc] init];
-	NSFileHandle *handle2;
-	[movtoy4m setLaunchPath:[[NSBundle mainBundle] pathForResource:@"movtoy4m" ofType:@""]];
-		if (format == 4)
-		[movtoy4m setArguments:[NSArray arrayWithObjects:@"-w",inputWidth,@"-h",inputHeight,@"-F",[inputFps stringByAppendingString:@":1"],@"-a",[[inputWidth stringByAppendingString:@":"] stringByAppendingString:inputHeight],path, nil]];
-		else
-		[movtoy4m setArguments:[NSArray arrayWithObjects:@"-w",inputWidth,@"-h",inputHeight,@"-F",[inputFps stringByAppendingString:@":1"],@"-a",[[inputWidth stringByAppendingString:@":"] stringByAppendingString:inputHeight],path, nil]];
-		
-	[movtoy4m setStandardOutput:pipe2];
-		if ([[NSUserDefaults standardUserDefaults] boolForKey:@"KWConsoleEnabled"] == NO)
-		{
-		errorPipe = [[NSPipe alloc] init];
-		[movtoy4m setStandardError:errorPipe];
-		}
-	[ffmpeg setStandardInput:pipe2];
-	handle2=[pipe2 fileHandleForReading];
-	[movtoy4m launch];
-	}
-
-NSPipe *pipe=[[NSPipe alloc] init];
-NSFileHandle *handle;
-NSData *data;
+		quicktimeOptions = [NSArray arrayWithObjects:@"-f", @"yuv4mpegpipe", @"-i", @"-", nil];
 	
-[ffmpeg setLaunchPath:[KWCommonMethods ffmpegPath]];
-
-
-	//check again if ffmpeg should use movtoy4m as input
-	if (mov == NO)
-	{
-		//Check if we use a wave file or not
-		if (wav == NO)
+		movtoy4m = [[NSTask alloc] init];
+		pipe2 = [[NSPipe alloc] init];
+		NSFileHandle *handle2;
+		[movtoy4m setLaunchPath:[[NSBundle mainBundle] pathForResource:@"movtoy4m" ofType:@""]];
+		[movtoy4m setArguments:[NSArray arrayWithObjects:@"-w",[NSString stringWithFormat:@"%i", inputWidth],@"-h",[NSString stringWithFormat:@"%i", inputHeight],@"-F",[NSString stringWithFormat:@"%f:1", inputFps],@"-a",[NSString stringWithFormat:@"%i:%i", inputWidth, inputHeight],path, nil]];
+		[movtoy4m setStandardOutput:pipe2];
+		
+		if ([defaults boolForKey:@"KWDebug"] == NO)
 		{
-			//Check if we need to make a DIVX
-			if (format == 4 | format == 3)
-			{
-				if (format == 4)
-				{
-				NSMutableArray *args = [[NSMutableArray alloc] init];
-				args = [[NSArray arrayWithObjects:@"-threads",[[NSNumber numberWithInt:[[[NSUserDefaults standardUserDefaults] objectForKey:@"KWEncodingThreads"] intValue]] stringValue],@"-i",path,@"-vtag",@"DIVX",@"-acodec",nil] mutableCopy];
+			errorPipe = [[NSPipe alloc] init];
+			[movtoy4m setStandardError:[NSFileHandle fileHandleWithNullDevice]];
+		}
+	
+		[ffmpeg setStandardInput:pipe2];
+		handle2=[pipe2 fileHandleForReading];
+		[movtoy4m launch];
+	}
+	
+	if (useWav == YES)
+	{
+		wavOptions = [NSArray arrayWithObjects:@"-i", [outputFile stringByAppendingString:@" (tmp).wav"], nil];
+	}
+	
+	if (useWav == NO | useQuickTime == NO)
+	{
+		inputOptions = [NSArray arrayWithObjects:@"-i", path, nil];
+	}
+
+	NSPipe *pipe=[[NSPipe alloc] init];
+	NSFileHandle *handle;
+	NSData *data;
+	
+	[ffmpeg setLaunchPath:[KWCommonMethods ffmpegPath]];
+	
+	NSMutableArray *args = [NSMutableArray arrayWithObjects:@"-threads", [[defaults objectForKey:@"KWEncodingThreads"] stringValue], nil];
+	[args addObjectsFromArray:quicktimeOptions];
+	[args addObjectsFromArray:wavOptions];
+	[args addObjectsFromArray:inputOptions];
+
+	if (convertKind == 1 | convertKind == 2)
+	{
+		[args addObjectsFromArray:[NSArray arrayWithObjects:@"-target",ffmpegFormat,@"-ac",@"2",@"-aspect",aspect,nil]];
+	}
+	else if (convertKind == 4)
+	{
+		[args addObjectsFromArray:[NSArray arrayWithObjects:@"-vtag", @"DIVX", @"-acodec", nil]];
 				
-					if ([[[NSUserDefaults standardUserDefaults] objectForKey:@"KWDefaultDivXSoundType"] intValue] == 0)
-					{
-					[args addObject:@"libmp3lame"];
-					[args addObject:@"-ac"];
-					[args addObject:@"2"];
-					}
-					else
-					{
-					[args addObject:@"ac3"];
-					}
-				
-				
-					
-					if ([[NSUserDefaults standardUserDefaults] boolForKey:@"KWCustomDivXVideoBitrate"])
-					{
-					[args addObject:@"-b"];
-					[args addObject:[[NSNumber numberWithInt:[[[NSUserDefaults standardUserDefaults] objectForKey:@"KWDefaultDivXVideoBitrate"] intValue]*1000] stringValue]];
-					}
-					
-					if ([[NSUserDefaults standardUserDefaults] boolForKey:@"KWCustomDivXSoundBitrate"])
-					{
-					[args addObject:@"-ab"];
-					[args addObject:[[NSNumber numberWithInt:[[[NSUserDefaults standardUserDefaults] objectForKey:@"KWDefaultDivxSoundBitrate"] intValue]*1000] stringValue]];
-					}
-					
-					if ([[NSUserDefaults standardUserDefaults] boolForKey:@"KWCustomDivXSize"])
-					{
-					[args addObject:@"-s"];
-					[args addObject:[[[[[NSUserDefaults standardUserDefaults] objectForKey:@"KWDefaultDivXWidth"] stringValue] stringByAppendingString:@"x"] stringByAppendingString:[[[NSUserDefaults standardUserDefaults] objectForKey:@"KWDefaultDivXHeight"] stringValue]]];
-					}
-					else if ([inputFormat isEqualTo:@"DV"] && aspectValue == 2)
-					{
-						if (region == 1)
-						{
-						[args addObject:@"-s"];
-						[args addObject:@"1024x576"];
-						}
-						else
-						{
-						[args addObject:@"-s"];
-						[args addObject:@"1024x480"];
-						}
-					}
-					else if ([inputFormat isEqualTo:@"MPEG2"] && aspectValue == 2)
-					{
-						if (region == 1)
-						{
-						[args addObject:@"-s"];
-						[args addObject:@"1024x576"];
-						}
-						else
-						{
-						[args addObject:@"-s"];
-						[args addObject:@"1024x480"];
-						}
-					}
-					
-					if ([[NSUserDefaults standardUserDefaults] boolForKey:@"KWCustomFPS"])
-					{
-					[args addObject:@"-r"];
-					[args addObject:[[NSUserDefaults standardUserDefaults] objectForKey:@"KWDefaultFPS"]];
-					}
-				
-				[args addObject:[outputFile stringByAppendingString:@".avi"]];
-				[ffmpeg setArguments:[args copy]];
-				
-				[args release];
-				}
-				else if (format == 3)
-				{
-				NSMutableArray *args = [[NSArray arrayWithObjects:@"-threads",[[NSNumber numberWithInt:[[[NSUserDefaults standardUserDefaults] objectForKey:@"KWEncodingThreads"] intValue]] stringValue],@"-i",path,@"-target",ffmpegFormat,@"-ac",@"2",@"-aspect",aspect,@"-acodec",nil] mutableCopy];
-				
-					if ([[[NSUserDefaults standardUserDefaults] objectForKey:@"KWDefaultDVDSoundType"] intValue] == 0)
-					[args addObject:@"mp2"];
-					else
-					[args addObject:@"ac3"];
-					
-					if ([[NSUserDefaults standardUserDefaults] boolForKey:@"KWCustomDVDVideoBitrate"])
-					{
-					[args addObject:@"-b"];
-					[args addObject:[[NSNumber numberWithInt:[[[NSUserDefaults standardUserDefaults] objectForKey:@"KWDefaultDVDVideoBitrate"] intValue]*1000] stringValue]];
-					}
-					
-					if ([[NSUserDefaults standardUserDefaults] boolForKey:@"KWCustomDVDSoundBitrate"])
-					{
-					[args addObject:@"-ab"];
-					[args addObject:[[NSNumber numberWithInt:[[[NSUserDefaults standardUserDefaults] objectForKey:@"KWDefaultDVDSoundBitrate"] intValue]*1000] stringValue]];
-					}
-					else if ([[[NSUserDefaults standardUserDefaults] objectForKey:@"Default DVD audio format"] intValue] == 0)
-					{
-					[args addObject:@"-ab"];
-					[args addObject:@"224000"];
-					}
-				
-				[args addObject:[outputFile stringByAppendingString:@".mpg"]];
-				
-					//Check if there is padding needed
-					if (![padTop isEqualTo:@""])
-					{
-					[args addObject:padTop];
-					[args addObject:padTopSize];
-					[args addObject:padBottom];
-					[args addObject:padBottomSize];
-					}
-					
-				[ffmpeg setArguments:[args copy]];
-				
-				[args release];
-				}
-			}
-			else if (format == 5)
-			{
-			[ffmpeg setArguments:[NSArray arrayWithObjects:@"-threads",[[NSNumber numberWithInt:[[[NSUserDefaults standardUserDefaults] objectForKey:@"KWEncodingThreads"] intValue]] stringValue],@"-i",path,@"-ab",[[NSNumber numberWithInt:[[[NSUserDefaults standardUserDefaults] objectForKey:@"KWDefaultMP3Bitrate"] intValue]*1000] stringValue],@"-ac",[[NSNumber numberWithInt:[[[NSUserDefaults standardUserDefaults] objectForKey:@"KWDefaultMP3Mode"] intValue] + 1] stringValue],@"-ar",@"44100",[outputFile stringByAppendingString:@".mp3"],nil]];
-			}
-			else if (format == 6)
-			{
-			[ffmpeg setArguments:[NSArray arrayWithObjects:@"-threads",[[NSNumber numberWithInt:[[[NSUserDefaults standardUserDefaults] objectForKey:@"KWEncodingThreads"] intValue]] stringValue],@"-i",path,[outputFile stringByAppendingString:@".wav"],nil]];
-			}
-			else
-			{
-				//Check if there is padding needed
-				if (![padTop isEqualTo:@""])
-				[ffmpeg setArguments:[NSArray arrayWithObjects:@"-threads",[[NSNumber numberWithInt:[[[NSUserDefaults standardUserDefaults] objectForKey:@"KWEncodingThreads"] intValue]] stringValue],@"-i",path,@"-target",ffmpegFormat,@"-ac",@"2",@"-aspect",aspect,[outputFile stringByAppendingString:@".mpg"],padTop, padTopSize, padBottom, padBottomSize,nil]];
-				else
-				[ffmpeg setArguments:[NSArray arrayWithObjects:@"-threads",[[NSNumber numberWithInt:[[[NSUserDefaults standardUserDefaults] objectForKey:@"KWEncodingThreads"] intValue]] stringValue],@"-i",path,@"-target",ffmpegFormat,@"-ac",@"2",@"-aspect",aspect,[outputFile stringByAppendingString:@".mpg"],nil]];
-			}
+		if ([[defaults objectForKey:@"KWDefaultDivXSoundType"] intValue] == 0)
+		{
+			[args addObject:@"libmp3lame"];
+			[args addObject:@"-ac"];
+			[args addObject:@"2"];
 		}
 		else
 		{
-			//Check if we need to make a DIVX (Since were not changing settings here
-			if (format == 4 | format == 3)
+			[args addObject:@"ac3"];
+		}
+					
+		if ([defaults boolForKey:@"KWCustomDivXVideoBitrate"])
+		{
+			[args addObject:@"-b"];
+			[args addObject:[NSString stringWithFormat:@"%i", [[defaults objectForKey:@"KWDefaultDivXVideoBitrate"] intValue] * 1000]];
+		}
+					
+		if ([defaults boolForKey:@"KWCustomDivXSoundBitrate"])
+		{
+			[args addObject:@"-ab"];
+			[args addObject:[NSString stringWithFormat:@"%i", [[defaults objectForKey:@"KWDefaultDivxSoundBitrate"] intValue] * 1000]];
+		}
+					
+		if ([defaults boolForKey:@"KWCustomDivXSize"])
+		{
+			[args addObject:@"-s"];
+			[args addObject:[NSString stringWithFormat:@"%@x%@", [defaults objectForKey:@"KWDefaultDivXWidth"], [defaults objectForKey:@"KWDefaultDivXHeight"]]];
+		}
+		else if (inputFormat > 0)
+		{
+			if (convertRegion == 1)
 			{
-				if (format == 4)
-				{
-				NSMutableArray *args = [[NSMutableArray alloc] init];
-				args = [[NSArray arrayWithObjects:@"-threads",[[NSNumber numberWithInt:[[[NSUserDefaults standardUserDefaults] objectForKey:@"KWEncodingThreads"] intValue]] stringValue],@"-i",[outputFile stringByAppendingString:@".wav"],@"-threads",[[NSNumber numberWithInt:[[[NSUserDefaults standardUserDefaults] objectForKey:@"KWEncodingThreads"] intValue]] stringValue],@"-i",path,@"-vtag",@"DIVX",@"-acodec",nil] mutableCopy];
-					
-					if ([[[NSUserDefaults standardUserDefaults] objectForKey:@"KWDefaultDivXSoundType"] intValue] == 0)
-					{
-					[args addObject:@"libmp3lame"];
-					[args addObject:@"-ac"];
-					[args addObject:@"2"];
-					}
-					else
-					{
-					[args addObject:@"ac3"];
-					}
-				
-					if ([[NSUserDefaults standardUserDefaults] boolForKey:@"KWCustomDivXVideoBitrate"])
-					{
-					[args addObject:@"-b"];
-					[args addObject:[[NSNumber numberWithInt:[[[NSUserDefaults standardUserDefaults] objectForKey:@"KWDefaultDivXVideoBitrate"] intValue]*1000] stringValue]];
-					}
-					
-					if ([[NSUserDefaults standardUserDefaults] boolForKey:@"KWCustomDivXSoundBitrate"])
-					{
-					[args addObject:@"-ab"];
-					[args addObject:[[NSNumber numberWithInt:[[[NSUserDefaults standardUserDefaults] objectForKey:@"KWDefaultDivxSoundBitrate"] intValue]*1000] stringValue]];
-					}
-					
-					if ([[NSUserDefaults standardUserDefaults] boolForKey:@"KWCustomDivXSize"])
-					{
-					[args addObject:@"-s"];
-					[args addObject:[[[[[NSUserDefaults standardUserDefaults] objectForKey:@"KWDefaultDivXWidth"] stringValue] stringByAppendingString:@"x"] stringByAppendingString:[[[NSUserDefaults standardUserDefaults] objectForKey:@"KWDefaultDivXHeight"] stringValue]]];
-					}
-					else if ([inputFormat isEqualTo:@"DV"] && aspectValue == 2)
-					{
-						if (region == 1)
-						{
-						[args addObject:@"-s"];
-						[args addObject:@"1024x576"];
-						}
-						else
-						{
-						[args addObject:@"-s"];
-						[args addObject:@"1024x480"];
-						}
-					}
-					else if ([inputFormat isEqualTo:@"MPEG2"] && aspectValue == 2)
-					{
-						if (region == 1)
-						{
-						[args addObject:@"-s"];
-						[args addObject:@"1024x576"];
-						}
-						else
-						{
-						[args addObject:@"-s"];
-						[args addObject:@"1024x480"];
-						}
-					}
-					
-					if ([[NSUserDefaults standardUserDefaults] boolForKey:@"KWCustomFPS"])
-					{
-					[args addObject:@"-r"];
-					[args addObject:[[NSUserDefaults standardUserDefaults] objectForKey:@"KWDefaultFPS"]];
-					}
-				
-				[args addObject:[outputFile stringByAppendingString:@".avi"]];
-				[ffmpeg setArguments:[args copy]];
-				
-				[args release];
-				}
-				else if (format == 3)
-				{
-				NSMutableArray *args = [[NSMutableArray alloc] init];
-				args = [[NSArray arrayWithObjects:@"-threads",[[NSNumber numberWithInt:[[[NSUserDefaults standardUserDefaults] objectForKey:@"KWEncodingThreads"] intValue]] stringValue],@"-i",[outputFile stringByAppendingString:@".wav"],@"-threads",[[NSNumber numberWithInt:[[[NSUserDefaults standardUserDefaults] objectForKey:@"KWEncodingThreads"] intValue]] stringValue],@"-i",path,@"-target",ffmpegFormat,@"-ac",@"2",@"-aspect",aspect,@"-acodec",nil] mutableCopy];
-					
-					if ([[[NSUserDefaults standardUserDefaults] objectForKey:@"KWDefaultDVDSoundType"] intValue] == 0)
-					[args addObject:@"mp2"];
-					else
-					[args addObject:@"ac3"];
-				
-					if ([[NSUserDefaults standardUserDefaults] boolForKey:@"KWCustomDVDVideoBitrate"])
-					{
-					[args addObject:@"-b"];
-					[args addObject:[[NSNumber numberWithInt:[[[NSUserDefaults standardUserDefaults] objectForKey:@"KWDefaultDVDVideoBitrate"] intValue]*1000] stringValue]];
-					}
-					
-					if ([[NSUserDefaults standardUserDefaults] boolForKey:@"KWCustomDVDSoundBitrate"])
-					{
-					[args addObject:@"-ab"];
-					[args addObject:[[NSNumber numberWithInt:[[[NSUserDefaults standardUserDefaults] objectForKey:@"KWDefaultDVDSoundBitrate"] intValue]*1000] stringValue]];
-					}
-					else if ([[[NSUserDefaults standardUserDefaults] objectForKey:@"Default DVD audio format"] intValue] == 0)
-					{
-					[args addObject:@"-ab"];
-					[args addObject:@"224000"];
-					}
-				
-				[args addObject:[outputFile stringByAppendingString:@".mpg"]];
-				
-					//Check if there is padding needed
-					if (![padTop isEqualTo:@""])
-					{
-					[args addObject:padTop];
-					[args addObject:padTopSize];
-					[args addObject:padBottom];
-					[args addObject:padBottomSize];
-					}
-					
-				[ffmpeg setArguments:[args copy]];
-				
-				[args release];
-				}
-			}
-			else if (format == 5)
-			{
-			[ffmpeg setArguments:[NSArray arrayWithObjects:@"-threads",[[NSNumber numberWithInt:[[[NSUserDefaults standardUserDefaults] objectForKey:@"KWEncodingThreads"] intValue]] stringValue],@"-i",[outputFile stringByAppendingString:@".wav"],@"-ab",[[NSNumber numberWithInt:[[[NSUserDefaults standardUserDefaults] objectForKey:@"KWDefaultMP3Bitrate"] intValue]*1000] stringValue],@"-ac",[[NSNumber numberWithInt:[[[NSUserDefaults standardUserDefaults] objectForKey:@"KWDefaultMP3Mode"] intValue] + 1] stringValue],@"-ar",@"44100",[outputFile stringByAppendingString:@".mp3"],nil]];
+				[args addObject:@"-s"];
+				[args addObject:@"1024x576"];
 			}
 			else
 			{
-				//Check if there is padding needed
-				if (![padTop isEqualTo:@""])
-				[ffmpeg setArguments:[NSArray arrayWithObjects:@"-threads",[[NSNumber numberWithInt:[[[NSUserDefaults standardUserDefaults] objectForKey:@"KWEncodingThreads"] intValue]] stringValue],@"-i",[outputFile stringByAppendingString:@".wav"],@"-threads",[[NSNumber numberWithInt:[[[NSUserDefaults standardUserDefaults] objectForKey:@"KWEncodingThreads"] intValue]] stringValue],@"-i",path,@"-target",ffmpegFormat,@"-ac",@"2",@"-aspect",aspect,[outputFile stringByAppendingString:@".mpg"],padTop, padTopSize, padBottom, padBottomSize,nil]];
-				else
-				[ffmpeg setArguments:[NSArray arrayWithObjects:@"-threads",[[NSNumber numberWithInt:[[[NSUserDefaults standardUserDefaults] objectForKey:@"KWEncodingThreads"] intValue]] stringValue],@"-i",[outputFile stringByAppendingString:@".wav"],@"-threads",[[NSNumber numberWithInt:[[[NSUserDefaults standardUserDefaults] objectForKey:@"KWEncodingThreads"] intValue]] stringValue],@"-i",path,@"-target",ffmpegFormat,@"-ac",@"2",@"-aspect",aspect,[outputFile stringByAppendingString:@".mpg"],nil]];			
+				[args addObject:@"-s"];
+				[args addObject:@"1024x480"];
 			}
 		}
+					
+		if ([defaults boolForKey:@"KWCustomFPS"])
+		{
+			[args addObject:@"-r"];
+			[args addObject:[defaults objectForKey:@"KWDefaultFPS"]];
+		}
 	}
+	else if (convertKind == 3)
+	{
+		[args addObjectsFromArray:[NSArray arrayWithObjects:@"-target",ffmpegFormat,@"-ac",@"2",@"-aspect",aspect,@"-acodec",nil]];
+				
+		if ([[defaults objectForKey:@"KWDefaultDVDSoundType"] intValue] == 0)
+			[args addObject:@"mp2"];
+		else
+			[args addObject:@"ac3"];
+					
+		if ([defaults boolForKey:@"KWCustomDVDVideoBitrate"])
+		{
+			[args addObject:@"-b"];
+			[args addObject:[NSString stringWithFormat:@"%i", [[defaults objectForKey:@"KWDefaultDVDVideoBitrate"] intValue] * 1000]];
+		}
+					
+		if ([defaults boolForKey:@"KWCustomDVDSoundBitrate"])
+		{
+			[args addObject:@"-ab"];
+			[args addObject:[NSString stringWithFormat:@"%i", [[defaults objectForKey:@"KWDefaultDVDSoundBitrate"] intValue] * 1000]];
+		}
+		else if ([[defaults objectForKey:@"KWDefaultDVDSoundType"] intValue] == 0)
+		{
+			[args addObject:@"-ab"];
+			[args addObject:@"224000"];
+		}
+	}
+	else if (convertKind == 5)
+	{
+		[args addObject:@"-ab"];
+		[args addObject:[NSString stringWithFormat:@"%i", [[defaults objectForKey:@"KWDefaultMP3Bitrate"] intValue] * 1000]];
+		[args addObject:@"-ac"];
+		[args addObject:[[defaults objectForKey:@"KWDefaultMP3Mode"] stringValue]];
+		[args addObject:@"-ar"];
+		[args addObject:@"44100"];
+	}
+		
+	[args addObject:outFileWithExtension];
+		
+	//Fix for DV to mpeg2 PAL conversion
+	if (inputFormat == 1 && convertRegion == 1)
+	{
+		if (convertKind == 2)
+		{
+			//SVCD
+			[args addObjectsFromArray:[NSArray arrayWithObjects:@"-cropleft", @"22", @"-cropright", @"22", nil]];
+		}
+		else if (convertKind == 3)
+		{
+			//DVD
+			[args addObjectsFromArray:[NSArray arrayWithObjects:@"-cropleft", @"24", @"-cropright", @"24", nil]];
+		}
+	}
+		
+	[args addObjectsFromArray:padOptions];
+		
+	if ([defaults boolForKey:@"KWSaveBorders"] == YES)
+	{
+		NSNumber *borderSize = [[NSUserDefaults standardUserDefaults] objectForKey:@"KWSaveBorderSize"];
+		NSString *heightBorder = [borderSize stringValue];
+		NSString *widthBorder = [self convertToEven:[[NSNumber numberWithFloat:inputWidth / (inputHeight / [borderSize floatValue])] stringValue]];
+		
+		
+		if ([padOptions count] > 0 && [[padOptions objectAtIndex:0] isEqualTo:@"-padtop"])
+		{
+			[args addObjectsFromArray:[NSArray arrayWithObjects:@"-padleft", widthBorder, @"-padright", widthBorder, nil]];
+		}
+		else
+		{
+			[args addObjectsFromArray:[NSArray arrayWithObjects:@"-padtop", heightBorder, @"-padbottom", heightBorder, nil]];
+			
+			if ([padOptions count] == 0)
+				[args addObjectsFromArray:[NSArray arrayWithObjects:@"-padleft", widthBorder, @"-padright", widthBorder, nil]];
+		}
+	}
+		
+	[ffmpeg setArguments:args];
+	//ffmpeg uses stderr to show the progress
+	[ffmpeg setStandardError:pipe];
+	handle=[pipe fileHandleForReading];
+	
+	[KWCommonMethods logCommandIfNeeded:ffmpeg];
+	
+	[ffmpeg launch];
+
+	if (useQuickTime == YES)
+		status = 3;
 	else
-	{
-		//Check if we need to make a DIVX (Since were not changing settings here
-		if (format == 4 | format == 3)
-		{
-			//Check if we use a wave file or not
-			if (wav == NO)
-			{
-				if (format == 4)
-				{
-				NSMutableArray *args = [[NSMutableArray alloc] init];
-				args = [[NSArray arrayWithObjects:@"-f", @"yuv4mpegpipe",@"-threads",[[NSNumber numberWithInt:[[[NSUserDefaults standardUserDefaults] objectForKey:@"KWEncodingThreads"] intValue]] stringValue],@"-i",@"-",@"-threads",[[NSNumber numberWithInt:[[[NSUserDefaults standardUserDefaults] objectForKey:@"KWEncodingThreads"] intValue]] stringValue],@"-i",path,@"-vtag",@"DIVX",@"-acodec",nil] mutableCopy];
-					
-					if ([[[NSUserDefaults standardUserDefaults] objectForKey:@"KWDefaultDivXSoundType"] intValue] == 0)
-					{
-					[args addObject:@"libmp3lame"];
-					[args addObject:@"-ac"];
-					[args addObject:@"2"];
-					}
-					else
-					{
-					[args addObject:@"ac3"];
-					}
-				
-					if ([[NSUserDefaults standardUserDefaults] boolForKey:@"KWCustomDivXVideoBitrate"])
-					{
-					[args addObject:@"-b"];
-					[args addObject:[[NSNumber numberWithInt:[[[NSUserDefaults standardUserDefaults] objectForKey:@"KWDefaultDivXVideoBitrate"] intValue]*1000] stringValue]];
-					}
-					
-					if ([[NSUserDefaults standardUserDefaults] boolForKey:@"KWCustomDivXSoundBitrate"])
-					{
-					[args addObject:@"-ab"];
-					[args addObject:[[NSNumber numberWithInt:[[[NSUserDefaults standardUserDefaults] objectForKey:@"KWDefaultDivxSoundBitrate"] intValue]*1000] stringValue]];
-					}
-					
-					if ([[NSUserDefaults standardUserDefaults] boolForKey:@"KWCustomDivXSize"])
-					{
-					[args addObject:@"-s"];
-					[args addObject:[[[[[NSUserDefaults standardUserDefaults] objectForKey:@"KWDefaultDivXWidth"] stringValue] stringByAppendingString:@"x"] stringByAppendingString:[[[NSUserDefaults standardUserDefaults] objectForKey:@"KWDefaultDivXHeight"] stringValue]]];
-					}
-					else if ([inputFormat isEqualTo:@"DV"] && aspectValue == 2)
-					{
-						if (region == 1)
-						{
-						[args addObject:@"-s"];
-						[args addObject:@"1024x576"];
-						}
-						else
-						{
-						[args addObject:@"-s"];
-						[args addObject:@"1024x480"];
-						}
-					}
-					else if ([inputFormat isEqualTo:@"MPEG2"] && aspectValue == 2)
-					{
-						if (region == 1)
-						{
-						[args addObject:@"-s"];
-						[args addObject:@"1024x576"];
-						}
-						else
-						{
-						[args addObject:@"-s"];
-						[args addObject:@"1024x480"];
-						}
-					}
-					
-					if ([[NSUserDefaults standardUserDefaults] boolForKey:@"KWCustomFPS"])
-					{
-					[args addObject:@"-r"];
-					[args addObject:[[NSUserDefaults standardUserDefaults] objectForKey:@"KWDefaultFPS"]];
-					}
-				
-				[args addObject:[outputFile stringByAppendingString:@".avi"]];
-				[ffmpeg setArguments:[args copy]];
-				
-				[args release];
-				}
-				else if (format == 3)
-				{
-				NSMutableArray *args = [[NSMutableArray alloc] init];
-				args = [[NSArray arrayWithObjects:@"-f", @"yuv4mpegpipe",@"-threads",[[NSNumber numberWithInt:[[[NSUserDefaults standardUserDefaults] objectForKey:@"KWEncodingThreads"] intValue]] stringValue],@"-i",@"-",@"-threads",[[NSNumber numberWithInt:[[[NSUserDefaults standardUserDefaults] objectForKey:@"KWEncodingThreads"] intValue]] stringValue],@"-i",path,@"-target",ffmpegFormat,@"-ac",@"2",@"-aspect",aspect,@"-acodec",nil] mutableCopy];
-					
-					if ([[[NSUserDefaults standardUserDefaults] objectForKey:@"KWDefaultDVDSoundType"] intValue] == 0)
-					[args addObject:@"mp2"];
-					else
-					[args addObject:@"ac3"];
-				
-					if ([[NSUserDefaults standardUserDefaults] boolForKey:@"KWCustomDVDVideoBitrate"])
-					{
-					[args addObject:@"-b"];
-					[args addObject:[[NSNumber numberWithInt:[[[NSUserDefaults standardUserDefaults] objectForKey:@"KWDefaultDVDVideoBitrate"] intValue]*1000] stringValue]];
-					}
-					
-					if ([[NSUserDefaults standardUserDefaults] boolForKey:@"KWCustomDVDSoundBitrate"])
-					{
-					[args addObject:@"-ab"];
-					[args addObject:[[NSNumber numberWithInt:[[[NSUserDefaults standardUserDefaults] objectForKey:@"KWDefaultDVDSoundBitrate"] intValue]*1000] stringValue]];
-					}
-					else if ([[[NSUserDefaults standardUserDefaults] objectForKey:@"Default DVD audio format"] intValue] == 0)
-					{
-					[args addObject:@"-ab"];
-					[args addObject:@"224000"];
-					}
-				
-				[args addObject:[outputFile stringByAppendingString:@".mpg"]];
-				
-					//Check if there is padding needed
-					if (![padTop isEqualTo:@""])
-					{
-					[args addObject:padTop];
-					[args addObject:padTopSize];
-					[args addObject:padBottom];
-					[args addObject:padBottomSize];
-					}
-				
-				[ffmpeg setArguments:[args copy]];
-				
-				[args release];
-				}
-			}
-			else
-			{
-			//This is a problem with earlier versions of ffmpeg
-			//[ffmpeg setArguments:[NSArray arrayWithObjects:@"-f", @"yuv4mpegpipe",@"-threads",[[NSNumber numberWithInt:[[[NSUserDefaults standardUserDefaults] objectForKey:@"KWEncodingThreads"] intValue]] stringValue],@"-i",@"-",@"-threads",[[NSNumber numberWithInt:[[[NSUserDefaults standardUserDefaults] objectForKey:@"KWEncodingThreads"] intValue]] stringValue],@"-i",[outputFile stringByAppendingString:@".wav"],@"-acodec",@"mp3",@"-vtag",@"DIVX",[outputFile stringByAppendingString:@".avi"],nil]];
-			[ffmpeg setArguments:[NSArray arrayWithObjects:@"-f", @"yuv4mpegpipe",@"-threads",[[NSNumber numberWithInt:[[[NSUserDefaults standardUserDefaults] objectForKey:@"KWEncodingThreads"] intValue]] stringValue],@"-i",@"-",@"-threads",[[NSNumber numberWithInt:[[[NSUserDefaults standardUserDefaults] objectForKey:@"KWEncodingThreads"] intValue]] stringValue],@"-i",[outputFile stringByAppendingString:@".wav"],@"-acodec",@"libmp3lame",@"-vtag",@"DIVX",[outputFile stringByAppendingString:@".avi"],nil]];	
-				if (format == 4)
-				{
-				NSMutableArray *args = [[NSMutableArray alloc] init];
-				args = [[NSArray arrayWithObjects:@"-f", @"yuv4mpegpipe",@"-threads",[[NSNumber numberWithInt:[[[NSUserDefaults standardUserDefaults] objectForKey:@"KWEncodingThreads"] intValue]] stringValue],@"-i",@"-",@"-threads",[[NSNumber numberWithInt:[[[NSUserDefaults standardUserDefaults] objectForKey:@"KWEncodingThreads"] intValue]] stringValue],@"-i",[outputFile stringByAppendingString:@".wav"],@"-vtag",@"DIVX",@"-acodec",nil] mutableCopy];
-					
-					if ([[[NSUserDefaults standardUserDefaults] objectForKey:@"KWDefaultDivXSoundType"] intValue] == 0)
-					{
-					[args addObject:@"libmp3lame"];
-					[args addObject:@"-ac"];
-					[args addObject:@"2"];
-					}
-					else
-					{
-					[args addObject:@"ac3"];
-					}
-				
-					if ([[NSUserDefaults standardUserDefaults] boolForKey:@"KWCustomDivXVideoBitrate"])
-					{
-					[args addObject:@"-b"];
-					[args addObject:[[NSNumber numberWithInt:[[[NSUserDefaults standardUserDefaults] objectForKey:@"KWDefaultDivXVideoBitrate"] intValue]*1000] stringValue]];
-					}
-					
-					if ([[NSUserDefaults standardUserDefaults] boolForKey:@"KWCustomDivXSoundBitrate"])
-					{
-					[args addObject:@"-ab"];
-					[args addObject:[[NSNumber numberWithInt:[[[NSUserDefaults standardUserDefaults] objectForKey:@"KWDefaultDivxSoundBitrate"] intValue]*1000] stringValue]];
-					}
-					
-					if ([[NSUserDefaults standardUserDefaults] boolForKey:@"KWCustomDivXSize"])
-					{
-					[args addObject:@"-s"];
-					[args addObject:[[[[[NSUserDefaults standardUserDefaults] objectForKey:@"KWDefaultDivXWidth"] stringValue] stringByAppendingString:@"x"] stringByAppendingString:[[[NSUserDefaults standardUserDefaults] objectForKey:@"KWDefaultDivXHeight"] stringValue]]];
-					}
-					else if ([inputFormat isEqualTo:@"DV"] && aspectValue == 2)
-					{
-						if (region == 1)
-						{
-						[args addObject:@"-s"];
-						[args addObject:@"1024x576"];
-						}
-						else
-						{
-						[args addObject:@"-s"];
-						[args addObject:@"1024x480"];
-						}
-					}
-					else if ([inputFormat isEqualTo:@"MPEG2"] && aspectValue == 2)
-					{
-						if (region == 1)
-						{
-						[args addObject:@"-s"];
-						[args addObject:@"1024x576"];
-						}
-						else
-						{
-						[args addObject:@"-s"];
-						[args addObject:@"1024x480"];
-						}
-					}
-					
-					if ([[NSUserDefaults standardUserDefaults] boolForKey:@"KWCustomFPS"])
-					{
-					[args addObject:@"-r"];
-					[args addObject:[[NSUserDefaults standardUserDefaults] objectForKey:@"KWDefaultFPS"]];
-					}
-				
-				[args addObject:[outputFile stringByAppendingString:@".avi"]];
-				[ffmpeg setArguments:[args copy]];
-				
-				[args release];
-				}
-				else if (format == 3)
-				{
-				NSMutableArray *args = [[NSMutableArray alloc] init];
-				args = [[NSArray arrayWithObjects:@"-f", @"yuv4mpegpipe",@"-threads",[[NSNumber numberWithInt:[[[NSUserDefaults standardUserDefaults] objectForKey:@"KWEncodingThreads"] intValue]] stringValue],@"-i",@"-",@"-threads",[[NSNumber numberWithInt:[[[NSUserDefaults standardUserDefaults] objectForKey:@"KWEncodingThreads"] intValue]] stringValue],@"-i",[outputFile stringByAppendingString:@".wav"],@"-target",ffmpegFormat,@"-ac",@"2",@"-aspect",aspect,@"-acodec",nil] mutableCopy];
-					
-					if ([[[NSUserDefaults standardUserDefaults] objectForKey:@"KWDefaultDVDSoundType"] intValue] == 0)
-					[args addObject:@"mp2"];
-					else
-					[args addObject:@"ac3"];
-				
-					if ([[NSUserDefaults standardUserDefaults] boolForKey:@"KWCustomDVDVideoBitrate"])
-					{
-					[args addObject:@"-b"];
-					[args addObject:[[NSNumber numberWithInt:[[[NSUserDefaults standardUserDefaults] objectForKey:@"KWDefaultDVDVideoBitrate"] intValue]*1000] stringValue]];
-					}
-					
-					if ([[NSUserDefaults standardUserDefaults] boolForKey:@"KWCustomDVDSoundBitrate"])
-					{
-					[args addObject:@"-ab"];
-					[args addObject:[[NSNumber numberWithInt:[[[NSUserDefaults standardUserDefaults] objectForKey:@"KWDefaultDVDSoundBitrate"] intValue]*1000] stringValue]];
-					}
-					else if ([[[NSUserDefaults standardUserDefaults] objectForKey:@"Default DVD audio format"] intValue] == 0)
-					{
-					[args addObject:@"-ab"];
-					[args addObject:@"224000"];
-					}
-				
-				[args addObject:[outputFile stringByAppendingString:@".mpg"]];
-				
-					//Check if there is padding needed
-					if (![padTop isEqualTo:@""])
-					{
-					[args addObject:padTop];
-					[args addObject:padTopSize];
-					[args addObject:padBottom];
-					[args addObject:padBottomSize];
-					}
-				
-				[ffmpeg setArguments:[args copy]];
-				
-				[args release];
-				}
-			}
-		}
-		else
-		{
-			//Check if we need padding
-			if (![padTop isEqualTo:@""])
-			{
-				//Check if we use a wave file or not
-				if (wav == NO)
-				[ffmpeg setArguments:[NSArray arrayWithObjects:@"-f", @"yuv4mpegpipe",@"-threads",[[NSNumber numberWithInt:[[[NSUserDefaults standardUserDefaults] objectForKey:@"KWEncodingThreads"] intValue]] stringValue],@"-i",@"-",@"-threads",[[NSNumber numberWithInt:[[[NSUserDefaults standardUserDefaults] objectForKey:@"KWEncodingThreads"] intValue]] stringValue],@"-i",path,@"-target",ffmpegFormat,@"-ac",@"2",@"-aspect",aspect,[outputFile stringByAppendingString:@".mpg"],padTop, padTopSize, padBottom, padBottomSize,nil]];
-				else
-				[ffmpeg setArguments:[NSArray arrayWithObjects:@"-f", @"yuv4mpegpipe",@"-threads",[[NSNumber numberWithInt:[[[NSUserDefaults standardUserDefaults] objectForKey:@"KWEncodingThreads"] intValue]] stringValue],@"-i",@"-",@"-threads",[[NSNumber numberWithInt:[[[NSUserDefaults standardUserDefaults] objectForKey:@"KWEncodingThreads"] intValue]] stringValue],@"-i",[outputFile stringByAppendingString:@".wav"],@"-target",ffmpegFormat,@"-ac",@"2",@"-aspect",aspect,[outputFile stringByAppendingString:@".mpg"],padTop, padTopSize, padBottom, padBottomSize,nil]];		
-			}
-			else
-			{
-				//Check if we use a wave file or not
-				if (wav == NO)
-				[ffmpeg setArguments:[NSArray arrayWithObjects:@"-f", @"yuv4mpegpipe",@"-threads",[[NSNumber numberWithInt:[[[NSUserDefaults standardUserDefaults] objectForKey:@"KWEncodingThreads"] intValue]] stringValue],@"-i",@"-",@"-threads",[[NSNumber numberWithInt:[[[NSUserDefaults standardUserDefaults] objectForKey:@"KWEncodingThreads"] intValue]] stringValue],@"-i",path,@"-target",ffmpegFormat,@"-ac",@"2",@"-aspect",aspect,[outputFile stringByAppendingString:@".mpg"],nil]];
-				else
-				[ffmpeg setArguments:[NSArray arrayWithObjects:@"-f", @"yuv4mpegpipe",@"-threads",[[NSNumber numberWithInt:[[[NSUserDefaults standardUserDefaults] objectForKey:@"KWEncodingThreads"] intValue]] stringValue],@"-i",@"-",@"-threads",[[NSNumber numberWithInt:[[[NSUserDefaults standardUserDefaults] objectForKey:@"KWEncodingThreads"] intValue]] stringValue],@"-i",[outputFile stringByAppendingString:@".wav"],@"-target",ffmpegFormat,@"-ac",@"2",@"-aspect",aspect,[outputFile stringByAppendingString:@".mpg"],nil]];
-			}
-		}
-	}
-//ffmpeg uses stderr to show the progress
-[ffmpeg setStandardError:pipe];
-handle=[pipe fileHandleForReading];
+		status = 2;
 
-	if ([inputFormat isEqualTo:@"DV"] && region == 1)
-	{
-		if (format == 2)
-		{
-		//SVCD
-		NSMutableArray *tempMute = [[ffmpeg arguments] mutableCopy];
-		[tempMute addObject:@"-cropleft"];
-		[tempMute addObject:@"22"];
-		[tempMute addObject:@"-cropright"];
-		[tempMute addObject:@"22"];
-		[ffmpeg setArguments:[tempMute copy]];
-		}
-		else if (format == 3)
-		{
-		//DVD
-		NSMutableArray *tempMute = [[ffmpeg arguments] mutableCopy];
-		[tempMute addObject:@"-cropleft"];
-		[tempMute addObject:@"24"];
-		[tempMute addObject:@"-cropright"];
-		[tempMute addObject:@"24"];
-		[ffmpeg setArguments:[tempMute copy]];
-		}
-		
-		if (![padTop isEqualTo:@""])
-		{
-		NSMutableArray *tempMute = [[ffmpeg arguments] mutableCopy];
-		[tempMute addObject:padTop];
-		[tempMute addObject:padTopSize];
-		[tempMute addObject:padBottom];
-		[tempMute addObject:padBottomSize];
-		[ffmpeg setArguments:[tempMute copy]];
-		}
-	}
-	
-	if ([[NSUserDefaults standardUserDefaults] boolForKey:@"KWSaveBorders"] == YES)
-	{
-	NSMutableArray *tempMute = [[ffmpeg arguments] mutableCopy];
-	NSNumber *borderSize = [[NSUserDefaults standardUserDefaults] objectForKey:@"KWSaveBorderSize"];
-	NSString *heightBorder = [borderSize stringValue];
-	NSString *widthBorder = [self convertToEven:[[NSNumber numberWithFloat:[inputWidth floatValue] / ([inputHeight floatValue] / [borderSize floatValue])] stringValue]];
-	
-		if ([padTop isEqualTo:@"-padtop"])
-		{
-		[tempMute addObject:@"-padleft"];
-		[tempMute addObject:widthBorder];
-		[tempMute addObject:@"-padright"];
-		[tempMute addObject:widthBorder];
-		}
-		else
-		{
-		[tempMute addObject:@"-padtop"];
-		[tempMute addObject:heightBorder];
-		[tempMute addObject:@"-padbottom"];
-		[tempMute addObject:heightBorder];
-		
-			if ([padTop isEqualTo:@""])
-			{
-			[tempMute addObject:@"-padleft"];
-			[tempMute addObject:widthBorder];
-			[tempMute addObject:@"-padright"];
-			[tempMute addObject:widthBorder];
-			}
-		}
-	
-	[ffmpeg setArguments:[tempMute copy]];
-	}
-	
-	if ([[NSUserDefaults standardUserDefaults] boolForKey:@"KWConsoleEnabled"] == YES)
-	{
-	NSArray *showArgs = [ffmpeg arguments];
-	NSString *command = @"ffmpeg";
+	NSAutoreleasePool *innerPool = [[NSAutoreleasePool alloc] init];
+	NSString *string = nil;
 
-		int i;
-		for (i=0;i<[showArgs count];i++)
-		{
-		command = [command stringByAppendingString:@" "];
-		command = [command stringByAppendingString:[showArgs objectAtIndex:i]];
-		}
-	
-	NSLog(command);
-	[[NSNotificationCenter defaultCenter] postNotificationName:@"KWConsoleNotification" object:command];
-	}
-	
-[ffmpeg launch];
-
-	if (mov == YES)
-	status = 3;
-	else
-	status = 2;
-
-NSAutoreleasePool *innerPool = [[NSAutoreleasePool alloc] init];
-NSString *string = nil;
-
-//Here we go
+	//Here we go
 	while([data=[handle availableData] length]) 
 	{
 		if (string)
-		[string release];
+			[string release];
 	
-	//The string containing ffmpeg's output
-	string=[[NSString alloc] initWithData:data encoding:NSASCIIStringEncoding];
+		//The string containing ffmpeg's output
+		string=[[NSString alloc] initWithData:data encoding:NSASCIIStringEncoding];
 	
-		if ([[NSUserDefaults standardUserDefaults] boolForKey:@"KWConsoleEnabled"] == YES)
-		{
-		[[NSNotificationCenter defaultCenter] postNotificationName:@"KWConsoleNotification" object:string];
-		NSLog(string);
-		}
+		if ([defaults boolForKey:@"KWDebug"] == YES)
+			NSLog(string);
 		
 		//Format the time sting ffmpeg outputs and format it to percent
 		if ([string rangeOfString:@"time="].length > 0)
 		{
-		NSString *currentTimeString = [[[[string componentsSeparatedByString:@"time="] objectAtIndex:1] componentsSeparatedByString:@" "] objectAtIndex:0];
-		double percent = [[[[[NSNumber numberWithDouble:[currentTimeString doubleValue] / [inputTotalTime doubleValue] * 100] stringValue] componentsSeparatedByString:@"."] objectAtIndex:0] doubleValue];
+			NSString *currentTimeString = [[[[string componentsSeparatedByString:@"time="] objectAtIndex:1] componentsSeparatedByString:@" "] objectAtIndex:0];
+			float percent = [currentTimeString floatValue] / inputTotalTime * 100;
 		
-			if ([inputTotalTime doubleValue] > 0)
+			if (inputTotalTime > 0)
 			{
 				if (percent < 101)
 				{
-				[[NSNotificationCenter defaultCenter] postNotificationName:@"KWStatusByAddingPercentChanged" object:[[@" (" stringByAppendingString:[[NSNumber numberWithDouble:percent] stringValue]] stringByAppendingString:@"%)"]];
-				[[NSNotificationCenter defaultCenter] postNotificationName:@"KWValueChanged" object:[NSNumber numberWithDouble:percent + (double)number * 100]];
+					[[NSNotificationCenter defaultCenter] postNotificationName:@"KWStatusByAddingPercentChanged" object:[NSString stringWithFormat: @" (%.0f%@)", percent, @"%"]];
+					[[NSNotificationCenter defaultCenter] postNotificationName:@"KWValueChanged" object:[NSNumber numberWithDouble:percent + (double)number * 100]];
 				}
 			}
 			else
@@ -1413,235 +442,150 @@ NSString *string = nil;
 			}
 		}
 
-	data = nil;
+		data = nil;
 	
-	[innerPool release];
-	innerPool = [[NSAutoreleasePool alloc] init];
+		[innerPool release];
+		innerPool = [[NSAutoreleasePool alloc] init];
 	}
 
-//After there's no output wait for ffmpeg to stop
-[ffmpeg waitUntilExit];
+	//After there's no output wait for ffmpeg to stop
+	[ffmpeg waitUntilExit];
 
-//Check if the encoding succeeded, if not remove the mpg file ,NOT POSSIBLE :-(
-int taskStatus = [ffmpeg terminationStatus];
+	//Check if the encoding succeeded, if not remove the mpg file ,NOT POSSIBLE :-(
+	int taskStatus = [ffmpeg terminationStatus];
 
-//Release ffmpeg
-[ffmpeg release];
+	//Release ffmpeg
+	[ffmpeg release];
 	
 	//If we used a wav file, delete it
-	if (wav == YES)
-	[[NSFileManager defaultManager] removeFileAtPath:[outputFile stringByAppendingString:@".wav"] handler:nil];
+	if (useWav == YES)
+		[KWCommonMethods removeItemAtPath:[outputFile stringByAppendingString:@" (tmp).wav"]];
 	
-	if (mov == YES)
+	if (useQuickTime == YES)
 	{	
-	[movtoy4m release];
-	[pipe2 release];
-		if ([[NSUserDefaults standardUserDefaults] boolForKey:@"KWConsoleEnabled"] == NO)
-		[errorPipe release];
+		[movtoy4m release];
+		[pipe2 release];
 	}
 	
-[pipe release];
-inputTotalTime = @"";
+	[pipe release];
 	
 	//Return if ffmpeg failed or not
 	if (taskStatus == 0)
 	{
-	status = 0;
+		status = 0;
+		encodedOutputFile = outFileWithExtension;
 	
-		if (format == 4)
-		encodedOutputFile = [outputFile stringByAppendingString:@".avi"];
-		else if (format == 5)
-		encodedOutputFile = [outputFile stringByAppendingString:@".mp3"];
-		else if (format == 6)
-		encodedOutputFile = [outputFile stringByAppendingString:@".wav"];
-		else
-		encodedOutputFile = [outputFile stringByAppendingString:@".mpg"];
-	
-	return 0;
+		return 0;
 	}
 	else if (userCanceled == YES)
 	{
-	status = 0;
-	
-		//Delete the mpg file if ffmpeg was canceled
-		if (format == 4)
-		[[NSFileManager defaultManager] removeFileAtPath:[outputFile stringByAppendingString:@".avi"] handler:nil];
-		else if (format == 5)
-		[[NSFileManager defaultManager] removeFileAtPath:[outputFile stringByAppendingString:@".mp3"] handler:nil];
-		else if (format == 6)
-		[[NSFileManager defaultManager] removeFileAtPath:[outputFile stringByAppendingString:@".wav"] handler:nil];
-		else
-		[[NSFileManager defaultManager] removeFileAtPath:[outputFile stringByAppendingString:@".mpg"] handler:nil];
+		status = 0;
 		
-	return 2;
+		[KWCommonMethods removeItemAtPath:outFileWithExtension];
+		
+		return 2;
 	}
 	else
 	{
-	status = 0;
+		status = 0;
+		
+		[KWCommonMethods removeItemAtPath:outFileWithExtension];
 	
-		//Delete the mpg file if ffmpeg failed
-		if (format == 4)
-		[[NSFileManager defaultManager] removeFileAtPath:[outputFile stringByAppendingString:@".avi"] handler:nil];
-		else if (format == 5)
-		[[NSFileManager defaultManager] removeFileAtPath:[outputFile stringByAppendingString:@".mp3"] handler:nil];
-		else if (format == 6)
-		[[NSFileManager defaultManager] removeFileAtPath:[outputFile stringByAppendingString:@".wav"] handler:nil];
-		else
-		[[NSFileManager defaultManager] removeFileAtPath:[outputFile stringByAppendingString:@".mpg"] handler:nil];
+		[string release];
 		
-	[KWCommonMethods writeLogWithFilePath:path withCommand:@"ffmpeg" withLog:string];
-	[string release];
-		
-	return 1;
+		return 1;
 	}
 }
 
 //Encode sound to wav
--(int)encodeAudio:(NSString *)path useQuickTimeToo:(BOOL)mov setOutputFolder:(NSString *)outputFolder setRegion:(int)region setFormat:(int)format
+- (int)encodeAudioAtPath:(NSString *)path
 {
-[[NSNotificationCenter defaultCenter] postNotificationName:@"KWStatusChanged" object:[NSLocalizedString(@"Decoding sound: ", Localized) stringByAppendingString:[[NSFileManager defaultManager] displayNameAtPath:path]]];
+	NSFileManager *defaultFileManager = [NSFileManager defaultManager];
+	[[NSNotificationCenter defaultCenter] postNotificationName:@"KWStatusChanged" object:[NSString stringWithFormat:NSLocalizedString(@"Decoding sound: %@", nil), [[NSFileManager defaultManager] displayNameAtPath:path]]];
 
-//Output file (without extension)
-NSString *outputFile = [outputFolder stringByAppendingString:[[path lastPathComponent] stringByDeletingPathExtension]];
+	//Output file (without extension)
+	NSString *outputFile = [NSString stringWithFormat:@"%@/%@", convertDestination, [[path lastPathComponent] stringByDeletingPathExtension]];
 
-	if (format == 4)
-	{
-	outputFile = [[KWCommonMethods uniquePathNameFromPath:[outputFile stringByAppendingString:@".avi"] withLength:0] stringByDeletingPathExtension];
-	}
-	else if (format == 5)
-	{
-	outputFile = [[KWCommonMethods uniquePathNameFromPath:[outputFile stringByAppendingString:@".mp3"] withLength:0] stringByDeletingPathExtension];
-	}
-	else
-	{
-	outputFile = [[KWCommonMethods uniquePathNameFromPath:[outputFile stringByAppendingString:@".mpg"] withLength:0] stringByDeletingPathExtension];
-	}
+	outputFile = [[KWCommonMethods uniquePathNameFromPath:[outputFile stringByAppendingPathExtension:convertExtension]] stringByDeletingPathExtension];
 
-	if ([[NSFileManager defaultManager] fileExistsAtPath:[outputFile stringByAppendingString:@".wav"]])
-	[[NSFileManager defaultManager] removeFileAtPath:[outputFile stringByAppendingString:@".wav"] handler:nil];
+	if (convertKind != 6)
+		outputFile = [NSString stringWithFormat:@"%@ (tmp)", outputFile];
+
+	if ([defaultFileManager fileExistsAtPath:[outputFile stringByAppendingString:@".wav"]])
+		[KWCommonMethods removeItemAtPath:[outputFile stringByAppendingString:@".wav"]];
 	
-//movtowav encodes quicktime movie's sound to wav
-movtowav = [[NSTask alloc] init];
-[movtowav setLaunchPath:[[NSBundle mainBundle] pathForResource:@"movtowav" ofType:@""]];
-[movtowav setArguments:[NSArray arrayWithObjects:@"-o",[outputFile stringByAppendingString:@".wav"],path,nil]];
-int taskStatus;
+	//movtowav encodes quicktime movie's sound to wav
+	movtowav = [[NSTask alloc] init];
+	[movtowav setLaunchPath:[[NSBundle mainBundle] pathForResource:@"movtowav" ofType:@""]];
+	[movtowav setArguments:[NSArray arrayWithObjects:@"-o", [outputFile stringByAppendingString:@".wav"], path,nil]];
+	int taskStatus;
 
-NSPipe *pipe=[[NSPipe alloc] init];
-NSFileHandle *handle=[pipe fileHandleForReading];
-[movtowav setStandardError:pipe];
-[movtowav launch];
-NSString *string=[[NSString alloc] initWithData:[handle readDataToEndOfFile] encoding:NSASCIIStringEncoding];
+	NSPipe *pipe=[[NSPipe alloc] init];
+	NSFileHandle *handle=[pipe fileHandleForReading];
+	[movtowav setStandardError:pipe];
+	[KWCommonMethods logCommandIfNeeded:movtowav];
+	[movtowav launch];
+	NSString *string=[[NSString alloc] initWithData:[handle readDataToEndOfFile] encoding:NSASCIIStringEncoding];
 
-	if ([[NSUserDefaults standardUserDefaults] boolForKey:@"KWConsoleEnabled"] == YES)
-	{
-	[[NSNotificationCenter defaultCenter] postNotificationName:@"KWConsoleNotification" object:string];
-	NSLog(string);
-	}
+	if ([[NSUserDefaults standardUserDefaults] boolForKey:@"KWDebug"] == YES)
+		NSLog(string);
 
-status = 1;
-[movtowav waitUntilExit];
-taskStatus = [movtowav terminationStatus];
-[movtowav release];
-[pipe release];
+	status = 1;
+	[movtowav waitUntilExit];
+	taskStatus = [movtowav terminationStatus];
+	[movtowav release];
+	[pipe release];
 	
-//Check if it all went OK if not remove the wave file and return NO
+	//Check if it all went OK if not remove the wave file and return NO
     if (!taskStatus == 0)
 	{
-	[[NSFileManager defaultManager] removeFileAtPath:[outputFile stringByAppendingString:@".wav"] handler:nil];
+		[KWCommonMethods removeItemAtPath:[outputFile stringByAppendingString:@".wav"]];
 	
-	status = 0;
+		status = 0;
 		
 		if (userCanceled == YES)
 		{
-		[string release];
+			[string release];
 		
-		return 2;
+			return 2;
 		}
 		else
 		{
-		[KWCommonMethods writeLogWithFilePath:path withCommand:@"movtowav" withLog:string];
-		[string release];
+			//[KWCommonMethods writeLogWithFilePath:path withCommand:@"movtowav" withLog:string];
+			[string release];
 
-		return 1;
+			return 1;
 		}
 	}
 	
 	[string release];
 
-	if (format == 5)
-	[self testFile:[outputFile stringByAppendingString:@".wav"] setOutputFolder:[outputFile stringByDeletingLastPathComponent] isType:5];
+	//if (format == 5)
+	//	[self testFile:[outputFile stringByAppendingString:@".wav"]];
 	
-	if (format == 6)
+	if (convertKind == 6)
 	{
-	[[NSNotificationCenter defaultCenter] postNotificationName:@"KWValueChanged" object:[NSNumber numberWithDouble:((double)number + 1) * 100]];
-	encodedOutputFile = [outputFile stringByAppendingString:@".wav"];
-	return 0;
+		[[NSNotificationCenter defaultCenter] postNotificationName:@"KWValueChanged" object:[NSNumber numberWithDouble:((double)number + 1) * 100]];
+		encodedOutputFile = [outputFile stringByAppendingString:@".wav"];
+		return 0;
 	}
 	
-	//Check if the movie needs to be decoded too, and start encoding with ffmpeg
-	if (mov == YES)
-	return [self encodeFile:path useWavFile:YES useQuickTime:YES setOutputFolder:outputFolder setRegion:region setFormat:format];
-	else
-	return [self encodeFile:path useWavFile:YES useQuickTime:NO setOutputFolder:outputFolder setRegion:region setFormat:format];	
-}
-
-//Encode the given file (return YES if it all went OK)
-- (int)encodeFile:(NSString *)path setOutputFolder:(NSString *)outputFolder setRegion:(int)region setFormat:(int)format
-{
-int testResult = [self testFile:path setOutputFolder:outputFolder isType:format];
-
-[[NSFileManager defaultManager] removeFileAtPath:[[[NSUserDefaults standardUserDefaults] objectForKey:@"KWTemporaryLocation"] stringByAppendingPathComponent:@"tempkf.mpg"] handler:nil];
-
-	if (testResult == 0)
-	{
-	return 3;
-	}
-	
-	//video=ffmpeg audio=ffmpeg
-	if (testResult == 1)
-	return [self encodeFile:path useWavFile:NO useQuickTime:NO setOutputFolder:outputFolder setRegion:region setFormat:format];
-	//video=qt audio=qt
-	else if (testResult == 2)
-	return [self encodeAudio:path useQuickTimeToo:YES setOutputFolder:outputFolder setRegion:region setFormat:format];
-	//video=qt audio=ffmpeg
-	else if (testResult == 3)
-	return [self encodeFile:path useWavFile:NO useQuickTime:YES setOutputFolder:outputFolder setRegion:region setFormat:format];
-	//video=ffmpeg audio=qt
-	else if (testResult == 4)
-	return [self encodeAudio:path useQuickTimeToo:NO setOutputFolder:outputFolder setRegion:region setFormat:format];
-	//video=ffmpeg
-	else if (testResult == 5)
-	return [self encodeFile:path useWavFile:NO useQuickTime:NO setOutputFolder:outputFolder setRegion:region setFormat:format];
-	//video=qt
-	else if (testResult == 6)
-	return [self encodeFile:path useWavFile:NO useQuickTime:YES setOutputFolder:outputFolder setRegion:region setFormat:format];
-	//audio=ffmpeg
-	else if (testResult == 7)
-	return [self encodeFile:path useWavFile:NO useQuickTime:NO setOutputFolder:outputFolder setRegion:region setFormat:format];
-	//audio=qt
-	else if (testResult == 8)
-	return [self encodeAudio:path useQuickTimeToo:NO setOutputFolder:outputFolder setRegion:region setFormat:format];
-	else 
-	return 1;
+	return [self encodeFileAtPath:path];	
 }
 
 //Stop encoding (stop ffmpeg, movtowav and movtoy4m if they're running
 - (void)cancelEncoding
 {
-userCanceled = YES;
+	userCanceled = YES;
 	
-	if (status == 1)
+	if (status == 1 | status == 3)
 	{
-	[movtowav terminate];
+		[movtowav terminate];
 	}
-	else if (status == 2)
+	
+	if (status == 2 | status == 3)
 	{
-	[ffmpeg terminate];
-	}
-	else if (status == 3)
-	{
-	[movtoy4m terminate];
-	[ffmpeg terminate];
+		[ffmpeg terminate];
 	}
 }
 
@@ -1653,626 +597,328 @@ userCanceled = YES;
 #pragma mark •• Test actions
 
 //Test if ffmpeg can encode, sound and/or video, and if it does have any sound
--(int)testFile:(NSString *)path setOutputFolder:(NSString *)outputFolder isType:(int)type
+- (int)testFile:(NSString *)path
 {
-int referenceTest = 0;
-[self isReferenceMovie:path isType:type];
+	NSString *displayName = [[NSFileManager defaultManager] displayNameAtPath:path];
 
-	if (referenceTest == 0)
-	{
 	BOOL audioWorks = YES;
 	BOOL videoWorks = YES;
 	BOOL keepGoing = YES;
 
-		while (keepGoing == YES)
+	while (keepGoing == YES)
+	{
+		NSString *tempFile = [[[NSUserDefaults standardUserDefaults] objectForKey:@"KWTemporaryLocation"] stringByAppendingPathComponent:@"tempkf.mpg"];
+		NSMutableArray *arguments = [NSMutableArray arrayWithObjects:@"-t",@"0.1",@"-threads",[[NSNumber numberWithInt:[[[NSUserDefaults standardUserDefaults] objectForKey:@"KWEncodingThreads"] intValue]] stringValue],@"-i",path,@"-target",@"pal-vcd", nil];
+			
+		if (videoWorks == NO)
+			[arguments addObject:@"-vn"];
+		else if (audioWorks == NO)
+			[arguments addObject:@"-an"];
+				
+		[arguments addObjectsFromArray:[NSArray arrayWithObjects:@"-ac",@"2",@"-r",@"25",@"-y", tempFile,nil]];
+		
+		NSString *string;
+		[KWCommonMethods launchNSTaskAtPath:[KWCommonMethods ffmpegPath] withArguments:arguments outputError:YES outputString:YES output:&string];
+		
+		keepGoing = NO;
+		
+		int code = 0;
+		NSString *error = @"%@ (Unknown error)";
+			
+		if ([string rangeOfString:@"error reading header: -1"].length > 0 && [string rangeOfString:@"iDVD"].length > 0)
+			code = 2;
+	
+		// Check if ffmpeg reconizes the file
+		if ([string rangeOfString:@"Unknown format"].length > 0)
+			error = [NSString stringWithFormat:NSLocalizedString(@"%@ (Unknown format)", nil), displayName];
+	
+		//Check if ffmpeg reconizes the codecs
+		if ([string rangeOfString:@"could not find codec parameters"].length > 0)
+			error = [NSString stringWithFormat:NSLocalizedString(@"%@ (Couldn't get attributes)", nil), displayName];
+			
+		//No audio
+		if ([string rangeOfString:@"error: movie contains no audio tracks!"].length > 0 && convertKind < 5)
+			error = [NSString stringWithFormat:NSLocalizedString(@"%@ (No audio)", nil), displayName];
+	
+		//Check if the movie is a (internet/local)reference file
+		if ([self isReferenceMovie:string])
+			code = 2;
+			
+		if (code == 0 | !error)
 		{
-		ffmpeg=[[NSTask alloc] init];
-		NSPipe *pipe=[[NSPipe alloc] init];
-		NSFileHandle *handle;
-
-		[ffmpeg setLaunchPath:[KWCommonMethods ffmpegPath]];
-	
-			if (audioWorks == YES && videoWorks == YES)
-			[ffmpeg setArguments:[NSArray arrayWithObjects:@"-t",@"0.1",@"-threads",[[NSNumber numberWithInt:[[[NSUserDefaults standardUserDefaults] objectForKey:@"KWEncodingThreads"] intValue]] stringValue],@"-i",path,@"-target",@"pal-vcd",@"-ac",@"2",@"-r",@"25",@"-y",[[[NSUserDefaults standardUserDefaults] objectForKey:@"KWTemporaryLocation"] stringByAppendingPathComponent:@"tempkf.mpg"],nil]];
-			if (audioWorks == NO)
-			[ffmpeg setArguments:[NSArray arrayWithObjects:@"-t",@"0.1",@"-threads",[[NSNumber numberWithInt:[[[NSUserDefaults standardUserDefaults] objectForKey:@"KWEncodingThreads"] intValue]] stringValue],@"-i",path,@"-target",@"pal-vcd",@"-an",@"-ac",@"2",@"-r",@"25",@"-y",[[[NSUserDefaults standardUserDefaults] objectForKey:@"KWTemporaryLocation"] stringByAppendingPathComponent:@"tempkf.mpg"],nil]];
-			if (videoWorks == NO)
-			[ffmpeg setArguments:[NSArray arrayWithObjects:@"-t",@"0.1",@"-threads",[[NSNumber numberWithInt:[[[NSUserDefaults standardUserDefaults] objectForKey:@"KWEncodingThreads"] intValue]] stringValue],@"-i",path,@"-target",@"pal-vcd",@"-vn",@"-ac",@"2",@"-r",@"25",@"-y",[[[NSUserDefaults standardUserDefaults] objectForKey:@"KWTemporaryLocation"] stringByAppendingPathComponent:@"tempkf.mpg"],nil]];
-	
-		[ffmpeg setStandardError:pipe];
-		handle=[pipe fileHandleForReading];
-		[ffmpeg launch];
-		NSString *string = [[[NSString alloc] initWithData:[handle readDataToEndOfFile] encoding:NSASCIIStringEncoding] autorelease];
-
-		[ffmpeg waitUntilExit];
-		[ffmpeg release];
-		[pipe release];
-		
-			if ([[NSUserDefaults standardUserDefaults] boolForKey:@"KWConsoleEnabled"] == YES)
-			{
-			[[NSNotificationCenter defaultCenter] postNotificationName:@"KWConsoleNotification" object:string];
-			NSLog(string);
-			}
-		
-		keepGoing = NO;	
-		
 			if ([string rangeOfString:@"edit list not starting at 0, a/v desync might occur, patch welcome"].length > 0)
-			{
-			videoWorks = NO;
-			}
+				videoWorks = NO;
 			
-			if ([string rangeOfString:@"error reading header: -1"].length > 0 && [string rangeOfString:@"iDVD"].length > 0)
-			{
-				//works audio=qt video=qt
-				if ([self setiMovieProjectTimeAndAspect:path])
-				{
-				return 2;
-				}
-				else
-				{
-				[failedFilesExplained addObject:[[[NSFileManager defaultManager] displayNameAtPath:path] stringByAppendingString:NSLocalizedString(@" (Couldn't get attributes)", Localized)]];
-				return 0;
-				}
-			}
-	
-			// Check if ffmpeg reconizes the file
-			if ([string rangeOfString:@"Unknown format"].length > 0)
-			{
-			//ffmpeg doesn't reconize it
-			[failedFilesExplained addObject:[[[NSFileManager defaultManager] displayNameAtPath:path] stringByAppendingString:NSLocalizedString(@" (Unknown format)", Localized)]];
-			return 0;
-			}
-	
-			//Check if ffmpeg reconizes the codecs
-			if ([string rangeOfString:@"could not find codec parameters"].length > 0)
-			{
-			[failedFilesExplained addObject:[[[NSFileManager defaultManager] displayNameAtPath:path] stringByAppendingString:NSLocalizedString(@" (Couldn't get attributes)", Localized)]];
-			return 0;
-			}
-			
-			//No audio
-			if ([string rangeOfString:@"error: movie contains no audio tracks!"].length > 0 && type < 5)
-			{
-			[failedFilesExplained addObject:[[[NSFileManager defaultManager] displayNameAtPath:path] stringByAppendingString:NSLocalizedString(@" (No audio)", Localized)]];
-			return 0;
-			}
-	
-			//Check if the movie is a (internet/local)reference file
-			if ([self isReferenceMovie:string])
-			{
-				//works audio=qt video=qt
-				if ([self setTimeAndAspect:string isType:type fromFile:path])
-				{
-				return 2;
-				}
-				else
-				{
-				[failedFilesExplained addObject:[[[NSFileManager defaultManager] displayNameAtPath:path] stringByAppendingString:NSLocalizedString(@" (Couldn't get attributes)", Localized)]];
-				return 0;
-				}
-			}
+			if ([string rangeOfString:@"Unknown format is not supported as input pixel format"].length > 0)
+				videoWorks = NO;
+				
+			if ([string rangeOfString:@"Resampling with input channels greater than 2 unsupported."].length > 0)
+				audioWorks = NO;
 			
 			NSString *input = [[[[string componentsSeparatedByString:@"Output #0"] objectAtIndex:0] componentsSeparatedByString:@"Input #0"] objectAtIndex:1];
 			if ([input rangeOfString:@"mp2"].length > 0 && [input rangeOfString:@"mov,"].length > 0)
-			{
-			audioWorks = NO;
-			}
-		
-			if ([self hasVideo:string] && [self hasAudio:string])
-			{
-				if ([self audioWorks:string] && [self videoWorks:string] && videoWorks == YES && audioWorks == YES)
-				{
-					//works audio=ffmpeg video=ffmpeg
-					if ([self setTimeAndAspect:string isType:type fromFile:path])
-					{
-					return 1;
-					}
-					else
-					{
-					[failedFilesExplained addObject:[[[NSFileManager defaultManager] displayNameAtPath:path] stringByAppendingString:NSLocalizedString(@" (Couldn't get attributes)", Localized)]];
-					return 0;
-					}
-				}
-				else if (![self audioWorks:string])
-				{
-					if (videoWorks == YES && audioWorks == YES)
-					keepGoing = YES;
-			
 				audioWorks = NO;
-				}
-				else if (![self videoWorks:string])
+			
+			BOOL hasVideoCheck = ([string rangeOfString:@"Video:"].length > 0);
+			BOOL hasAudioCheck = ([string rangeOfString:@"Audio:"].length > 0);
+			BOOL videoWorksCheck = [self streamWorksOfKind:@"Video" inOutput:string];
+			BOOL audioWorksCheck = [self streamWorksOfKind:@"Audio" inOutput:string];
+			
+			if (hasVideoCheck && hasAudioCheck)
+			{
+				if (audioWorksCheck && videoWorksCheck && videoWorks && audioWorks)
 				{
-					if (videoWorks == YES && audioWorks == YES)
-					keepGoing = YES;
+					code = 1;
+				}
+				else if (!audioWorksCheck | !videoWorksCheck)
+				{
+					if (videoWorks && audioWorks)
+						keepGoing = YES;
 				
-				videoWorks = NO;
+					if (!audioWorksCheck)
+						audioWorks = NO;
+					else if (!videoWorksCheck)
+						videoWorks = NO;
 				}
 			}
 			else
 			{
-					if (![self hasVideo:string] && ![self hasAudio:string])
+				if (!hasVideoCheck && !hasAudioCheck)
+				{
+					error = [NSString stringWithFormat:NSLocalizedString(@"%@ (No audio/video)", nil), displayName];
+				}
+				else if (!hasVideoCheck && hasAudioCheck)
+				{
+					if (convertKind < 5)
 					{
-					[failedFilesExplained addObject:[[[NSFileManager defaultManager] displayNameAtPath:path] stringByAppendingString:NSLocalizedString(@" (No audio/video)", Localized)]];
-					return 0;
+						error = [NSString stringWithFormat:NSLocalizedString(@"%@ (No video)", nil), displayName];
 					}
-					else if (![self hasVideo:string] && [self hasAudio:string])
+					else
 					{
-						if ([self audioWorks:string])
-						{
-							//works audio=ffmpeg
-							if ([self setTimeAndAspect:string isType:type fromFile:path])
-							{
-							return 7;
-							}
-							else
-							{
-							[failedFilesExplained addObject:[[[NSFileManager defaultManager] displayNameAtPath:path] stringByAppendingString:NSLocalizedString(@" (No video)", Localized)]];
-							return 0;
-							}
-						}
-						else
-						{
-							//works audio=qt
-							if ([self setTimeAndAspect:string isType:type fromFile:path])
-							{
-							return 8;
-							}
-							else
-							{
-							[failedFilesExplained addObject:[[[NSFileManager defaultManager] displayNameAtPath:path] stringByAppendingString:NSLocalizedString(@" (No video)", Localized)]];
-							return 0;
-							}
-						}
+						code = 8;
+						if (audioWorksCheck)
+							code = 7;
 					}
-					else if ([self hasVideo:string] && ![self hasAudio:string])
+				}
+				else if (hasVideoCheck && !hasAudioCheck)
+				{
+					if (convertKind > 4)
 					{
-						if ([self videoWorks:string])
-						{
-							//works video=ffmpeg
-							if ([self setTimeAndAspect:string isType:type fromFile:path] && type < 5)
-							{
-							return 5;
-							}
-							else if (type == 4)
-							{
-							[failedFilesExplained addObject:[[[NSFileManager defaultManager] displayNameAtPath:path] stringByAppendingString:NSLocalizedString(@" (Couldn't get attributes)", Localized)]];
-							return 0;
-							}
-							else
-							{
-							[failedFilesExplained addObject:[[[NSFileManager defaultManager] displayNameAtPath:path] stringByAppendingString:NSLocalizedString(@" (No audio)", Localized)]];
-							return 0;
-							}
-						}
-						else
-						{
-							//works video=qt
-							if ([self setTimeAndAspect:string isType:type fromFile:path] && type < 5)
-							{
-							return 6;
-							}
-							else if (type == 4)
-							{
-							[failedFilesExplained addObject:[[[NSFileManager defaultManager] displayNameAtPath:path] stringByAppendingString:NSLocalizedString(@" (Couldn't get attributes)", Localized)]];
-							return 0;
-							}
-							else
-							{
-							[failedFilesExplained addObject:[[[NSFileManager defaultManager] displayNameAtPath:path] stringByAppendingString:NSLocalizedString(@" (No audio)", Localized)]];
-							return 0;
-							}
-						}
-					//}
+						error = [NSString stringWithFormat:NSLocalizedString(@"%@ (No audio)", nil), displayName];
+					}
+					else
+					{
+						code = 6;
+						if (videoWorksCheck)
+							code = 5;
+					}
 				}
 			}
+		}
 		
-			if (keepGoing == NO)
+		if (!keepGoing)
+		{
+			if (code == 0 | !error)
 			{
-				if (videoWorks == YES && audioWorks == NO)
+				if (videoWorks && !audioWorks)
 				{
-					//works half video=ffmpeg audio=qt
-					if ([[[path pathExtension] lowercaseString] isEqualTo:@"mpg"] | [[[path pathExtension] lowercaseString] isEqualTo:@"mpeg"] | [[[path pathExtension]  lowercaseString] isEqualTo:@"m2v"])
-					{
-					[failedFilesExplained addObject:[[[NSFileManager defaultManager] displayNameAtPath:path] stringByAppendingString:NSLocalizedString(@" (Unsupported audio)", Localized)]];
-					return 0;
-					}
+					if ([[[path pathExtension] lowercaseString] isEqualTo:@"mpg"] | [[[path pathExtension] lowercaseString] isEqualTo:@"mpeg"] | [[[path pathExtension] lowercaseString] isEqualTo:@"m2v"])
+						error = [NSString stringWithFormat:NSLocalizedString(@"%@ (Unsupported audio)", nil), displayName];
 					else
-					{
-						if ([self setTimeAndAspect:string isType:type fromFile:path])
-						{
-						return 4;
-						}
-						else
-						{
-						[failedFilesExplained addObject:[[[NSFileManager defaultManager] displayNameAtPath:path] stringByAppendingString:NSLocalizedString(@" (Couldn't get attributes)", Localized)]];
-						return 0;
-						}
-					}
+						code = 4;
 				}
-				else if (videoWorks == NO && audioWorks == YES)
+				else if (!videoWorks && audioWorks)
 				{
-					//works half video=qt audio=ffmpeg
-					if ([self setTimeAndAspect:string isType:type fromFile:path])
-					{
-					return 3;
-					}
-					else
-					{
-					[failedFilesExplained addObject:[[[NSFileManager defaultManager] displayNameAtPath:path] stringByAppendingString:NSLocalizedString(@" (Couldn't get attributes)", Localized)]];
-					return 0;
-					}
+					code = 3;
 				}
-				else if (videoWorks == NO && audioWorks == NO)
+				else if (!videoWorks && !audioWorks)
 				{
-					//works audio=qt video=qt
-					if ([self setTimeAndAspect:string isType:type fromFile:path])
-					{
-					return 2;
-					}
-					else
-					{
-					[failedFilesExplained addObject:[[[NSFileManager defaultManager] displayNameAtPath:path] stringByAppendingString:NSLocalizedString(@" (Couldn't get attributes)", Localized)]];
-					return 0;
-					}
+					code = 2;
 				}
 			}
+			
+			useWav = (code == 2 | code == 4 | code == 8);
+			useQuickTime = (code == 2 | code == 3 | code == 6);
+			
+			if (code > 0)
+			{
+				if ([self setTimeAndAspectFromOutputString:string fromFile:path])
+					return code;
+				else
+					return 0;
+			}
+			else
+			{
+				[self setErrorStringWithString:error];
+				
+				return 0;
+			}
 		}
-
-	[failedFilesExplained addObject:[[[NSFileManager defaultManager] displayNameAtPath:path] stringByAppendingString:NSLocalizedString(@" (Unknown error)", Localized)]];
+		
+		[KWCommonMethods removeItemAtPath:tempFile];
+	}
+	
 	return 0;
-	}
-	else if (referenceTest = 1)
-	{
-	return 2;
-	}
-	else if (referenceTest = 2)
-	{
-	[failedFilesExplained addObject:[[[NSFileManager defaultManager] displayNameAtPath:path] stringByAppendingString:NSLocalizedString(@" (Unknown error)", Localized)]];
-	return 0;
-	}
-	else
-	{
-	return 0;
-	}
 }
 
-- (BOOL)hasVideo:(NSString *)output
+- (BOOL)streamWorksOfKind:(NSString *)kind inOutput:(NSString *)output
 {
-	if ([output rangeOfString:@"Video:"].length > 0)
-	return YES;
-	else
-	return NO;
-}
-
-- (BOOL)hasAudio:(NSString *)output
-{
-	if ([output rangeOfString:@"Audio:"].length > 0)
-	return YES;
-	else
-	return NO;
-}
-
-- (BOOL)audioWorks:(NSString *)output
-{
-NSString *one = [[[[[[output componentsSeparatedByString:@"Output #0"] objectAtIndex:0] componentsSeparatedByString:@"Stream #0.0"] objectAtIndex:1] componentsSeparatedByString:@": "] objectAtIndex:1];
-NSString *two = @"";
+	NSString *one = [[[[[[output componentsSeparatedByString:@"Output #0"] objectAtIndex:0] componentsSeparatedByString:@"Stream #0.0"] objectAtIndex:1] componentsSeparatedByString:@": "] objectAtIndex:1];
+	NSString *two = @"";
 	
 	if ([output rangeOfString:@"Stream #0.1"].length > 0)
-	two = [[[[[[output componentsSeparatedByString:@"Output #0"] objectAtIndex:0] componentsSeparatedByString:@"Stream #0.1"] objectAtIndex:1] componentsSeparatedByString:@": "] objectAtIndex:1];
+		two = [[[[[[output componentsSeparatedByString:@"Output #0"] objectAtIndex:0] componentsSeparatedByString:@"Stream #0.1"] objectAtIndex:1] componentsSeparatedByString:@": "] objectAtIndex:1];
 
 	//Is stream 0.0 audio or video
 	if ([output rangeOfString:@"for input stream #0.0"].length > 0 | [output rangeOfString:@"Error while decoding stream #0.0"].length > 0)
 	{
-		if ([one isEqualTo:@"Audio"])
+		if ([one isEqualTo:kind])
 		{
-		return NO;
+			return NO;
 		}
 	}
 			
 	//Is stream 0.1 audio or video
 	if ([output rangeOfString:@"for input stream #0.1"].length > 0| [output rangeOfString:@"Error while decoding stream #0.1"].length > 0)
 	{
-		if ([two isEqualTo:@"Audio"])
+		if ([two isEqualTo:kind])
 		{
-		return NO;
+			return NO;
 		}
 	}
 	
-return YES;
-}
-
-- (BOOL)videoWorks:(NSString *)output
-{
-NSString *one = [[[[[[output componentsSeparatedByString:@"Output #0"] objectAtIndex:0] componentsSeparatedByString:@"Stream #0.0"] objectAtIndex:1] componentsSeparatedByString:@": "] objectAtIndex:1];
-NSString *two = @"";
-	
-	if ([output rangeOfString:@"Stream #0.1"].length > 0)
-	two = [[[[[[output componentsSeparatedByString:@"Output #0"] objectAtIndex:0] componentsSeparatedByString:@"Stream #0.1"] objectAtIndex:1] componentsSeparatedByString:@": "] objectAtIndex:1];
-
-	//Is stream 0.0 audio or video
-	if ([output rangeOfString:@"for input stream #0.0"].length > 0 | [output rangeOfString:@"Error while decoding stream #0.0"].length > 0)
-	{
-		if ([one isEqualTo:@"Video"])
-		{
-		return NO;
-		}
-	}
-			
-	//Is stream 0.1 audio or video
-	if ([output rangeOfString:@"for input stream #0.1"].length > 0| [output rangeOfString:@"Error while decoding stream #0.1"].length > 0)
-	{
-		if ([two isEqualTo:@"Video"])
-		{
-		return NO;
-		}
-	}
-	
-return YES;
+	return YES;
 }
 
 - (BOOL)isReferenceMovie:(NSString *)output
 {
-	//Found in reference quicktime movies
-	if ([output rangeOfString:@"unsupported slice header"].length > 0)
-	{
-	return YES;
-	}
-	
-	//Found in streaming quicktime movies
-	//if ([output rangeOfString:@"bitrate: 0 kb/s"].length > 0)
-	//{
-	//return YES;
-	//}
-			
-	//Found in streaming quicktime movies
-	if ([output rangeOfString:@"bitrate: 5 kb/s"].length > 0)
-	{
-	return YES;
-	}
-return NO;
+	//Found in reference or streaming QuickTime movies
+	return ([output rangeOfString:@"unsupported slice header"].length > 0 | [output rangeOfString:@"bitrate: 5 kb/s"].length > 0);
 }
 
-//When a iMovie reference movie doesn't work, we fall back on this method
-- (BOOL)setiMovieProjectTimeAndAspect:(NSString *)file
-{
-NSString *projectName = [[[[[file stringByDeletingLastPathComponent] stringByDeletingLastPathComponent] stringByDeletingLastPathComponent] lastPathComponent] stringByDeletingPathExtension];
-NSString *settingsFile = [[[[[file stringByDeletingLastPathComponent] stringByDeletingLastPathComponent] stringByDeletingLastPathComponent] stringByAppendingPathComponent:projectName] stringByAppendingPathExtension:@"iMovieProj"];
-NSDictionary *loadedSettings = [NSDictionary dictionaryWithContentsOfFile:settingsFile];
+- (BOOL)setTimeAndAspectFromOutputString:(NSString *)output fromFile:(NSString *)file
+{	
+	NSString *inputString = [[output componentsSeparatedByString:@"Input"] objectAtIndex:1];
 
-	if ([[loadedSettings objectForKey:@"videoStandard"] isEqualTo:@"DV-PAL"])
-	{
-	inputWidth = @"768";
-	inputHeight = @"576";
-	inputFps = @"25";
-	aspectValue = 5;
-	}
-	
-	int duration;
-	float tMovieWidth,tMovieHeight;
+	inputWidth = 0;
+	inputHeight = 0;
+	inputFps = 0;
+	inputTotalTime = 0;
+	inputAspect = 0;
+	inputFormat = 0;
 
-	NSMovie *theMovie = [[NSMovie alloc] initWithURL:[NSURL fileURLWithPath:file] byReference:NO];
-	duration = GetMovieDuration([theMovie QTMovie]) / GetMovieTimeScale([theMovie QTMovie]);
-	
-	inputTotalTime = [[NSNumber numberWithInt:duration] stringValue];
-	
-	Rect tRect;
-	GetMovieBox([theMovie QTMovie],&tRect);
-	tMovieWidth=tRect.right-tRect.left;
-	tMovieHeight=tRect.bottom-tRect.top;
-	
-	[theMovie release];
-	return YES;
-	
-return NO;
-}
-
-- (BOOL)setTimeAndAspect:(NSString *)output isType:(int)type fromFile:(NSString *)file
-{
 	//Calculate the aspect ratio width / height	
-	if ([[[output componentsSeparatedByString:@"Output"] objectAtIndex:0] rangeOfString:@"Video:"].length > 0)
+	if ([[[inputString componentsSeparatedByString:@"Output"] objectAtIndex:0] rangeOfString:@"Video:"].length > 0)
 	{
-	NSString *resolution;
-	NSArray *keepingRes = [[[[[[[output componentsSeparatedByString:@"Output"] objectAtIndex:0] componentsSeparatedByString:@"Video:"] objectAtIndex:1] componentsSeparatedByString:@"\n"] objectAtIndex:0] componentsSeparatedByString:@", "];
+		//NSString *resolution;
+		NSArray *resolutionArray = [[[[[[[inputString componentsSeparatedByString:@"Output"] objectAtIndex:0] componentsSeparatedByString:@"Video:"] objectAtIndex:1] componentsSeparatedByString:@"\n"] objectAtIndex:0] componentsSeparatedByString:@"x"];
+		NSArray *fpsArray = [[[[[inputString componentsSeparatedByString:@"Output"] objectAtIndex:0] componentsSeparatedByString:@" tbc"] objectAtIndex:0] componentsSeparatedByString:@","];
 		
-		if ([keepingRes count] > 2)
-		resolution = [keepingRes objectAtIndex:2];
-		else
-		resolution = [keepingRes objectAtIndex:1];
+		NSArray *beforeX = [[resolutionArray objectAtIndex:0] componentsSeparatedByString:@" "];
+		NSArray *afterX = [[resolutionArray objectAtIndex:1] componentsSeparatedByString:@" "];
 		
-		if ([[resolution componentsSeparatedByString:@"x"] count] < 2)
-		resolution = [keepingRes objectAtIndex:[keepingRes count]-2];
-		
-		double width;
-		double height;
+		inputWidth = [[beforeX objectAtIndex:[beforeX count] - 1] intValue];
+		inputHeight = [[afterX objectAtIndex:0] intValue];
+		inputFps = [[fpsArray objectAtIndex:[fpsArray count] - 1] intValue];
 	
-		if ([[resolution componentsSeparatedByString:@"x"] count] > 1)
+		if (inputFps == 25 && [inputString rangeOfString:@"Video: dvvideo"].length > 0)
 		{
-		NSArray *tmp = [[[[[output componentsSeparatedByString:@"Output"] objectAtIndex:0] componentsSeparatedByString:@" fps"] objectAtIndex:0] componentsSeparatedByString:@","];
-		width = [[[resolution componentsSeparatedByString:@"x"] objectAtIndex:0] doubleValue];
-		height = [[[[[resolution componentsSeparatedByString:@"x"] objectAtIndex:1] componentsSeparatedByString:@"\n"] objectAtIndex:0] doubleValue];
-		inputWidth = [[resolution componentsSeparatedByString:@"x"] objectAtIndex:0];
-		inputHeight = [[resolution componentsSeparatedByString:@"x"] objectAtIndex:1];
-		inputHeight = [[inputHeight componentsSeparatedByString:@")"] objectAtIndex:0];
-		inputFps = [tmp objectAtIndex:[tmp count]-1];
-		}
-		else if ([file rangeOfString:@".iMovieProject"].length > 0  && [output rangeOfString:@"Video: mpeg4"].length > 0)
-		{
-		NSArray *tmp = [[[[[output componentsSeparatedByString:@"Output"] objectAtIndex:0] componentsSeparatedByString:@" fps"] objectAtIndex:0] componentsSeparatedByString:@","];
-		width = 640;
-		height = 480;
-		inputWidth = @"640";
-		inputHeight = @"480";
-		inputFps = [tmp objectAtIndex:[tmp count]-1];
-		}
-	
-		if ([inputFps rangeOfString:@"25.00"].length > 0 && [output rangeOfString:@"Video: dvvideo"].length > 0)
-		{
-		width = 720;
-		height = 576;
-		inputWidth = @"720";
-		inputHeight = @"576";
+			inputWidth = 720;
+			inputHeight = 576;
 		}
 		
-	double aspect = width / height;
-	NSString *aspectString = [[NSNumber numberWithDouble:aspect] stringValue];
-	
-		// 1.85:1
-		if ([aspectString rangeOfString:@"1.8"].length > 0)
-		aspectValue = 1;
-		// 16:9
-		else if ([aspectString rangeOfString:@"1.7"].length > 0)
-		aspectValue = 2;
-		// 2.35:1
-		else if ([aspectString rangeOfString:@"2.3"].length > 0 | [aspectString rangeOfString:@"2.4"].length > 0)
-		aspectValue = 3;
-		// 2.20:1
-		else if ([aspectString rangeOfString:@"2.2"].length > 0)
-		aspectValue = 4;
-		// 4:3
-		else if ([aspectString rangeOfString:@"1.3"].length > 0)
-		aspectValue = 5;
-		// wider than 16:9
-		else if (aspect > 1.7)
-		aspectValue = 6;
-		// wider than 4:3
-		else if (aspect > 1.3)
-		aspectValue = 7;
-		// 4:3 with pillarbox
-		else
-		aspectValue = 8;
+		inputAspect = (float)inputWidth / (float)inputHeight;
 		
 		
-		if (width == 352 && (height == 288 | height == 240))
-		aspectValue = 5;
-		else if ((width == 480 | width == 720) && (height == 576 | height == 480))
-		aspectValue = 5;
-		
+		if (inputWidth == 352 && (inputHeight == 288 | inputHeight == 240))
+			inputAspect = (float)4 / (float)3;
+		else if ((inputWidth == 480 | inputWidth == 720 | inputWidth == 784) && (inputHeight == 576 | inputHeight == 480))
+			inputAspect = (float)4 / (float)3;
+
 		//Check if the iMovie project is 4:3 or 16:9
-		if ([output rangeOfString:@"Video: dvvideo"].length > 0)
+		if ([inputString rangeOfString:@"Video: dvvideo"].length > 0)
 		{
 			if ([file rangeOfString:@".iMovieProject"].length > 0)
 			{
-			NSString *projectName = [[[[[file stringByDeletingLastPathComponent] stringByDeletingLastPathComponent] stringByDeletingLastPathComponent] stringByDeletingPathExtension] lastPathComponent];
-			NSString *projectLocation = [[[file stringByDeletingLastPathComponent] stringByDeletingLastPathComponent]stringByDeletingLastPathComponent];
-			NSString *projectSettings = [[projectLocation stringByAppendingPathComponent:projectName] stringByAppendingPathExtension:@"iMovieProj"];
+				NSString *projectName = [[[[[file stringByDeletingLastPathComponent] stringByDeletingLastPathComponent] stringByDeletingLastPathComponent] stringByDeletingPathExtension] lastPathComponent];
+				NSString *projectLocation = [[[file stringByDeletingLastPathComponent] stringByDeletingLastPathComponent]stringByDeletingLastPathComponent];
+				NSString *projectSettings = [[projectLocation stringByAppendingPathComponent:projectName] stringByAppendingPathExtension:@"iMovieProj"];
 			
 				if ([[NSFileManager defaultManager] fileExistsAtPath:projectSettings])
 				{
 					if ([[NSString stringWithContentsOfFile:projectSettings] rangeOfString:@"WIDE"].length > 0)
-					aspectValue = 2;
+					{
+						inputWidth = 1024;
+						inputAspect = (float)16 / (float)9;
+					}
 					else
-					aspectValue = 5;
+					{
+						inputAspect = (float)4 / (float)3;
+					}
 				}
 			}
-		else 
+			else 
+			{
+				if ([inputString rangeOfString:@"[PAR 59:54 DAR 295:216]"].length > 0 | [inputString rangeOfString:@"[PAR 10:11 DAR 15:11]"].length)
+					inputAspect = (float)4 / (float)3;
+				else if ([inputString rangeOfString:@"[PAR 118:81 DAR 295:162]"].length > 0 | [inputString rangeOfString:@"[PAR 40:33 DAR 20:11]"].length)
+					inputAspect = (float)16 / (float)9;
+			}
+		
+			inputFormat = 1;
+		}
+
+		if ([inputString rangeOfString:@"DAR 16:9"].length > 0 && [inputString rangeOfString:@"mpeg2video"].length > 0)
 		{
-			if ([output rangeOfString:@"[PAR 59:54 DAR 295:216]"].length > 0 | [output rangeOfString:@"[PAR 10:11 DAR 15:11]"].length)
-			aspectValue = 5;
-			else if ([output rangeOfString:@"[PAR 118:81 DAR 295:162]"].length > 0 | [output rangeOfString:@"[PAR 40:33 DAR 20:11]"].length)
-			aspectValue = 2;
+			inputAspect = (float)16 / (float)9;
+			inputWidth = 1024;
+			inputFormat = 2;
 		}
-		
-		inputFormat = @"DV";
-		}
-		else
-		{
-		inputFormat = @"notDV";
-		}
-		
-	if ([output rangeOfString:@"DAR 16:9"].length > 0 && [output rangeOfString:@"mpeg2video"].length > 0)
-	{
-	aspectValue = 2;
-	inputFormat = @"MPEG2";
-	}
-		
-		
+	
 		//iMovie projects with HDV 1080i are 16:9, ffmpeg guesses 4:3
-		if ([output rangeOfString:@"Video: Apple Intermediate Codec"].length > 0)
+		if ([inputString rangeOfString:@"Video: Apple Intermediate Codec"].length > 0)
 		{
 			if ([file rangeOfString:@".iMovieProject"].length > 0)
 			{
-			aspectValue = 2;
+				inputAspect = (float)16 / (float)9;
+				inputWidth = 1024;
+				inputHeight = 576;
 			}
 		}
 	}
-	else
+	
+	if ([inputString rangeOfString:@"DAR 119:90"].length > 0)
+		inputAspect = (float)4 / (float)3;
+	
+	if ([inputString rangeOfString:@"Duration:"].length > 0)	
 	{
-	aspectValue = -1;
+		inputTotalTime = 0;
+	
+		if (![inputString rangeOfString:@"Duration: N/A,"].length > 0)
+		{
+			NSString *time = [[[[inputString componentsSeparatedByString:@"Duration: "] objectAtIndex:1] componentsSeparatedByString:@","] objectAtIndex:0];
+			double hour = [[[time componentsSeparatedByString:@":"] objectAtIndex:0] doubleValue];
+			double minute = [[[time componentsSeparatedByString:@":"] objectAtIndex:1] doubleValue];
+			double second = [[[time componentsSeparatedByString:@":"] objectAtIndex:2] doubleValue];
+			
+			inputTotalTime  = (hour * 60 * 60) + (minute * 60) + second;
+		}
 	}
 	
-	if ([output rangeOfString:@"DAR 119:90"].length > 0)
-	aspectValue = 5;
+	BOOL hasOutput = YES;
 	
-	if ([output rangeOfString:@"Duration:"].length > 0)	
-	{
-	double total = 0;
-	
-		if (![output rangeOfString:@"Duration: N/A,"].length > 0)
-		{
-		NSString *time = [[[[output componentsSeparatedByString:@"Duration: "] objectAtIndex:1] componentsSeparatedByString:@","] objectAtIndex:0];
-		double hour = [[[time componentsSeparatedByString:@":"] objectAtIndex:0] doubleValue];
-		double minute = [[[time componentsSeparatedByString:@":"] objectAtIndex:1] doubleValue];
-		double second = [[[time componentsSeparatedByString:@":"] objectAtIndex:2] doubleValue];
-		total  = (hour*60*60) + (minute*60) + second;
-		}
+	if (inputWidth == 0 && inputHeight == 0 && inputFps == 0 && convertKind < 5)
+		hasOutput = NO;
 		
-	inputTotalTime = [[NSNumber numberWithDouble:total] stringValue];
-	}
-	
-	if (![inputWidth isEqualTo:@""] && ![inputHeight isEqualTo:@""] && ![inputFps isEqualTo:@""])
-	return YES;
-	else if (type == 5 | type == 6)
-	return YES;
-	else
-	return NO;
-}
-
-//Check if the file is a DV, since DV's cause problems
-- (int)isReferenceMovie:(NSString *)path isType:(int)type
-{
-ffmpeg=[[NSTask alloc] init];
-NSPipe *pipe=[[NSPipe alloc] init];
-NSFileHandle *handle;
-NSString *string;
-int returnCode;
-
-[ffmpeg setLaunchPath:[KWCommonMethods ffmpegPath]];
-
-[ffmpeg setArguments:[NSArray arrayWithObjects:@"-threads",[[NSNumber numberWithInt:[[[NSUserDefaults standardUserDefaults] objectForKey:@"KWEncodingThreads"] intValue]] stringValue],@"-i",path,nil]];
-[ffmpeg setStandardError:pipe];
-handle=[pipe fileHandleForReading];
-[ffmpeg launch];
-string=[[NSString alloc] initWithData:[handle readDataToEndOfFile] encoding:NSASCIIStringEncoding];
-
-	if ([[NSUserDefaults standardUserDefaults] boolForKey:@"KWConsoleEnabled"] == YES)
+	if (hasOutput)
 	{
-	[[NSNotificationCenter defaultCenter] postNotificationName:@"KWConsoleNotification" object:string];
-	NSLog(string);
-	}
-		
-	if ([string rangeOfString:@"Could not find codec parameters"].length > 0 && [string rangeOfString:@"mov,mp4,"].length > 0)
-	{
-		//works audio=qt video=qt
-		if ([self setTimeAndAspect:string isType:type fromFile:path])
-		{
-		returnCode = 1;
-		}
-		else
-		{
-		returnCode = 2;
-		}
+		return YES;
 	}
 	else
 	{
-	returnCode = 0;
+		[self setErrorStringWithString:[NSString stringWithFormat:NSLocalizedString(@"%@ (Couldn't get attributes)", nil), [[NSFileManager defaultManager] displayNameAtPath:file]]];
+		return NO;
 	}
-
-[ffmpeg waitUntilExit];
-[string release];
-[pipe release];
-[ffmpeg release];
-
-return returnCode;
 }
 
 ///////////////////////
@@ -2282,210 +928,72 @@ return returnCode;
 #pragma mark -
 #pragma mark •• Compilant actions
 
+- (NSString *)ffmpegOutputForPath:(NSString *)path
+{
+	NSString *string;
+	NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+	NSArray *arguments = [NSArray arrayWithObjects:@"-threads", [[defaults objectForKey:@"KWEncodingThreads"] stringValue], @"-i", path, nil];
+	[KWCommonMethods launchNSTaskAtPath:[KWCommonMethods ffmpegPath] withArguments:arguments outputError:YES outputString:YES output:&string];
+	
+	if (![string rangeOfString:@"Unknown format"].length > 0 && [string rangeOfString:@"Input #0"].length > 0)
+		return [[string componentsSeparatedByString:@"Input #0"] objectAtIndex:1];
+	else
+		return nil;
+
+}
+
 //Check if the file is a valid VCD file (return YES if it is valid)
 - (BOOL)isVCD:(NSString *)path
 {
-ffmpeg=[[NSTask alloc] init];
-NSPipe *pipe=[[NSPipe alloc] init];
-NSFileHandle *handle;
-NSString *string;
-BOOL returnCode;
-
-[ffmpeg setLaunchPath:[KWCommonMethods ffmpegPath]];
-
-[ffmpeg setArguments:[NSArray arrayWithObjects:@"-threads",[[NSNumber numberWithInt:[[[NSUserDefaults standardUserDefaults] objectForKey:@"KWEncodingThreads"] intValue]] stringValue],@"-i",path,nil]];
-[ffmpeg setStandardError:pipe];
-handle=[pipe fileHandleForReading];
-[ffmpeg launch];
-string=[[NSString alloc] initWithData:[handle readDataToEndOfFile] encoding:NSASCIIStringEncoding];
-
-	if ([[NSUserDefaults standardUserDefaults] boolForKey:@"KWConsoleEnabled"] == YES)
-	{
-	[[NSNotificationCenter defaultCenter] postNotificationName:@"KWConsoleNotification" object:string];
-	NSLog(string);
-	}
+	NSString *string = [self ffmpegOutputForPath:path];
 	
-	if (![string rangeOfString:@"Unknown format"].length > 0 && [string rangeOfString:@"Input #0"].length > 0)
-	{
-	NSString *saveString = [[string componentsSeparatedByString:@"Input #0"] objectAtIndex:1];
-		
-		if ([saveString rangeOfString:@"mpeg1video"].length > 0 
-		&& [saveString rangeOfString:@"352x288"].length > 0 | [saveString rangeOfString:@"352x240"].length > 0
-		&& [saveString rangeOfString:@"25.00 tb(r)"].length > 0 | [saveString rangeOfString:@"29.97 tb(r)"].length > 0 | [saveString rangeOfString:@"25 tbr"].length > 0 | [saveString rangeOfString:@"29.97 tbr"].length > 0)
-		//&& [string rangeOfString:@"mp2"].length > 0
-		//&& [string rangeOfString:@"224 kb/s"].length > 0
-		//&& [string rangeOfString:@"stereo"].length > 0)
-		returnCode = YES;
-		else
-		returnCode = NO;
-	}
-	else
-	{
-	returnCode = NO;
-	}
+	if (string)
+		return ([string rangeOfString:@"mpeg1video"].length > 0 && [string rangeOfString:@"352x288"].length > 0 | [string rangeOfString:@"352x240"].length > 0 && [string rangeOfString:@"25.00 tb(r)"].length > 0 | [string rangeOfString:@"29.97 tb(r)"].length > 0 | [string rangeOfString:@"25 tbr"].length > 0 | [string rangeOfString:@"29.97 tbr"].length > 0);
 
-[ffmpeg waitUntilExit];
-[string release];
-[pipe release];
-[ffmpeg release];
-
-return returnCode;
+	return NO;
 }
 
 //Check if the file is a valid SVCD file (return YES if it is valid)
 - (BOOL)isSVCD:(NSString *)path
 {
-ffmpeg=[[NSTask alloc] init];
-NSPipe *pipe=[[NSPipe alloc] init];
-NSFileHandle *handle;
-NSString *string;
-BOOL returnCode;
-    
-[ffmpeg setLaunchPath:[KWCommonMethods ffmpegPath]];
-
-[ffmpeg setArguments:[NSArray arrayWithObjects:@"-threads",[[NSNumber numberWithInt:[[[NSUserDefaults standardUserDefaults] objectForKey:@"KWEncodingThreads"] intValue]] stringValue],@"-i",path,nil]];
-[ffmpeg setStandardError:pipe];
-handle=[pipe fileHandleForReading];
-[ffmpeg launch];
-string=[[NSString alloc] initWithData:[handle readDataToEndOfFile] encoding:NSASCIIStringEncoding];
-
-	if ([[NSUserDefaults standardUserDefaults] boolForKey:@"KWConsoleEnabled"] == YES)
-	{
-	[[NSNotificationCenter defaultCenter] postNotificationName:@"KWConsoleNotification" object:string];
-	NSLog(string);
-	}
+	NSString *string = [self ffmpegOutputForPath:path];
 	
-	if (![string rangeOfString:@"Unknown format"].length > 0 && [string rangeOfString:@"Input #0"].length > 0)
-	{
-	NSString *saveString = [[string componentsSeparatedByString:@"Input #0"] objectAtIndex:1];
-		
-		if ([saveString rangeOfString:@"mpeg2video"].length > 0 
-		&& [saveString rangeOfString:@"480x576"].length > 0 | [saveString rangeOfString:@"480x480"].length > 0
-		&& [saveString rangeOfString:@"25.00 tb(r)"].length > 0 | [saveString rangeOfString:@"29.97 tb(r)"].length > 0 | [saveString rangeOfString:@"25 tbr"].length > 0 | [saveString rangeOfString:@"29.97 tbr"].length > 0)
-		//&& [string rangeOfString:@"mp2"].length > 0
-		//&& [string rangeOfString:@"224 kb/s"].length > 0
-		//&& [string rangeOfString:@"stereo"].length > 0)
-		returnCode = YES;
-		else
-		returnCode = NO;
-	}
-	else
-	{
-	returnCode = NO;
-	}
+	if (string)
+		return ([string rangeOfString:@"mpeg2video"].length > 0 && [string rangeOfString:@"480x576"].length > 0 | [string rangeOfString:@"480x480"].length > 0 && [string rangeOfString:@"25.00 tb(r)"].length > 0 | [string rangeOfString:@"29.97 tb(r)"].length > 0 | [string rangeOfString:@"25 tbr"].length > 0 | [string rangeOfString:@"29.97 tbr"].length > 0);
 
-[ffmpeg waitUntilExit];
-[string release];
-[pipe release];
-[ffmpeg release];
-
-return returnCode;
+	return NO;
 }
 
 //Check if the file is a valid DVD file (return YES if it is valid)
-- (NSNumber *)isDVD:(NSString *)path
+- (BOOL)isDVD:(NSString *)path isWideAspect:(BOOL *)wideAspect
 {
 	if ([[path pathExtension] isEqualTo:@"m2v"])
-	return NO;
-
-ffmpeg = [[NSTask alloc] init];
-NSPipe *pipe=[[NSPipe alloc] init];
-NSFileHandle *handle;
-NSString *string;
-BOOL returnCode;
-BOOL isWide;
- 
-[ffmpeg setLaunchPath:[KWCommonMethods ffmpegPath]];
-
-[ffmpeg setArguments:[NSArray arrayWithObjects:@"-threads",[[NSNumber numberWithInt:[[[NSUserDefaults standardUserDefaults] objectForKey:@"KWEncodingThreads"] intValue]] stringValue],@"-i",path,nil]];
-[ffmpeg setStandardError:pipe];
-handle=[pipe fileHandleForReading];
-[ffmpeg launch];
-string=[[NSString alloc] initWithData:[handle readDataToEndOfFile] encoding:NSASCIIStringEncoding];
-
-	if ([[NSUserDefaults standardUserDefaults] boolForKey:@"KWConsoleEnabled"] == YES)
+		return NO;
+		
+	NSString *string = [self ffmpegOutputForPath:path];
+	
+	if (string)
 	{
-	[[NSNotificationCenter defaultCenter] postNotificationName:@"KWConsoleNotification" object:string];
-	NSLog(string);
-	}
-
-	if (![string rangeOfString:@"Unknown format"].length > 0 && [string rangeOfString:@"Input #0"].length > 0)
-	{
-	NSString *saveString = [[string componentsSeparatedByString:@"Input #0"] objectAtIndex:1];
-
-		if ([saveString rangeOfString:@"mpeg2video"].length > 0 
-		&& [saveString rangeOfString:@"720x576"].length > 0 | [saveString rangeOfString:@"720x480"].length > 0
-		&& [saveString rangeOfString:@"25.00 tb(r)"].length > 0 | [saveString rangeOfString:@"29.97 tb(r)"].length > 0 | [saveString rangeOfString:@"25 tbr"].length > 0 | [saveString rangeOfString:@"29.97 tbr"].length > 0)
-		returnCode = YES;
+		if ([string rangeOfString:@"DAR 16:9"].length > 0)
+			*wideAspect = YES;
 		else
-		returnCode = NO;
-	}
-	else
-	{
-	returnCode = NO;
+			*wideAspect = NO;
+	
+		return ([string rangeOfString:@"mpeg2video"].length > 0 && [string rangeOfString:@"720x576"].length > 0 | [string rangeOfString:@"720x480"].length > 0 && [string rangeOfString:@"25.00 tb(r)"].length > 0 | [string rangeOfString:@"29.97 tb(r)"].length > 0 | [string rangeOfString:@"25 tbr"].length > 0 | [string rangeOfString:@"29.97 tbr"].length > 0);
 	}
 	
-	if ([string rangeOfString:@"DAR 16:9"].length > 0)
-	isWide = YES;
-	else
-	isWide = NO;
-	
-[ffmpeg waitUntilExit];	
-[string release];
-[pipe release];
-[ffmpeg release];
-
-	if (returnCode)
-	return [NSNumber numberWithBool:isWide];
-	else
-	return nil;
+	return NO;
 }
 
 //Check if the file is a valid MPEG4 file (return YES if it is valid)
 - (BOOL)isMPEG4:(NSString *)path
 {
-ffmpeg=[[NSTask alloc] init];
-NSPipe *pipe=[[NSPipe alloc] init];
-NSFileHandle *handle;
-NSString *string;
-BOOL returnCode;
-    
-[ffmpeg setLaunchPath:[KWCommonMethods ffmpegPath]];
-
-[ffmpeg setArguments:[NSArray arrayWithObjects:@"-threads",[[NSNumber numberWithInt:[[[NSUserDefaults standardUserDefaults] objectForKey:@"KWEncodingThreads"] intValue]] stringValue],@"-i",path,nil]];
-[ffmpeg setStandardError:pipe];
-handle=[pipe fileHandleForReading];
-[ffmpeg launch];
-string=[[NSString alloc] initWithData:[handle readDataToEndOfFile] encoding:NSASCIIStringEncoding];
-
-	if ([[NSUserDefaults standardUserDefaults] boolForKey:@"KWConsoleEnabled"] == YES)
-	{
-	[[NSNotificationCenter defaultCenter] postNotificationName:@"KWConsoleNotification" object:string];
-	NSLog(string);
-	}
+	NSString *string = [self ffmpegOutputForPath:path];
 	
-	if (![string rangeOfString:@"Unknown format"].length > 0 && [string rangeOfString:@"Input #0"].length > 0)
-	{
-	NSString *saveString = [[string componentsSeparatedByString:@"Input #0"] objectAtIndex:1];
+	if (string)
+		return ([[[path pathExtension] lowercaseString] isEqualTo:@"avi"] && ([string rangeOfString:@"Video: mpeg4"].length > 0 | ([[NSUserDefaults standardUserDefaults] boolForKey:@"KWAllowMSMPEG4"] == YES && [string rangeOfString:@"Video: msmpeg4"].length > 0)));
 
-		if ([saveString rangeOfString:@"Video: mpeg4"].length > 0 && [[[path pathExtension] lowercaseString] isEqualTo:@"avi"])
-		returnCode = YES;
-		else if ([[NSUserDefaults standardUserDefaults] boolForKey:@"KWAllowMSMPEG4"] == YES && [saveString rangeOfString:@"Video: msmpeg4"].length > 0 && [[[path pathExtension]  lowercaseString] isEqualTo:@"avi"])
-		returnCode = YES;
-		else
-		returnCode = NO;
-	}
-	else
-	{
-	returnCode = NO;
-	}
-
-[ffmpeg waitUntilExit];
-[string release];
-[pipe release];
-[ffmpeg release];
-
-return returnCode;
+	return NO;
 }
 
 ///////////////////////
@@ -2495,14 +1003,9 @@ return returnCode;
 #pragma mark -
 #pragma mark •• Framework actions
 
-- (NSArray *)failureArray
-{
-return failedFilesExplained;
-}
-
 - (NSArray *)succesArray
 {
-return convertedFiles;
+	return convertedFiles;
 }
 
 ///////////////////
@@ -2514,242 +1017,147 @@ return convertedFiles;
 
 - (NSString *)convertToEven:(NSString *)numberAsString
 {
-NSString *convertedNumber = [[NSNumber numberWithInt:[numberAsString intValue]] stringValue];
+	NSString *convertedNumber = [[NSNumber numberWithInt:[numberAsString intValue]] stringValue];
 
-unichar ch = [convertedNumber characterAtIndex:[convertedNumber length]-1];
-NSString *lastCharacter = [NSString stringWithFormat:@"%C", ch];
+	unichar ch = [convertedNumber characterAtIndex:[convertedNumber length] -1];
+	NSString *lastCharacter = [NSString stringWithFormat:@"%C", ch];
 
 	if ([lastCharacter isEqualTo:@"1"] | [lastCharacter isEqualTo:@"3"] | [lastCharacter isEqualTo:@"5"] | [lastCharacter isEqualTo:@"7"] | [lastCharacter isEqualTo:@"9"])
-	return [[NSNumber numberWithInt:[convertedNumber intValue]+1] stringValue];
+		return [[NSNumber numberWithInt:[convertedNumber intValue] + 1] stringValue];
 	else
-	return convertedNumber;
+		return convertedNumber;
 }
 
-- (NSString *)getPadSize:(float)size withAspectW:(float)aspectW withAspectH:(float)aspectH withWidth:(float)width withHeight:(float)height withBlackBars:(BOOL)blackBars
+- (NSString *)getPadSize:(float)size withAspect:(NSSize)aspect withTopBars:(BOOL)topBars
 {
-	if ([[NSUserDefaults standardUserDefaults] boolForKey:@"KWSaveBorders"] == YES)
+	NSUserDefaults *standardDefaults = [NSUserDefaults standardUserDefaults];
+
+	float heightBorder = 0;
+	float widthBorder = 0;
+
+	if ([standardDefaults boolForKey:@"KWSaveBorders"] == YES)
 	{
-	float heightBorder = [[[NSUserDefaults standardUserDefaults] objectForKey:@"KWSaveBorderSize"] floatValue];
-	float widthBorder = aspectW / (aspectH / size);
+		heightBorder = [[standardDefaults objectForKey:@"KWSaveBorderSize"] floatValue];
+		widthBorder = aspect.width / (aspect.height / size);
+	}
 	
-		if (blackBars == YES)
-		return [self convertToEven:[[NSNumber numberWithFloat:(size - (size * aspectW / aspectH) / (width / height)) / 2 + heightBorder] stringValue]];
-		else
-		return [self convertToEven:[[NSNumber numberWithFloat:((size * aspectW / aspectH) / (width / height) - size) / 2 + widthBorder] stringValue]];
-	}
+	if (topBars)
+		return [self convertToEven:[[NSNumber numberWithFloat:(size - (size * aspect.width / aspect.height) / ((float)inputWidth / (float)inputHeight)) / 2 + heightBorder] stringValue]];
 	else
-	{
-		if (blackBars == YES)
-		return [self convertToEven:[[NSNumber numberWithFloat:(size - (size * aspectW / aspectH) / (width / height)) / 2] stringValue]];
-		else
-		return [self convertToEven:[[NSNumber numberWithFloat:((size * aspectW / aspectH) / (width / height) - size) / 2] stringValue]];
-	}
+		return [self convertToEven:[[NSNumber numberWithFloat:((size * aspect.width / aspect.height) / ((float)inputWidth / (float)inputHeight) - size) / 2 + widthBorder] stringValue]];
 }
 
 - (BOOL)remuxMPEG2File:(NSString *)path outPath:(NSString *)outFile
 {
-ffmpeg=[[NSTask alloc] init];
-NSPipe *pipe=[[NSPipe alloc] init];
-NSFileHandle *handle;
-NSString *string;
-
-[ffmpeg setStandardError:pipe];
-handle=[pipe fileHandleForReading];
-    
-[ffmpeg setLaunchPath:[KWCommonMethods ffmpegPath]];
-
-[ffmpeg setArguments:[NSArray arrayWithObjects:@"-threads",[[NSNumber numberWithInt:[[[NSUserDefaults standardUserDefaults] objectForKey:@"KWEncodingThreads"] intValue]] stringValue],@"-i",path,@"-y",@"-acodec",@"copy",@"-vcodec",@"copy",@"-target",@"dvd",outFile,nil]];
-status = 2;
-[ffmpeg launch];
-string=[[NSString alloc] initWithData:[handle readDataToEndOfFile] encoding:NSASCIIStringEncoding];
-
-	if ([[NSUserDefaults standardUserDefaults] boolForKey:@"KWConsoleEnabled"] == YES)
+	status = 2;
+	NSArray *arguments = [NSArray arrayWithObjects:@"-threads",[[NSNumber numberWithInt:[[[NSUserDefaults standardUserDefaults] objectForKey:@"KWEncodingThreads"] intValue]] stringValue],@"-i",path,@"-y",@"-acodec",@"copy",@"-vcodec",@"copy",@"-target",@"dvd",outFile,nil];
+	BOOL result = [KWCommonMethods launchNSTaskAtPath:[KWCommonMethods ffmpegPath] withArguments:arguments outputError:YES outputString:YES output:nil];
+	status = 0;
+	
+	if (result)
 	{
-	[[NSNotificationCenter defaultCenter] postNotificationName:@"KWConsoleNotification" object:string];
-	NSLog(string);
-	}
-
-[ffmpeg waitUntilExit];
-int taskStatus = [ffmpeg terminationStatus];
-[ffmpeg release];
-status = 0;
-[pipe release];
-[string release];
-
-	if (taskStatus == 0)
-	{
-	return YES;
+		return YES;
 	}
 	else
 	{
-	[[NSFileManager defaultManager] removeFileAtPath:outFile handler:nil];
-	return NO;
+		[KWCommonMethods removeItemAtPath:outFile];
+		return NO;
 	}
 }
 
 - (BOOL)canCombineStreams:(NSString *)path
 {
-	if ([[NSFileManager defaultManager] fileExistsAtPath:[[path stringByDeletingPathExtension] stringByAppendingPathExtension:@"mp2"]])
-	return YES;
-	else if ([[NSFileManager defaultManager] fileExistsAtPath:[[path stringByDeletingPathExtension] stringByAppendingPathExtension:@"ac3"]])
-	return YES;
-	
-return NO;
+	NSFileManager *defaultManager = [NSFileManager defaultManager];
+	NSString *pathWithOutExtension = [path stringByDeletingPathExtension];
+
+	return ([defaultManager fileExistsAtPath:[pathWithOutExtension stringByAppendingPathExtension:@"mp2"]] | [defaultManager fileExistsAtPath:[pathWithOutExtension stringByAppendingPathExtension:@"ac3"]]);
 }
 
 - (BOOL)combineStreams:(NSString *)path atOutputPath:(NSString *)outputPath
 {
-NSString *audioFile = @"";
+	NSString *audioFile;
+	
+	NSFileManager *defaultManager = [NSFileManager defaultManager];
+	NSString *pathWithOutExtension = [path stringByDeletingPathExtension];
+	NSString *mp2File = [pathWithOutExtension stringByAppendingPathExtension:@"mp2"];
+	NSString *ac3File = [pathWithOutExtension stringByAppendingPathExtension:@"ac3"];
 
-	if ([[NSFileManager defaultManager] fileExistsAtPath:[[path stringByDeletingPathExtension] stringByAppendingPathExtension:@"mp2"]])
-	audioFile = [[path stringByDeletingPathExtension] stringByAppendingPathExtension:@"mp2"];
-	else if ([[NSFileManager defaultManager] fileExistsAtPath:[[path stringByDeletingPathExtension] stringByAppendingPathExtension:@"ac3"]])
-	audioFile = [[path stringByDeletingPathExtension] stringByAppendingPathExtension:@"ac3"];
+	if ([defaultManager fileExistsAtPath:mp2File])
+		audioFile = mp2File;
+	else if ([defaultManager fileExistsAtPath:ac3File])
+		audioFile = ac3File;
 
-	if (![audioFile isEqualTo:@""])
+	if (audioFile)
 	{
-	ffmpeg=[[NSTask alloc] init];
-	NSPipe *pipe=[[NSPipe alloc] init];
-	NSFileHandle *handle;
-	NSString *string;
+		status = 2;
+		NSArray *arguments = [NSArray arrayWithObjects:@"-threads",[[NSNumber numberWithInt:[[[NSUserDefaults standardUserDefaults] objectForKey:@"KWEncodingThreads"] intValue]] stringValue],@"-i",path,@"-threads",[[NSNumber numberWithInt:[[[NSUserDefaults standardUserDefaults] objectForKey:@"KWEncodingThreads"] intValue]] stringValue],@"-i",audioFile,@"-y",@"-acodec",@"copy",@"-vcodec",@"copy",@"-target",@"dvd",outputPath,nil];
+		BOOL result = [KWCommonMethods launchNSTaskAtPath:[KWCommonMethods ffmpegPath] withArguments:arguments outputError:YES outputString:YES output:nil];
+		status = 0;
 
-	[ffmpeg setStandardError:pipe];
-	handle=[pipe fileHandleForReading];
-    
-[ffmpeg setLaunchPath:[KWCommonMethods ffmpegPath]];
-
-	[ffmpeg setArguments:[NSArray arrayWithObjects:@"-threads",[[NSNumber numberWithInt:[[[NSUserDefaults standardUserDefaults] objectForKey:@"KWEncodingThreads"] intValue]] stringValue],@"-i",path,@"-threads",[[NSNumber numberWithInt:[[[NSUserDefaults standardUserDefaults] objectForKey:@"KWEncodingThreads"] intValue]] stringValue],@"-i",audioFile,@"-y",@"-acodec",@"copy",@"-vcodec",@"copy",@"-target",@"dvd",outputPath,nil]];
-	status = 2;
-	[ffmpeg launch];
-	string=[[NSString alloc] initWithData:[handle readDataToEndOfFile] encoding:NSASCIIStringEncoding];
-	
-		if ([[NSUserDefaults standardUserDefaults] boolForKey:@"KWConsoleEnabled"] == YES)
+		if (result)
 		{
-		[[NSNotificationCenter defaultCenter] postNotificationName:@"KWConsoleNotification" object:string];
-		NSLog(string);
-		}
-	
-	[ffmpeg waitUntilExit];
-	int taskStatus = [ffmpeg terminationStatus];
-	[ffmpeg release];
-	status = 0;
-	[pipe release];
-	[string release];
-	
-		if (taskStatus == 0)
-		{
-		return YES;
+			return YES;
 		}
 		else
 		{
-		[[NSFileManager defaultManager] removeFileAtPath:[[path stringByDeletingPathExtension] stringByAppendingPathExtension:@"mpg"] handler:nil];
-		return NO;
+			[KWCommonMethods removeItemAtPath:outputPath];
+			return NO;
 		}
 	}
 	else
 	{
-	return NO;
+		return NO;
 	}
 }
 
 - (int)totalTimeInSeconds:(NSString *)path
 {
-ffmpeg=[[NSTask alloc] init];
-NSPipe *pipe=[[NSPipe alloc] init];
-NSFileHandle *handle;
-NSString *string;
+	NSString *string = [self ffmpegOutputForPath:path];
+	NSString *durationsString = [[[[string componentsSeparatedByString:@"Duration: "] objectAtIndex:1] componentsSeparatedByString:@"."] objectAtIndex:0];
 
-[ffmpeg setLaunchPath:[KWCommonMethods ffmpegPath]];
+	int hours = [[[durationsString componentsSeparatedByString:@":"] objectAtIndex:0] intValue];
+	int minutes = [[[durationsString componentsSeparatedByString:@":"] objectAtIndex:1] intValue];
+	int seconds = [[[durationsString componentsSeparatedByString:@":"] objectAtIndex:2] intValue];
 
-[ffmpeg setArguments:[NSArray arrayWithObjects:@"-threads",[[NSNumber numberWithInt:[[[NSUserDefaults standardUserDefaults] objectForKey:@"KWEncodingThreads"] intValue]] stringValue],@"-i",path,nil]];
-[ffmpeg setStandardError:pipe];
-handle=[pipe fileHandleForReading];
-[ffmpeg launch];
-string=[[NSString alloc] initWithData:[handle readDataToEndOfFile] encoding:NSASCIIStringEncoding];
-
-	if ([[NSUserDefaults standardUserDefaults] boolForKey:@"KWConsoleEnabled"] == YES)
-	{
-	[[NSNotificationCenter defaultCenter] postNotificationName:@"KWConsoleNotification" object:string];
-	NSLog(string);
-	}
-		
-NSString *durationsString = [[[[string componentsSeparatedByString:@"Duration: "] objectAtIndex:1] componentsSeparatedByString:@"."] objectAtIndex:0];
-
-int hours = [[[durationsString componentsSeparatedByString:@":"] objectAtIndex:0] intValue];
-int minutes = [[[durationsString componentsSeparatedByString:@":"] objectAtIndex:1] intValue];
-int seconds = [[[durationsString componentsSeparatedByString:@":"] objectAtIndex:2] intValue];
-
-int totalTime = seconds + (minutes * 60) + (hours * 60 * 60);
-
-[string release];
-[pipe release];
-[ffmpeg release];
-
-return totalTime;
+	return seconds + (minutes * 60) + (hours * 60 * 60);
 }
 
 - (NSString *)mediaTimeString:(NSString *)path
 {
-ffmpeg=[[NSTask alloc] init];
-NSPipe *pipe=[[NSPipe alloc] init];
-NSFileHandle *handle;
-NSString *string;
-
-[ffmpeg setLaunchPath:[KWCommonMethods ffmpegPath]];
-
-[ffmpeg setArguments:[NSArray arrayWithObjects:@"-threads",[[NSNumber numberWithInt:[[[NSUserDefaults standardUserDefaults] objectForKey:@"KWEncodingThreads"] intValue]] stringValue],@"-i",path,nil]];
-[ffmpeg setStandardError:pipe];
-handle=[pipe fileHandleForReading];
-[ffmpeg launch];
-string=[[NSString alloc] initWithData:[handle readDataToEndOfFile] encoding:NSASCIIStringEncoding];
-
-	if ([[NSUserDefaults standardUserDefaults] boolForKey:@"KWConsoleEnabled"] == YES)
-	{
-	[[NSNotificationCenter defaultCenter] postNotificationName:@"KWConsoleNotification" object:string];
-	NSLog(string);
-	}
-		
-NSString *durationsString = [[[[[[[string componentsSeparatedByString:@"Duration: "] objectAtIndex:1] componentsSeparatedByString:@","] objectAtIndex:0] componentsSeparatedByString:@":"] objectAtIndex:1] stringByAppendingString:[@":" stringByAppendingString:[[[[[[string componentsSeparatedByString:@"Duration: "] objectAtIndex:1] componentsSeparatedByString:@","] objectAtIndex:0] componentsSeparatedByString:@":"] objectAtIndex:2]]];
-
-[string release];
-[pipe release];
-[ffmpeg release];
-ffmpeg = nil;
-
-return durationsString;
+	NSString *string = [self ffmpegOutputForPath:path];
+	return [[[[[[[string componentsSeparatedByString:@"Duration: "] objectAtIndex:1] componentsSeparatedByString:@","] objectAtIndex:0] componentsSeparatedByString:@":"] objectAtIndex:1] stringByAppendingString:[@":" stringByAppendingString:[[[[[[string componentsSeparatedByString:@"Duration: "] objectAtIndex:1] componentsSeparatedByString:@","] objectAtIndex:0] componentsSeparatedByString:@":"] objectAtIndex:2]]];
 }
 
 - (NSImage *)getImageAtPath:(NSString *)path atTime:(int)time isWideScreen:(BOOL)wide
 {
-ffmpeg=[[NSTask alloc] init];
-NSPipe *pipe=[[NSPipe alloc] init];
-NSPipe *outputPipe=[[NSPipe alloc] init];
-NSFileHandle *handle;
-NSFileHandle *outputHandle;
-NSImage *image;
-[ffmpeg setLaunchPath:[KWCommonMethods ffmpegPath]];
-[ffmpeg setArguments:[NSArray arrayWithObjects:@"-ss",[[NSNumber numberWithInt:time] stringValue],@"-i",path,@"-vframes",@"1" ,@"-f",@"image2",@"-",nil]];
-[ffmpeg setStandardOutput:outputPipe];
-	if ([[NSUserDefaults standardUserDefaults] boolForKey:@"KWConsoleEnabled"] == NO)
+	NSArray *arguments = [NSArray arrayWithObjects:@"-ss",[[NSNumber numberWithInt:time] stringValue],@"-i",path,@"-vframes",@"1" ,@"-f",@"image2",@"-",nil];
+	NSData *data;
+	NSImage *image;
+	BOOL result = [KWCommonMethods launchNSTaskAtPath:[KWCommonMethods ffmpegPath] withArguments:arguments outputError:NO outputString:NO output:&data];
+	
+	if (result && data)
 	{
-	[ffmpeg setStandardError:pipe];
-	handle=[pipe fileHandleForReading];
+		image = [[NSImage alloc] initWithData:data];
+
+		if (wide)
+			[image setSize:NSMakeSize(720,404)];
+			
+		return image;
 	}
-outputHandle=[outputPipe fileHandleForReading];
-[ffmpeg launch];
-image = [[NSImage alloc] initWithData:[outputHandle readDataToEndOfFile]];
+	else if (result && !data && time > 1)
+	{
+		return [self getImageAtPath:path atTime:1 isWideScreen:wide];
+	}
+		
+	return nil;
+}
 
-	if (wide)
-	[image setSize:NSMakeSize(720,404)];
-
-[pipe release];
-[outputPipe release];
-[ffmpeg release];
-
-	if (!image && time > 1)
-	return [self getImageAtPath:path atTime:1 isWideScreen:wide];
-
-return [image autorelease];
+- (void)setErrorStringWithString:(NSString *)string
+{
+	if (errorString)
+		errorString = [NSString stringWithFormat:@"%@\n%@", errorString, string];
+	else
+		errorString = [string retain];
 }
 
 @end
