@@ -56,22 +56,23 @@
 
 @interface KWDataDiscInspector : NSObject
 {
+	//Interface outlets
 	IBOutlet id	myView;
 	IBOutlet id	nameField;
 	IBOutlet id	sizeField;
 	IBOutlet id	tabView;
 	IBOutlet id	mainIconView;
 	
-	IBOutlet NSTextField*	hfsName;
-	IBOutlet NSTextField*	isoName;
-	IBOutlet NSTextField*	jolietName;
-	IBOutlet NSTextField*	udfName;
+	IBOutlet id	hfsName;
+	IBOutlet id	isoName;
+	IBOutlet id	jolietName;
+	IBOutlet id	udfName;
 	
-	IBOutlet NSBox*			isoOptions;
-	IBOutlet NSBox*			hfsOptions;
-	IBOutlet NSBox*			jolietOptions;
-	IBOutlet NSBox*			udfOptions;
-	IBOutlet NSBox*			allOptions;
+	IBOutlet id	isoOptions;
+	IBOutlet id	hfsOptions;
+	IBOutlet id	jolietOptions;
+	IBOutlet id	udfOptions;
+	IBOutlet id	allOptions;
 	
 	IBOutlet id	uid;
 	IBOutlet id	gid;
@@ -90,13 +91,13 @@
 	
 	IBOutlet id	iconView;
 
-	IBOutlet NSPanel*		fileChooser;
-	IBOutlet NSButton*		okButton;
-	IBOutlet NSTableView*	fileList;
+	IBOutlet id	fileChooser;
+	IBOutlet id	okButton;
+	IBOutlet id	fileList;
 
+	//Variables
 	DRFolder*				filesystemRoot;
 	NSMutableDictionary*	fsProperties;
-	
 	TreeNode*				selectedItem;
 	NSArray*				rootFiles;
 
@@ -127,5 +128,8 @@
 - (IBAction)setGID:(id)sender;
 
 - (id)myView;
+
+//Convenience methods
+- (void)setOptionsForViews:(NSArray *)views setEnabled:(BOOL)enabled;
 
 @end
