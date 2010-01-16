@@ -12,170 +12,149 @@
 
 - (id) init
 {
-self = [super init];
-expanded = NO;
-filePackage = NO;
-hfsStandard = NO;
+	self = [super init];
+	expanded = NO;
+	filePackage = NO;
+	hfsStandard = NO;
 
-return self;
+	return self;
 }
 
 - (void)dealloc 
 {
 	if (folderIcon)
-	{
-	[folderIcon release];
-	folderIcon = nil;
-	}
+		[folderIcon release];
 	
 	if (properties)
-	{
-	[properties release];
-	properties = nil;
-	}
+		[properties release];
 	
 	if (properties)
-	{
-	[properties release];
-	properties = nil;
-	}
+		[properties release];
 	
 	if (folderSize)
-	{
-	[folderSize release];
-	folderSize = nil;
-	}
+		[folderSize release];
 	
 	if (displayName)
-	{
-	[displayName release];
-	displayName = nil;
-	}
+		[displayName release];
 	
 	if (originalName)
-	{
-	[originalName release];
-	originalName = nil;
-	}
+		[originalName release];
 
-[super dealloc];
+	[super dealloc];
 }
 
 - (void)setFolderIcon:(NSImage *)image
 {
 	if (folderIcon)
 	{
-	[folderIcon release];
-	folderIcon = nil;
+		[folderIcon release];
+		folderIcon = nil;
 	}
 
     if (image) 
 	{
-	folderIcon = [image retain];
+		folderIcon = [image retain];
     }
 }
 
 - (NSImage *)folderIcon
 {
-return folderIcon;
+	return folderIcon;
 }
 
 - (void)setFolderSize:(NSString *)string
 {
 	if (folderSize)
 	{
-	[folderSize release];
-	folderSize = nil;
+		[folderSize release];
+		folderSize = nil;
 	}
 	
-folderSize = [string retain];
+	folderSize = [string retain];
 }
 
 - (NSString *)folderSize
 {
-return folderSize;
+	return folderSize;
 }
 
 - (void)setDiscProperties:(NSDictionary *)dict
 {
 	if (properties)
 	{
-	[properties release];
-	properties = nil;
+		[properties release];
+		properties = nil;
 	}
 
 	if (dict)
-	{
-	properties = [dict retain];
-	}
+		properties = [dict retain];
 }
 
 - (NSDictionary *)discProperties
 {
-
-return properties;
+	return properties;
 }
 
 - (void)setExpanded:(BOOL)exp
 {
-expanded = exp;
+	expanded = exp;
 }
 
 - (BOOL)isExpanded
 {
-return expanded;
+	return expanded;
 }
 
 - (void)setIsFilePackage:(BOOL)package
 {
-filePackage = package;
+	filePackage = package;
 }
 
 - (BOOL)isFilePackage
 {
-return filePackage;
+	return filePackage;
 }
 
 - (void)setDisplayName:(NSString *)string
 {
 	if (displayName)
 	{
-	[displayName release];
-	displayName = nil;
+		[displayName release];
+		displayName = nil;
 	}
 	
-displayName = [string retain];
+	displayName = [string retain];
 }
 
 - (NSString *)displayName
 {
-return displayName;
+	return displayName;
 }
 
 - (void)setOriginalName:(NSString *)string
- {
+{
  	if (originalName)
 	{
-	[originalName release];
-	originalName = nil;
+		[originalName release];
+		originalName = nil;
 	}
 	
-originalName = [string retain];
- }
+	originalName = [string retain];
+}
  
 - (NSString *)originalName
 {
-return originalName;
+	return originalName;
 }
 
 - (void)setHfsStandard:(BOOL)standard
 {
-hfsStandard = standard;
+	hfsStandard = standard;
 }
 
 - (BOOL)hfsStandard
 {
-return hfsStandard;
+	return hfsStandard;
 }
 
 @end
