@@ -1,143 +1,232 @@
 #import "KWAudioInspector.h"
-#import "audioController.h"
 #import "KWCommonMethods.h"
+#import "KWAudioController.h"
 
 @implementation KWAudioInspector
 
+- (id)init
+{
+	if (self = [super init])
+	{
+		tagMappings = [[NSArray alloc] initWithObjects:	//CD-Text
+														DRCDTextTitleKey,			//1
+														DRCDTextPerformerKey,		//2
+														DRCDTextComposerKey,		//3
+														DRCDTextSongwriterKey,		//4
+														DRCDTextArrangerKey,		//5
+														DRCDTextSpecialMessageKey,	//6
+														DRCDTextClosedKey,			//7
+														DRCDTextMCNISRCKey,			//8
+														//DRTrack
+														DRPreGapLengthKey,			//9
+														DRAudioPreEmphasisKey,		//10
+														DRTrackISRCKey,				//11
+														DRIndexPointsKey,			//12
+		nil];
+	}
+
+	return self;
+}
+
+- (void)dealloc
+{
+	[tagMappings release];
+	
+	[super dealloc];
+}
+
 - (void)updateView:(id)object
 {
-currentTableView = object;
-NSArray *currentObjects;
-
-	if (![KWCommonMethods isPanther])
-	currentObjects = [[(audioController *)[currentTableView dataSource] myDataSource] objectsAtIndexes:[currentTableView selectedRowIndexes]];
-	else
-	currentObjects = [KWCommonMethods allSelectedItemsInTableView:currentTableView fromArray:[(audioController *)[currentTableView dataSource] myDataSource]];
+	currentTableView = object;
+	KWAudioController *controller = [currentTableView delegate];
+	NSArray *tableData = [controller myDataSource];
+	NSArray *currentObjects = [KWCommonMethods allSelectedItemsInTableView:currentTableView fromArray:tableData];
 
 	if ([currentObjects count] == 1)
 	{
-	[iconView setImage:[self getObjectForKey:@"Icon" inObjects:currentObjects]];
-	[nameField setStringValue:[self getObjectForKey:@"Name" inObjects:currentObjects]];
-	[timeField setStringValue:[self getObjectForKey:@"Time" inObjects:currentObjects]];
+		NSDictionary *currentObject = [currentObjects objectAtIndex:0];
+	
+		[iconView setImage:[currentObject objectForKey:@"Icon"]];
+		[nameField setStringValue:[currentObject objectForKey:@"Name"]];
+		[timeField setStringValue:[currentObject objectForKey:@"Size"]];
 	}
 	else
 	{
-	[iconView setImage:[NSImage imageNamed:@"Multiple"]];
-	[nameField setStringValue:@"Multiple Selection"];
-	[timeField setStringValue:[[[NSNumber numberWithInt:[currentObjects count]] stringValue] stringByAppendingString:@" files"]];
+		[iconView setImage:[NSImage imageNamed:@"Multiple"]];
+		[nameField setStringValue:@"Multiple Selection"];
+		[timeField setStringValue:[NSString stringWithFormat:NSLocalizedString(@"%ld files", nil),[currentObjects count]]];
 	}
-
-[title setStringValue:[self getObjectForKey:@"Title" inObjects:currentObjects]];
-[performer setStringValue:[self getObjectForKey:@"Performer" inObjects:currentObjects]];
-[composer setStringValue:[self getObjectForKey:@"Composer" inObjects:currentObjects]];
-[songwriter setStringValue:[self getObjectForKey:@"Songwriter" inObjects:currentObjects]];
-[arranger setStringValue:[self getObjectForKey:@"Arranger" inObjects:currentObjects]];
-[notes setStringValue:[self getObjectForKey:@"Notes" inObjects:currentObjects]];
-[privateUse setStringValue:[self getObjectForKey:@"Private" inObjects:currentObjects]];
-[preGap setObjectValue:[self getObjectForKey:@"Pregap" inObjects:currentObjects]];
-[preEmphasis setObjectValue:[self getObjectForKey:@"Pre-emphasis" inObjects:currentObjects]];
-[ISRCCheckBox setObjectValue:[self getObjectForKey:@"EnableISRC" inObjects:currentObjects]];
-[ISRCField setEnabled:([[self getObjectForKey:@"EnableISRC" inObjects:currentObjects] boolValue])];
-[ISRCCDText setEnabled:([[self getObjectForKey:@"EnableISRC" inObjects:currentObjects] boolValue])];
-//[invalid setHidden:(![[self getObjectForKey:@"EnableISRC" inObjects:currentObjects] boolValue])];
-[ISRCField setStringValue:[self getObjectForKey:@"ISRC" inObjects:currentObjects]];
-[ISRCCDText setObjectValue:[self getObjectForKey:@"ISRCCDText" inObjects:currentObjects]];
-[indexPoints setObjectValue:[self getObjectForKey:@"IndexPoints" inObjects:currentObjects]];
-
-	if ([[self getObjectForKey:@"EnableISRC" inObjects:currentObjects] boolValue])
-	[self ISRCChanged:self];
-	else
-	[invalid setHidden:YES];
+	
+	NSEnumerator *iter = [[myView subviews] objectEnumerator];
+	NSArray *selectedRows = [KWCommonMethods selectedRowsAtRowIndexes:[currentTableView selectedRowIndexes]];
+	DRCDTextBlock *currentCDTextBlock = [controller myTextBlock];
+	NSMutableArray *currentTracks = [controller myTracks];
+	id cntl;
+	
+	while ((cntl = [iter nextObject]) != NULL)
+	{
+		int index = [cntl tag] - 1;
+		id property;
+		
+		if (index > -1 && index < 12)
+		{	
+			id currentKey = [tagMappings objectAtIndex:index];
+			
+				if (index < 8)
+				{
+					property = [self getObjectForKey:currentKey inObject:currentCDTextBlock atIndexes:selectedRows];
+				
+					if ([currentKey isEqualTo:DRCDTextMCNISRCKey])
+						property = [NSNumber numberWithBool:(property != nil)];
+				}
+				else
+				{
+					property = [self getObjectForKey:currentKey inObject:currentTracks atIndexes:selectedRows];
+				
+					if ([currentKey isEqualTo:DRPreGapLengthKey])
+						property = [NSString stringWithFormat:@"%ld",(long)[property floatValue] / 75];
+					else if ([currentKey isEqualTo:DRIndexPointsKey])
+						property = [NSNumber numberWithBool:(property != nil)];
+				}
+				
+			if (property)
+				[cntl setObjectValue:property];
+				
+			property = nil;
+		}
+	}
 }
 
-- (id)getObjectForKey:(NSString *)key inObjects:(NSArray *)objects
+- (id)getObjectForKey:(NSString *)key inObject:(id)object atIndexes:(NSArray *)indexes
 {
-	if ([objects count] == 1)
+	id baseValue;
+	BOOL cdText = [object isKindOfClass:[DRCDTextBlock class]];
+
+	if (cdText)
 	{
-	return [[objects objectAtIndex:0] objectForKey:key];
+		baseValue = [(DRCDTextBlock *)object objectForKey:key ofTrack:1];
 	}
 	else
 	{
-	id aValue = [[objects objectAtIndex:0] objectForKey:key];
-	
+		DRTrack *firstSelectedTrack = [object objectAtIndex:0];
+		NSDictionary *trackProperties = [firstSelectedTrack properties];
+		baseValue = [trackProperties objectForKey:key];
+	}
+
+
+	if ([indexes count] == 1)
+	{
+		return baseValue;
+	}
+	else
+	{
 		int i;
-		for (i=0;i<[objects count];i++)
+		for (i=0;i<[indexes count];i++)
 		{
-			if (![aValue isEqualTo:[[objects objectAtIndex:i] objectForKey:key]])
+			id currentValue;
+				
+			if (cdText)
 			{
-				if ([aValue isKindOfClass:[NSString class]])
-				return @"";
-				else
-				return [NSNumber numberWithBool:NO];
+				currentValue = [object objectForKey:key ofTrack:[[indexes objectAtIndex:i] intValue] + 1];
+			}
+			else
+			{
+				DRTrack *selectedTrack = [object objectAtIndex:[[indexes objectAtIndex:i] intValue]];
+				NSDictionary *trackProperties = [selectedTrack properties];
+				currentValue = [trackProperties objectForKey:key];
+			}
+
+		
+			if (![baseValue isEqualTo:currentValue])
+			{
+				return nil;
 			}
 		}
 	}
 
-return [[objects objectAtIndex:0] objectForKey:key];
+	return baseValue;
 }
 
 - (IBAction)optionsChanged:(id)sender
 {
-NSArray *currentObjects;
+	int index = [sender tag] - 1;
+	NSString *currentKey = [tagMappings objectAtIndex:index];
+	KWAudioController *controller = [currentTableView delegate];
+	NSArray *selectedRows = [KWCommonMethods selectedRowsAtRowIndexes:[currentTableView selectedRowIndexes]];
 	
-	if (![KWCommonMethods isPanther])
-	currentObjects = [[(audioController *)[currentTableView dataSource] myDataSource] objectsAtIndexes:[currentTableView selectedRowIndexes]];
-	else
-	currentObjects = [KWCommonMethods allSelectedItemsInTableView:currentTableView fromArray:[(audioController *)[currentTableView dataSource] myDataSource]];
-	
-	int i;
-	for (i=0;i<[currentObjects count];i++)
+	if (index < 8)
 	{
-	NSMutableDictionary *tempDict = [[currentObjects objectAtIndex:i] mutableCopy];
-	
-		if (![[self getObjectForKey:@"Title" inObjects:currentObjects] isEqualTo:[title stringValue]])
-		[tempDict setObject:[title stringValue] forKey:@"Title"];
-		if (![[self getObjectForKey:@"Performer" inObjects:currentObjects] isEqualTo:[performer stringValue]])
-		[tempDict setObject:[performer stringValue] forKey:@"Performer"];
-		if (![[self getObjectForKey:@"Composer" inObjects:currentObjects] isEqualTo:[composer stringValue]])
-		[tempDict setObject:[composer stringValue] forKey:@"Composer"];
-		if (![[self getObjectForKey:@"Songwriter" inObjects:currentObjects] isEqualTo:[songwriter stringValue]])
-		[tempDict setObject:[songwriter stringValue] forKey:@"Songwriter"];
-		if (![[self getObjectForKey:@"Arranger" inObjects:currentObjects] isEqualTo:[arranger stringValue]])
-		[tempDict setObject:[arranger stringValue] forKey:@"Arranger"];
-		if (![[self getObjectForKey:@"Notes" inObjects:currentObjects] isEqualTo:[notes stringValue]])
-		[tempDict setObject:[notes stringValue] forKey:@"Notes"];
-		if (![[self getObjectForKey:@"Private" inObjects:currentObjects] isEqualTo:[privateUse stringValue]])
-		[tempDict setObject:[privateUse stringValue] forKey:@"Private"];
-	
-
-		if (![[self getObjectForKey:@"Pregap" inObjects:currentObjects] isEqualTo:[preGap stringValue]])
-		[tempDict setObject:[preGap stringValue] forKey:@"Pregap"];
-		if (([preEmphasis state] == NSOnState) | [currentObjects count] == 1)
-		[tempDict setObject:[NSNumber numberWithBool:([preEmphasis state] == NSOnState)] forKey:@"Pre-emphasis"];
-		if (([ISRCCheckBox state] == NSOnState) | [currentObjects count] == 1)
-		[tempDict setObject:[NSNumber numberWithBool:([ISRCCheckBox state] == NSOnState)] forKey:@"EnableISRC"];
-		if (![[self getObjectForKey:@"ISRC" inObjects:currentObjects] isEqualTo:[ISRCField stringValue]])
-		[tempDict setObject:[ISRCField stringValue] forKey:@"ISRC"];
-		if (([ISRCCDText state] == NSOnState) | [currentObjects count] == 1)
-		[tempDict setObject:[NSNumber numberWithBool:([ISRCCDText state] == NSOnState)] forKey:@"ISRCCDText"];
-		if (([indexPoints state] == NSOnState) | [currentObjects count] == 1)
-		[tempDict setObject:[NSNumber numberWithBool:([indexPoints state] == NSOnState)] forKey:@"IndexPoints"];
+		DRCDTextBlock *currentCDTextBlock = [controller myTextBlock];
+		NSMutableArray *currentTracks = [controller myTracks];
 		
-	[[(audioController *)[currentTableView dataSource] myDataSource] replaceObjectAtIndex:[[(audioController *)[currentTableView dataSource] myDataSource] indexOfObject:[currentObjects objectAtIndex:i]] withObject:[tempDict copy]];
-	}
-}
+		int i;
+		for (i=0;i<[selectedRows count];i++)
+		{
+			int selectedTrack = [[selectedRows objectAtIndex:i] intValue] + 1;
+			id value;
+			
+				if ([currentKey isEqualTo:DRCDTextMCNISRCKey])
+				{
+					DRTrack *currentTrack = [currentTracks objectAtIndex:i];
+					NSDictionary *trackProperties = [currentTrack properties];
+					value = [trackProperties objectForKey:DRTrackISRCKey];
+				}
+				else 
+				{
+					value = [sender objectValue];
+				}
 
-- (IBAction)ISRCCheckBox:(id)sender
-{
-[ISRCField setEnabled:([ISRCCheckBox state] == NSOnState)];
-[ISRCCDText setEnabled:([ISRCCheckBox state] == NSOnState)];
-[invalid setHidden:([ISRCCheckBox state] == NSOffState)];
+				if (value)
+					[currentCDTextBlock setObject:value forKey:currentKey ofTrack:selectedTrack];
+		}
+	}
+	else
+	{
+		NSMutableArray *currentTracks = [controller myTracks];
+		
+		int i;
+		for (i=0;i<[selectedRows count];i++)
+		{
+			id value;
+			
+			if ([currentKey isEqualTo:DRPreGapLengthKey])
+			{
+				unsigned preGapLengthInFrames = (unsigned)([[sender objectValue] floatValue] * 75.0);
+				value = [NSNumber numberWithUnsignedInt:preGapLengthInFrames];
+			}
+			else if ([currentKey isEqualTo:DRIndexPointsKey])
+			{
+				value = [NSMutableArray arrayWithCapacity:98];
+			}
+			else
+			{
+				value = [sender objectValue];
+			}
+		
+			if (value)
+			{
+				DRTrack *currentTrack = [currentTracks objectAtIndex:i];
+				NSMutableDictionary *trackProperties = [NSMutableDictionary dictionaryWithDictionary:[currentTrack properties]];
+				[trackProperties setObject:value forKey:currentKey];
+				[currentTrack setProperties:trackProperties];
+			}
+		}
+	}
 }
 
 - (IBAction)ISRCChanged:(id)sender
 {
-BOOL isValue = [self isValidISRC:[ISRCField stringValue]];
+	BOOL isValue = [self isValidISRC:[sender stringValue]];
 
 	if (isValue)
-	[self optionsChanged:self];
+	{
+		NSString *newFormatedISRC = [self ISRCStringFromString:[sender objectValue]];
+		[sender setObjectValue:newFormatedISRC];
+		
+		[self optionsChanged:sender];
+	}
 
-[invalid setHidden:isValue];
+	[invalid setHidden:isValue];
 }
 
 - (BOOL)isValidISRC:(NSString*)isrc
@@ -145,7 +234,7 @@ BOOL isValue = [self isValidISRC:[ISRCField stringValue]];
 	// Get the string as ASCII, and make sure it's 12 bytes long.
 	NSData *data = [isrc dataUsingEncoding:NSASCIIStringEncoding];
 	if (data == nil)
-	return NO;
+		return NO;
 	
 	// Check the length.
 	unsigned length = [data length];
@@ -171,14 +260,30 @@ BOOL isValue = [self isValidISRC:[ISRCField stringValue]];
 		}
 	}
 	
-// Looks valid.
-return YES;
+	// Looks valid.
+	return YES;
+}
+
+- (NSString *)ISRCStringFromString:(NSString *)string
+{
+	// Convert the ISRC into the appropriate format:
+	//	an NSData containing 12 bytes.
+	NSData *data = [string dataUsingEncoding:NSASCIIStringEncoding];
+		
+	if ([data length] == 12)
+		return string;
+
+	char cstr[16];
+	char *ip = (char*)[data bytes];
+	snprintf(cstr,sizeof(cstr),"%.2s-%.3s-%.2s-%.5s",&ip[0],&ip[2],&ip[5],&ip[7]);
+	cstr[15] = 0;
+				
+	return [NSString stringWithUTF8String:cstr];
 }
 
 - (id)myView
 {
-return myView;
+	return myView;
 }
-
 
 @end
