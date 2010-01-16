@@ -70,9 +70,7 @@
     return NSOrderedAscending;
 }
 
-- (void)setName:(NSString*)name
-{
-}
+- (void)setName:(NSString*)name{}
 
 - (NSString*) name
 {
@@ -167,7 +165,7 @@
 			break;
 	}
 
-[child setNodeParent:self];
+	[child setNodeParent:self];
 }
 
 - (void)addChildren:(NSArray*)children
@@ -249,6 +247,7 @@
 	{
         if ([self isDescendantOfNode:node]) return YES;
     }
+	
     return NO;
 }
 
@@ -309,6 +308,7 @@
 			
         [nodeQueue removeObjectIdenticalTo: node];
     }
+	
     return minimumCover;
 }
 
