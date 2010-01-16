@@ -51,30 +51,30 @@
 
 @interface HFSPlusController : FSPropertiesController 
 {
-	IBOutlet NSTextField*	tecHint;
-	IBOutlet NSTextField*	nodeID;
-	IBOutlet NSTextField*	creator;
-	IBOutlet NSTextField*	type;
-	IBOutlet NSMatrix*		finderFlags;
-	IBOutlet NSMatrix*		extFinderFlags;
-	IBOutlet NSTextField*	iconPosX;
-	IBOutlet NSTextField*	iconPosY;
-	IBOutlet NSTextField*	boundsTop;
-	IBOutlet NSTextField*	boundsLeft;
-	IBOutlet NSTextField*	boundsBottom;
-	IBOutlet NSTextField*	boundsRight;
-	IBOutlet NSTextField*	scrollPosX;
-	IBOutlet NSTextField*	scrollPosY;
-	IBOutlet NSTextField*	viewType;
-	IBOutlet NSButton*		setHiddenExtension;
+	IBOutlet id	tecHint;
+	IBOutlet id	nodeID;
+	IBOutlet id	creator;
+	IBOutlet id	type;
+	IBOutlet id	finderFlags;
+	IBOutlet id	extFinderFlags;
+	IBOutlet id	iconPosX;
+	IBOutlet id	iconPosY;
+	IBOutlet id	boundsTop;
+	IBOutlet id	boundsLeft;
+	IBOutlet id	boundsBottom;
+	IBOutlet id	boundsRight;
+	IBOutlet id	scrollPosX;
+	IBOutlet id	scrollPosY;
+	IBOutlet id	viewType;
+	IBOutlet id setHiddenExtension;
 }
 
-- (IBAction) setTypeCreatorProperty:(id)sender;
-- (IBAction) setIconPositionProperty:(id)sender;
-- (IBAction) setFlagsProperty:(id)sender;
-- (IBAction) setFolderBoundsProperty:(id)sender;
-- (IBAction) setFolderScrollPositionProperty:(id)sender;
-- (IBAction) setHiddenExtension:(id)sender;
+- (IBAction)setTypeCreatorProperty:(id)sender;
+- (IBAction)setIconPositionProperty:(id)sender;
+- (IBAction)setFlagsProperty:(id)sender;
+- (IBAction)setFolderBoundsProperty:(id)sender;
+- (IBAction)setFolderScrollPositionProperty:(id)sender;
+- (IBAction)setHiddenExtension:(id)sender;
 - (BOOL)extensionHiddenOfFSObject:(DRFSObject *)object;
 - (BOOL)isFolder:(DRFSObject *)object;
 
