@@ -1,8 +1,7 @@
 #import <Foundation/Foundation.h>
 #import <AppKit/AppKit.h>
-#import <DiscRecording/DiscRecording.h>
 
-@class AppController;
+@class KWApplication;
 @class HFSPlusController;
 @class ISOController;
 @class JolietController;
@@ -10,20 +9,22 @@
 
 @interface KWDataInspector : NSObject 
 {
-	IBOutlet NSTabView *tabs;
-	IBOutlet HFSPlusController *hfsController;
-	IBOutlet ISOController *isoController;
-	IBOutlet JolietController *jolietController;
-	IBOutlet UDFController *udfController;
-	IBOutlet NSImageView *iconView;
-	IBOutlet NSTextField *nameField;
-	IBOutlet NSTextField *sizeField;
+	IBOutlet id tabs;
+	IBOutlet id hfsController;
+	IBOutlet id isoController;
+	IBOutlet id jolietController;
+	IBOutlet id udfController;
+	IBOutlet id iconView;
+	IBOutlet id nameField;
+	IBOutlet id sizeField;
 	IBOutlet id	myView;
 	
 	BOOL shouldChangeTab;
 }
 
+//Main Actions
 - (void)updateView:(NSArray *)objects;
 - (id)myView;
+- (void)leaveTab;
 
 @end
