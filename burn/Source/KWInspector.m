@@ -1,86 +1,105 @@
 #import "KWInspector.h"
 #import <DiscRecording/DiscRecording.h>
 #import "KWDataInspector.h"
+#import "KWCommonMethods.h"
 
 @implementation KWInspector
 
 - (id)init
 {
-self = [super init];
-
-[NSBundle loadNibNamed:@"KWInspector" owner:self];
-
-firstRun = YES;
-
-return self;
+	if( self = [super init] )
+	{
+		[NSBundle loadNibNamed:@"KWInspector" owner:self];
+	}
+	
+	firstRun = YES;
+	
+	return self;
 }
 
 - (void)dealloc
 {
-[[NSNotificationCenter defaultCenter] removeObserver:self];
-
-[super dealloc];
+	[[NSNotificationCenter defaultCenter] removeObserver:self];
+	
+	[super dealloc];
 }
 
 - (void)awakeFromNib
 {
-[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(saveFrame) name:NSWindowWillCloseNotification object:nil];
+	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(saveFrame) name:NSWindowWillCloseNotification object:nil];
 
-[[self window] setFrameUsingName:@"Inspector"];
+	[[self window] setFrameUsingName:@"Inspector"];
 }
+
+//////////////////
+// Main actions //
+//////////////////
+
+#pragma mark -
+#pragma mark •• Main actions
 
 - (void)beginWindowForType:(NSString *)type withObject:(id)object
 {
-	if ([[self window] isVisible])
-	[[self window] orderOut:self];
-	else
-	[[self window] makeKeyAndOrderFront:self];
-	
-[self updateForType:type withObject:object];
+	NSWindow *myWindow = [self window];
 
-	if ([[NSUserDefaults standardUserDefaults] boolForKey:@"KWFirstRun"] == YES)
-	[[self window] setFrameOrigin:NSMakePoint(500,[[NSScreen mainScreen] frame].size.height - 548)];
+	if ([myWindow isVisible])
+	{
+		[myWindow orderOut:self];
+	}
+	else
+	{
+		[self updateForType:type withObject:object];
+
+		if ([[NSUserDefaults standardUserDefaults] boolForKey:@"KWFirstRun"] == YES)
+			[myWindow setFrameOrigin:NSMakePoint(500,[[NSScreen mainScreen] frame].size.height - 548)];
+		
+		[myWindow makeKeyAndOrderFront:self];
+	}
 }
 
 - (void)updateForType:(NSString *)type withObject:(id)object
 {
-id currentController = nil;
+	NSWindow *myWindow = [self window];
+
+	id currentController = nil;
 
 	if ([type isEqualTo:@"KWData"])
-	currentController = dataController;
+		currentController = dataController;
 	else if ([type isEqualTo:@"KWDataDisc"])
-	currentController = dataDiscController;
+		currentController = dataDiscController;
 	else if ([type isEqualTo:@"KWAudio"])
-	currentController = audioController;
+		currentController = audioController;
 	else if ([type isEqualTo:@"KWAudioDisc"])
-	currentController = audioDiscController;
+		currentController = audioDiscController;
 	else if ([type isEqualTo:@"KWAudioMP3"])
-	currentController = audioMP3Controller;
+		currentController = audioMP3Controller;
 	else if ([type isEqualTo:@"KWDVD"])
-	currentController = dvdController;
+		currentController = dvdController;
 	
 	if ([type isEqualTo:@"KWDataDisc"] && firstRun)
 	{
-	firstRun = NO;
-	[currentController updateView:object];
+		firstRun = NO;
+		[currentController updateView:object];
 	}
 	
 	if (currentController)
 	{
-	[currentController updateView:object];
-	[[self window] setContentView:[currentController myView]];
-	[[self window] makeFirstResponder:[currentController myView]];
+		NSView *myView = [currentController myView];
+	
+		[currentController updateView:object];
+		[myWindow setContentView:myView];
+		[myWindow makeFirstResponder:myView];
 	}
 	else
 	{
-	[[self window] setContentView:emptyView];
+		[myWindow setContentView:emptyView];
 	}
 }
 
 - (void)saveFrame
 {
-[[self window] saveFrameUsingName:@"Inspector"];
-[[NSUserDefaults standardUserDefaults] synchronize];
+	[[self window] saveFrameUsingName:@"Inspector"];
+	[[NSUserDefaults standardUserDefaults] synchronize];
 }
 
 @end
