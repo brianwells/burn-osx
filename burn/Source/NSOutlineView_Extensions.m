@@ -51,35 +51,42 @@
 
 @implementation NSOutlineView (MyExtensions)
 
-- (id)selectedItem { return [self itemAtRow: [self selectedRow]]; }
+- (id)selectedItem 
+{
+	return [self itemAtRow: [self selectedRow]];
+}
 
-- (NSArray*)allSelectedItems {
+- (NSArray*)allSelectedItems 
+{
     NSMutableArray *items = [NSMutableArray array];
-    NSEnumerator *selectedRows = [self selectedRowEnumerator];
-    NSNumber *selRow = nil;
-    while( (selRow = [selectedRows nextObject]) ) {
-        if ([self itemAtRow:[selRow intValue]]) 
-            [items addObject: [self itemAtRow:[selRow intValue]]];
+	NSIndexSet *indexSet = [self selectedRowIndexes];
+	
+	unsigned current_index = [indexSet firstIndex];
+    while (current_index != NSNotFound)
+    {
+		id itemAtRow = [self itemAtRow:current_index];
+	
+		if (itemAtRow) 
+            [items addObject:itemAtRow];
+			
+        current_index = [indexSet indexGreaterThanIndex: current_index];
     }
+	
     return items;
 }
 
-- (NSArray*)allSelectedItemIndexes {
-    NSMutableArray *items = [NSMutableArray array];
-    NSEnumerator *selectedRows = [self selectedRowEnumerator];
-    NSNumber *selRow = nil;
-    while( (selRow = [selectedRows nextObject]) ) {
-            [items addObject: [selRow stringValue]];
-    }
-    return items;
-}
-
-- (void)selectItems:(NSArray*)items byExtendingSelection:(BOOL)extend {
+- (void)selectItems:(NSArray*)items byExtendingSelection:(BOOL)extend 
+{
     int i;
-    if (extend==NO) [self deselectAll:nil];
-    for (i=0;i<[items count];i++) {
+    if (extend==NO) 
+		[self deselectAll:nil];
+   
+	for (i=0;i<[items count];i++) 
+	{
         int row = [self rowForItem:[items objectAtIndex:i]];
-        if(row>=0) [self selectRow: row byExtendingSelection:YES];
+		
+        if(row>=0) 
+			[self selectRow: row byExtendingSelection:YES];
     }
 }
 
@@ -88,10 +95,12 @@
 
 @implementation MyOutlineView 
 
-- (NSDragOperation)draggingSourceOperationMaskForLocal:(BOOL)isLocal {
-    if (isLocal) return NSDragOperationEvery;
-    else return NSDragOperationCopy;
+- (NSDragOperation)draggingSourceOperationMaskForLocal:(BOOL)isLocal 
+{
+    if (isLocal)
+		return NSDragOperationEvery;
+    else
+		return NSDragOperationCopy;
 }
 
 @end
-
