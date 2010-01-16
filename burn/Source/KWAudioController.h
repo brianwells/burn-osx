@@ -1,96 +1,56 @@
-/* audioController */
+//
+//  KWAudioController.h
+//  Burn
+//
+//  Created by Maarten Foukhar on 13-09-09.
+//  Copyright 2009 Kiwi Fruitware. All rights reserved.
+//
 
 #import <Cocoa/Cocoa.h>
-#import <DiscRecording/DiscRecording.h>
-#import <QTKit/QTKit.h>
-#import <KWProgress.h>
-#import <KWConverter.h>
+#import "KWMediaListController.h"
 #import <KWDVDAuthorizer.h>
-#import <KWBurner.h>
+#import <QTKit/QTKit.h>
 
-@interface audioController : NSObject
-{
+@interface KWAudioController : KWMediaListController {
+
 	//Main Window
-	IBOutlet id mainWindow;
-	IBOutlet id popupIcon;
-	IBOutlet id discName;
-	IBOutlet id totalTimeText;
 	IBOutlet id previousButton;
 	IBOutlet id playButton;
 	IBOutlet id nextButton;
 	IBOutlet id stopButton;
-	IBOutlet id tableViewPopup;
-	IBOutlet id tableView;
-	id tableData;
 	
 	//Options menu
-	IBOutlet id accessOptions;
 	IBOutlet id audioOptionsPopup;
 	IBOutlet id mp3OptionsPopup;
 	
-	//Disc creation
-	IBOutlet id myDiscCreationController;
-	
 	//Variables
-	NSArray *allowedFileTypes;
-	NSArray *protectedFiles;
-	NSMutableArray *AudioCDTableData;
-	NSMutableArray *Mp3TableData;
-	NSMutableArray *DVDAudioTableData;
-	NSMutableArray *notCompatibleFiles;
-	NSMutableArray *someProtected;
+	NSMutableArray *audioTableData;
+	NSMutableArray *mp3TableData;
+	NSMutableArray *dvdTableData;
 	#ifdef QTKIT_EXTERN
 	QTMovie *movie;
 	#endif
 	int playingSong;
 	int display;
 	BOOL pause;
-	BOOL cancelAddingFiles;
 	NSTimer *displayTimer;
-	int currentDropRow;
-	KWProgress *progressPanel;
-	KWConverter *converter;
-	NSMutableDictionary *CDTextDict;
 	KWDVDAuthorizer *DVDAuthorizer;
-	NSMutableArray *temporaryFiles;
 	
 	NSArray *audioOptionsMappings;
 	NSArray *mp3OptionsMappings;
+	
+	NSMutableArray *tracks;
+	DRCDTextBlock *cdtext;
 }
-//Main actions
-- (IBAction)openFiles:(id)sender;
-- (IBAction)deleteFiles:(id)sender;
-- (void)addFile:(NSString *)path;
-- (void)addDVDFolder:(NSString *)path;
-- (void)checkFiles:(NSArray *)paths;
-- (void)setCancelAdding;
-- (BOOL)isProtected:(NSString *)path;
-- (void)startThread:(NSArray *)paths;
-- (void)showAlert;
-- (void)convertFiles:(NSString *)path;
-- (void)showConvertFailAlert:(NSArray *)descriptions;
 
-//Option menu actions
-- (IBAction)accessOptions:(id)sender;
-- (IBAction)setOption:(id)sender;
+//Main actions
+- (void)addFile:(NSString *)path isSelfEncoded:(BOOL)selfEncoded;
+- (IBAction)changeDiscName:(id)sender;
 
 //Disc creation actions
-- (void)burn;
-- (void)saveImage;
-- (id)myTrackWithBurner:(KWBurner *)burner;
-- (int)authorizeFolderAtPathIfNeededAtPath:(NSString *)path;
-
-//Save actions
-- (void)openBurnDocument:(NSString *)path;
-- (void)saveDocument;
-
-//Tableview actions
-- (void)getTableView;
-- (void)setTableViewState:(NSNotification *)notif;
-- (IBAction)tableViewPopup:(id)sender;
-- (BOOL)hasRows;
--(id)myDataSource;
-- (NSString *) getRealPath:(NSString*)inPath;
+//Create a track for burning
+- (id)myTrackWithBurner:(KWBurner *)burner errorString:(NSString **)error;
+- (int)authorizeFolderAtPathIfNeededAtPath:(NSString *)path errorString:(NSString **)error;
 
 //Player actions
 - (IBAction)play:(id)sender;
@@ -98,30 +58,24 @@
 - (IBAction)back:(id)sender;
 - (IBAction)forward:(id)sender;
 - (IBAction)setDisplay:(id)sender;
+- (void)setDisplayText;
 
 //Other actions
-- (NSArray *)getQuickTimeTypes;
-- (BOOL)isMp3;
-- (BOOL)isDVDAudio;
+//Set total size or time
 - (void)setTotal;
+//Calculate and return total time as string
 - (NSString *)totalTime;
-- (float)totalSize;
+//Get movie duration using NSMovie so it works in Panther too
 - (int)getMovieDuration:(NSString *)path;
-- (id)myCDTextDict;
-- (DRFolder *)checkArray:(NSArray *)array forFolderWithName:(NSString *)name;
-- (void)createVirtualFolderAtPath:(NSString *)path;
-- (BOOL)isCompatible;
-- (BOOL)isCombinable:(BOOL)needAudioCDCheck;
+//Check if the disc can be combined
+- (BOOL)isCombinable;
+//Check if the disc is a Audio CD disc
 - (BOOL)isAudioCD;
-- (void)deleteTemporayFiles:(BOOL)needed;
+//Change the inspector when selecting volume label
+- (void)volumeLabelSelected:(NSNotification *)notif;
 
-//CD-Text actions
-- (NSDictionary *)getBurnProperties;
-- (id)createLayoutForBurn;
-- (NSData*)mcnDataForDisc;
-- (NSData*)isrcDataForTrack:(unsigned)index;
-- (NSArray *)createCDTextArray;
-- (NSDictionary *)getTrackInfo:(int)index;
-- (NSDictionary *)getDiscInfo;
+//External actions
+- (DRCDTextBlock *)myTextBlock;
+- (NSMutableArray *)myTracks;
 
 @end
