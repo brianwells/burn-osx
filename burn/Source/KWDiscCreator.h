@@ -1,5 +1,5 @@
 //
-//  discCreationController.h
+//  KWDiscCreator.h
 //  Burn
 //
 //  Created by Maarten Foukhar on 15-11-08.
@@ -13,7 +13,7 @@
 #import "KWDRFolder.h"
 
 
-@interface discCreationController : NSObject 
+@interface KWDiscCreator : NSObject 
 {
 //Main outlets
 	IBOutlet id mainWindow;
@@ -38,6 +38,7 @@
 	BOOL hiddenExtension;
 	NSMutableArray *extensionHiddenArray;
 	BOOL shouldWait;
+	NSString *errorString;
 }
 
 //Sessions actions
