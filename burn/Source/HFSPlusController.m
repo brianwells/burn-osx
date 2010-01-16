@@ -81,7 +81,7 @@
 																nil];
 	}
 
-return self;
+	return self;
 }
 
 - (NSString*) filesystem
@@ -98,55 +98,54 @@ return self;
 
 - (void)updateNames
 {
-[specificName setStringValue:[[inspectedItems objectAtIndex:0] specificNameForFilesystem:[self filesystem]]];
-
-BOOL hideExtension = [self extensionHiddenOfFSObject:[inspectedItems objectAtIndex:0]];
-NSString *tempMangledName = [[inspectedItems objectAtIndex:0] mangledNameForFilesystem:[self filesystem]];
+	DRFSObject *firstObject = [inspectedItems objectAtIndex:0];
 	
-	if (hideExtension)
-	[mangledName setStringValue:[tempMangledName stringByDeletingPathExtension]];
-	else if ([[tempMangledName pathExtension] isEqualTo:@".app"]) 
-	[mangledName setStringValue:tempMangledName];
+	[specificName setStringValue:[firstObject specificNameForFilesystem:[self filesystem]]];
+
+	NSString *tempMangledName = [firstObject mangledNameForFilesystem:[self filesystem]];
+	
+	if ([self extensionHiddenOfFSObject:firstObject])
+		[mangledName setStringValue:[tempMangledName stringByDeletingPathExtension]];
 	else
-	[mangledName setStringValue:tempMangledName];
+		[mangledName setStringValue:tempMangledName];
 }
 
 - (BOOL)extensionHiddenOfFSObject:(DRFSObject *)object
 {
-BOOL hideExtension = NO;
-NSNumber *fFlags = [object propertyForKey:DRMacFinderFlags inFilesystem:[self filesystem] mergeWithOtherFilesystems:NO];
-unsigned short fndrFlags = [fFlags unsignedShortValue];
+	BOOL hideExtension = NO;
+	NSNumber *fFlags = [object propertyForKey:DRMacFinderFlags inFilesystem:[self filesystem] mergeWithOtherFilesystems:NO];
+	unsigned short fndrFlags = [fFlags unsignedShortValue];
 
 	if ([[[object baseName] pathExtension] isEqualTo:@"app"] && ![object isKindOfClass:[DRFile class]])
 	{
-	hideExtension = YES;
+		hideExtension = YES;
 	}
 	else if ([object isVirtual])
 	{
-	hideExtension = (0x0010 & fndrFlags);
+		hideExtension = (0x0010 & fndrFlags);
 	}
 	else
 	{
 		if (fFlags)
-		hideExtension = (0x0010 & fndrFlags);
+			hideExtension = (0x0010 & fndrFlags);
 		else
-		hideExtension = [[[[NSFileManager defaultManager] fileAttributesAtPath:[object sourcePath] traverseLink:YES] objectForKey:NSFileExtensionHidden] boolValue];
+			hideExtension = [[[[NSFileManager defaultManager] fileAttributesAtPath:[object sourcePath] traverseLink:YES] objectForKey:NSFileExtensionHidden] boolValue];
 	}
 
-return hideExtension;
+	return hideExtension;
 }
 
 - (BOOL)isFolder:(DRFSObject *)object
 {
 	if ([object isVirtual])
 	{
-	return YES;
+		return YES;
 	}
 	else
 	{
-	BOOL isDir;
-	[[NSFileManager defaultManager] fileExistsAtPath:[object sourcePath] isDirectory:&isDir];
-	return isDir;
+		BOOL isDir;
+		[[NSFileManager defaultManager] fileExistsAtPath:[object sourcePath] isDirectory:&isDir];
+		return isDir;
 	}
 }
 
@@ -165,22 +164,24 @@ return hideExtension;
 	BOOL multiEqual = YES;
 	for (x=0;x<[inspectedItems count];x++)
 	{
-	BOOL isDirToo = [self isFolder:[inspectedItems objectAtIndex:x]];
+		BOOL isDirToo = [self isFolder:[inspectedItems objectAtIndex:x]];
 		
 		if (!isDirToo == isDir)
 		multiEqual = NO;
 	}
 	
-[creator setEnabled:(multiEqual | !isDir)];
-[type setEnabled:(multiEqual | !isDir)];
-[tecHint setEnabled:(multiEqual | !isDir)];
-[boundsTop setEnabled:(multiEqual | isDir)];
-[boundsLeft setEnabled:(multiEqual | isDir)];
-[boundsBottom setEnabled:(multiEqual | isDir)];
-[boundsRight setEnabled:(multiEqual | isDir)];
-[scrollPosX setEnabled:(multiEqual | isDir)];
-[scrollPosY setEnabled:(multiEqual | isDir)];
-[viewType setEnabled:(multiEqual | isDir)];
+	BOOL enableState = (multiEqual | !isDir);
+	
+	[creator setEnabled:enableState];
+	[type setEnabled:enableState];
+	[tecHint setEnabled:enableState];
+	[boundsTop setEnabled:!enableState];
+	[boundsLeft setEnabled:!enableState];
+	[boundsBottom setEnabled:!enableState];
+	[boundsRight setEnabled:!enableState];
+	[scrollPosX setEnabled:!enableState];
+	[scrollPosY setEnabled:!enableState];
+	[viewType setEnabled:!enableState];
 	
 	int state = NSOnState;
 	for (x=0;x<[inspectedItems count];x++)
@@ -194,94 +195,91 @@ return hideExtension;
 		if ([inspectedItems count] == 1)
 		{
 			if ([[[[inspectedItems objectAtIndex:0] baseName] pathExtension] isEqualTo:@""] | ([[[[inspectedItems objectAtIndex:0] baseName] pathExtension] isEqualTo:@"app"] && ![[inspectedItems objectAtIndex:0] isKindOfClass:[DRFile class]]) | (![KWCommonMethods isBundleExtension:[[[inspectedItems objectAtIndex:0] baseName] pathExtension]] && ![[inspectedItems objectAtIndex:0] isKindOfClass:[DRFile class]]) | ![specificName isEnabled])
-			[setHiddenExtension setEnabled:NO];
+				[setHiddenExtension setEnabled:NO];
 			else
-			[setHiddenExtension setEnabled:YES];
+				[setHiddenExtension setEnabled:YES];
 		}
 		
-	[tecHint setObjectValue:[self getPropertyForKey:DRHFSPlusTextEncodingHint]];
-	[nodeID setObjectValue:[self getPropertyForKey:DRHFSPlusCatalogNodeID]];
+		[tecHint setObjectValue:[self getPropertyForKey:DRHFSPlusTextEncodingHint]];
+		[nodeID setObjectValue:[self getPropertyForKey:DRHFSPlusCatalogNodeID]];
 
-	data = [self getPropertyForKey:DRMacFileCreator];
-	if (data)
-		[creator setStringValue:[NSString stringWithCString:[data bytes] length:4]];
-	else
-		[creator setStringValue:@""];
+		data = [self getPropertyForKey:DRMacFileCreator];
+		if (data)
+			[creator setStringValue:[NSString stringWithCString:[data bytes] length:4]];
+		else
+			[creator setStringValue:@""];
 		
-	data = [self getPropertyForKey:DRMacFileType];
-	if (data)
-		[type setStringValue:[NSString stringWithCString:[data bytes] length:4]];
-	else
-		[type setStringValue:@""];
+		data = [self getPropertyForKey:DRMacFileType];
+		if (data)
+			[type setStringValue:[NSString stringWithCString:[data bytes] length:4]];
+		else
+			[type setStringValue:@""];
 	
-	data = [self getPropertyForKey:DRMacWindowBounds];
-	if (data)
-	{
-		windowBounds = (Rect*)[data bytes];
+		data = [self getPropertyForKey:DRMacWindowBounds];
+		if (data)
+		{
+			windowBounds = (Rect*)[data bytes];
 	
-		[boundsTop setIntValue:windowBounds->top];
-		[boundsLeft setIntValue:windowBounds->left];
-		[boundsBottom setIntValue:windowBounds->bottom];
-		[boundsRight setIntValue:windowBounds->right];
-	}
-	else
-	{
-		[boundsTop setStringValue:@""];
-		[boundsLeft setStringValue:@""];
-		[boundsBottom setStringValue:@""];
-		[boundsRight setStringValue:@""];
-	}
+			[boundsTop setIntValue:windowBounds->top];
+			[boundsLeft setIntValue:windowBounds->left];
+			[boundsBottom setIntValue:windowBounds->bottom];
+			[boundsRight setIntValue:windowBounds->right];
+		}
+		else
+		{
+			[[NSArray arrayWithObjects:boundsTop, boundsLeft, boundsBottom, boundsRight,nil] makeObjectsPerformSelector:@selector(setStringValue:) withObject:@""];
+		}
 	
-	data = [self getPropertyForKey:DRMacIconLocation];
-	if (data)
-	{
-		iconPosition = (Point*)[data bytes];
+		data = [self getPropertyForKey:DRMacIconLocation];
+		if (data)
+		{
+			iconPosition = (Point*)[data bytes];
 		
-		[iconPosX setIntValue:iconPosition->h];
-		[iconPosY setIntValue:iconPosition->v];
-	}
-	else
-	{
-		[iconPosX setStringValue:@""];
-		[iconPosY setStringValue:@""];
-	}
+			[iconPosX setIntValue:iconPosition->h];
+			[iconPosY setIntValue:iconPosition->v];
+		}
+		else
+		{
+			[iconPosX setStringValue:@""];
+			[iconPosY setStringValue:@""];
+		}
 	
-	data = [self getPropertyForKey:DRMacScrollPosition];
-	if (data)
-	{
-		scrollPosition = (Point*)[data bytes];
+		data = [self getPropertyForKey:DRMacScrollPosition];
+		if (data)
+		{
+			scrollPosition = (Point*)[data bytes];
 		
-		[scrollPosX setIntValue:scrollPosition->h];
-		[scrollPosY setIntValue:scrollPosition->v];
-	}
-	else
-	{
-		[scrollPosX setStringValue:@""];
-		[scrollPosY setStringValue:@""];
-	}
+			[scrollPosX setIntValue:scrollPosition->h];
+			[scrollPosY setIntValue:scrollPosition->v];
+		}
+		else
+		{
+			[scrollPosX setStringValue:@""];
+			[scrollPosY setStringValue:@""];
+		}
 	
-	[viewType setObjectValue:[self getPropertyForKey:DRMacWindowView]];
+		[viewType setObjectValue:[self getPropertyForKey:DRMacWindowView]];
 	
 
-	fndrFlags = [[self getPropertyForKey:DRMacFinderFlags] unsignedShortValue];
-	iter = [[finderFlags cells] objectEnumerator];
-	while ((cell = [iter nextObject]) != nil)
-	{
-		[cell setState:([cell tag] & fndrFlags)];
-	}
+		fndrFlags = [[self getPropertyForKey:DRMacFinderFlags] unsignedShortValue];
+		iter = [[finderFlags cells] objectEnumerator];
+		while ((cell = [iter nextObject]) != nil)
+		{
+			[cell setState:([cell tag] & fndrFlags)];
+		}
 
 
-	fndrFlags = [[self getPropertyForKey:DRMacExtendedFinderFlags] unsignedShortValue];
-	iter = [[extFinderFlags cells] objectEnumerator];
-	while ((cell = [iter nextObject]) != nil)
-	{
-		[cell setState:([cell tag] & fndrFlags) == [cell tag]];
-	}
+		fndrFlags = [[self getPropertyForKey:DRMacExtendedFinderFlags] unsignedShortValue];
+		iter = [[extFinderFlags cells] objectEnumerator];
+		while ((cell = [iter nextObject]) != nil)
+		{
+			[cell setState:([cell tag] & fndrFlags) == [cell tag]];
+		}
 	
-	if ([[self getPropertyForKey:DRInvisible] boolValue])
-	[[finderFlags cellWithTag:16384] setState:NSOnState];
-	else
-	[[finderFlags cellWithTag:16384] setState:NSOffState];
+		if ([[self getPropertyForKey:DRInvisible] boolValue])
+		[[finderFlags cellWithTag:16384] setState:NSOnState];
+		else
+		[[finderFlags cellWithTag:16384] setState:NSOffState];
 }
 
 - (IBAction) setIconPositionProperty:(id)sender
@@ -297,7 +295,7 @@ return hideExtension;
 	int x;
 	for (x=0;x<[inspectedItems count];x++)
 	{
-	[[inspectedItems objectAtIndex:x] setProperty:positionData forKey:DRMacIconLocation inFilesystem:[self filesystem]];
+		[[inspectedItems objectAtIndex:x] setProperty:positionData forKey:DRMacIconLocation inFilesystem:[self filesystem]];
 	}
 }
 
@@ -311,42 +309,44 @@ return hideExtension;
 	while ((cell = [iter nextObject]) != nil)
 	{
 		if ([cell state])
-		fndrFlags |= [cell tag];
+			fndrFlags |= [cell tag];
 		
 		if ([cell tag] == 16384)
-		invisible = ([cell state] == NSOnState);
+			invisible = ([cell state] == NSOnState);
 	}
 	
 	int x;
 	for (x=0;x<[inspectedItems count];x++)
 	{
-	[[inspectedItems objectAtIndex:x] setProperty:[NSNumber numberWithBool:invisible] forKey:DRInvisible inFilesystem:[self filesystem]];
-	[[inspectedItems objectAtIndex:x] setProperty:[NSNumber numberWithUnsignedShort:fndrFlags] forKey:[propertyMappings objectAtIndex:[sender tag]] inFilesystem:[self filesystem]];
+		id currentItem = [inspectedItems objectAtIndex:x];
+		
+		[currentItem setProperty:[NSNumber numberWithBool:invisible] forKey:DRInvisible inFilesystem:[self filesystem]];
+		[currentItem setProperty:[NSNumber numberWithUnsignedShort:fndrFlags] forKey:[propertyMappings objectAtIndex:[sender tag]] inFilesystem:[self filesystem]];
 	}
 	
-[self setHiddenExtension:self];
+	[self setHiddenExtension:self];
 
-[[NSNotificationCenter defaultCenter] postNotificationName:@"KWReloadRequested" object:nil];
+	[[NSNotificationCenter defaultCenter] postNotificationName:@"KWReloadRequested" object:nil];
 }
 
 - (IBAction) setFolderBoundsProperty:(id)sender
 {
 	if ([boundsTop objectValue] && [boundsLeft objectValue] && [boundsBottom objectValue] && [boundsRight objectValue])
 	{
-	NSData*	boundsData;
-	Rect	windowBounds;
+		NSData*	boundsData;
+		Rect	windowBounds;
 	
 		windowBounds.top = [boundsTop intValue];
 		windowBounds.left = [boundsLeft intValue];
 		windowBounds.bottom = [boundsBottom intValue];
 		windowBounds.right = [boundsRight intValue];
 	
-	boundsData = [NSData dataWithBytes:&windowBounds length:sizeof(windowBounds)];
+		boundsData = [NSData dataWithBytes:&windowBounds length:sizeof(windowBounds)];
 	
 		int x;
 		for (x=0;x<[inspectedItems count];x++)
 		{
-		[[inspectedItems objectAtIndex:x] setProperty:boundsData forKey:DRMacWindowBounds inFilesystem:[self filesystem]];
+			[[inspectedItems objectAtIndex:x] setProperty:boundsData forKey:DRMacWindowBounds inFilesystem:[self filesystem]];
 		}
 	}
 
@@ -356,32 +356,32 @@ return hideExtension;
 {
 	if ([scrollPosX objectValue] && [scrollPosY objectValue])
 	{
-	NSData*	positionData;
-	Point	scrollPosition;
+		NSData*	positionData;
+		Point	scrollPosition;
 	
-	scrollPosition.h = [scrollPosX intValue];
-	scrollPosition.v = [scrollPosY intValue];
+		scrollPosition.h = [scrollPosX intValue];
+		scrollPosition.v = [scrollPosY intValue];
 	
-	positionData = [NSData dataWithBytes:&scrollPosition length:sizeof(scrollPosition)];
+		positionData = [NSData dataWithBytes:&scrollPosition length:sizeof(scrollPosition)];
 	
 		int x;
 		for (x=0;x<[inspectedItems count];x++)
 		{
-		[[inspectedItems objectAtIndex:x] setProperty:positionData forKey:DRMacScrollPosition inFilesystem:[self filesystem]];
+			[[inspectedItems objectAtIndex:x] setProperty:positionData forKey:DRMacScrollPosition inFilesystem:[self filesystem]];
 		}
 	}
 }
 
 - (IBAction)setTypeCreatorProperty:(id)sender
 {
-NSData*	data = [[sender stringValue] dataUsingEncoding:CFStringConvertEncodingToNSStringEncoding(kCFStringEncodingMacRoman) allowLossyConversion:YES];
+	NSData*	data = [[sender stringValue] dataUsingEncoding:CFStringConvertEncodingToNSStringEncoding(kCFStringEncodingMacRoman) allowLossyConversion:YES];
 										  
-data = [NSData dataWithBytes:[data bytes] length:4];
+	data = [NSData dataWithBytes:[data bytes] length:4];
 	
 	int x;
 	for (x=0;x<[inspectedItems count];x++)
 	{
-	[[inspectedItems objectAtIndex:x] setProperty:data forKey:[propertyMappings objectAtIndex:[sender tag]] inFilesystem:[self filesystem]];
+		[[inspectedItems objectAtIndex:x] setProperty:data forKey:[propertyMappings objectAtIndex:[sender tag]] inFilesystem:[self filesystem]];
 	}
 }
 
@@ -390,32 +390,34 @@ data = [NSData dataWithBytes:[data bytes] length:4];
 	int x;
 	for (x=0;x<[inspectedItems count];x++)
 	{
-	NSNumber *fFlags = [[inspectedItems objectAtIndex:x] propertyForKey:DRMacFinderFlags inFilesystem:[self filesystem] mergeWithOtherFilesystems:NO];
-	unsigned short flags = [fFlags unsignedShortValue];
+		DRFSObject *currentItem = [inspectedItems objectAtIndex:x];
+	
+		NSNumber *fFlags = [currentItem propertyForKey:DRMacFinderFlags inFilesystem:[self filesystem] mergeWithOtherFilesystems:NO];
+		unsigned short flags = [fFlags unsignedShortValue];
 
 		if ([setHiddenExtension state] == NSOnState)
 		{
 			if ([inspectedItems count] == 1)
-			[mangledName setStringValue:[[[inspectedItems objectAtIndex:x] mangledNameForFilesystem:[self filesystem]] stringByDeletingPathExtension]];
+				[mangledName setStringValue:[[currentItem mangledNameForFilesystem:[self filesystem]] stringByDeletingPathExtension]];
 		
-		flags = (flags | 0x0010);
+			flags = (flags | 0x0010);
 		}
 		else
 		{
 			if ([inspectedItems count] == 1)
-				if ([KWCommonMethods isDRFolderIsLocalized:[inspectedItems objectAtIndex:x]])
-				[mangledName setStringValue:[[[inspectedItems objectAtIndex:x] mangledNameForFilesystem:[self filesystem]] stringByDeletingPathExtension]];
+				if ([KWCommonMethods isDRFolderIsLocalized:(DRFolder *)currentItem])
+					[mangledName setStringValue:[[currentItem mangledNameForFilesystem:[self filesystem]] stringByDeletingPathExtension]];
 				else
-				[mangledName setStringValue:[[inspectedItems objectAtIndex:x] mangledNameForFilesystem:[self filesystem]]];
+					[mangledName setStringValue:[currentItem mangledNameForFilesystem:[self filesystem]]];
 		
-		flags -= 0x0010;
+			flags -= 0x0010;
 		}
 
-	[[inspectedItems objectAtIndex:x] setProperty:[NSNumber numberWithUnsignedShort:flags] forKey:DRMacFinderFlags inFilesystem:[self filesystem]];
+		[currentItem setProperty:[NSNumber numberWithUnsignedShort:flags] forKey:DRMacFinderFlags inFilesystem:[self filesystem]];
 	}
 
-[[NSNotificationCenter defaultCenter] postNotificationName:@"KWLeaveTab" object:nil];
-[[NSNotificationCenter defaultCenter] postNotificationName:@"KWReloadRequested" object:nil];
+	[[NSNotificationCenter defaultCenter] postNotificationName:@"KWLeaveTab" object:nil];
+	[[NSNotificationCenter defaultCenter] postNotificationName:@"KWReloadRequested" object:nil];
 }
 
 @end
