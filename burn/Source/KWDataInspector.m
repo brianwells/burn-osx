@@ -1,4 +1,6 @@
 #import "KWDataInspector.h"
+#import <DiscRecording/DiscRecording.h>
+
 #import "HFSPlusController.h"
 #import "ISOController.h"
 #import "JolietController.h"
@@ -10,128 +12,117 @@
 
 - (id)init
 {
-self = [super init];
-    
-[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(leaveTab) name:@"KWLeaveTab" object:nil];
+	if( self = [super init] )
+	{
+		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(leaveTab) name:@"KWLeaveTab" object:nil];
 
-shouldChangeTab = YES;
-
-return self;
+		shouldChangeTab = YES;
+	}
+	
+	return self;
 }
 
 - (void)dealloc 
 {
-[[NSNotificationCenter defaultCenter] removeObserver:self];
+	[[NSNotificationCenter defaultCenter] removeObserver:self];
 
-[super dealloc];
+	[super dealloc];
 }
 
 - (void)awakeFromNib
 {
-	if ([KWCommonMethods isPanther])
-	[tabs removeTabViewItem:[tabs tabViewItemAtIndex:3]];
+	if ([KWCommonMethods OSVersion] < 0x1040)
+		[tabs removeTabViewItem:[tabs tabViewItemAtIndex:3]];
 }
 
-- (void)leaveTab
-{
-shouldChangeTab = NO;
-}
+//////////////////
+// Main actions //
+//////////////////
+
+#pragma mark -
+#pragma mark •• Main actions
 
 - (void)updateView:(NSArray *)objects
 {
+	id firstObject = [objects objectAtIndex:0];
+
 	if ([objects count] == 1)
 	{
-	[nameField setStringValue:[KWCommonMethods fsObjectFileName:[objects objectAtIndex:0]]];
+		[nameField setStringValue:[KWCommonMethods fsObjectFileName:firstObject]];
 		
-		BOOL isDir;
-		if (![[objects objectAtIndex:0] isVirtual]  && [[NSFileManager defaultManager] fileExistsAtPath:[[objects objectAtIndex:0] sourcePath] isDirectory:&isDir] && !isDir)
-		{
-		[sizeField setStringValue:[KWCommonMethods makeSizeFromFloat:[[[[NSFileManager defaultManager] fileAttributesAtPath:[[objects objectAtIndex:0] sourcePath] traverseLink:YES] objectForKey:NSFileSize] floatValue]]];
-		}
-		else
-		{
-			if ([(KWDRFolder *)[objects objectAtIndex:0] folderSize])
-			{
-				if ((![(KWDRFolder *)[objects objectAtIndex:0] isFilePackage] && [[NSUserDefaults standardUserDefaults] boolForKey:@"KWCalculateFolderSizes"] == YES) | ([(KWDRFolder *)[objects objectAtIndex:0] isFilePackage] && (![[[KWCommonMethods fsObjectFileName:[objects objectAtIndex:0]] pathExtension] isEqualTo:@""] | [[[[objects objectAtIndex:0] baseName] stringByDeletingPathExtension] isEqualTo:[KWCommonMethods fsObjectFileName:[objects objectAtIndex:0]]] | [[KWCommonMethods fsObjectFileName:[objects objectAtIndex:0]] isEqualTo:[(KWDRFolder *)[objects objectAtIndex:0] displayName]]) && [[NSUserDefaults standardUserDefaults] boolForKey:@"KWCalculateFilePackageSizes"]) | ([(KWDRFolder *)[objects objectAtIndex:0] isFilePackage] && ([[[KWCommonMethods fsObjectFileName:[objects objectAtIndex:0]] pathExtension] isEqualTo:@""] | [[[[objects objectAtIndex:0] baseName] stringByDeletingPathExtension] isEqualTo:[KWCommonMethods fsObjectFileName:[objects objectAtIndex:0]]]) && [[NSUserDefaults standardUserDefaults] boolForKey:@"KWCalculateFolderSizes"]))
-				[sizeField setStringValue:[(KWDRFolder *)[objects objectAtIndex:0] folderSize]];
-				else
-				[sizeField setStringValue:@"--"];
-			}
-			else
-			{
-			[sizeField setStringValue:@"--"];
-			}
-		}
+		NSImage *iconImage;
 	
-		if ([[objects objectAtIndex:0] isVirtual])
+		if ([firstObject isKindOfClass:[KWDRFolder class]])
 		{
-		NSImage *img = [KWCommonMethods getFolderIcon:[objects objectAtIndex:0]];
-		[img setScalesWhenResized:YES];
-		[img setSize:NSMakeSize(32.0,32.0)];
-		[iconView setImage:img];
+			NSString *folderSize = [(KWDRFolder *)firstObject folderSize];
+		
+			if (folderSize)
+				[sizeField setStringValue:folderSize];
+			else
+				[sizeField setStringValue:@"--"];
 		}
 		else
 		{
-		NSImage *img;
-		BOOL fileIsFolder = NO;
-		[[NSFileManager defaultManager] fileExistsAtPath:[[objects objectAtIndex:0] sourcePath] isDirectory:&fileIsFolder];
-		
-			if (fileIsFolder)
-			{
-			img = [KWCommonMethods getFolderIcon:[objects objectAtIndex:0]];
-			}
-			else
-			{
-			img = [KWCommonMethods getFileIcon:[objects objectAtIndex:0]];
-			}
+			NSString *sourcePath = [firstObject sourcePath];
+			float size = [[[[NSFileManager defaultManager] fileAttributesAtPath:sourcePath traverseLink:YES] objectForKey:NSFileSize] floatValue];
+			[sizeField setStringValue:[KWCommonMethods makeSizeFromFloat:size]];
 			
-		[img setScalesWhenResized:YES];
-		[img setSize:NSMakeSize(32.0,32.0)];
-		[iconView setImage:img];
 		}
+		
+		iconImage = [KWCommonMethods getIcon:firstObject];
+		
+		[iconImage setScalesWhenResized:YES];
+		[iconImage setSize:NSMakeSize(32.0,32.0)];
+		[iconView setImage:iconImage];
 	}
 	else
 	{
-	[iconView setImage:[NSImage imageNamed:@"Multiple"]];
-	[nameField setStringValue:@"Multiple Selection"];
-	[sizeField setStringValue:[[[NSNumber numberWithInt:[objects count]] stringValue] stringByAppendingString:@" files"]];
+		[iconView setImage:[NSImage imageNamed:@"Multiple"]];
+		[nameField setStringValue:@"Multiple Selection"];
+		[sizeField setStringValue:[NSString stringWithFormat:NSLocalizedString(@"%ld files", nil),(long)[objects count]]];
 	}
 
-[hfsController inspect:objects];
-[isoController inspect:objects];
-[jolietController inspect:objects];
-	if (![KWCommonMethods isPanther])
-	[udfController inspect:objects];
+	[hfsController inspect:objects];
+	[isoController inspect:objects];
+	[jolietController inspect:objects];
+	
+	if ([KWCommonMethods OSVersion] >= 0x1040)
+		[udfController inspect:objects];
 	
 	if (shouldChangeTab)
 	{
-		if ([[objects objectAtIndex:0] effectiveFilesystemMask] & DRFilesystemInclusionMaskHFSPlus)
+		if ([firstObject effectiveFilesystemMask] & DRFilesystemInclusionMaskHFSPlus)
 		{
-		[tabs selectTabViewItemWithIdentifier:@"HFS+"];
+			[tabs selectTabViewItemWithIdentifier:@"HFS+"];
 		}
-		else if ([[objects objectAtIndex:0] effectiveFilesystemMask] & DRFilesystemInclusionMaskISO9660)
+		else if ([firstObject effectiveFilesystemMask] & DRFilesystemInclusionMaskISO9660)
 		{
-		[tabs selectTabViewItemWithIdentifier:@"ISO"];
+			[tabs selectTabViewItemWithIdentifier:@"ISO"];
 		}
-		else if ([[objects objectAtIndex:0] effectiveFilesystemMask] & DRFilesystemInclusionMaskJoliet)
+		else if ([firstObject effectiveFilesystemMask] & DRFilesystemInclusionMaskJoliet)
 		{
-		[tabs selectTabViewItemWithIdentifier:@"Joliet"];
+			[tabs selectTabViewItemWithIdentifier:@"Joliet"];
 		}
-		else if (![KWCommonMethods isPanther])
+		else if ([KWCommonMethods OSVersion] >= 0x1040)
 		{
-			if ([[objects objectAtIndex:0] effectiveFilesystemMask] & DRFilesystemInclusionMaskUDF)
+			if ([firstObject effectiveFilesystemMask] & 1<<2)
 			{
-			[tabs selectTabViewItemWithIdentifier:@"UDF"];
+				[tabs selectTabViewItemWithIdentifier:@"UDF"];
 			}
 		}
 	}
 
-shouldChangeTab = YES;
+	shouldChangeTab = YES;
 }
 
 - (id)myView
 {
-return myView;
+	return myView;
+}
+
+- (void)leaveTab
+{
+	shouldChangeTab = NO;
 }
 
 @end
