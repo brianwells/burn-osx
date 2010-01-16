@@ -56,44 +56,44 @@
 {
 	NSArray *inspectedItems;
 
-	IBOutlet NSButton*		included;
-	IBOutlet NSView*		contentView;
+	IBOutlet id	included;
+	IBOutlet id	contentView;
 	
-	IBOutlet NSTextField*	baseName;
-	IBOutlet NSTextField*	specificName;
-	IBOutlet NSTextField*	mangledName;
+	IBOutlet id	baseName;
+	IBOutlet id	specificName;
+	IBOutlet id	mangledName;
 
-	IBOutlet NSTextField*	creationDate;
-	IBOutlet NSTextField*	contentModDate;
-	IBOutlet NSTextField*	attributeModDate;
-	IBOutlet NSTextField*	lastAccessedDate;
-	IBOutlet NSTextField*	backupDate;
+	IBOutlet id	creationDate;
+	IBOutlet id	contentModDate;
+	IBOutlet id	attributeModDate;
+	IBOutlet id	lastAccessedDate;
+	IBOutlet id	backupDate;
 
-	IBOutlet NSTextField*	uid;
-	IBOutlet NSTextField*	gid;
-	IBOutlet NSMatrix*		perms;
+	IBOutlet id	uid;
+	IBOutlet id	gid;
+	IBOutlet id	perms;
 	
-	NSArray*				propertyMappings;
+	NSArray* propertyMappings;
 }
 
-- (NSString*) filesystem;
-- (DRFilesystemInclusionMask) mask;
+- (NSString*)filesystem;
+- (DRFilesystemInclusionMask)mask;
 
 - (void)inspect:(NSArray *)items;
 - (BOOL)checkForFileSystemMasksInObjects:(NSArray *)objects;
 - (BOOL)checkForFileSystemMasksInParentsOfObjects:(NSArray *)objects;
 - (id)getPropertyForKey:(NSString *)key;
 
-- (void) updateNames;
-- (void) updateDates;
-- (void) updatePOSIX;
-- (void) updateSpecific;
+- (void)updateNames;
+- (void)updateDates;
+- (void)updatePOSIX;
+- (void)updateSpecific;
 
 - (void)clearForMultipleSelection;
 
-- (IBAction) setIncludedBit:(id)sender;
-- (IBAction) setFileName:(id)sender;
-- (IBAction) setProperty:(id)sender;
-- (IBAction) setPOSIXModeProperty:(id)sender;
+- (IBAction)setIncludedBit:(id)sender;
+- (IBAction)setFileName:(id)sender;
+- (IBAction)setProperty:(id)sender;
+- (IBAction)setPOSIXModeProperty:(id)sender;
 
 @end
