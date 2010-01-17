@@ -868,7 +868,7 @@ static NSString*	EDBCurrentSelection							= @"EDBCurrentSelection";
 			int y;
 			for (y=0;y<[outlineView numberOfRows];y++)
 			{
-				if ([[NODE_DATA([outlineView itemAtRow:y]) fsObject] isVirtual] && ![(KWDRFolder *)[NODE_DATA([outlineView itemAtRow:y]) fsObject] isExpanded])
+				if ([[NODE_DATA([outlineView itemAtRow:y]) fsObject] isVirtual] && [(KWDRFolder *)[NODE_DATA([outlineView itemAtRow:y]) fsObject] isExpanded])
 					[outlineView collapseItem:[outlineView itemAtRow:y] collapseChildren:YES];
 			}
 			
