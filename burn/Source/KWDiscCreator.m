@@ -18,6 +18,15 @@
 
 @implementation KWDiscCreator
 
+- (id)init
+{
+	self = [super init];
+
+	burner = nil;
+	
+	return self;
+}
+
 //////////////////////
 // Sessions actions //
 //////////////////////
