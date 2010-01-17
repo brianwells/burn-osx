@@ -52,7 +52,7 @@
 	{
 		[iconView setImage:[[currentObjects objectAtIndex:0] objectForKey:@"Icon"]];
 		[nameField setStringValue:[[currentObjects objectAtIndex:0] objectForKey:@"Name"]];
-		[sizeField setStringValue:[[currentObjects objectAtIndex:0] objectForKey:@"Time"]];
+		[sizeField setStringValue:[[currentObjects objectAtIndex:0] objectForKey:@"Size"]];
 		
 	}
 	else
