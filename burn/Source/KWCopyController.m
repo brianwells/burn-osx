@@ -10,6 +10,8 @@
 
 - (id) init
 {
+	awakeFromNib = NO;
+	
 	self = [super init];
 
 	temporaryFiles = [[NSMutableArray alloc] init];
@@ -48,6 +50,7 @@
 
 - (void)awakeFromNib
 {
+	awakeFromNib = YES;
 	[self clearDisk:self];
 }
 
@@ -656,7 +659,7 @@
 - (BOOL)respondsToSelector:(SEL)aSelector
 {
 	
-	if (aSelector == @selector(mountEjectDisc:) && ![mountButton isEnabled])
+	if (awakeFromNib && aSelector == @selector(mountDisc:) && ![mountButton isEnabled])
 		return NO;
 		
 	if (aSelector == @selector(burn:) | aSelector == @selector(saveImage:) && currentPath == nil)

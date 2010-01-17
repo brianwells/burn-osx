@@ -31,6 +31,7 @@
 	NSTask *cp;
 	BOOL userCanceled;
 	BOOL shouldBurn;
+	BOOL awakeFromNib;
 	NSTimer *timer;
 	//Strings
 	NSString *currentPath;
