@@ -5,7 +5,7 @@
 
 - (void)awakeFromNib
 {
-	if (![KWCommonMethods OSVersion] > 0x1039)
+	if ([KWCommonMethods OSVersion] > 0x1039)
 		[self setBezelStyle:NSSmallSquareBezelStyle];
 }
 
