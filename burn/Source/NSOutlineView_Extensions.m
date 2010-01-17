@@ -86,7 +86,7 @@
         int row = [self rowForItem:[items objectAtIndex:i]];
 		
         if(row>=0) 
-			[self selectRow: row byExtendingSelection:YES];
+			[self selectRowIndexes:[NSIndexSet indexSetWithIndex:row] byExtendingSelection:YES];
     }
 }
 

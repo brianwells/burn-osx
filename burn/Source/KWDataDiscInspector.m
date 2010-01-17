@@ -217,7 +217,7 @@ static NSArray* filesystemNameTagMappings = nil;
 	
 	// setup and run the modal dialog.
 	[okButton setEnabled:NO];
-	[fileList selectRow:-1 byExtendingSelection:NO];
+	[fileList selectRowIndexes:[NSIndexSet indexSetWithIndex:-1] byExtendingSelection:NO];
 	returnCode = [NSApp runModalForWindow:fileChooser];
 	[fileChooser orderOut:self];
 

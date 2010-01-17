@@ -497,7 +497,7 @@ static NSString*	EDBCurrentSelection							= @"EDBCurrentSelection";
 				if (parentRow == -1)
 					[outlineView deselectAll:self];
 				else
-					[outlineView selectRow:parentRow byExtendingSelection:NO];
+					[outlineView selectRowIndexes:[NSIndexSet indexSetWithIndex:parentRow] byExtendingSelection:NO];
 			}
 	
 		FSTreeNode*	newNode = [FSTreeNode treeNodeWithData:nodeData];
@@ -1463,7 +1463,7 @@ static NSString*	EDBCurrentSelection							= @"EDBCurrentSelection";
 
 		if (select)
 		{
-			[outlineView selectRow:newRow byExtendingSelection:NO];
+			[outlineView selectRowIndexes:[NSIndexSet indexSetWithIndex:newRow] byExtendingSelection:NO];
 			[outlineView scrollRowToVisible:newRow];
 			[outlineView expandItem:[outlineView itemAtRow:newRow]];
 		}
