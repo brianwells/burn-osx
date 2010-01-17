@@ -50,7 +50,7 @@
                 {
             ACTIONS =             {
                 clearDisk = id;
-                mountEjectDisc = id;
+                mountDisc = id;
                 openFiles = id;
                 scanDisks = id;
             };
@@ -66,6 +66,7 @@
                 iconView = id;
                 mainWindow = id;
                 mountButton = id;
+                mountMenu = id;
                 myDiscCreationController = id;
                 nameField = id;
                 sizeField = id;
