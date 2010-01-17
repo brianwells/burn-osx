@@ -4,7 +4,7 @@
             ACTIONS =             {
                 burn = id;
                 deleteFiles = id;
-                mountEjectDisc = id;
+                mountDisc = id;
                 newVirtualFolder = id;
                 openFiles = id;
                 saveImage = id;
