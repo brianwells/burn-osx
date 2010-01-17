@@ -359,7 +359,7 @@
 		innerPool = [[NSAutoreleasePool alloc] init];
 	}
 
-	NSString *string=[[NSString alloc] initWithData:[handle2 readDataToEndOfFile] encoding:NSASCIIStringEncoding];
+	NSString *string=[[NSString alloc] initWithData:[handle2 readDataToEndOfFile] encoding:NSUTF8StringEncoding];
 
 	[vcdimager waitUntilExit];
 
@@ -646,7 +646,7 @@
 	[mkisofs launch];
 
 	NSData *data = [handle readDataToEndOfFile];
-	NSString *string = [[NSString alloc] initWithData:data encoding:NSASCIIStringEncoding];
+	NSString *string = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
 	float size = [string intValue];
 	[string release];
 

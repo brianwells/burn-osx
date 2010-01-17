@@ -417,7 +417,7 @@
 			[string release];
 	
 		//The string containing ffmpeg's output
-		string=[[NSString alloc] initWithData:data encoding:NSASCIIStringEncoding];
+		string=[[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
 	
 		if ([defaults boolForKey:@"KWDebug"] == YES)
 			NSLog(string);
@@ -525,7 +525,7 @@
 	[movtowav setStandardError:pipe];
 	[KWCommonMethods logCommandIfNeeded:movtowav];
 	[movtowav launch];
-	NSString *string=[[NSString alloc] initWithData:[handle readDataToEndOfFile] encoding:NSASCIIStringEncoding];
+	NSString *string=[[NSString alloc] initWithData:[handle readDataToEndOfFile] encoding:NSUTF8StringEncoding];
 
 	if ([[NSUserDefaults standardUserDefaults] boolForKey:@"KWDebug"] == YES)
 		NSLog(string);

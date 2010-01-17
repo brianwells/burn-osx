@@ -194,7 +194,7 @@
 		[KWCommonMethods removeItemAtPath:path];
 
 	[dvdauthor launch];
-	NSString *string = [[[NSString alloc] initWithData:[handle readDataToEndOfFile] encoding:NSASCIIStringEncoding] autorelease];
+	NSString *string = [[[NSString alloc] initWithData:[handle readDataToEndOfFile] encoding:NSUTF8StringEncoding] autorelease];
 	
 	if ([[NSUserDefaults standardUserDefaults] objectForKey:@"KWDebug"])
 		NSLog(string);
@@ -590,7 +590,7 @@
 		[pipe release];
 		[pipe2 release];
 
-		NSString *string = [[[NSString alloc] initWithData:[handle readDataToEndOfFile] encoding:NSASCIIStringEncoding] autorelease];
+		NSString *string = [[[NSString alloc] initWithData:[handle readDataToEndOfFile] encoding:NSUTF8StringEncoding] autorelease];
 	
 		if ([standardUserDefaults boolForKey:@"KWDebug"])
 			NSLog(string);
@@ -883,7 +883,7 @@
 			string = nil;
 		}
 	
-		string=[[NSString alloc] initWithData:data encoding:NSASCIIStringEncoding];
+		string=[[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
 
 		if ([[NSUserDefaults standardUserDefaults] boolForKey:@"KWDebug"])
 			NSLog(string);

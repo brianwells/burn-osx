@@ -709,7 +709,7 @@
 	[du setStandardError:[NSFileHandle fileHandleWithNullDevice]];
 	handle=[pipe fileHandleForReading];
 	[du launch];
-	string=[[NSString alloc] initWithData:[handle readDataToEndOfFile] encoding:NSASCIIStringEncoding];
+	string=[[NSString alloc] initWithData:[handle readDataToEndOfFile] encoding:NSUTF8StringEncoding];
 	
 	if ([[NSUserDefaults standardUserDefaults] boolForKey:@"KWDebug"])
 		NSLog(string);
@@ -836,7 +836,7 @@
 	handle=[pipe fileHandleForReading];
 	[df launch];
 
-	string=[[NSString alloc] initWithData:[handle readDataToEndOfFile] encoding:NSASCIIStringEncoding];
+	string=[[NSString alloc] initWithData:[handle readDataToEndOfFile] encoding:NSUTF8StringEncoding];
 	
 	if ([[NSUserDefaults standardUserDefaults] boolForKey:@"KWDebug"] == YES)
 		NSLog(string);
@@ -1144,10 +1144,10 @@
 		
 	if (string)
 	{
-		output = [[[NSString alloc] initWithData:output encoding:NSASCIIStringEncoding] autorelease];
+		output = [[[NSString alloc] initWithData:output encoding:NSUTF8StringEncoding] autorelease];
 		
 		if (!error)
-			errorString = [[[NSString alloc] initWithData:[handle readDataToEndOfFile] encoding:NSASCIIStringEncoding] autorelease];
+			errorString = [[[NSString alloc] initWithData:[handle readDataToEndOfFile] encoding:NSUTF8StringEncoding] autorelease];
 
 		if ([[NSUserDefaults standardUserDefaults] boolForKey:@"KWDebug"])
 			NSLog(@"%@\n%@", output, errorString);

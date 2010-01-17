@@ -102,7 +102,7 @@
 		if ([defaultManager fileExistsAtPath:binFile])
 			[defaultManager changeFileAttributes:[NSDictionary dictionaryWithObjectsAndKeys:hide, NSFileExtensionHidden,nil] atPath:binFile];
 
-		string=[[NSString alloc] initWithData:data encoding:NSASCIIStringEncoding];
+		string=[[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
 	
 		if ([[NSUserDefaults standardUserDefaults] boolForKey:@"Debug"])
 			NSLog(string);
@@ -115,7 +115,7 @@
 	
 	[vcdimager waitUntilExit];
 	
-	NSString *errorString = [[[NSString alloc] initWithData:[errorHandle readDataToEndOfFile] encoding:NSASCIIStringEncoding] autorelease];
+	NSString *errorString = [[[NSString alloc] initWithData:[errorHandle readDataToEndOfFile] encoding:NSUTF8StringEncoding] autorelease];
 	
 	[timer invalidate];
 

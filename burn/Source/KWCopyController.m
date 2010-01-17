@@ -537,7 +537,7 @@
 		
 			[self performSelectorOnMainThread:@selector(startTimer:) withObject:outputFile waitUntilDone:NO];
 			
-			*error = [[[NSString alloc] initWithData:[errorHandle readDataToEndOfFile] encoding:NSASCIIStringEncoding] autorelease];
+			*error = [[[NSString alloc] initWithData:[errorHandle readDataToEndOfFile] encoding:NSUTF8StringEncoding] autorelease];
 			
 			[cp launch];
 			[cp waitUntilExit];
@@ -714,7 +714,7 @@
 }
 
 - (void)changeMountState:(BOOL)state forDevicePath:(NSString *)path
-{
+{	
 	if (state)
 	{
 		if ([path isEqualTo:mountedPath])
