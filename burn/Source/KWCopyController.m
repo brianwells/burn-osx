@@ -48,7 +48,7 @@
 
 - (void)awakeFromNib
 {
-	[iconView setImage:[[NSWorkspace sharedWorkspace] iconForFileType:@"iso"]];
+	[self clearDisk:self];
 }
 
 //////////////////
