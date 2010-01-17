@@ -529,7 +529,8 @@
 - (void)startCreating
 {
 	NSAutoreleasePool *pool=[[NSAutoreleasePool alloc] init];
-
+	
+	[KWCommonMethods logCommandIfNeeded:trackCreator];
 	[trackCreator launch];
 	
 	[trackCreator waitUntilExit];
@@ -572,7 +573,8 @@
 		//Stop, don't loop that fast (our processor doesn't like that)
 		usleep(1000000);
 	}
-
+	
+	[KWCommonMethods logCommandIfNeeded:trackCreator];
 	[trackCreator launch];
 
 	NSData *data;
@@ -599,6 +601,7 @@
 		[dd setArguments:[NSArray arrayWithObjects:@"if=/dev/zero",[@"count=" stringByAppendingString:[[NSNumber numberWithInt:([trackSize intValue] * 2352) - bytes] stringValue]], @"bs=1", nil]];
 		//[dd setStandardError:[NSFileHandle fileHandleWithNullDevice]];
 		[dd setStandardOutput:writeHandle];
+		[KWCommonMethods logCommandIfNeeded:dd];
 		[dd launch];
 		[dd waitUntilExit];
 		[dd release];
@@ -643,6 +646,7 @@
 	[mkisofs setStandardError:[NSFileHandle fileHandleWithNullDevice]];
 	[mkisofs setStandardOutput:pipe];
 	handle = [pipe fileHandleForReading];
+	[KWCommonMethods logCommandIfNeeded:mkisofs];
 	[mkisofs launch];
 
 	NSData *data = [handle readDataToEndOfFile];
