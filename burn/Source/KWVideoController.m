@@ -481,7 +481,7 @@
 //Check if the disc can be combined
 - (BOOL)isCombinable
 {
-	return ([tableData count] > 0 | [tableViewPopup indexOfSelectedItem] > 2);
+	return ([tableData count] > 0 && [tableViewPopup indexOfSelectedItem] > 2);
 }
 
 - (void)volumeLabelSelected:(NSNotification *)notif

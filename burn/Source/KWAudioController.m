@@ -909,7 +909,7 @@
 //Check if the disc can be combined
 - (BOOL)isCombinable
 {
-	return ([tableData count] > 0 | [tableViewPopup indexOfSelectedItem] == 1);
+	return ([tableData count] > 0 && [tableViewPopup indexOfSelectedItem] == 1);
 }
 
 //Check if the disc is a Audio CD disc
