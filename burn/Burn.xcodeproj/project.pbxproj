@@ -104,6 +104,10 @@
 		FE8088EC0DBC85C100F2644D /* -1.png in Resources */ = {isa = PBXBuildFile; fileRef = FE8088EB0DBC85C100F2644D /* -1.png */; };
 		FE8088ED0DBC85C100F2644D /* -1.png in Resources */ = {isa = PBXBuildFile; fileRef = FE8088EB0DBC85C100F2644D /* -1.png */; };
 		FE8088EE0DBC85C100F2644D /* -1.png in Resources */ = {isa = PBXBuildFile; fileRef = FE8088EB0DBC85C100F2644D /* -1.png */; };
+		FE9DB851110338EB0086F62C /* iso8859-1 in Resources */ = {isa = PBXBuildFile; fileRef = FE9DB850110338EB0086F62C /* iso8859-1 */; };
+		FE9DB852110338EB0086F62C /* iso8859-1 in Resources */ = {isa = PBXBuildFile; fileRef = FE9DB850110338EB0086F62C /* iso8859-1 */; };
+		FE9DB853110338EB0086F62C /* iso8859-1 in Resources */ = {isa = PBXBuildFile; fileRef = FE9DB850110338EB0086F62C /* iso8859-1 */; };
+		FE9DB854110338EB0086F62C /* iso8859-1 in Resources */ = {isa = PBXBuildFile; fileRef = FE9DB850110338EB0086F62C /* iso8859-1 */; };
 		FEA467270D97BDC60083527F /* MainMenu.nib in Resources */ = {isa = PBXBuildFile; fileRef = 2A37F4B6FDCFA73011CA2CEA /* MainMenu.nib */; };
 		FEA467290D97BDC60083527F /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 089C165FFE840EACC02AAC07 /* InfoPlist.strings */; };
 		FEA4672A0D97BDC60083527F /* Advanced.tiff in Resources */ = {isa = PBXBuildFile; fileRef = FEEF6F140B92E8BB00ED64A9 /* Advanced.tiff */; };
@@ -686,6 +690,7 @@
 		FE888CBE0CF9B4BA003620F1 /* Dutch */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = Dutch; path = Dutch.lproj/KWRecorderInfo.nib; sourceTree = "<group>"; };
 		FE888CBF0CF9B4BA003620F1 /* Dutch */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = Dutch; path = Dutch.lproj/Localizable.strings; sourceTree = "<group>"; };
 		FE888CC00CF9B4BA003620F1 /* Dutch */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = Dutch; path = Dutch.lproj/MainMenu.nib; sourceTree = "<group>"; };
+		FE9DB850110338EB0086F62C /* iso8859-1 */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = "iso8859-1"; path = "Binaries/Support Files/iso8859-1"; sourceTree = "<group>"; };
 		FE9F920E0D312811002A7BDC /* pt_BR */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = pt_BR; path = pt_BR.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		FE9F920F0D312811002A7BDC /* pt_BR */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = pt_BR; path = pt_BR.lproj/KWDiscInfo.nib; sourceTree = "<group>"; };
 		FE9F92110D312811002A7BDC /* pt_BR */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = pt_BR; path = pt_BR.lproj/KWEjecter.nib; sourceTree = "<group>"; };
@@ -1165,6 +1170,14 @@
 			name = ProgressIndicator;
 			sourceTree = "<group>";
 		};
+		FE9DB849110338B10086F62C /* Support Files */ = {
+			isa = PBXGroup;
+			children = (
+				FE9DB850110338EB0086F62C /* iso8859-1 */,
+			);
+			name = "Support Files";
+			sourceTree = "<group>";
+		};
 		FEA468150D97BDF60083527F /* Universal */ = {
 			isa = PBXGroup;
 			children = (
@@ -1309,6 +1322,7 @@
 				FEA468150D97BDF60083527F /* Universal */,
 				FEA468160D97BDFC0083527F /* PowerPC */,
 				FEA468170D97BE0D0083527F /* Intel */,
+				FE9DB849110338B10086F62C /* Support Files */,
 			);
 			name = Binaries;
 			sourceTree = "<group>";
@@ -1695,6 +1709,7 @@
 				FEC3D5250EE32502008DBECA /* vcdimager in Resources */,
 				FEC66B520F2CCD8A00086E2C /* BurnHelp in Resources */,
 				FEFFD770110267B100E12C50 /* KWDiscScanner.nib in Resources */,
+				FE9DB851110338EB0086F62C /* iso8859-1 in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1756,6 +1771,7 @@
 				FEC3D5270EE3251E008DBECA /* vcdimager in Resources */,
 				FEC66B510F2CCD8A00086E2C /* BurnHelp in Resources */,
 				FEFFD772110267B100E12C50 /* KWDiscScanner.nib in Resources */,
+				FE9DB853110338EB0086F62C /* iso8859-1 in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1817,6 +1833,7 @@
 				FEC3D5290EE32541008DBECA /* vcdimager in Resources */,
 				FEC66B500F2CCD8A00086E2C /* BurnHelp in Resources */,
 				FEFFD773110267B100E12C50 /* KWDiscScanner.nib in Resources */,
+				FE9DB854110338EB0086F62C /* iso8859-1 in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1878,6 +1895,7 @@
 				FEDBF5640F80782A00DABA72 /* BurnHelp in Resources */,
 				FEB279090F87E10C0027F2B1 /* ffmpeg in Resources */,
 				FEFFD771110267B100E12C50 /* KWDiscScanner.nib in Resources */,
+				FE9DB852110338EB0086F62C /* iso8859-1 in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
