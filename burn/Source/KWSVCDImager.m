@@ -67,7 +67,7 @@
 	else
 		[arguments addObject:@"svcd"];
 		
-	[arguments addObject:@"--dupdate-scan-offsets"];
+	[arguments addObject:@"--update-scan-offsets"];
 	[arguments addObject:@"-l"];
 	[arguments addObject:label];
 	[arguments addObject:[@"--cue-file=" stringByAppendingString:cueFile]];
@@ -84,6 +84,7 @@
 	[vcdimager setStandardError:errorPipe];
 	NSFileHandle *handle=[pipe fileHandleForReading];
 	NSFileHandle *errorHandle=[errorPipe fileHandleForReading];
+	[KWCommonMethods logCommandIfNeeded:vcdimager];
 	[vcdimager launch];
 	
 	[defaultCenter postNotificationName:@"KWCancelNotificationChanged" object:@"KWStopVcdimager"];
