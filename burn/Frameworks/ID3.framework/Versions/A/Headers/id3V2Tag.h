@@ -116,10 +116,16 @@
 -(BOOL)setTitle:(NSString *)Title;
 -(BOOL)setArtist:(NSString *)Artist;
 -(BOOL)setAlbum:(NSString *)Album;
--(BOOL)setYear:(int)Year;
+-(BOOL)setYear:(NSNumber *)Year;
 -(BOOL)setTrack:(int)Track totalTracks:(int)Total;
 -(BOOL)setDisk:(int)Disk totalDisks:(int)Total;
--(BOOL)setGenreName:(NSArray *)GenreName;
+
+-(BOOL)setTrack:(NSNumber *)Track;
+-(BOOL)setTotalNumberDisks:(NSNumber *)Total;
+-(BOOL)setDisk:(NSNumber *)Disk;
+-(BOOL)setTotalNumberTracks:(NSNumber *)Total;
+
+-(BOOL)setGenreNames:(NSArray *)GenreName;
 -(BOOL)setComments:(NSString *)Comment;
 -(BOOL)setImages:(NSMutableArray *)Images;
 -(BOOL)setEncodedBy:(NSString *)Text;
@@ -130,11 +136,11 @@
 -(NSString *)getTitle;
 -(NSString *)getArtist;
 -(NSString *)getAlbum;
--(int)getYear;
--(int)getTrack;
--(int)getTotalNumberDisks;
--(int)getDisk;
--(int)getTotalNumberTracks;
+-(NSNumber *)getYear;
+-(NSNumber *)getTrack;
+-(NSNumber *)getTotalNumberDisks;
+-(NSNumber *)getDisk;
+-(NSNumber *)getTotalNumberTracks;
 -(NSArray *)getGenreNames;
 -(NSString *)getComments;
 -(NSMutableArray *)getImage;
