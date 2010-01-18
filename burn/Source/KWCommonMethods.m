@@ -524,6 +524,22 @@
 	return NO;
 }
 
++ (int)maxLabelLength:(DRFolder *)folder
+{
+	if ([folder explicitFilesystemMask] == DRFilesystemInclusionMaskHFSPlus)
+		return 255;
+	else if ([folder explicitFilesystemMask] == 1<<2)
+		return 126;
+	else if ([folder explicitFilesystemMask] == 1<<4)
+		return 32;
+	else if ([folder explicitFilesystemMask] == DRFilesystemInclusionMaskISO9660)
+		return 30;
+	else if ([folder explicitFilesystemMask] == DRFilesystemInclusionMaskJoliet)
+		return 16;
+		
+	return 32;
+}
+
 ///////////////////
 // Error actions //
 ///////////////////
