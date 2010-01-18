@@ -980,7 +980,7 @@
 		if ([addFileTypes indexOfObject:extension] == NSNotFound)
 			[addFileTypes addObject:extension];
 	}
-
+	
 	return addFileTypes;
 }
 
@@ -988,10 +988,6 @@
 + (NSArray *)quicktimeTypes
 {
 	NSMutableArray *filetypes = [NSMutableArray array];
-	
-	//Add protected files HFS Type, needed to warn
-	[filetypes addObject:NSFileTypeForHFSTypeCode('M4P ')];
-	[filetypes addObject:NSFileTypeForHFSTypeCode('M4B ')];
 
 	if ([KWCommonMethods isQuickTimeSevenInstalled])
 	{
@@ -1022,6 +1018,11 @@
 	
 		[filetypes addObjectsFromArray:qtTypes];
 	}
+
+	//Remove midi since it doesn't work
+	[filetypes removeObjectAtIndex:[filetypes indexOfObject:@"'Midi'"]];
+	[filetypes removeObjectAtIndex:[filetypes indexOfObject:@"mid"]];
+	[filetypes removeObjectAtIndex:[filetypes indexOfObject:@"midi"]];
 	
 	return filetypes;
 }
