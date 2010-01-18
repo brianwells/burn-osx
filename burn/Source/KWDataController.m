@@ -7,6 +7,7 @@
 #import "KWWindowController.h"
 #import "KWCommonMethods.h"
 #import "KWDiscCreator.h"
+#import "KWTextField.h"
 
 @interface KWDataController (Private)
 
@@ -324,7 +325,6 @@ static NSString*	EDBCurrentSelection							= @"EDBCurrentSelection";
 - (void)updateFileSystem
 {
 	KWDRFolder *rootFolder = (KWDRFolder*)[(FSNodeData*)[treeData nodeData] fsObject];
-	[discName setStringValue:[[(FSNodeData*)[treeData nodeData] fsObject] baseName]];
 	[rootFolder setHfsStandard:NO];
 
 	if ([fileSystemPopup selectedItem] != [fileSystemPopup lastItem])
@@ -357,10 +357,23 @@ static NSString*	EDBCurrentSelection							= @"EDBCurrentSelection";
 		}
 		
 		[rootFolder setExplicitFilesystemMask:mask];
-	
-		if ([rootFolder explicitFilesystemMask] == DRFilesystemInclusionMaskISO9660)
-			[discName setStringValue:[[(FSNodeData*)[treeData nodeData] fsObject] mangledNameForFilesystem:DRISO9660LevelTwo]];
 	}
+	
+	if ([rootFolder explicitFilesystemMask] == DRFilesystemInclusionMaskISO9660)
+	{
+		[discName setStringValue:[[(FSNodeData*)[treeData nodeData] fsObject] mangledNameForFilesystem:DRISO9660LevelTwo]];
+	}
+	else
+	{
+		int discNameLength = [KWCommonMethods maxLabelLength:rootFolder];
+		NSString *baseName = [rootFolder baseName];
+
+		if ([baseName length] > discNameLength)
+			[discName setStringValue:[baseName substringWithRange:NSMakeRange(0, discNameLength)]];
+		else
+			[discName setStringValue:baseName];
+	}
+
 }
 
 - (IBAction)dataPopupChanged:(id)sender
@@ -430,16 +443,16 @@ static NSString*	EDBCurrentSelection							= @"EDBCurrentSelection";
 
 	if ([rootFolder explicitFilesystemMask] == DRFilesystemInclusionMaskISO9660)
 	{
-		if (![[[sender stringValue] lowercaseString] isEqualTo:[[[(FSNodeData*)[treeData nodeData] fsObject] baseName] lowercaseString]])
+		if (![[[sender stringValue] lowercaseString] isEqualTo:[[rootFolder baseName] lowercaseString]])
 		{
-			[[(FSNodeData*)[treeData nodeData] fsObject] setBaseName:[sender stringValue]];
-			[sender setStringValue:[[(FSNodeData*)[treeData nodeData] fsObject] mangledNameForFilesystem:DRISO9660LevelTwo]];
+			[rootFolder setBaseName:[sender stringValue]];
+			[sender setStringValue:[rootFolder mangledNameForFilesystem:DRISO9660LevelTwo]];
 		}
 	}
 	else
 	{
-		if (![[sender stringValue] isEqualTo:[[(FSNodeData*)[treeData nodeData] fsObject] baseName]])
-			[[(FSNodeData*)[treeData nodeData] fsObject] setBaseName:[sender stringValue]];
+		if (![[sender stringValue] isEqualTo:[rootFolder baseName]])
+			[rootFolder setBaseName:[sender stringValue]];
 	}
 }
 
@@ -1109,6 +1122,26 @@ static NSString*	EDBCurrentSelection							= @"EDBCurrentSelection";
 	}
 	
 	[temporaryFiles removeAllObjects];
+}
+
+- (void)controlTextDidChange:(NSNotification *)aNotification
+{
+	KWDRFolder *rootFolder = (KWDRFolder*)[(FSNodeData*)[treeData nodeData] fsObject];
+	int maxCharacters = [KWCommonMethods maxLabelLength:rootFolder];
+	
+	NSString *nameString = [discName stringValue];
+	NSString *oldName = [NSString stringWithString:nameString];
+	
+	[self changeBaseName:discName];
+	
+	if (nameString.length > maxCharacters)
+	{
+		if (nameString.length > maxCharacters)
+			[discName setStringValue:[nameString substringWithRange:NSMakeRange(0, maxCharacters)]];
+	}
+
+	if (![[[discName stringValue] lowercaseString] isEqualTo:[oldName lowercaseString]])
+		NSBeep();
 }
 
 ///////////////////////
