@@ -21,7 +21,7 @@
 	NSNotificationCenter *defaultCenter = [NSNotificationCenter defaultCenter];
 	[defaultCenter addObserver:self selector:@selector(cancelAuthoring) name:@"KWCancelAuthoring" object:nil];
 	[defaultCenter postNotificationName:@"KWCancelNotificationChanged" object:@"KWCancelAuthoring"];
-
+	
 	return self;
 }
 
@@ -61,7 +61,7 @@
 
 	//Create a xml file with chapters if there are any
 	if (result)
-		[self createStandardDVDXMLAtPath:path withFileArray:fileArray];
+		[self createStandardDVDXMLAtPath:path withFileArray:fileArray errorString:&*error];
 
 	progressSize = size;
 
@@ -80,7 +80,7 @@
 			succes = 1;
 	}
 
-	[KWCommonMethods removeItemAtPath:[path stringByAppendingPathComponent:@"dvdauthor.xml"]];
+	//[KWCommonMethods removeItemAtPath:[path stringByAppendingPathComponent:@"dvdauthor.xml"]];
 	
 	//Create TOC (Table Of Contents)
 	if (succes == 0)
@@ -98,7 +98,7 @@
 	}
 	else
 	{
-		[KWCommonMethods removeItemAtPath:path];
+		//[KWCommonMethods removeItemAtPath:path];
 	
 		if (userCanceled)
 			return 2;
@@ -107,7 +107,7 @@
 	}
 }
 
-- (void)createStandardDVDXMLAtPath:(NSString *)path withFileArray:(NSArray *)fileArray
+- (void)createStandardDVDXMLAtPath:(NSString *)path withFileArray:(NSArray *)fileArray errorString:(NSString **)error
 {
 	NSString *xmlFile = [NSString stringWithFormat:@"<dvdauthor dest=\"%@\">\n<titleset>\n<titles>\n<pgc>", path];
 	
@@ -154,7 +154,7 @@
 	
 	xmlFile = [NSString stringWithFormat:@"%@%@</pgc>\n</titles>\n</titleset>\n</dvdauthor>", xmlFile, loopString];
 
-	[xmlFile writeToFile:[path stringByAppendingPathComponent:@"dvdauthor.xml"] atomically:YES];
+	[KWCommonMethods writeString:xmlFile toFile:[path stringByAppendingPathComponent:@"dvdauthor.xml"] errorString:&*error];
 }
 
 ///////////////
@@ -852,8 +852,10 @@
 	NSFileManager *defaultManager = [NSFileManager defaultManager];
 
 	dvdauthor=[[NSTask alloc] init];
+	NSPipe *pipe2 = [[NSPipe alloc] init];
 	NSPipe *pipe=[[NSPipe alloc] init];
 	NSFileHandle *handle;
+	NSFileHandle *handle2;
 	NSData *data;
 	BOOL returnCode;
 	[dvdauthor setLaunchPath:[[NSBundle mainBundle] pathForResource:@"dvdauthor" ofType:@""]];
@@ -861,7 +863,10 @@
 
 	[dvdauthor setArguments:[NSArray arrayWithObjects:@"-x",xmlFile,nil]];
 	[dvdauthor setStandardError:pipe];
+	[dvdauthor setStandardOutput:pipe2];
+	
 	handle=[pipe fileHandleForReading];
+	handle2=[pipe2 fileHandleForReading];
 
 	float totalSize = 0;
 
@@ -879,7 +884,8 @@
 
 	int currentFile = 1;
 	int currentProcces = 1;
-
+	
+	[KWCommonMethods logCommandIfNeeded:dvdauthor];
 	[dvdauthor launch];
 
 	totalSize = totalSize / 1024 / 1024;
@@ -901,7 +907,8 @@
 		if ([[NSUserDefaults standardUserDefaults] boolForKey:@"KWDebug"])
 			NSLog(string);
 		
-		errorString = [[errorString stringByAppendingString:string] retain];
+		if (string)	
+			errorString = [errorString stringByAppendingString:string];
 
 		if ([string rangeOfString:@"Processing /"].length > 0)
 		{
@@ -937,7 +944,8 @@
 				}
 			}
 		}
-
+		
+		errorString = [errorString retain];
 		data = nil;
 		[innerPool release];
 		innerPool = [[NSAutoreleasePool alloc] init];
@@ -947,6 +955,9 @@
 	[dvdauthor waitUntilExit];
 	
 	returnCode = ([dvdauthor terminationStatus] == 0 && userCanceled == NO);
+	
+	errorString = [errorString autorelease];
+	errorString = [errorString stringByAppendingString:[[[NSString alloc] initWithData:[handle2 readDataToEndOfFile] encoding:NSUTF8StringEncoding] autorelease]];
 	
 	if (!returnCode)
 		*error = [NSString stringWithFormat:@"KWConsole:\nTask: dvdauthor\n%@", errorString];

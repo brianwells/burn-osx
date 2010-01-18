@@ -25,7 +25,7 @@
 
 //Standard DVD-Video
 - (int)createStandardDVDFolderAtPath:(NSString *)path withFileArray:(NSArray *)fileArray withSize:(NSNumber *)size errorString:(NSString **)error;
-- (void)createStandardDVDXMLAtPath:(NSString *)path withFileArray:(NSArray *)fileArray;
+- (void)createStandardDVDXMLAtPath:(NSString *)path withFileArray:(NSArray *)fileArray errorString:(NSString **)error;
 //Standard DVD-Audio
 - (int)createStandardDVDAudioFolderAtPath:(NSString *)path withFiles:(NSArray *)files errorString:(NSString **)error;
 - (void)startTimer:(NSArray *)object;
