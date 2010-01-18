@@ -1115,6 +1115,11 @@
 
 + (void)logCommandIfNeeded:(NSTask *)command
 {
+	//Set environment to UTF-8
+	NSMutableDictionary *environment = [NSMutableDictionary dictionaryWithDictionary:[[NSProcessInfo processInfo] environment]];
+	[environment setObject:@"en_US.UTF-8" forKey:@"LC_ALL"];
+	[command setEnvironment:environment];
+
 	if ([[NSUserDefaults standardUserDefaults] boolForKey:@"KWDebug"] == YES)
 	{
 		NSArray *showArgs = [command arguments];
