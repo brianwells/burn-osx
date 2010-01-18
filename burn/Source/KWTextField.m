@@ -10,11 +10,4 @@
 	return [super becomeFirstResponder];
 }
 
-- (BOOL)textShouldEndEditing:(NSText *)textObject
-{
-	[[NSNotificationCenter defaultCenter] postNotificationName:@"KWDiscNameChanged" object:self];
-
-	return YES;
-}
-
 @end
