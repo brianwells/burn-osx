@@ -51,6 +51,8 @@
 + (unsigned long)getFinderFlagsAtPath:(NSString *)path;
 //Check if a virtual or real folder contains .localized
 + (BOOL)isDRFolderIsLocalized:(DRFolder *)folder;
+//Get the max lable size
++ (int)maxLabelLength:(DRFolder *)folder;
 
 //Error actions
 + (BOOL)createDirectoryAtPath:(NSString *)path errorString:(NSString **)error;
