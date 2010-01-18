@@ -454,6 +454,11 @@ static NSString*	EDBCurrentSelection							= @"EDBCurrentSelection";
 		if (![[sender stringValue] isEqualTo:[rootFolder baseName]])
 			[rootFolder setBaseName:[sender stringValue]];
 	}
+	
+	if ([self isCompatible])
+		[[NSNotificationCenter defaultCenter] postNotificationName:@"KWChangeInspector" object:[(FSNodeData*)[treeData nodeData] fsObject] userInfo:[NSDictionary dictionaryWithObjectsAndKeys:@"KWDataDisc",@"Type",nil]];
+	else
+		[[NSNotificationCenter defaultCenter] postNotificationName:@"KWChangeInspector" object:nil userInfo:[NSDictionary dictionaryWithObjectsAndKeys:@"KWEmpty",@"Type",nil]];
 }
 
 /////////////////////////
