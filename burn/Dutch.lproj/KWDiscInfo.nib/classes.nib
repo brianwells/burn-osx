@@ -7,17 +7,16 @@
         },
                 {
             ACTIONS =             {
-                cancelScan = id;
-                chooseScan = id;
+                recorderPopup = id;
             };
-            CLASS = KWDiskScanner;
+            CLASS = KWDiskInfo;
             LANGUAGE = ObjC;
             OUTLETS =             {
-                cancelScan = id;
-                chooseScan = id;
-                progressScan = id;
-                progressTextScan = id;
-                tableView = id;
+                freeSpaceDisk = id;
+                kindDisk = id;
+                recorderPopup = id;
+                usedSpaceDisk = id;
+                writableDisk = id;
             };
             SUPERCLASS = NSWindowController;
         }
