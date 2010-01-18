@@ -874,4 +874,17 @@ return YES;
 	return tableData;
 }
 
+- (void)controlTextDidChange:(NSNotification *)aNotification
+{
+	int maxCharacters = 32;
+	NSString *nameString = [discName stringValue];
+	
+	if (nameString.length > maxCharacters)
+	{
+		NSBeep();
+	
+		[discName setStringValue:[nameString substringWithRange:NSMakeRange(0, maxCharacters)]];
+	}
+}
+
 @end
