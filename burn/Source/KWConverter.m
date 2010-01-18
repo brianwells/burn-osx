@@ -630,8 +630,13 @@
 	
 		// Check if ffmpeg reconizes the file
 		if ([string rangeOfString:@"Unknown format"].length > 0)
+		{
 			error = [NSString stringWithFormat:NSLocalizedString(@"%@ (Unknown format)", nil), displayName];
-	
+			[self setErrorStringWithString:error];
+			
+			return 0;
+		}
+		
 		//Check if ffmpeg reconizes the codecs
 		if ([string rangeOfString:@"could not find codec parameters"].length > 0)
 			error = [NSString stringWithFormat:NSLocalizedString(@"%@ (Couldn't get attributes)", nil), displayName];
