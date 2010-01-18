@@ -393,10 +393,23 @@
 		int i;
 		for (i=0;i<[objects count];i++)
 		{
+			NSDictionary *currentObject = [objects objectAtIndex:i];
+			NSImage *image;
+
 			if (chapters)
-				[images addObject:[[[NSImage alloc] initWithData:[[objects objectAtIndex:i] objectForKey:@"Image"]] autorelease]];
+			{
+				image = [[[NSImage alloc] initWithData:[currentObject objectForKey:@"Image"]] autorelease];
+			}
 			else
-				[images addObject:[[KWConverter alloc] getImageAtPath:[[objects objectAtIndex:i] objectForKey:@"Path"] atTime:[[theme objectForKey:@"KWScreenshotAtTime"] intValue] isWideScreen:[[[objects objectAtIndex:i] objectForKey:@"WideScreen"] boolValue]]];
+			{
+				image = [[KWConverter alloc] getImageAtPath:[currentObject objectForKey:@"Path"] atTime:[[theme objectForKey:@"KWScreenshotAtTime"] intValue] isWideScreen:[[currentObject objectForKey:@"WideScreen"] boolValue]];
+				
+				//Too short movie
+				if (!image)
+					image = [[KWConverter alloc] getImageAtPath:[currentObject objectForKey:@"Path"] atTime:0 isWideScreen:[[currentObject objectForKey:@"WideScreen"] boolValue]];
+			}
+			
+			[images addObject:image];
 		}
 
 		//create the menu's and masks
