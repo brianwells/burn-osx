@@ -192,7 +192,8 @@
 
 	if ([defaultManager fileExistsAtPath:path])
 		[KWCommonMethods removeItemAtPath:path];
-
+	
+	[KWCommonMethods logCommandIfNeeded:dvdauthor];
 	[dvdauthor launch];
 	NSString *string = [[[NSString alloc] initWithData:[handle readDataToEndOfFile] encoding:NSUTF8StringEncoding] autorelease];
 	
@@ -587,8 +588,9 @@
 		NSFileHandle *handle;
 		[spumux setStandardError:errorPipe];
 		handle=[errorPipe fileHandleForReading];
+		[KWCommonMethods logCommandIfNeeded:spumux];
 		[spumux launch];
-
+		[KWCommonMethods logCommandIfNeeded:ffmpeg];
 		[ffmpeg launch];
 	
 		NSData *tiffData = [image TIFFRepresentation];

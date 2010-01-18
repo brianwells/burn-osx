@@ -724,6 +724,7 @@
 	[du setStandardOutput:pipe];
 	[du setStandardError:[NSFileHandle fileHandleWithNullDevice]];
 	handle=[pipe fileHandleForReading];
+	[KWCommonMethods logCommandIfNeeded:du];
 	[du launch];
 	string=[[NSString alloc] initWithData:[handle readDataToEndOfFile] encoding:NSUTF8StringEncoding];
 	
@@ -850,6 +851,7 @@
 	[df setArguments:[NSArray arrayWithObject:mountPoint]];
 	[df setStandardOutput:pipe];
 	handle=[pipe fileHandleForReading];
+	[KWCommonMethods logCommandIfNeeded:df];
 	[df launch];
 
 	string=[[NSString alloc] initWithData:[handle readDataToEndOfFile] encoding:NSUTF8StringEncoding];
@@ -1156,7 +1158,6 @@
 	}
 	
 	[KWCommonMethods logCommandIfNeeded:task];
-	
 	[task launch];
 	
 	if (error)

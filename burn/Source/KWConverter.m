@@ -238,6 +238,7 @@
 	
 		[ffmpeg setStandardInput:pipe2];
 		handle2=[pipe2 fileHandleForReading];
+		[KWCommonMethods logCommandIfNeeded:movtoy4m];
 		[movtoy4m launch];
 	}
 	
@@ -399,7 +400,6 @@
 	handle=[pipe fileHandleForReading];
 	
 	[KWCommonMethods logCommandIfNeeded:ffmpeg];
-	
 	[ffmpeg launch];
 
 	if (useQuickTime == YES)

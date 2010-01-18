@@ -343,6 +343,8 @@
 	[vcdimager setStandardOutput:pipe2];
 	NSFileHandle *handle=[pipe fileHandleForReading];
 	NSFileHandle *handle2=[pipe2 fileHandleForReading];
+	
+	[KWCommonMethods logCommandIfNeeded:vcdimager];
 	[vcdimager launch];
 
 	NSData *data;

@@ -542,6 +542,7 @@
 			
 			*error = [[[NSString alloc] initWithData:[errorHandle readDataToEndOfFile] encoding:NSUTF8StringEncoding] autorelease];
 			
+			[KWCommonMethods logCommandIfNeeded:cp];
 			[cp launch];
 			[cp waitUntilExit];
 			
