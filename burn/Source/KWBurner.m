@@ -552,8 +552,8 @@
 	NSString *time = @"";
 	NSString *statusString = nil;
 	
-	//KWDebug
-	//NSLog([status description]);
+	if ([[NSUserDefaults standardUserDefaults] boolForKey:@"KWDebug"])
+		NSLog([status description]);
 	
 	if ([[status objectForKey:DRStatusPercentCompleteKey] floatValue] > 0)
 	{
@@ -644,11 +644,11 @@
 		{
 			NSString *errorString;
 		
-			if ([[status objectForKey:DRErrorStatusKey] objectForKey:DRErrorStatusErrorInfoStringKey])
-				errorString = [[status objectForKey:DRErrorStatusKey] objectForKey:DRErrorStatusErrorInfoStringKey];
+			if ([[status objectForKey:DRErrorStatusKey] objectForKey:@"DRErrorStatusErrorInfoStringKey"])
+				errorString = [[status objectForKey:DRErrorStatusKey] objectForKey:@"DRErrorStatusErrorInfoStringKey"];
 			else
 				errorString = [[status objectForKey:DRErrorStatusKey] objectForKey:DRErrorStatusErrorStringKey];
-		
+		NSLog(errorString);
 			[defaultCenter postNotificationName:@"KWBurnFinished" object:self userInfo:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"KWFailure", errorString,nil] forKeys:[NSArray arrayWithObjects:@"ReturnCode",@"Error",nil]]];
 		}
 		
