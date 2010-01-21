@@ -879,7 +879,7 @@ return YES;
 	int maxCharacters = 32;
 	NSString *nameString = [discName stringValue];
 	
-	if (nameString.length > maxCharacters)
+	if ([nameString length] > maxCharacters)
 	{
 		NSBeep();
 	
