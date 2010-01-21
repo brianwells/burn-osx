@@ -66,7 +66,6 @@
 - (void)drawString:(NSString *)string inRect:(NSRect)rect onImage:(NSImage *)image withFontName:(NSString *)fontName withSize:(int)size withColor:(NSColor *)color useAlignment:(NSTextAlignment)alignment;
 - (void)drawBoxInRect:(NSRect)rect lineWidth:(int)width onImage:(NSImage *)image;
 - (void)drawImage:(NSImage *)drawImage inRect:(NSRect)rect onImage:(NSImage *)image;
-- (BOOL)saveImage:(NSImage *)image toPath:(NSString *)path errorString:(NSString **)error;
 - (NSImage *)resizeImage:(NSImage *)image;
 
 @end

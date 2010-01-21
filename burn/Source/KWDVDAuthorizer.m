@@ -343,7 +343,7 @@
 	NSImage *mask = [self rootMaskWithTitles:titles withSecondButton:secondButton];
 		
 	//Save mask as png
-	succes = [self saveImage:mask toPath:[path stringByAppendingPathComponent:@"Mask.png"] errorString:&*error];
+	succes = [KWCommonMethods saveImage:mask toPath:[path stringByAppendingPathComponent:@"Mask.png"] errorString:&*error];
 
 	//Create mpg with menu in it
 	if (succes)
@@ -450,7 +450,7 @@
 					NSRange range = NSMakeRange(number * i,number);
 					image = [self selectionMenuWithTitles:(!chapters) withObjects:[objects subarrayWithRange:range] withImages:[images subarrayWithRange:range] addNext:YES addPrevious:YES];
 					mask = [self selectionMaskWithTitles:(!chapters) withObjects:[objects subarrayWithRange:range] addNext:YES addPrevious:YES];
-					succes = [self saveImage:mask toPath:[path stringByAppendingPathComponent:@"Mask.png"] errorString:&*error];
+					succes = [KWCommonMethods saveImage:mask toPath:[path stringByAppendingPathComponent:@"Mask.png"] errorString:&*error];
 				
 					if (succes)
 						succes = [self createDVDMenuFile:[[[path stringByAppendingPathComponent:outputName] stringByAppendingString:[[NSNumber numberWithInt:i + 1 + numberOfpages] stringValue]] stringByAppendingString:@".mpg"] withImage:image withMaskFile:[path stringByAppendingPathComponent:@"Mask.png"] errorString:&*error];
@@ -464,7 +464,7 @@
 				NSRange range = NSMakeRange((pages - 1) * number,[objects count] - (pages - 1) * number);
 				image = [self selectionMenuWithTitles:(!chapters) withObjects:[objects subarrayWithRange:range] withImages:[images subarrayWithRange:range] addNext:NO addPrevious:YES];
 				mask = [self selectionMaskWithTitles:(!chapters) withObjects:[objects subarrayWithRange:range] addNext:NO addPrevious:YES];
-				succes = [self saveImage:mask toPath:[path stringByAppendingPathComponent:@"Mask.png"] errorString:&*error];
+				succes = [KWCommonMethods saveImage:mask toPath:[path stringByAppendingPathComponent:@"Mask.png"] errorString:&*error];
 			
 				if (succes)
 					succes = [self createDVDMenuFile:[[[path stringByAppendingPathComponent:outputName] stringByAppendingString:[[NSNumber numberWithInt:pages + numberOfpages] stringValue]] stringByAppendingString:@".mpg"] withImage:image withMaskFile:[path stringByAppendingPathComponent:@"Mask.png"] errorString:&*error];
@@ -479,7 +479,7 @@
 		{
 			image = [self selectionMenuWithTitles:(!chapters) withObjects:[objects subarrayWithRange:firstRange] withImages:[images subarrayWithRange:firstRange] addNext:([objects count] > number) addPrevious:NO];
 			mask = [self selectionMaskWithTitles:(!chapters) withObjects:[objects subarrayWithRange:firstRange] addNext:([objects count] > number) addPrevious:NO];
-			succes = [self saveImage:mask toPath:[path stringByAppendingPathComponent:@"Mask.png"] errorString:&*error];
+			succes = [KWCommonMethods saveImage:mask toPath:[path stringByAppendingPathComponent:@"Mask.png"] errorString:&*error];
 		
 			if (succes)
 				succes = [self createDVDMenuFile:[path stringByAppendingPathComponent:[[outputName stringByAppendingString:[[NSNumber numberWithInt:1 + numberOfpages] stringValue]] stringByAppendingString:@".mpg"]] withImage:image withMaskFile:[path stringByAppendingPathComponent:@"Mask.png"] errorString:&*error];
@@ -521,7 +521,7 @@
 			NSImage *mask = [self rootMaskWithTitles:NO withSecondButton:YES];
 		
 			//Save mask as png
-			succes = [self saveImage:mask toPath:[path stringByAppendingPathComponent:@"Mask.png"] errorString:&*error];
+			succes = [KWCommonMethods saveImage:mask toPath:[path stringByAppendingPathComponent:@"Mask.png"] errorString:&*error];
 
 			//Create mpg with menu in it
 			if (succes)
@@ -1531,35 +1531,6 @@
 	[image lockFocus];
 	[drawImage drawInRect:rect fromRect:NSZeroRect operation:NSCompositeHighlight fraction:1.0];
 	[image unlockFocus];
-}
-
-- (BOOL)saveImage:(NSImage *)image toPath:(NSString *)path errorString:(NSString **)error;
-{
-	NSData *tiffData = [image TIFFRepresentation];
-	NSBitmapImageRep *bitmap = [NSBitmapImageRep imageRepWithData:tiffData];
-	NSData *imageData = [bitmap representationUsingType:NSPNGFileType properties:nil];
-	
-	BOOL succes;
-	NSString *details;
-	
-	if ([KWCommonMethods OSVersion] >= 0x1040)
-	{
-		NSError *writeError;
-		succes = [imageData writeToFile:path options:NSAtomicWrite error:&writeError];
-			
-		if (!succes)
-			details = [writeError localizedDescription];
-	}
-	else
-	{
-		succes = [imageData writeToFile:path atomically:YES];
-		details = [NSString stringWithFormat:@"Failed to save image at Path: %@", path];
-	}
-	
-	if (!succes)
-		*error = details;
-	
-	return succes;
 }
 
 - (NSImage *)resizeImage:(NSImage *)image
