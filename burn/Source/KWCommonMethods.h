@@ -61,6 +61,7 @@
 + (BOOL)removeItemAtPath:(NSString *)path;
 + (BOOL)writeString:(NSString *)string toFile:(NSString *)path errorString:(NSString **)error;
 + (BOOL)writeDictionary:(NSDictionary *)dictionary toFile:(NSString *)path errorString:(NSString **)error;
++ (BOOL)saveImage:(NSImage *)image toPath:(NSString *)path errorString:(NSString **)error;
 
 //Other actions
 //Take all real folders and calculate the total size 
