@@ -706,6 +706,35 @@
 	return YES;
 }
 
++ (BOOL)saveImage:(NSImage *)image toPath:(NSString *)path errorString:(NSString **)error
+{
+	NSData *tiffData = [image TIFFRepresentation];
+	NSBitmapImageRep *bitmap = [NSBitmapImageRep imageRepWithData:tiffData];
+	NSData *imageData = [bitmap representationUsingType:NSPNGFileType properties:nil];
+	
+	BOOL succes;
+	NSString *details;
+	
+	if ([KWCommonMethods OSVersion] >= 0x1040)
+	{
+		NSError *writeError;
+		succes = [imageData writeToFile:path options:NSAtomicWrite error:&writeError];
+			
+		if (!succes)
+			details = [writeError localizedDescription];
+	}
+	else
+	{
+		succes = [imageData writeToFile:path atomically:YES];
+		details = [NSString stringWithFormat:@"Failed to save image to Path: %@", path];
+	}
+	
+	if (!succes)
+		*error = details;
+	
+	return succes;
+}
+
 ///////////////////
 // Other actions //
 ///////////////////
@@ -1038,9 +1067,12 @@
 	}
 
 	//Remove midi since it doesn't work
-	[filetypes removeObjectAtIndex:[filetypes indexOfObject:@"'Midi'"]];
-	[filetypes removeObjectAtIndex:[filetypes indexOfObject:@"mid"]];
-	[filetypes removeObjectAtIndex:[filetypes indexOfObject:@"midi"]];
+	if ([filetypes indexOfObject:@"'Midi'"] != NSNotFound)
+		[filetypes removeObjectAtIndex:[filetypes indexOfObject:@"'Midi'"]];
+	if ([filetypes indexOfObject:@"mid"] != NSNotFound)
+		[filetypes removeObjectAtIndex:[filetypes indexOfObject:@"mid"]];
+	if ([filetypes indexOfObject:@"midi"] != NSNotFound)
+		[filetypes removeObjectAtIndex:[filetypes indexOfObject:@"midi"]];
 	
 	return filetypes;
 }
