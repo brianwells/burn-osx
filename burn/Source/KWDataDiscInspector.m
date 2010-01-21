@@ -299,9 +299,9 @@ static NSArray* filesystemNameTagMappings = nil;
 - (IBAction)setUDFVersion:(id)sender
 {
 	if ([sender indexOfSelectedItem] == 0)
-		[filesystemRoot setProperty:DRUDFVersion102 forKey:DRUDFWriteVersion inFilesystem:@"DRUDF"];
+		[filesystemRoot setProperty:@"DRUDFVersion102" forKey:@"DRUDFWriteVersion" inFilesystem:@"DRUDF"];
 	else
-		[filesystemRoot setProperty:DRUDFVersion150 forKey:DRUDFWriteVersion inFilesystem:@"DRUDF"];
+		[filesystemRoot setProperty:@"DRUDFVersion150" forKey:@"DRUDFWriteVersion" inFilesystem:@"DRUDF"];
 }
 
 - (void)updateView:(KWDRFolder *)object
@@ -357,7 +357,7 @@ static NSArray* filesystemNameTagMappings = nil;
 	if ([KWCommonMethods OSVersion] >= 0x1040)
 	{
 		//Set UDF version
-		int udfVersionNumber = [[NSNumber numberWithBool:[[[filesystemRoot propertiesForFilesystem:@"DRUDF" mergeWithOtherFilesystems:NO] objectForKey:DRUDFWriteVersion] isEqualTo:DRUDFVersion150]] intValue] + 1;
+		int udfVersionNumber = [[NSNumber numberWithBool:[[[filesystemRoot propertiesForFilesystem:@"DRUDF" mergeWithOtherFilesystems:NO] objectForKey:@"DRUDFWriteVersion"] isEqualTo:@"DRUDFVersion150"]] intValue] + 1;
 		[udfVersion selectItemAtIndex:udfVersionNumber];
 	}
 

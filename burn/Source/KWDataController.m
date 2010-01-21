@@ -15,6 +15,12 @@
 
 @end
 
+@interface NSWorkspace (UnknownForPantherMethodsForNSWorkspace)
+
+- (BOOL)setIcon:(NSImage *)image forFile:(NSString *)fullPath options:(NSWorkspaceIconCreationOptions)options;
+
+@end
+
 // ================================================================
 // Useful Macros
 // ================================================================
@@ -703,7 +709,7 @@ static NSString*	EDBCurrentSelection							= @"EDBCurrentSelection";
 						if ([[[file stringByAppendingPathComponent:pathName] lastPathComponent] isEqualTo:@"Icon\r"])
 						{
 							if ([KWCommonMethods OSVersion] >= 0x1040)
-								[[NSWorkspace sharedWorkspace] setIcon:[[NSWorkspace sharedWorkspace] iconForFile:[[file stringByAppendingPathComponent:pathName] stringByDeletingLastPathComponent]] forFile:[[path stringByAppendingPathComponent:[[file lastPathComponent] stringByAppendingPathComponent:pathName]] stringByDeletingLastPathComponent] options:NSExclude10_4ElementsIconCreationOption];
+								[[NSWorkspace sharedWorkspace] setIcon:[[NSWorkspace sharedWorkspace] iconForFile:[[file stringByAppendingPathComponent:pathName] stringByDeletingLastPathComponent]] forFile:[[path stringByAppendingPathComponent:[[file lastPathComponent] stringByAppendingPathComponent:pathName]] stringByDeletingLastPathComponent] options:1 << 2];
 						}
 					}
 				}
@@ -1139,9 +1145,9 @@ static NSString*	EDBCurrentSelection							= @"EDBCurrentSelection";
 	
 	[self changeBaseName:discName];
 	
-	if (nameString.length > maxCharacters)
+	if ([nameString length] > maxCharacters)
 	{
-		if (nameString.length > maxCharacters)
+		if ([nameString length] > maxCharacters)
 			[discName setStringValue:[nameString substringWithRange:NSMakeRange(0, maxCharacters)]];
 	}
 
