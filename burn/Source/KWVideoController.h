@@ -9,7 +9,6 @@
 #import <Cocoa/Cocoa.h>
 #import "KWMediaListController.h"
 #import <KWDVDAuthorizer.h>
-#import <QTKit/QTKit.h>
 
 @interface KWVideoController : KWMediaListController {
 	

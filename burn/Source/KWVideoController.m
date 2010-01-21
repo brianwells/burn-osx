@@ -7,8 +7,6 @@
 //
 
 #import "KWVideoController.h"
-#import <QuickTime/QuickTime.h>
-#import <ID3/TagAPI.h>
 #import "KWWindowController.h"
 #import "KWCommonMethods.h"
 #import "KWTrackProducer.h"
