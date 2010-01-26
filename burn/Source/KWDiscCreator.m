@@ -209,7 +209,7 @@
 		if (burner)
 			[KWCommonMethods removeItemAtPath:imagePath];
 	
-		[[NSNotificationCenter defaultCenter] postNotificationName:@"growlFailedImage" object:[NSString stringWithFormat:NSLocalizedString(@"Failed to create \"%@\"", nil), [[NSFileManager defaultManager] displayNameAtPath:imagePath]]];
+		[[NSNotificationCenter defaultCenter] postNotificationName:@"growlFailedImage" object:[NSString stringWithFormat:NSLocalizedString(@"Failed to create '%@'", nil), [[NSFileManager defaultManager] displayNameAtPath:imagePath]]];
 		KWAlert *alert = [[[KWAlert alloc] init] autorelease];
 		[alert addButtonWithTitle:NSLocalizedString(@"OK",nil)];
 		[alert setMessageText:NSLocalizedString(@"Image failed",nil)];
@@ -296,7 +296,7 @@
 		{
 			progressPanel = [[KWProgress alloc] init];
 			[progressPanel setIcon:[NSImage imageNamed:@"Burn"]];
-			[progressPanel setTask:[NSString stringWithFormat:NSLocalizedString(@"Burning \"%@\"", nil), discName]];
+			[progressPanel setTask:[NSString stringWithFormat:NSLocalizedString(@"Burning '%@'", nil), discName]];
 			[progressPanel setStatus:NSLocalizedString(@"Preparing...",nil)];
 			[progressPanel setMaximumValue:[NSNumber numberWithDouble:0]];
 			[progressPanel beginSheetForWindow:mainWindow];
@@ -478,7 +478,7 @@
 		if (imagePath)
 		{
 			[progressPanel performSelectorOnMainThread:@selector(setMaximumValue:) withObject:[NSNumber numberWithDouble:0] waitUntilDone:NO];
-			[progressPanel setTask:[NSString stringWithFormat:NSLocalizedString(@"Creating image file \"%@\"", nil), [[NSFileManager defaultManager] displayNameAtPath:imagePath]]];
+			[progressPanel setTask:[NSString stringWithFormat:NSLocalizedString(@"Creating image file '%@'", nil), [[NSFileManager defaultManager] displayNameAtPath:imagePath]]];
 			[progressPanel setStatus:NSLocalizedString(@"Preparing...",nil)];
 			[[NSFileManager defaultManager] createFileAtPath:imagePath contents:[NSData data] attributes:[NSDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithBool:hiddenExtension], NSFileExtensionHidden,nil]];
 			[burner performSelectorOnMainThread:@selector(burnTrackToImage:) withObject:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:imagePath, tracks, nil] forKeys:[NSArray arrayWithObjects:@"Path",@"Track",nil]] waitUntilDone:YES];
@@ -493,7 +493,7 @@
 			if ([self waitForMediaIfNeeded] == YES)
 			{
 				[progressPanel setCancelNotification:nil];
-				[progressPanel setTask:[NSString stringWithFormat:NSLocalizedString(@"Burning \"%@\"", nil), discName]];
+				[progressPanel setTask:[NSString stringWithFormat:NSLocalizedString(@"Burning '%@'", nil), discName]];
 				[progressPanel setStatus:NSLocalizedString(@"Preparing...",nil)];
 				[burner performSelectorOnMainThread:@selector(burnTrack:) withObject:tracks waitUntilDone:YES];
 			}
@@ -554,11 +554,11 @@
 	
 	if ([returnCode isEqualTo:@"KWSucces"])
 	{
-		[[NSNotificationCenter defaultCenter] postNotificationName:@"growlFinishedBurning" object:[NSString stringWithFormat:NSLocalizedString(@"\"%@\" was burned succesfully", nil), discName]];
+		[[NSNotificationCenter defaultCenter] postNotificationName:@"growlFinishedBurning" object:[NSString stringWithFormat:NSLocalizedString(@"'%@' was burned succesfully", nil), discName]];
 	}
 	else if ([returnCode isEqualTo:@"KWFailure"])
 	{
-		[[NSNotificationCenter defaultCenter] postNotificationName:@"growlFailedBurning" object:[NSString stringWithFormat:NSLocalizedString(@"Failed to burn \"%@\"", nil), discName]];
+		[[NSNotificationCenter defaultCenter] postNotificationName:@"growlFailedBurning" object:[NSString stringWithFormat:NSLocalizedString(@"Failed to burn '%@'", nil), discName]];
 		KWAlert *alert = [[[KWAlert alloc] init] autorelease];
 		[alert addButtonWithTitle:NSLocalizedString(@"OK",nil)];
 		[alert setMessageText:NSLocalizedString(@"Burning failed",nil)];
