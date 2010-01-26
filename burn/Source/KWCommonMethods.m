@@ -738,23 +738,13 @@
 + (BOOL)createFileAtPath:(NSString *)path attributes:(NSDictionary *)attributes errorString:(NSString **)error
 {
 	NSFileManager *defaultManager = [NSFileManager defaultManager];
-	BOOL succes = YES;
-	
-	if ([defaultManager fileExistsAtPath:path])
-	{
-		succes = [defaultManager isDeletableFileAtPath:path];
+	BOOL fileExists = [defaultManager fileExistsAtPath:path];
+	BOOL succes = [defaultManager createFileAtPath:path contents:[NSData data] attributes:attributes];
 		
-		if (!succes)
+		if (!succes && fileExists)
 			*error = [NSString stringWithFormat:NSLocalizedString(@"Can't overwrite '%@' in '%@'", nil), [defaultManager displayNameAtPath:path], [defaultManager displayNameAtPath:[path stringByDeletingLastPathComponent]]];
-	}
-	
-	if (succes)
-	{
-		succes = [defaultManager createFileAtPath:path contents:[NSData data] attributes:attributes];
-		
-		if (!succes)
-			*error = [NSString stringWithFormat:NSLocalizedString(@"Can't create '%@' at '%@'", nil), [defaultManager displayNameAtPath:path], [defaultManager displayNameAtPath:[path stringByDeletingLastPathComponent]]];
-	}
+		else
+			*error = [NSString stringWithFormat:NSLocalizedString(@"Can't create '%@' in '%@'", nil), [defaultManager displayNameAtPath:path], [defaultManager displayNameAtPath:[path stringByDeletingLastPathComponent]]];
 	
 	return succes;
 }
