@@ -745,7 +745,7 @@
 		succes = [defaultManager isDeletableFileAtPath:path];
 		
 		if (!succes)
-			*error = [NSString stringWithFormat:NSLocalizedString(@"Can't overwrite '%@'", nil), [defaultManager displayNameAtPath:path]];
+			*error = [NSString stringWithFormat:NSLocalizedString(@"Can't overwrite '%@' in '%@'", nil), [defaultManager displayNameAtPath:path], [defaultManager displayNameAtPath:[path stringByDeletingLastPathComponent]]];
 	}
 	
 	if (succes)
