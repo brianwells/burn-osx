@@ -735,7 +735,7 @@
 	return succes;
 }
 
-+ (BOOL)createFileAtPath:(NSString *)path errorString:(NSString **)error
++ (BOOL)createFileAtPath:(NSString *)path attributes:(NSDictionary *)attributes errorString:(NSString **)error
 {
 	NSFileManager *defaultManager = [NSFileManager defaultManager];
 	BOOL succes = YES;
@@ -750,7 +750,7 @@
 	
 	if (succes)
 	{
-		succes = [defaultManager createFileAtPath:path contents:[NSData data] attributes:nil];
+		succes = [defaultManager createFileAtPath:path contents:[NSData data] attributes:attributes];
 		
 		if (!succes)
 			*error = [NSString stringWithFormat:NSLocalizedString(@"Can't create '%@' at '%@'", nil), [defaultManager displayNameAtPath:path], [defaultManager displayNameAtPath:[path stringByDeletingLastPathComponent]]];
