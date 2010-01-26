@@ -578,7 +578,10 @@
 		[ffmpeg setStandardError:[NSFileHandle fileHandleWithNullDevice]];
 
 		spumux = [[NSTask alloc] init];
-		[[NSFileManager defaultManager] createFileAtPath:path contents:nil attributes:nil];
+		
+		if (![KWCommonMethods createFileAtPath:path attributes:nil errorString:&*error])
+			return NO;
+		
 		[spumux setStandardOutput:[NSFileHandle fileHandleForWritingAtPath:path]];
 		[spumux setStandardInput:myHandle2];
 		[spumux setLaunchPath:[[NSBundle mainBundle] pathForResource:@"spumux" ofType:@""]];

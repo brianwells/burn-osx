@@ -188,7 +188,6 @@
 	}
 
 	NSString *returnCode;
-
 	if ([object superclass] == [NSNotification class])
 		returnCode = [[object userInfo] objectForKey:@"ReturnCode"];
 	else
@@ -480,8 +479,17 @@
 			[progressPanel performSelectorOnMainThread:@selector(setMaximumValue:) withObject:[NSNumber numberWithDouble:0] waitUntilDone:NO];
 			[progressPanel setTask:[NSString stringWithFormat:NSLocalizedString(@"Creating image file '%@'", nil), [[NSFileManager defaultManager] displayNameAtPath:imagePath]]];
 			[progressPanel setStatus:NSLocalizedString(@"Preparing...",nil)];
-			[[NSFileManager defaultManager] createFileAtPath:imagePath contents:[NSData data] attributes:[NSDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithBool:hiddenExtension], NSFileExtensionHidden,nil]];
-			[burner performSelectorOnMainThread:@selector(burnTrackToImage:) withObject:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:imagePath, tracks, nil] forKeys:[NSArray arrayWithObjects:@"Path",@"Track",nil]] waitUntilDone:YES];
+			
+			if ([KWCommonMethods createFileAtPath:imagePath attributes:[NSDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithBool:hiddenExtension], NSFileExtensionHidden,nil] errorString:&errorString])
+			{	
+				[burner performSelectorOnMainThread:@selector(burnTrackToImage:) withObject:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:imagePath, tracks, nil] forKeys:[NSArray arrayWithObjects:@"Path",@"Track",nil]] waitUntilDone:YES];
+			}
+			else
+			{
+				[burner release];
+				burner = nil;
+				[self performSelectorOnMainThread:@selector(imageFinished:) withObject:@"KWFailure" waitUntilDone:YES];
+			}
 		}
 		else
 		{
