@@ -80,7 +80,7 @@
 			succes = 1;
 	}
 
-	//[KWCommonMethods removeItemAtPath:[path stringByAppendingPathComponent:@"dvdauthor.xml"]];
+	[KWCommonMethods removeItemAtPath:[path stringByAppendingPathComponent:@"dvdauthor.xml"]];
 	
 	//Create TOC (Table Of Contents)
 	if (succes == 0)
@@ -98,7 +98,7 @@
 	}
 	else
 	{
-		//[KWCommonMethods removeItemAtPath:path];
+		[KWCommonMethods removeItemAtPath:path];
 	
 		if (userCanceled)
 			return 2;
