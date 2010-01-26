@@ -735,10 +735,10 @@
 	return succes;
 }
 
-+ (BOOL)canCreateFileAtPath:(NSString *)path errorString:(NSString **)error
++ (BOOL)createFileAtPath:(NSString *)path errorString:(NSString **)error
 {
 	NSFileManager *defaultManager = [NSFileManager defaultManager];
-	BOOL succes;
+	BOOL succes = YES;
 	
 	if ([defaultManager fileExistsAtPath:path])
 	{
@@ -747,7 +747,8 @@
 		if (!succes)
 			*error = [NSString stringWithFormat:NSLocalizedString(@"Can't overwrite '%@'", nil), [defaultManager displayNameAtPath:path]];
 	}
-	else
+	
+	if (succes)
 	{
 		succes = [defaultManager createFileAtPath:path contents:[NSData data] attributes:nil];
 		
