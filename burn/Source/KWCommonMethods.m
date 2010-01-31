@@ -718,7 +718,7 @@
 	if ([KWCommonMethods OSVersion] >= 0x1040)
 	{
 		NSError *writeError;
-		succes = [imageData writeToFile:path options:NSAtomicWrite error:&writeError];
+		succes = [imageData writeToFile:path options:@"NSAtomicWrite" error:&writeError];
 			
 		if (!succes)
 			details = [writeError localizedDescription];
