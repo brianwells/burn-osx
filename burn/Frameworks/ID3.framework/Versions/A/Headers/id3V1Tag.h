@@ -55,10 +55,10 @@
 -(NSString *)getTitle;
 -(NSString *)getArtist;
 -(NSString *)getAlbum;
--(NSNumber *)getYear;
+-(int)getYear;
 -(NSString *)getComment;
--(NSNumber *)getTrack;
--(NSNumber *)getGenre;
+-(int)getTrack;
+-(int)getGenre;
 
 // id3V1 tag editing
 -(BOOL)newTag;
@@ -67,10 +67,10 @@
 -(BOOL)setTitle:(NSString *)Title;
 -(BOOL)setArtist:(NSString *)Artist;
 -(BOOL)setAlbum:(NSString *)Album;
--(BOOL)setYear:(NSNumber *)Year;
+-(BOOL)setYear:(int)Year;
 -(BOOL)setComment:(NSString *)Comment;
--(BOOL)setTrack:(NSNumber *)Track;
--(BOOL)setGenre:(NSNumber *)Genre;
+-(BOOL)setTrack:(int)Track;
+-(BOOL)setGenre:(int)Genre;
 
 // private functions
 -(BOOL)setFieldWithNumber:(int)Number offset:(int)Offset length:(int)Length;
