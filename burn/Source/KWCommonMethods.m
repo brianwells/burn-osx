@@ -10,7 +10,9 @@
 #import "KWDRFolder.h"
 #import "KWWindowController.h"
 #import <QuickTime/QuickTime.h>
+#ifdef USE_QTKIT
 #import <QTKit/QTKit.h>
+#endif
 
 @interface NSFileManager (MyUndocumentedMethodsForNSTheClass)
 
@@ -48,11 +50,15 @@
 
 + (BOOL)isQuickTimeSevenInstalled
 {
+	#ifdef USE_QTKIT
 	long version;
 	OSErr result;
 
 	result = Gestalt(gestaltQuickTime,&version);
 	return ((result == noErr) && (version >= 0x07000000));
+	#else
+	return NO;
+	#endif
 }
 
 ///////////////////////////
@@ -717,11 +723,13 @@
 	
 	if ([KWCommonMethods OSVersion] >= 0x1040)
 	{
+		#if MAC_OS_X_VERSION_MAX_ALLOWED >= MAC_OS_X_VERSION_10_4
 		NSError *writeError;
-		succes = [imageData writeToFile:path options:@"NSAtomicWrite" error:&writeError];
+		succes = [imageData writeToFile:path options:NSAtomicWrite error:&writeError];
 			
 		if (!succes)
 			details = [writeError localizedDescription];
+		#endif
 	}
 	else
 	{
@@ -1052,7 +1060,9 @@
 
 	if ([KWCommonMethods isQuickTimeSevenInstalled])
 	{
+		#ifdef USE_QTKIT
 		[filetypes addObjectsFromArray:[QTMovie movieFileTypes:QTIncludeCommonTypes]];
+		#endif
 	}
 	else
 	{
@@ -1093,6 +1103,7 @@
 
 + (int)createDVDFolderAtPath:(NSString *)path ofType:(int)type fromTableData:(id)tableData errorString:(NSString **)error
 {
+	#if MAC_OS_X_VERSION_MAX_ALLOWED >= MAC_OS_X_VERSION_10_4
 	int succes;
 	int x, z = 0;
 	NSArray *files;
@@ -1159,6 +1170,16 @@
 		succes = 1;
 		
 	return succes;
+	#else
+	NSDictionary *currentData = [tableData objectAtIndex:0];
+	NSString *inPath = [currentData objectForKey:@"Path"];
+	NSString *outPath = [path stringByAppendingPathComponent:[currentData objectForKey:@"Name"]];
+	
+	if ([KWCommonMethods createSymbolicLinkAtPath:outPath withDestinationPath:inPath errorString:&*error])
+		return 0;
+	else
+		return 1;
+	#endif
 }
 
 + (void)logCommandIfNeeded:(NSTask *)command

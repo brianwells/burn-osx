@@ -4,6 +4,7 @@
 
 @implementation KWAudioDiscInspector
 
+#if MAC_OS_X_VERSION_MAX_ALLOWED >= MAC_OS_X_VERSION_10_4
 - (id)init
 {
 	if (self = [super init])
@@ -32,9 +33,11 @@
 	
 	[super dealloc];
 }
+#endif
 
 - (void)updateView:(id)object
 {
+	#if MAC_OS_X_VERSION_MAX_ALLOWED >= MAC_OS_X_VERSION_10_4
 	currentTableView = object;
 	KWAudioController *controller = [currentTableView delegate];
 	DRCDTextBlock *currentCDTextBlock = [controller myTextBlock];
@@ -72,31 +75,34 @@
 			}
 		}
 	}
+	#endif
 }
 
 - (IBAction)optionsChanged:(id)sender
 {
+	#if MAC_OS_X_VERSION_MAX_ALLOWED >= MAC_OS_X_VERSION_10_4
 	KWAudioController *controller = [currentTableView delegate];
 	DRCDTextBlock *currentCDTextBlock = [controller myTextBlock];
 	id property = [sender objectValue];
 	NSString *currentKey = [tagMappings objectAtIndex:[sender tag] - 1];
 	
-		if ([currentKey isEqualTo:DRCDTextGenreCodeKey])
-		{
-			[currentCDTextBlock setObject:[NSNumber numberWithInt:[sender indexOfSelectedItem]] forKey:currentKey ofTrack:0];
-		}
-		else if ([currentKey isEqualTo:DRCDTextMCNISRCKey])
-		{
-			NSData *data = [property dataUsingEncoding:NSASCIIStringEncoding];
+	if ([currentKey isEqualTo:DRCDTextGenreCodeKey])
+	{
+		[currentCDTextBlock setObject:[NSNumber numberWithInt:[sender indexOfSelectedItem]] forKey:currentKey ofTrack:0];
+	}
+	else if ([currentKey isEqualTo:DRCDTextMCNISRCKey])
+	{
+		NSData *data = [property dataUsingEncoding:NSASCIIStringEncoding];
 			
-			if (data)
-				[currentCDTextBlock setObject:data forKey:currentKey ofTrack:0];
-		}
-		else
-		{
-			if (property)
-				[currentCDTextBlock setObject:property forKey:currentKey ofTrack:0];
-		}
+		if (data)
+			[currentCDTextBlock setObject:data forKey:currentKey ofTrack:0];
+	}
+	else
+	{
+		if (property)
+			[currentCDTextBlock setObject:property forKey:currentKey ofTrack:0];
+	}
+	#endif
 }
 
 - (id)myView

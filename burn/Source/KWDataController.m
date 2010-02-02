@@ -15,12 +15,6 @@
 
 @end
 
-@interface NSWorkspace (UnknownForPantherMethodsForNSWorkspace)
-
-- (BOOL)setIcon:(NSImage *)image forFile:(NSString *)fullPath options:(NSWorkspaceIconCreationOptions)options;
-
-@end
-
 // ================================================================
 // Useful Macros
 // ================================================================
@@ -706,11 +700,13 @@ static NSString*	EDBCurrentSelection							= @"EDBCurrentSelection";
 					}
 					else
 					{
+						#if MAC_OS_X_VERSION_MAX_ALLOWED >= MAC_OS_X_VERSION_10_4
 						if ([[[file stringByAppendingPathComponent:pathName] lastPathComponent] isEqualTo:@"Icon\r"])
 						{
 							if ([KWCommonMethods OSVersion] >= 0x1040)
 								[[NSWorkspace sharedWorkspace] setIcon:[[NSWorkspace sharedWorkspace] iconForFile:[[file stringByAppendingPathComponent:pathName] stringByDeletingLastPathComponent]] forFile:[[path stringByAppendingPathComponent:[[file lastPathComponent] stringByAppendingPathComponent:pathName]] stringByDeletingLastPathComponent] options:1 << 2];
 						}
+						#endif
 					}
 				}
 			}

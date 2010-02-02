@@ -78,9 +78,11 @@
 	//Release the filetypes stored, using a retain
 	[allowedFileTypes release];
 	
+	#if MAC_OS_X_VERSION_MAX_ALLOWED >= MAC_OS_X_VERSION_10_4
 	//We might have retained it, so release it
 	if (cdtext)
 		[cdtext release];
+	#endif
 
 	[super dealloc];
 }
@@ -99,7 +101,9 @@
 	//When a movie ends we'll play the next song if it exists
 	if ([KWCommonMethods isQuickTimeSevenInstalled])
 	{
+		#ifdef USE_QTKIT
 		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(movieEnded:) name:QTMovieDidEndNotification object:nil];
+		#endif
 	}
 	else
 	{
@@ -210,48 +214,54 @@
 			[track setProperties:trackProperties];
 			[tracks addObject:track];
 			
-			TagAPI *Tag = [[TagAPI alloc] initWithGenreList:nil];
-			[Tag examineFile:path];
-			
-			if (!cdtext)
+			if ([KWCommonMethods OSVersion] >= 0x1040)
 			{
-				cdtext = [[DRCDTextBlock cdTextBlockWithLanguage:@"" encoding:DRCDTextEncodingISOLatin1Modified] retain];
-			
-				[cdtext setObject:[Tag getTitle] forKey:DRCDTextTitleKey ofTrack:0];
-				[cdtext setObject:[Tag getArtist] forKey:DRCDTextPerformerKey ofTrack:0];
+				#if MAC_OS_X_VERSION_MAX_ALLOWED >= MAC_OS_X_VERSION_10_4
+				TagAPI *Tag = [[TagAPI alloc] initWithGenreList:nil];
+				[Tag examineFile:path];
 				
-				
-				NSArray *genres = [Tag getGenreNames];
-				if ([genres count] > 0)
+				if (!cdtext)
 				{
-					[cdtext setObject:[NSNumber numberWithInt:0] forKey:DRCDTextGenreCodeKey ofTrack:0];
-					[cdtext setObject:[genres objectAtIndex:0] forKey:DRCDTextGenreKey ofTrack:0];
-				}
-			}
-			else
-			{
-				if (![[cdtext objectForKey:DRCDTextTitleKey ofTrack:0] isEqualTo:[Tag getTitle]])
-				[cdtext setObject:@"" forKey:DRCDTextTitleKey ofTrack:0];
-				
-				if (![[cdtext objectForKey:DRCDTextPerformerKey ofTrack:0] isEqualTo:[Tag getArtist]])
-				[cdtext setObject:@"" forKey:DRCDTextPerformerKey ofTrack:0];
-				
-				NSArray *genres = [Tag getGenreNames];
-				if ([genres count] > 0)
-				{
-					if (![[cdtext objectForKey:DRCDTextGenreKey ofTrack:0] isEqualTo:[genres objectAtIndex:0]])
-					[cdtext setObject:@"" forKey:DRCDTextGenreKey ofTrack:0];
-				}
-			}
+					cdtext = [[DRCDTextBlock cdTextBlockWithLanguage:@"" encoding:DRCDTextEncodingISOLatin1Modified] retain];
 			
-			int lastTrack = [tracks count] - 1;
+					[cdtext setObject:[Tag getTitle] forKey:DRCDTextTitleKey ofTrack:0];
+					[cdtext setObject:[Tag getArtist] forKey:DRCDTextPerformerKey ofTrack:0];
+				
+				
+					NSArray *genres = [Tag getGenreNames];
+					if ([genres count] > 0)
+					{
+						[cdtext setObject:[NSNumber numberWithInt:0] forKey:DRCDTextGenreCodeKey ofTrack:0];
+						[cdtext setObject:[genres objectAtIndex:0] forKey:DRCDTextGenreKey ofTrack:0];
+					}
+				}
+				else
+				{
+					if (![[cdtext objectForKey:DRCDTextTitleKey ofTrack:0] isEqualTo:[Tag getTitle]])
+					[cdtext setObject:@"" forKey:DRCDTextTitleKey ofTrack:0];
+				
+					if (![[cdtext objectForKey:DRCDTextPerformerKey ofTrack:0] isEqualTo:[Tag getArtist]])
+					[cdtext setObject:@"" forKey:DRCDTextPerformerKey ofTrack:0];
+				
+					NSArray *genres = [Tag getGenreNames];
+					if ([genres count] > 0)
+					{
+						if (![[cdtext objectForKey:DRCDTextGenreKey ofTrack:0] isEqualTo:[genres objectAtIndex:0]])
+						[cdtext setObject:@"" forKey:DRCDTextGenreKey ofTrack:0];
+					}
+				}
+			
+				int lastTrack = [tracks count] - 1;
 	
-			[cdtext setObject:[Tag getTitle] forKey:DRCDTextTitleKey ofTrack:lastTrack];
-			[cdtext setObject:[Tag getArtist] forKey:DRCDTextPerformerKey ofTrack:lastTrack];
-			[cdtext setObject:[Tag getComposer] forKey:DRCDTextComposerKey ofTrack:lastTrack];
-			[cdtext setObject:[Tag getComments] forKey:DRCDTextSpecialMessageKey ofTrack:lastTrack];
+				[cdtext setObject:[Tag getTitle] forKey:DRCDTextTitleKey ofTrack:lastTrack];
+				[cdtext setObject:[Tag getArtist] forKey:DRCDTextPerformerKey ofTrack:lastTrack];
+				[cdtext setObject:[Tag getComposer] forKey:DRCDTextComposerKey ofTrack:lastTrack];
+				[cdtext setObject:[Tag getComments] forKey:DRCDTextSpecialMessageKey ofTrack:lastTrack];
 	
-			[Tag release];
+				[Tag release];
+				
+				#endif
+			}
 		}
 			
 		if (currentDropRow > -1)
@@ -274,12 +284,14 @@
 
 - (IBAction)changeDiscName:(id)sender
 {
+	#if MAC_OS_X_VERSION_MAX_ALLOWED >= MAC_OS_X_VERSION_10_4
 	int selrow = [tableViewPopup indexOfSelectedItem];
 	
 	if	(selrow == 0)
 	{
 		[cdtext setObject:[discName stringValue] forKey:DRCDTextTitleKey ofTrack:0];
 	}
+	#endif
 }
 
 ///////////////////////////
@@ -369,6 +381,7 @@
 	}
 	else
 	{
+		#if MAC_OS_X_VERSION_MAX_ALLOWED >= MAC_OS_X_VERSION_10_4
 		if ([[NSUserDefaults standardUserDefaults] boolForKey:@"KWUseCDText"] == YES)
 		{
 			NSMutableDictionary *burnProperties = [NSMutableDictionary dictionary];
@@ -387,6 +400,9 @@
 		{
 			return tracks;
 		}
+		#else
+		return tracks;
+		#endif
 	}
 
 	return nil;
@@ -597,6 +613,7 @@
 
 - (IBAction)play:(id)sender
 {
+	#ifdef USE_QTKIT
 	//Check if there are some rows, we really need those
 	if ([tableData count] > 0)
 	{
@@ -651,10 +668,12 @@
 			[playButton setImage:[NSImage imageNamed:@"Play"]];
 		}
 	}
+	#endif
 }
 
 - (IBAction)stop:(id)sender
 {
+	#ifdef USE_QTKIT
 	//Check if we have some rows, so we don't try to stop it for the second time
 	if ([tableData count] > 0)
 	{
@@ -675,10 +694,12 @@
 			[self setDisplay:self];
 		}
 	}
+	#endif
 }
 
 - (IBAction)back:(id)sender
 {
+	#ifdef USE_QTKIT
 	if (!movie==nil)
 	{
 		//Only fire if the player is already playing
@@ -726,10 +747,12 @@
 			}
 		}
 	}
+	#endif
 }
 
 - (IBAction)forward:(id)sender
 {
+	#ifdef USE_QTKIT
 	if (!movie==nil)
 	{
 		//Only fire if the player is already playing
@@ -769,11 +792,13 @@
 			}
 		}
 	}
+	#endif
 }
 
 //When the movie has stopped there will be a notification, we go to the next song if there is any
 - (void)movieEnded:(NSNotification *)notification
 {
+	#ifdef USE_QTKIT
 	if (playingSong + 1 < [tableData count])
 	{
 		//Stop previous movie
@@ -792,11 +817,13 @@
 	{
 		[self stop:self];
 	}
+	#endif
 }
 
 //When the user clicks on the time display change the mode
 - (IBAction)setDisplay:(id)sender
 {
+	#ifdef USE_QTKIT
 	if ([KWCommonMethods isQuickTimeSevenInstalled])
 	{
 		if (!movie==nil)
@@ -817,12 +844,15 @@
 	{
 		[self setTotal];
 	}
+	#endif
 }
 
 //Keep the seconds running on the display
 - (void)updateDisplay:(NSTimer *)theTimer
 {
+	#ifdef USE_QTKIT
 	if (movie != nil)
+	#endif
 		[self setDisplayText];
 }
 
@@ -830,6 +860,7 @@
 {
 	if (display == 1 | display == 2)
 	{
+		#ifdef USE_QTKIT
 		NSString *displayText;
 		NSString *timeString;
 		
@@ -852,6 +883,7 @@
 		}
 				
 		[totalText setStringValue:displayText];
+		#endif
 	}
 	else if (display == 2)
 	{
@@ -943,10 +975,12 @@
 #pragma mark -
 #pragma mark •• External actions
 
+#if MAC_OS_X_VERSION_MAX_ALLOWED >= MAC_OS_X_VERSION_10_4
 - (DRCDTextBlock *)myTextBlock
 {
 	return cdtext;
 }
+#endif
 
 - (NSMutableArray *)myTracks
 {

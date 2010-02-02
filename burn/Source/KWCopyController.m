@@ -467,8 +467,10 @@
 		{
 			if ([KWCommonMethods OSVersion] < 0x1040)
 				return [[KWTrackProducer alloc] getTrackForImage:currentPath withSize:0];
+			#if MAC_OS_X_VERSION_MAX_ALLOWED >= MAC_OS_X_VERSION_10_4
 			else
 				return [DRBurn layoutForImageFile:currentPath];
+			#endif
 		}
 	}
 	else
@@ -592,7 +594,9 @@
 		}
 		else
 		{
+			#if MAC_OS_X_VERSION_MAX_ALLOWED >= MAC_OS_X_VERSION_10_4
 			return [DRBurn layoutForImageFile:outputFile];
+			#endif
 		}
 	}
 	

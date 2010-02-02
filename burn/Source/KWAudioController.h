@@ -9,7 +9,9 @@
 #import <Cocoa/Cocoa.h>
 #import "KWMediaListController.h"
 #import <KWDVDAuthorizer.h>
+#ifdef USE_QTKIT
 #import <QTKit/QTKit.h>
+#endif
 
 @interface KWAudioController : KWMediaListController {
 
@@ -40,7 +42,9 @@
 	NSArray *mp3OptionsMappings;
 	
 	NSMutableArray *tracks;
+	#if MAC_OS_X_VERSION_MAX_ALLOWED >= MAC_OS_X_VERSION_10_4
 	DRCDTextBlock *cdtext;
+	#endif
 }
 
 //Main actions
@@ -75,7 +79,9 @@
 - (void)volumeLabelSelected:(NSNotification *)notif;
 
 //External actions
+#if MAC_OS_X_VERSION_MAX_ALLOWED >= MAC_OS_X_VERSION_10_4
 - (DRCDTextBlock *)myTextBlock;
+#endif
 - (NSMutableArray *)myTracks;
 
 @end

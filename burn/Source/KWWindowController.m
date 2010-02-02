@@ -315,6 +315,7 @@
 {
 	if ([KWCommonMethods OSVersion] >= 0x1040)
 	{
+		#if MAC_OS_X_VERSION_MAX_ALLOWED >= MAC_OS_X_VERSION_10_4
 		//First setup accessibility support since it can't be done from interface builder
 		id segmentElement = NSAccessibilityUnignoredDescendant(newTabView);
 		NSArray *segments = [segmentElement accessibilityAttributeValue:NSAccessibilityChildrenAttribute];
@@ -324,13 +325,14 @@
 		NSArray *descriptions = [NSArray arrayWithObjects:@"Select to create a data disc",@"Select to create a audio disc",@"Select to create a video disc",@"Select to copy a disc or disk image",nil];
 		NSEnumerator *e = [segments objectEnumerator];
 			
-			int i = 0;
-			while ((segment = [e nextObject])) 
-			{
-				[segment accessibilitySetOverrideValue:[descriptions objectAtIndex:i] forAttribute:NSAccessibilityHelpAttribute];
-				[segment accessibilitySetOverrideValue:[descriptions objectAtIndex:i] forAttribute:NSAccessibilityHelpAttribute];
-				i = i + 1;
-			}
+		int i = 0;
+		while ((segment = [e nextObject])) 
+		{
+			[segment accessibilitySetOverrideValue:[descriptions objectAtIndex:i] forAttribute:NSAccessibilityHelpAttribute];
+			[segment accessibilitySetOverrideValue:[descriptions objectAtIndex:i] forAttribute:NSAccessibilityHelpAttribute];
+			i = i + 1;
+		}
+		#endif
 	}
 
 	mainItem = [[[NSToolbarItem alloc] initWithItemIdentifier:@"Main"] autorelease];
@@ -347,9 +349,11 @@
     [toolbar setAutosavesConfiguration:NO];
 	[toolbar setDisplayMode:NSToolbarDisplayModeIconOnly];
     [mainWindow setToolbar:toolbar];
-
+	
+	#if MAC_OS_X_VERSION_MAX_ALLOWED >= MAC_OS_X_VERSION_10_4
 	if ([KWCommonMethods OSVersion] >= 0x1040)
 		[mainWindow setShowsToolbarButton:NO];
+	#endif
 }
 
 - (NSToolbarItem *)toolbar:(NSToolbar *)toolbar itemForItemIdentifier:(NSString *)itemIdentifier willBeInsertedIntoToolbar:(BOOL)flag
