@@ -384,6 +384,11 @@ static NSString*	EDBCurrentSelection							= @"EDBCurrentSelection";
 	}
 	else
 	{
+		KWDRFolder *rootFolder = (KWDRFolder*)[(FSNodeData*)[treeData nodeData] fsObject];
+		
+		if (![[discName stringValue] isEqualTo:[rootFolder baseName]])
+			[rootFolder setBaseName:[discName stringValue]];
+	
 		[self updateFileSystem];
 		[self reloadOutlineView];
 	
