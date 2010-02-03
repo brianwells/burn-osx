@@ -245,7 +245,9 @@
 	}
 
 	[imagePath release];
+	imagePath = nil;
 	[discName release];
+	discName = nil;
 
 	[dataControllerOutlet deleteTemporayFiles:([[[NSUserDefaults standardUserDefaults] objectForKey:@"KWCleanTemporaryFolderAction"] intValue] == 2)];
 	[audioControllerOutlet deleteTemporayFiles:([[[NSUserDefaults standardUserDefaults] objectForKey:@"KWCleanTemporaryFolderAction"] intValue] == 2)];
