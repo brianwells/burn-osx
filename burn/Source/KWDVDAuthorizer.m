@@ -197,7 +197,7 @@
 	[dvdauthor launch];
 	NSString *string = [[[NSString alloc] initWithData:[handle readDataToEndOfFile] encoding:NSUTF8StringEncoding] autorelease];
 	
-	if ([[NSUserDefaults standardUserDefaults] objectForKey:@"KWDebug"])
+	if ([[NSUserDefaults standardUserDefaults] boolForKey:@"KWDebug"])
 		NSLog(string);
 		
 	[dvdauthor waitUntilExit];
