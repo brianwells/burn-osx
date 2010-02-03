@@ -495,9 +495,12 @@
 
 - (void)tabView:(NSTabView *)aTabView didSelectTabViewItem:(NSTabViewItem *)tabViewItem
 {
-	[newTabView setSelectedSegment:[aTabView indexOfTabViewItem:[aTabView selectedTabViewItem]]];
+	int segment = [aTabView indexOfTabViewItem:[aTabView selectedTabViewItem]];
+	[newTabView setSelectedSegment:segment];
 	
 	id controller = [(KWTabViewItem *)[aTabView selectedTabViewItem] myController];
+	
+	[itemHelp setTitle:[NSString stringWithFormat:NSLocalizedString(@"%@ Help", nil), [newTabView labelForSegment:segment]]];
 	
 	[[NSNotificationCenter defaultCenter] postNotificationName:@"KWChangeBurnStatus" object:[NSNumber numberWithBool:([controller numberOfRows] > 0)]];
 }
