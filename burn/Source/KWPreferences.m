@@ -666,6 +666,9 @@ return self;
 	
 	NSView *superView = [button superview];
 	NSNotificationCenter *defaultCenter = [NSNotificationCenter defaultCenter];
+	
+	if (tag == 18 && [KWCommonMethods OSVersion] < 0x1040)
+		[button setHidden:YES];
 
 	if (tag == 26 | tag == 28 | tag == 38 | tag == 40 | tag == 42 | tag == 45 | tag == 52)
 	{
