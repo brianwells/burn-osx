@@ -534,7 +534,7 @@
 {
 	if ([folder explicitFilesystemMask] == DRFilesystemInclusionMaskHFSPlus)
 		return 255;
-	else if ([folder explicitFilesystemMask] == 1<<2)
+	else if ([folder explicitFilesystemMask] == 1<<2 && [KWCommonMethods OSVersion] >= 0x1040)
 		return 126;
 	else if ([folder explicitFilesystemMask] == 1<<4)
 		return 32;
