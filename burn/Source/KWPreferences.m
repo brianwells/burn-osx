@@ -659,7 +659,11 @@ return self;
 - (void)checkForExceptions:(NSButton *)button
 {
 	int tag = [button tag];
-	int state = [button state];
+	int state;
+		
+	if ([button respondsToSelector:@selector(state)])
+		state = [button state];
+	
 	NSView *superView = [button superview];
 	NSNotificationCenter *defaultCenter = [NSNotificationCenter defaultCenter];
 
