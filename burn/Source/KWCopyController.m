@@ -440,7 +440,11 @@
 
 	if (mountedPath)
 	{
-		NSString *path = [@"/dev/" stringByAppendingString:[[currentPath componentsSeparatedByString:@"r"] objectAtIndex:1]];
+		NSString *workingPath = currentPath;
+		if ([[[NSWorkspace sharedWorkspace] mountedLocalVolumePaths] containsObject:workingPath])
+			workingPath = [self getRealDevicePath:currentPath];
+	
+		NSString *path = [@"/dev/" stringByAppendingString:[[workingPath componentsSeparatedByString:@"r"] objectAtIndex:1]];
 		NSString *disc = [@"/dev/disk" stringByAppendingString:[[[[path componentsSeparatedByString:@"/dev/disk"] objectAtIndex:1] componentsSeparatedByString:@"s"] objectAtIndex:0]];
 		savedPath = [disc copy];
 	}
@@ -481,15 +485,19 @@
 			deviceMediaPath = [@"/dev/" stringByAppendingString:[[[[KWCommonMethods savedDevice] status] objectForKey:DRDeviceMediaInfoKey] objectForKey:DRDeviceMediaBSDNameKey]];
 		else
 			deviceMediaPath = @"";
-
-		NSString *path = [@"/dev/" stringByAppendingString:[[currentPath componentsSeparatedByString:@"r"] objectAtIndex:1]];
+		
+		NSString *workingPath = currentPath;
+		if ([[[NSWorkspace sharedWorkspace] mountedLocalVolumePaths] containsObject:workingPath])
+			workingPath = [self getRealDevicePath:currentPath];
+	
+		NSString *path = [@"/dev/" stringByAppendingString:[[workingPath componentsSeparatedByString:@"r"] objectAtIndex:1]];
 		NSString *disc = [@"/dev/disk" stringByAppendingString:[[[[path componentsSeparatedByString:@"/dev/disk"] objectAtIndex:1] componentsSeparatedByString:@"s"] objectAtIndex:0]];
 		NSString *outputFile;
 		NSDictionary *tocFile = nil;
 	
 		if (![disc isEqualTo:deviceMediaPath] | shouldBurn == NO)
 		{
-			outputFile = currentPath;
+			outputFile = workingPath;
 			[[[NSWorkspace sharedWorkspace] notificationCenter] removeObserver:self];
 		}
 		else
@@ -518,7 +526,7 @@
 		}
 		else
 		{
-			path = currentPath;
+			path = workingPath;
 		}
 	
 		if ([disc isEqualTo:deviceMediaPath] && shouldBurn == YES)
@@ -530,7 +538,7 @@
 			NSPipe *errorPipe = [[NSPipe alloc] init];
 			NSFileHandle *errorHandle = [errorPipe fileHandleForReading];
 			[cp setStandardOutput:handle];
-			[cp setStandardError:errorHandle];
+			[cp setStandardError:errorPipe];
 			
 			
 			NSNotificationCenter *defaultCenter = [NSNotificationCenter defaultCenter];
@@ -542,10 +550,11 @@
 		
 			[self performSelectorOnMainThread:@selector(startTimer:) withObject:outputFile waitUntilDone:NO];
 			
-			*error = [[[NSString alloc] initWithData:[errorHandle readDataToEndOfFile] encoding:NSUTF8StringEncoding] autorelease];
-			
 			[KWCommonMethods logCommandIfNeeded:cp];
 			[cp launch];
+			
+			*error = [NSString stringWithFormat:@"KWConsole:\nTask: cp\n%@", [[[NSString alloc] initWithData:[errorHandle readDataToEndOfFile] encoding:NSUTF8StringEncoding] autorelease]];
+			
 			[cp waitUntilExit];
 			
 			[defaultCenter postNotificationName:@"KWCancelNotificationChanged" object:nil];
