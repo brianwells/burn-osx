@@ -551,7 +551,7 @@
 	NSDictionary *status = [notification userInfo];
 	NSString *currentStatusString = [status objectForKey:DRStatusStateKey];
 	NSNotificationCenter *defaultCenter = [NSNotificationCenter defaultCenter];
-	NSString *time = @"";
+	NSString *time = nil;
 	NSString *statusString = nil;
 	
 	if ([[NSUserDefaults standardUserDefaults] boolForKey:@"KWDebug"])
@@ -595,10 +595,13 @@
 	}
 	else if ([currentStatusString isEqualTo:DRStatusStateTrackWrite])
 	{
-		if ([[status objectForKey:DRStatusTotalTracksKey] intValue] > 1)
-			statusString = [NSString stringWithFormat:NSLocalizedString(@"Writing track %ld of %ld (%@)", nil), [[status objectForKey:DRStatusCurrentTrackKey] longValue], [[status objectForKey:DRStatusTotalTracksKey] longValue], time];
-		else
-			statusString = [NSString stringWithFormat:NSLocalizedString(@"Writing track (%@)", nil), time];
+		if (time)
+		{
+			if ([[status objectForKey:DRStatusTotalTracksKey] intValue] > 1)
+				statusString = [NSString stringWithFormat:NSLocalizedString(@"Writing track %ld of %ld (%@)", nil), [[status objectForKey:DRStatusCurrentTrackKey] longValue], [[status objectForKey:DRStatusTotalTracksKey] longValue], time];
+			else
+				statusString = [NSString stringWithFormat:NSLocalizedString(@"Writing track (%@)", nil), time];
+		}
 	}
 	else if ([currentStatusString isEqualTo:DRStatusStateTrackClose])
 	{
