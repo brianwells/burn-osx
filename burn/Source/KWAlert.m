@@ -55,15 +55,22 @@
 	NSWindow *window = [self window];
 	NSRect windowFrame = [window frame];
 	int newHeight = windowFrame.size.height;
-	
+	int newY = windowFrame.origin.y;
+
 	if (expanded)
+	{
 		newHeight = newHeight - 100;
+		newY = newY + 100;
+	}
 	else
+	{
 		newHeight = newHeight + 100;
+		newY = newY - 100;
+	}
 		
 	expanded = !expanded;
 	
-	[window setFrame:NSMakeRect(windowFrame.origin.x, windowFrame.origin.y, windowFrame.size.width, newHeight) display:YES animate:YES];
+	[window setFrame:NSMakeRect(windowFrame.origin.x, newY, windowFrame.size.width, newHeight) display:YES animate:YES];
 }
 
 @end
