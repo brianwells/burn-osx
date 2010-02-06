@@ -129,9 +129,6 @@
 		
 		CFRelease(mainBundle);
 	}
-		
-	if ([KWCommonMethods OSVersion] < 0x1040)
-		[NSApp showHelp:nil];
 	
 	CFBundleRef myApplicationBundle = CFBundleGetMainBundle();
 	CFTypeRef myBookName = CFBundleGetValueForInfoDictionaryKey(myApplicationBundle,CFSTR("CFBundleHelpBookName"));
