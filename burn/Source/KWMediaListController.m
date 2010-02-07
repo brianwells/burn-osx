@@ -504,7 +504,6 @@
 	
 	[self tableViewPopup:self];
 	NSMutableDictionary *rowData = [NSMutableDictionary dictionary];
-	int time=0;
 
 	[tableData removeAllObjects];
 
@@ -525,12 +524,7 @@
 		
 	[tableView reloadData];
 	
-	for (i=0;i<[tableData count];i++)
-	{
-		time = time + [[[tableData objectAtIndex:i] valueForKey: @"RealTime"] intValue];
-	}
-	
-	[totalText setStringValue:[NSString stringWithFormat:NSLocalizedString(@"Total time: %@", nil),[KWCommonMethods formatTime:time]]];
+	[self setTotal];
 
 	[discName setStringValue:[savedDictionary objectForKey:@"Name"]];
 	
