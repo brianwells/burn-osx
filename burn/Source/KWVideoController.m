@@ -196,8 +196,15 @@
 					[rowData setObject:[NSNumber numberWithBool:isWide] forKey:@"WideScreen"];
 					[rowData setObject:[NSArray array] forKey:@"Chapters"];
 				}
-			
-				[rowData setObject:[KWCommonMethods makeSizeFromFloat:[[attrib objectForKey:NSFileSize] floatValue]] forKey:@"Size"];
+				
+				int displaySize = [[attrib objectForKey:NSFileSize] floatValue];
+				
+					if (selrow < 2)
+					{
+						displaySize = (displaySize + 862288) / 2352 * 2048;
+					}
+				
+				[rowData setObject:[KWCommonMethods makeSizeFromFloat:displaySize] forKey:@"Size"];
 				[rowData setObject:[[[NSWorkspace sharedWorkspace] iconForFile:filePath] retain] forKey:@"Icon"];
 			
 				//If we're dealing with a Video_TS folder remve all rows
@@ -463,6 +470,14 @@
 #pragma mark -
 #pragma mark •• Other actions
 
+- (float)totalSize
+{
+	if ([tableViewPopup indexOfSelectedItem] > 1)
+		return [super totalSize];
+	else
+		return [self totalSVCDSize] / 2048;
+}
+
 - (NSArray *)files
 {
 	NSMutableArray *files = [NSMutableArray array];
@@ -470,7 +485,7 @@
 	int i;
 	for (i=0;i<[tableData count];i++)
 	{
-	[files addObject:[[tableData objectAtIndex:i] objectForKey:@"Path"]];
+		[files addObject:[[tableData objectAtIndex:i] objectForKey:@"Path"]];
 	}
 	
 	return files;
@@ -485,6 +500,28 @@
 - (void)volumeLabelSelected:(NSNotification *)notif
 {
 	[[NSNotificationCenter defaultCenter] postNotificationName:@"KWChangeInspector" object:nil userInfo:[NSDictionary dictionaryWithObjectsAndKeys:@"KWEmpty",@"Type",nil]];
+}
+
+- (float)totalSVCDSize
+{
+	int numberOfFiles = [tableData count];
+
+	if (numberOfFiles == 0)
+		return 0;
+	
+	NSFileManager *defaultManager = [NSFileManager defaultManager];
+	float size = 1058400;
+	
+	int i;
+	for (i=0;i<[tableData count];i++)
+	{
+		NSString *path = [[tableData objectAtIndex:i] objectForKey:@"Path"];
+		NSDictionary *attrib = [defaultManager fileAttributesAtPath:path traverseLink:YES];
+		float fileSize = [[attrib objectForKey:NSFileSize] floatValue] + 862288;
+		size = size + fileSize;
+	}
+
+	return size / 2352 * 2048 + 307200;
 }
 
 @end
