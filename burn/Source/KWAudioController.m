@@ -951,15 +951,7 @@
 //Calculate and return total time as string
 - (NSString *)totalTime
 {
-	int time = 0;
-
-	int i;
-	for (i=0;i<[tableData count];i++)
-	{
-		time = time + [[[tableData objectAtIndex:i] valueForKey: @"RealTime"] intValue];
-	}
-	
-	return [KWCommonMethods formatTime:time];
+	return [KWCommonMethods formatTime:[[self totalSize] floatValue] / 75];
 }
 
 //Get movie duration using NSMovie so it works in Panther too
