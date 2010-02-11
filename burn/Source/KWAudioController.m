@@ -227,7 +227,7 @@
 			NSNumber *pregap = [[NSUserDefaults standardUserDefaults] objectForKey:@"KWDefaultPregap"];
 			unsigned preGapLengthInFrames = (unsigned)([pregap floatValue] * 75.0);
 			
-			NSMutableDictionary	*trackProperties = [NSMutableDictionary dictionary];
+			NSMutableDictionary	*trackProperties = [NSMutableDictionary dictionaryWithDictionary:[track properties]];
 			[trackProperties setObject:[NSNumber numberWithUnsignedInt:preGapLengthInFrames] forKey:DRPreGapLengthKey];
 			[track setProperties:trackProperties];
 			[tracks addObject:track];
