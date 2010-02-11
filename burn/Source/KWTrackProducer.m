@@ -37,12 +37,7 @@
 	}
 	else if (type == 6)
 	{
-		NSMutableDictionary *trackProperties = [[track properties] mutableCopy];
-		int trackSize = [[trackProperties objectForKey:DRTrackLengthKey] intValue];
-		
-		[trackProperties setObject:[NSNumber numberWithInt:trackSize + 1] forKey:DRTrackLengthKey]; 
-		[track setProperties:trackProperties];
-		[self createAudioTrack:[[track properties] objectForKey:@"KWAudioPath"] withTrackSize:trackSize];
+		[self createAudioTrack:[[track properties] objectForKey:@"KWAudioPath"]];
 	}
 
 	return YES;
@@ -445,7 +440,7 @@
 	DRTrack *track = [[DRTrack alloc] initWithProducer:self];
 	NSMutableDictionary *properties = [NSMutableDictionary dictionary];
 		
-	[properties setObject:[DRMSF msfWithString:[[KWConverter alloc] mediaTimeString:path]] forKey:DRTrackLengthKey];
+	[properties setObject:[NSNumber numberWithFloat:[self audioTrackSizeAtPath:path]] forKey:DRTrackLengthKey];
 	[properties setObject:[NSNumber numberWithInt:2352] forKey:DRBlockSizeKey];
 	[properties setObject:[NSNumber numberWithInt:0] forKey:DRBlockTypeKey];
 	[properties setObject:[NSNumber numberWithInt:0] forKey:DRDataFormKey];
@@ -544,7 +539,7 @@
 	[pool release];
 }
 
-- (void)createAudioTrack:(NSString *)path withTrackSize:(int)trackSize
+- (void)createAudioTrack:(NSString *)path
 {
 	trackCreator = [[NSTask alloc] init];
 
@@ -559,14 +554,15 @@
 	[trackCreator setArguments:[NSArray arrayWithObjects:@"-i",path,@"-f",@"s16le",@"-",nil]];
 	[trackCreator setStandardOutput:calcPipe];
 	
-	//[trackCreator setStandardError:[NSFileHandle fileHandleWithNullDevice]];
+	if (![[NSUserDefaults standardUserDefaults] boolForKey:@"KWDebug"])
+		[trackCreator setStandardError:[NSFileHandle fileHandleWithNullDevice]];
 
 	file = fdopen([readHandle fileDescriptor], "r");
 
-	[NSThread detachNewThreadSelector:@selector(startAudioTrackCreation:) toTarget:self withObject:[NSNumber numberWithInt:trackSize]];
+	[NSThread detachNewThreadSelector:@selector(startAudioTrackCreation) toTarget:self withObject:nil];
 }
 
-- (void)startAudioTrackCreation:(NSNumber *)trackSize
+- (void)startAudioTrackCreation
 {
 	NSAutoreleasePool *pool= [[NSAutoreleasePool alloc] init];
 
@@ -581,12 +577,9 @@
 
 	NSData *data;
 	NSAutoreleasePool *innerPool = [[NSAutoreleasePool alloc] init];
-	int bytes = 0;
 
 		while([data=[calcHandle availableData] length])
 		{
-			bytes = bytes + [data length];
-		
 			[writeHandle writeData:data];
 		
 			[innerPool release];
@@ -594,20 +587,6 @@
 		}
 		
 	[trackCreator waitUntilExit];
-
-	//Write overhead
-	if ([trackSize intValue] * 2352 > bytes)
-	{
-		NSTask *dd = [[NSTask alloc] init];
-		[dd setLaunchPath:@"/bin/dd"];
-		[dd setArguments:[NSArray arrayWithObjects:@"if=/dev/zero",[@"count=" stringByAppendingString:[[NSNumber numberWithInt:([trackSize intValue] * 2352) - bytes] stringValue]], @"bs=1", nil]];
-		//[dd setStandardError:[NSFileHandle fileHandleWithNullDevice]];
-		[dd setStandardOutput:writeHandle];
-		[KWCommonMethods logCommandIfNeeded:dd];
-		[dd launch];
-		[dd waitUntilExit];
-		[dd release];
-	}
 
 	[writeHandle closeFile];
 	[calcPipe release];
@@ -679,6 +658,27 @@
 	[track setProperties:dict];
 
 	return track;
+}
+
+- (float)audioTrackSizeAtPath:(NSString *)path
+{
+	NSTask *ffmpeg = [[NSTask alloc] init];
+	NSPipe *outPipe = [[NSPipe alloc] init];
+	NSFileHandle *outHandle = [outPipe fileHandleForReading];
+	[ffmpeg setLaunchPath:[KWCommonMethods ffmpegPath]];
+	[ffmpeg setArguments:[NSArray arrayWithObjects:@"-i",path,@"-f",@"s16le",@"-",nil]];
+	[ffmpeg setStandardOutput:outPipe];
+	
+	if (![[NSUserDefaults standardUserDefaults] boolForKey:@"KWDebug"])
+		[trackCreator setStandardError:[NSFileHandle fileHandleWithNullDevice]];
+	
+	[ffmpeg launch];
+	float size = [[outHandle readDataToEndOfFile] length];
+	[ffmpeg waitUntilExit];
+	[ffmpeg release];
+	[outPipe release];
+	
+	return size /  2352;
 }
 
 @end

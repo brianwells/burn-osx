@@ -44,10 +44,11 @@
 //Stream actions
 - (void)createImage;
 - (void)createVcdImage;
-- (void)createAudioTrack:(NSString *)path withTrackSize:(int)trackSize;
+- (void)createAudioTrack:(NSString *)path;
 
 //Other
 - (float)imageSize;
 - (DRTrack *)createDefaultTrackWithSize:(int)size;
+- (float)audioTrackSizeAtPath:(NSString *)path;
 
 @end
