@@ -139,6 +139,24 @@
 #pragma mark -
 #pragma mark •• Main actions
 
+//Delete tracks from tracks array (Audio-CD only)
+- (IBAction)deleteFiles:(id)sender
+{	
+	int selrow = [tableViewPopup indexOfSelectedItem];
+	
+	if (selrow == 0)
+	{NSLog(@"Tracks before: %@", tracks);
+		if ([KWCommonMethods isQuickTimeSevenInstalled])
+			[self stop:sender];
+
+		//Remove rows
+		NSArray *selectedObjects = [KWCommonMethods allSelectedItemsInTableView:tableView fromArray:tracks];
+		[tracks removeObjectsInArray:selectedObjects];NSLog(@"Tracks after: %@", tracks);
+	}
+	
+	[super deleteFiles:sender];
+}
+
 //Add the file to the tableview
 - (void)addFile:(NSString *)path isSelfEncoded:(BOOL)selfEncoded
 {
@@ -203,7 +221,7 @@
 			[Tag release];
 		}
 
-		if (selrow == 0 && [[[path pathExtension] lowercaseString] isEqualTo:@"mp3"])
+		if (selrow == 0)
 		{
 			DRTrack	*track = [[KWTrackProducer alloc] getAudioTrackForPath:path];
 			NSNumber *pregap = [[NSUserDefaults standardUserDefaults] objectForKey:@"KWDefaultPregap"];
@@ -214,7 +232,7 @@
 			[track setProperties:trackProperties];
 			[tracks addObject:track];
 			
-			if ([KWCommonMethods OSVersion] >= 0x1040)
+			if ([KWCommonMethods OSVersion] >= 0x1040 && [[[path pathExtension] lowercaseString] isEqualTo:@"mp3"])
 			{
 				#if MAC_OS_X_VERSION_MAX_ALLOWED >= MAC_OS_X_VERSION_10_4
 				TagAPI *Tag = [[TagAPI alloc] initWithGenreList:nil];
