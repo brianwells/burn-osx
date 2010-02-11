@@ -145,13 +145,13 @@
 	int selrow = [tableViewPopup indexOfSelectedItem];
 	
 	if (selrow == 0)
-	{NSLog(@"Tracks before: %@", tracks);
+	{
 		if ([KWCommonMethods isQuickTimeSevenInstalled])
 			[self stop:sender];
 
 		//Remove rows
 		NSArray *selectedObjects = [KWCommonMethods allSelectedItemsInTableView:tableView fromArray:tracks];
-		[tracks removeObjectsInArray:selectedObjects];NSLog(@"Tracks after: %@", tracks);
+		[tracks removeObjectsInArray:selectedObjects];
 	}
 	
 	[super deleteFiles:sender];
