@@ -88,7 +88,7 @@ return self;
 	NSFileManager *defaultManager = [NSFileManager defaultManager];
 
 	//Hide CD-Text since it's not supported on Panther 
-	[[audioView viewWithTag:16] setHidden:([KWCommonMethods OSVersion] < 0x1040)];
+	[cdTextCheckbox setHidden:([KWCommonMethods OSVersion] < 0x1040)];
 
 	dataViewHeight = [dataView frame].size.height;
 
@@ -110,6 +110,22 @@ return self;
 	BOOL mount = ([[standardDefaults objectForKey:@"KWBurnOptionsCompletionAction"] isEqualTo:@"DRBurnCompletionActionMount"]);
 	[[cells objectAtIndex:0] setObjectValue:[NSNumber numberWithBool:!mount]];
 	[[cells objectAtIndex:1] setObjectValue:[NSNumber numberWithBool:mount]];
+	
+	int selectedCDItem = [[standardDefaults objectForKey:@"KWDefaultCDMedia"] intValue];
+	if (selectedCDItem == 0 | selectedCDItem == 3)
+		[standardDefaults setObject:[NSNumber numberWithInt:6] forKey:@"KWDefaultCDMedia"];
+	
+	[cdPopup setAutoenablesItems:NO];
+	[(NSMenuItem *)[cdPopup itemAtIndex:0] setEnabled:NO];
+	[(NSMenuItem *)[cdPopup itemAtIndex:3] setEnabled:NO];
+	
+	int selectedDVDItem = [[standardDefaults objectForKey:@"KWDefaultDVDMedia"] intValue];
+	if (selectedDVDItem == 0 | selectedDVDItem == 3)
+		[standardDefaults setObject:[NSNumber numberWithInt:4] forKey:@"KWDefaultDVDMedia"];
+	
+	[dvdPopup setAutoenablesItems:NO];
+	[(NSMenuItem *)[dvdPopup itemAtIndex:0] setEnabled:NO];
+	[(NSMenuItem *)[dvdPopup itemAtIndex:3] setEnabled:NO];
 	
 	//Video
 	[themePopup removeAllItems];

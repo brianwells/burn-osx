@@ -83,8 +83,8 @@
 														[NSNumber numberWithInt:0],			// KWCleanTemporaryFolderAction
 														[NSNumber numberWithBool:NO],		// KWBurnOptionsVerifyBurn
 														[NSNumber numberWithBool:NO],		// KWShowOverwritableSpace
-														[NSNumber numberWithInt:2],			// KWDefaultCDMedia
-														[NSNumber numberWithInt:0],			// KWDefaultDVDMedia
+														[NSNumber numberWithInt:6],			// KWDefaultCDMedia
+														[NSNumber numberWithInt:4],			// KWDefaultDVDMedia
 														[NSNumber numberWithInt:0],			// KWDefaultMedia
 														[NSNumber numberWithInt:0],			// KWDefaultDataType
 														[NSNumber numberWithBool:NO],		// KWShowFilePackagesAsFolder

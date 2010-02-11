@@ -21,9 +21,12 @@
 	//Burner outlets
     IBOutlet id burnerPopup;
     IBOutlet id completionActionMatrix;
+	IBOutlet id cdPopup;
+	IBOutlet id dvdPopup;
 	//Audio outlets
 	IBOutlet id audioTab;
 	IBOutlet id audioTabGeneral;
+	IBOutlet id cdTextCheckbox;
 	//Video outlets
 	IBOutlet id videoTab;
 	IBOutlet id themePopup;
