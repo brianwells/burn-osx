@@ -926,6 +926,28 @@
 		[super setTotal];
 }
 
+- (NSNumber *)totalSize
+{
+	if ([tableViewPopup indexOfSelectedItem] > 0)
+	{
+		return [super totalSize];
+	}
+	else
+	{
+		int i;
+		int size = 0;
+		for (i=0;i<[tracks count];i++)
+		{
+			DRTrack *currentTrack = [tracks objectAtIndex:i];
+			NSDictionary *properties = [currentTrack properties];
+			size = size + [[properties objectForKey:DRTrackLengthKey] intValue];
+			size = size + [[properties objectForKey:DRPreGapLengthKey] intValue];
+		}
+		
+		return [NSNumber numberWithInt:size];
+	}
+}
+
 //Calculate and return total time as string
 - (NSString *)totalTime
 {
