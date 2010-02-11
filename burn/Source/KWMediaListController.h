@@ -113,7 +113,7 @@
 //Set total size or time
 - (void)setTotal;
 //Get the total size
-- (float)totalSize;
+- (NSNumber *)totalSize;
 //Find name in array of folders
 - (DRFolder *)checkArray:(NSArray *)array forFolderWithName:(NSString *)name;
 //Use some c to get the real path

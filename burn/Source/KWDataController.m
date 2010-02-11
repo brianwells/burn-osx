@@ -309,17 +309,17 @@ static NSString*	EDBCurrentSelection							= @"EDBCurrentSelection";
 
 	if (![totalSizeText isHidden] && loadingBurnFile == NO)
 	{
-		string = [NSString stringWithFormat:NSLocalizedString(@"Total size: %@", nil), [KWCommonMethods makeSizeFromFloat:[self totalSize] * 2048]];
+		string = [NSString stringWithFormat:NSLocalizedString(@"Total size: %@", nil), [KWCommonMethods makeSizeFromFloat:[[self totalSize] floatValue] * 2048]];
 		[totalSizeText setStringValue:[[string copy] autorelease]];
 	}
 }
 
--(float)totalSize
+- (NSNumber *)totalSize
 {
 	KWDRFolder *rootFolder = (KWDRFolder*)[(FSNodeData*)[treeData nodeData] fsObject];
 	DRTrack *track = [DRTrack trackForRootFolder:rootFolder];
 
-	return [track estimateLength];
+	return [NSNumber numberWithFloat:[track estimateLength]];
 }
 
 - (void)updateFileSystem

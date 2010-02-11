@@ -395,16 +395,16 @@
 			else if ([[mediaInfo objectForKey:DRDeviceMediaClassKey] isEqualTo:DRDeviceMediaClassDVD])
 				space = [[mediaInfo objectForKey:DRDeviceMediaOverwritableSpaceKey] floatValue] * 2048 / 1024 / 2;
 			else
-				space = [[DRMSF msfWithString:[NSString stringWithFormat:@"%@:00:00", [KWCommonMethods defaultSizeForMedia:@"KWDefaultCDMedia"]]] intValue];
+				space = [KWCommonMethods defaultSizeForMedia:@"KWDefaultCDMedia"];
 		}
 		else
 		{
 			int media = [[[NSUserDefaults standardUserDefaults] objectForKey:@"KWDefaultMedia"] intValue];
 		
 			if (media == 1)
-				space = [[DRMSF msfWithString:[NSString stringWithFormat:@"%@:00:00", [KWCommonMethods defaultSizeForMedia:@"KWDefaultCDMedia"]]] intValue];
+				space = [KWCommonMethods defaultSizeForMedia:@"KWDefaultCDMedia"];
 			else if (media == 2)
-				space = [[KWCommonMethods defaultSizeForMedia:@"KWDefaultDVDMedia"] intValue] * 1024 / 2;
+				space = [KWCommonMethods defaultSizeForMedia:@"KWDefaultDVDMedia"];
 			else
 				space = -1;
 		}
@@ -418,7 +418,7 @@
 			NSString *percent;
 			KWTabViewItem *tabViewItem = (KWTabViewItem *)[mainTabView selectedTabViewItem];
 			id controller = [tabViewItem myController];
-			int totalSize = (int)[controller performSelector:@selector(totalSize)];
+			float totalSize = [[controller performSelector:@selector(totalSize)] floatValue];
 		
 			if (space > 0)
 				percent = [NSString stringWithFormat: @"(%.0f%@)", totalSize / space * 100, @"%"];

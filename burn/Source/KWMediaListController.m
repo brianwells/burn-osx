@@ -753,15 +753,15 @@ return YES;
 //Set total size
 - (void)setTotal
 {
-	[totalText setStringValue:[NSString stringWithFormat:NSLocalizedString(@"Total size: %@", nil), [KWCommonMethods makeSizeFromFloat:[self totalSize] * 2048]]];
+	[totalText setStringValue:[NSString stringWithFormat:NSLocalizedString(@"Total size: %@", nil), [KWCommonMethods makeSizeFromFloat:[[self totalSize] floatValue] * 2048]]];
 }
 
 //Calculate and return total size as float
-- (float)totalSize
+- (NSNumber *)totalSize
 {
 	if ([tableData count] > 0 && [[[[tableData objectAtIndex:0] objectForKey:@"Name"] lowercaseString] isEqualTo:[dvdFolderName lowercaseString]] && isDVD)
 	{
-		return [KWCommonMethods calculateRealFolderSize:[[tableData objectAtIndex:0] objectForKey:@"Path"]];
+		return [NSNumber numberWithFloat:[KWCommonMethods calculateRealFolderSize:[[tableData objectAtIndex:0] objectForKey:@"Path"]]];
 	}
 	else
 	{
@@ -785,7 +785,7 @@ return YES;
 			[discRoot setExplicitFilesystemMask: (1<<2)];
 		}
 
-		return [[DRTrack trackForRootFolder:discRoot] estimateLength];
+		return [NSNumber numberWithFloat:[[DRTrack trackForRootFolder:discRoot] estimateLength]];
 	}
 }
 

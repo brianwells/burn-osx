@@ -833,7 +833,7 @@
 	}
 	else
 	{
-		space = [[DRMSF msfWithString:[[KWCommonMethods defaultSizeForMedia:@"KWDefaultCDMedia"] stringByAppendingString:@":00:00"]] intValue];
+		space = (int)[KWCommonMethods defaultSizeForMedia:@"KWDefaultCDMedia"];
 	}
 		
 	if ([[NSUserDefaults standardUserDefaults] boolForKey:@"KWAllowOverBurning"])

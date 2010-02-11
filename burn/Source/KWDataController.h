@@ -54,7 +54,7 @@
 - (IBAction)deleteFiles:(id)sender;
 - (IBAction)newVirtualFolder:(id)sender;
 - (void)setTotalSize;
-- (float)totalSize;
+- (NSNumber *)totalSize;
 - (void)updateFileSystem;
 - (IBAction)dataPopupChanged:(id)sender;
 - (IBAction)changeBaseName:(id)sender;

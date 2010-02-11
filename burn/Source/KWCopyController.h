@@ -63,7 +63,7 @@
 
 //Other actions
 - (NSString *)myDisc;
-- (float)totalSize;
+- (NSNumber *)totalSize;
 - (int)numberOfRows;
 - (BOOL)isMounted;
 - (BOOL)isRealDisk;

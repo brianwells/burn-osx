@@ -345,7 +345,7 @@
 	}
 	else
 	{
-		int totalSize = [self totalSize];
+		int totalSize = [[self totalSize] floatValue];
 		NSNotificationCenter *defaultCenter = [NSNotificationCenter defaultCenter];
 		
 		[defaultCenter postNotificationName:@"KWMaximumValueChanged" object:[NSNumber numberWithFloat:totalSize]];
@@ -470,12 +470,12 @@
 #pragma mark -
 #pragma mark •• Other actions
 
-- (float)totalSize
+- (NSNumber *)totalSize
 {
 	if ([tableViewPopup indexOfSelectedItem] > 1)
 		return [super totalSize];
 	else
-		return [self totalSVCDSize] / 2048;
+		return [NSNumber numberWithFloat:[self totalSVCDSize] / 2048];
 }
 
 - (NSArray *)files

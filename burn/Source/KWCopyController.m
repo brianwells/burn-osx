@@ -546,7 +546,7 @@
 			[defaultCenter addObserver:self selector:@selector(stopImageing) name:@"KWStopImaging" object:nil];
 			[defaultCenter postNotificationName:@"KWCancelNotificationChanged" object:@"KWStopImaging"];
 			[defaultCenter postNotificationName:@"KWStatusChanged" object:NSLocalizedString(@"Copying disc", Localized)];
-			[defaultCenter postNotificationName:@"KWMaximumValueChanged" object:[NSNumber numberWithFloat:[self totalSize]]];
+			[defaultCenter postNotificationName:@"KWMaximumValueChanged" object:[NSNumber numberWithFloat:[[self totalSize] floatValue]]];
 		
 			[self performSelectorOnMainThread:@selector(startTimer:) withObject:outputFile waitUntilDone:NO];
 			
@@ -622,7 +622,7 @@
 	NSNotificationCenter *defaultCenter = [NSNotificationCenter defaultCenter];
 
 	float currentSize = [[[[NSFileManager defaultManager] fileAttributesAtPath:[theTimer userInfo] traverseLink:YES] objectForKey:NSFileSize] floatValue] / 2048;
-	float percent = currentSize / [self totalSize] * 100;
+	float percent = currentSize / [[self totalSize] floatValue] * 100;
 		
 		if (percent < 101)
 		[defaultCenter postNotificationName:@"KWStatusByAddingPercentChanged" object:[NSString stringWithFormat:@" (%.0f%@)", percent, @"%"]];
@@ -665,9 +665,9 @@
 	return savedPath;
 }
 
-- (float)totalSize
+- (NSNumber *)totalSize
 {
-	return blocks;
+	return [NSNumber numberWithFloat:blocks];
 }
 
 - (BOOL)respondsToSelector:(SEL)aSelector

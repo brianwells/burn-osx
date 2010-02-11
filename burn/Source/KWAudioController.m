@@ -437,7 +437,7 @@
 	}
 	else
 	{
-		float maximumSize = [self totalSize];
+		float maximumSize = [[self totalSize] floatValue];
 		
 		if ([KWCommonMethods OSVersion] < 0x1040)
 			maximumSize = maximumSize * 2;
