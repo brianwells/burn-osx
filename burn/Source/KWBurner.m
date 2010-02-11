@@ -210,7 +210,7 @@
 	
 	if ([track isKindOfClass:[DRTrack class]])
 	{
-		size = [track estimateLength] * 2048 / 1024;
+		size = [track estimateLength];
 	}
 	else
 	{
@@ -241,8 +241,6 @@
 						size = size + [[(NSArray *)newTrack objectAtIndex:i] estimateLength];
 					}
 				}
-				
-				size = size * 2048 / 1024;
 			}
 		}
 		else
@@ -251,19 +249,19 @@
 		}
 	}
 	
-	if ([self canBurn])
+	if (hasTracks == NO)
+	{
+		[burn release];
+	
+		[[NSNotificationCenter defaultCenter] postNotificationName:@"KWBurnFinished" object:self userInfo:[NSDictionary dictionaryWithObject:@"KWFailure" forKey:@"ReturnCode"]];
+	}
+	else if ([self canBurn])
 	{
 		[burn writeLayout:burnTrack];
 		
 		[[DRNotificationCenter currentRunLoopCenter] addObserver:self selector:@selector(burnNotification:) name:DRBurnStatusChangedNotification object:burn];
 		[[NSNotificationCenter defaultCenter] postNotificationName:@"KWCancelNotificationChanged" object:@"KWStopBurning"];
 		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(stopBurning:) name:@"KWStopBurning" object:nil];
-	}
-	else if (hasTracks == NO)
-	{
-		[burn release];
-	
-		[[NSNotificationCenter defaultCenter] postNotificationName:@"KWBurnFinished" object:self userInfo:[NSDictionary dictionaryWithObject:@"KWFailure" forKey:@"ReturnCode"]];
 	}
 	else
 	{
@@ -827,22 +825,22 @@
 
 	if ([[mediaInfo objectForKey:DRDeviceMediaIsBlankKey] boolValue])
 	{
-		space = [[mediaInfo objectForKey:DRDeviceMediaFreeSpaceKey] floatValue] * 2048 / 1024;
+		space = [[mediaInfo objectForKey:DRDeviceMediaFreeSpaceKey] floatValue];
 	}
 	else if ([[mediaInfo objectForKey:DRDeviceMediaClassKey] isEqualTo:DRDeviceMediaClassDVD])
 	{
-		space = [[mediaInfo objectForKey:DRDeviceMediaOverwritableSpaceKey] floatValue] * 2048 / 1024;
+		space = [[mediaInfo objectForKey:DRDeviceMediaOverwritableSpaceKey] floatValue];
 	}
 	else
 	{
-		space = [[DRMSF msfWithString:[[KWCommonMethods defaultSizeForMedia:@"KWDefaultCDMedia"] stringByAppendingString:@":00:00"]] intValue] * 2048 / 1024;
+		space = [[DRMSF msfWithString:[[KWCommonMethods defaultSizeForMedia:@"KWDefaultCDMedia"] stringByAppendingString:@":00:00"]] intValue];
 	}
 		
 	if ([[NSUserDefaults standardUserDefaults] boolForKey:@"KWAllowOverBurning"])
 	{
 		return YES;
 	}
-	else if (space < size * 1024 / 2048)
+	else if (space < size)
 	{
 		NSAlert *alert = [[[NSAlert alloc] init] autorelease];
 		[alert addButtonWithTitle:NSLocalizedString(@"Burn", Localized)];
