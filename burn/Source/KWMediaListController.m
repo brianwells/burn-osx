@@ -185,6 +185,7 @@
 			NSString* pathName;
 			NSString *realPath = [self getRealPath:[paths objectAtIndex:x]];
 			BOOL fileIsFolder = NO;
+			NSMutableArray *files = [NSMutableArray array];
 	
 			[defaultManager fileExistsAtPath:realPath isDirectory:&fileIsFolder];
 
@@ -205,7 +206,8 @@
 						NSString *hfsType = NSFileTypeForHFSTypeCode([[[defaultManager fileAttributesAtPath:realPathName traverseLink:YES] objectForKey:NSFileHFSTypeCode] longValue]);
 							
 						if ([allowedFileTypes containsObject:[[realPathName pathExtension] lowercaseString]] | [allowedFileTypes containsObject:hfsType])
-							[self performSelectorOnMainThread:@selector(addFile:isSelfEncoded:) withObject:realPathName waitUntilDone:YES];
+							[files addObject:realPathName];
+							//[self performSelectorOnMainThread:@selector(addFile:isSelfEncoded:) withObject:realPathName waitUntilDone:YES];
 					}
 				
 					[subPool release];
@@ -221,8 +223,27 @@
 					NSString *hfsType = NSFileTypeForHFSTypeCode([[[defaultManager fileAttributesAtPath:realPath traverseLink:YES] objectForKey:NSFileHFSTypeCode] longValue]);
 							
 					if ([allowedFileTypes containsObject:[[realPath pathExtension] lowercaseString]] | [allowedFileTypes containsObject:hfsType])
-						[self performSelectorOnMainThread:@selector(addFile:isSelfEncoded:) withObject:realPath waitUntilDone:YES];
+						[files addObject:realPath];
+						//[self performSelectorOnMainThread:@selector(addFile:isSelfEncoded:) withObject:realPath waitUntilDone:YES];
 				}
+			}
+			
+			int numberOfFiles = [files count];
+			[progressPanel setMaximumValue:[NSNumber numberWithInt:numberOfFiles]];
+			
+			int i = 0;
+			for (i=0;i<[files count];i++)
+			{
+				if (cancelAddingFiles == YES)
+					break;
+				
+				NSString *file = [files objectAtIndex:i];
+				NSString *fileName = [defaultManager displayNameAtPath:file];
+				[progressPanel setStatus:[NSString stringWithFormat:NSLocalizedString(@"Processing: %@ (%i of %i)", nil), fileName, i + 1, numberOfFiles]];
+				
+				[self addFile:file isSelfEncoded:nil];
+				
+				[progressPanel setValue:[NSNumber numberWithInt:i + 1]];
 			}
 	
 			[subPool release];
