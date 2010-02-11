@@ -80,7 +80,7 @@
 //Get the current device
 + (DRDevice *)savedDevice;
 //Get the default media size
-+ (NSString *)defaultSizeForMedia:(NSString *)media;
++ (float)defaultSizeForMedia:(NSString *)media;
 //Get a image from our custom image database
 + (NSImage *)getImageForName:(NSString *)name;
 //Setup a burner popup
