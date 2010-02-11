@@ -237,6 +237,8 @@
 				if (cancelAddingFiles == YES)
 					break;
 				
+				NSAutoreleasePool *subpool = [[NSAutoreleasePool alloc] init];
+				
 				NSString *file = [files objectAtIndex:i];
 				NSString *fileName = [defaultManager displayNameAtPath:file];
 				[progressPanel setStatus:[NSString stringWithFormat:NSLocalizedString(@"Processing: %@ (%i of %i)", nil), fileName, i + 1, numberOfFiles]];
@@ -244,6 +246,8 @@
 				[self addFile:file isSelfEncoded:nil];
 				
 				[progressPanel setValue:[NSNumber numberWithInt:i + 1]];
+				
+				[subpool release];
 			}
 	
 			[subPool release];
