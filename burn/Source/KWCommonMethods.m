@@ -948,16 +948,16 @@
 	return [devices objectAtIndex:0];
 }
 
-+ (NSString *)defaultSizeForMedia:(NSString *)media
++ (float)defaultSizeForMedia:(NSString *)media
 {
 	NSArray *sizes;
 
 	if ([media isEqualTo:@"KWDefaultCDMedia"])
-		sizes = [NSArray arrayWithObjects:@"63", @"74", @"80", @"90", @"99", nil];
+		sizes = [NSArray arrayWithObjects:@"", @"81000", @"94500", @"", @"283500", @"333000", @"360000", @"405000", @"445500", nil];
 	else
-		sizes = [NSArray arrayWithObjects:@"4506", @"8110", @"8960", @"12687", @"16321", nil];
+		sizes = [NSArray arrayWithObjects:@"", @"712891", @"1298828", @"", @"2295104", @"4171712", nil];
 
-	return [sizes objectAtIndex:[[[NSUserDefaults standardUserDefaults] objectForKey:media] intValue]];
+	return [[sizes objectAtIndex:[[[NSUserDefaults standardUserDefaults] objectForKey:media] intValue]] floatValue];
 }
 
 + (NSImage *)getImageForName:(NSString *)name
