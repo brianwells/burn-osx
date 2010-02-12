@@ -108,8 +108,6 @@
 //Other actions
 //Check for rows
 - (int)numberOfRows;
-//Use QuickTime c method to get filetypes (works for Panther)
-- (NSArray *)getQuickTimeTypes;
 //Set total size or time
 - (void)setTotal;
 //Get the total size

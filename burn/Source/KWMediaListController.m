@@ -7,7 +7,6 @@
 //
 
 #import "KWMediaListController.h"
-#import <QuickTime/QuickTime.h>
 #import "KWCommonMethods.h"
 #import "KWDiscCreator.h"
 
@@ -746,33 +745,6 @@ return YES;
 - (int)numberOfRows
 {
 	return [tableData count];
-}
-
-//Use QuickTime c method to get filetypes (works for Panther)
-- (NSArray *)getQuickTimeTypes
-{	
-	NSMutableArray *fileTypes = [NSMutableArray array];
-	ComponentDescription findCD = {0, 0, 0, 0, 0};
-	ComponentDescription infoCD = {0, 0, 0, 0, 0};
-	Component comp = NULL;
-	OSErr err = noErr;
-
-	findCD.componentType = MovieImportType;
-	findCD.componentFlags = 0;
-
-	while (comp = FindNextComponent(comp, &findCD)) 
-	{
-		err = GetComponentInfo(comp, &infoCD, nil, nil, nil);
-		if (err == noErr) 
-		{
-			if (infoCD.componentFlags & movieImportSubTypeIsFileExtension)
-				[fileTypes addObject:[[[NSString stringWithCString:(char *)&infoCD.componentSubType length:sizeof(OSType)] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]] lowercaseString]];
-			else 
-				[fileTypes addObject:[NSString stringWithFormat:@"\'%@\'", [NSString stringWithCString:(char *)&infoCD.componentSubType length:sizeof(OSType)]]];
-		}
-	}
-	
-	return fileTypes; 
 }
 
 //Set total size
