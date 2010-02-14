@@ -556,6 +556,8 @@
 	
 	if (![[NSUserDefaults standardUserDefaults] boolForKey:@"KWDebug"])
 		[trackCreator setStandardError:[NSFileHandle fileHandleWithNullDevice]];
+	
+	[KWCommonMethods logCommandIfNeeded:trackCreator];
 
 	file = fdopen([readHandle fileDescriptor], "r");
 
@@ -670,8 +672,9 @@
 	[ffmpeg setStandardOutput:outPipe];
 	
 	if (![[NSUserDefaults standardUserDefaults] boolForKey:@"KWDebug"])
-		[trackCreator setStandardError:[NSFileHandle fileHandleWithNullDevice]];
+		[ffmpeg setStandardError:[NSFileHandle fileHandleWithNullDevice]];
 	
+	[KWCommonMethods logCommandIfNeeded:ffmpeg];
 	[ffmpeg launch];
 	float size = [[outHandle readDataToEndOfFile] length];
 	[ffmpeg waitUntilExit];
