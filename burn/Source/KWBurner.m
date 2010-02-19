@@ -823,6 +823,9 @@
 
 - (BOOL)canBurn
 {
+	if (imagePath)
+		return YES;
+
 	int space;
 	NSDictionary *mediaInfo = [[savedDevice status] objectForKey:DRDeviceMediaInfoKey];
 
