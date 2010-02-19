@@ -676,7 +676,20 @@
 	
 	[KWCommonMethods logCommandIfNeeded:ffmpeg];
 	[ffmpeg launch];
-	float size = [[outHandle readDataToEndOfFile] length];
+	float size = 0;
+	
+	NSData *data;
+	NSAutoreleasePool *innerPool = [[NSAutoreleasePool alloc] init];
+
+	while([data=[outHandle availableData] length])
+	{
+		size = size + [data length];
+		
+		[innerPool release];
+		innerPool = [[NSAutoreleasePool alloc] init];
+	}
+	
+	[innerPool release];
 	[ffmpeg waitUntilExit];
 	[ffmpeg release];
 	[outPipe release];
