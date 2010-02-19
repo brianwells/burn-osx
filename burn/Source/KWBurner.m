@@ -297,6 +297,9 @@
 	NSString *path = [dict objectForKey:@"Path"];
 	id track =  [dict objectForKey:@"Track"];
 	
+	if ([[path pathExtension] isEqualTo:@"cue"])
+		path = [[path stringByDeletingPathExtension] stringByAppendingPathExtension:@"bin"];
+	
 	imagePath = [path copy];
 	DRCallbackDevice *device = [[DRCallbackDevice alloc] init];
 	[device initWithConsumer:self];
