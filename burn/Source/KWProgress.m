@@ -141,7 +141,7 @@ NSString *newStatusText;
 
 - (void)setValue:(NSNumber *)number
 {
-NSImage *miniProgressIndicator = [[NSImage alloc] init];
+NSImage *miniProgressIndicator;
 	
 	if (application)
 	[application release];
@@ -284,8 +284,6 @@ NSRect progressRect = NSMakeRect(9,10,111,16);
 		[NSApp performSelectorOnMainThread:@selector(setApplicationIconImage:) withObject:application waitUntilDone:YES];
 		}
 	}
-	
-[miniProgressIndicator release];
 }
 
 - (void)setIcon:(NSImage *)image
