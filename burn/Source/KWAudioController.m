@@ -54,6 +54,31 @@
 		pause = NO;
 	}
 	
+	#if MAC_OS_X_VERSION_MAX_ALLOWED >= MAC_OS_X_VERSION_10_4
+	//Map track options to cue strings
+	NSArray *cueStrings = [NSArray arrayWithObjects:			@"TITLE",
+																@"PERFORMER",
+																@"COMPOSER",
+																@"SONGWRITER",
+																@"ARRANGER",
+																@"MESSAGE",
+																@"REM GENRE",
+																@"REM PRIVATE",
+																nil];
+																
+	NSArray *trackStrings = [NSArray arrayWithObjects:			DRCDTextTitleKey,
+																DRCDTextPerformerKey,
+																DRCDTextComposerKey,
+																DRCDTextSongwriterKey,
+																DRCDTextArrangerKey,
+																DRCDTextSpecialMessageKey,
+																DRCDTextGenreKey,
+																DRCDTextClosedKey,
+																nil];
+	
+	cueMappings = [[NSDictionary alloc] initWithObjects:cueStrings forKeys:trackStrings];
+	#endif
+	
 	return self;
 }
 
@@ -400,7 +425,7 @@
 	else
 	{
 		#if MAC_OS_X_VERSION_MAX_ALLOWED >= MAC_OS_X_VERSION_10_4
-		if ([[NSUserDefaults standardUserDefaults] boolForKey:@"KWUseCDText"] == YES)
+		if ([[NSUserDefaults standardUserDefaults] boolForKey:@"KWUseCDText"] == YES && cdtext)
 		{
 			NSMutableDictionary *burnProperties = [NSMutableDictionary dictionary];
 			
@@ -534,6 +559,7 @@
 	int selrow = [tableViewPopup indexOfSelectedItem];
 	canBeReorderd = YES;
 	isDVD = NO;
+	currentFileSystem = @"";
 
 	//Stop playing
 	if ([KWCommonMethods isQuickTimeSevenInstalled])
@@ -545,6 +571,8 @@
 	//Set the icon, tabview and textfield
 	if (selrow == 0)
 	{
+		currentFileSystem = @"-audio-cd";
+	
 		optionsPopup = audioOptionsPopup;
 		optionsMappings = audioOptionsMappings;
 	
@@ -994,10 +1022,114 @@
 
 - (BOOL)respondsToSelector:(SEL)aSelector
 {
+	//Remove to save cue / bin from an Audio-CD (note: might not work perfect yet)
 	if (aSelector == @selector(saveImage:) && [tableViewPopup indexOfSelectedItem] == 0)
 		return NO;
-		
+
 	return [super respondsToSelector:aSelector];
+}
+
+- (NSString *)cueStringWithBinFile:(NSString *)binFile
+{
+	NSString *cueFile = [NSString stringWithFormat:@"FILE \"%@\" BINARY", binFile];
+	NSUserDefaults *standardDefaults = [NSUserDefaults standardUserDefaults];
+	
+	#if MAC_OS_X_VERSION_MAX_ALLOWED >= MAC_OS_X_VERSION_10_4
+	if ([standardDefaults objectForKey:@"KWUseCDText"])
+	{
+		NSArray *keys = [cueMappings allKeys];
+	
+		int i;
+		for (i=0;i<[keys count];i++)
+		{
+			NSString *key = [keys objectAtIndex:i];
+			NSString *cueString = [cueMappings objectForKey:key];
+			id object = [cdtext objectForKey:key ofTrack:0];
+		
+			if (object && ![[NSString stringWithFormat:@"%@", object] isEqualTo:@""] && (![cueString isEqualTo:@"MESSAGE"] | [object length] > 1))
+			{
+				if (i > 7)
+					cueFile = [NSString stringWithFormat:@"%@\n%@ %@", cueFile, cueString, object];
+				else 
+					cueFile = [NSString stringWithFormat:@"%@\n%@ \"%@\"", cueFile, cueString, object];
+			}
+		}
+	
+		id ident = [cdtext objectForKey:DRCDTextDiscIdentKey ofTrack:0];
+	
+		if (ident)
+			cueFile = [NSString stringWithFormat:@"%@\nDISC_ID %@", cueFile, ident];
+		
+		id mcn = [cdtext objectForKey:DRCDTextMCNISRCKey ofTrack:0];
+	
+		if (mcn)
+			cueFile = [NSString stringWithFormat:@"%@\nUPC_EAN %@", cueFile, mcn];
+	}
+	#endif
+		
+	int x;
+	int size = 0;
+	for (x=0;x<[tracks count];x++)
+	{
+		int trackNumber = x + 1;
+		cueFile = [NSString stringWithFormat:@"%@\n  TRACK %2i AUDIO", cueFile, trackNumber];
+		
+		#if MAC_OS_X_VERSION_MAX_ALLOWED >= MAC_OS_X_VERSION_10_4
+		if ([standardDefaults objectForKey:@"KWUseCDText"])
+		{
+			NSArray *keys = [cueMappings allKeys];
+		
+			int i;
+			for (i=0;i<[keys count];i++)
+			{
+				NSString *key = [keys objectAtIndex:i];
+				NSString *cueString = [cueMappings objectForKey:key];
+				id object = [cdtext objectForKey:key ofTrack:trackNumber];
+		
+				if (object && ![[NSString stringWithFormat:@"%@", object] isEqualTo:@""] && (![cueString isEqualTo:@"MESSAGE"] | [object length] > 1))
+				{
+					if (i > 7)
+						cueFile = [NSString stringWithFormat:@"%@\n    %@ %@", cueFile, cueString, object];
+					else 
+						cueFile = [NSString stringWithFormat:@"%@\n    %@ \"%@\"", cueFile, cueString, object];
+				}
+			}
+		
+			id isrc = [cdtext objectForKey:DRTrackISRCKey ofTrack:trackNumber];
+	
+			if (isrc)
+				cueFile = [NSString stringWithFormat:@"%@\n    ISRC %@", cueFile, isrc];
+		
+			id mcn = [cdtext objectForKey:DRCDTextMCNISRCKey ofTrack:trackNumber];
+	
+			if (mcn)
+				cueFile = [NSString stringWithFormat:@"%@\n    CATALOG %@", cueFile, mcn];
+			
+			id preemphasis = [cdtext objectForKey:DRAudioPreEmphasisKey ofTrack:trackNumber];
+	
+			if (preemphasis)
+				cueFile = [NSString stringWithFormat:@"%@\n    FLAGS PRE", cueFile];
+		}
+		#endif
+		
+		DRTrack *currentTrack = [tracks objectAtIndex:x];
+		NSDictionary *trackProperties = [currentTrack properties];
+		int pregap = [[trackProperties objectForKey:DRPreGapLengthKey] intValue];
+			
+		if (pregap > 0)
+		{
+			NSString *time = [[DRMSF msfWithFrames:size] description];
+			cueFile = [NSString stringWithFormat:@"%@\n    INDEX 00 %@", cueFile, time];
+			size = size + pregap;
+		}
+		
+		int trackSize = [[trackProperties objectForKey:DRTrackLengthKey] intValue];
+		NSString *time = [[DRMSF msfWithFrames:size] description];
+		cueFile = [NSString stringWithFormat:@"%@\n    INDEX 01 %@", cueFile, time];
+		size = size + trackSize;
+	}
+	
+	return cueFile;
 }
 
 //////////////////////
