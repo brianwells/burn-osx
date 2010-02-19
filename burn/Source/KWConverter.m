@@ -141,7 +141,8 @@
 	// To keep the aspect ratio ffmpeg needs to pad the movie
 	NSArray *padOptions = [NSArray array];
 	NSSize aspectSize = NSMakeSize(4, 3);
-	int dvdAspectMode = [[defaults objectForKey:@"KWDVDAspectMode"] intValue];
+	//int dvdAspectMode = [[defaults objectForKey:@"KWDVDAspectMode"] intValue];
+	int dvdAspectMode = [[defaults objectForKey:@"KWDVDForce43"] intValue];
 	int calculateSize;
 	BOOL topBars;
 	
