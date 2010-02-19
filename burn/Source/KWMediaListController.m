@@ -228,7 +228,10 @@
 			}
 			
 			int numberOfFiles = [files count];
-			[progressPanel setMaximumValue:[NSNumber numberWithInt:numberOfFiles]];
+			BOOL audioCD = [currentFileSystem isEqualTo:@"-audio-cd"];
+			
+			if (audioCD)
+				[progressPanel setMaximumValue:[NSNumber numberWithInt:numberOfFiles]];
 			
 			int i = 0;
 			for (i=0;i<[files count];i++)
@@ -239,12 +242,17 @@
 				NSAutoreleasePool *subpool = [[NSAutoreleasePool alloc] init];
 				
 				NSString *file = [files objectAtIndex:i];
-				NSString *fileName = [defaultManager displayNameAtPath:file];
-				[progressPanel setStatus:[NSString stringWithFormat:NSLocalizedString(@"Processing: %@ (%i of %i)", nil), fileName, i + 1, numberOfFiles]];
+				
+				if (audioCD)
+				{
+					NSString *fileName = [defaultManager displayNameAtPath:file];
+					[progressPanel setStatus:[NSString stringWithFormat:NSLocalizedString(@"Processing: %@ (%i of %i)", nil), fileName, i + 1, numberOfFiles]];
+				}
 				
 				[self addFile:file isSelfEncoded:nil];
 				
-				[progressPanel setValue:[NSNumber numberWithInt:i + 1]];
+				if (audioCD)
+					[progressPanel setValue:[NSNumber numberWithInt:i + 1]];
 				
 				[subpool release];
 			}
