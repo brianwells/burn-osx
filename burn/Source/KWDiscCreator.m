@@ -52,7 +52,7 @@
 	NSArray *info;
 	discName = [name retain];
 	
-	if ([fileSystem isEqualTo:@"-vcd"] | [fileSystem isEqualTo:@"-svcd"])
+	if ([fileSystem isEqualTo:@"-vcd"] | [fileSystem isEqualTo:@"-svcd"] | [fileSystem isEqualTo:@"-audio-cd"])
 		extension = @"cue";
 	else
 		extension = @"iso";
@@ -81,11 +81,11 @@
 			[sheet setAccessoryView:saveImageView];
 		}
 	
-		info = [[NSArray arrayWithObject:name] retain];
+		info = [[NSArray alloc] initWithObjects:name, nil];
 	}
 	else
 	{
-		info = [[NSArray arrayWithObjects:name,fileSystem,nil] retain];
+		info = [[NSArray alloc] initWithObjects:name, fileSystem, nil];
 	}
 
 	//Show save sheet
@@ -95,31 +95,33 @@
 - (void)saveImageSavePanelDidEnd:(NSSavePanel *)sheet returnCode:(int)returnCode contextInfo:(void *)contextInfo
 {
 	[sheet orderOut:self];
+	
+	NSArray *infoArray = contextInfo;
 
 	if (returnCode == NSOKButton)
 	{
+		imagePath = [[NSString alloc] initWithString:[sheet filename]];
+	
 		progressPanel = [[KWProgress alloc] init];
 		[progressPanel setTask:NSLocalizedString(@"Creating image file",nil)];
 		[progressPanel setStatus:NSLocalizedString(@"Preparing...",nil)];
-		[progressPanel setIcon:[[NSWorkspace sharedWorkspace] iconForFileType:[[sheet filename] pathExtension]]];
+		[progressPanel setIcon:[[NSWorkspace sharedWorkspace] iconForFileType:[imagePath pathExtension]]];
 		[progressPanel setMaximumValue:[NSNumber numberWithDouble:0]];
 		[progressPanel beginSheetForWindow:mainWindow];
-	
-		imagePath = [[NSString alloc] initWithString:[sheet filename]];
 		
-		if ([(NSArray *)contextInfo count] == 1)
+		if ([infoArray count] == 1)
 		{
-			[(NSArray *)contextInfo release];
 			[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(imageFinished:) name:@"KWBurnFinished" object:burner];
 			hiddenExtension = [sheet isExtensionHidden];
 			[NSThread detachNewThreadSelector:@selector(burnTracks) toTarget:self withObject:nil];
 		}
 		else
 		{
-			[NSThread detachNewThreadSelector:@selector(createImage:) toTarget:self withObject:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:imagePath,[NSString stringWithString:[(NSArray *)contextInfo objectAtIndex:1]],[NSString stringWithString:[(NSArray *)contextInfo objectAtIndex:0]],[NSNumber numberWithBool:[sheet isExtensionHidden]],nil] forKeys:[NSArray arrayWithObjects:@"Path",@"Filesystem",@"Name",@"Hidden Extension",nil]]];
-			[(NSArray *)contextInfo release];
+			[NSThread detachNewThreadSelector:@selector(createImage:) toTarget:self withObject:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:imagePath, [infoArray objectAtIndex:1], [infoArray  objectAtIndex:0],[NSNumber numberWithBool:[sheet isExtensionHidden]], nil] forKeys:[NSArray arrayWithObjects:@"Path", @"Filesystem", @"Name", @"Hidden Extension", nil]]];
 		}
 	}
+	
+	[infoArray release];
 }
 
 - (void)createImage:(NSDictionary *)dict
@@ -201,6 +203,9 @@
 	
 	if ([returnCode isEqualTo:@"KWSucces"])
 	{
+		if ([[imagePath pathExtension] isEqualTo:@"cue"] && burner)
+			[KWCommonMethods writeString:[audioControllerOutlet cueStringWithBinFile:[[[imagePath lastPathComponent] stringByDeletingPathExtension] stringByAppendingPathExtension:@"bin"]] toFile:imagePath errorString:nil];
+	
 		[[NSNotificationCenter defaultCenter] postNotificationName:@"growlCreateImage" object:NSLocalizedString(@"Succesfully created a disk image",nil)];
 	}
 	else if ([returnCode isEqualTo:@"KWFailure"])
