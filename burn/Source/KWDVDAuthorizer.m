@@ -708,7 +708,7 @@
 			xmlContent = [NSString stringWithFormat:@"%@<button>jump menu %i;</button>\n", xmlContent, i];
 
 		if (i < numberOfMenus - 1)
-			[NSString stringWithFormat:@"%@<button>jump menu %i;</button>\n", xmlContent, i + 2];
+			xmlContent = [NSString stringWithFormat:@"%@<button>jump menu %i;</button>\n", xmlContent, i + 2];
 
 		xmlContent = [NSString stringWithFormat:@"%@</pgc>\n", xmlContent];
 	}
