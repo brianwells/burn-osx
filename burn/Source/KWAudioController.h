@@ -40,6 +40,7 @@
 	
 	NSArray *audioOptionsMappings;
 	NSArray *mp3OptionsMappings;
+	NSDictionary *cueMappings;
 	
 	NSMutableArray *tracks;
 	#if MAC_OS_X_VERSION_MAX_ALLOWED >= MAC_OS_X_VERSION_10_4
@@ -77,6 +78,8 @@
 - (BOOL)isAudioCD;
 //Change the inspector when selecting volume label
 - (void)volumeLabelSelected:(NSNotification *)notif;
+//Get string which can be saved as cue file
+- (NSString *)cueStringWithBinFile:(NSString *)binFile;
 
 //External actions
 #if MAC_OS_X_VERSION_MAX_ALLOWED >= MAC_OS_X_VERSION_10_4
