@@ -663,7 +663,7 @@
 
 	int numberOfMenus = [fileArray count] / number;
 
-	if ([fileArray count] - numberOfMenus * number > 0)
+	if ([fileArray count] - (numberOfMenus * number) > 0)
 		numberOfMenus = numberOfMenus + 1;
 
 	int chapterMenu = numberOfMenus + 1;
@@ -688,12 +688,19 @@
 			{
 				int jumpNumber = o+1+i*number;
 				NSString *jumpKind;
-			
-				if ([[[fileArray objectAtIndex:jumpNumber-1] objectForKey:@"Chapters"] count] > 0)
+				
+				NSArray *chapters = [[fileArray objectAtIndex:jumpNumber-1] objectForKey:@"Chapters"];
+				if ([chapters count] > 0)
 				{
 					jumpKind = @"menu";
 					jumpNumber = chapterMenu;
-					chapterMenu = chapterMenu + 1;
+					
+					int chapterMenuCount = [chapters count] / number;
+					
+					if ([chapters count] - (chapterMenuCount * number) > 0)
+						chapterMenuCount = chapterMenuCount + 1;
+					
+					chapterMenu = chapterMenu + chapterMenuCount;
 				}
 				else
 				{
@@ -724,23 +731,6 @@
 		{
 			[titlesWithChapters addObject:[NSNumber numberWithInt:i]];
 			[titlesWithChaptersNames addObject:[[[fileDictionary objectForKey:@"Path"] lastPathComponent] stringByDeletingPathExtension]];
-		}
-	}
-	
-	if ([fileArray count] > 1)
-	{
-		for (i=0;i<[titlesWithChapters count];i++)
-		{
-			menuItem = menuItem + 1;
-	
-			if (i > 0)
-				chapterMenu = chapterMenu + ([[[fileArray objectAtIndex:[[titlesWithChapters objectAtIndex:i-1] intValue]] objectForKey:@"Chapters"] count] / number);
-		
-			int titleNumber = [[titlesWithChaptersNames objectAtIndex:i] intValue];
-		
-			xmlContent = [NSString stringWithFormat:@"%@<pgc>\n<vob file=\"%i.mpg\"></vob>\n<button>jump title %i;</button>\n<button>jump menu %i;</button>\n</pgc>\n", xmlContent, titleNumber, titleNumber + 1, chapterMenu];
-		
-			chapterMenu = chapterMenu + 1;
 		}
 	}
 
