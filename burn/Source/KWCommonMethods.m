@@ -1090,13 +1090,17 @@
 		[filetypes addObjectsFromArray:qtTypes];
 	}
 
-	//Remove midi since it doesn't work
+	//Remove midi and playlist files since they doesn't work
 	if ([filetypes indexOfObject:@"'Midi'"] != NSNotFound)
 		[filetypes removeObjectAtIndex:[filetypes indexOfObject:@"'Midi'"]];
 	if ([filetypes indexOfObject:@"mid"] != NSNotFound)
 		[filetypes removeObjectAtIndex:[filetypes indexOfObject:@"mid"]];
 	if ([filetypes indexOfObject:@"midi"] != NSNotFound)
 		[filetypes removeObjectAtIndex:[filetypes indexOfObject:@"midi"]];
+	if ([filetypes indexOfObject:@"pls"] != NSNotFound)
+		[filetypes removeObjectAtIndex:[filetypes indexOfObject:@"pls"]];
+	if ([filetypes indexOfObject:@"m3u"] != NSNotFound)
+		[filetypes removeObjectAtIndex:[filetypes indexOfObject:@"m3u"]];
 	
 	return filetypes;
 }
