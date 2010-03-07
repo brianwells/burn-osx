@@ -197,7 +197,7 @@
 					[rowData setObject:[NSArray array] forKey:@"Chapters"];
 				}
 				
-				int displaySize = [[attrib objectForKey:NSFileSize] floatValue];
+				float displaySize = [[attrib objectForKey:NSFileSize] floatValue];
 				
 					if (selrow < 2)
 					{
