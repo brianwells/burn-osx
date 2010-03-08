@@ -132,7 +132,7 @@
 
 	progressPanel = [[KWProgress alloc] init];
 	[progressPanel setTask:NSLocalizedString(@"Checking files...", nil)];
-	[progressPanel setStatus:NSLocalizedString(@"Scanning for for file and folders", nil)];
+	[progressPanel setStatus:NSLocalizedString(@"Scanning for files and folders", nil)];
 	[progressPanel setIcon:[NSImage imageNamed:@"Burn"]];
 	[progressPanel setMaximumValue:[NSNumber numberWithDouble:0]];
 	[progressPanel setCancelNotification:@"cancelAdding"];
