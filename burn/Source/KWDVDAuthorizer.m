@@ -109,7 +109,7 @@
 
 - (void)createStandardDVDXMLAtPath:(NSString *)path withFileArray:(NSArray *)fileArray errorString:(NSString **)error
 {
-	NSString *xmlFile = [NSString stringWithFormat:@"<dvdauthor dest=\"%@\">\n<titleset>\n<titles>\n<pgc>", path];
+	NSString *xmlFile = [NSString stringWithFormat:@"<dvdauthor dest=\"%@\">\n<titleset>\n<titles>", path];
 	
 	int x;
 	for (x=0;x<[fileArray count];x++)
@@ -117,7 +117,7 @@
 		NSDictionary *fileDictionary = [fileArray objectAtIndex:x];
 		NSString *path = [fileDictionary objectForKey:@"Path"];
 		
-		xmlFile = [NSString stringWithFormat:@"%@\n<vob file=\"%@\"", xmlFile, path];
+		xmlFile = [NSString stringWithFormat:@"%@\n<pgc>\n<vob file=\"%@\"", xmlFile, path];
 		
 		NSArray *chapters = [fileDictionary objectForKey:@"Chapters"];
 		if ([chapters count] > 0)
@@ -143,7 +143,10 @@
 			}
 		}
 		
-		xmlFile = [NSString stringWithFormat:@"%@/>\n", xmlFile];
+		xmlFile = [NSString stringWithFormat:@"%@/>", xmlFile];
+		
+		if (x < [fileArray count] - 1)
+			xmlFile = [NSString stringWithFormat:@"%@\n<post>jump title %i;</post>\n</pgc>", xmlFile, x + 2];
 	}
 	
 	NSString *loopString;
