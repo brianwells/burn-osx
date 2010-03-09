@@ -95,6 +95,14 @@
 		}
 	}
 	
+	if ([mountedRemovableMedia count] == 0)
+	{
+		[progressTextScan setStringValue:NSLocalizedString(@"No discs, try inserting a cd/dvd.", Localized)];
+		[chooseScan setEnabled:NO];
+		[cancelScan setEnabled:YES];
+		[progressScan setHidden:YES];
+	}
+	
 	[progressScan stopAnimation:self];
 }
 
