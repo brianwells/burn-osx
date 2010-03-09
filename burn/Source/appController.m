@@ -84,8 +84,8 @@ NSArray *defaultValues = [NSArray arrayWithObjects:
 [NSNumber numberWithBool:YES],		// KWUseSoundEffects
 [NSNumber numberWithBool:YES],		// KWRememberLastTab
 [NSNumber numberWithBool:YES],		// KWRememberPopups
-[NSNumber numberWithInt:0],			// KWCleanTemporaryFolderAction
-[NSNumber numberWithBool:NO],		// KWBurnOptionsVerifyBurn
+[NSNumber numberWithInt:1],			// KWCleanTemporaryFolderAction
+[NSNumber numberWithBool:YES],		// KWBurnOptionsVerifyBurn
 [NSNumber numberWithBool:NO],		// KWShowOverwritableSpace
 [NSNumber numberWithInt:2],			// KWDefaultCDMedia
 [NSNumber numberWithInt:0],			// KWDefaultDVDMedia
