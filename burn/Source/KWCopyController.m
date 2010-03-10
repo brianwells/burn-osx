@@ -264,10 +264,6 @@
 				if(![string isEqualToString:@""])
 				{
 					NSDictionary *root = [string propertyList];
-					NSString *formatString = @"Format";
-					
-					if ([KWCommonMethods OSVersion] >= 0x1050)
-						formatString = @"Format Description";
 				
 					fileSystem = NSLocalizedString([root objectForKey:@"Format"],nil);
 
