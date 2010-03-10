@@ -1,0 +1,17 @@
+# format version number, currently 2; this line is compulsory!
+version=2
+
+# watch control file for uscan
+# Site           Directory       Pattern                 Version Script
+
+#obsolete entry
+#http://www.hvrlab.org ~/hvrlab/vcdimager  vcdimager-(.*)\.tar\.gz    debian  uupdate
+
+#stable releases
+#ftp://ftp.gnu.org/pub/gnu/vcdimager/vcdimager-(.*)\.tar\.gz debian uupdate
+
+#unstable releases
+ftp://ftp.vcdimager.org/pub/vcdimager/vcdimager-0.7_UNSTABLE/vcdimager-([^-]*)\.tar\.gz debian uupdate
+#ftp://alpha.gnu.org/pub/gnu/vcdimager/vcdimager-(.*)\.tar\.gz debian uupdate
+
+#EOF

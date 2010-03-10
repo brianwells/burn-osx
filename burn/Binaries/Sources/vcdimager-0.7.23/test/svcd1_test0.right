@@ -1,0 +1,121 @@
+Source: image file `videocd.cue'
+Image size: 675 sectors
+SVCD detected
+-------------------------------------------------------------------------------
+ISO9660 primary volume descriptor
+ ID: `CD001'
+ version: 1
+ system id: `CD-RTOS CD-BRIDGE'
+ volume id: `VIDEOCD'
+ volumeset id: `'
+ publisher id: `'
+ preparer id: `GNU VCDIMAGER CHECK MODE'
+ application id: `'
+ ISO size: 300 blocks (logical blocksize: 2048 bytes)
+ XA marker present: yes
+-------------------------------------------------------------------------------
+ISO9660 filesystem dump
+ root directory in PVD set to LSN 18
+
+ /:
+  d d---1xrxrxr 0 0 [fn 00] [LSN     18]      2048  .
+  d d---1xrxrxr 0 0 [fn 00] [LSN     18]      2048  ..
+  d d---1xrxrxr 0 0 [fn 00] [LSN     19]      2048  EXT
+  d d---1xrxrxr 0 0 [fn 00] [LSN     20]      2048  MPEG2
+  d d---1xrxrxr 0 0 [fn 00] [LSN     21]      2048  SVCD
+
+ /EXT/:
+  d d---1xrxrxr 0 0 [fn 00] [LSN     19]      2048  .
+  d d---1xrxrxr 0 0 [fn 00] [LSN     18]      2048  ..
+  - ----1xrxrxr 0 0 [fn 00] [LSN    225]        33  SCANDATA.DAT;1
+
+ /MPEG2/:
+  d d---1xrxrxr 0 0 [fn 00] [LSN     20]      2048  .
+  d d---1xrxrxr 0 0 [fn 00] [LSN     18]      2048  ..
+  - ---2-xrxrxr 0 0 [fn 00] [LSN    450]    174300 (   153600)  AVSEQ01.MPG;1
+
+ /SVCD/:
+  d d---1xrxrxr 0 0 [fn 00] [LSN     21]      2048  .
+  d d---1xrxrxr 0 0 [fn 00] [LSN     18]      2048  ..
+  - ----1xrxrxr 0 0 [fn 00] [LSN    151]      2048  ENTRIES.SVD;1
+  - ----1xrxrxr 0 0 [fn 00] [LSN    150]      2048  INFO.SVD;1
+  - ----1xrxrxr 0 0 [fn 00] [LSN    153]        22  SEARCH.DAT;1
+  - ----1xrxrxr 0 0 [fn 00] [LSN    152]      2048  TRACKS.SVD;1
+
+-------------------------------------------------------------------------------
+SVCD/INFO.SVD
+ ID: `SUPERVCD'
+ version: 0x01
+ system profile tag: 0x00
+ album id: `'
+ volume count: 1
+ volume number: 1
+ pal flags: 10000000 00000000 00000000 00000000 00000000 00000000
+  (bslbf)   00000000 00000000 00000000 00000000 00000000 00000000 00
+ flags:
+  reserved1: no
+  restriction: 0
+  special info: no
+  user data cc: no
+  start lid #2: no
+  start track #2: no
+  reserved2: no
+ No PBC info.
+ psd size: 0
+ first segment addr: 00:00:00
+ offset multiplier: 0x00
+ maximum lid: 0
+ number of segments: 0
+ volume start time[0]: 0 secs
+ volume start time[1]: 0 secs
+ volume start time[2]: 0 secs
+ volume start time[3]: 0 secs
+ volume start time[4]: 0 secs
+-------------------------------------------------------------------------------
+SVCD/ENTRIES.SVD
+ ID: `ENTRYVCD'
+ version: 0x01
+ system profile tag: 0x00
+ entries: 1
+ ENTRY[00]: track#  1 (SEQUENCE[0]), LSN    450 (MSF 00:08:00)
+-------------------------------------------------------------------------------
+SVCD/TRACKS.SVD
+ ID: `TRACKSVD'
+ version: 0x01
+ tracks: 1
+ track[00]: 00:01:06, audio: 1 stream, video: PAL stream,
+            SVCD subtitle (OGT) stream: None
+
+CVD interpretation (probably)
+(track[00]: 00:01:06 (cumulated), audio: 00, ogt: 1d)
+-------------------------------------------------------------------------------
+CD-ROM TRACKS (1 - 2)
+  #: MSF       LSN     Type
+  1: 00:02:00  000000  XA
+  2: 00:08:00  000450  XA
+170: 00:11:00  000675  leadout
+-------------------------------------------------------------------------------
+SVCD/SEARCH.DAT
+ ID: `SEARCHSV'
+ version: 0x01
+ scanpoints: 3
+ scaninterval: 1 (in 0.5sec units -- must be `1')
+ scanpoint[0000]: (real time: 00:00:00.0)  sector: LSN 452 (MSF 00:08:02)
+ scanpoint[0001]: (real time: 00:00:00.5)  sector: LSN 452 (MSF 00:08:02)
+ scanpoint[0002]: (real time: 00:00:01.0)  sector: LSN 452 (MSF 00:08:02)
+-------------------------------------------------------------------------------
+EXT/SCANDATA.DAT
+ ID: `SCAN_VCD'
+ version: 0x01
+ reserved: 0x00
+ scandata_count: 3
+ sequence_count: 1
+ segment_count: 0
+  cumulative_playingtime[0]: 00:01:06
+ sequence scandata ofs: 3
+  track [0]: TOC num: 2, sd offset: 3
+ (scanpoint[0] offset = 3)
+  scanpoint[0000] (ofs:    3): LSN 452 (MSF 00:08:02)
+  scanpoint[0001] (ofs:    6): LSN 452 (MSF 00:08:02)
+  scanpoint[0002] (ofs:    9): LSN 452 (MSF 00:08:02)
+-------------------------------------------------------------------------------

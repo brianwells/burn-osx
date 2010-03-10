@@ -1,0 +1,586 @@
+This is vcdxrip.info, produced by makeinfo version 4.8 from
+vcdxrip.texi.
+
+   This file documents GNU Video CD Ripping Program (`vcdxrip')
+
+   Copyright (C) 2005 Herbert Valerio Riedel <<hvr@gnu.org>> and Rocky
+Bernstein <<rocky@panix.com>>
+
+   Permission is granted to copy, distribute and/or modify this document
+under the terms of the GNU Free Documentation License, Version 1.1 or
+any later version published by the Free Software Foundation; with the
+Invariant Sections being "Free Software" and "Free Software Needs Free
+Documentation", with the Front-Cover Texts being "A GNU Manual," and
+with the Back-Cover Texts as in (a) below.
+
+   (a) The Free Software Foundation's Back-Cover Text is: "You have
+freedom to copy and modify this GNU Manual, like GNU software.  Copies
+published by the Free Software Foundation raise funds for GNU
+development."
+
+INFO-DIR-SECTION Video CD Tools
+START-INFO-DIR-ENTRY
+* vcdxrip: (vcdxrip).                           Video CD Ripping tool
+END-INFO-DIR-ENTRY
+
+
+File: vcdxrip.info,  Node: Top,  Next: Introduction,  Prev: (dir),  Up: (dir)
+
+The GNU Video CD Ripping Program (`vcdxrip')
+********************************************
+
+This file documents GNU Video CD Ripping Program.
+
+   Copyright (C) 2003, 2005 Herbert Valerio Riedel and Rocky Bernstein
+
+* Menu:
+
+* Introduction::                What is the program and why would I use it?
+* Command Options::             How do I get this to do anything?
+* Some Examples::               Okay, enough talk. How about some simple examples?
+* History::                     History
+
+Indexes
+* General Index::               Overall index
+* Option Index::                Index for options
+
+ --- The Detailed Node Listing ---
+
+Command Options
+
+* General Options::             Generic options
+* Where Options::               Options controlling where to read from
+* What Options::                Options controlling what do you want done
+* Miscellaneous Options::       Miscellaneous options
+
+Options controlling where to read from
+
+* BIN/CUE TOC or NRG file::
+* CD-ROM Device::               Reading from a CD-ROM device
+* Intelligent Input::           Reading from wherever
+* Input options::               A list of just the input options
+
+Some simple command invocations.
+
+* Input Examples::              Examples specifying input
+* Extraction Examples::         Examples specifying what to rip
+
+
+File: vcdxrip.info,  Node: Introduction,  Next: Command Options,  Prev: Top,  Up: Top
+
+1 Introduction
+**************
+
+Note in the guide, we use the term Video CD to mean some sort of Video
+Compact Disk. There are various formats of Video Compact Disks, the
+oldest format of which is called "VCD" and is followed by a version
+number: 1.0, 1.1 or 2.0. Hopefully it should also be clear by context
+whether we are referring to a class of Video Compact Disks or the
+specific older format called VCD _version-number_.
+
+   `vcdxrip' can be used to extract or disassemble the contents of a CD
+or a on-disk CD (commonly referred to as "ripping").  So in a sense
+`vcdxrip' is the inverse of `vcdxbuild'--if you use `vcdxrip' followed
+by `vcdxbuild' on the result and then use another `vcdxrip', you should
+get exactly what you got the first time you used `vcdxrip' (assuming
+everything is working correctly).
+
+   But `vcdxrip' can also disassemble pieces of a CD or CD disk image
+and can create an XML Video CD description file without extracting a
+single file located on the CD.
+
+   You might use `vcdxrip' as a step in re-mastering or re-authoring
+and existing CD, or it could be used to extract MPEGs from a CD or
+on-disk CD image file.
+
+   Since Video CD's use the ISO-9660 format, another way to "extract"
+an MPEG or piece of a Video CD is simply to mount the CD and use file
+copy commands. However this program will interpret the Video-CD
+specific files and output a corresponding XML description file.  So
+`vcdxrip' is something similar to the program `vcd-info'; however the
+latter gives more detailed, lower-level Video-CD specific information
+and does not output its results in XML.
+
+
+File: vcdxrip.info,  Node: Command Options,  Next: Some Examples,  Prev: Introduction,  Up: Top
+
+2 Command Options
+*****************
+
+There are a number of miscellaneous options, but there some broad
+categories of options. There is a set of options for specifying what
+not to dump, these all start `--no' and another set of options which
+specify where the CD-ROM or on-disk CD-ROM image is.
+
+* Menu:
+
+* General Options::             Generic options
+* Where Options::               Options controlling where to read from
+* What Options::                Options controlling what do you want done
+* Miscellaneous Options::       Miscellaneous options
+
+
+File: vcdxrip.info,  Node: General Options,  Next: Where Options,  Prev: Command Options,  Up: Command Options
+
+2.1 General Options
+===================
+
+Here are some general-purpose options. These you might find on other
+programs.
+
+`--help'
+     This option give a list of options type `--help'. `-?' is an
+     abbreviation however you will probably have to "escape" the
+     question mark so that the shell doesn't interpret this; i.e. you
+     may have to type `-\?'.
+
+`--usage'
+     This option shows an abbreviated usage message
+
+`--verbose'
+`-v'
+     This option gives more verbose, debugging output.
+
+`--quiet'
+`-q'
+     Show only critical messages
+
+`--version'
+`-V'
+     Display version and copyright information and exit after displaying
+     this information. Sometimes, you just wanna know what version you
+     got.
+
+
+File: vcdxrip.info,  Node: Where Options,  Next: What Options,  Prev: General Options,  Up: Command Options
+
+2.2 Options controlling where to read from
+==========================================
+
+If you don't specify any place to read from `vcdxrip' will try to read
+from the default device that may be appropriate for your OS.
+
+   There are two broad categories of input, reading from a device that
+contains a Compact Disc, and reading from a file on the filesystem that
+contains an image that could be burned into a Compact Disk.  The option
+for the former category, reading a physical CD, is `--cdrom-device'
+(`-C'); options for the latter category, reading a file containing a CD
+image, are `--bin-file' (`-b'), `--nrg-file' (`-N'). There is one other
+option `--input' (`-i') which blurs the distinction--it tries to figure
+out based on the name whether you are reading from a device containing
+a CD or not and do the appropriate thing.  Of course, since it only
+makes sense to read from one place, these options are mutually
+exclusive; use only one option from this set.
+
+* Menu:
+
+* BIN/CUE TOC or NRG file::
+* CD-ROM Device::               Reading from a CD-ROM device
+* Intelligent Input::           Reading from wherever
+* Input options::               A list of just the input options
+
+
+File: vcdxrip.info,  Node: BIN/CUE TOC or NRG file,  Next: CD-ROM Device,  Prev: Where Options,  Up: Where Options
+
+2.2.1 Reading from a file containing an on-disk CD image
+--------------------------------------------------------
+
+The option `--bin-file' (the short forms for this is `-b') indicate to
+read from a file containing an image what might be burned onto Compact
+Disk. The format is expected to be in the BIN/CUE format that `cdrdao'
+uses and is used by a popular DOS/Windows CD mastering tool.
+
+   If you use the `--toc-file', the file read is expected to be a
+`cdrdao' image.
+
+   If you use the `--bin-file' option, the file read is expected to be
+the ".BIN" part--this is the bulk of the data.
+
+   If you use the `--nrg-file' option (short form `-N'), the file read
+is expected to be a CD-ROM disk image using a proprietary and
+unpublished format used by the Nero burning software. Because this is
+proprietary and not published, this code has been reverse engineered
+and we really can't do as good a job as we can with a cue-sheet file.
+It's better not to work with such things when possible.
+
+   If you do not specify a file name after `--bin-file', a default name
+is used "videocd.bin" is probably used
+
+
+File: vcdxrip.info,  Node: CD-ROM Device,  Next: Intelligent Input,  Prev: BIN/CUE TOC or NRG file,  Up: Where Options
+
+2.2.2 Reading from CD-ROM Device
+--------------------------------
+
+The option `--cdrom-device' or the short form `-C' is used when you
+want to read from a Compact Disk. The name given would be the device
+name. If you don't specify a device, a default will be selected based
+on the Operating System or information that can be gleaned from the OS.
+For example on GNU/Linux, the default device may be `/dev/cdrom', while
+on Solaris it might be `/vol/dev/aliases/cdrom0'.
+
+
+File: vcdxrip.info,  Node: Intelligent Input,  Next: Input options,  Prev: CD-ROM Device,  Up: Where Options
+
+2.2.3 Reading from wherever
+---------------------------
+
+The option `--input' or the short form of this `-i' tries to be
+intelligent by trying to figure out whether the thing you are referring
+to is a device or a CD disc image.
+
+   Currently the algorithm it uses the one that the provided by from the
+underlying library: `libcdio'.  It is pretty simple: if the thing
+referred to is what in Unix is called a "block" or "character" device
+(and there is such a notion in your OS), then it assumes a device name.
+When you do "long listing" ("ls -l") of the name and track down
+possible symbolic links you will see a "b" or "c" in the first column
+if the file is a block or character devices.
+
+   If the thing referred to in an `--input' option is a "regular" file
+then it is assumed you have a file image of a CD. If the filename ends
+(i.e. the extension is) ".bin" or ".BIN" then we assume a "BIN file" if
+the filename ends ".nrg or ".NRG we assume a Nero NRG disk image, and
+if the filename ends ".toc" or ".TOC" then we assume a `cdrdao' CD
+image.
+
+   Although this algorithm is subject to change and there may be more
+sophisticated or alternative methods, in practice I think this does
+pretty much what's expected.
+
+   Use at most one option in an invocation from the following list.
+These options are described in general in *Note Options controlling
+where to read from: Where Options.
+
+
+File: vcdxrip.info,  Node: Input options,  Prev: Intelligent Input,  Up: Where Options
+
+2.2.4 A list of just input options
+----------------------------------
+
+`--bin-file [FILENAME]'
+`-b [FILENAME]'
+     Specifies a BIN CD-ROM disk image to read from. See *Note Reading
+     from a file containing an on-disk CD image: BIN/CUE TOC or NRG
+     file.
+
+`--cdrom-device [DEVICE-NAME]'
+`-C [DEVICE-NAME]'
+     Specifies a CD-ROM device to read from. See *Note Reading from
+     CD-ROM Device: CD-ROM Device.
+
+`--nrg-file [FILENAME]'
+`-N [FILENAME]'
+     Specifies a Nero NRG-format CD-ROM disc image to read from. See
+     *Note Reading from a file containing a CD disk image: BIN/CUE TOC
+     or NRG file.
+
+`--input [FILE OR DEVICE NAME]'
+`-i [FILE OR DEVICE NAME]'
+     This option is insensitive to whether the thing reading from is a
+     CD-ROM device or a file. See *Note Reading from wherever:
+     Intelligent Input.
+
+`--sector-2336'
+     This option only makes sense if you are reading from a BIN CD disk
+     image This indicates to `vcdxrip' to assume a 2336-byte sector
+     mode for image file. _Note: This option is slated to disappear._
+
+`--toc-file [FILENAME]'
+`-b [FILENAME]'
+     Specifies a cdrdao CD-ROM disc image to read from. See *Note
+     Reading from a file containing a CD disc image: BIN/CUE TOC or NRG
+     file.
+
+
+
+File: vcdxrip.info,  Node: What Options,  Next: Miscellaneous Options,  Prev: Where Options,  Up: Command Options
+
+2.3 Options controlling what do you want done
+=============================================
+
+By default `vcdxrip' will extract everything it can about a Video CD
+image.
+
+   However if you specify something in particular you don't want to
+extract, for example you don't want to extract the tracks or "segments"
+use  `--nosegments'.
+
+   The options below reduce what is extracted.
+
+   When you use any of the options `--nosequence', `--nosegments',
+`--norip' or `--tracks' you will get the warning:
+
+     Some entry point and auto pause locations might not be checked.
+
+   Without looking into the MPEG's we don't know how big they are and
+therefore can't verify if entry points and auto pause lie inside the
+MPEGs.
+
+`--nofiles'
+     Video CD's are formatted on an ISO-9660 filesystem. As such they
+     may have additional files that are not strictly necessary for
+     Video CD operation. For example, there may be some additional
+     documentation or commentary in some sort of text format and these
+     may be put under additional directories.  Normally, such files are
+     extracted with the directory or path information removed. If you
+     don't want these additional files extracted use the `--nofiles'
+     option.
+
+     Using `--nofiles' will still extract files which are necessary for
+     Video CD playback however. (These are located under the /SEGMENT,
+     /EXT, /CDDDA, /SVCD, and/or /VCD directories).  The options below
+     however may affect Video CD operation and they are mutually
+     exclusive of this operation. That is, this operation does not
+     touch any of the files that the options below will and vice versa.
+
+`--nosegments'
+     Segment play items are usually stored one per "track" in the CD,
+     are an MPEG of some sort.  They often constitute the bulk of the
+     CD, and when extracted by this program will start have a name of
+     the form `avseq_dd_.mpg' where _dd_ is a two-digit number.
+
+     Segment items are located in under the /SEGMENT directory on the
+     CD. However when extracted these directories do not appear.
+
+     If you don't want to extract these MPEG files, use this option. To
+     extract only a specific track see the `--track' option below.
+
+     If you use the option `--nosegments', you might not be able create
+     a CD image back unless some of these files are created or the XML
+     description modified.  Another way to "extract" these file might
+     be to "mount" the CD and use your OS's file copy commands.
+
+`--nosequences'
+     Sequence items are usually smaller than segment item and can be
+     stored with more than on item per track. They often constitute for
+     menus or still frame selections. When extracted by this program
+     will start have a name of the form `item_dddd_.mpg' where _dddd_
+     is a four-digit number.
+
+     Sequence items are located in under the /MPEGAV, /MPEG2
+     directories.  However when extracted these directories do not
+     appear.
+
+     If you don't want to extract these MPEG files, use this option. You
+     may however might not be able create a CD image back unless some of
+     these files are created or the XML description modified.  Another
+     way to "extract" these file might be to "mount" the CD and use your
+     OS's file copy commands.
+
+`--norip'
+     Just create an XML description file of the format used by
+     `vcdxbuild'. Using this option is like adding the options
+     `--nofiles', `--nosequences', `--nosegments'.
+
+`--track TRACK-NUM'
+     If you want to extract only a single track (segment) from a CD
+     rather than all of them, use this option. This option does not
+     make sense and has no effect if you have also given the option
+     `--nosegments'.
+
+
+
+File: vcdxrip.info,  Node: Miscellaneous Options,  Prev: What Options,  Up: Command Options
+
+2.4 Miscellaneous Options
+=========================
+
+`--progress'
+`-p'
+     Show progress.
+
+`--no-ext-psd'
+     Ignore extended PSD (located in the ISO-9660 filesystem under
+     `/EXT/PSD_X.VCD') and use the "standard" PSD.
+
+`--output-file'
+`-o'
+     Specify the place to write the output XML description file. The
+     default is `videocd.xml'.
+
+
+
+File: vcdxrip.info,  Node: Some Examples,  Next: History,  Prev: Command Options,  Up: Top
+
+3 Some simple command invocations.
+**********************************
+
+* Menu:
+
+* Input Examples::              Examples specifying input
+* Extraction Examples::         Examples specifying what to rip
+
+
+File: vcdxrip.info,  Node: Input Examples,  Next: Extraction Examples,  Prev: Some Examples,  Up: Some Examples
+
+3.1 Examples specifying input
+=============================
+
+Perhaps all you want to do is rip a CD onto your disk to modify it.  If
+the CD is in the default location for your OS, then this might work:
+
+
+     vcdxrip
+
+   It means the same thing as:
+
+
+     vcdxrip --cdrom-device
+
+   and using the short option:
+
+
+     vcdxrip -C
+
+   I have a combined CD-ROM and DVD drive called `/dev/dvd'. I have
+another CD-ROM drive which goes under the name `/dev/cdrom', but I
+generally prefer to use the DVD/CD-ROM drive for reading since it
+doesn't seem to run as hot. Since that drive is not the "default"
+(`/dev/cdrom') on my GNU/Linux box, I have to give a location. So this
+will work:
+
+
+     vcdxrip -C=/dev/dvd
+
+   Or even better, I'll let `vcdxrip' figure out it's a CD-ROM device:
+
+
+     vcdxrip -i /dev/dvd
+
+   The equals sign before `/dev/dvd' is optional in either format.
+
+   Let's say you just used `vcdimager' or `vcdxbuild' it created output
+to its "default" location (probably `videocd.cue' and `videocd.bin'. To
+dump out this out:
+
+
+     vcdxrip --bin-file
+
+   But if you specified the output to go to say `nausicaa.bin' and
+`nausicaa.cue' you would have to specify that location like this:
+
+
+     vcdxrip -b nausicaa.bin
+
+   Or again not having to worry about what type of file you could use
+the "intelligent" input option again as we did before:
+
+
+     vcdxrip -i nausicaa.bin
+
+   If I want the XML file that gets created to to "nausicaa.xml" rather
+than "videocd.xml" then use this:
+
+
+     vcdxrip -i nausicaa.bin -o nausicaa.xml
+
+
+File: vcdxrip.info,  Node: Extraction Examples,  Prev: Input Examples,  Up: Some Examples
+
+3.2 Examples specifying what to rip
+===================================
+
+If I just want the XML description only for the last example in the
+previous section:
+
+
+     vcdxrip --norip -i nausicaa.bin --output-file nausicaa.xml
+
+   Suppose I want extract only the big MPEGs of the CD in the default CD
+without menus and extra file information. This is probably close:
+
+
+     vcdxrip --nosequences --nofiles
+
+   The above will create an XML description file. Suppose on the other
+hand I just want the extraneous files but not the MPEG data of the CD
+in the default CD-ROM drive, then this may work:
+
+
+     vcdxrip --noseqeunces --nosegments
+
+   If you only want to extract track 1 from your CD this might work:
+
+
+     vcdxrip --track 1
+
+
+File: vcdxrip.info,  Node: History,  Next: General Index,  Prev: Some Examples,  Up: Top
+
+4 History
+*********
+
+This program was written by Herbert Valerio Riedel.
+
+
+File: vcdxrip.info,  Node: General Index,  Next: Option Index,  Prev: History,  Up: Top
+
+General Index
+*************
+
+ [index ]
+* Menu:
+
+* Reading, BIN, TOC, or NRG on-disk CD-ROM image: BIN/CUE TOC or NRG file.
+                                                               (line  6)
+* Reading, CD-ROM Device:                CD-ROM Device.        (line  6)
+* Reading, wherever:                     Intelligent Input.    (line  6)
+* ripping:                               Introduction.         (line 14)
+* segments:                              What Options.         (line 42)
+* sequences:                             What Options.         (line 59)
+
+
+File: vcdxrip.info,  Node: Option Index,  Prev: General Index,  Up: Top
+
+Option Index
+************
+
+ [index ]
+* Menu:
+
+* --bin-file:                            Input options.        (line  8)
+* --cdrom-device:                        Input options.        (line 14)
+* --help:                                General Options.      (line 10)
+* --input:                               Input options.        (line 25)
+* --no-ext-psd:                          Miscellaneous Options.
+                                                               (line 11)
+* --nofiles:                             What Options.         (line 25)
+* --norip:                               What Options.         (line 76)
+* --nosegments:                          What Options.         (line 42)
+* --nosequences:                         What Options.         (line 59)
+* --nrg-file:                            Input options.        (line 19)
+* --output-file:                         Miscellaneous Options.
+                                                               (line 16)
+* --progress:                            Miscellaneous Options.
+                                                               (line  8)
+* --quiet:                               General Options.      (line 24)
+* --sector-2336:                         Input options.        (line 30)
+* --toc-file:                            Input options.        (line 36)
+* --track:                               What Options.         (line 81)
+* --usage:                               General Options.      (line 16)
+* --verbose:                             General Options.      (line 20)
+* --version:                             General Options.      (line 28)
+
+
+
+Tag Table:
+Node: Top998
+Node: Introduction2380
+Node: Command Options4066
+Node: General Options4717
+Node: Where Options5549
+Node: BIN/CUE TOC or NRG file6846
+Node: CD-ROM Device8067
+Node: Intelligent Input8658
+Node: Input options10159
+Node: What Options11500
+Node: Miscellaneous Options15331
+Node: Some Examples15775
+Node: Input Examples16072
+Node: Extraction Examples17727
+Node: History18553
+Node: General Index18719
+Node: Option Index19374
+
+End Tag Table

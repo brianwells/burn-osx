@@ -1,0 +1,39 @@
+-*- text -*-
+
+TODO LIST:
+~~~~~~~~~~
+
+- version 1.0
+ * check for VideoCD1.x/VideoCD2.0/SuperVideoCD1.0 conformance
+ * optimize/improve MPEG detection/scanning/handling code
+ * documentation/examples (XML!!)
+ * support for ISO9660 level 2 constrains
+ * support for karaoke area
+ * implement missing ISO9660 labels/ids/properties
+
+- version 2.0+
+ * support for apple meta info in ISO9660
+ * C++ rewrite (OOD & OOA already on paper)
+ * releasing libvcd
+ * add support for audio tracks
+ * PyGnome+libglade frontend
+
+BUGS:
+~~~~~
+
+ * see file 'BUGS'
+
+
+MISSING INFORMATION (read `INFO WISHLIST'):
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+ * more infos about VideoCD 1.0 (aka Karaoke CD)
+
+ * more infos on chinese/asian SVCD spec (aka VCD 3.0?) and CVD
+  
+ * more infos on closed caption for VCD2.0/SVCD1.0
+
+ * ...so much more... :-)
+
+--
+$Id: TODO,v 1.15 2002/01/04 20:20:29 hvr Exp $

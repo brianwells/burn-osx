@@ -1,0 +1,612 @@
+\input texinfo @c -*-texinfo-*-
+
+@paragraphindent 2
+@exampleindent 0
+
+@c %**start of header
+@setfilename vcdxrip.info
+@set program @kbd{vcdxrip}
+@c A simple macro for optional variables.
+@macro ovar{varname}
+@r{[}@var{\varname\}@r{]}
+@end macro
+
+@settitle The GNU Video CD Ripping Program (@value{program})
+@setchapternewpage on
+@c %**end of header
+
+@include version-vcdxrip.texi
+@ifinfo
+This file documents GNU Video CD Ripping Program (@value{program})
+
+Copyright (C) 2005 Herbert Valerio Riedel @email{<hvr@@gnu.org>} and Rocky
+Bernstein @email{<rocky@@panix.com>}
+
+Permission is granted to copy, distribute and/or modify this document
+under the terms of the GNU Free Documentation License, Version 1.1 or
+any later version published by the Free Software Foundation; with the
+Invariant Sections being ``Free Software'' and ``Free Software Needs
+Free Documentation'', with the Front-Cover Texts being ``A GNU Manual,''
+and with the Back-Cover Texts as in (a) below.
+
+(a) The Free Software Foundation's Back-Cover Text is: ``You have
+freedom to copy and modify this GNU Manual, like GNU software.  Copies
+published by the Free Software Foundation raise funds for GNU
+development.''
+@end ifinfo
+
+@titlepage
+@title GNU Video CD Ripping Program (@value{program})
+@subtitle $Id: vcdxrip.texi,v 1.6 2005/02/11 09:28:01 rocky Exp $
+@subtitle The GNU Video CD Authoring Tools.
+@subtitle for version @value{VERSION}, @value{UPDATED}
+@author Rocky Bernstein et al.
+@page
+
+@vskip 0pt plus 1filll
+
+Copyright @copyright{} 2003, 2005 Herbert Valerio Riedel
+@email{<hvr@@gnu.org>} and Rocky Bernstein @email{<rocky@@panix.com>}
+@sp 1
+Permission is granted to copy, distribute and/or modify this document
+under the terms of the GNU Free Documentation License, Version 1.1 or
+any later version published by the Free Software Foundation; with the
+Invariant Sections being ``Free Software'' and ``Free Software Needs
+Free Documentation'', with the Front-Cover Texts being ``A GNU Manual,''
+and with the Back-Cover Texts as in (a) below.
+
+(a) The Free Software Foundation's Back-Cover Text is: ``You have
+freedom to copy and modify this GNU Manual, like GNU software.  Copies
+published by the Free Software Foundation raise funds for GNU
+development.''
+@end titlepage
+@page
+
+@ifnottex
+@dircategory Video CD Tools
+@direntry
+* vcdxrip: (vcdxrip).                           Video CD Ripping tool
+@end direntry
+
+@node Top, Introduction, (dir), (dir)
+
+@top The GNU Video CD Ripping Program (@value{program})
+
+This file documents GNU Video CD Ripping Program.
+
+Copyright (C) 2003, 2005 Herbert Valerio Riedel and Rocky Bernstein
+
+@menu
+* Introduction::                What is the program and why would I use it? 
+* Command Options::             How do I get this to do anything? 
+* Some Examples::               Okay, enough talk. How about some simple examples?
+* History::                     History
+
+Indexes
+* General Index::               Overall index
+* Option Index::                Index for options
+
+@detailmenu
+ --- The Detailed Node Listing ---
+
+Command Options
+
+* General Options::             Generic options
+* Where Options::               Options controlling where to read from 
+* What Options::                Options controlling what do you want done
+* Miscellaneous Options::       Miscellaneous options
+
+Options controlling where to read from 
+
+* BIN/CUE TOC or NRG file::     
+* CD-ROM Device::               Reading from a CD-ROM device
+* Intelligent Input::           Reading from wherever
+* Input options::               A list of just the input options
+
+Some simple command invocations.
+
+* Input Examples::              Examples specifying input
+* Extraction Examples::         Examples specifying what to rip
+
+@end detailmenu
+@end menu
+
+@end ifnottex
+
+@contents
+
+@node Introduction, Command Options, Top, Top
+@chapter Introduction
+
+Note in the guide, we use the term Video CD to mean some sort of Video
+Compact Disk. There are various formats of Video Compact Disks, the
+oldest format of which is called ``VCD'' and is followed by a version
+number: 1.0, 1.1 or 2.0. Hopefully it should also be clear by context
+whether we are referring to a class of Video Compact Disks or the
+specific older format called VCD @emph{version-number}.
+
+@value{program} can be used to extract or disassemble the contents of
+a CD or a on-disk CD (commonly referred to as ``ripping'').
+@cindex ripping
+So in a sense @value{program} is the inverse of @kbd{vcdxbuild}---if
+you use @value{program} followed by @kbd{vcdxbuild} on the result and
+then use another @value{program}, you should get exactly what you got
+the first time you used @value{program} (assuming everything is
+working correctly).
+
+But @value{program} can also disassemble pieces of a CD or CD disk
+image and can create an XML Video CD description file without
+extracting a single file located on the CD.
+
+You might use @value{program} as a step in re-mastering or re-authoring
+and existing CD, or it could be used to extract MPEGs from a CD or
+on-disk CD image file. 
+
+Since Video CD's use the ISO-9660 format, another way to ``extract''
+an MPEG or piece of a Video CD is simply to mount the CD and use file
+copy commands. However this program will interpret the Video-CD
+specific files and output a corresponding XML description file.  So
+@value{program} is something similar to the program @kbd{vcd-info};
+however the latter gives more detailed, lower-level Video-CD specific
+information and does not output its results in XML.
+
+@node Command Options, Some Examples, Introduction, Top
+@chapter Command Options
+
+There are a number of miscellaneous options, but there some broad
+categories of options. There is a set of options for specifying what
+not to dump, these all start @kbd{--no} and another set of options
+which specify where the CD-ROM or on-disk CD-ROM image is.
+
+@menu
+* General Options::             Generic options
+* Where Options::               Options controlling where to read from 
+* What Options::                Options controlling what do you want done
+* Miscellaneous Options::       Miscellaneous options
+@end menu
+
+@node General Options, Where Options, Command Options, Command Options
+@section General Options
+
+Here are some general-purpose options. These you might find on other
+programs.
+
+@table @code
+@item --help
+@kindex @code{--help}
+This option give a list of options type @kbd{--help}. @kbd{-?} is an
+abbreviation however you will probably have to ``escape'' the question
+mark so that the shell doesn't interpret this; i.e. you may have to
+type @kbd{-\?}.
+
+@item --usage
+@kindex @code{--usage}
+This option shows an abbreviated usage message
+
+@item --verbose
+@itemx -v
+@kindex @code{--verbose}
+This option gives more verbose, debugging output.
+
+@item --quiet
+@itemx -q
+@kindex @code{--quiet}
+Show only critical messages
+
+@item --version
+@itemx -V
+@kindex @code{--version}
+Display version and copyright information and exit after displaying
+this information. Sometimes, you just wanna know what version you got.
+@end table
+
+@node Where Options, What Options, General Options, Command Options
+@section Options controlling where to read from 
+
+If you don't specify any place to read from @value{program} will try
+to read from the default device that may be appropriate for your OS.
+
+There are two broad categories of input, reading from a device that
+contains a Compact Disc, and reading from a file on the filesystem
+that contains an image that could be burned into a Compact Disk.  The
+option for the former category, reading a physical CD, is
+@kbd{--cdrom-device} (@kbd{-C}); options for the latter category,
+reading a file containing a CD image, are @kbd{--bin-file} (@kbd{-b}),
+@kbd{--nrg-file} (@kbd{-N}). There is one other option @kbd{--input}
+(@kbd{-i}) which blurs the distinction---it tries to figure out based
+on the name whether you are reading from a device containing a CD or
+not and do the appropriate thing.  Of course, since it only makes
+sense to read from one place, these options are mutually exclusive;
+use only one option from this set.
+
+@menu
+* BIN/CUE TOC or NRG file::     
+* CD-ROM Device::               Reading from a CD-ROM device
+* Intelligent Input::           Reading from wherever
+* Input options::               A list of just the input options
+@end menu
+
+@node BIN/CUE TOC or NRG file, CD-ROM Device, Where Options, Where Options
+@subsection Reading from a file containing an on-disk CD image
+@cindex Reading, BIN, TOC, or NRG on-disk CD-ROM image
+
+The option @kbd{--bin-file} (the short forms for this is @kbd{-b})
+indicate to read from a file containing an image what might be burned
+onto Compact Disk. The format is expected to be in the BIN/CUE format
+that @kbd{cdrdao} uses and is used by a popular DOS/Windows CD mastering
+tool.
+
+If you use the @kbd{--toc-file}, the file read is expected to be a
+@kbd{cdrdao} image.
+
+If you use the @kbd{--bin-file} option, the file read is expected to
+be the ``.BIN'' part---this is the bulk of the data.
+
+If you use the @kbd{--nrg-file} option (short form @kbd{-N}), the file
+read is expected to be a CD-ROM disk image using a proprietary and
+unpublished format used by the Nero burning software. Because this is
+proprietary and not published, this code has been reverse engineered
+and we really can't do as good a job as we can with a cue-sheet file.
+It's better not to work with such things when possible.
+
+If you do not specify a file name after @kbd{--bin-file}, a default
+name is used ``videocd.bin'' is probably used
+
+@node CD-ROM Device, Intelligent Input, BIN/CUE TOC or NRG file, Where Options
+@subsection Reading from CD-ROM Device
+@cindex Reading, CD-ROM Device
+
+The option @kbd{--cdrom-device} or the short form @kbd{-C} is used
+when you want to read from a Compact Disk. The name given would be the
+device name. If you don't specify a device, a default will be selected
+based on the Operating System or information that can be gleaned from
+the OS. For example on GNU/Linux, the default device may be
+@kbd{/dev/cdrom}, while on Solaris it might be
+@kbd{/vol/dev/aliases/cdrom0}.
+
+@node Intelligent Input, Input options, CD-ROM Device, Where Options
+@subsection Reading from wherever
+@cindex Reading, wherever
+
+The option @kbd{--input} or the short form of this @kbd{-i} tries to
+be intelligent by trying to figure out whether the thing you are
+referring to is a device or a CD disc image.
+
+Currently the algorithm it uses the one that the provided by from the
+underlying library: @kbd{libcdio}.  It is pretty simple: if the thing
+referred to is what in Unix is called a ``block'' or ``character''
+device (and there is such a notion in your OS), then it assumes a
+device name. When you do ``long listing'' (``ls -l'') of the name and
+track down possible symbolic links you will see a ``b'' or ``c'' in
+the first column if the file is a block or character devices.
+
+If the thing referred to in an @kbd{--input} option is a ``regular''
+file then it is assumed you have a file image of a CD. If the filename
+ends (i.e. the extension is) ``.bin'' or ``.BIN'' then we assume a
+``BIN file'' if the filename ends ``.nrg or ``.NRG we assume a Nero
+NRG disk image, and if the filename ends ``.toc'' or ``.TOC'' then we
+assume a @kbd{cdrdao} CD image.
+
+Although this algorithm is subject to change and there may be more
+sophisticated or alternative methods, in practice I think this does
+pretty much what's expected.
+
+Use at most one option in an invocation from the following list. These
+options are described in general in @ref{Where Options, ,Options
+controlling where to read from}.
+
+@node Input options,  , Intelligent Input, Where Options
+@subsection A list of just input options
+
+@table @code
+@item --bin-file @ovar{filename}
+@itemx -b @ovar{filename}
+@kindex @code{--bin-file}
+Specifies a BIN CD-ROM disk image to read from. See @ref{BIN/CUE TOC or NRG
+file, ,Reading from a file containing an on-disk CD image}.
+
+
+@item --cdrom-device @ovar{device-name}
+@itemx -C @ovar{device-name}
+@kindex @code{--cdrom-device}
+Specifies a CD-ROM device to read from. See @ref{CD-ROM
+Device, ,Reading from CD-ROM Device}.
+
+@item --nrg-file @ovar{filename}
+@itemx -N @ovar{filename}
+@kindex @code{--nrg-file}
+Specifies a Nero NRG-format CD-ROM disc image to read from. See
+@ref{BIN/CUE TOC or NRG file, ,Reading from a file containing a CD disk
+image}.
+
+@item --input @ovar{file or device name}
+@itemx -i @ovar{file or device name}
+@kindex @code{--input}
+This option is insensitive to whether the thing reading from is a
+CD-ROM device or a file. See @ref{Intelligent Input, ,Reading from
+wherever}.
+
+@item --sector-2336
+@kindex @code{--sector-2336}
+This option only makes sense if you are reading from a BIN CD disk
+image This indicates to @value{program} to assume a 2336-byte sector
+mode for image file. @emph{Note: This option is slated to disappear.}
+
+@item --toc-file @ovar{filename}
+@itemx -b @ovar{filename}
+@kindex @code{--toc-file}
+Specifies a cdrdao CD-ROM disc image to read from. See @ref{BIN/CUE
+TOC or NRG file, ,Reading from a file containing a CD disc image}.
+
+
+@end table
+
+@node What Options, Miscellaneous Options, Where Options, Command Options
+@section Options controlling what do you want done
+
+By default @value{program} will extract everything it can about a Video CD
+image. 
+
+However if you specify something in particular you don't want to
+extract, for example you don't want to extract the tracks or
+``segments'' use  @kbd{--nosegments}.
+
+The options below reduce what is extracted. 
+
+When you use any of the options @code{--nosequence},
+@code{--nosegments}, @code{--norip} or @code{--tracks} you will get
+the warning:
+
+@quotation
+Some entry point and auto pause locations might not be checked.
+@end quotation
+
+Without looking into the MPEG's we don't know how big they are and
+therefore can't verify if entry points and auto pause lie inside the
+MPEGs.
+
+@table @code
+@item --nofiles
+@kindex @code{--nofiles}
+Video CD's are formatted on an ISO-9660 filesystem. As such they may
+have additional files that are not strictly necessary for Video CD
+operation. For example, there may be some additional documentation or
+commentary in some sort of text format and these may be put under
+additional directories.  Normally, such files are extracted with the
+directory or path information removed. If you don't want these
+additional files extracted use the @code{--nofiles} option. 
+
+Using @code{--nofiles} will still extract files which are necessary
+for Video CD playback however. (These are located under the /SEGMENT, /EXT,
+/CDDDA, /SVCD, and/or /VCD directories).  The options below however
+may affect Video CD operation and they are mutually exclusive of this
+operation. That is, this operation does not touch any of the files
+that the options below will and vice versa.
+
+@item --nosegments
+@kindex @code{--nosegments}
+@cindex segments
+Segment play items are usually stored one per ``track'' in the CD, are
+an MPEG of some sort.  They often constitute the bulk of the CD, and
+when extracted by this program will start have a name of the form
+@code{avseq@emph{dd}.mpg} where @emph{dd} is a two-digit number.
+
+Segment items are located in under the /SEGMENT directory on the
+CD. However when extracted these directories do not appear.
+
+If you don't want to extract these MPEG files, use this option. To
+extract only a specific track see the @code{--track} option below.
+
+If you use the option @code{--nosegments}, you might not be able
+create a CD image back unless some of these files are created or the
+XML description modified.  Another way to ``extract'' these file might
+be to ``mount'' the CD and use your OS's file copy commands.
+
+@item --nosequences
+@kindex @code{--nosequences}
+@cindex sequences
+Sequence items are usually smaller than segment item and can be stored
+with more than on item per track. They often constitute for menus or
+still frame selections. When extracted by this program will start have
+a name of the form @code{item@emph{dddd}.mpg} where @emph{dddd} is a
+four-digit number.
+
+Sequence items are located in under the /MPEGAV, /MPEG2 directories.
+However when extracted these directories do not appear.
+
+If you don't want to extract these MPEG files, use this option. You
+may however might not be able create a CD image back unless some of
+these files are created or the XML description modified.  Another way
+to ``extract'' these file might be to ``mount'' the CD and use your
+OS's file copy commands.
+
+@item --norip
+@kindex @code{--norip}
+Just create an XML description file of the format used by
+@kbd{vcdxbuild}. Using this option is like adding the options
+@kbd{--nofiles}, @kbd{--nosequences}, @kbd{--nosegments}.
+
+@item --track @var{track-num}
+@kindex @code{--track}
+If you want to extract only a single track (segment) from a CD rather
+than all of them, use this option. This option does not make sense and
+has no effect if you have also given the option @code{--nosegments}.
+
+@end table
+
+@node Miscellaneous Options,  , What Options, Command Options
+@section Miscellaneous Options
+
+@table @code
+@item --progress
+@itemx -p
+@kindex @code{--progress}
+Show progress.
+
+@item --no-ext-psd
+@kindex @code{--no-ext-psd}
+Ignore extended PSD (located in the ISO-9660 filesystem under
+@kbd{/EXT/PSD_X.VCD}) and use the ``standard'' PSD.
+
+@item --output-file
+@itemx -o
+@kindex @code{--output-file}
+Specify the place to write the output XML description file. The
+default is @kbd{videocd.xml}.
+
+@end table
+
+
+@node Some Examples, History, Command Options, Top
+@chapter Some simple command invocations.
+
+@menu
+* Input Examples::              Examples specifying input
+* Extraction Examples::         Examples specifying what to rip
+@end menu
+
+@node Input Examples, Extraction Examples, Some Examples, Some Examples
+@section Examples specifying input
+
+Perhaps all you want to do is rip a CD onto your disk to modify it.
+If the CD is in the default location for your OS, then this might
+work:
+
+@noindent
+@smallexample
+vcdxrip
+@end smallexample 
+
+It means the same thing as:
+
+@noindent
+@smallexample
+vcdxrip --cdrom-device
+@end smallexample 
+
+and using the short option:
+
+@noindent
+@smallexample
+vcdxrip -C
+@end smallexample 
+
+I have a combined CD-ROM and DVD drive called @kbd{/dev/dvd}. I have
+another CD-ROM drive which goes under the name @kbd{/dev/cdrom}, but I
+generally prefer to use the DVD/CD-ROM drive for reading since it
+doesn't seem to run as hot. Since that drive is not the ``default''
+(@kbd{/dev/cdrom}) on my GNU/Linux box, I have to give a location. So
+this will work:
+
+@noindent
+@smallexample
+vcdxrip -C=/dev/dvd
+@end smallexample 
+
+Or even better, I'll let @value{program} figure out it's a CD-ROM device:
+
+@noindent
+@smallexample
+vcdxrip -i /dev/dvd
+@end smallexample 
+
+The equals sign before @kbd{/dev/dvd} is optional in either format.
+
+Let's say you just used @kbd{vcdimager} or @kbd{vcdxbuild} it created output to
+its ``default'' location (probably @kbd{videocd.cue} and
+@kbd{videocd.bin}. To dump out this out:
+
+@noindent
+@smallexample
+vcdxrip --bin-file
+@end smallexample 
+
+But if you specified the output to go to say @kbd{nausicaa.bin} and
+@kbd{nausicaa.cue} you would have to specify that location like this:
+
+@noindent
+@smallexample
+vcdxrip -b nausicaa.bin
+@end smallexample 
+
+Or again not having to worry about what type of file you could use 
+the ``intelligent'' input option again as we did before:
+
+@noindent
+@smallexample
+vcdxrip -i nausicaa.bin
+@end smallexample 
+
+If I want the XML file that gets created to to ``nausicaa.xml'' rather
+than ``videocd.xml'' then use this: 
+
+@noindent
+@smallexample
+vcdxrip -i nausicaa.bin -o nausicaa.xml
+@end smallexample 
+
+@node Extraction Examples,  , Input Examples, Some Examples
+@section Examples specifying what to rip
+
+If I just want the XML description only for the last example in
+the previous section:
+
+@noindent
+@smallexample
+vcdxrip --norip -i nausicaa.bin --output-file nausicaa.xml
+@end smallexample 
+
+Suppose I want extract only the big MPEGs of the CD in the default CD
+without menus and extra file information. This is probably close:
+
+@noindent
+@smallexample
+vcdxrip --nosequences --nofiles
+@end smallexample 
+
+The above will create an XML description file. Suppose on the other
+hand I just want the extraneous files but not the MPEG data of the CD
+in the default CD-ROM drive, then this may work:
+
+@noindent
+@smallexample
+vcdxrip --noseqeunces --nosegments
+@end smallexample 
+
+If you only want to extract track 1 from your CD this might work:
+
+@noindent
+@smallexample
+vcdxrip --track 1
+@end smallexample 
+
+@node History, General Index, Some Examples, Top
+@chapter History
+
+This program was written by Herbert Valerio Riedel.
+
+@node General Index, Option Index, History, Top
+@unnumbered General Index
+@printindex cp
+
+@node Option Index,  , General Index, Top
+@unnumbered Option Index
+@printindex ky
+
+@tex
+% I think something like @colophon should be in texinfo.  In the
+% meantime:
+\long\def\colophon{\hbox to0pt{}\vfill
+\centerline{The body of this manual is set in}
+\centerline{\fontname\tenrm,}
+\centerline{with headings in {\bf\fontname\tenbf}}
+\centerline{and examples in {\tt\fontname\tentt}.}
+\centerline{{\it\fontname\tenit\/},}
+\centerline{{\bf\fontname\tenbf}, and}
+\centerline{{\sl\fontname\tensl\/}}
+\centerline{are used for emphasis.}\vfill}
+\page\colophon
+% Blame: doc@cygnus.com, 1991.
+@end tex
+
+@bye

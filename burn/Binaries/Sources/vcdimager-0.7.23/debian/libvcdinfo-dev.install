@@ -1,0 +1,5 @@
+usr/lib/libvcdinfo.a
+usr/lib/libvcdinfo.so
+usr/lib/pkgconfig/libvcdinfo.pc
+usr/lib/libvcdinfo.la
+usr/include/libvcd/*.h

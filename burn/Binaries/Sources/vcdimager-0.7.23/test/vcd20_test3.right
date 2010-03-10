@@ -1,0 +1,12 @@
+--DEBUG: opened source...
+--DEBUG: VCD 2.0 detected
+--DEBUG: found /EXT/PSD_X.VCD at sector 707
+--DEBUG: found /EXT/LOT_X.VCD at sector 675
+Source: image file `videocd.bin'
+Image size: 2058 sectors
+VCD 2.0 detected
+-------------------------------------------------------------------------------
+ISO9660 primary volume descriptor
+ volume id: `VIDEOCD'
+-------------------------------------------------------------------------------
+--DEBUG: closed source...

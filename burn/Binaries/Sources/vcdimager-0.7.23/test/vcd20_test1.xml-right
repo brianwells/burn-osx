@@ -1,0 +1,72 @@
+<?xml version="1.0"?>
+<!DOCTYPE videocd PUBLIC "-//GNU//DTD VideoCD//EN" "http://www.gnu.org/software/vcdimager/videocd.dtd">
+<!-- command arguments used: -=norip -=no-command-comment -=cue-file videocd.cue -o vcd20_test1.xml -->
+<videocd xmlns="http://www.gnu.org/software/vcdimager/1.0/" class="vcd" version="2.0">
+  <info>
+    <album-id>CHECK</album-id>
+    <volume-count>1</volume-count>
+    <volume-number>4</volume-number>
+    <restriction>1</restriction>
+  </info>
+  <pvd>
+    <volume-id>VIDEOCD</volume-id>
+    <system-id>CD-RTOS CD-BRIDGE</system-id>
+    <application-id>VIDEOCD.APP;1</application-id>
+    <preparer-id>GNU VCDIMAGER CHECK MODE</preparer-id>
+    <publisher-id>PUBL_ID</publisher-id>
+  </pvd>
+  <segment-items>
+    <segment-item src="item0001.mpg" id="segment-0000"/>
+    <segment-item src="item0002.mpg" id="segment-0001"/>
+    <segment-item src="item0003.mpg" id="segment-0002"/>
+  </segment-items>
+  <sequence-items>
+    <sequence-item src="avseq01.mpg" id="sequence-00">
+      <default-entry id="entry-000"/>
+    </sequence-item>
+    <sequence-item src="avseq02.mpg" id="sequence-01">
+      <default-entry id="entry-001"/>
+    </sequence-item>
+    <sequence-item src="avseq03.mpg" id="sequence-02">
+      <default-entry id="entry-002"/>
+    </sequence-item>
+    <sequence-item src="avseq04.mpg" id="sequence-03">
+      <default-entry id="entry-003"/>
+      <entry id="entry-004">0.000000</entry>
+    </sequence-item>
+  </sequence-items>
+  <pbc>
+    <selection id="selection-01">
+      <bsn>1</bsn>
+      <next ref="end-1" x1="0" y1="0" x2="0" y2="0"/>
+      <return ref="end-1" x1="10" y1="20" x2="30" y2="40"/>
+      <wait>-1</wait>
+      <loop jump-timing="immediate">1</loop>
+      <play-item ref="segment-0000"/>
+      <select ref="playlist-01" x1="0" y1="0" x2="0" y2="0"/>
+      <select ref="playlist-02" x1="0" y1="0" x2="0" y2="0"/>
+      <select ref="end-1" x1="0" y1="0" x2="0" y2="0"/>
+    </selection>
+    <playlist id="playlist-01">
+      <next ref="playlist-02"/>
+      <return ref="end-1"/>
+      <wait>5</wait>
+      <autowait>0</autowait>
+      <play-item ref="sequence-00"/>
+      <play-item ref="sequence-01"/>
+      <play-item ref="segment-0001"/>
+      <play-item ref="entry-000"/>
+    </playlist>
+    <playlist id="playlist-02">
+      <next ref="end-1"/>
+      <return ref="end-1"/>
+      <wait>5</wait>
+      <autowait>0</autowait>
+      <play-item ref="sequence-02"/>
+      <play-item ref="sequence-03"/>
+      <play-item ref="segment-0002"/>
+      <play-item ref="entry-004"/>
+    </playlist>
+    <endlist id="end-1" rejected="true"/>
+  </pbc>
+</videocd>

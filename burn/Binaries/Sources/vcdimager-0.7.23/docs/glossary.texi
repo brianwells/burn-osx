@@ -1,0 +1,194 @@
+See also @uref{http://www.dvdrhelp.com/glossary}.
+
+@table @acronym
+
+@item APS
+Access Point Sector
+
+@item CBR
+Constant Bit Rate. Used in MPEG-1's.
+
+@item CD
+Compact Disc
+
+@item CD-DA
+Compact Disc Digital Audio, described in the ``Red Book'' or ICE
+908. This commonly referred to as an audio @acronym{CD} and what most
+people think of when you play a @acronym{CD} as it was the first to
+use the @acronym{CD} medium.
+
+@item CD-ROM
+Compact Disc Read Only Memory or ``Yellow Book'' describe in Standards
+ISO/IEC 10149. The data stored on it can be either in the form of
+audio, computer or video files.
+
+@item CD-ROM Mode 1 and Mode2
+
+The Yellow Book specifies two types of tracks, Mode 1 and Mode 2. Mode
+1 is used for computer data and text and has an extra error correction
+layer. Mode 2 is for audio and video data and has no extra correction
+layer. CD-ROM/XA An expansion of the CD-ROM Mode 2 format that allows
+both computer and audio/video to be mixed in the same track.
+
+@item CD XA
+CD-ROM EXtended Architecture. A modification to the CD-ROM
+specification that defines two new types of sectors.  CD-ROM XA was
+developed jointly by Sony, Philips, and Microsoft, and announced in
+August 1988. Its specifications were published in an extension to the
+Yellow Book.  CD-i, Photo CD, Video CD and CD-EXTRA have all
+subsequently been based on CD-ROM XA.
+
+CD-XA defines another way of formatting sectors on a CD-ROM, including
+headers in the sectors that describe the type (audio, video, data) and
+some additional info (markers, resolution in case of a video or audio
+sector, file numbers, etc).
+
+The data written on a CD-XA is consistent with and can be in ISO-9660
+file system format and therefore be readable by ISO-9660 file system
+translators. But also a CD-I player can also read CD-XA discs even if
+its own `Green Book' file system only resembles ISO 9660 and isn't
+fully compatible. 
+
+@item CVD
+Chaoji VCD or China Video Disc @*
+@uref{http://www.dvdrhelp.com/forum/userguides/98177.php}
+
+@item DVD
+Digital Versatile Disc  @uref{http://www.dvddemystified.com/dvdfaq.html}
+
+@item DVD-V
+@acronym{DVD} for Video.
+
+@item DVD-A
+@acronym{DVD} for Audio.
+
+@item Entry Point
+A starting point within an MPEG track including the beginning of the
+track.  Video CD's can have multiple entry points inside a
+track. Logically this corresponds to a ``Chapter'' or ``Scene'' of a
+larger uninterruptable unit.
+
+One might think a CD MPEG ``track'' could serve this purpose with a
+collection of tracks making up a work or movie. Alas, the CD
+specification requires a ``track pregap'' space of 150 sectors before
+a track. These often appear as a time gaps when hardware players go
+between tracks; this doesn't happen switching between entries in a
+track because there in fact is no gap.
+
+Physically on the CD an entry is stored as an INDEX inside a track.
+
+@item FourCC
+
+A four character code that uniquely identifies a data stream
+format. Software will look up the FourCC code then look for the codec
+associated to the code for that code.  This idea was used in the IFF
+multimedia format developed by Electronic Arts for the Amiga in the
+early 1980s. This file format was copied by Apple (who called it AIFF)
+and Microsoft (RIFF).  @uref{http://www.fourcc.org/fcccodec.htm}
+
+@item FSF
+Free Software Foundation, @uref{http://www.fsf.org/}
+
+@item GNU
+@acronym{GNU} is not @acronym{UNIX}, @uref{http://www.gnu.org/}
+
+@item LOT
+List ID Offset Table.
+
+@item MPEG
+Movie Picture Experts Group @uref{http://mpeg.telecomitalialab.com}.
+Two sub formats used by Video CD's are MPEG-1 for VCD 1.0, 1.1 and 2.0
+and MPEG-2. For SVCD, and HQVCD.
+
+@item NTSC
+National Television Standards Committee. The NTSC is responsible for
+setting television and video standards in the United.  States
+
+@item OGT
+Overlay Graphics & Text. A subtitle format devised by Philips. The
+format has subtitle meta-information before an interleaved bitmap of 4
+palette entries. Palette color 0 entries can be run-length encoded.
+
+A more detailed description of this format can be found in the
+documentation directory of VCDimager.
+
+@item LBA
+
+Logical Block Addressing. Mapped integer numbers from CD Red Book
+Addressing MSF.  The starting sector is -150 and ending sector is
+449849, which correlates directly to MSF: 00:00:00 to 99:59:74.
+Because an LBA is a single number it is often easier to work with in
+programming than an MSF.
+
+@item LID
+List ID. A unit of playback control navigation inside a PSD. Numbering
+starts from 1.
+
+@item LSN
+
+Logical Sector Number. Mapped integer numbers from CD Red Book
+Addressing MSF.  The starting sector is 0 and ending sector is 449699,
+which correlates to MSF: 00:00:00 to 99:59:74.  Because an LSN is a
+single number it is often easier to work with in programming than an
+MSF. Because it starts at 0 rather than -150 as is the case of an LBA
+it can be represented as an unsigned value.
+
+@item PAL
+Phase Alternating Line, the dominant television standard in Europe. 
+
+@item PEM
+Program End Marker. 
+
+@item PBC
+Play-back Control. 
+
+@item PSD
+Play Sequence Descriptor. A section of a Video CD related to playback
+control. Also the individual units inside that section. We start
+numbering from 0.  See also LID.
+
+@item PVD
+Primary Volume Descriptor. A section of a Video CD.
+
+@item RIFF
+Resource Interchange File Format. A way to tag multimedia files
+developed by Microsoft. Inside a RIFF is a 4-letter character code
+(which fits nicely in a 32-bit word) for each type of object called
+@acronym{FOURCC}. This idea was taken Electronic Arts which used in
+Amigia's @acronym{IFF} (Interchange File Format) and copied by Apple in their 
+@acronym{AIFF}.
+
+@item SIF
+Source Interchange Format. A video resolution standard.
+
+@item SPI
+Segment Play Items.
+
+@item SVCD
+Super @acronym{VCD} @uref{http://www.dvdrhelp.com/svcd}
+
+@item VBR
+Variable Bit Rate. Used in MPEG-2's
+
+@item Track 
+
+A unit of data of a CD. The size of a track can vary; it can occupy
+the entire contents of the CD. Most CD standards however require that
+tracks have a 150 frame (or ``2 second'') lead-in gap.
+
+@item VCD
+Video @acronym{CD} @uref{http://www.dvdrhelp.com/vcd}
+
+@item XA
+See @acronym{CD XA}
+
+@item XML
+eXtensible Markup Language, @uref{http://www.w3.org/XML/}.
+
+@item XSVCD
+eXtended @acronym{SVCD}, @uref{http://www.dvdrhelp.com/xvcd.htm}.
+
+@item XVCD
+eXtended @acronym{VCD}, @uref{http://www.dvdrhelp.com/xvcd.htm}.
+
+@end table

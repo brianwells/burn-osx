@@ -1,0 +1,489 @@
+$Id: NEWS,v 1.92 2005/07/11 12:41:20 rocky Exp $
+
+see ChangeLog for more information
+
+version 0.7.23 (development)
+=====================================
+2005-07-11
+
+* Add libvcdinfo vcdinfo_get_area_selection() a routine to get the 
+  selection number represented by an area for a specified a point
+  location
+* Add libvcdinfo vcdinfo_get_set_resolution() a routine to get the 
+  resolution for a given segment
+* hack on memory leaks some more
+* vcdxrip options more like vcd-info options
+* check that selection area hot-spot values don't exceed 255. 
+* Update documentation
+* Remove gcc 4 warnings and potential problems noted
+* make --disable-static --enable-shared work with --versioned-libs
+
+version 0.7.22 (development)
+=====================================
+2005-05-14
+
+* vcdxrip: add option "notrack" to skip ripping of a specific track
+* vcd-info: single argument acts like -i option
+* some stylistic coding changes (e.g. add _t suffix and p_ prefix)
+* fix clobbering a version number via strncpy
+* Add libvcdinfo example program
+* Memory leaks and errors reduced
+
+version 0.7.21 (development)
+=====================================
+2004-12-08
+
+* LSN's match MMC-3 specs better.
+* Fix bug in vcd-info showing sequence number
+* add --without-versioned-libs option
+* make -mno-cygwin work
+* release number is now preprocessor symbol so applications can make use of
+  for compatibility
+* More libcdio things moved into libcdio (e.g. MSF printing, 
+  iso9660 PVD handling)
+* use generic list things from libcdio. Eventually everything will
+  use glib. But this moves in the right direction by consolidating code 
+  a little
+* Darwin compilation fixes
+* Miscellaneous contributed bug fixes
+
+version 0.7.20 (unstable/development)
+=====================================
+2004-02-20
+
+* Join in libcdio branch (forked after 0.7.14)
+* Performance fix: (libvcdinfo) Redo the way we find segment 
+  LSNs to greatly reduce the number of CD reads when there are many
+  files in the ISO-9660 track, or there are many segments or continued
+  segments. Requires libcdio 0.65 API change.
+* API completion: (libvcdinfo) now has API for multi-default selections;
+  APIs for mapping a selection number to a LID or LID offset added.
+* Replace unfree encode_L2_Q with GPL version from cdrtools 1.11a40
+* cdxa2mpeg warns if input and output file are the same.
+* some bug fixes.
+* library symbol versioning (from Nicolas Boullis)
+* libvcd is private once again.
+* Go over documentation. (CD image info has been moved to libcdio doc)
+
+version 0.7.19 (unstable/development)
+=====================================
+-unreleased-
+
+* Use VCD CD-drive auto scanning in vcdxrip and vcd-info that is 
+  now part of in libcdio
+* doc changes, clarification of cdxa2mpeg
+* error checking in cdxa2mpeg (from Nicolas Boullis)
+* Changes dicted by those in libcdio, libiso9660
+
+version 0.7.18 (unstable/development)
+=====================================
+-unreleased-
+
+* Move iso9660 stuff into libcdio. 
+* More private files are private. 
+
+version 0.7.17 (unstable/development)
+=====================================
+-unreleased-
+
+* Complete interface with ..._lsn routines for the corresponding
+  ..._lba routines.
+* Install pkginfo files
+
+version 0.7.16 (unstable/development)
+=====================================
+-unreleased-
+
+* Better use of updated cdio API. Removed vcd_inf_open. Uses cdio_open now.
+* Regression tests use diff -u if that's available and revert to cmp of no
+  diff found.
+* Changes for Cygwin compatibility
+
+version 0.7.15 (unstable/development)
+=====================================
+2003-04-18
+
+* CD reading and control routines split off
+* vcddump renamed vcd-info (to match libvcdinfo and cd-info)
+* Give error message if corresponding bin/cue for a cue/bin can't be found
+* Bug: was not returning invalid LID selection when invalid.
+* vcdxrip: add --cue-file option.
+
+version 0.7.14 (unstable/development)
+=====================================
+2003-03-16
+
+* almost ISO C99 compliant now (see BUGS)
+* fixed bug in vcddump if no device specified
+* create vcdinf library: like vcdinfo but exposes lower-level VCD structures
+* vcdxrip:
+    uses vcdinf library (so device name is now optional; --input option added)
+    separate and more complete documentation
+    added --track option to rip specific track
+    added to regression testing
+
+version 0.7.13 (unstable/development)
+=====================================
+2003-02-16
+
+* maintenance release
+* fixes for gcc on linux/arm
+* removed internal popt and gnome front-end code from distribution
+* added --dump-dtd option to vcdxbuild
+* added testsuite to distribution
+* added vcdinfo library to retrieve VCD information
+* added vcddump tool
+
+version 0.7.12 (unstable/development)
+=====================================
+2002-01-04
+
+* improved support for SVCD- and CVD-style subtitles
+* new conversion tool cdxa2mpeg added
+* minor subheader change for SPI area
+* create 150 sector post-gap ("leadout pregap") by default
+* fixed compilation with linux kernel headers prior to 2.2.16
+* switched to new automake/conf versions
+
+version 0.7.11 (unstable/development)
+=====================================
+2001-10-21
+
+* improved linux cdrom support by adding support for the generic packet
+  cdrom interface
+* added native BSD/OS CDROM support
+* fixed libxml2 external entity loader
+* fixed minor subheader bug
+* be more tolerant when vcdxrip'ing faulty PBCs
+* new "leadout pregap" option
+* added 3 "-no*" options to vcdxrip
+
+version 0.7.10 (unstable/development)
+=====================================
+2001-08-29
+
+* vcdxrip: new option for ignoring (faulty) extended pbc's 
+* fixed wrong warning for extended end list attributes
+* allow multi default selections to have entry points as play-item
+* gui mode added to vcdxbuild, vcdxminfo and vcdxrip
+* changed --version output format
+* progress display added to vcdxbuild and vcdxminfo
+* rewrite/improvement of MPEG scanning code (detect audio parameters)
+* detect OGT channels and set flags accordingly
+* new option "svcd vcd30 tracksvd"
+* set pregap and subindexes explicitly in cue sheet
+* vcdxminfo output format changed and enhanced
+* missing flag to indicate presence of extended PBC (hotspots) on
+  VCD2.0 added
+* new options for customization track gaps/margins
+* added --image-type/--image-option to vcdxbuild
+* implemented setting of <publisher-id> 
+
+version 0.7.9 (unstable/development)
+====================================
+2001-08-01
+
+* fixed assertion bug in vcdimager cli frontend
+* added support for HQ-VCD and VCD 1.0 formats
+* fixed bug in vcdxgen which created a PBC section for VCD 1.x by
+  default
+* new "leadout pause" option
+* implemented <auto-pause> points for segment play items
+* implemented SCANDATA.DAT dumping for vcddebug
+* fixed offset bug in SCANDATA.DAT creation for SVCD
+* implemented checking for unreferenced PBC items
+* fixed play nothing item in selections
+
+version 0.7.8 (unstable/development)
+====================================
+2001-07-28
+
+* updated VideoCD DTD
+* fixed minor ISO9660 PVD bug
+* renamed --add-dir to --add-dirtree and implemented a 'real'
+  --add-dir (e.g. for adding an empty SEGMENT dir)
+* implemented end list extension for SVCDs
+* reverted autoplay experiment
+* minor compatibility change for SVCD compatibility
+* fixed non working "svcd vcd30 entrysvd" option
+* added new tool for dumping mpeg infos/aps addresses
+* added support for empty (ref-less) <select> and <play-item>'s
+* fixed/added support for multi default selections
+* implement <default-entry> for allowing to reference the default 
+  entry point of sequence items
+
+version 0.7.7 (unstable/development)
+====================================
+2001-06-30
+
+* be more tolerant about ISO9660 fs, when disassembling images
+* implemented cdrdao style split image file writer
+* fixed item____.mpg enumeration bug exposed on multisegment SPIs
+* implemented/added (untested) auto play flag/xml tag
+* match enumeration of ISO9660 entries for ripped mpeg streams files
+
+version 0.7.6 (unstable/development)
+====================================
+2001-06-16
+
+* fixed boundary checks for segment play items
+* fix/workaround for cygwin stack bug exposed in vcddebug
+* made vcd30 mpegav more accurate
+
+version 0.7.5 (unstable/development)
+====================================
+2001-06-12
+
+* major documentation improvement
+* implemented creation of directories
+* new 'update scan offsets' option for fixing scan offset data in
+  video mpeg2 streams
+* more verbose info on mpeg errors
+
+version 0.7.4 (unstable/development)
+====================================
+2001-06-07
+
+* added checks for scan information data in mpeg2 streams
+* create extended PBC including selection areas
+* fixed creation of invalid XML
+* parsing of selection areas in vcdxrip implemented
+* fixed ISO9660 pathtable ordering
+* cleanups/bugfixes
+
+version 0.7.3 (unstable/development)
+====================================
+2001-06-02
+
+* implemented ISO9660 fs extraction
+* enhanced vcddebug to display extended PBC files and dump fs
+  structure with XA flags
+* fixed some XA flags related misunderstandings
+* fixed handling of unordered aps presentation timestamps (which fixes
+  entry point calculation)
+* fixed XML output of filesystem dump
+
+version 0.7.2 (unstable/development)
+====================================
+2001-05-31
+
+* vcddebug: fixed for pbc less vcds
+* improved subheader generation for SPIs
+* handle hybrid stills better
+* implemented option-tag parsing
+* new <option name="relaxed aps" value="true"/> for relaxed aps
+  constrains (see manual on access point sectors as well for important
+  warnings) 
+* handle truncated streams more tolerant
+* started updating manual
+* 'broken svcd mode' xml-<option> splitted up into "svcd vcd30 mpegav"
+  and "svcd vcd30 entrysvd" (see manual as well)
+
+version 0.7.1 (unstable/development)
+====================================
+2001-05-27
+
+* fixed broken entry id resolving
+* read support for NRG images added
+* support for rejected PBC items implemented
+* replaced vcdrip by vcddebug
+* added (previously) missing IO error detection for output in vcdxrip
+* minor cleanups
+
+version 0.7.0 (unstable/development)
+====================================
+2001-05-24
+
+* dummy PBC generation disabled for classic vcdimager frontend 
+  (use vcdxgen instead)
+* warn if labels are non-conforming
+* use PTS times instead of inaccurate GOP timecodes
+* support for segment items added
+* support for additional entry points added
+* support for (auto)pause points added
+* (full) PBC support (including playlists, menus/selections) added
+* new XML based frontend(s) added (vcdxgen, vcdxbuild, vcdxrip)
+
+version 0.6.2 (stable)
+======================
+2001-05-15
+
+* improved SPI ripping
+* fixed ripping of vcds with additional entry points
+* made album set parameters configurable by commandline
+* mpeg padding on the fly implemented
+* create /EXT/SCANDATA.DAT for SVCD (disabled for VCD2.0)
+* detect audio streams
+* mpeg scanning code rewritten
+* minor XVCD & XSVCD support improvements
+
+version 0.6.1 (stable)
+======================
+2001-05-01
+
+* compilation fixes
+* fixed wrong SVCD/TRACKS.SVD creation for multitrack SVCDs
+* fixed support for writing 2336 based images
+* minor SVCD related conformance fixes
+* minor vcdrip improvements
+
+version 0.6.0 (stable)
+======================
+2001-04-15
+
+* implemented --rip-spi operation  
+* give up on invalid mpeg packets when scanning mpeg
+* fixed directory section growing into karaoke area
+
+version 0.5.9beta4
+==================
+2001-03-18
+
+* improved manual
+* added 2336 byte sectors support to vcdrip
+* fixed fd-leaking when adding files
+* fixed maximal cd image size boundary check
+* fixed zero file size bug
+* handle play times >= 100 mins (for svcd)
+* fixed pathtable entry ordering
+* added experimental --add-dir feature to vcdimager
+
+version 0.5.9beta3
+==================
+2001-03-11
+
+* improved packaging
+* minor portability fixes for non-gcc compiler
+* included popt library
+* minor fixes
+
+version 0.5.9beta2
+==================
+2001-01-21
+
+* fixed empty last block bug with --add-file
+* minor vcdrip improvements
+* scandata.dat scantable support for vcd 2.0
+* extended psd & lot for vcd 2.0
+* added handling of 2ndary audio channel and OGT (subtitles)
+
+version 0.5.9beta1
+==================
+2001-01-15
+
+* fixed padding packet losing bug in vcdrip
+* fixed misplaced MPEGAV-isofs offset bug introduced in alpha4
+* minor improvements in mpeg scanning code
+
+version 0.5.9alpha4
+===================
+2001-01-13
+
+* major vcdrip dump output improvement
+* VCD1.1 compatibility improved
+* fixed I/O error handling
+* added --broken-svcd-mode compatibility (mis)feature
+* search.dat transposition fix
+
+version 0.5.9alpha3
+===================
+2001-01-06
+
+* improved ISO9660 file addition facility
+* minor ISO9660 file entry ordering fix
+* minor documentation improvements
+* big endian fix for struct bitsets
+* new option '--quiet' for vcdimager cli fe
+* fixed --add-file-2336 bug
+
+version 0.5.9alpha2
+===================
+2001-01-03
+
+* creation of scanpoints for SVCDs
+* compilation fix for cygwin environment
+* vcdrip SVCD detection improved
+* oversize warnings
+
+version 0.5.9alpha1
+===================
+2000-12-23
+
+* 2336-byte-sector image support
+* improved cli frontend (progress visualization, short options)
+* experimental SVCD support
+* improved VCD 2.0 and VCD 1.1 support
+* started gnome-- frontend (non functional yet!)
+* bugfixes
+* vcdrip utility
+* removed glib dependancy from cli frontend
+
+version 0.5
+===========
+never released 
+
+* major rewrite
+
+version 0.4
+===========
+2000-08-27
+
+* CD-i support enabled by default with default cdi path
+* added short options
+* improved portability
+
+version 0.4alpha4
+=================
+2000-08-25
+
+* added simple support for video format detection/warnings
+* added PAL support
+
+version 0.4alpha3
+=================
+2000-08-25
+
+* fixed missing EOF subheader marking
+* improved logging output
+* internal bugfixes/restructuring
+
+version 0.4alpha2
+=================
+2000-08-24
+
+* custom file support bugfix
+* fixed wrongly reported start sectors in verbose output
+* internal bugfixes
+
+version 0.4alpha1
+=================
+2000-08-22
+
+* big endian fix
+* supports upto 98 mpeg tracks (of previously 33 possible tracks)
+* more CD-ROM XA compliance/fix
+* CD-i support
+* experimental support for adding custom files to ISO9660 fs
+
+version 0.3
+===========
+2000-08-16
+
+* EDC/ECC calculation bug fixed
+* portability fixes
+
+version 0.2
+===========
+2000-08-14
+
+* fixed a few core dumps
+* --bin-file= option bug fixed
+* more verbose warnings/error messages
+
+version 0.1
+===========
+2000-08-13
+
+* initial public release
+
+--

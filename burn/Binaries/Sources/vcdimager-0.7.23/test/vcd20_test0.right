@@ -1,0 +1,79 @@
+Source: image file `videocd.cue'
+Image size: 750 sectors
+VCD 2.0 detected
+-------------------------------------------------------------------------------
+ISO9660 primary volume descriptor
+ ID: `CD001'
+ version: 1
+ system id: `CD-RTOS CD-BRIDGE'
+ volume id: `VIDEOCD'
+ volumeset id: `'
+ publisher id: `'
+ preparer id: `GNU VCDIMAGER CHECK MODE'
+ application id: `'
+ ISO size: 300 blocks (logical blocksize: 2048 bytes)
+ XA marker present: yes
+-------------------------------------------------------------------------------
+ISO9660 filesystem dump
+ root directory in PVD set to LSN 18
+
+ /:
+  d d---1xrxrxr 0 0 [fn 00] [LSN     18]      2048  .
+  d d---1xrxrxr 0 0 [fn 00] [LSN     18]      2048  ..
+  d d---1xrxrxr 0 0 [fn 00] [LSN     19]      2048  EXT
+  d d---1xrxrxr 0 0 [fn 00] [LSN     20]      2048  MPEGAV
+  d d---1xrxrxr 0 0 [fn 00] [LSN     21]      2048  VCD
+
+ /EXT/:
+  d d---1xrxrxr 0 0 [fn 00] [LSN     19]      2048  .
+  d d---1xrxrxr 0 0 [fn 00] [LSN     18]      2048  ..
+
+ /MPEGAV/:
+  d d---1xrxrxr 0 0 [fn 00] [LSN     20]      2048  .
+  d d---1xrxrxr 0 0 [fn 00] [LSN     18]      2048  ..
+  - ---2-xrxrxr 0 0 [fn 01] [LSN    450]    348600 (   307200)  AVSEQ01.DAT;1
+
+ /VCD/:
+  d d---1xrxrxr 0 0 [fn 00] [LSN     21]      2048  .
+  d d---1xrxrxr 0 0 [fn 00] [LSN     18]      2048  ..
+  - ----1xrxrxr 0 0 [fn 00] [LSN    151]      2048  ENTRIES.VCD;1
+  - ----1xrxrxr 0 0 [fn 00] [LSN    150]      2048  INFO.VCD;1
+
+-------------------------------------------------------------------------------
+VCD/INFO.VCD
+ ID: `VIDEO_CD'
+ version: 0x02
+ system profile tag: 0x00
+ album id: `'
+ volume count: 1
+ volume number: 1
+ pal flags: 10000000 00000000 00000000 00000000 00000000 00000000
+  (bslbf)   00000000 00000000 00000000 00000000 00000000 00000000 00
+ flags:
+  karaoke area: no
+  restriction: 0
+  special info: no
+  user data cc: no
+  start lid #2: no
+  start track #2: no
+  extended pbc: no
+ No PBC info.
+ psd size: 0
+ first segment addr: 00:00:00
+ offset multiplier: 0x00
+ maximum lid: 0
+ number of segments: 0
+-------------------------------------------------------------------------------
+VCD/ENTRIES.VCD
+ ID: `ENTRYVCD'
+ version: 0x02
+ system profile tag: 0x00
+ entries: 1
+ ENTRY[00]: track#  1 (SEQUENCE[0]), LSN    450 (MSF 00:08:00)
+-------------------------------------------------------------------------------
+CD-ROM TRACKS (1 - 2)
+  #: MSF       LSN     Type
+  1: 00:02:00  000000  XA
+  2: 00:08:00  000450  XA
+170: 00:12:00  000750  leadout
+-------------------------------------------------------------------------------
