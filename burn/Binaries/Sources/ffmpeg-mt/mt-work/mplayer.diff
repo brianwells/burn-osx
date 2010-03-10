@@ -1,0 +1,36 @@
+Index: libmpcodecs/vd_ffmpeg.c
+===================================================================
+--- libmpcodecs/vd_ffmpeg.c	(revision 27214)
++++ libmpcodecs/vd_ffmpeg.c	(working copy)
+@@ -156,7 +156,7 @@
+         avcodec_flush_buffers(avctx);
+ 	return CONTROL_TRUE;
+     case VDCTRL_QUERY_UNSEEN_FRAMES:
+-	return avctx->has_b_frames + 10;
++	return avctx->has_b_frames + avctx->thread_count + 10;
+     }
+     return CONTROL_UNKNOWN;
+ }
+Index: libvo/vo_macosx.m
+===================================================================
+--- libvo/vo_macosx.m	(revision 27214)
++++ libvo/vo_macosx.m	(working copy)
+@@ -409,7 +409,8 @@
+ 	
+ 	NSRect frame;
+ 	CVReturn error = kCVReturnSuccess;
+-	
++	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
++
+ 	//config window
+ 	aspect((int *)&d_width, (int *)&d_height,A_NOZOOM);
+ 	frame = NSMakeRect(0, 0, d_width, d_height);
+@@ -452,6 +453,8 @@
+ 	
+ 	if(vo_ontop)
+ 		[mpGLView ontop];
++
++	[pool release];
+ }
+ 
+ /*
