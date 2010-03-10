@@ -1,0 +1,240 @@
+Content-type: text/html
+
+<HTML><HEAD><TITLE>Manpage of fixwav</TITLE>
+</HEAD><BODY>
+<H1>fixwav</H1>
+Section: User Commands (1)<BR>Updated: 0.1.3 (August 2008)<BR><A HREF="#index">Index</A>
+<A HREF="http://localhost/cgi-bin/man/man2html">Return to Main Contents</A><HR>
+
+<A NAME="lbAB">&nbsp;</A>
+<H2>NAME</H2>
+
+fixwav
+<A NAME="lbAC">&nbsp;</A>
+<H2>SYNOPSIS</H2>
+
+<B>fixwav [OPTIONS] WAV files</B>
+
+<A NAME="lbAD">&nbsp;</A>
+<H2>DESCRIPTION</H2>
+
+<B>fixwav</B> tests compliance of WAV file headers to standard.
+<A NAME="lbAE">&nbsp;</A>
+<H2>OPTIONS</H2>
+
+<P>
+
+<P>
+
+<B>-q</B>|--quiet
+<DL COMPACT>
+<DT><DD>
+silent mode: no dialog or screen output. Options <B>-b</B>, <B>-s</B>, <B>-c</B> must be set.
+Warning: write operations will be enabled. <B>-q</B> should preferably be used first.
+</DL>
+<P>
+
+<B>-h</B>|--help
+<DL COMPACT>
+<DT><DD>
+prints this help
+</DL>
+<P>
+
+<B>-V</B>|--version
+<DL COMPACT>
+<DT><DD>
+prints version
+</DL>
+<P>
+
+<B>-a</B>|--automatic
+<DL COMPACT>
+<DT><DD>
+automatic mode
+<DT><DD>
+it is advised to use <B>-o</B> in conjunction with <B>-a</B>.
+DO NOT use this mode if file has one of the following characteristics:
+<DT><DD>
+- three channels;
+- bit rate is not 16 or 24 bits per sample.
+</DL>
+<P>
+
+<B>-p</B>|--prepend
+<DL COMPACT>
+<DT><DD>
+prepends new header to sound file. Input file must be raw (header-less).
+</DL>
+<P>
+
+<B>-k</B>|--prune
+<DL COMPACT>
+<DT><DD>
+prune file if terminated by zeros and adjust header.
+</DL>
+<P>
+
+<B>-d</B>|--dry
+<DL COMPACT>
+<DT><DD>
+corrects header and checks coherence without writing files.
+</DL>
+<P>
+
+<B>-b</B>|--bit-rate
+<DL COMPACT>
+<DT><DD>
+bit rate (number of bits per sample, e.g. 16 or 24)
+</DL>
+<P>
+
+<B>-s</B>|--sample-rate
+<DL COMPACT>
+<DT><DD>
+sample rate in kHz (number of samples per second, e.g. 44.1 or 96)
+</DL>
+<P>
+
+<B>-c</B>|--channels
+<DL COMPACT>
+<DT><DD>
+number of channels (1 to 6)
+</DL>
+<P>
+
+<B>-o</B>|--output
+<DL COMPACT>
+<DT><DD>
+followed by the filename (+path) of output file as argument.
+</DL>
+<P>
+
+<B>-l</B>|--log
+<DL COMPACT>
+<DT><DD>
+log filename (+path)
+</DL>
+<P>
+
+Input filename (+path) is an obligatory argument.
+<P>
+
+Version 0.1.3
+<P>
+
+Copyright pigiron 2007, Fabrice Nicol 2008 (revised version)
+&lt;<A HREF="mailto:fabnicol@users.sourceforge.net">fabnicol@users.sourceforge.net</A>&gt;.
+Released under GPLv3. This software comes under NO GUARANTEE.
+Please backup your files before running this utility.
+<P>
+
+This utility will attempt to fix an invalid audio WAVE header.
+While it should function correctly for any valid number of channels,
+bits per sample, and samples per second, it will only work correctly
+on 'normal' WAVE files that contain a single data 'chunk'. Meaning
+that if the file has extra subchunks or any junk at the end of the
+file, it will create an incorrect WAVE header.
+<P>
+
+Two processing modes are available: automatic mode and manual mode
+<P>
+
+<B>Manual mode</B>
+
+<P>
+
+You must have some knowledge of how the WAVE file was recorded:
+<DL COMPACT>
+<DT><DD>
+* the number of bits per sample
+* the number of samples per second
+* the number of channels
+</DL>
+<P>
+
+It will allways prompt before making any modifications to your
+existing file.
+if options <B>-b</B>, <B>-s</B> or <B>-c</B> are not used, a dialog will request values.
+<P>
+
+<B>Automatic mode</B>
+
+<P>
+
+fixwav will try to automatically guess how the WAVE file was recorded
+and will perform repairs automatically.
+<P>
+
+Please do not use in-place editing mode (see below) as erroneous
+guesses could damage your file.
+<P>
+
+<A NAME="lbAF">&nbsp;</A>
+<H2>EXAMPLES</H2>
+
+<P>
+
+Options which do not take arguments can be combined as in:
+<P>
+
+fixwav  oldfile.wav  <B>-ap</B> <B>-o</B> newfile.wav
+<P>
+
+or, alternatively:
+<P>
+
+fixwav <B>-o</B> newfile.wav <B>-a</B> <B>-p</B> oldfile.wav
+<P>
+
+Options can be placed in any order.
+Legacy syntax is still available and corresponds to in-place manual mode:
+<P>
+
+fixwav oldfile.wav
+<A NAME="lbAG">&nbsp;</A>
+<H2>AUTHOR</H2>
+
+Written by Fabrice Nicol and Pigiron.
+<A NAME="lbAH">&nbsp;</A>
+<H2>REPORTING BUGS</H2>
+
+Report bugs to <A HREF="mailto:fabnicol@users.sourceforge.net">fabnicol@users.sourceforge.net</A>
+<P>
+
+Copyright 2008, Fabrice Nicol, 2008; 2007, Pigiron
+<DL COMPACT>
+<DT><DD>
+Latest version available from <A HREF="http://dvd-audio.sourceforge.net/">http://dvd-audio.sourceforge.net/</A>
+</DL>
+<P>
+
+This is free software; see the source for copying conditions.  There is NO
+warranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+<P>
+<A NAME="lbAI">&nbsp;</A>
+<H2>SEE ALSO</H2>
+
+<B><A HREF="http://localhost/cgi-bin/man/man2html?1+dvda-author">dvda-author</A>(1).</B>
+
+<P>
+
+<HR>
+<A NAME="index">&nbsp;</A><H2>Index</H2>
+<DL>
+<DT><A HREF="#lbAB">NAME</A><DD>
+<DT><A HREF="#lbAC">SYNOPSIS</A><DD>
+<DT><A HREF="#lbAD">DESCRIPTION</A><DD>
+<DT><A HREF="#lbAE">OPTIONS</A><DD>
+<DT><A HREF="#lbAF">EXAMPLES</A><DD>
+<DT><A HREF="#lbAG">AUTHOR</A><DD>
+<DT><A HREF="#lbAH">REPORTING BUGS</A><DD>
+<DT><A HREF="#lbAI">SEE ALSO</A><DD>
+</DL>
+<HR>
+This document was created by
+<A HREF="http://localhost/cgi-bin/man/man2html">man2html</A>,
+using the manual pages.<BR>
+Time: 00:28:53 GMT, August 24, 2008
+</BODY>
+</HTML>

@@ -1,0 +1,46 @@
+fixed.o fixed.o: fixed.c config.h /usr/include/math.h \
+  /usr/include/architecture/i386/math.h /usr/include/sys/cdefs.h \
+  /usr/include/string.h /usr/include/_types.h /usr/include/sys/_types.h \
+  /usr/include/machine/_types.h /usr/include/i386/_types.h \
+  private/bitmath.h FLAC/ordinals.h /usr/include/inttypes.h \
+  /usr/lib/gcc/i686-apple-darwin9/4.0.1/include/stdint.h private/fixed.h \
+  private/float.h FLAC/format.h FLAC/export.h FLAC/ordinals.h \
+  FLAC/assert.h
+
+config.h:
+
+/usr/include/math.h:
+
+/usr/include/architecture/i386/math.h:
+
+/usr/include/sys/cdefs.h:
+
+/usr/include/string.h:
+
+/usr/include/_types.h:
+
+/usr/include/sys/_types.h:
+
+/usr/include/machine/_types.h:
+
+/usr/include/i386/_types.h:
+
+private/bitmath.h:
+
+FLAC/ordinals.h:
+
+/usr/include/inttypes.h:
+
+/usr/lib/gcc/i686-apple-darwin9/4.0.1/include/stdint.h:
+
+private/fixed.h:
+
+private/float.h:
+
+FLAC/format.h:
+
+FLAC/export.h:
+
+FLAC/ordinals.h:
+
+FLAC/assert.h:

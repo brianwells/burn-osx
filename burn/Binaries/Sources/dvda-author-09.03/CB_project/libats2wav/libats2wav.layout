@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<CodeBlocks_layout_file>
+	<ActiveTarget name="Release" />
+	<File name="../../libats2wav/libats2wav.c" open="1" top="0" tabpos="1">
+		<Cursor position="9519" topLine="332" />
+	</File>
+	<File name="../../libats2wav/libats2wav.h" open="1" top="0" tabpos="2">
+		<Cursor position="102" topLine="0" />
+	</File>
+</CodeBlocks_layout_file>

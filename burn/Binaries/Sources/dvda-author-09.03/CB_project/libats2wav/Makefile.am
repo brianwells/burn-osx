@@ -1,0 +1,1 @@
+EXTRA_DIST=libats2wav.cbp  libats2wav.layout

@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<CodeBlocks_project_file>
+	<FileVersion major="1" minor="6" />
+	<Project>
+		<Option title="libc_utils" />
+		<Option pch_mode="2" />
+		<Option compiler="gcc" />
+		<Option virtualFolders="Headers/private/;" />
+		<Build>
+			<Target title="Release">
+				<Option output="libc_utils" prefix_auto="1" extension_auto="1" />
+				<Option working_dir="" />
+				<Option object_output="obj/Release/" />
+				<Option type="2" />
+				<Option compiler="gcc" />
+				<Option createDefFile="1" />
+				<Compiler>
+					<Add option="-O3" />
+					<Add option="-w" />
+					<Add option="-D_LARGEFILE_SOURCE" />
+					<Add option="-D_LARGE_FILES" />
+					<Add option="-DALWAYS_INLINE" />
+					<Add option="-D_GNU_SOURCE" />
+					<Add directory="../../libutils/include" />
+					<Add directory="../../libutils/private" />
+					<Add directory="../../src/include" />
+				</Compiler>
+				<Linker>
+					<Add option="-s" />
+				</Linker>
+			</Target>
+		</Build>
+		<Unit filename="../../libutils/c_utils.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../../libutils/include/c_utils.h" />
+		<Unit filename="../../libutils/include/export.h" />
+		<Unit filename="../../libutils/include/format.h" />
+		<Unit filename="../../libutils/include/ordinals.h" />
+		<Unit filename="../../libutils/include/stream_decoder.h" />
+		<Unit filename="../../libutils/include/stream_encoder.h" />
+		<Unit filename="../../libutils/include/winport.h" />
+		<Unit filename="../../libutils/private/private_c_utils.h" />
+		<Unit filename="../../libutils/winport.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Extensions>
+			<code_completion />
+			<envvars />
+			<debugger />
+			<lib_finder disable_auto="1" />
+		</Extensions>
+	</Project>
+</CodeBlocks_project_file>

@@ -1,0 +1,13 @@
+[Desktop Entry]
+Version=1.0
+Encoding=UTF-8
+Name=fixwav
+Comment=fixes wav files
+Exec=xterm -e fixwav --help
+Icon=/usr/share/pixmaps/fixwav.png
+Terminal=false
+Type=Application
+Categories=Application;AudioVideo;Audio
+GenericName[en_EN]=Terminal Program
+StartupNotify=true
+

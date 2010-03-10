@@ -1,0 +1,27 @@
+#INSTALL should be saved as is replaced by --force (an odd  feature of autoreconf)
+cp INSTALL INSTALL_save
+ 
+topdir=`pwd`
+echo "Entering: "
+echo "$topdir"
+autoreconf --install --force --no-recursive -Im4 -Ilibsoxconvert/m4
+
+cd libsoxconvert 
+echo "Entering: "
+echo `pwd`
+autoreconf --install --force -Im4
+cd  "$topdir"
+
+cd libFLAC
+echo "Entering: "
+echo `pwd`
+autoreconf --install --force  --no-recursive 
+
+cd include/libogg
+echo "Entering: "
+echo `pwd`
+autoreconf  
+
+cd "$topdir"
+
+mv INSTALL_save INSTALL

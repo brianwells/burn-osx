@@ -1,0 +1,45 @@
+stream_encoder_framing.o stream_encoder_framing.o:  \
+ stream_encoder_framing.c config.h /usr/include/stdio.h \
+  /usr/include/_types.h /usr/include/sys/_types.h \
+  /usr/include/sys/cdefs.h /usr/include/machine/_types.h \
+  /usr/include/i386/_types.h /usr/include/string.h \
+  private/stream_encoder_framing.h FLAC/format.h FLAC/export.h \
+  FLAC/ordinals.h /usr/include/inttypes.h \
+  /usr/lib/gcc/i686-apple-darwin9/4.0.1/include/stdint.h \
+  private/bitwriter.h FLAC/ordinals.h private/crc.h FLAC/assert.h
+
+config.h:
+
+/usr/include/stdio.h:
+
+/usr/include/_types.h:
+
+/usr/include/sys/_types.h:
+
+/usr/include/sys/cdefs.h:
+
+/usr/include/machine/_types.h:
+
+/usr/include/i386/_types.h:
+
+/usr/include/string.h:
+
+private/stream_encoder_framing.h:
+
+FLAC/format.h:
+
+FLAC/export.h:
+
+FLAC/ordinals.h:
+
+/usr/include/inttypes.h:
+
+/usr/lib/gcc/i686-apple-darwin9/4.0.1/include/stdint.h:
+
+private/bitwriter.h:
+
+FLAC/ordinals.h:
+
+private/crc.h:
+
+FLAC/assert.h:

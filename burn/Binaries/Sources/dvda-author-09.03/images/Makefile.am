@@ -1,0 +1,1 @@
+EXTRA_DIST=headerleft.bmp spltmp.bmp welcome.bmp

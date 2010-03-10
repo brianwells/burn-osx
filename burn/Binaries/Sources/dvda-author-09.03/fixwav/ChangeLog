@@ -1,0 +1,33 @@
+version 0.1.3
+=============
+
+2008-08-23   Fabrice Nicol <fabnicol@users.sourceforge.net>
+
+  * Add long options and code from dvda-author-08.07 (audio2.c, 
+    structures.h, audio.h, libc_utils.a) and new command-line interface.
+  * Extend command line arguments (several files can be processed).
+  * Add --dry and --prune features.
+  * Bugfixes.
+  * New Windows NSIS installer, rpm and deb packages, upgrade GNU build scripts.
+  * Links to static library libfixwav.a 
+
+version 0.1.2
+=============
+
+2008-07-3     Fabrice Nicol <fabnicol@users.sourceforge.net>
+
+  * Add features to version 0.1.1:
+
+  - Options -a, -b, -c, -l, -p, -q, -o, -s with getopt syntax.
+  - GNU packaging (autoconf tools and docs).
+  - Modular structure and Code::Blocks project.
+  - Copy mode (-o) to avoid damages to original files.
+  - Automatic repair mode.
+  - Can prepend new header to raw soundfile.
+
+  * Bugfixes: 
+
+  - Added asserts to secure core processes.
+
+Original code by www.taperssection.com member pigiron downloadable 
+from this site (unlicensed code).

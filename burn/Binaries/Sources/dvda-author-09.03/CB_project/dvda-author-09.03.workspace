@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<CodeBlocks_workspace_file>
+	<Workspace title="Workspace">
+		<Project filename="dvda-author/dvda-author.cbp" active="1">
+			<Depends filename="libc_utils/libc_utils.cbp" />
+			<Depends filename="libfixwav/libfixwav-1.3.cbp" />
+			<Depends filename="libFLAC/libFLAC-1.2.1.cbp" />
+			<Depends filename="libats2wav/libats2wav.cbp" />
+			<Depends filename="libsoxconvert/libsoxconvert.cbp" />
+		</Project>
+		<Project filename="libc_utils/libc_utils.cbp" />
+		<Project filename="libfixwav/libfixwav-1.3.cbp">
+			<Depends filename="libc_utils/libc_utils.cbp" />
+		</Project>
+		<Project filename="libFLAC/libFLAC-1.2.1.cbp">
+			<Depends filename="libogg/libogg-1.1.3.cbp" />
+		</Project>
+		<Project filename="libogg/libogg-1.1.3.cbp" />
+		<Project filename="libats2wav/libats2wav.cbp">
+			<Depends filename="libc_utils/libc_utils.cbp" />
+		</Project>
+		<Project filename="libsoxconvert/libsoxconvert.cbp">
+			<Depends filename="libc_utils/libc_utils.cbp" />
+			<Depends filename="libsox/libsox.cbp" />
+		</Project>
+		<Project filename="libsox/libsox.cbp">
+			<Depends filename="libc_utils/libc_utils.cbp" />
+		</Project>
+	</Workspace>
+</CodeBlocks_workspace_file>

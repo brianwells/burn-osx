@@ -1,0 +1,289 @@
+<html>
+<head>
+  <title>Man page of DVDA-AUTHOR</title>
+</head>
+
+<body>
+Content-type: text/html <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<body>
+<h1>DVDA-AUTHOR</h1>
+Section: (1)<br>
+Updated: 09.03<br>
+<a href="#index">Index</a> <a href="/cgi-bin/man/man2html">Return to Main
+Contents</a> 
+<hr>
+<a name="lbAB">&nbsp;</a> 
+
+<h2>NAME</h2>
+dvda-author <a name="lbAC">&nbsp;</a> 
+
+<h2>SYNOPSIS</h2>
+<b>dvda-author</b> [<i>OPTIONS</i>]... <a name="lbAD">&nbsp;</a> 
+
+<h2>DESCRIPTION</h2>
+<b>dvda-author</b> creates high-resolution DVD-Audio discs and
+DVD-AUDIO/VIDEO (hybrid) discs from .wav, .flac, .oga and SoX-supported audio
+formats. <a name="lbAE">&nbsp;</a> 
+
+<h2>OPTIONS</h2>
+<b>GENERAL OPTIONS</b> 
+<dl>
+  <dt><pre><b>--help</b>    , <b>-h</b>  Diplay this help.
+  </pre>
+  </dt>
+  <dt><pre><b>--version</b> , <b>-v</b>  Diplay version.
+  </pre>
+  </dt>
+  <dt><pre><b>--quiet</b>   , <b>-q</b>  Quiet mode.
+  </pre>
+  </dt>
+  <dt><pre><b>--debug</b>   , <b>-d</b>  Verbose mode (debugging level).
+  </pre>
+  </dt>
+  <dt><pre><b>--pause</b>   , <b>-P</b>  Insert a final pause before exiting.
+  </pre>
+  </dt>
+  <dt><pre><b>--pause0  , -P0</b> Suppresses any final pause before exiting. </pre>
+  </dt>
+  <dt><pre><b>--log</b>     , <b>-l</b>  Ouput a log to filepath.
+  </pre>
+  </dt>
+  <dt><pre><b>--startsector NNN</b>, <b>-p</b>  Sets startsector=NNN. If NNN=0, startsector takes default value 281. By default, startsector is automatically computed. </pre>
+  </dt>
+
+  <p></p>
+  <dt><b>AUDIO INPUT/OUTPUT OPTIONS</b> </dt>
+
+  <p></p>
+  <dt><b>--extract</b> , <b>-x</b> disc[list] </dt>
+  <dt><br>
+  Extract&nbsp;all&nbsp;the DVD-Audio&nbsp;disc&nbsp;in&nbsp;argument.
+  Combined with -o dir or --output dir, extract to dir/g1, dir/g2, etc., with
+  gN containing tracks for titleset number N. An optional comma-separated
+  list may be appended to disc path to restrict extraction to titlesets
+  enumerated in the list.<br>
+  <br>
+  </dt>
+
+  <p></p>
+  <dt><b>-g</b> </dt>
+  <dt><br>
+  &nbsp;You&nbsp;may&nbsp;specify&nbsp;up&nbsp;to&nbsp;9&nbsp;groups&nbsp;of&nbsp;tracks.&nbsp;Minimum:&nbsp;one&nbsp;group.
+  </dt>
+  <dt>&nbsp;Enter&nbsp;full&nbsp;path&nbsp;to&nbsp;files&nbsp;if&nbsp;input&nbsp;directory&nbsp;is&nbsp;not&nbsp;set&nbsp;by&nbsp;[-i].
+  </dt>
+  <dt>&nbsp;-g&nbsp;and&nbsp;-i&nbsp;can&nbsp;be&nbsp;combined. </dt>
+</dl>
+
+<p></p>
+<dl>
+  <dt><b>--input</b> , <b>-i</b> </dt>
+  <dt><br>
+  &nbsp;Input&nbsp;directory&nbsp;with&nbsp;audio&nbsp;files.&nbsp; </dt>
+  <dt>&nbsp;Each&nbsp;subdirectory&nbsp;is&nbsp;a&nbsp;group. </dt>
+
+  <p></p>
+  <dt><b>--output</b> , <b>-o</b> </dt>
+  <dt><br>
+  &nbsp;Output&nbsp;directory. </dt>
+  <dt>&nbsp;Paths&nbsp;can&nbsp;be&nbsp;separated&nbsp;by&nbsp;either&nbsp;\&nbsp;or&nbsp;/
+  </dt>
+</dl>
+
+<p></p>
+<dl>
+  <dt><b>--sox</b> , <b>-S</b> </dt>
+  <dt><br>
+  Convert audio files with SoX.</dt>
+</dl>
+
+<p></p>
+<dl>
+  <dt><b>--fixwav</b> , <b>-F</b> </dt>
+  <dt><br>
+  &nbsp;Use&nbsp;.wav&nbsp;file&nbsp;repair&nbsp;utility.&nbsp; </dt>
+  <dt><br>
+  &nbsp;Sub-options&nbsp;for&nbsp;fixwav&nbsp;are: </dt>
+  <dt><br>
+  <span style="font-weight:bold;">&nbsp;simple-mode&nbsp;&nbsp;</span></dt>
+  <dt></dt>
+  <dt>&nbsp;&nbsp;&nbsp;Deactivate&nbsp;default&nbsp;automatic&nbsp;mode&nbsp;and&nbsp;advanced&nbsp;options.&nbsp;
+  </dt>
+  <dt>&nbsp;&nbsp;&nbsp;User&nbsp;will&nbsp;be&nbsp;asked&nbsp;for&nbsp;more&nbsp;information.
+  </dt>
+  <dt><br>
+  <span
+  style="font-weight:bold;">&nbsp;prepend&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></dt>
+  <dt></dt>
+  <dt>&nbsp;&nbsp;&nbsp;Prepend&nbsp;header&nbsp;to&nbsp;raw&nbsp;file </dt>
+  <dt><br>
+  <span style="font-weight:bold;">&nbsp;in-place&nbsp;&nbsp;&nbsp;</span></dt>
+  <dt></dt>
+  <dt>&nbsp;&nbsp;&nbsp;Correct&nbsp;header&nbsp;in&nbsp;the&nbsp;original&nbsp;file&nbsp;(not&nbsp;advised)
+  </dt>
+  <dt><br>
+  <span style="font-weight:bold;">&nbsp;interactive</span></dt>
+  <dt></dt>
+  <dt>&nbsp;&nbsp;&nbsp;Request&nbsp;information&nbsp;from&nbsp;user. </dt>
+  <dt><br>
+  <b>&nbsp;padding</b></dt>
+  <dt></dt>
+  <dt>&nbsp;&nbsp;&nbsp;Pad&nbsp;files&nbsp;according to WAV standard
+  (advised if prune is not used)<br>
+  padding and prune are incompatible options.</dt>
+  <dt><br>
+  <b>&nbsp;prune</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</dt>
+  <dt></dt>
+  <dt>&nbsp;&nbsp;&nbsp;Cut&nbsp;off&nbsp;silence&nbsp;at&nbsp;end&nbsp;of&nbsp;files
+  </dt>
+  <dt><br>
+  <b>&nbsp;output=sf</b></dt>
+  <dt></dt>
+  <dt>&nbsp;&nbsp;&nbsp;Copy&nbsp;corrected&nbsp;file&nbsp; to new filepath
+  with string suffix sf</dt>
+  <dt><br>
+  Sub-options&nbsp;should&nbsp;be&nbsp;separated&nbsp;by&nbsp;commas and
+  appended to -f/-F or --fixwav(-virtual) </dt>
+  <dt>without any whitespace in between them. </dt>
+  <dt>Example: --fixwavsimple-mode,prepend,interactive,output=new</dt>
+</dl>
+
+<p></p>
+<dl>
+  <dt><b>--fixwav-virtual</b> , <b>-f</b> </dt>
+  <dt><br>
+  &nbsp;Use&nbsp;.wav&nbsp;header&nbsp;repair&nbsp;utility&nbsp;without&nbsp;any&nbsp;write&nbsp;operation.
+  </dt>
+  <dt>&nbsp;Among&nbsp;the&nbsp;above&nbsp;sub-options,&nbsp;only&nbsp;`interactive`&nbsp;and&nbsp;`simple-mode`&nbsp;can&nbsp;be&nbsp;used.
+  </dt>
+</dl>
+
+<p></p>
+<dl>
+  <dt><b>--no-padding</b> , <b>-0</b></dt>
+  <dt><br>
+  &nbsp;Block&nbsp;padding&nbsp;of&nbsp;audio&nbsp;files&nbsp;by&nbsp;dvda-author.&nbsp;
+  </dt>
+  <dt>&nbsp;This&nbsp;option&nbsp;is&nbsp;complementary&nbsp;to&nbsp;fixwav&nbsp;sub-option&nbsp;padding.
+  </dt>
+
+  <p></p>
+  <dt><b>LINKING OPTIONS</b> </dt>
+
+  <p></p>
+  <dt><b>--videodir</b> , <b>-V</b> </dt>
+  <dt><br>
+  &nbsp;Path&nbsp;to&nbsp;VIDEO_TS&nbsp;directory </dt>
+</dl>
+
+<p></p>
+<dl>
+  <dt><b>--videolink</b> , <b>-T</b> </dt>
+  <dt><br>
+  &nbsp;Rank&nbsp;of&nbsp;video&nbsp;titleset&nbsp;linked&nbsp;to&nbsp;in&nbsp;video&nbsp;zone&nbsp;(XX&nbsp;in&nbsp;VTS_XX_0.I&nbsp;FO)
+  </dt>
+  <dt>&nbsp;In&nbsp;this&nbsp;case&nbsp;the&nbsp;path&nbsp;to&nbsp;the&nbsp;VIDEO_TS&nbsp;linked&nbsp;to&nbsp;must&nbsp;be&nbsp;indicated.
+  </dt>
+
+  <p></p>
+  <dt></dt>
+  <dt><b>--no-videozone</b> , <b>-n</b> </dt>
+  <dt><br>
+  &nbsp;Do&nbsp;not&nbsp;generate&nbsp;an&nbsp;empty&nbsp;VIDEO_TS&nbsp;directory.
+  </dt>
+  <dt></dt>
+
+  <p></p>
+  <dt><b>--rights</b> , <b>-w</b> </dt>
+  <dt><br>
+  &nbsp;Access&nbsp;rights&nbsp;(octal) </dt>
+
+  <p></p>
+  <dt><b>--PTS-factor</b> , <b>-U (-)x</b> </dt>
+  <dt><br>
+  &nbsp;Add&nbsp;x&nbsp;10E-2&nbsp;seconds&nbsp;to&nbsp;PTS&nbsp;ticks&nbsp;(-x&nbsp;to&nbsp;substract).
+  </dt>
+  <dt><br>
+  &nbsp;Supported&nbsp;audio&nbsp;types:&nbsp;.wav,&nbsp;.flac,&nbsp;.oga&nbsp;(Ogg&nbsp;FLAC,&nbsp;if&nbsp;built&nbsp;with&nbsp;Ogg&nbsp;FLAC&nbsp;support)
+  and SoX-supported formats (if built with SoX support). </dt>
+</dl>
+
+<p>&nbsp;There&nbsp;must&nbsp;be&nbsp;a&nbsp;maximum&nbsp;of&nbsp;9&nbsp;audio&nbsp;groups.
+</p>
+
+<p>&nbsp;Each&nbsp;subdirectory&nbsp;of&nbsp;an&nbsp;audio&nbsp;input&nbsp;directory&nbsp;will&nbsp;contain&nbsp;titles&nbsp;for&nbsp;a&nbsp;separate&nbsp;audio&nbsp;group.
+<br>
+&nbsp;A&nbsp;number&nbsp;between&nbsp;1&nbsp;and&nbsp;9&nbsp;must&nbsp;be&nbsp;included&nbsp;as&nbsp;the&nbsp;second&nbsp;character&nbsp;of&nbsp;the&nbsp;subdirectory's&nbsp;relative&nbsp;name.
+</p>
+
+<p>&nbsp;Full&nbsp;Input/Output&nbsp;paths&nbsp;must&nbsp;be&nbsp;specified.
+<a name="lbAF">&nbsp;</a> </p>
+
+<h2>EXAMPLES</h2>
+<b>-creates</b> a 3-group <b>DVD-Audio disc </b>(legacy syntax): 
+<dl compact="compact">
+  <dt>&nbsp;dvda-author&nbsp;<b>-g</b>&nbsp;file1.wav&nbsp;file2.flac&nbsp;<b>-g</b>&nbsp;file3.flac&nbsp;<b>-g</b>&nbsp;file4.wav
+  </dt>
+</dl>
+
+<p><b>-creates</b> a <b>hybrid DVD disc</b> with both AUDIO_TS mirroring
+audio_input_directory and VIDEO_TS imported from directory VID, outputs disc
+structure to directory DVD_HYBRID and links video titleset #2 of VIDEO_TS to
+AUDIO_TS: </p>
+<dl compact="compact">
+  <dt>dvda-author <b>-i</b> ~/audio/audio_input_directory <b>-o</b>
+  DVD_HYBRID <b>-V</b> ~/Video/VID <b>-T</b> 2 </dt>
+</dl>
+
+<p>&nbsp;Both&nbsp;types&nbsp;of&nbsp;constructions&nbsp;can&nbsp;be&nbsp;combined.</p>
+
+<p><b>-creates</b> an <b>audio folder</b> from an existing DVD-Audio disc:
+</p>
+dvda-author --extract /media/cdrom0,1,3,5,6,7 -o dir <br>
+<br>
+will extract titlesets 1,3,5,6,7 of the disc to dir/g1, dir/g3, dir/g5,
+dir/g6, dir/g7 respectively.<br>
+<a name="lbAG">&nbsp;</a> 
+
+<h2>AUTHOR</h2>
+&nbsp;Written&nbsp;by&nbsp;Dave&nbsp;Chapman&nbsp;and&nbsp;Fabrice&nbsp;Nicol.
+<a name="lbAH">&nbsp;</a> 
+
+<h2>REPORTING BUGS</h2>
+<br>
+&nbsp;Report&nbsp;bugs&nbsp;to&nbsp;<a
+href="mailto:fabnicol@users.sourceforge.net">fabnicol@users.sourceforge.net</a> 
+
+<p><br>
+&nbsp;Copyright&nbsp;&nbsp;2005&nbsp;Dave&nbsp;Chapman;&nbsp;2007,&nbsp;2008&nbsp;Fabrice&nbsp;Nicol;
+2008 Lee and Tim Feldkamp. </p>
+<dl compact="compact">
+  <dt>&nbsp;Latest&nbsp;version&nbsp;available&nbsp;from&nbsp;<a
+  href="http://dvd-audio.sourceforge.net/">http://dvd-audio.sourceforge.net/</a>
+  </dt>
+</dl>
+
+<p>&nbsp;This&nbsp;is&nbsp;free&nbsp;software;&nbsp;see&nbsp;the&nbsp;source&nbsp;for&nbsp;copying&nbsp;conditions.&nbsp;&nbsp;There&nbsp;is&nbsp;NO
+warranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+<a name="lbAI">&nbsp;</a> </p>
+
+<h2>SEE ALSO</h2>
+<a href="/cgi-bin/man/man2html?1+flac">flac</a>(1) <a name="index">&nbsp;</a> 
+
+<h2>Index</h2>
+<dl>
+  <dt><a href="#lbAB">NAME</a> </dt>
+  <dt><a href="#lbAC">SYNOPSIS</a> </dt>
+  <dt><a href="#lbAD">DESCRIPTION</a> </dt>
+  <dt><a href="#lbAE">OPTIONS</a> </dt>
+  <dt><a href="#lbAF">EXAMPLES</a> </dt>
+  <dt><a href="#lbAG">AUTHOR</a> </dt>
+  <dt><a href="#lbAH">REPORTING BUGS</a> </dt>
+  <dt><a href="#lbAI">SEE ALSO</a> </dt>
+</dl>
+<hr>
+</body>
+</html>
+</body>
+</html>

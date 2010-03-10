@@ -1,0 +1,12 @@
+prefix=/usr
+exec_prefix=${prefix}
+libdir=/usr/lib
+includedir=${prefix}/include
+
+Name: SoX
+Description: Audio file format and effects library
+Version: 09.03
+URL: http://sox.sourceforge.net
+Libs: -L${libdir} -lsox -lsfx
+Libs.private: 
+Cflags: -I${includedir}/sox

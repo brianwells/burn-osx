@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<CodeBlocks_layout_file>
+	<ActiveTarget name="Release" />
+	<File name="../../libsoxconvert/libsox/amr1.h" open="1" top="1" tabpos="1">
+		<Cursor position="419" topLine="0" />
+	</File>
+	<File name="../../libsoxconvert/libsox/formats.c" open="0" top="0" tabpos="2">
+		<Cursor position="930" topLine="0" />
+	</File>
+	<File name="../../libsoxconvert/libsox/sox.h" open="1" top="0" tabpos="4">
+		<Cursor position="642" topLine="1" />
+	</File>
+	<File name="../../libsoxconvert/libsox/sox_i.h" open="1" top="0" tabpos="5">
+		<Cursor position="4355" topLine="72" />
+	</File>
+	<File name="../../libsoxconvert/libsox/soxconfig.h" open="0" top="0" tabpos="4">
+		<Cursor position="21" topLine="0" />
+	</File>
+	<File name="../../libsoxconvert/libsox/soxstdint.h" open="0" top="0" tabpos="5">
+		<Cursor position="305" topLine="0" />
+	</File>
+	<File name="../../libsoxconvert/libsox/util.h" open="1" top="0" tabpos="3">
+		<Cursor position="952" topLine="1" />
+	</File>
+	<File name="../../libsoxconvert/libsox/vox.c" open="1" top="0" tabpos="2">
+		<Cursor position="844" topLine="0" />
+	</File>
+</CodeBlocks_layout_file>

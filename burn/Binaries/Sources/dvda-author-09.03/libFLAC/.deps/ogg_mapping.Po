@@ -1,0 +1,25 @@
+ogg_mapping.o ogg_mapping.o: ogg_mapping.c config.h private/ogg_mapping.h \
+  FLAC/ordinals.h /usr/include/inttypes.h /usr/include/sys/cdefs.h \
+  /usr/include/_types.h /usr/include/sys/_types.h \
+  /usr/include/machine/_types.h /usr/include/i386/_types.h \
+  /usr/lib/gcc/i686-apple-darwin9/4.0.1/include/stdint.h
+
+config.h:
+
+private/ogg_mapping.h:
+
+FLAC/ordinals.h:
+
+/usr/include/inttypes.h:
+
+/usr/include/sys/cdefs.h:
+
+/usr/include/_types.h:
+
+/usr/include/sys/_types.h:
+
+/usr/include/machine/_types.h:
+
+/usr/include/i386/_types.h:
+
+/usr/lib/gcc/i686-apple-darwin9/4.0.1/include/stdint.h:

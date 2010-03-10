@@ -1,0 +1,1 @@
+EXTRA_DIST=libfixwav.cbp libfixwav.depend

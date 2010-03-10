@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<CodeBlocks_project_file>
+	<FileVersion major="1" minor="6" />
+	<Project>
+		<Option title="libfixwav" />
+		<Option pch_mode="2" />
+		<Option compiler="gcc" />
+		<Build>
+			<Target title="Release">
+				<Option output="bin/libfixwav" prefix_auto="1" extension_auto="1" />
+				<Option working_dir="" />
+				<Option object_output="obj" />
+				<Option type="2" />
+				<Option compiler="gcc" />
+				<Option parameters="-h" />
+				<Compiler>
+					<Add option="-Os" />
+					<Add option="-O2" />
+					<Add option="-std=c99 -funroll-loops" />
+					<Add directory="../../src/include" />
+					<Add directory="../../libutils/include" />
+				</Compiler>
+				<Linker>
+					<Add option="-s" />
+					<Add library="../libutils/libutils.a" />
+					<Add directory="libutils" />
+				</Linker>
+			</Target>
+		</Build>
+		<Compiler>
+			<Add option="-Wall" />
+		</Compiler>
+		<Unit filename="../../src/auxiliary.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../../src/checkData.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../../src/checkParameters.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../../src/include/audio.h" />
+		<Unit filename="../../src/include/checkData.h" />
+		<Unit filename="../../src/include/checkParameters.h" />
+		<Unit filename="../../src/include/fixwav.h" />
+		<Unit filename="../../src/include/fixwav_auxiliary.h" />
+		<Unit filename="../../src/include/fixwav_manager.h" />
+		<Unit filename="../../src/include/readHeader.h" />
+		<Unit filename="../../src/include/repair.h" />
+		<Unit filename="../../src/include/structures.h" />
+		<Unit filename="../../src/include/winport.h" />
+		<Unit filename="../../src/manager.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../../src/readHeader.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../../src/repair.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../../src/winport.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Extensions>
+			<code_completion />
+			<envvars />
+			<debugger />
+			<lib_finder disable_auto="1" />
+		</Extensions>
+	</Project>
+</CodeBlocks_project_file>

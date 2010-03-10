@@ -1,0 +1,163 @@
+.\" 
+.TH "DVDA-AUTHOR" "1" "Dec 2008" "dvda-author " "User Commands"
+.SH "NAME"
+dvda\-author \- manual page for dvda\-author 
+.SH "SYNOPSIS"
+.B dvda\-author
+[\fIOPTION\fR]...
+.SH "DESCRIPTION"
+dvda\-author 08.12 creates high\-resolution DVD\-Audio discs from .wav, .flac, .oga and SoX\-supported audio formats.
+.SH "OPTIONS"
+\fB\-h\fR, \fB\-\-help\fR               Diplay this help.
+.PP 
+\fB\-v\fR, \fB\-\-version\fR            Diplay version.
+.PP 
+\fB\-q\fR, \fB\-\-quiet\fR              Quiet mode.
+.PP 
+\fB\-P\fR, \fB\-\-pause\fR              Insert a final pause before exiting.
+.PP 
+\fB\-P0\fR, \fB\-\-pause0\fR            Suppresses any final pause before exiting. 
+.PP 
+\fB\-l\fR, \fB\-\-log\fR filepath       Ouput a log to filepath.
+.PP 
+\fB\-p\fR, \fB\-\-startsector\fR NNN    Specify the number of the first start sector
+.IP 
+of the AUDIO_PP.I FO file in the output of mkisofs
+If NNN=0, start sector takes default value 281. 
+By default, start sector is automatically computed. 
+.PP 
+
+\fB\-g\fR                       You may specify up to 9 groups of tracks.
+.IP 
+Minimum: one group.
+Enter full path to files if input directory is not set
+by [\-i].
+.PP 
+\fB\-i\fR, \fB\-\-input\fR directory    Input directory with audio files.
+.IP 
+Each subdirectory is a group.
+.PP 
+\fB\-o\fR, \fB\-\-output\fR directory   Output directory.
+.PP 
+\fB\-S\fR, \fB\-\-sox\fR                Convert audio files with SoX.
+.PP 
+\fB\-x\fR, \fB\-\-extract\fR disc[list] Extract DVD\-Audio to directory \fB\-o\fR.
+.PP 
+.IP 
+Groups are labelled g1, g2...
+An optional comma\-separated list of groups to be extracted
+may be appended to disc path.
+.PP 
+\fB\-V\fR, \fB\-\-videodir\fR directory Path to VIDEO_TS directory
+.PP 
+\fB\-T\fR, \fB\-\-videolink\fR rank     Rank of video titleset linked to in video zone
+.IP 
+(XX in VTS_XX_0.I FO).
+In this case the path to the VIDEO_TS linked to
+must be indicated.
+.PP 
+\fB\-n\fR, \fB\-\-no\-videozone\fR       Do not generate an empty VIDEO_TS directory.
+.PP 
+\fB\-w\fR, \fB\-\-rights\fR             Access rights to directories created (octal values)
+.PP 
+\fB\-d\fR, \fB\-\-debug\fR              Increased verbosity (debugging level)
+.PP 
+\fB\-U\fR, \fB\-\-PTS\-factor\fR (\-)lag  Enter lag to be added/substracted (\-) to title length,
+.IP 
+in 10E\-2 second.
+.PP 
+\fB\-F\fR, \fB\-\-fixwav\fR(options)    Bad wav headers will be fixed by fixwav
+.PP 
+\fB\-f\fR, \fB\-\-fixwav\-virtual\fR(options)  Use .wav header repair utility without any write operation.
+.PP 
+\fB\-0\fR, \fB\-\-no\-padding\fR         Block padding of audio files by dvda\-author.
+.PP 
+Supported audio types: .wav, .flac, .oga (if built with Ogg FLAC support), SoX\-supported formats (if built with SoX support).
+.PP 
+There must be a maximum of 9 audio groups.
+.PP 
+Each subdirectory of an audio input directory will contain titles
+for a separate audio group.
+A number between 1 and 9 must be included as the second character of the subdirectory relative name.
+.PP 
+Full Input/Output paths must be specified unless default settings are set.
+.PP 
+By default, defaults are set in /full path to dvda\-author folder/defaults
+.SH "EXAMPLES"
+\fB\-creates\fR a 3\-group DVD\-Audio disc (legacy syntax):
+.IP 
+dvda\-author \fB\-g\fR file1.wav file2.flac \fB\-g\fR file3.flac \fB\-g\fR file4.wav
+.PP 
+\fB\-creates\fR a hybrid DVD disc with both AUDIO_TS mirroring audio_input_directory
+.IP 
+and VIDEO_TS imported from directory VID, outputs disc structure to directory
+DVD_HYBRID and links video titleset #2 of VIDEO_TS to AUDIO_TS:
+.IP 
+dvda\-author \fB\-i\fR ~/audio/audio_input_directory \fB\-o\fR DVD_HYBRID \fB\-V\fR ~/Video/VID \fB\-T\fR 2
+.PP 
+\fB\-creates\fR an audio folder from an existing DVD\-Audio disc:
+.IP 
+dvda\-author \fB\-\-extract\fR /media/cdrom0,1,3,5,6,7 \fB\-o\fR dir
+.IP 
+will extract titlesets 1,3,5,6,7 of the disc to
+dir/g1, dir/g3, dir/g5, dir/g6, dir/g7 respectively.
+.PP 
+fixwav options:
+.PP 
+simple\-mode
+.IP 
+Deactivate default automatic mode and advanced options.
+User will be asked for more information.
+.PP 
+prepend
+.IP 
+Prepend header to raw file
+.PP 
+in\-place
+.IP 
+Correct header in the original file (not advised)
+.PP 
+interactive
+.IP 
+Request information from user.
+.PP 
+padding
+.IP 
+Pad files according to WAV standard (advised if prune not used). 
+prune and padding are incompatible options.
+.PP 
+prune
+.IP 
+Cuts off silence at end of files
+.PP 
+output=sf
+.IP 
+Copy corrected file to new filepath with string suffix sf
+.PP 
+Sub\-options should be separated by commas and appended
+to \fB\-f\fR/\-F or \fB\-\-fixwav\fR(\fB\-virtual\fR)
+without any whitespace in between them.
+.PP 
+Example: \fB\-\-fixwavsimple\-mode\fR,prepend,interactive,output=new
+.SS "Required compile\-time constants:"
+.IP 
+_GNU_SOURCE, __CB__ if compiling with Code::Blocks or similar IDE.
+.SS "Optional compile\-time constants:"
+.IP 
+LONG_OPTIONS for the above long options (starting with \fB\-\-\fR)
+SHORT_OPTIONS_ONLY to block all long options.
+LOCALE to recompile for another locale than the default "C".
+SETTINGSFILE to specify default filepath of the configuration file.
+FLAC__HAS_OGG to enable Ogg FLAC support.
+.SH "AUTHOR"
+Written by Dave Chapman (2005), Fabrice Nicol (2007, 2008) and Lee and Tim Feldkamp (2008).
+.SH "REPORTING BUGS"
+Report bugs to fabnicol@users.sourceforge.net
+.PP 
+dvda\-author version 08.12
+.PP 
+Copyright  2005 Dave Chapman; 2007, 2008 Fabrice Nicol; 2008 Lee and Tim Feldkamp.
+.PP 
+Latest version available from http://dvd\-audio.sourceforge.net/
+.PP 
+This is free software; see the source for copying conditions.
