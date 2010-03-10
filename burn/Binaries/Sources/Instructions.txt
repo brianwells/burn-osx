@@ -1,0 +1,58 @@
+Instructions (and comments):
+
+I will describe how I compiled them, you are free to change it according to your needs. I compiled them with maximum compatibility for Mac OS X 10.3.9 and higher system with no extra libraries installed.
+
+* cdrtools:
+I aplied a patch to the source, making mkisofs able to create DVD-Audio iso files. (patch in root folder: 'mkisofs-2.01.01-dvd-audio.diff'). PowerPC and Intel version build on Mac OS X 10.5.6.
+
+Commands:
+bash#: make
+
+* dvda-author:
+Build on Mac OS X 10.3.9 for the PowerPC version and on Mac OS X 10.4.11 for the Intel version.
+
+Commands:
+bash#: ./configure --enable-flac-build --without-ogg --without-sox
+bash#: make
+
+* dvdauthor:
+Build on Mac OS X 10.3.9 for the PowerPC version and on Mac OS X 10.4.11 for the Intel version.
+
+Commands:
+bash#: ./configure
+bash#: make
+
+Note: libiconv.a is staticly linked in, since it's missing in Mac OS X 10.3.9 by default.
+
+* ffmpeg(-mt):
+PowerPC (including G3 version) and Intel version build on Mac OS X 10.5.6. Used ffmpeg-mt (multi processor / core version) for PowerPC (with altivec) and Intel version. Used ffmpeg for G3 version.
+
+Commands:
+G3:
+bash#: ./configure --disable-muxers --disable-encoders --enable-muxer=avi --enable-muxer=mpeg1vcd --enable-muxer=mpeg2dvd --enable-muxer=mpeg2svcd --enable-muxer=wav --enable-muxer=mp3 --enable-muxer=flac --enable-encoder=ac3 --enable-encoder=mp2 --enable-encoder=libmp3lame --enable-encoder=flac --enable-encoder=wav --enable-encoder=png --disable-protocols --enable-protocol=file --enable-protocol=pipe --disable-bsfs --enable-libmp3lame --disable-shared --enable-gpl --enable-encoder=mpeg4 --enable-encoder=mpeg1video --enable-encoder=mpeg2video --enable-muxer=image2 --enable-encoder=mjpeg --disable-bzlib --disable-ipv6 --disable-network --enable-encoder=pcm_s16le --enable-pthreads --arch=ppc --extra-cflags='-arch ppc -isysroot /Developer/SDKs/MacOSX10.3.9.sdk -mmacosx-version-min=10.3.9' --extra-ldflags='-arch ppc -isysroot /Developer/SDKs/MacOSX10.3.9.sdk -mmacosx-version-min=10.3.9' --enable-cross-compile --enable-muxer=pcm_s16le --disable-altivec
+bash#: make
+
+PowerPC (G4, G5):
+bash#: ./configure --disable-muxers --disable-encoders --enable-muxer=avi --enable-muxer=mpeg1vcd --enable-muxer=mpeg2dvd --enable-muxer=mpeg2svcd --enable-muxer=wav --enable-muxer=mp3 --enable-muxer=flac --enable-encoder=ac3 --enable-encoder=mp2 --enable-encoder=libmp3lame --enable-encoder=flac --enable-encoder=wav --enable-encoder=png --disable-protocols --enable-protocol=file --enable-protocol=pipe --disable-bsfs --enable-libmp3lame --disable-shared --enable-gpl --enable-encoder=mpeg4 --enable-encoder=mpeg1video --enable-encoder=mpeg2video --enable-muxer=image2 --enable-encoder=mjpeg --disable-bzlib --disable-ipv6 --disable-network --enable-encoder=pcm_s16le --enable-pthreads --arch=ppc --extra-cflags='-arch ppc -isysroot /Developer/SDKs/MacOSX10.3.9.sdk -mmacosx-version-min=10.3.9' --extra-ldflags='-arch ppc -isysroot /Developer/SDKs/MacOSX10.3.9.sdk -mmacosx-version-min=10.3.9' --enable-cross-compile --enable-muxer=pcm_s16le
+bash#: make
+
+Intel:
+bash#: ./configure --disable-muxers --disable-encoders --enable-muxer=avi --enable-muxer=mpeg1vcd --enable-muxer=mpeg2dvd --enable-muxer=mpeg2svcd --enable-muxer=wav --enable-muxer=mp3 --enable-muxer=flac --enable-encoder=ac3 --enable-encoder=mp2 --enable-encoder=libmp3lame --enable-encoder=flac --enable-encoder=wav --enable-encoder=png --disable-protocols --enable-protocol=file --enable-protocol=pipe --disable-bsfs --enable-libmp3lame --disable-shared --enable-gpl --enable-encoder=mpeg4 --enable-encoder=mpeg1video --enable-encoder=mpeg2video --enable-muxer=image2 --enable-encoder=mjpeg --disable-bzlib --disable-ipv6 --disable-network --enable-encoder=pcm_s16le --enable-pthreads --arch=i386 --extra-cflags='-arch i386 -isysroot /Developer/SDKs/MacOSX10.4u.sdk -mmacosx-version-min=10.4' --extra-ldflags='-arch i386 -isysroot /Developer/SDKs/MacOSX10.4u.sdk -mmacosx-version-min=10.4' --enable-cross-compile --enable-muxer=pcm_s16le
+bash#: make
+
+* lame:
+Lame is compiled staticly and linked into ffmpeg(-mt). Build on Mac OS X 10.5.6 on PowerPC and Intel. 
+
+Commands:
+bash#: ./configure --disable-shared
+bash#: make
+
+* vcdimager:
+Build on Mac OS X 10.3.9 for the PowerPC version and on Mac OS X 10.4.11 for the Intel version. Since Burn 2.0u we're using the command line frontend (was the xml frontend).
+
+Commands:
+bash#: ./configure --disable-shared --without-xml-frontend
+bash#: make
+
+* movstuff:
+Build with Xcode on Mac OS X 10.5.6 on both PowerPC and Intel. Projects used in Burn: movtowav and movtoy4m.
