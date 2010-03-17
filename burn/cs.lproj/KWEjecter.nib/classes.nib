@@ -1,13 +1,22 @@
 {
-    IBClasses = (
-        {CLASS = FirstResponder; LANGUAGE = ObjC; SUPERCLASS = NSObject; }, 
-        {
-            ACTIONS = {cancelEject = id; ejectDisk = id; }; 
-            CLASS = KWEjecter; 
-            LANGUAGE = ObjC; 
-            OUTLETS = {popupButton = id; }; 
-            SUPERCLASS = NSWindowController; 
+    IBClasses =     (
+                {
+            CLASS = FirstResponder;
+            LANGUAGE = ObjC;
+            SUPERCLASS = NSObject;
+        },
+                {
+            ACTIONS =             {
+                cancelEject = id;
+                ejectDisk = id;
+            };
+            CLASS = KWEjecter;
+            LANGUAGE = ObjC;
+            OUTLETS =             {
+                popupButton = id;
+            };
+            SUPERCLASS = NSWindowController;
         }
-    ); 
-    IBVersion = 1; 
+    );
+    IBVersion = 1;
 }

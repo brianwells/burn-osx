@@ -1,20 +1,29 @@
 {
-    IBClasses = (
-        {CLASS = FirstResponder; LANGUAGE = ObjC; SUPERCLASS = NSObject; }, 
-        {
-            ACTIONS = {burnerPopup = id; cancelButton = id; closeButton = id; eraseButton = id; }; 
-            CLASS = KWEraser; 
-            LANGUAGE = ObjC; 
-            OUTLETS = {
-                burnerPopup = id; 
-                closeButton = id; 
-                completelyErase = id; 
-                eraseButton = id; 
-                quicklyErase = id; 
-                statusText = id; 
-            }; 
-            SUPERCLASS = NSWindowController; 
+    IBClasses =     (
+                {
+            CLASS = FirstResponder;
+            LANGUAGE = ObjC;
+            SUPERCLASS = NSObject;
+        },
+                {
+            ACTIONS =             {
+                burnerPopup = id;
+                cancelButton = id;
+                closeButton = id;
+                eraseButton = id;
+            };
+            CLASS = KWEraser;
+            LANGUAGE = ObjC;
+            OUTLETS =             {
+                burnerPopup = id;
+                closeButton = id;
+                completelyErase = id;
+                eraseButton = id;
+                quicklyErase = id;
+                statusText = id;
+            };
+            SUPERCLASS = NSWindowController;
         }
-    ); 
-    IBVersion = 1; 
+    );
+    IBVersion = 1;
 }

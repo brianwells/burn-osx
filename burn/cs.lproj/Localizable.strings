@@ -2,206 +2,250 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-	<key>
-(Note: there are a few protected mp4 files which can&apos;t be converted)</key>
-	<string>
-(Pozn.: Některé soubory jsou chráněné mp4 a tyto nelze převést)</string>
-	<key>
-(Note: there is a protected mp4 file which can&apos;t be converted)</key>
-	<string>
-(Pozn.: Některé soubory jsou chráněné mp4 a tyto nelze převést)</string>
-	<key> (Couldn&apos;t get attributes)</key>
-	<string> (Nelze získat atributy)</string>
-	<key> (No audio)</key>
-	<string> (Žádné audio)</string>
-	<key> (No audio/video)</key>
-	<string> (Žádné audio/video)</string>
-	<key> (No video)</key>
-	<string> (Žádné video)</string>
-	<key> (Unknown error)</key>
-	<string> (Neznámá chyba)</string>
-	<key> (Unknown format)</key>
-	<string> (Neznámý formát)</string>
-	<key> (Unsupported audio)</key>
-	<string> (Nepodporované audio)</string>
-	<key> GB</key>
-	<string> GB</string>
-	<key> KB</key>
-	<string> KB</string>
-	<key> MB</key>
-	<string> MB</string>
-	<key> TB</key>
-	<string> TB</string>
-	<key> file</key>
-	<string> soubor</string>
-	<key> files</key>
-	<string> souborů</string>
-	<key> free</key>
-	<string> volných</string>
-	<key> of </key>
-	<string> z </string>
-	<key> to DVD mpg</key>
-	<string> na DVD mpg</string>
-	<key> to DivX avi</key>
-	<string> na DivX avi</string>
-	<key> to SVCD mpg</key>
-	<string> na SVCD mpg</string>
-	<key> to VCD mpg</key>
-	<string> na VCD mpg</string>
-	<key> to mp3</key>
-	<string> na mp3</string>
-	<key> to wav</key>
-	<string> na wav</string>
-	<key> was burned successfully</key>
-	<string> bylo úspěšně vypáleno</string>
-	<key>4 KB</key>
-	<string>4 KB</string>
-	<key>A cue/bin file needs to be burned on a CD</key>
-	<string>Soubory cue/bin musí být vypálen na CD</string>
-	<key>Advanced</key>
-	<string>Rozšířené</string>
-	<key>Audio</key>
-	<string>Audio</string>
-	<key>Audio CD</key>
-	<string>Audio CD</string>
-	<key>Audio Help</key>
-	<string>Nápověda pro audio</string>
-	<key>Authoring DVD...</key>
-	<string>Vytváření DVD...</string>
-	<key>Authoring failed</key>
-	<string>Vytváření selhalo</string>
-	<key>Burn</key>
-	<string>Vypálit</string>
-	<key>Burn Temporary</key>
-	<string>Burn dočasně</string>
-	<key>Burn failed to encode one file</key>
-	<string>Vypalování selhalo při kódování jednoho souboru</string>
-	<key>Burn failed to encode some files</key>
-	<string>Vypalování selhalo při kódování několika souborů</string>
-	<key>Burner</key>
-	<string>Mechanika</string>
-	<key>Burning </key>
-	<string>Vypaluje se </string>
-	<key>Burning failed</key>
-	<string>Vypalování selhalo</string>
-	<key>Can&apos;t determine disc format</key>
-	<string>Nelze rozpoznat formát disku</string>
-	<key>Cancel</key>
-	<string>Zrušit</string>
-	<key>Chapter Menu</key>
-	<string>Nabídka kapitoly</string>
-	<key>Checking file...</key>
-	<string>Ověřování souboru…</string>
-	<key>Checking files...</key>
-	<string>Ověřování souborů…</string>
-	<key>Choose</key>
-	<string>Vybrat</string>
-	<key>Choose a location to save a copy of the disc</key>
-	<string>Vyberte umístění pro uložení kopie disku</string>
-	<key>Choose a location to save a temporary folder</key>
-	<string>Vyberte umístění pro uložení dočasných souborů</string>
-	<key>Choose a location to save the DVD folder</key>
-	<string>Vyberte umístění pro uložení složky DVD</string>
-	<key>Choose a location to save the avi files</key>
-	<string>Vyberte umístění pro uložení souborů AVI</string>
-	<key>Choose a location to save the burn file</key>
-	<string>Vyberte umístění pro uložení souborů k vypalování</string>
-	<key>Choose a location to save the image file</key>
-	<string>Vyberte umístění pro uložení souboru obrazu disku</string>
-	<key>Choose a location to save the mp3 files</key>
-	<string>Vyberte umístění pro uložení souborů MP3</string>
-	<key>Choose a location to save the mpg files</key>
-	<string>Vyberte umístění pro uložení souborů MPG</string>
-	<key>Choose a location to save the muxed file</key>
-	<string>Vyberte uméstění pro uložení mux souborů</string>
-	<key>Choose a location to save the re-muxed files</key>
-	<string>Vyberte uméstění pro uložení re-mux souborů</string>
-	<key>Choose a location to save the wav files</key>
-	<string>Vyberte umístění pro uložení souborů WAV</string>
-	<key>Choose an image file</key>
-	<string>Vyberte obraz disku</string>
-	<key>Close</key>
-	<string>Zavřít</string>
-	<key>Closing session</key>
-	<string>Uzavírá se oddíl</string>
-	<key>Closing track</key>
-	<string>Uzavírá se stopa</string>
-	<key>Closing track </key>
-	<string>Uzavírá se stopa </string>
-	<key>Compressed</key>
-	<string>Komprimováno</string>
-	<key>Compressed (ADC)</key>
-	<string>Komprimováno (ADC)</string>
-	<key>Compressed (bzip2)</key>
-	<string>Komprimováno (bzip2)</string>
-	<key>Continue</key>
-	<string>Pokračovat</string>
-	<key>Copy</key>
-	<string>Kopírování</string>
-	<key>Copy Help</key>
-	<string>Náprověda pro Kopírování</string>
-	<key>Copying disc</key>
-	<string>Disk se kopíruje</string>
-	<key>Creating DVD Theme</key>
-	<string>Vytváří se DVD téma</string>
-	<key>Creating image file</key>
-	<string>Vytváření obrazu disku</string>
-	<key>Creating: </key>
-	<string>Vytváření: </string>
-	<key>DVD-Audio</key>
-	<string>DVD-Audio</string>
-	<key>DVD-Video</key>
-	<string>DVD-Video</string>
-	<key>DVD/CD-master</key>
-	<string>DVD/CD-master</string>
-	<key>Data</key>
-	<string>Data</string>
+	<key>UDSP</key>
+	<string>Obraz disku typu sparse</string>
+	<key>Eject Disc</key>
+	<string>Vysunout disk</string>
 	<key>Data Help</key>
 	<string>Nápověda pro Data</string>
-	<key>Decoding sound: </key>
-	<string>Dekódování zvuku: </string>
-	<key>Disk Copy 4.2</key>
-	<string>Disk Copy 4.2</string>
-	<key>DivX</key>
-	<string>DivX</string>
-	<key>Eject</key>
-	<string>Vysunout</string>
-	<key>Encoding file </key>
-	<string>Kódování souboru </string>
-	<key>Encoding: </key>
-	<string>Kódování: </string>
-	<key>Erasing disc</key>
-	<string>Maže se disk</string>
-	<key>Erasing failed</key>
-	<string>Mazání selhalo</string>
-	<key>Failed converting</key>
-	<string>Převod selhal</string>
-	<key>Failed to burn </key>
-	<string>Vypalování selhalo</string>
-	<key>Failed to create </key>
-	<string>Vytváření selhalo </string>
-	<key>Finished burning</key>
-	<string>Vypalování bylo dokončeno</string>
-	<key>Finished converting</key>
-	<string>Převod byl dokončen</string>
-	<key>Finished converting </key>
-	<string>Převod byl dokončen</string>
-	<key>After canceling the disc can&apos;t be used anymore.</key>
-	<string>Po zrušení již nebude možno disk použít.</string>
-	<key>Are you sure you want to cancel?</key>
-	<string>Skutečně si přejete zrušit akci?</string>
-	<key>Finished erasing</key>
-	<string>Mazáni dokončeno</string>
+	<key>Unsuported Toc file</key>
+	<string>Nepodporovaný soubor Toc</string>
 	<key>Finishing...</key>
 	<string>Dokončuje se...</string>
-	<key>General</key>
-	<string>Hlavní</string>
+	<key>%@ (Unknown error)</key>
+	<string>%@ (Neznámá chyba)</string>
+	<key>Mount Image</key>
+	<string>Připojit obraz disku</string>
+	<key>Can&apos;t determine disc format</key>
+	<string>Nelze rozpoznat formát disku</string>
+	<key>Finished converting</key>
+	<string>Převod byl dokončen</string>
+	<key>Failed to burn &apos;%@&apos;</key>
+	<string>Vypalování selhalo &apos;%@&apos;</string>
+	<key>Copying disc</key>
+	<string>Disk se kopíruje</string>
+	<key>Remuxing: </key>
+	<string>Zpracovávání: </string>
+	<key>Closing session</key>
+	<string>Uzavírá se oddíl</string>
+	<key>Choose a location to save a temporary folder</key>
+	<string>Vyberte umístění pro uložení dočasných souborů</string>
+	<key>Finished burning</key>
+	<string>Vypalování bylo dokončeno</string>
+	<key>Some files specified in the %@ file are missing.</key>
+	<string>Některé soubory specifikované vsouboru %@ chybí.</string>
+	<key>Writing track (%@)</key>
+	<string>Zapisuje se stopa (%@)</string>
+	<key>UDSB</key>
+	<string>Obraz disku typu balik sparse</string>
+	<key>Mounting: %@</key>
+	<string>Připojování: %@</string>
+	<key>The PC (Joliet) or ISO9660 filesystem can only handle files smaller than 2GB</key>
+	<string>Formát disku PC (Joliet) nebo ISO9660 podporuje pouze soubory menší než 2GB</string>
+	<key>Burn failed to encode one file</key>
+	<string>Vypalování selhalo při kódování jednoho souboru</string>
+	<key>There was a problem authoring the DVD</key>
+	<string>Vyskytl se problém při vytváření DVD</string>
+	<key>Copy</key>
+	<string>Kopírování</string>
+	<key>The Burn file is corrupt or a wrong filetype</key>
+	<string>Soubor Burn je poškozen nebo je to soubor špatného typu</string>
+	<key>Burning &apos;%@&apos;</key>
+	<string>Vypaluje se &apos;%@&apos;</string>
+	<key>Waiting for the drive...</key>
+	<string>Čeká se na mechaniku...</string>
+	<key>Creating image file</key>
+	<string>Vytváření obrazu disku</string>
+	<key>Failed to save Burn file</key>
+	<string>Ukládání souboru Burn selhalo</string>
+	<key>Finished converting %ld files</key>
+	<string>Převod byl dokončen %ld souborů</string>
+	<key>Preview</key>
+	<string>Náhled</string>
+	<key>One incompatible file</key>
+	<string>Jeden nekompatibilní soubor</string>
+	<key>Audio</key>
+	<string>Audio</string>
+	<key>Total size: %@</key>
+	<string>Celková velikost: %@</string>
+	<key>One protected mp4 file</key>
+	<string>Jeden chraněný soubor mp4</string>
+	<key>Opening track %ld</key>
+	<string>Otevírá se stopa %ld</string>
+	<key>%@ (Couldn&apos;t get attributes)</key>
+	<string>%@ (Nelze získat atributy)</string>
+	<key>File path: %@</key>
+	<string>Cesta: %@</string>
+	<key>%ld files</key>
+	<string>%ld souborů</string>
+	<key>Failed to create &apos;%@&apos;</key>
+	<string>Vytvoření &apos;%@&apos; selhalo</string>
+	<key>Not enough space</key>
+	<string>Není dostatek místa</string>
+	<key>Choose a location to save a copy of the disc</key>
+	<string>Vyberte umístění pro uložení kopie disku</string>
+	<key>Yes</key>
+	<string>Ano</string>
+	<key>Choose a location to save the re-muxed files</key>
+	<string>Vyberte uméstění pro uložení re-mux souborů</string>
+	<key>%@ (No video)</key>
+	<string>%@ (Žádné video)</string>
+	<key>Decoding sound: %@</key>
+	<string>Dekódování zvuku: %@</string>
+	<key>UDIF</key>
+	<string>Obraz disku pro čtení i zápis</string>
+	<key>UDTO</key>
+	<string>DVD/CD-master</string>
+	<key>Would you like to convert those files to %@?%@</key>
+	<string>Přejete si převést tyto soubory do formátu %@?%@</string>
+	<key>Verifying...</key>
+	<string>Ověřuje se...</string>
+	<key>Unmount</key>
+	<string>Odpojit</string>
+	<key>Video</key>
+	<string>Video</string>
+	<key>Burn Temporary</key>
+	<string>Burn dočasně</string>
+	<key>Choose a location to save the muxed file</key>
+	<string>Vyberte uméstění pro uložení mux souborů</string>
+	<key>Maximum Possible</key>
+	<string>Nejvyšší možná</string>
+	<key>Failed converting</key>
+	<string>Převod selhal</string>
+	<key>Writing track %ld of %ld (%@)</key>
+	<string>Zapisuje se stopa %ld z %ld (%@)</string>
+	<key>Creating: </key>
+	<string>Vytváření: </string>
+	<key>Burn</key>
+	<string>Vypálit</string>
+	<key>Authoring DVD...</key>
+	<string>Vytváření DVD...</string>
+	<key>Can&apos;t overwrite &apos;%@&apos; in &apos;%@&apos;</key>
+	<string>Nelze přepsat &apos;%1$@&apos; na &apos;%2$@&apos;</string>
+	<key>Burning failed</key>
+	<string>Vypalování selhalo</string>
+	<key>Processing: </key>
+	<string>Zpracování: </string>
+	<key>Ready to copy</key>
+	<string>Připraveno ke kopírování</string>
+	<key>Some incompatible files</key>
+	<string>Nějaké nekompatibilní soubory</string>
+	<key>Waiting for a disc to be inserted...</key>
+	<string>Čeká se na vložení disku…</string>
+	<key>Creating DVD Theme</key>
+	<string>Vytváří se DVD téma</string>
+	<key>There was a problem erasing the disc</key>
+	<string>Vyskytl se problém při mazání disku</string>
+	<key>Choose a location to save the %@ files</key>
+	<string>Vyberte umístění pro uložení souborů %@</string>
+	<key>Failed to create temporary folder</key>
+	<string>Vytváření dočasné složky selhalo</string>
+	<key>Rken</key>
+	<string>Komprimovaný obraz disku</string>
+	<key>UDRW</key>
+	<string>Obraz disku pro čtení i zápis</string>
+	<key>%@ (No audio/video)</key>
+	<string>%@ (Žádné audio/video)</string>
 	<key>Generating DVD folder</key>
 	<string>Vytváření složky DVD</string>
-	<key>Image created</key>
-	<string>Obraz disku byl vytvořen</string>
-	<key>Image failed</key>
-	<string>Vytváření obrazu disku selhalo</string>
+	<key>The disc has been succesfully erased</key>
+	<string>Disk byl úspěšne smazán</string>
+	<key>%@ (No audio)</key>
+	<string>%@ (Žádné audio)</string>
+	<key>Burner</key>
+	<string>Mechanika</string>
+	<key>No disc</key>
+	<string>Žádný disk</string>
+	<key>Open...</key>
+	<string>Otevřít...</string>
+	<key>There was a problem copying the disc</key>
+	<string>Vyskytl se problém při kopírování disku</string>
+	<key>UDCO</key>
+	<string>Komprimovaný obraz disku</string>
+	<key>Copy Help</key>
+	<string>Náprověda pro Kopírování</string>
+	<key>No discs, try inserting a cd/dvd.</key>
+	<string>Žádné disky, zkuste vložit CD/DVD.</string>
+	<key>Scanning for disks...</key>
+	<string>Načítají se disky…</string>
+	<key>Choose</key>
+	<string>Vybrat</string>
+	<key>Writing track</key>
+	<string>Zapisuje se stopa</string>
+	<key>Encoding: </key>
+	<string>Kódování: </string>
+	<key>Track %ld %@</key>
+	<string>Stopa %ld %@</string>
+	<key>These files can&apos;t be converted</key>
+	<string>Tyto soubory nelze převést</string>
+	<key>Finished converting 1 file</key>
+	<string>Byl dokončen převod 1 souboru</string>
+	<key>Total time: %@</key>
+	<string>Celkový čas: %@</string>
+	<key>A cue/bin file needs to be burned on a CD</key>
+	<string>Soubory cue/bin musí být vypálen na CD</string>
+	<key>Format</key>
+	<string>Formát</string>
+	<key>Mounting image failed</key>
+	<string>Připojování obrazu disku selhalo</string>
+	<key>Failed to eject</key>
+	<string>Vysunutí disku selhalo</string>
+	<key>UDxx</key>
+	<string>UDIF-stub</string>
+	<key>Some protected mp4 files</key>
+	<string>Některé chráněné soubory mp4</string>
+	<key>Erasing disc</key>
+	<string>Maže se disk</string>
+	<key>Rdxx</key>
+	<string>Obraz disku pouze pro čtení</string>
+	<key>There was a problem mounting the image</key>
+	<string>Vyskytl se problém při připojování obrazu disku</string>
+	<key>Size</key>
+	<string>Velikost</string>
+	<key>Convert</key>
+	<string>Převést</string>
+	<key>Maximum Possible (%.0fx)</key>
+	<string>Nejvyšší možná (%.0fx)</string>
+	<key>UFBI</key>
+	<string>Celé zařízení</string>
+	<key>%@ free</key>
+	<string>%@ volných</string>
+	<key>Save...</key>
+	<string>Uložit</string>
+	<key>SPARSEBUNDLE</key>
+	<string>Obraz disku typu balik sparse</string>
+	<key>Erasing failed</key>
+	<string>Mazání selhalo</string>
+	<key>Mounting disk image</key>
+	<string>Připojování obrazu disku</string>
+	<key>OK</key>
+	<string>Budiž</string>
+	<key>Eject</key>
+	<string>Vysunout</string>
+	<key>UDZO</key>
+	<string>Komprimovaný obraz disku</string>
+	<key>Authoring failed</key>
+	<string>Vytváření selhalo</string>
+	<key>Close</key>
+	<string>Zavřít</string>
+	<key>Ready to erase</key>
+	<string>Připraveno ke smazání</string>
+	<key>Checking files...</key>
+	<string>Ověřování souborů…</string>
+	<key>SPARSE</key>
+	<string>Obraz disku typu sparse</string>
+	<key>Opening track</key>
+	<string>Otevírá se stopa</string>
+	<key>Burn failed to encode some files</key>
+	<string>Vypalování selhalo při kódování několika souborů</string>
+	<key>DVD-Video</key>
+	<string>DVD-Video</string>
+	<key>General</key>
+	<string>Hlavní</string>
+	<key>Cue file</key>
+	<string>Soubor cue</string>
+	<key>Checking file...</key>
+	<string>Ověřuje se soubor…</string>
 	<key>Image not supported on Panther.
 
 To still use it:
@@ -210,231 +254,151 @@ Mount the image and drop the mounted image in the window.</key>
 
 Návod:
 Připojit obraz disku a vhoďte připojený obraz disku do okna.</string>
-	<key>Limited</key>
-	<string>Omezeno</string>
-	<key>MP3 Disc</key>
-	<string>MP3 disc</string>
-	<key>Maximum Possible</key>
-	<string>Nejvyšší možná</string>
-	<key>Missing files</key>
-	<string>Chybějící soubory</string>
-	<key>Mount</key>
-	<string>Připojit</string>
-	<key>Mounting disk image</key>
-	<string>Připojování obrazu disku</string>
-	<key>Mounting image failed</key>
-	<string>Připojování obrazu disku selhalo</string>
-	<key>Mounting: </key>
-	<string>Připojování:: </string>
-	<key>NDIF compressed</key>
-	<string>NDIF komprimace</string>
-	<key>NDIF compressed (KenCode)</key>
-	<string>NDIF komprimace (KenCode)</string>
-	<key>NDIF read-only</key>
-	<string>NDIF pouze čtení</string>
-	<key>NDIF read/write</key>
-	<string>NDIF čtení/zápis;</string>
-	<key>No</key>
-	<string>Ne</string>
-	<key>No CD</key>
-	<string>Žádné CD</string>
+	<key>
+(Note: there is a protected mp4 file which can&apos;t be converted)</key>
+	<string>
+(Pozn.: Některé soubory jsou chráněné mp4 a tyto nelze převést)</string>
+	<key>&apos;%@&apos; was burned succesfully</key>
+	<string>&apos;%@&apos; bylo úspěšně vypáleno</string>
+	<key>This file can&apos;t be converted</key>
+	<string>Tento soubor nelze převést</string>
 	<key>No Recorder</key>
 	<string>Žádná mechanika</string>
-	<key>No disc</key>
-	<string>Žádný disk</string>
-	<key>No discs, try inserting a cd/dvd.</key>
-	<string>Žádné disky, zkuste vložit CD/DVD.</string>
-	<key>Not enough space</key>
-	<string>Není dostatek místa</string>
-	<key>OK</key>
-	<string>Budiž</string>
-	<key>One incompatible file</key>
-	<string>Jeden nekompatibilní soubor</string>
-	<key>One protected mp4 file</key>
-	<string>Jeden chraneny soubor mp4</string>
-	<key>Only Mode1 and Audio tracks are supported</key>
-	<string>Jsou podporovány pouze Mode1 a Audio stopy</string>
-	<key>Open</key>
-	<string>Otevřít</string>
-	<key>Open Log</key>
-	<string>Otevřít záznamy</string>
-	<key>Open...</key>
-	<string>Otevřít...</string>
-	<key>Opening track</key>
-	<string>Otevírá se stopa</string>
-	<key>Opening track </key>
-	<string>Otevírá se stopa</string>
-	<key>Preferences Help</key>
-	<string>Nápověda pro předvolby</string>
-	<key>Preparing to encode</key>
-	<string>Příprava kódování</string>
-	<key>Preparing...</key>
-	<string>Připravuje se...</string>
-	<key>Preview</key>
-	<string>Náhled</string>
-	<key>Processing: </key>
-	<string>Zpracování: </string>
-	<key>Raw</key>
-	<string>Raw</string>
-	<key>Read-only</key>
-	<string>Pouze čtení</string>
-	<key>Read/write</key>
-	<string>Čtení/zápis</string>
 	<key>Ready to burn</key>
 	<string>Připraveno k vypalování</string>
-	<key>Ready to copy</key>
-	<string>Připraveno ke kopírování</string>
-	<key>Ready to erase</key>
-	<string>Připraveno ke smazání</string>
-	<key>Remuxing: </key>
-	<string>Zpracovávání: </string>
-	<key>Save...</key>
-	<string>Uložit</string>
-	<key>Scanning for disks...</key>
-	<string>Načítání disků…</string>
-	<key>Scanning for for file and folders</key>
-	<string>Načítání souborů a složek</string>
-	<key>Size</key>
-	<string>Velikost</string>
-	<key>Some files are to large</key>
-	<string>Některé soubory jsou příliš velké</string>
-	<key>Some files specified in the Toc file are missing.</key>
-	<string>Některé soubory uvedené v souboru Toc chybí.</string>
-	<key>Some incompatible files</key>
-	<string>Nějaké nekompatibilní soubory</string>
-	<key>Some protected mp4 files</key>
-	<string>Nektere chranene soubory mp4</string>
-	<key>Still try to burn the disc?</key>
-	<string>Opravdu zkusit vypálit disk?</string>
-	<key>Succesfully created a disk image</key>
-	<string>Vytváření obrazu disku bylo úspěšně dokončeno</string>
-	<key>The PC (Joliet) or ISO9660 filesystem can only handle files smaller than 2GB</key>
-	<string>Formát disku PC (Joliet) nebo ISO9660 podporuje pouze soubory menší než 2GB</string>
-	<key>The disc has been succesfully erased</key>
-	<string>Disk byl úspěšne smazán</string>
-	<key>There was a problem authoring the DVD</key>
-	<string>Vyskytl se problém při vytváření DVD</string>
-	<key>There was a problem copying the disc</key>
-	<string>Vyskytl se problém při kopírování disku</string>
-	<key>There was a problem creating the image</key>
-	<string>Vyskytl se problém při vytváření obrazu disku</string>
-	<key>There was a problem mounting the image</key>
-	<string>Vyskytl se problém při připojování obrazu disku</string>
-	<key>There was a problem erasing the disc</key>
-	<string>Vyskytl se problém při mazání disku</string>
-	<key>These files can&apos;t be converted</key>
-	<string>Tyto soubory nelze prevest</string>
-	<key>These files can&apos;t be converted, would you like to continue?</key>
-	<string>Tyto soubory nebylo možno převést, přejete si pokračovat?</string>
-	<key>This file can&apos;t be converted</key>
-	<string>Tento soubor nelze prevest</string>
-	<key>This file can&apos;t be converted, would you like to continue?</key>
-	<string>Tento soubor nelze převést, přejete si pokračovat?</string>
-	<key>Time</key>
-	<string>Čas</string>
+	<key>Mount</key>
+	<string>Připojit</string>
+	<key>UDRO</key>
+	<string>Obraz disku pouze pro čtení</string>
+	<key>Can&apos;t create &apos;%@&apos; in &apos;%@&apos;</key>
+	<string>Nelze vytvořit &apos;%1$@&apos; v &apos;%2$@&apos;</string>
+	<key>Cancel</key>
+	<string>Zrušit</string>
+	<key>Closing track %ld of %ld (%@)</key>
+	<string>Uzavírá se stopa %ld z %ld (%@)</string>
+	<key>Advanced</key>
+	<string>Rozšířené</string>
+	<key>Could not eject media from the drive</key>
+	<string>Nelze vysunout disk z mechaniky</string>
+	<key>Data</key>
+	<string>Data</string>
+	<key>Choose an image file</key>
+	<string>Vyberte obraz disku</string>
 	<key>Title Menu</key>
 	<string>Nabídka titulu</string>
-	<key>To burn a Audio-CD the media should be a CD</key>
-	<string>Pro vypalování Audio CD musí být jako médium použito CD</string>
-	<key>Total size: </key>
-	<string>Celková velikost: </string>
-	<key>Total time: </key>
-	<string>Celkový čas: </string>
-	<key>Track </key>
-	<string>Stopa </string>
-	<key>UDF / ISO9660 (only)</key>
-	<string>UDF / ISO9660 (pouze)</string>
-	<key>UDIF-stub</key>
-	<string>UDIF-stub</string>
-	<key>Unknown</key>
-	<string>Neznámý</string>
-	<key>Unknown disk image</key>
-	<string>Neznámý obraz disku</string>
-	<key>Unmount</key>
-	<string>Odpojit</string>
-	<key>Unsuported Toc file</key>
-	<string>Nepodporovaný soubor Toc</string>
-	<key>Unsupported Image</key>
-	<string>Nepodporovaný obraz disku</string>
-	<key>Untitled</key>
-	<string>Beze jména</string>
-	<key>Verifying...</key>
-	<string>Ověřuje se...</string>
-	<key>Video</key>
-	<string>Video</string>
+	<key>Creating image file &apos;%@&apos;</key>
+	<string>Vytváření obrazu disku &apos;%@&apos;</string>
+	<key>Scanning for files and folders</key>
+	<string>Načítání souborů a složek</string>
+	<key>Invalid Burn file</key>
+	<string>Chybný soubor Burn</string>
+	<key>Image created</key>
+	<string>Obraz disku byl vytvořen</string>
+	<key>Unmount Image</key>
+	<string>Odpojit obraz disku</string>
+	<key>Missing files</key>
+	<string>Chybějící soubory</string>
+	<key>Audio Help</key>
+	<string>Nápověda pro audio</string>
+	<key>DC42</key>
+	<string>Disk Copy 4.2 disku</string>
+	<key>%@ (Unknown format)</key>
+	<string>%@ (Neznámý formát)</string>
 	<key>Video Help</key>
 	<string>Nápověda pro Video</string>
-	<key>Waiting for a disc to be inserted...</key>
-	<string>Čeká se na vložení disku…</string>
-	<key>Waiting for the drive...</key>
-	<string>Čeká se na mechaniku...</string>
-	<key>Whole device</key>
-	<string>Celé zařízení</string>
-	<key>Would you like to convert that file to DVD mpg?</key>
-	<string>Přejete si převést tento soubor do formátu DVD mpg?</string>
-	<key>Would you like to convert that file to DivX avi?</key>
-	<string>Přejete si převést tento soubor do formátu DivX avi?</string>
-	<key>Would you like to convert that file to SVCD mpg?</key>
-	<string>Přejete si převést tento soubor do formátu SVCD mpg?</string>
-	<key>Would you like to convert that file to VCD mpg?</key>
-	<string>Přejete si převést tento soubor do formátu VCD mpg?</string>
-	<key>Would you like to convert that file to mp3?</key>
-	<string>Přejete si převést tento soubor do formátu mp3?</string>
-	<key>Would you like to convert that file to mp3?
+	<key>Failed to copy &apos;%@&apos; to &apos;%@&apos;. %@</key>
+	<string>Kopírování &apos;%1$@&apos; na &apos;%2$@&apos; selhalo. %3$@</string>
+	<key>UNIV</key>
+	<string>Hybridní obraz disku</string>
+	<key>Failed to delete &apos;%@&apos;.</key>
+	<string>Mazání &apos;%@&apos; selhalo.</string>
+	<key>Open</key>
+	<string>Otevřít</string>
+	<key>Failed to write &apos;%@&apos; to &apos;%@&apos;</key>
+	<string>Zápis &apos;%1$@&apos; na &apos;%2$@&apos; selhal</string>
+	<key>Preferences Help</key>
+	<string>Nápověda pro předvolby</string>
+	<key>Time</key>
+	<string>Čas</string>
+	<key>Closing track (%@)</key>
+	<string>Uzavírá se stopa (%@)</string>
+	<key>Audio CD</key>
+	<string>Audio CD</string>
+	<key>%@ (Unsupported audio)</key>
+	<string>%@ (Nepodporované audio)</string>
+	<key>To burn a Audio-CD the media should be a CD</key>
+	<string>Pro vypalování Audio CD musí být jako médium použito CD</string>
+	<key>%@ Help</key>
+	<string>Nápověda pro %@</string>
+	<key>RdWr</key>
+	<string>Obraz disku pro čtení i zápis</string>
+	<key>Untitled Folder</key>
+	<string>Složka beze jména</string>
+	<key>Are you sure you want to cancel?</key>
+	<string>Skutečně si přejete zrušit akci?</string>
+	<key>Would you like to convert that file to %@?%@</key>
+	<string>Přejete si převést tento soubor do formátu %@?%@</string>
+	<key>Finished erasing</key>
+	<string>Mazáni dokončeno</string>
+	<key>Only Mode1 and Audio tracks are supported</key>
+	<string>Jsou podporovány pouze Mode1 a Audio stopy</string>
+	<key>Chapter Menu</key>
+	<string>Nabídka kapitol</string>
+	<key>Succesfully created a disk image</key>
+	<string>Vytváření obrazu disku bylo úspěšně dokončeno</string>
+	<key>Choose a location to save the image file</key>
+	<string>Vyberte umístění pro uložení souboru obrazu disku</string>
+	<key>Preparing to encode</key>
+	<string>Příprava kódování</string>
+	<key>No CD</key>
+	<string>Žádné CD</string>
+	<key>Toc file</key>
+	<string>Soubor Toc</string>
+	<key>Image failed</key>
+	<string>Vytváření obrazu disku selhalo</string>
+	<key>ROCo</key>
+	<string>Komprimovaný obraz disku</string>
+	<key>Untitled</key>
+	<string>Beze jména</string>
+	<key>Some files are to large</key>
+	<string>Některé soubory jsou příliš velké</string>
+	<key>There was a problem creating the image</key>
+	<string>Vyskytl se problém při vytváření obrazu disku</string>
+	<key>No</key>
+	<string>Ne</string>
+	<key>
 (Note: there are a few protected mp4 files which can&apos;t be converted)</key>
-	<string>Přejete si převést tyto soubory do formátu mp3?
-(Poznamka: vyber obsahuje chranene soubory mp4, ktere nelze prevest)</string>
-	<key>Would you like to convert that file to mp3?
-(Note: there is a protected mp4 file which can&apos;t be converted)</key>
-	<string>Přejete si převést tyto soubory do formátu mp3?
-(Poznamka: vyber obsahuje chraneny soubor mp4, ktery nelze prevest)</string>
-	<key>Would you like to convert that file to wav?</key>
-	<string>Přejete si převést tento soubor do formátu wav?</string>
-	<key>Would you like to convert that file to wav?
-(Note: there are a few protected mp4 files which can&apos;t be converted)</key>
-	<string>Přejete si převést tyto soubory do formátu wav?
-(Poznamka: vyber obsahuje chranene soubory mp4, ktere nelze prevest)</string>
-	<key>Would you like to convert that file to wav?
-(Note: there is a protected mp4 file which can&apos;t be converted)</key>
-	<string>Přejete si převést tyto soubory do formátu wav?
-(Poznamka: vyber obsahuje chraneny soubor mp4, ktery nelze prevest)</string>
-	<key>Would you like to convert those files to DVD mpg?</key>
-	<string>Přejete si převést tyto soubory do formátu DVD mpg?</string>
-	<key>Would you like to convert those files to DivX avi?</key>
-	<string>Přejete si převést tyto soubory do formátu DivX avi?</string>
-	<key>Would you like to convert those files to SVCD mpg?</key>
-	<string>Přejete si převést tyto soubory do formátu SVCD mpg?</string>
-	<key>Would you like to convert those files to VCD mpg?</key>
-	<string>Přejete si převést tyto soubory do formátu VCD mpg?</string>
-	<key>Would you like to convert those files to mp3?</key>
-	<string>Přejete si převést tyto soubory do formátu mp3?</string>
-	<key>Would you like to convert those files to mp3?
-(Note: there are a few protected mp4 files which can&apos;t be converted)</key>
-	<string>Přejete si převést tyto soubory do formátu mp3?
-(Poznamka: vyber obsahuje chranene soubory mp4, ktere nelze prevest)</string>
-	<key>Would you like to convert those files to mp3?
-(Note: there is a protected mp4 file which can&apos;t be converted)</key>
-	<string>Přejete si převést tyto soubory do formátu mp3?
-(Poznamka: vyber obsahuje chraneny soubor mp4, ktery nelze prevest)</string>
-	<key>Would you like to convert those files to wav?</key>
-	<string>Přejete si převést tyto soubory do formátu wav?</string>
-	<key>Would you like to convert those files to wav?
-(Note: there are a few protected mp4 files which can&apos;t be converted)</key>
-	<string>Přejete si převést tyto soubory do formátu wav?
-(Poznamka: vyber obsahuje chranene soubory mp4, ktere nelze prevest)</string>
-	<key>Would you like to convert those files to wav?
-(Note: there is a protected mp4 file which can&apos;t be converted)</key>
-	<string>Přejete si převést tyto soubory do formátu wav?
-(Poznamka: vyber obsahuje chraneny soubor mp4, ktery nelze prevest)</string>
-	<key>Writing track</key>
-	<string>Zapisuje se stopa</string>
-	<key>Writing track </key>
-	<string>Zapisuje se stopa </string>
+	<string>
+(Pozn.: Některé soubory jsou chráněné mp4 a tyto nelze převést)</string>
+	<key>Processing: %@ (%i of %i)</key>
+	<string>Zpracovává se: %@ (%i z %i)</string>
+	<key>Unsupported Image</key>
+	<string>Nepodporovaný obraz disku</string>
+	<key>Unknown disk image</key>
+	<string>Neznámý obraz disku</string>
+	<key>Continue</key>
+	<string>Pokračovat</string>
 	<key>Writing tracks</key>
 	<string>Zapisují se stopy</string>
-	<key>Yes</key>
-	<string>Ano</string>
-	<key>iPod image</key>
+	<key>UDBZ</key>
+	<string>Komprimovaný obraz disku</string>
+	<key>Generating DVD folder: (%.0f%@)</key>
+	<string>Vytváření složky DVD (%.0f%@)</string>
+	<key>UDF / ISO9660 (only)</key>
+	<string>UDF / ISO9660 (pouze)</string>
+	<key>IPOD</key>
 	<string>Obraz iPod</string>
+	<key>Still try to burn the disc?</key>
+	<string>Opravdu zkusit vypálit disk?</string>
+	<key>Encoding file %i of %i to %@</key>
+	<string>Kódování souboru %i z %i na %@</string>
+	<key>Preparing...</key>
+	<string>Připravuje se...</string>
+	<key>After canceling the disc can&apos;t be used anymore</key>
+	<string>Po přerušení vypalování nebude disk čitelný</string>
+	<key>Choose a location to save the burn file</key>
+	<string>Vyberte umístění pro uložení souborů k vypalování</string>
+	<key>Failed to install theme in the &apos;Application Support&apos; folder</key>
+	<string>Instalace Témat do složky &apos;Podpora aplikací&apos; selhala</string>
 </dict>
 </plist>
