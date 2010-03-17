@@ -1,7 +1,7 @@
 #import <Cocoa/Cocoa.h>
 #import <DiscRecording/DiscRecording.h>
-#import <KWProgress.h>
-#import <KWBurner.h>
+#import "KWProgress.h"
+#import "KWBurner.h"
 #import "KWDRFolder.h"
 #import "KWTrackProducer.h"
 

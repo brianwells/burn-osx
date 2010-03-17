@@ -8,9 +8,9 @@
 
 #import <Cocoa/Cocoa.h>
 #import <DiscRecording/DiscRecording.h>
-#import <KWEraser.h>
+#import "KWEraser.h"
 #import "KWEjecter.h"
-#import <KWProgress.h>
+#import "KWProgress.h"
 
 @interface KWWindowController : NSObject 
 {
