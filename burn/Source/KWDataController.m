@@ -506,7 +506,7 @@ static NSString*	EDBCurrentSelection							= @"EDBCurrentSelection";
 - (IBAction)newVirtualFolder:(id)sender 
 {	
 	KWDRFolder*	folderObj = [[[KWDRFolder alloc] initWithName:NSLocalizedString(@"Untitled Folder",nil)] autorelease];
-	[folderObj setFolderSize:[NSString localizedStringWithFormat: @"%.0f KB", 0]];
+	[folderObj setFolderSize:[NSString localizedStringWithFormat:NSLocalizedString(@"%.0f KB", nil), 0]];
 	
 	id nodeData = [[FSFolderNodeData alloc] initWithFSObject:folderObj];
 	if (nodeData)

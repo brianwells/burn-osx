@@ -111,7 +111,7 @@
 			if ([[sizeString substringFromIndex:[sizeString length] - 1] isEqualTo:@"0"])
 			sizeString = [sizeString substringWithRange:NSMakeRange(0, [sizeString length] - 2)];
 	
-		return [NSString localizedStringWithFormat: @"%@ MB", sizeString];
+		return [NSString localizedStringWithFormat:NSLocalizedString(@"%@ MB", nil), sizeString];
 	}
 	
 	if (isGB)
@@ -124,7 +124,7 @@
 			if ([[sizeString substringFromIndex:[sizeString length] - 1] isEqualTo:@"0"])
 			sizeString = [sizeString substringWithRange:NSMakeRange(0, [sizeString length] - 2)];
 	
-		return [NSString localizedStringWithFormat: @"%@ GB", sizeString];
+		return [NSString localizedStringWithFormat:NSLocalizedString(@"%@ GB", nil), sizeString];
 	}
 	
 	if (isTB)
@@ -137,7 +137,7 @@
 			if ([[sizeString substringFromIndex:[sizeString length] - 1] isEqualTo:@"0"])
 			sizeString = [sizeString substringWithRange:NSMakeRange(0, [sizeString length] - 2)];
 	
-		return [NSString localizedStringWithFormat: @"%@ TB", sizeString];
+		return [NSString localizedStringWithFormat: NSLocalizedString(@"%@ TB", nil), sizeString];
 	}	
 
 	return [NSString localizedStringWithFormat: @"%.0f KB", 0];

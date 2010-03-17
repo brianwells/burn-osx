@@ -120,7 +120,7 @@
 	[recorderProduct setStringValue:[deviceInfo objectForKey:@"DRDeviceProductNameKey"]];
 	[recorderVendor setStringValue:[deviceInfo objectForKey:@"DRDeviceVendorNameKey"]];
 	[recorderConnection setStringValue:[deviceInfo objectForKey:@"DRDevicePhysicalInterconnectKey"]];
-	[recorderCache setStringValue:[NSString localizedStringWithFormat:@"%.0f KB", [deviceInfo objectForKey:@"DRDeviceWriteBufferSizeKey"]]];
+	[recorderCache setStringValue:[NSString localizedStringWithFormat:NSLocalizedString(@"%.0f KB", nil), [deviceInfo objectForKey:@"DRDeviceWriteBufferSizeKey"]]];
 
 	NSDictionary *writeCapabilities = [deviceInfo objectForKey:@"DRDeviceWriteCapabilitiesKey"];
 	BOOL cdUnderrunProtect = [[writeCapabilities objectForKey:DRDeviceCanUnderrunProtectCDKey] boolValue];

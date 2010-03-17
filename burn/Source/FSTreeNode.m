@@ -294,7 +294,7 @@
 		{
 			NSString *folderSize = [(KWDRFolder *)childObj folderSize];
 			
-			if (folderSize && [folderSize isEqualTo:[NSString localizedStringWithFormat: @"%.0f KB", 0]])
+			if (folderSize && [folderSize isEqualTo:[NSString localizedStringWithFormat:NSLocalizedString(@"%.0f KB", nil), 0]])
 				emptyFolder = YES;
 		}
 	
