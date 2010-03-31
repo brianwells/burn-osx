@@ -1039,7 +1039,7 @@
 + (NSArray *)mediaTypes
 {
 	NSMutableArray *addFileTypes = [NSMutableArray arrayWithArray:[KWCommonMethods quicktimeTypes]];
-	NSArray *extraExtensions = [NSArray arrayWithObjects:@"vob",@"wma",@"wmv",@"asf",@"asx",@"ogg",@"flv",@"rm",@"rmvb",@"flac",nil];
+	NSArray *extraExtensions = [NSArray arrayWithObjects:@"vob",@"wma",@"wmv",@"asf",@"asx",@"ogg",@"flv",@"rm",@"rmvb",@"flac",@"mts",nil];
 		
 	int i;
 	for (i=0;i<[extraExtensions count];i++)
