@@ -2,204 +2,250 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-	<key>
-(Note: there are a few protected mp4 files which can&apos;t be converted)</key>
-	<string>
-(Opmerking: een aantal van de bestanden zijn beveiligde mp4 bestanden die niet kunnen worden omgezet)</string>
-	<key>
-(Note: there is a protected mp4 file which can&apos;t be converted)</key>
-	<string>
-(Opmerking: een bestand is een beveiligd mp4 bestand dat kan niet worden omgezet)</string>
-	<key> (Couldn&apos;t get attributes)</key>
-	<string> (Attributen onbekend)</string>
-	<key> (No audio)</key>
-	<string> (Geen geluid)</string>
-	<key> (No audio/video)</key>
-	<string> (Geen geluid/video)</string>
-	<key> (No video)</key>
-	<string> (Geen video)</string>
-	<key> (Unknown error)</key>
-	<string> (Onbekend probleem)</string>
-	<key> (Unknown format)</key>
-	<string> (Onbekend formaat)</string>
-	<key> (Unsupported audio)</key>
-	<string> (Niet ondersteund geluid)</string>
-	<key> GB</key>
-	<string> GB</string>
-	<key> KB</key>
-	<string> KB</string>
-	<key> MB</key>
-	<string> MB</string>
-	<key> TB</key>
-	<string> TB</string>
-	<key> file</key>
-	<string> bestand</string>
-	<key> files</key>
-	<string> bestanden</string>
-	<key> free</key>
-	<string> vrij</string>
-	<key> of </key>
-	<string> van </string>
-	<key> to DVD mpg</key>
-	<string> naar DVD mpg</string>
-	<key> to DivX avi</key>
-	<string> naar DivX avi</string>
-	<key> to SVCD mpg</key>
-	<string> naar SVCD mpg</string>
-	<key> to VCD mpg</key>
-	<string> naar VCD mpg</string>
-	<key> to mp3</key>
-	<string> naar mp3</string>
-	<key> to wav</key>
-	<string> naar wav</string>
-	<key> was burned successfully</key>
-	<string> is met succes gebrand</string>
-	<key>4 KB</key>
-	<string>4 KB</string>
-	<key>A cue/bin file needs to be burned on a CD</key>
-	<string>Een cue/bin bestand moet op een CD worden gebrand</string>
-	<key>Advanced</key>
-	<string>Geavanceerd</string>
-	<key>Audio</key>
-	<string>Muziek</string>
-	<key>Audio CD</key>
-	<string>Audio CD</string>
-	<key>Audio Help</key>
-	<string>Muziek Help</string>
-	<key>Authoring DVD...</key>
-	<string>Authoriseerd DVD...</string>
-	<key>Authoring failed</key>
-	<string>Authorizeren mislukt</string>
-	<key>Burn</key>
-	<string>Brand</string>
-	<key>Burn Temporary</key>
-	<string>Brand Tijdelijk</string>
-	<key>Burn failed to encode one file</key>
-	<string>Brand kon een bestand niet omzetten</string>
-	<key>Burn failed to encode some files</key>
-	<string>Brand kon sommige bestanden niet omzetten</string>
-	<key>Burner</key>
-	<string>Brander</string>
-	<key>Burning </key>
-	<string>Brand </string>
-	<key>Burning failed</key>
-	<string>Branden mislukt</string>
-	<key>Can&apos;t determine disc format</key>
-	<string>Onbekend schijf formaat</string>
-	<key>Cancel</key>
-	<string>Annuleer</string>
-	<key>Chapter Menu</key>
-	<string>Hoofdstukken Menu</string>
-	<key>Checking file...</key>
-	<string>Controlleert bestand...</string>
-	<key>Checking files...</key>
-	<string>Controlleert bestanden...</string>
-	<key>Choose</key>
-	<string>Kies</string>
-	<key>Choose a location to save a copy of the disc</key>
-	<string>Kies een locatie om een kopie van de schijf te bewaren</string>
-	<key>Choose a location to save a temporary folder</key>
-	<string>Kies een locatie om de tijdelijke schijf te bewaren</string>
-	<key>Choose a location to save the DVD folder</key>
-	<string>Kies een locatie om de DVD map te bewaren</string>
-	<key>Choose a location to save the avi files</key>
-	<string>Kies een locatie om de avi bestanden te bewaren</string>
-	<key>Choose a location to save the burn file</key>
-	<string>Kies een locatie om het brand bestand te bewaren</string>
-	<key>Choose a location to save the image file</key>
-	<string>Kies een locatie om het schijfkopie bestand te bewaren</string>
-	<key>Choose a location to save the mp3 files</key>
-	<string>Kies een locatie om de mp3 bestanden te bewaren</string>
-	<key>Choose a location to save the mpg files</key>
-	<string>Kies een locatie om de mpg bestanden te bewaren</string>
-	<key>Choose a location to save the muxed file</key>
-	<string>Kies een locatie om het gemuxte bestand te bewaren</string>
-	<key>Choose a location to save the re-muxed files</key>
-	<string>Kies een locatie om de her-gemuxte bestanden te bewaren</string>
-	<key>Choose a location to save the wav files</key>
-	<string>Kies een lokatie om de wav bestanden op te slaan</string>
-	<key>Choose an image file</key>
-	<string>Kies een schijfkopie bestand</string>
-	<key>Close</key>
-	<string>Sluit</string>
-	<key>Closing session</key>
-	<string>Sluit sessie</string>
-	<key>Closing track</key>
-	<string>Sluit track</string>
-	<key>Closing track </key>
-	<string>Sluit track </string>
-	<key>Compressed</key>
-	<string>Compressie</string>
-	<key>Compressed (ADC)</key>
-	<string>Compressie (ADC)</string>
-	<key>Compressed (bzip2)</key>
-	<string>Compressie (bzip2)</string>
-	<key>Continue</key>
-	<string>Ga door</string>
-	<key>Copy</key>
-	<string>Kopie</string>
-	<key>Copy Help</key>
-	<string>Kopie Help</string>
-	<key>Copying disc</key>
-	<string>Kopieert schijf</string>
-	<key>Creating DVD Theme</key>
-	<string>Maakt DVD Thema aan</string>
-	<key>Creating image file</key>
-	<string>Maakt een schijfkopie bestand aan</string>
-	<key>Creating: </key>
-	<string>Maakt aan: </string>
-	<key>DVD-Audio</key>
-	<string>DVD-Audio</string>
-	<key>DVD-Video</key>
-	<string>DVD-Video</string>
-	<key>DVD/CD-master</key>
-	<string>DVD/CD-master</string>
-	<key>Data</key>
-	<string>Data</string>
+	<key>UDSP</key>
+	<string>Schijfkopie (beperkt)</string>
+	<key>Eject Disc</key>
+	<string>Verwijder schijf</string>
 	<key>Data Help</key>
 	<string>Data Help</string>
-	<key>Decoding sound: </key>
-	<string>Decodeert geluid van: </string>
-	<key>Disk Copy 4.2</key>
-	<string>Disk Copy 4.2</string>
-	<key>DivX</key>
-	<string>DivX</string>
-	<key>Eject</key>
-	<string>Verwijder</string>
-	<key>Eject Disk</key>
-	<string>Verwijder schijf</string>
-	<key>Encoding file </key>
-	<string>Encodeert bestand </string>
-	<key>Encoding: </key>
-	<string>Encodeert: </string>
-	<key>Erasing disc</key>
-	<string>Wist schijf</string>
-	<key>Erasing failed</key>
-	<string>Wissen mislukt</string>
-	<key>Failed converting</key>
-	<string>Omzetten mislukt</string>
-	<key>Failed to burn </key>
-	<string>Branden mislukt van </string>
-	<key>Failed to create </key>
-	<string></string>
-	<key>Finished burning</key>
-	<string>Klaar met branden</string>
-	<key>Finished converting</key>
-	<string>Klaar met omzetten</string>
-	<key>Finished converting </key>
-	<string>Klaar met omzetten van </string>
-	<key>Finished erasing</key>
-	<string>Klaar met wissen</string>
+	<key>Unsuported Toc file</key>
+	<string>Niet ondersteund Toc bestand</string>
 	<key>Finishing...</key>
 	<string>Voltooien...</string>
-	<key>General</key>
-	<string>Algemeen</string>
+	<key>%@ (Unknown error)</key>
+	<string>%@ (Onbekende fout)</string>
+	<key>Mount Image</key>
+	<string>Activeer</string>
+	<key>Can&apos;t determine disc format</key>
+	<string>Onbekend schijf formaat</string>
+	<key>Finished converting</key>
+	<string>Klaar met converteren</string>
+	<key>Failed to burn &apos;%@&apos;</key>
+	<string>Branden van &apos;%@&apos; mislukt</string>
+	<key>Copying disc</key>
+	<string>Kopieert schijf</string>
+	<key>Remuxing: </key>
+	<string>Her-muxt: </string>
+	<key>Closing session</key>
+	<string>Sluit sessie</string>
+	<key>Choose a location to save a temporary folder</key>
+	<string>Kies een locatie om de tijdelijke schijf te bewaren</string>
+	<key>Finished burning</key>
+	<string>Klaar met branden</string>
+	<key>Some files specified in the %@ file are missing.</key>
+	<string>Een aantal bestanden gespecificeerd in het %@ bestand missen.</string>
+	<key>Writing track (%@)</key>
+	<string>Schrijft track (%@)</string>
+	<key>UDSB</key>
+	<string>Schijfkopie bundel (beperkt)</string>
+	<key>Mounting: %@</key>
+	<string>Activeert: %@</string>
+	<key>The PC (Joliet) or ISO9660 filesystem can only handle files smaller than 2GB</key>
+	<string>Het PC (Joliet of ISO9660 bestandsysteem staat alleen bestanden toe kleiner dan 2GB</string>
+	<key>Burn failed to encode one file</key>
+	<string>Brand kon een bestand niet converteren</string>
+	<key>There was a problem authoring the DVD</key>
+	<string>Er was een probleem bij het authoriseren van de DVD</string>
+	<key>Copy</key>
+	<string>Kopie</string>
+	<key>The Burn file is corrupt or a wrong filetype</key>
+	<string>Het Brand bestand is corrupt of een verkeerd bestandstype</string>
+	<key>Burning &apos;%@&apos;</key>
+	<string>Brand &apos;%@&apos;</string>
+	<key>Waiting for the drive...</key>
+	<string>Wacht op de brander...</string>
+	<key>Creating image file</key>
+	<string>Maakt een schijfkopie bestand aan</string>
+	<key>Failed to save Burn file</key>
+	<string>Bewaren van Brand bestand is mislukt</string>
+	<key>Finished converting %ld files</key>
+	<string>Klaar met het converteren van %ld bestanden</string>
+	<key>Preview</key>
+	<string>Voorvertoning</string>
+	<key>One incompatible file</key>
+	<string>Een niet ondersteunt bestand</string>
+	<key>Audio</key>
+	<string>Muziek</string>
+	<key>Total size: %@</key>
+	<string>Totale grootte: %@</string>
+	<key>One protected mp4 file</key>
+	<string>Eén beveiligd mp4 bestand</string>
+	<key>Opening track %ld</key>
+	<string>Opent track %ld</string>
+	<key>%@ (Couldn&apos;t get attributes)</key>
+	<string>%@ (Kan de attributen verkrijgen)</string>
+	<key>File path: %@</key>
+	<string>Bestand pad: %@</string>
+	<key>%ld files</key>
+	<string>%ld bestanden</string>
+	<key>Failed to create &apos;%@&apos;</key>
+	<string>Aanmaken van &apos;%@&apos; mislukt</string>
+	<key>Not enough space</key>
+	<string>Niet genoeg ruimte</string>
+	<key>Choose a location to save a copy of the disc</key>
+	<string>Kies een locatie om een kopie van de schijf te bewaren</string>
+	<key>Yes</key>
+	<string>Ja</string>
+	<key>Choose a location to save the re-muxed files</key>
+	<string>Kies een locatie om de her-gemuxte bestanden te bewaren</string>
+	<key>%@ (No video)</key>
+	<string>%@ (Geen video)</string>
+	<key>Decoding sound: %@</key>
+	<string>Decodeert geluid: %@</string>
+	<key>UDIF</key>
+	<string>Schijfkopie (lezen/schrijven)</string>
+	<key>UDTO</key>
+	<string>Schijfkopie (DVD/CD-master)</string>
+	<key>Would you like to convert those files to %@?%@</key>
+	<string>Wilt u deze bestanden converteren naar %@?%@</string>
+	<key>Verifying...</key>
+	<string>Controlleren...</string>
+	<key>Unmount</key>
+	<string>Deactiveer</string>
+	<key>Video</key>
+	<string>Video</string>
+	<key>Burn Temporary</key>
+	<string>Brand Tijdelijk</string>
+	<key>Choose a location to save the muxed file</key>
+	<string>Kies een locatie om het gemuxte bestand te bewaren</string>
+	<key>Maximum Possible</key>
+	<string>Maximale snelheid</string>
+	<key>Failed converting</key>
+	<string>Converteren mislukt</string>
+	<key>Writing track %ld of %ld (%@)</key>
+	<string>Schrijft track %ld van %ld (%@)</string>
+	<key>Creating: </key>
+	<string>Maakt aan: </string>
+	<key>Burn</key>
+	<string>Brand</string>
+	<key>Authoring DVD...</key>
+	<string>Authoriseerd DVD...</string>
+	<key>Can&apos;t overwrite &apos;%@&apos; in &apos;%@&apos;</key>
+	<string>Kan &apos;%@&apos; niet overschrijven in &apos;%@&apos;</string>
+	<key>Burning failed</key>
+	<string>Branden mislukt</string>
+	<key>Processing: </key>
+	<string>Verwerkt: </string>
+	<key>Ready to copy</key>
+	<string>Klaar om te kopieëren</string>
+	<key>Some incompatible files</key>
+	<string>Sommige niet ondersteunde bestanden</string>
+	<key>Waiting for a disc to be inserted...</key>
+	<string>Wacht op een schijf</string>
+	<key>Creating DVD Theme</key>
+	<string>Maakt DVD Thema aan</string>
+	<key>There was a problem erasing the disc</key>
+	<string>Er was een probleem met het wissen van de schijf</string>
+	<key>Choose a location to save the %@ files</key>
+	<string>Kies een locatie om de %@ bestanden te bewaren.</string>
+	<key>Failed to create temporary folder</key>
+	<string>Tijdelijke map aanmaken mislukt</string>
+	<key>Rken</key>
+	<string>Schijfkopie (gecomprimeerd)</string>
+	<key>UDRW</key>
+	<string>Schijfkopie (lezen/schrijven)</string>
+	<key>%@ (No audio/video)</key>
+	<string>%@ (Geen audio/video)</string>
 	<key>Generating DVD folder</key>
 	<string>Maakt DVD map aan</string>
-	<key>Image created</key>
-	<string>Schijfkopie aangemaakt</string>
-	<key>Image failed</key>
-	<string>Schijfkopie mislukt</string>
+	<key>The disc has been succesfully erased</key>
+	<string>De schijf is succesvol gewist</string>
+	<key>%@ (No audio)</key>
+	<string>%@ (Geen audio)</string>
+	<key>Burner</key>
+	<string>Brander</string>
+	<key>No disc</key>
+	<string>Geen schijf</string>
+	<key>Open...</key>
+	<string>Open...</string>
+	<key>There was a problem copying the disc</key>
+	<string>Er was een probleem bij het kopieëren van de schijf</string>
+	<key>UDCO</key>
+	<string>Schijfkopie (gecomprimeerd)</string>
+	<key>Copy Help</key>
+	<string>Kopie Help</string>
+	<key>No discs, try inserting a cd/dvd.</key>
+	<string>Geen schijven</string>
+	<key>Scanning for disks...</key>
+	<string>Scant voor schijven...</string>
+	<key>Choose</key>
+	<string>Kies</string>
+	<key>Writing track</key>
+	<string>Schrijft track</string>
+	<key>Encoding: </key>
+	<string>Encodeert: </string>
+	<key>Track %ld %@</key>
+	<string>Track %ld %@</string>
+	<key>These files can&apos;t be converted</key>
+	<string>Deze bestanden kunnen niet worden geconverteerd</string>
+	<key>Finished converting 1 file</key>
+	<string>Eén bestand succesvol geconverteerd</string>
+	<key>Total time: %@</key>
+	<string>Totale tijd: %@</string>
+	<key>A cue/bin file needs to be burned on a CD</key>
+	<string>Een cue/bin bestand moet op een CD worden gebrand</string>
+	<key>Format</key>
+	<string>Formaat</string>
+	<key>Mounting image failed</key>
+	<string>Activeren mislukt</string>
+	<key>Failed to eject</key>
+	<string>Verwijderen schijf mislukt</string>
+	<key>UDxx</key>
+	<string>Schijfkopie (UDIF-stub)</string>
+	<key>Some protected mp4 files</key>
+	<string>Een aantal beveiligde mp4 bestanden</string>
+	<key>Erasing disc</key>
+	<string>Wist schijf</string>
+	<key>Rdxx</key>
+	<string>Schijfkopie (alleen lezen)</string>
+	<key>There was a problem mounting the image</key>
+	<string>Er was een probleem bij het activeren van het schijfkopie bestand</string>
+	<key>Size</key>
+	<string>Grootte</string>
+	<key>Convert</key>
+	<string>Converteer</string>
+	<key>Maximum Possible (%.0fx)</key>
+	<string>Maximaal mogelijk (%.0fx)</string>
+	<key>UFBI</key>
+	<string>Geheel apparaat</string>
+	<key>%@ free</key>
+	<string>%@ vrij</string>
+	<key>Save...</key>
+	<string>Bewaar...</string>
+	<key>SPARSEBUNDLE</key>
+	<string>Schijfkopie bundel (beperkt)</string>
+	<key>Erasing failed</key>
+	<string>Wissen mislukt</string>
+	<key>Mounting disk image</key>
+	<string>Activeert schijfkopie bestand</string>
+	<key>OK</key>
+	<string>OK</string>
+	<key>Eject</key>
+	<string>Verwijder</string>
+	<key>UDZO</key>
+	<string>Schijfkopie (gecomprimeerd)</string>
+	<key>Authoring failed</key>
+	<string>Authorizeren mislukt</string>
+	<key>Close</key>
+	<string>Sluit</string>
+	<key>Ready to erase</key>
+	<string>Klaar om te wissen</string>
+	<key>Checking files...</key>
+	<string>Controlleert bestanden...</string>
+	<key>SPARSE</key>
+	<string>Schijfkopie (beperkt)</string>
+	<key>Opening track</key>
+	<string>Opent track</string>
+	<key>Burn failed to encode some files</key>
+	<string>Brand kon sommige bestanden niet converteren</string>
+	<key>DVD-Video</key>
+	<string>DVD-Video</string>
+	<key>General</key>
+	<string>Algemeen</string>
+	<key>Cue file</key>
+	<string>Cue bestand</string>
+	<key>Checking file...</key>
+	<string>Controlleert bestand...</string>
 	<key>Image not supported on Panther.
 
 To still use it:
@@ -208,233 +254,151 @@ Mount the image and drop the mounted image in the window.</key>
 
 Om het Bestand alsnog te gebruiken:
 Activeer het schijfkopie bestand en sleep de schijf in het venster.</string>
-	<key>Limited</key>
-	<string>Beperkt</string>
-	<key>MP3 Disc</key>
-	<string>MP3 Schijf</string>
-	<key>Maximum Possible</key>
-	<string>Maximale snelheid</string>
-	<key>Missing files</key>
-	<string>Ontbrekende bestanden</string>
-	<key>Mount</key>
-	<string>Activeer</string>
-	<key>Mounting disk image</key>
-	<string>Activeert schijfkopie bestand</string>
-	<key>Mounting image failed</key>
-	<string>Activeren mislukt</string>
-	<key>Mounting: </key>
-	<string>Activeert: </string>
-	<key>NDIF compressed</key>
-	<string>NDIF compressie</string>
-	<key>NDIF compressed (KenCode)</key>
-	<string>NDIF compressie (KenCode)</string>
-	<key>NDIF read-only</key>
-	<string>NDIF alleen-lezen</string>
-	<key>NDIF read/write</key>
-	<string>NDIF lezen/schrijven</string>
-	<key>No</key>
-	<string>Nee</string>
-	<key>No CD</key>
-	<string>Geen CD</string>
+	<key>
+(Note: there is a protected mp4 file which can&apos;t be converted)</key>
+	<string>
+(Opmerking: een bestand is een beveiligd mp4 bestand dat kan niet worden geconverteerd)</string>
+	<key>&apos;%@&apos; was burned succesfully</key>
+	<string>&apos;%@&apos; is succesvol gebrand</string>
+	<key>This file can&apos;t be converted</key>
+	<string>Dit bestand kan niet worden geconverteerd</string>
 	<key>No Recorder</key>
 	<string>Geen brander</string>
-	<key>No disc</key>
-	<string>Geen schijf</string>
-	<key>No discs, try inserting a cd/dvd.</key>
-	<string>Geen schijven</string>
-	<key>Not enough space</key>
-	<string>Niet genoeg ruimte</string>
-	<key>OK</key>
-	<string>OK</string>
-	<key>One incompatible file</key>
-	<string>Een niet ondersteunt bestand</string>
-	<key>One protected mp4 file</key>
-	<string>Eén beveiligd mp4 bestand</string>
-	<key>Only Mode1 and Audio tracks are supported</key>
-	<string>Alleen Mode1 en Audio tracks zijn ondersteunt</string>
-	<key>Open</key>
-	<string>Open</string>
-	<key>Open Log</key>
-	<string>Open Logbestand</string>
-	<key>Open...</key>
-	<string>Open...</string>
-	<key>Opening track</key>
-	<string>Opent track</string>
-	<key>Opening track </key>
-	<string>Opent track </string>
-	<key>Preferences Help</key>
-	<string>Voorkeuren Help</string>
-	<key>Preparing to encode</key>
-	<string>Encoderen voorbereiden</string>
-	<key>Preparing...</key>
-	<string>Voorbereiden...</string>
-	<key>Preview</key>
-	<string>Voorvertoning</string>
-	<key>Processing: </key>
-	<string>Verwerkt: </string>
-	<key>Raw</key>
-	<string>Raw</string>
-	<key>Read-only</key>
-	<string>Alleen-lezen</string>
-	<key>Read/write</key>
-	<string>Lezen/schrijven</string>
 	<key>Ready to burn</key>
 	<string>Klaar om te branden</string>
-	<key>Ready to copy</key>
-	<string>Klaar om te kopieëren</string>
-	<key>Ready to erase</key>
-	<string>Klaar om te wissen</string>
-	<key>Remuxing: </key>
-	<string>Her-muxt: </string>
-	<key>Save...</key>
-	<string>Bewaar...</string>
-	<key>Scanning for disks...</key>
-	<string>Scant voor schijven...</string>
-	<key>Scanning for for file and folders</key>
-	<string>Scant bestanden en mappen</string>
-	<key>Size</key>
-	<string>Grootte</string>
-	<key>Some files are to large</key>
-	<string>Sommige bestanden zijn te groot</string>
-	<key>Some files specified in the Toc file are missing.</key>
-	<string>Sommige bestanden beschreven in het Toc bestand missen</string>
-	<key>Some incompatible files</key>
-	<string>Sommige niet ondersteunde bestanden</string>
-	<key>Some protected mp4 files</key>
-	<string>Een aantal beveiligde mp4 bestanden</string>
-	<key>Still try to burn the disc?</key>
-	<string>Wilt u alsnog proberen de schijf te branden</string>
-	<key>Succesfully created a disk image</key>
-	<string>Schijfkopie met succes aangemaakt</string>
-	<key>The PC (Joliet) or ISO9660 filesystem can only handle files smaller than 2GB</key>
-	<string>Het PC (Joliet of ISO9660 bestandsysteem staat alleen bestanden toe kleiner dan 2GB</string>
-	<key>The disc has been succesfully erased</key>
-	<string>De schijf is succesvol gewist</string>
-	<key>There was a problem authoring the DVD</key>
-	<string>Er was een probleem bij het authoriseren van de DVD</string>
-	<key>There was a problem copying the disc</key>
-	<string>Er was een probleem bij het kopieëren van de schijf</string>
-	<key>There was a problem creating the image</key>
-	<string>Er was een probleem bij het maken van het schijfkopie bestand</string>
-	<key>There was a problem erasing the disc?</key>
-	<string>Er was een probleem bij het wissen van de schijf</string>
-	<key>There was a problem mounting the image</key>
-	<string>Er was een probleem bij het activeren van het schijfkopie bestand</string>
-	<key>There was a problem erasing the disc</key>
-	<string>Er was een probleem met het wissen van de schijf</string>
-	<key>These files can&apos;t be converted</key>
-	<string>Deze bestanden kunnen niet worden omgezet</string>
-	<key>These files can&apos;t be converted, would you like to continue?</key>
-	<string>Deze bestanden kunnen niet worden omgezet, wilt u doorgaan?</string>
-	<key>This file can&apos;t be converted</key>
-	<string>Dit bestand kan niet worden omgezet</string>
-	<key>This file can&apos;t be converted, would you like to continue?</key>
-	<string>Dit bestand kan niet worden omgezet, wilt u doorgaan?</string>
-	<key>Time</key>
-	<string>Tijd</string>
+	<key>Mount</key>
+	<string>Activeer</string>
+	<key>UDRO</key>
+	<string>Schijfkopie (alleen lezen)</string>
+	<key>Can&apos;t create &apos;%@&apos; in &apos;%@&apos;</key>
+	<string>Kan &apos;%@&apos; niet aanmaken in &apos;%@&apos;</string>
+	<key>Cancel</key>
+	<string>Annuleer</string>
+	<key>Closing track %ld of %ld (%@)</key>
+	<string>Sluit track %ld van %ld</string>
+	<key>Advanced</key>
+	<string>Geavanceerd</string>
+	<key>Could not eject media from the drive</key>
+	<string>Media verwijderen mislukt</string>
+	<key>Data</key>
+	<string>Data</string>
+	<key>Choose an image file</key>
+	<string>Kies een schijfkopie bestand</string>
 	<key>Title Menu</key>
 	<string>Titel Menu</string>
-	<key>To burn a Audio-CD the media should be a CD</key>
-	<string>Om een audio CD te branden heeft u een CD nodig</string>
-	<key>Total size: </key>
-	<string>Totale grootte: </string>
-	<key>Total time: </key>
-	<string>Totale tijd: </string>
-	<key>Track </key>
-	<string>Nummer </string>
-	<key>UDF / ISO9660 (only)</key>
-	<string>UDF / ISO9660 (alleen)</string>
-	<key>UDIF-stub</key>
-	<string>UDIF-stub</string>
-	<key>Unknown</key>
-	<string>Onbekend</string>
-	<key>Unknown disk image</key>
-	<string>Onbekend schijfkopie bestand</string>
-	<key>Unmount</key>
+	<key>Creating image file &apos;%@&apos;</key>
+	<string>Maakt schijfkopie bestand &apos;%@&apos; aan</string>
+	<key>Scanning for files and folders</key>
+	<string>Scant bestanden en mappen</string>
+	<key>Invalid Burn file</key>
+	<string>Kan Brand bestand niet lezen</string>
+	<key>Image created</key>
+	<string>Schijfkopie aangemaakt</string>
+	<key>Unmount Image</key>
 	<string>Deactiveer</string>
-	<key>Unsuported Toc file</key>
-	<string>Niet ondersteund Toc bestand</string>
-	<key>Unsupported Image</key>
-	<string>Niet ondersteund schijfkopie bestand</string>
-	<key>Untitled</key>
-	<string>Naamloos</string>
-	<key>Verifying...</key>
-	<string>Controlleren...</string>
-	<key>Video</key>
-	<string>Video</string>
+	<key>Missing files</key>
+	<string>Ontbrekende bestanden</string>
+	<key>Audio Help</key>
+	<string>Muziek Help</string>
+	<key>DC42</key>
+	<string>Disc Copy 4.2 schijfkopie</string>
+	<key>%@ (Unknown format)</key>
+	<string>%@ (Onbekend formaat)</string>
 	<key>Video Help</key>
 	<string>Video Help</string>
-	<key>Waiting for a disc to be inserted...</key>
-	<string>Wacht op een schijf</string>
-	<key>Waiting for the drive...</key>
-	<string>Wacht op de brander...</string>
-	<key>Whole device</key>
-	<string>Heel apparaat</string>
-	<key>Would you like to convert that file to DVD mpg?</key>
-	<string>Wilt u het bestand naar DVD mpg omzetten?</string>
-	<key>Would you like to convert that file to DivX avi?</key>
-	<string>Wilt u het bestand naar DivX avi omzetten?</string>
-	<key>Would you like to convert that file to SVCD mpg?</key>
-	<string>Wilt u het bestand naar SVCD mpg omzetten?</string>
-	<key>Would you like to convert that file to VCD mpg?</key>
-	<string>Wilt u het bestand naar VCD mpg omzetten?</string>
-	<key>Would you like to convert that file to mp3?</key>
-	<string>Wilt u het bestand naar mp3 omzetten?</string>
-	<key>Would you like to convert that file to mp3?
+	<key>Failed to copy &apos;%@&apos; to &apos;%@&apos;. %@</key>
+	<string>Kopieeren van &apos;%@&apos; naar &apos;%@&apos;. %@</string>
+	<key>UNIV</key>
+	<string>Schijfkopie (hybride)</string>
+	<key>Failed to delete &apos;%@&apos;.</key>
+	<string>Verwijderen van &apos;%@&apos; mislukt.</string>
+	<key>Open</key>
+	<string>Open</string>
+	<key>Failed to write &apos;%@&apos; to &apos;%@&apos;</key>
+	<string>Het schrijven van &apos;%@&apos; naar &apos;%@&apos; is mislukt</string>
+	<key>Preferences Help</key>
+	<string>Voorkeuren Help</string>
+	<key>Time</key>
+	<string>Tijd</string>
+	<key>Closing track (%@)</key>
+	<string>Sluit track (%@)</string>
+	<key>Audio CD</key>
+	<string>Audio CD</string>
+	<key>%@ (Unsupported audio)</key>
+	<string>%@ (Geluid niet ondersteund)</string>
+	<key>To burn a Audio-CD the media should be a CD</key>
+	<string>Om een audio CD te branden heeft u een CD nodig</string>
+	<key>%@ Help</key>
+	<string>%@ Help</string>
+	<key>RdWr</key>
+	<string>Schijfkopie (lezen/schrijven)</string>
+	<key>Untitled Folder</key>
+	<string>Naamloze map</string>
+	<key>Are you sure you want to cancel?</key>
+	<string>Weet u zeker dat u wilt annuleren?</string>
+	<key>Would you like to convert that file to %@?%@</key>
+	<string>Wilt u dit bestand converteren naar %@?%@</string>
+	<key>Finished erasing</key>
+	<string>Klaar met wissen</string>
+	<key>Only Mode1 and Audio tracks are supported</key>
+	<string>Alleen Mode1 en Audio tracks zijn ondersteunt</string>
+	<key>Chapter Menu</key>
+	<string>Hoofdstukken Menu</string>
+	<key>Succesfully created a disk image</key>
+	<string>Schijfkopie met succes aangemaakt</string>
+	<key>Choose a location to save the image file</key>
+	<string>Kies een locatie om het schijfkopie bestand te bewaren</string>
+	<key>Preparing to encode</key>
+	<string>Encoderen voorbereiden</string>
+	<key>No CD</key>
+	<string>Geen CD</string>
+	<key>Toc file</key>
+	<string>Toc bestand</string>
+	<key>Image failed</key>
+	<string>Schijfkopie mislukt</string>
+	<key>ROCo</key>
+	<string>Schijfkopie (gecomprimeerd)</string>
+	<key>Untitled</key>
+	<string>Naamloos</string>
+	<key>Some files are to large</key>
+	<string>Sommige bestanden zijn te groot</string>
+	<key>There was a problem creating the image</key>
+	<string>Er was een probleem bij het maken van het schijfkopie bestand</string>
+	<key>No</key>
+	<string>Nee</string>
+	<key>
 (Note: there are a few protected mp4 files which can&apos;t be converted)</key>
-	<string>Wilt u het bestand naar mp3 omzetten?
-(Opmerking: een aantal van de bestanden zijn beveiligde mp4 bestanden die niet kunnen worden omgezet)</string>
-	<key>Would you like to convert that file to mp3?
-(Note: there is a protected mp4 file which can&apos;t be converted)</key>
-	<string>Wilt u het bestand naar mp3 omzetten?
-(Opmerking: één van de bestanden is een beveiligd mp4 bestand die niet kan worden omgezet)</string>
-	<key>Would you like to convert that file to wav?</key>
-	<string>Wilt u het bestand naar wav omzetten?</string>
-	<key>Would you like to convert that file to wav?
-(Note: there are a few protected mp4 files which can&apos;t be converted)</key>
-	<string>Wilt u het bestand naar wav omzetten?
-(Opmerking: een aantal van de bestanden zijn beveiligde mp4 bestanden die niet kunnen worden omgezet)</string>
-	<key>Would you like to convert that file to wav?
-(Note: there is a protected mp4 file which can&apos;t be converted)</key>
-	<string>Wilt u het bestand naar wav omzetten?
-(Opmerking: een bestand is een beveiligd mp4 bestand dat kan niet worden omgezet)</string>
-	<key>Would you like to convert those files to DVD mpg?</key>
-	<string>Wilt u de bestanden naar DVD mpg omzetten?</string>
-	<key>Would you like to convert those files to DivX avi?</key>
-	<string>Wilt u de bestanden naar DivX avi omzetten?</string>
-	<key>Would you like to convert those files to SVCD mpg?</key>
-	<string>Wilt u de bestanden naar SVCD mpg omzetten?</string>
-	<key>Would you like to convert those files to VCD mpg?</key>
-	<string>Wilt u de bestanden naar VCD mpg omzetten?</string>
-	<key>Would you like to convert those files to mp3?</key>
-	<string>Wilt u de bestanden naar mp3 omzetten?</string>
-	<key>Would you like to convert those files to mp3?
-(Note: there are a few protected mp4 files which can&apos;t be converted)</key>
-	<string>Wilt u de bestanden naar mp3 omzetten?
-(Opmerking: een aantal van de bestanden zijn beveiligde mp4 bestanden die niet kunnen worden omgezet)</string>
-	<key>Would you like to convert those files to mp3?
-(Note: there is a protected mp4 file which can&apos;t be converted)</key>
-	<string>Wilt u de bestanden naar mp3 omzetten?
-(Opmerking: één van de bestanden is een beveiligd mp4 bestand die niet kan worden omgezet)</string>
-	<key>Would you like to convert those files to wav?</key>
-	<string>Wilt u de bestanden naar wav omzetten?</string>
-	<key>Would you like to convert those files to wav?
-(Note: there are a few protected mp4 files which can&apos;t be converted)</key>
-	<string>Wilt u de bestanden naar wav omzetten?
-(Opmerking: een aantal van de bestanden zijn beveiligde mp4 bestanden die niet kunnen worden omgezet)</string>
-	<key>Would you like to convert those files to wav?
-(Note: there is a protected mp4 file which can&apos;t be converted)</key>
-	<string>Wilt u de bestanden naar wav omzetten?
-(Opmerking: een van de bestanden is een beveiligd mp4 bestand dat niet kan worden omgezet)</string>
-	<key>Writing track</key>
-	<string>Schrijft track</string>
-	<key>Writing track </key>
-	<string>Schrijft track </string>
+	<string>
+(Opmerking: een aantal van de bestanden zijn beveiligde mp4 bestanden die niet kunnen worden geconverteerd)</string>
+	<key>Processing: %@ (%i of %i)</key>
+	<string>Verwerkt: %@ (%i van %i)</string>
+	<key>Unsupported Image</key>
+	<string>Niet ondersteund schijfkopie bestand</string>
+	<key>Unknown disk image</key>
+	<string>Onbekend schijfkopie bestand</string>
+	<key>Continue</key>
+	<string>Ga door</string>
 	<key>Writing tracks</key>
 	<string>Schrijft tracks</string>
-	<key>Yes</key>
-	<string>Ja</string>
-	<key>iPod image</key>
+	<key>UDBZ</key>
+	<string>Schijfkopie (gecomprimeerd)</string>
+	<key>Generating DVD folder: (%.0f%@)</key>
+	<string>Maakt DVD map aan: (%.0f%@)</string>
+	<key>UDF / ISO9660 (only)</key>
+	<string>UDF / ISO9660 (alleen)</string>
+	<key>IPOD</key>
 	<string>iPod schijfkopie</string>
+	<key>Still try to burn the disc?</key>
+	<string>Wilt u alsnog proberen de schijf te branden</string>
+	<key>Encoding file %i of %i to %@</key>
+	<string>Converteert bestand %i van %i naar %@</string>
+	<key>Preparing...</key>
+	<string>Voorbereiden...</string>
+	<key>After canceling the disc can&apos;t be used anymore</key>
+	<string>Na het annuleren kan de schijf niet meer worden gebruikt</string>
+	<key>Choose a location to save the burn file</key>
+	<string>Kies een locatie om het brand bestand te bewaren</string>
+	<key>Failed to install theme in the &apos;Application Support&apos; folder</key>
+	<string>Het installeren van een thema in de map &apos;Application Support&apos; is mislukt</string>
 </dict>
 </plist>
