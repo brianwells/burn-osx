@@ -2,106 +2,106 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-	<key>Console</key>
-	<string>콘솔</string>
-	<key>Would you like to convert that file to mp3?</key>
-	<string>선택된 파일을 mp3로 변환하겠습니까?</string>
+	<key>UDSP</key>
+	<string>분할 디스크 이미지</string>
+	<key>Eject Disc</key>
+	<string>디스크 추출</string>
 	<key>Data Help</key>
 	<string>데이터 도움말</string>
 	<key>Unsuported Toc file</key>
 	<string>지원되지 않는 TOC(목차) 파일</string>
 	<key>Finishing...</key>
 	<string>종료 중...</string>
-	<key>Raw</key>
-	<string>Raw</string>
-	<key>Would you like to convert that file to SVCD mpg?</key>
-	<string>선택된 파일을 SVCD mpg로 변환하겠습니까?</string>
+	<key>%@ (Unknown error)</key>
+	<string>%@ (알 수 없는 오류)</string>
+	<key>Mount Image</key>
+	<string>디스크 이미지 마운트</string>
 	<key>Can&apos;t determine disc format</key>
-	<string>디스크 포맷을 정할 수 없습니다</string>
-	<key>NDIF compressed</key>
-	<string>NDIF 압축</string>
-	<key>Would you like to convert that file to VCD mpg?</key>
-	<string>선택된 파일을 VCD mpg로 변환하겠습니까?</string>
-	<key>Closing track </key>
-	<string>트랙 닫는 중</string>
+	<string>디스크 포맷을 정할 수 없습니다.</string>
 	<key>Finished converting</key>
 	<string>변환 종료</string>
+	<key>Failed to burn &apos;%@&apos;</key>
+	<string>디스크 굽기 실패 &apos;%@&apos;</string>
 	<key>Copying disc</key>
 	<string>디스크 복사 중</string>
 	<key>Remuxing: </key>
 	<string>다시 다중화 TS를 작성중: </string>
-	<key>Would you like to convert those files to mp3?</key>
-	<string>선택된 파일들을 mp3로 변환하겠습니까?</string>
 	<key>Closing session</key>
 	<string>세션 닫는 중</string>
-	<key>Decoding sound: </key>
-	<string>음성 데이터 디코딩 중: </string>
 	<key>Choose a location to save a temporary folder</key>
-	<string>임시 폴더를 저장할 위치를 선택하십시오</string>
+	<string>임시 폴더를 저장할 위치를 선택하십시오.</string>
 	<key>Finished burning</key>
 	<string>디스크 작성 종료</string>
-	<key>MP3 Disc</key>
-	<string>MP3 디스크</string>
+	<key>Some files specified in the %@ file are missing.</key>
+	<string>%@(목차) 파일에 정의된 몇 가지 파일이 유실되었습니다.</string>
+	<key>Writing track (%@)</key>
+	<string>트랙 쓰는 중 (%@)</string>
+	<key>UDSB</key>
+	<string>분할 디스크 이미지 번들</string>
+	<key>Mounting: %@</key>
+	<string>마운트 중: %@</string>
 	<key>The PC (Joliet) or ISO9660 filesystem can only handle files smaller than 2GB</key>
-	<string>PC (Joliet) 또는 ISO9660 파일 시스템은 2GB보다 작은 파일만 다룰 수 있습니다</string>
-	<key>Would you like to convert that file to DVD mpg?</key>
-	<string>선택된 파일을 DVD mpg로 변환하겠습니까?</string>
-	<key> GB</key>
-	<string> GB</string>
+	<string>PC (Joliet) 또는 ISO9660 파일 시스템은 2GB보다 작은 파일만 다룰 수 있습니다.</string>
 	<key>Burn failed to encode one file</key>
-	<string>Burn이 한 개의 파일을 인코딩하는 데에 실패하였습니다.</string>
-	<key>Total time: </key>
-	<string>전체 시간: </string>
-	<key>Would you like to convert that file to wav?
-(Note: there are a few protected mp4 files which can&apos;t be converted)</key>
-	<string>파일을 wav로 변환하겠습니까?
-(주의: 변환할 수 없는 몇몇 보호된 mp4 파일들이 존재합니다)</string>
+	<string>Burn이 한 개의 파일을 인코딩하지 못하였습니다.</string>
 	<key>There was a problem authoring the DVD</key>
 	<string>DVD를 만들 때 문제가 발생하였습니다</string>
 	<key>Copy</key>
 	<string>복사</string>
+	<key>The Burn file is corrupt or a wrong filetype</key>
+	<string>이 Burn 파일은 깨졌거나 형식이 잘못되었습니다.</string>
+	<key>Burning &apos;%@&apos;</key>
+	<string>다음을 굽는 중 : &apos;%@&apos;</string>
 	<key>Waiting for the drive...</key>
 	<string>드라이브 기다리는 중...</string>
 	<key>Creating image file</key>
 	<string>디스크 이미지 파일 작성 중</string>
-	<key>Would you like to convert those files to DivX avi?</key>
-	<string>선택된 파일들을 DivX avi로 변환하겠습니까?</string>
+	<key>Failed to save Burn file</key>
+	<string>Burn 파일을 저장하지 못하였습니다.</string>
+	<key>Finished converting %ld files</key>
+	<string>변환 종료 %ld 파일</string>
 	<key>Preview</key>
 	<string>미리보기</string>
-	<key> free</key>
-	<string> 빈 공간</string>
+	<key>One incompatible file</key>
+	<string>호환되지 않는 파일이 하나 있습니다.</string>
 	<key>Audio</key>
 	<string>오디오</string>
-	<key>One incompatible file</key>
-	<string>호환되지 않는 파일이 하나 있습니다</string>
-	<key>Would you like to convert those files to mp3?
-(Note: there are a few protected mp4 files which can&apos;t be converted)</key>
-	<string>선택된 파일들을 mp3로 변환하겠습니까?
-(주의:변환할 수 없는 몇몇 보호된 mp4 파일이 존재합니다)</string>
-	<key>This file can&apos;t be converted, would you like to continue?</key>
-	<string>이 파일은 변환할 수 없습니다. 계속하시겠습니까?</string>
+	<key>Total size: %@</key>
+	<string>전체 사이즈: %@</string>
 	<key>One protected mp4 file</key>
-	<string>보호된 mp4 파일(mp3 변환불가)이 하나 존재합니다</string>
-	<key> was burned successfully</key>
-	<string> 디스크 굽기 성공</string>
+	<string>보호된 mp4 파일(mp3 변환불가)이 하나 존재합니다.</string>
+	<key>Opening track %ld</key>
+	<string>트랙 여는 중 : %ld</string>
+	<key>%@ (Couldn&apos;t get attributes)</key>
+	<string>%@ (속성을 얻을 수 없습니다)</string>
+	<key>File path: %@</key>
+	<string>파일 경로: %@</string>
+	<key>%ld files</key>
+	<string>%ld 파일</string>
+	<key>Failed to create &apos;%@&apos;</key>
+	<string>&apos;%@&apos;를 생성하지 못하였습니다.</string>
 	<key>Not enough space</key>
 	<string>빈 공간이 충분하지 못합니다</string>
 	<key>Choose a location to save a copy of the disc</key>
-	<string>디스크의 복사본을 저장할 위치를 선택하십시오</string>
-	<key> to SVCD mpg</key>
-	<string> SVCD mpg로</string>
+	<string>디스크의 복사본을 저장할 위치를 선택하십시오.</string>
 	<key>Yes</key>
 	<string>예</string>
 	<key>Choose a location to save the re-muxed files</key>
-	<string>재다중화 TS 파일을 저장할 위치를 선택하십시오</string>
-	<key>Encoding file </key>
-	<string>파일 인코딩 중 </string>
+	<string>재다중화 TS 파일을 저장할 위치를 선택하십시오.</string>
+	<key>%@ (No video)</key>
+	<string>%@ (비디오 없음)</string>
+	<key>Decoding sound: %@</key>
+	<string>음성 데이터 디코딩 중: %@</string>
+	<key>UDIF</key>
+	<string>읽기/쓰기 디스크 이미지</string>
+	<key>UDTO</key>
+	<string>DVD/CD 마스터</string>
+	<key>Would you like to convert those files to %@?%@</key>
+	<string>선택된 파일들을 %@로 변환하겠습니까? %@</string>
 	<key>Verifying...</key>
 	<string>검증 중...</string>
 	<key>Unmount</key>
 	<string>마운트 해제</string>
-	<key> (No audio/video)</key>
-	<string> (오디오와 비디오 없음)</string>
 	<key>Video</key>
 	<string>비디오</string>
 	<key>Burn Temporary</key>
@@ -110,144 +110,120 @@
 	<string>다중화 파일을 저장할 위치를 선택하십시오</string>
 	<key>Maximum Possible</key>
 	<string>가능한 최대 속도</string>
-	<key>UDIF-stub</key>
-	<string>UDIF-stub</string>
 	<key>Failed converting</key>
 	<string>변환 실패</string>
+	<key>Writing track %ld of %ld (%@)</key>
+	<string>%2$ld (%@) 중의 %1$ld 트랙 쓰는 중</string>
 	<key>Creating: </key>
 	<string>작성 중: </string>
 	<key>Burn</key>
 	<string>디스크 굽기</string>
-	<key> (No video)</key>
-	<string> (비디오 없음)</string>
-	<key>Failed to burn </key>
-	<string>디스크 굽기 실패</string>
 	<key>Authoring DVD...</key>
 	<string>DVD 작성 중 ...</string>
-	<key>Processing: </key>
-	<string>처리 중: </string>
+	<key>Can&apos;t overwrite &apos;%@&apos; in &apos;%@&apos;</key>
+	<string>&apos;%2$@&apos; 중의 &apos;%1$@&apos;를 덮어쓸 수 없습니다.</string>
 	<key>Burning failed</key>
 	<string>디스크 작성 실패</string>
+	<key>Processing: </key>
+	<string>처리 중: </string>
 	<key>Ready to copy</key>
 	<string>복사 준비 완료</string>
 	<key>Some incompatible files</key>
-	<string>호환되지 않는 파일이 몇 개 있습니다</string>
-	<key>Limited</key>
-	<string>한정</string>
+	<string>호환되지 않는 파일이 몇 개 있습니다.</string>
 	<key>Waiting for a disc to be inserted...</key>
 	<string>디스크 삽입 기다리는 중...</string>
 	<key>Creating DVD Theme</key>
 	<string>DVD 테마 작성 중</string>
 	<key>There was a problem erasing the disc</key>
-	<string>디스크를 지우는 중 문제가 발생하였습니다</string>
-	<key>Would you like to convert those files to wav?
-(Note: there are a few protected mp4 files which can&apos;t be converted)</key>
-	<string>파일들을 wav로 변환하시겠습니까?
-(주의:변환할 수 없는 몇몇 보호된 mp4 파일들이 존재합니다)</string>
-	<key>Choose a location to save the avi files</key>
-	<string>avi 파일을 저장할 위치를 선택해 주세요</string>
-	<key> of </key>
-	<string> of </string>
-	<key>Writing track </key>
-	<string>트랙 쓰는 중 : </string>
-	<key>Would you like to convert those files to VCD mpg?</key>
-	<string>선택된 파일들을 VCD mpg로 변환하겠습니까?</string>
-	<key>Would you like to convert that file to wav?
-(Note: there is a protected mp4 file which can&apos;t be converted)</key>
-	<string>파일을 wav로 변환하시겠습니까?
-(주의:변환할 수 없는 몇몇 보호된 mp4 파일들이 존재합니다)</string>
-	<key> (Unknown error)</key>
-	<string> (알 수 없는 오류)</string>
+	<string>디스크를 지우는 중 문제가 발생하였습니다.</string>
+	<key>Choose a location to save the %@ files</key>
+	<string>%@ 파일을 저장할 위치를 선택해 주세요.</string>
+	<key>Failed to create temporary folder</key>
+	<string>임시 폴더를 생성하지 못하였습니다.</string>
+	<key>Rken</key>
+	<string>압축된 디스크 이미지</string>
+	<key>UDRW</key>
+	<string>읽기/쓰기 디스크 이미지</string>
+	<key>%@ (No audio/video)</key>
+	<string>%@ (오디오와 비디오 없음)</string>
 	<key>Generating DVD folder</key>
 	<string>DVD 폴더 작성 중</string>
 	<key>The disc has been succesfully erased</key>
-	<string>디스크 지우기에 성공하였습니다</string>
-	<key>Would you like to convert that file to mp3?
-(Note: there are a few protected mp4 files which can&apos;t be converted)</key>
-	<string>선택된 파일을 mp3로 변환하겠습니까?
-(주의:변환할 수 없는 몇몇 보호된 mp4 파일들이 존재합니다)</string>
-	<key>Opening track </key>
-	<string>트랙 여는 중 : </string>
-	<key>Choose a location to save the wav files</key>
-	<string>Choose a location to save the wav files</string>
+	<string>디스크 지우기에 성공하였습니다.</string>
+	<key>%@ (No audio)</key>
+	<string>%@ (오디오 없음)</string>
 	<key>Burner</key>
 	<string>기록 장치</string>
 	<key>No disc</key>
 	<string>디스크 없음</string>
 	<key>Open...</key>
 	<string>열기...</string>
-	<key>Failed to create </key>
-	<string>다음 작성 실패 : </string>
 	<key>There was a problem copying the disc</key>
-	<string>디스크 복사 중 문제가 발생하였습니다</string>
-	<key>Would you like to convert that file to mp3?
-(Note: there is a protected mp4 file which can&apos;t be converted)</key>
-	<string>선택된 파일을 mp3로 변환하겠습니까?
-(주의:변환할 수 없는 몇몇 보호된 mp4 파일이 존재합니다)</string>
+	<string>디스크 복사 중 문제가 발생하였습니다.</string>
+	<key>UDCO</key>
+	<string>압축된 디스크 이미지</string>
 	<key>Copy Help</key>
 	<string>복사 도움말</string>
 	<key>No discs, try inserting a cd/dvd.</key>
 	<string>디스크가 없습니다. cd/dvd를 삽입해 주십시오.</string>
-	<key> (Unknown format)</key>
-	<string> (알 수 없는 포맷)</string>
 	<key>Scanning for disks...</key>
 	<string>디스크 스캔 중 ...</string>
 	<key>Choose</key>
 	<string>선택</string>
-	<key>Some files specified in the Toc file are missing.</key>
-	<string>TOC(목차) 파일에 정의된 몇 가지 파일이 유실되었습니다.</string>
 	<key>Writing track</key>
 	<string>트랙 쓰는 중</string>
 	<key>Encoding: </key>
 	<string>인코딩 중: </string>
+	<key>Track %ld %@</key>
+	<string>트랙 %ld %@</string>
 	<key>These files can&apos;t be converted</key>
 	<string>이 파일(들)은 변환할 수 없습니다</string>
-	<key>Choose a location to save the mpg files</key>
-	<string>mpg 파일을 저장할 위치를 선택해 주세요</string>
-	<key>Compressed (bzip2)</key>
-	<string>압축 (bzip2)</string>
-	<key> TB</key>
-	<string> TB</string>
+	<key>Finished converting 1 file</key>
+	<string>한 개의 파일 변환 종료</string>
+	<key>Total time: %@</key>
+	<string>전체 사이즈: %@</string>
 	<key>A cue/bin file needs to be burned on a CD</key>
 	<string>cue/bin 파일은 CD에 구워야 합니다</string>
+	<key>Format</key>
+	<string>초기화</string>
 	<key>Mounting image failed</key>
 	<string>디스크 이미지를 마운트할 수 없습니다</string>
+	<key>Failed to eject</key>
+	<string>추출하지 못하였습니다.</string>
+	<key>UDxx</key>
+	<string>UDIF 스터브</string>
 	<key>Some protected mp4 files</key>
 	<string>보호된 mp4 파일(mp3 변환불가)들이 존재합니다</string>
 	<key>Erasing disc</key>
 	<string>디스크 지우는 중</string>
-	<key>Unknown</key>
-	<string>알 수 없음</string>
-	<key>Would you like to convert those files to SVCD mpg?</key>
-	<string>선택된 파일들을 SVCD mpg로 변환하겠습니까?</string>
+	<key>Rdxx</key>
+	<string>읽기 전용 디스크 이미지</string>
 	<key>There was a problem mounting the image</key>
-	<string>이미지를 마운트할 때 문제가 발생하였습니다</string>
-	<key>DivX</key>
-	<string>DivX</string>
+	<string>디스크 이미지를 마운트할 때 문제가 발생하였습니다.</string>
 	<key>Size</key>
 	<string>크기</string>
-	<key>Finished converting </key>
-	<string>변환 종료</string>
-	<key>Total size: </key>
-	<string>전체 사이즈: </string>
-	<key> to DVD mpg</key>
-	<string> DVD mpg로</string>
-	<key> to mp3</key>
-	<string> mp3로</string>
+	<key>Convert</key>
+	<string>변환</string>
+	<key>Maximum Possible (%.0fx)</key>
+	<string>가능한 최대 속도 (%.0fx)</string>
+	<key>UFBI</key>
+	<string>모든 장비</string>
+	<key>%@ free</key>
+	<string>%@ 빈 공간</string>
 	<key>Save...</key>
 	<string>저장...</string>
+	<key>SPARSEBUNDLE</key>
+	<string>분할 번들 디스크 이미지</string>
 	<key>Erasing failed</key>
 	<string>지우기 실패</string>
 	<key>Mounting disk image</key>
 	<string>디스크 이미지 마운트 중</string>
-	<key>Mounting: </key>
-	<string>마운트 중: </string>
 	<key>OK</key>
 	<string>승인</string>
 	<key>Eject</key>
 	<string>꺼내기</string>
-	<key>Compressed (ADC)</key>
-	<string>압축 (ADC)</string>
+	<key>UDZO</key>
+	<string>압축된 디스크 이미지</string>
 	<key>Authoring failed</key>
 	<string>저작 실패</string>
 	<key>Close</key>
@@ -256,187 +232,173 @@
 	<string>지우기 준비 완료</string>
 	<key>Checking files...</key>
 	<string>파일 검사 중 ...</string>
-	<key>Read-only</key>
-	<string>읽기 전용</string>
-	<key>Compressed</key>
-	<string>압축</string>
-	<key> MB</key>
-	<string> MB</string>
+	<key>SPARSE</key>
+	<string>분할 디스크 이미지</string>
 	<key>Opening track</key>
-	<string>Opening track</string>
-	<key>Would you like to convert those files to mp3?
-(Note: there is a protected mp4 file which can&apos;t be converted)</key>
-	<string>선택된 파일들을 mp3로 변환하겠습니까?
-(주의:변환할 수 없는 몇몇 보호된 mp4 파일들이 존재합니다)</string>
+	<string>트랙 여는 중</string>
 	<key>Burn failed to encode some files</key>
 	<string>Burn 이 몇 개의 파일을 인코딩하는 데에 실패하였습니다.</string>
 	<key>DVD-Video</key>
 	<string>DVD 비디오</string>
 	<key>General</key>
 	<string>일반</string>
+	<key>Cue file</key>
+	<string>Cue 파일</string>
 	<key>Checking file...</key>
 	<string>파일 검사 중 ...</string>
 	<key>Image not supported on Panther.
 
 To still use it:
 Mount the image and drop the mounted image in the window.</key>
-	<string>맥 OS X 10.3 팬서에서 지원하지 않는 이미지입니다.
+	<string>맥 OS X 10.3 팬서에서 지원하지 않는 디스크 이미지입니다.
 
 만약 그래도 사용하고 싶으시다면:
-이미지를 마운트한 후 마운트된 이미지를 창에 끌어다 놓으십시오.</string>
+디스크 이미지를 마운트한 후 마운트된 디스크 이미지를 창에 끌어다 놓으십시오.</string>
 	<key>
 (Note: there is a protected mp4 file which can&apos;t be converted)</key>
 	<string>
 (주의:변환할 수 없는 몇몇 보호된 mp4 파일들이 존재합니다)</string>
-	<key> (No audio)</key>
-	<string> (오디오 없음)</string>
+	<key>&apos;%@&apos; was burned succesfully</key>
+	<string>&apos;%@&apos; 디스크 굽기 성공</string>
 	<key>This file can&apos;t be converted</key>
-	<string>이 파일은 변환할 수 없습니다</string>
+	<string>이 파일은 변환할 수 없습니다.</string>
 	<key>No Recorder</key>
-	<string>사용 가능한 기록 장치가 없습니다.</string>
+	<string>기록 장치 없음</string>
 	<key>Ready to burn</key>
 	<string>굽기 준비 완료</string>
 	<key>Mount</key>
 	<string>마운트</string>
-	<key>iPod image</key>
-	<string>iPod 이미지</string>
+	<key>UDRO</key>
+	<string>읽기 전용 디스크 이미지</string>
+	<key>Can&apos;t create &apos;%@&apos; in &apos;%@&apos;</key>
+	<string>&apos;%2$@&apos; 중의 &apos;%1$@&apos;를 생성할 수 없습니다.</string>
 	<key>Cancel</key>
 	<string>취소</string>
+	<key>Closing track %ld of %ld (%@)</key>
+	<string>%2$ld (%@) 중의 %1$ld 트랙 닫는 중</string>
 	<key>Advanced</key>
 	<string>고급 설정</string>
-	<key>Choose a location to save the mp3 files</key>
-	<string>mp3 파일을 저장할 위치를 선택해 주세요</string>
-	<key>DVD-Audio</key>
-	<string>DVD 오디오</string>
+	<key>Could not eject media from the drive</key>
+	<string>미디어를 드라이브에서 추출할 수 없습니다.</string>
 	<key>Data</key>
 	<string>데이터</string>
 	<key>Choose an image file</key>
-	<string>이미지 파일 선택</string>
-	<key> (Couldn&apos;t get attributes)</key>
-	<string> (속성을 얻을 수 없습니다)</string>
-	<key>NDIF read/write</key>
-	<string>NDIF 읽기/쓰기</string>
+	<string>디스크 이미지 파일 선택</string>
 	<key>Title Menu</key>
 	<string>타이틀 메뉴</string>
-	<key>Would you like to convert that file to wav?</key>
-	<string>파일을 wav로 변환하시겠습니까?</string>
-	<key>Choose a location to save the DVD folder</key>
-	<string>DVD 폴더를 저장할 위치를 선택해 주세요</string>
-	<key> to VCD mpg</key>
-	<string> VCD mpg로</string>
-	<key>Closing track</key>
-	<string>트랙 닫는 중</string>
-	<key>NDIF read-only</key>
-	<string>NDIF 읽기 전용</string>
-	<key> to wav</key>
-	<string> wav로</string>
-	<key>Open Log</key>
-	<string>로그 열기</string>
-	<key>Would you like to convert those files to DVD mpg?</key>
-	<string>선택된 파일들을 DVD mpg로 변환하겠습니까?</string>
+	<key>Creating image file &apos;%@&apos;</key>
+	<string>디스크 이미지 파일 &apos;%@&apos; 작성 중 </string>
+	<key>Scanning for files and folders</key>
+	<string>파일과 폴더 스캔 중</string>
+	<key>Invalid Burn file</key>
+	<string>부적절한 Burn 파일</string>
 	<key>Image created</key>
-	<string>디스크 이미지를 작성하였습니다</string>
+	<string>디스크 이미지가 작성되었습니다.</string>
+	<key>Unmount Image</key>
+	<string>디스크 이미지 마운트 해제</string>
 	<key>Missing files</key>
 	<string>존재하지 않는 파일</string>
 	<key>Audio Help</key>
 	<string>오디오 도움말</string>
-	<key>Read/write</key>
-	<string>읽기/쓰기</string>
+	<key>DC42</key>
+	<string>Disk Copy 4.2의 디스크 이미지</string>
+	<key>%@ (Unknown format)</key>
+	<string>%@ (알 수 없는 포맷)</string>
 	<key>Video Help</key>
 	<string>비디오 도움말</string>
-	<key> (Unsupported audio)</key>
-	<string> (지원하지 않는 오디오)</string>
-	<key>Would you like to convert those files to wav?
-(Note: there is a protected mp4 file which can&apos;t be converted)</key>
-	<string>파일들을 wav로 변환하시겠습니까?
-(주의:변환할 수 없는 몇몇 보호된 mp4 파일들이 존재합니다)</string>
-	<key> to DivX avi</key>
-	<string> DivX avi로</string>
-	<key>Whole device</key>
-	<string>모든 기록 장치</string>
+	<key>Failed to copy &apos;%@&apos; to &apos;%@&apos;. %@</key>
+	<string>&apos;%@&apos; 를 &apos;%@&apos;로 복사하지 못하였습니다. %@</string>
+	<key>UNIV</key>
+	<string>하이브리드 디스크 이미지</string>
+	<key>Failed to delete &apos;%@&apos;.</key>
+	<string>&apos;%@&apos;를 삭제하지 못하였습니다.</string>
 	<key>Open</key>
 	<string>열기</string>
-	<key>Track </key>
-	<string>트랙 </string>
-	<key> KB</key>
-	<string> KB</string>
+	<key>Failed to write &apos;%@&apos; to &apos;%@&apos;</key>
+	<string>&apos;%@&apos; 를 &apos;%@&apos;에 쓰지 못하였습니다.</string>
 	<key>Preferences Help</key>
 	<string>환경설정 도움말</string>
 	<key>Time</key>
 	<string>시간</string>
-	<key>DVD/CD-master</key>
-	<string>DVD/CD 마스터</string>
+	<key>Closing track (%@)</key>
+	<string>트랙 닫는 중 (%@)</string>
 	<key>Audio CD</key>
 	<string>오디오 CD</string>
-	<key>Disk Copy 4.2</key>
-	<string>Disk Copy 4.2</string>
+	<key>%@ (Unsupported audio)</key>
+	<string>%@ (지원하지 않는 오디오)</string>
 	<key>To burn a Audio-CD the media should be a CD</key>
-	<string>오디오 CD를 구우려면 미디어가 CD라야 합니다</string>
-	<key>These files can&apos;t be converted, would you like to continue?</key>
-	<string>이 파일들은 변환할 수 없습니다. 계속하시겠습니까?</string>
-	<key> file</key>
-	<string> 파일</string>
-	<key>Would you like to convert those files to wav?</key>
-	<string>파일들을 wav로 변환하시겠습니까?</string>
+	<string>오디오 CD를 구우려면 미디어가 CD라야 합니다.</string>
+	<key>%@ Help</key>
+	<string>%@ 도움말</string>
+	<key>RdWr</key>
+	<string>읽기/쓰기 디스크 이미지</string>
+	<key>Untitled Folder</key>
+	<string>무제 폴더</string>
+	<key>Are you sure you want to cancel?</key>
+	<string>정말로 취소하시겠습니까?</string>
+	<key>Would you like to convert that file to %@?%@</key>
+	<string>선택된 파일을 %@로 변환하겠습니까? %@</string>
 	<key>Finished erasing</key>
 	<string>지우기 종료</string>
 	<key>Only Mode1 and Audio tracks are supported</key>
-	<string>모드 1의 오디오 트랙만 지원됩니다</string>
+	<string>모드 1의 오디오 트랙만 지원됩니다.</string>
 	<key>Chapter Menu</key>
 	<string>장 메뉴</string>
 	<key>Succesfully created a disk image</key>
-	<string>디스크 이미지 작성에 성공하였습니다</string>
+	<string>디스크 이미지 작성에 성공하였습니다.</string>
 	<key>Choose a location to save the image file</key>
-	<string>디스크 이미지 파일을 저장할 위치를 선택해 주세요</string>
+	<string>디스크 이미지 파일을 저장할 위치를 선택해 주세요.</string>
 	<key>Preparing to encode</key>
-	<string>인코딩 표준</string>
+	<string>인코딩 준비 중</string>
 	<key>No CD</key>
 	<string>CD 없음</string>
-	<key>There was a problem erasing the disc?</key>
-	<string>디스크를 지울 때 문제가 발생하였습니다</string>
+	<key>Toc file</key>
+	<string>Toc 파일</string>
 	<key>Image failed</key>
-	<string>디스크 이미지 작성에 실패하였습니다</string>
+	<string>디스크 이미지 작성 실패</string>
+	<key>ROCo</key>
+	<string>압축된 디스크 이미지</string>
 	<key>Untitled</key>
 	<string>무제</string>
-	<key>NDIF compressed (KenCode)</key>
-	<string>NDIF 압축 (KenCode)</string>
 	<key>Some files are to large</key>
-	<string>몇몇 파일들이 너무 큽니다</string>
-	<key>Would you like to convert that file to DivX avi?</key>
-	<string>선택된 파일을 DivX avi로 변환하겠습니까?</string>
+	<string>몇몇 파일들이 너무 큽니다.</string>
 	<key>There was a problem creating the image</key>
-	<string>디스크 이미지를 만들 때 문제가 발생하였습니다</string>
+	<string>디스크 이미지를 만들 때 문제가 발생하였습니다.</string>
 	<key>No</key>
 	<string>아니오</string>
 	<key>
 (Note: there are a few protected mp4 files which can&apos;t be converted)</key>
 	<string>
-(주의:변환할 수 없는 몇몇 보호된 mp4 파일들이 존재합니다)</string>
-	<key>Scanning for for file and folders</key>
-	<string>파일과 폴더 스캔 중</string>
-	<key>Burning </key>
-	<string>다음을 굽는 중 : </string>
+(주의:변환할 수 없는 몇몇 보호된 mp4 파일들이 존재합니다.)</string>
+	<key>Processing: %@ (%i of %i)</key>
+	<string>처리 중: %@ (%2$i 중 %1$i)</string>
 	<key>Unsupported Image</key>
-	<string>지원되지 않는 이미지</string>
+	<string>지원되지 않는 디스크 이미지</string>
 	<key>Unknown disk image</key>
 	<string>알 수 없는 디스크 이미지</string>
 	<key>Continue</key>
 	<string>계속</string>
-	<key> files</key>
-	<string> 파일</string>
 	<key>Writing tracks</key>
 	<string>트랙 쓰는 중</string>
+	<key>UDBZ</key>
+	<string>압축된 디스크 이미지</string>
+	<key>Generating DVD folder: (%.0f%@)</key>
+	<string>DVD 폴더 작성 중 (%.0f%@)</string>
 	<key>UDF / ISO9660 (only)</key>
 	<string>UDF / ISO9660 (only)</string>
-	<key>Eject Disk</key>
-	<string>디스크 추출</string>
-	<key>4 KB</key>
-	<string>4 KB</string>
-	<key>Preparing...</key>
-	<string>준비 중...</string>
+	<key>IPOD</key>
+	<string>iPod 이미지</string>
 	<key>Still try to burn the disc?</key>
 	<string>그래도 디스크 굽기를 시도하시겠습니까?</string>
+	<key>Encoding file %i of %i to %@</key>
+	<string>%2$i 중의 파일 %1$i을 %3$@로 인코딩 중</string>
+	<key>Preparing...</key>
+	<string>준비 중...</string>
+	<key>After canceling the disc can&apos;t be used anymore</key>
+	<string>취소 후에는 이 디스크는 사용할 수 없게 됩니다.</string>
 	<key>Choose a location to save the burn file</key>
-	<string>burn 파일을 저장할 위치를 선택해 주세요</string>
+	<string>Burn 파일을 저장할 위치를 선택해 주세요.</string>
+	<key>Failed to install theme in the &apos;Application Support&apos; folder</key>
+	<string>&apos;Application Support&apos; 폴더에 테마를 설치하지 못하였습니다.</string>
 </dict>
 </plist>

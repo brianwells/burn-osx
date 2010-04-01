@@ -1,564 +1,268 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
-<plist version="1.0">
-<dict>
-	<key>IBClasses</key>
-	<array>
-		<dict>
-			<key>ACTIONS</key>
-			<dict>
-				<key>addImage</key>
-				<string>id</string>
-				<key>nextImage</key>
-				<string>id</string>
-				<key>optionsChanged</key>
-				<string>id</string>
-				<key>previousImage</key>
-				<string>id</string>
-				<key>removeImage</key>
-				<string>id</string>
-			</dict>
-			<key>CLASS</key>
-			<string>KWAudioMP3Inspector</string>
-			<key>LANGUAGE</key>
-			<string>ObjC</string>
-			<key>OUTLETS</key>
-			<dict>
-				<key>album</key>
-				<string>id</string>
-				<key>artist</key>
-				<string>id</string>
-				<key>composer</key>
-				<string>id</string>
-				<key>discNumber</key>
-				<string>id</string>
-				<key>discTotal</key>
-				<string>id</string>
-				<key>genre</key>
-				<string>id</string>
-				<key>iconView</key>
-				<string>id</string>
-				<key>imageString</key>
-				<string>id</string>
-				<key>imageView</key>
-				<string>id</string>
-				<key>myView</key>
-				<string>id</string>
-				<key>nameField</key>
-				<string>id</string>
-				<key>notes</key>
-				<string>id</string>
-				<key>sizeField</key>
-				<string>id</string>
-				<key>tabView</key>
-				<string>id</string>
-				<key>title</key>
-				<string>id</string>
-				<key>trackNumber</key>
-				<string>id</string>
-				<key>trackTotal</key>
-				<string>id</string>
-				<key>year</key>
-				<string>id</string>
-			</dict>
-			<key>SUPERCLASS</key>
-			<string>NSObject</string>
-		</dict>
-		<dict>
-			<key>CLASS</key>
-			<string>ISOController</string>
-			<key>LANGUAGE</key>
-			<string>ObjC</string>
-			<key>OUTLETS</key>
-			<dict>
-				<key>effectiveDate</key>
-				<string>NSTextField</string>
-				<key>expirationDate</key>
-				<string>NSTextField</string>
-				<key>invisible</key>
-				<string>NSButton</string>
-				<key>recordingDate</key>
-				<string>NSTextField</string>
-				<key>versionNumber</key>
-				<string>NSTextField</string>
-			</dict>
-			<key>SUPERCLASS</key>
-			<string>FSPropertiesController</string>
-		</dict>
-		<dict>
-			<key>ACTIONS</key>
-			<dict>
-				<key>setFlagsProperty</key>
-				<string>id</string>
-				<key>setFolderBoundsProperty</key>
-				<string>id</string>
-				<key>setFolderScrollPositionProperty</key>
-				<string>id</string>
-				<key>setHiddenExtension</key>
-				<string>id</string>
-				<key>setIconPositionProperty</key>
-				<string>id</string>
-				<key>setTypeCreatorProperty</key>
-				<string>id</string>
-			</dict>
-			<key>CLASS</key>
-			<string>HFSPlusController</string>
-			<key>LANGUAGE</key>
-			<string>ObjC</string>
-			<key>OUTLETS</key>
-			<dict>
-				<key>boundsBottom</key>
-				<string>NSTextField</string>
-				<key>boundsLeft</key>
-				<string>NSTextField</string>
-				<key>boundsRight</key>
-				<string>NSTextField</string>
-				<key>boundsTop</key>
-				<string>NSTextField</string>
-				<key>creator</key>
-				<string>NSTextField</string>
-				<key>extFinderFlags</key>
-				<string>NSMatrix</string>
-				<key>finderFlags</key>
-				<string>NSMatrix</string>
-				<key>iconPosX</key>
-				<string>NSTextField</string>
-				<key>iconPosY</key>
-				<string>NSTextField</string>
-				<key>nodeID</key>
-				<string>NSTextField</string>
-				<key>scrollPosX</key>
-				<string>NSTextField</string>
-				<key>scrollPosY</key>
-				<string>NSTextField</string>
-				<key>setHiddenExtension</key>
-				<string>NSButton</string>
-				<key>tecHint</key>
-				<string>NSTextField</string>
-				<key>type</key>
-				<string>NSTextField</string>
-				<key>viewType</key>
-				<string>NSTextField</string>
-			</dict>
-			<key>SUPERCLASS</key>
-			<string>FSPropertiesController</string>
-		</dict>
-		<dict>
-			<key>ACTIONS</key>
-			<dict>
-				<key>add</key>
-				<string>id</string>
-				<key>addSheet</key>
-				<string>id</string>
-				<key>cancelSheet</key>
-				<string>id</string>
-				<key>remove</key>
-				<string>id</string>
-				<key>timeSlider</key>
-				<string>id</string>
-			</dict>
-			<key>CLASS</key>
-			<string>KWDVDInspector</string>
-			<key>LANGUAGE</key>
-			<string>ObjC</string>
-			<key>OUTLETS</key>
-			<dict>
-				<key>chapterSheet</key>
-				<string>id</string>
-				<key>currentTimeField</key>
-				<string>id</string>
-				<key>iconView</key>
-				<string>id</string>
-				<key>myView</key>
-				<string>id</string>
-				<key>nameField</key>
-				<string>id</string>
-				<key>previewView</key>
-				<string>id</string>
-				<key>tableView</key>
-				<string>id</string>
-				<key>timeField</key>
-				<string>id</string>
-				<key>timeSlider</key>
-				<string>id</string>
-				<key>titleField</key>
-				<string>id</string>
-			</dict>
-			<key>SUPERCLASS</key>
-			<string>NSObject</string>
-		</dict>
-		<dict>
-			<key>ACTIONS</key>
-			<dict>
-				<key>cancel</key>
-				<string>id</string>
-				<key>deleteIcon</key>
-				<string>id</string>
-				<key>ok</key>
-				<string>id</string>
-				<key>selectRootDirFile</key>
-				<string>id</string>
-				<key>setGID</key>
-				<string>id</string>
-				<key>setHFSBounds</key>
-				<string>id</string>
-				<key>setHFSScroll</key>
-				<string>id</string>
-				<key>setHFSViewType</key>
-				<string>id</string>
-				<key>setIcon</key>
-				<string>id</string>
-				<key>setPermissions</key>
-				<string>id</string>
-				<key>setUDFVersion</key>
-				<string>id</string>
-				<key>setUID</key>
-				<string>id</string>
-				<key>setVolumeName</key>
-				<string>id</string>
-				<key>setVolumeProperty</key>
-				<string>id</string>
-				<key>userSelectedISOLevel</key>
-				<string>id</string>
-			</dict>
-			<key>CLASS</key>
-			<string>KWDataDiscInspector</string>
-			<key>LANGUAGE</key>
-			<string>ObjC</string>
-			<key>OUTLETS</key>
-			<dict>
-				<key>AllOptions</key>
-				<string>id</string>
-				<key>fileChooser</key>
-				<string>NSPanel</string>
-				<key>fileList</key>
-				<string>NSTableView</string>
-				<key>gid</key>
-				<string>id</string>
-				<key>hfsBoundsB</key>
-				<string>id</string>
-				<key>hfsBoundsL</key>
-				<string>id</string>
-				<key>hfsBoundsR</key>
-				<string>id</string>
-				<key>hfsBoundsT</key>
-				<string>id</string>
-				<key>hfsName</key>
-				<string>NSTextField</string>
-				<key>hfsOptions</key>
-				<string>NSBox</string>
-				<key>hfsScrollX</key>
-				<string>id</string>
-				<key>hfsScrollY</key>
-				<string>id</string>
-				<key>hfsViewType</key>
-				<string>id</string>
-				<key>iconView</key>
-				<string>id</string>
-				<key>isoLevel</key>
-				<string>id</string>
-				<key>isoName</key>
-				<string>NSTextField</string>
-				<key>isoOptions</key>
-				<string>NSBox</string>
-				<key>jolietName</key>
-				<string>NSTextField</string>
-				<key>jolietOptions</key>
-				<string>NSBox</string>
-				<key>mainIconView</key>
-				<string>id</string>
-				<key>myView</key>
-				<string>id</string>
-				<key>nameField</key>
-				<string>id</string>
-				<key>okButton</key>
-				<string>NSButton</string>
-				<key>perms</key>
-				<string>id</string>
-				<key>sizeField</key>
-				<string>id</string>
-				<key>tabView</key>
-				<string>id</string>
-				<key>udfName</key>
-				<string>id</string>
-				<key>udfOptions</key>
-				<string>id</string>
-				<key>udfVersion</key>
-				<string>id</string>
-				<key>uid</key>
-				<string>id</string>
-			</dict>
-			<key>SUPERCLASS</key>
-			<string>NSObject</string>
-		</dict>
-		<dict>
-			<key>CLASS</key>
-			<string>KWInspector</string>
-			<key>LANGUAGE</key>
-			<string>ObjC</string>
-			<key>OUTLETS</key>
-			<dict>
-				<key>audioController</key>
-				<string>id</string>
-				<key>audioDiscController</key>
-				<string>id</string>
-				<key>audioDiscView</key>
-				<string>id</string>
-				<key>audioMP3Controller</key>
-				<string>id</string>
-				<key>audioMP3View</key>
-				<string>id</string>
-				<key>audioView</key>
-				<string>id</string>
-				<key>dataController</key>
-				<string>id</string>
-				<key>dataDiscController</key>
-				<string>id</string>
-				<key>dataDiscView</key>
-				<string>id</string>
-				<key>dataView</key>
-				<string>id</string>
-				<key>dvdController</key>
-				<string>id</string>
-				<key>dvdView</key>
-				<string>id</string>
-				<key>emptyView</key>
-				<string>id</string>
-			</dict>
-			<key>SUPERCLASS</key>
-			<string>NSWindowController</string>
-		</dict>
-		<dict>
-			<key>CLASS</key>
-			<string>FirstResponder</string>
-			<key>LANGUAGE</key>
-			<string>ObjC</string>
-			<key>SUPERCLASS</key>
-			<string>NSObject</string>
-		</dict>
-		<dict>
-			<key>ACTIONS</key>
-			<dict>
-				<key>setFileName</key>
-				<string>id</string>
-				<key>setIncludedBit</key>
-				<string>id</string>
-				<key>setPOSIXModeProperty</key>
-				<string>id</string>
-				<key>setProperty</key>
-				<string>id</string>
-			</dict>
-			<key>CLASS</key>
-			<string>FSPropertiesController</string>
-			<key>LANGUAGE</key>
-			<string>ObjC</string>
-			<key>OUTLETS</key>
-			<dict>
-				<key>attributeModDate</key>
-				<string>NSTextField</string>
-				<key>backupDate</key>
-				<string>NSTextField</string>
-				<key>contentModDate</key>
-				<string>NSTextField</string>
-				<key>contentView</key>
-				<string>NSView</string>
-				<key>creationDate</key>
-				<string>NSTextField</string>
-				<key>gid</key>
-				<string>NSTextField</string>
-				<key>included</key>
-				<string>NSButton</string>
-				<key>lastAccessedDate</key>
-				<string>NSTextField</string>
-				<key>mangledName</key>
-				<string>NSTextField</string>
-				<key>perms</key>
-				<string>NSMatrix</string>
-				<key>specificName</key>
-				<string>NSTextField</string>
-				<key>uid</key>
-				<string>NSTextField</string>
-			</dict>
-			<key>SUPERCLASS</key>
-			<string>NSObject</string>
-		</dict>
-		<dict>
-			<key>CLASS</key>
-			<string>ISO9660Controller</string>
-			<key>LANGUAGE</key>
-			<string>ObjC</string>
-			<key>OUTLETS</key>
-			<dict>
-				<key>level1MangledName</key>
-				<string>NSTextField</string>
-				<key>level1SpecificName</key>
-				<string>NSTextField</string>
-				<key>level2MangledName</key>
-				<string>NSTextField</string>
-				<key>level2SpecificName</key>
-				<string>NSTextField</string>
-			</dict>
-			<key>SUPERCLASS</key>
-			<string>ISOController</string>
-		</dict>
-		<dict>
-			<key>ACTIONS</key>
-			<dict>
-				<key>ISRCChanged</key>
-				<string>id</string>
-				<key>ISRCCheckBox</key>
-				<string>id</string>
-				<key>optionsChanged</key>
-				<string>id</string>
-			</dict>
-			<key>CLASS</key>
-			<string>KWAudioInspector</string>
-			<key>LANGUAGE</key>
-			<string>ObjC</string>
-			<key>OUTLETS</key>
-			<dict>
-				<key>ISRCCDText</key>
-				<string>id</string>
-				<key>ISRCCheckBox</key>
-				<string>id</string>
-				<key>ISRCField</key>
-				<string>id</string>
-				<key>arranger</key>
-				<string>id</string>
-				<key>composer</key>
-				<string>id</string>
-				<key>iconView</key>
-				<string>id</string>
-				<key>indexPoints</key>
-				<string>id</string>
-				<key>invalid</key>
-				<string>id</string>
-				<key>myView</key>
-				<string>id</string>
-				<key>nameField</key>
-				<string>id</string>
-				<key>notes</key>
-				<string>id</string>
-				<key>performer</key>
-				<string>id</string>
-				<key>preEmphasis</key>
-				<string>id</string>
-				<key>preGap</key>
-				<string>id</string>
-				<key>privateUse</key>
-				<string>id</string>
-				<key>songwriter</key>
-				<string>id</string>
-				<key>timeField</key>
-				<string>id</string>
-				<key>title</key>
-				<string>id</string>
-			</dict>
-			<key>SUPERCLASS</key>
-			<string>NSObject</string>
-		</dict>
-		<dict>
-			<key>CLASS</key>
-			<string>JolietController</string>
-			<key>LANGUAGE</key>
-			<string>ObjC</string>
-			<key>SUPERCLASS</key>
-			<string>ISOController</string>
-		</dict>
-		<dict>
-			<key>CLASS</key>
-			<string>KWDataInspector</string>
-			<key>LANGUAGE</key>
-			<string>ObjC</string>
-			<key>OUTLETS</key>
-			<dict>
-				<key>hfsController</key>
-				<string>HFSPlusController</string>
-				<key>iconView</key>
-				<string>NSImageView</string>
-				<key>isoController</key>
-				<string>ISOController</string>
-				<key>jolietController</key>
-				<string>JolietController</string>
-				<key>myView</key>
-				<string>id</string>
-				<key>nameField</key>
-				<string>NSTextField</string>
-				<key>sizeField</key>
-				<string>NSTextField</string>
-				<key>tabs</key>
-				<string>NSTabView</string>
-				<key>udfController</key>
-				<string>UDFController</string>
-			</dict>
-			<key>SUPERCLASS</key>
-			<string>NSObject</string>
-		</dict>
-		<dict>
-			<key>ACTIONS</key>
-			<dict>
-				<key>optionsChanged</key>
-				<string>id</string>
-			</dict>
-			<key>CLASS</key>
-			<string>KWAudioDiscInspector</string>
-			<key>LANGUAGE</key>
-			<string>ObjC</string>
-			<key>OUTLETS</key>
-			<dict>
-				<key>arranger</key>
-				<string>id</string>
-				<key>composer</key>
-				<string>id</string>
-				<key>discIdent</key>
-				<string>id</string>
-				<key>genreCode</key>
-				<string>id</string>
-				<key>genreName</key>
-				<string>id</string>
-				<key>mcn</key>
-				<string>id</string>
-				<key>mcnCheckBox</key>
-				<string>id</string>
-				<key>myView</key>
-				<string>id</string>
-				<key>notes</key>
-				<string>id</string>
-				<key>performer</key>
-				<string>id</string>
-				<key>privateUse</key>
-				<string>id</string>
-				<key>songwriter</key>
-				<string>id</string>
-				<key>timeField</key>
-				<string>id</string>
-				<key>title</key>
-				<string>id</string>
-			</dict>
-			<key>SUPERCLASS</key>
-			<string>NSObject</string>
-		</dict>
-		<dict>
-			<key>CLASS</key>
-			<string>UDFController</string>
-			<key>LANGUAGE</key>
-			<string>ObjC</string>
-			<key>OUTLETS</key>
-			<dict>
-				<key>effectiveDate</key>
-				<string>id</string>
-				<key>expirationDate</key>
-				<string>id</string>
-				<key>invisible</key>
-				<string>id</string>
-				<key>recordingDate</key>
-				<string>id</string>
-			</dict>
-			<key>SUPERCLASS</key>
-			<string>FSPropertiesController</string>
-		</dict>
-	</array>
-	<key>IBVersion</key>
-	<string>1</string>
-</dict>
-</plist>
+{
+    IBClasses =     (
+                {
+            ACTIONS =             {
+                setFileName = id;
+                setIncludedBit = id;
+                setPOSIXModeProperty = id;
+                setProperty = id;
+            };
+            CLASS = FSPropertiesController;
+            LANGUAGE = ObjC;
+            OUTLETS =             {
+                attributeModDate = id;
+                backupDate = id;
+                contentModDate = id;
+                contentView = id;
+                creationDate = id;
+                gid = id;
+                included = id;
+                lastAccessedDate = id;
+                mangledName = id;
+                perms = id;
+                specificName = id;
+                uid = id;
+            };
+            SUPERCLASS = NSObject;
+        },
+                {
+            CLASS = FirstResponder;
+            LANGUAGE = ObjC;
+            SUPERCLASS = NSObject;
+        },
+                {
+            ACTIONS =             {
+                setFlagsProperty = id;
+                setFolderBoundsProperty = id;
+                setFolderScrollPositionProperty = id;
+                setHiddenExtension = id;
+                setIconPositionProperty = id;
+                setTypeCreatorProperty = id;
+            };
+            CLASS = HFSPlusController;
+            LANGUAGE = ObjC;
+            OUTLETS =             {
+                boundsBottom = id;
+                boundsLeft = id;
+                boundsRight = id;
+                boundsTop = id;
+                creator = id;
+                extFinderFlags = id;
+                finderFlags = id;
+                iconPosX = id;
+                iconPosY = id;
+                nodeID = id;
+                scrollPosX = id;
+                scrollPosY = id;
+                setHiddenExtension = id;
+                tecHint = id;
+                type = id;
+                viewType = id;
+            };
+            SUPERCLASS = FSPropertiesController;
+        },
+                {
+            CLASS = ISO9660Controller;
+            LANGUAGE = ObjC;
+            OUTLETS =             {
+                level1MangledName = id;
+                level1SpecificName = id;
+                level2MangledName = id;
+                level2SpecificName = id;
+            };
+            SUPERCLASS = ISOController;
+        },
+                {
+            CLASS = ISOController;
+            LANGUAGE = ObjC;
+            OUTLETS =             {
+                effectiveDate = id;
+                expirationDate = id;
+                invisible = id;
+                recordingDate = id;
+                versionNumber = id;
+            };
+            SUPERCLASS = FSPropertiesController;
+        },
+                {
+            CLASS = JolietController;
+            LANGUAGE = ObjC;
+            SUPERCLASS = ISOController;
+        },
+                {
+            ACTIONS =             {
+                optionsChanged = id;
+            };
+            CLASS = KWAudioDiscInspector;
+            LANGUAGE = ObjC;
+            OUTLETS =             {
+                genreCode = id;
+                myView = id;
+                timeField = id;
+            };
+            SUPERCLASS = NSObject;
+        },
+                {
+            ACTIONS =             {
+                ISRCChanged = id;
+                optionsChanged = id;
+            };
+            CLASS = KWAudioInspector;
+            LANGUAGE = ObjC;
+            OUTLETS =             {
+                iconView = id;
+                invalid = id;
+                myView = id;
+                nameField = id;
+                timeField = id;
+            };
+            SUPERCLASS = NSObject;
+        },
+                {
+            ACTIONS =             {
+                addImage = id;
+                nextImage = id;
+                optionsChanged = id;
+                previousImage = id;
+                removeImage = id;
+            };
+            CLASS = KWAudioMP3Inspector;
+            LANGUAGE = ObjC;
+            OUTLETS =             {
+                iconView = id;
+                imageString = id;
+                imageView = id;
+                myView = id;
+                nameField = id;
+                sizeField = id;
+                tabView = id;
+            };
+            SUPERCLASS = NSObject;
+        },
+                {
+            ACTIONS =             {
+                add = id;
+                addSheet = id;
+                cancelSheet = id;
+                remove = id;
+                timeSlider = id;
+            };
+            CLASS = KWDVDInspector;
+            LANGUAGE = ObjC;
+            OUTLETS =             {
+                chapterSheet = id;
+                currentTimeField = id;
+                iconView = id;
+                myView = id;
+                nameField = id;
+                previewView = id;
+                tableView = id;
+                timeField = id;
+                timeSlider = id;
+                titleField = id;
+            };
+            SUPERCLASS = NSObject;
+        },
+                {
+            ACTIONS =             {
+                cancel = id;
+                deleteIcon = id;
+                ok = id;
+                selectRootDirFile = id;
+                setGID = id;
+                setHFSBounds = id;
+                setHFSScroll = id;
+                setHFSViewType = id;
+                setIcon = id;
+                setPermissions = id;
+                setUDFVersion = id;
+                setUID = id;
+                setVolumeName = id;
+                setVolumeProperty = id;
+                userSelectedISOLevel = id;
+            };
+            CLASS = KWDataDiscInspector;
+            LANGUAGE = ObjC;
+            OUTLETS =             {
+                allOptions = id;
+                fileChooser = id;
+                fileList = id;
+                gid = id;
+                hfsBoundsB = id;
+                hfsBoundsL = id;
+                hfsBoundsR = id;
+                hfsBoundsT = id;
+                hfsName = id;
+                hfsOptions = id;
+                hfsScrollX = id;
+                hfsScrollY = id;
+                hfsViewType = id;
+                iconView = id;
+                isoLevel = id;
+                isoName = id;
+                isoOptions = id;
+                jolietName = id;
+                jolietOptions = id;
+                mainIconView = id;
+                myView = id;
+                nameField = id;
+                okButton = id;
+                perms = id;
+                sizeField = id;
+                tabView = id;
+                udfName = id;
+                udfOptions = id;
+                udfVersion = id;
+                uid = id;
+            };
+            SUPERCLASS = NSObject;
+        },
+                {
+            CLASS = KWDataInspector;
+            LANGUAGE = ObjC;
+            OUTLETS =             {
+                hfsController = id;
+                iconView = id;
+                isoController = id;
+                jolietController = id;
+                myView = id;
+                nameField = id;
+                sizeField = id;
+                tabs = id;
+                udfController = id;
+            };
+            SUPERCLASS = NSObject;
+        },
+                {
+            CLASS = KWInspector;
+            LANGUAGE = ObjC;
+            OUTLETS =             {
+                audioController = id;
+                audioDiscController = id;
+                audioMP3Controller = id;
+                dataController = id;
+                dataDiscController = id;
+                dvdController = id;
+                emptyView = id;
+            };
+            SUPERCLASS = NSWindowController;
+        },
+                {
+            CLASS = NSDatePicker;
+            LANGUAGE = ObjC;
+            SUPERCLASS = NSControl;
+        },
+                {
+            CLASS = UDFController;
+            LANGUAGE = ObjC;
+            OUTLETS =             {
+                effectiveDate = id;
+                expirationDate = id;
+                invisible = id;
+                recordingDate = id;
+            };
+            SUPERCLASS = FSPropertiesController;
+        }
+    );
+    IBVersion = 1;
+}
