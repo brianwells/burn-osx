@@ -89,9 +89,9 @@
 	if (size < blockSize)
 	{
 		if (size > 0)
-			return [NSString localizedStringWithFormat: @"%.0f KB", 4];
+			return [NSString localizedStringWithFormat: NSLocalizedString(@"%.0f KB", nil), 4];
 		else
-			return [NSString localizedStringWithFormat: @"%.0f KB", size];
+			return [NSString localizedStringWithFormat: NSLocalizedString(@"%.0f KB", nil), size];
 	}
 	
 	
@@ -102,7 +102,7 @@
 	BOOL isTB = (size < blockSize * blockSize * blockSize * blockSize * blockSize);
 	
 	if (isKB)
-		return [NSString localizedStringWithFormat: @"%.0f KB", size / blockSize];
+		return [NSString localizedStringWithFormat: NSLocalizedString(@"%.0f KB", nil), size / blockSize];
 	
 	if (isMB)
 	{
@@ -140,7 +140,7 @@
 		return [NSString localizedStringWithFormat: NSLocalizedString(@"%@ TB", nil), sizeString];
 	}	
 
-	return [NSString localizedStringWithFormat: @"%.0f KB", 0];
+	return [NSString localizedStringWithFormat: NSLocalizedString(@"%.0f KB", nil), 0];
 }
 
 //////////////////
