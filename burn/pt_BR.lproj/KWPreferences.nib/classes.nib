@@ -33,8 +33,11 @@
                 audioView = id;
                 burnerPopup = id;
                 burnerView = id;
+                cdPopup = id;
+                cdTextCheckbox = id;
                 completionActionMatrix = id;
                 dataView = id;
+                dvdPopup = id;
                 generalView = id;
                 previewImagePopup = id;
                 previewImageView = id;
@@ -43,9 +46,24 @@
                 themePopup = id;
                 videoTab = id;
                 videoView = id;
-                window = id;
             };
             SUPERCLASS = NSWindowController;
+        },
+                {
+            CLASS = dataView;
+            LANGUAGE = ObjC;
+            OUTLETS =             {
+                myController = id;
+            };
+            SUPERCLASS = NSView;
+        },
+                {
+            CLASS = dropImageView;
+            LANGUAGE = ObjC;
+            OUTLETS =             {
+                imageControl = id;
+            };
+            SUPERCLASS = NSView;
         }
     );
     IBVersion = 1;
