@@ -1,5 +1,5 @@
 /* Basic info */
-NSHumanReadableCopyright = "Kiwi Fruitware 2009";
+NSHumanReadableCopyright = "Kiwi Fruitware 2010";
 CFBundleName = "Burn";
 CFBundleDisplayName = "Burn";
 CFBundleHelpBookName = "Burn Help";
