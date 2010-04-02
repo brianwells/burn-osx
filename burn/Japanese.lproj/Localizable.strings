@@ -2,208 +2,250 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-	<key>Console</key>
-	<string>コンソール</string>
-	<key>Are you sure you want to cancel?</key>
-	<string>キャンセルすることに間違いありませんか?</string>
-	<key>After canceling the disc can&apos;t be used anymore?</key>
-	<string>キャンセルした後でそのディスクは使用できなくなります?</string>
-	<key>
-(Note: there are a few protected mp4 files which can&apos;t be converted)</key>
-	<string>
-(注意:変換できないいくつかの保護されたmp4ファイルがあります)</string>
-	<key>
-(Note: there is a protected mp4 file which can&apos;t be converted)</key>
-	<string>
-(注意:変換できない保護されたmp4ファイルがあります)</string>
-	<key> (Couldn&apos;t get attributes)</key>
-	<string> (属性を取得できませんでした)</string>
-	<key> (No audio)</key>
-	<string> (オーディオ無し)</string>
-	<key> (No audio/video)</key>
-	<string> (オーディオとビデオ無し)</string>
-	<key> (No video)</key>
-	<string> (ビデオ無し)</string>
-	<key> (Unknown error)</key>
-	<string> (未知のエラー)</string>
-	<key> (Unknown format)</key>
-	<string> (未知のフォーマット)</string>
-	<key> (Unsupported audio)</key>
-	<string> (サポートされていないオーディオ)</string>
-	<key> GB</key>
-	<string> GB</string>
-	<key> KB</key>
-	<string> KB</string>
-	<key> MB</key>
-	<string> MB</string>
-	<key> TB</key>
-	<string> TB</string>
-	<key> file</key>
-	<string> ファイル</string>
-	<key> files</key>
-	<string> ファイル</string>
-	<key> free</key>
-	<string> 空き</string>
-	<key> of </key>
-	<string> の </string>
-	<key> to DVD mpg</key>
-	<string> DVD mpg へ</string>
-	<key> to DivX avi</key>
-	<string> DivX avi へ</string>
-	<key> to SVCD mpg</key>
-	<string> SVCD mpg へ</string>
-	<key> to VCD mpg</key>
-	<string> VCD mpg へ</string>
-	<key> to mp3</key>
-	<string> mp3 へ</string>
-	<key> to wav</key>
-	<string>wav へ</string>
-	<key> was burned successfully</key>
-	<string> ディスク作成に成功</string>
-	<key>4 KB</key>
-	<string>4 KB</string>
-	<key>A cue/bin file needs to be burned on a CD</key>
-	<string>cue/bin ファイルはCDに作成される必要があります</string>
-	<key>Advanced</key>
-	<string>上級設定</string>
-	<key>Audio</key>
-	<string>オーディオ</string>
-	<key>Audio CD</key>
-	<string>オーディオ CD</string>
-	<key>Audio Help</key>
-	<string>オーディオ ヘルプ</string>
-	<key>Authoring DVD...</key>
-	<string>DVDを認証中...</string>
-	<key>Authoring failed</key>
-	<string>認証は失敗しました</string>
-	<key>Burn</key>
-	<string>ディスク作成</string>
-	<key>Burn Temporary</key>
-	<string>Burnの仮住まい</string>
-	<key>Burn failed to encode one file</key>
-	<string>Burn は1個のファイルをエンコードしませんでした。</string>
-	<key>Burn failed to encode some files</key>
-	<string>Burn はいくつかののファイルをエンコードしませんでした。</string>
-	<key>Burner</key>
-	<string>装置</string>
-	<key>Burning </key>
-	<string>ディスク作成中 </string>
-	<key>Burning failed</key>
-	<string>ディスク作成に失敗</string>
-	<key>Can&apos;t determine disc format</key>
-	<string>ディスクのフォーマットを決定できません</string>
-	<key>Cancel</key>
-	<string>キャンセル</string>
-	<key>Chapter Menu</key>
-	<string>チャプターメニュー</string>
-	<key>Checking file...</key>
-	<string>ファイルを検査中...</string>
-	<key>Checking files...</key>
-	<string>ファイルを検査中...</string>
-	<key>Choose</key>
-	<string>選択</string>
-	<key>Choose a location to save a copy of the disc</key>
-	<string>ディスクのコピーを保存する位置を選択してください</string>
-	<key>Choose a location to save a temporary folder</key>
-	<string>一時フォルダーを保存する位置を選択してください</string>
-	<key>Choose a location to save the DVD folder</key>
-	<string>DVDフォルダーを保存する為の場所を選択してください</string>
-	<key>Choose a location to save the avi files</key>
-	<string>aviファイルを保存する為の場所を選択してください</string>
-	<key>Choose a location to save the burn file</key>
-	<string>burnファイルを保存する為の場所を選択してください</string>
-	<key>Choose a location to save the image file</key>
-	<string>ディスクイメージファイルを保存する為の場所を選択してください</string>
-	<key>Choose a location to save the mp3 files</key>
-	<string>mp3ファイルを保存する為の場所を選択してください</string>
-	<key>Choose a location to save the mpg files</key>
-	<string>mpgファイルを保存する為の場所を選択してください</string>
-	<key>Choose a location to save the muxed file</key>
-	<string>多重化されたファイルを保存する位置を選択してください</string>
-	<key>Choose a location to save the re-muxed files</key>
-	<string>再多重化ファイルを保存する位置を選択してください</string>
-	<key>Choose a location to save the wav files</key>
-	<string>wavファイルを保存する為の場所を選択してください</string>
-	<key>Choose an image file</key>
-	<string>イメージファイルを選択</string>
-	<key>Close</key>
-	<string>閉じる</string>
-	<key>Closing session</key>
-	<string>セッションを閉じています</string>
-	<key>Closing track</key>
-	<string>トラックを閉じています</string>
-	<key>Closing track </key>
-	<string>トラックを閉じています </string>
-	<key>Compressed</key>
-	<string>被圧縮</string>
-	<key>Compressed (ADC)</key>
-	<string>圧縮 (ADC)</string>
-	<key>Compressed (bzip2)</key>
-	<string>圧縮 (bzip2)</string>
-	<key>Continue</key>
-	<string>継続</string>
-	<key>Copy</key>
-	<string>コピー</string>
-	<key>Copy Help</key>
-	<string>コピー ヘルプ</string>
-	<key>Copying disc</key>
-	<string>ディスクをコピー中</string>
-	<key>Creating DVD Theme</key>
-	<string>DVDテーマを作成中</string>
-	<key>Creating image file</key>
-	<string>ディスクイメージファイルを作成中</string>
-	<key>Creating: </key>
-	<string>作成中: </string>
-	<key>DVD-Audio</key>
-	<string>DVDオーディオ</string>
-	<key>DVD-Video</key>
-	<string>DVD-Video</string>
-	<key>DVD/CD-master</key>
-	<string>DVD/CDマスター</string>
-	<key>Data</key>
-	<string>データ</string>
+	<key>UDSP</key>
+	<string>Sparse 形式</string>
+	<key>Eject Disc</key>
+	<string>ディスクを取り出す</string>
 	<key>Data Help</key>
 	<string>データ ヘルプ</string>
-	<key>Decoding sound: </key>
-	<string>音声データをデコード中: </string>
-	<key>Disk Copy 4.2</key>
-	<string>Disk Copy 4.2</string>
-	<key>DivX</key>
-	<string>DivX</string>
-	<key>Eject</key>
-	<string>取り出し</string>
-	<key>Encoding file </key>
-	<string>ファイルをエンコード中 </string>
-	<key>Encoding: </key>
-	<string>エンコード中: </string>
-	<key>Erasing disc</key>
-	<string>ディスクを消去中</string>
-	<key>Erasing failed</key>
-	<string>消去失敗</string>
-	<key>Failed converting</key>
-	<string>失敗した変換</string>
-	<key>Failed to burn </key>
-	<string>ディスク作成に失敗</string>
-	<key>Failed to create </key>
-	<string>作成に失敗しました</string>
-	<key>Finished burning</key>
-	<string>ディスク作成を終了</string>
-	<key>Finished converting</key>
-	<string>変換を終了</string>
-	<key>Finished converting </key>
-	<string>変換を終了</string>
-	<key>Finished erasing</key>
-	<string>消去完了</string>
+	<key>Unsuported Toc file</key>
+	<string>サポートされていないTOC(目次)ファイル</string>
 	<key>Finishing...</key>
 	<string>終了中...</string>
-	<key>General</key>
-	<string>一般</string>
+	<key>%@ (Unknown error)</key>
+	<string>%@ (未知のエラー)</string>
+	<key>Mount Image</key>
+	<string>ディスクイメージをマウント</string>
+	<key>Can&apos;t determine disc format</key>
+	<string>ディスクのフォーマットを決定できません</string>
+	<key>Finished converting</key>
+	<string>変換を終了</string>
+	<key>Failed to burn &apos;%@&apos;</key>
+	<string>ディスク作成に失敗 &apos;%@&apos;</string>
+	<key>Copying disc</key>
+	<string>ディスクをコピー中</string>
+	<key>Remuxing: </key>
+	<string>再多重化TSを作成中: </string>
+	<key>Closing session</key>
+	<string>セッションを閉じています</string>
+	<key>Choose a location to save a temporary folder</key>
+	<string>一時フォルダーを保存する位置を選択してください</string>
+	<key>Finished burning</key>
+	<string>ディスク作成を終了</string>
+	<key>Some files specified in the %@ file are missing.</key>
+	<string>%@ファイルの中で定義されているいくつかのファイルが消え去ります。</string>
+	<key>Writing track (%@)</key>
+	<string>トラックを書き込み中 (%@)</string>
+	<key>UDSB</key>
+	<string>Sparse bundle disk image</string>
+	<key>Mounting: %@</key>
+	<string>マウント中: %@</string>
+	<key>The PC (Joliet) or ISO9660 filesystem can only handle files smaller than 2GB</key>
+	<string>PC(Joliet)またはISO9660ファイルシステムは2GB以下でファイルを扱うことができるだけです</string>
+	<key>Burn failed to encode one file</key>
+	<string>Burn は1個のファイルをエンコードしませんでした。</string>
+	<key>There was a problem authoring the DVD</key>
+	<string>DVDをオーソライズするときに問題がありました</string>
+	<key>Copy</key>
+	<string>コピー</string>
+	<key>The Burn file is corrupt or a wrong filetype</key>
+	<string>そのBurnファイルは不正であるかまたは間違ったファイルタイプです</string>
+	<key>Burning &apos;%@&apos;</key>
+	<string>ディスク作成中 &apos;%@&apos;</string>
+	<key>Waiting for the drive...</key>
+	<string>ドライブを待機中...</string>
+	<key>Creating image file</key>
+	<string>ディスクイメージファイルを作成中</string>
+	<key>Failed to save Burn file</key>
+	<string>Burnファイルを保存するのに失敗しました</string>
+	<key>Finished converting %ld files</key>
+	<string>%ld個のファイル変換を終了 </string>
+	<key>Preview</key>
+	<string>プレビュー</string>
+	<key>One incompatible file</key>
+	<string>互換性の無いファイル</string>
+	<key>Audio</key>
+	<string>オーディオ</string>
+	<key>Total size: %@</key>
+	<string>合計サイズ: %@</string>
+	<key>One protected mp4 file</key>
+	<string>保護されたmp4ファイル</string>
+	<key>Opening track %ld</key>
+	<string>トラック %ld を開きます</string>
+	<key>%@ (Couldn&apos;t get attributes)</key>
+	<string>%@ (属性を取得できませんでした)</string>
+	<key>File path: %@</key>
+	<string>ファイルのパス: %@</string>
+	<key>%ld files</key>
+	<string>%ld個のファイル</string>
+	<key>Failed to create &apos;%@&apos;</key>
+	<string>&apos;%@&apos;を作成するのに失敗しました</string>
+	<key>Not enough space</key>
+	<string>空き容量が不足</string>
+	<key>Choose a location to save a copy of the disc</key>
+	<string>ディスクのコピーを保存する位置を選択してください</string>
+	<key>Yes</key>
+	<string>はい</string>
+	<key>Choose a location to save the re-muxed files</key>
+	<string>再多重化ファイルを保存する位置を選択してください</string>
+	<key>%@ (No video)</key>
+	<string>%@ (ビデオ無し)</string>
+	<key>Decoding sound: %@</key>
+	<string>音声データをデコード中: %@</string>
+	<key>UDIF</key>
+	<string>読み/書き 形式</string>
+	<key>UDTO</key>
+	<string>DVD/CD マスター</string>
+	<key>Would you like to convert those files to %@?%@</key>
+	<string>%@ にそのファイルを変換しますか?%@</string>
+	<key>Verifying...</key>
+	<string>検証中...</string>
+	<key>Unmount</key>
+	<string>マウントの解除</string>
+	<key>Video</key>
+	<string>ビデオ</string>
+	<key>Burn Temporary</key>
+	<string>Burnの仮住まい</string>
+	<key>Choose a location to save the muxed file</key>
+	<string>多重化されたファイルを保存する位置を選択してください</string>
+	<key>Maximum Possible</key>
+	<string>最大</string>
+	<key>Failed converting</key>
+	<string>失敗した変換</string>
+	<key>Writing track %ld of %ld (%@)</key>
+	<string>トラック%2$ldの%1$ld (%3$@)を書き出し中</string>
+	<key>Creating: </key>
+	<string>作成中: </string>
+	<key>Burn</key>
+	<string>ディスク作成</string>
+	<key>Authoring DVD...</key>
+	<string>DVDを認証中...</string>
+	<key>Can&apos;t overwrite &apos;%@&apos; in &apos;%@&apos;</key>
+	<string>&apos;%1$@&apos;を&apos;%2$@&apos;内に上書きできません</string>
+	<key>Burning failed</key>
+	<string>ディスク作成に失敗</string>
+	<key>Processing: </key>
+	<string>処理中: </string>
+	<key>Ready to copy</key>
+	<string>コピーする準備ができています</string>
+	<key>Some incompatible files</key>
+	<string>いくつかの互換性の無いファイル</string>
+	<key>Waiting for a disc to be inserted...</key>
+	<string>ディスクが挿入されるのを待っています...</string>
+	<key>Creating DVD Theme</key>
+	<string>DVDテーマを作成中</string>
+	<key>There was a problem erasing the disc</key>
+	<string>ディスクを消去中に問題がありました</string>
+	<key>Choose a location to save the %@ files</key>
+	<string>%@ファイルを保存する為の場所を選択してください</string>
+	<key>Failed to create temporary folder</key>
+	<string>一時フォルダーを作成するのに失敗しました</string>
+	<key>Rken</key>
+	<string>圧縮 形式</string>
+	<key>UDRW</key>
+	<string>読み/書き 形式</string>
+	<key>%@ (No audio/video)</key>
+	<string>%@ (オーディオとビデオ無し)</string>
 	<key>Generating DVD folder</key>
 	<string>DVDフォルダーを作成中</string>
-	<key>Image created</key>
-	<string>ディスクイメージが作成されました</string>
-	<key>Image failed</key>
-	<string>ディスクイメージ作成に失敗しました</string>
+	<key>The disc has been succesfully erased</key>
+	<string>ディスクは正常に消去されました</string>
+	<key>%@ (No audio)</key>
+	<string>%@ (オーディオ無し)</string>
+	<key>Burner</key>
+	<string>装置</string>
+	<key>No disc</key>
+	<string>ディスク無し</string>
+	<key>Open...</key>
+	<string>開く...</string>
+	<key>There was a problem copying the disc</key>
+	<string>ディスクをコピーするときに問題がありました</string>
+	<key>UDCO</key>
+	<string>圧縮 形式</string>
+	<key>Copy Help</key>
+	<string>コピー ヘルプ</string>
+	<key>No discs, try inserting a cd/dvd.</key>
+	<string>ディスクがありません。CDまたはDVDを挿入してください。</string>
+	<key>Scanning for disks...</key>
+	<string>ディスクをスキャン中...</string>
+	<key>Choose</key>
+	<string>選択</string>
+	<key>Writing track</key>
+	<string>トラックを書き込み中</string>
+	<key>Encoding: </key>
+	<string>エンコード中: </string>
+	<key>Track %ld %@</key>
+	<string>トラック %1$ld %2$@</string>
+	<key>These files can&apos;t be converted</key>
+	<string>これらのファイルは変換されません</string>
+	<key>Finished converting 1 file</key>
+	<string>変換を終了 1 ファイル</string>
+	<key>Total time: %@</key>
+	<string>合計時間: %@</string>
+	<key>A cue/bin file needs to be burned on a CD</key>
+	<string>cue/bin ファイルはCDに作成される必要があります</string>
+	<key>Format</key>
+	<string>フォーマット</string>
+	<key>Mounting image failed</key>
+	<string>ディスクイメージをマウントできません</string>
+	<key>Failed to eject</key>
+	<string>取り出しに失敗しました</string>
+	<key>UDxx</key>
+	<string>UDIF スタブ</string>
+	<key>Some protected mp4 files</key>
+	<string>複数の保護されたmp4ファイル</string>
+	<key>Erasing disc</key>
+	<string>ディスクを消去中</string>
+	<key>Rdxx</key>
+	<string>読み出しのみ 形式</string>
+	<key>There was a problem mounting the image</key>
+	<string>ディスクイメージをマウントするときに問題がありました</string>
+	<key>Size</key>
+	<string>サイズ</string>
+	<key>Convert</key>
+	<string>変換</string>
+	<key>Maximum Possible (%.0fx)</key>
+	<string>最大 (%.0fx)</string>
+	<key>UFBI</key>
+	<string>全体のデバイス</string>
+	<key>%@ free</key>
+	<string>%@ 空き</string>
+	<key>Save...</key>
+	<string>保存...</string>
+	<key>SPARSEBUNDLE</key>
+	<string>Sparse bundle disk image</string>
+	<key>Erasing failed</key>
+	<string>消去失敗</string>
+	<key>Mounting disk image</key>
+	<string>ディスクイメージをマウント中</string>
+	<key>OK</key>
+	<string>OK</string>
+	<key>Eject</key>
+	<string>取り出し</string>
+	<key>UDZO</key>
+	<string>圧縮 形式</string>
+	<key>Authoring failed</key>
+	<string>認証は失敗しました</string>
+	<key>Close</key>
+	<string>閉じる</string>
+	<key>Ready to erase</key>
+	<string>消去の用意ができました</string>
+	<key>Checking files...</key>
+	<string>ファイルを検査中...</string>
+	<key>SPARSE</key>
+	<string>Sparse 形式</string>
+	<key>Opening track</key>
+	<string>トラックを開いています</string>
+	<key>Burn failed to encode some files</key>
+	<string>Burn はいくつかののファイルをエンコードしませんでした。</string>
+	<key>DVD-Video</key>
+	<string>DVD-Video</string>
+	<key>General</key>
+	<string>一般</string>
+	<key>Cue file</key>
+	<string>キュー ファイル</string>
+	<key>Checking file...</key>
+	<string>ファイルを検査中...</string>
 	<key>Image not supported on Panther.
 
 To still use it:
@@ -212,223 +254,151 @@ Mount the image and drop the mounted image in the window.</key>
 
 未だに使用しているならば:
 ディスクイメージをマウントし、マウントされたディスクイメージをウインドウにドロップしてください。</string>
-	<key>Limited</key>
-	<string>限定</string>
-	<key>MP3 Disc</key>
-	<string>MP3 ディスク</string>
-	<key>Maximum Possible</key>
-	<string>最大</string>
-	<key>Missing files</key>
-	<string>破損ファイル</string>
-	<key>Mount</key>
-	<string>マウント</string>
-	<key>Mounting disk image</key>
-	<string>ディスクイメージをマウント中</string>
-	<key>Mounting image failed</key>
-	<string>ディスクイメージをマウントできません</string>
-	<key>Mounting: </key>
-	<string>マウント中: </string>
-	<key>NDIF compressed</key>
-	<string>NDIF 圧縮</string>
-	<key>NDIF compressed (KenCode)</key>
-	<string>NDIF 圧縮 (KenCode)</string>
-	<key>NDIF read-only</key>
-	<string>NDIF 読み込み専用</string>
-	<key>NDIF read/write</key>
-	<string>NDIF 読み込み書き込み</string>
-	<key>No</key>
-	<string>いいえ</string>
-	<key>No CD</key>
-	<string>CD無し</string>
-	<key>No Recorder</key>
-	<string>使用可能な装置がありません</string>
-	<key>No disc</key>
-	<string>ディスク無し</string>
-	<key>No discs, try inserting a cd/dvd.</key>
-	<string>ディスクがありません。CDまたはDVDを挿入してください。</string>
-	<key>Not enough space</key>
-	<string>空き容量が不足</string>
-	<key>OK</key>
-	<string>OK</string>
-	<key>One incompatible file</key>
-	<string>互換性の無いファイル</string>
-	<key>One protected mp4 file</key>
-	<string>保護されたmp4ファイル</string>
-	<key>Only Mode1 and Audio tracks are supported</key>
-	<string>モード1とオーディオトラックのみがサポートされています</string>
-	<key>Open</key>
-	<string>開く</string>
-	<key>Open Log</key>
-	<string>ログを開く</string>
-	<key>Open...</key>
-	<string>開く...</string>
-	<key>Opening track</key>
-	<string>トラックを開いています</string>
-	<key>Opening track </key>
-	<string>トラックを開いています </string>
-	<key>Preferences Help</key>
-	<string>環境設定 ヘルプ</string>
-	<key>Preparing to encode</key>
-	<string>エンコードの準備</string>
-	<key>Preparing...</key>
-	<string>準備中...</string>
-	<key>Preview</key>
-	<string>プレビュー</string>
-	<key>Processing: </key>
-	<string>処理中: </string>
-	<key>Raw</key>
-	<string>Raw</string>
-	<key>Read-only</key>
-	<string>読み出しのみ</string>
-	<key>Read/write</key>
-	<string>読み込み書き込みディスクイメージ</string>
-	<key>Ready to burn</key>
-	<string>ディスク作成の用意ができました</string>
-	<key>Ready to copy</key>
-	<string>コピーする準備ができています</string>
-	<key>Ready to erase</key>
-	<string>消去の用意ができました</string>
-	<key>Remuxing: </key>
-	<string>再多重化TSを作成中: </string>
-	<key>Save...</key>
-	<string>保存...</string>
-	<key>Scanning for disks...</key>
-	<string>ディスクをスキャン中...</string>
-	<key>Scanning for for file and folders</key>
-	<string>ファイルとフォルダーをスキャン中</string>
-	<key>Size</key>
-	<string>サイズ</string>
-	<key>Some files are to large</key>
-	<string>いくつかのファイルは大きすぎます</string>
-	<key>Some files specified in the Toc file are missing.</key>
-	<string>TOC(目次)ファイルに定義されたいくつかのファイルは破損しています。</string>
-	<key>Some incompatible files</key>
-	<string>いくつかの互換性の無いファイル</string>
-	<key>Some protected mp4 files</key>
-	<string>複数の保護されたmp4ファイル</string>
-	<key>Still try to burn the disc?</key>
-	<string>ディスク作成を続けますか?</string>
-	<key>Succesfully created a disk image</key>
-	<string>ディスクイメージを正常に作成しました</string>
-	<key>The PC (Joliet) or ISO9660 filesystem can only handle files smaller than 2GB</key>
-	<string>PC(Joliet)またはISO9660ファイルシステムは2GB以下でファイルを扱うことができるだけです</string>
-	<key>The disc has been succesfully erased</key>
-	<string>ディスクは正常に消去されました</string>
-	<key>There was a problem authoring the DVD</key>
-	<string>DVDをオーソライズするときに問題がありました</string>
-	<key>There was a problem copying the disc</key>
-	<string>ディスクをコピーするときに問題がありました</string>
-	<key>There was a problem creating the image</key>
-	<string>ディスクイメージを作成するときに問題がありました</string>
-	<key>There was a problem mounting the image</key>
-	<string>ディスクイメージをマウントするときに問題がありました</string>
-	<key>There was a problem erasing the disc</key>
-	<string>ディスクを消去中に問題がありました</string>
-	<key>These files can&apos;t be converted</key>
-	<string>これらのファイルは変換されません</string>
-	<key>These files can&apos;t be converted, would you like to continue?</key>
-	<string>これらのファイルは変換されません。処理を継続しますか?</string>
+	<key>
+(Note: there is a protected mp4 file which can&apos;t be converted)</key>
+	<string>
+(注意:変換できない保護されたmp4ファイルがあります)</string>
+	<key>&apos;%@&apos; was burned succesfully</key>
+	<string>&apos;%@&apos; ディスク作成に成功</string>
 	<key>This file can&apos;t be converted</key>
 	<string>このファイルは変換されません</string>
-	<key>This file can&apos;t be converted, would you like to continue?</key>
-	<string>このファイルは変換されません。処理を継続しますか?</string>
-	<key>Time</key>
-	<string>時刻</string>
+	<key>No Recorder</key>
+	<string>使用可能な装置がありません</string>
+	<key>Ready to burn</key>
+	<string>ディスク作成の用意ができました</string>
+	<key>Mount</key>
+	<string>マウント</string>
+	<key>UDRO</key>
+	<string>読み出しのみ 形式</string>
+	<key>Can&apos;t create &apos;%@&apos; in &apos;%@&apos;</key>
+	<string>&apos;%1$@&apos;を&apos;%2$@&apos;内に作成できません</string>
+	<key>Cancel</key>
+	<string>キャンセル</string>
+	<key>Closing track %ld of %ld (%@)</key>
+	<string>トラック %2$ld (%3$@) の %1$ldを閉じています</string>
+	<key>Advanced</key>
+	<string>上級設定</string>
+	<key>Could not eject media from the drive</key>
+	<string>ドライブからメディアを取り出すことができませんでした</string>
+	<key>Data</key>
+	<string>データ</string>
+	<key>Choose an image file</key>
+	<string>イメージファイルを選択</string>
 	<key>Title Menu</key>
 	<string>タイトルメニュー</string>
-	<key>To burn a Audio-CD the media should be a CD</key>
-	<string>オーディオCDを作成する為にはメディアはCDでなければなりません</string>
-	<key>Total size: </key>
-	<string>合計サイズ: </string>
-	<key>Total time: </key>
-	<string>合計時間: </string>
-	<key>Track </key>
-	<string>トラック </string>
-	<key>UDF / ISO9660 (only)</key>
-	<string>UDF/ISO9660 のみ</string>
-	<key>UDIF-stub</key>
-	<string>UDIF-stub</string>
-	<key>Unknown</key>
-	<string>未知</string>
-	<key>Unknown disk image</key>
-	<string>未知のディスクイメージ</string>
-	<key>Unmount</key>
-	<string>マウントの解除</string>
-	<key>Unsuported Toc file</key>
-	<string>サポートされていないTOC(目次)ファイル</string>
-	<key>Unsupported Image</key>
-	<string>サポートされていないディスクイメージ</string>
-	<key>Untitled</key>
-	<string>名称未設定</string>
-	<key>Verifying...</key>
-	<string>検証中...</string>
-	<key>Video</key>
-	<string>ビデオ</string>
+	<key>Creating image file &apos;%@&apos;</key>
+	<string>ディスクイメージファイル &apos;%@&apos;を作成中</string>
+	<key>Scanning for files and folders</key>
+	<string>ファイルとフォルダーをスキャン中</string>
+	<key>Invalid Burn file</key>
+	<string>無効なBurnファイル</string>
+	<key>Image created</key>
+	<string>ディスクイメージが作成されました</string>
+	<key>Unmount Image</key>
+	<string>ディスクイメージをアンマウント</string>
+	<key>Missing files</key>
+	<string>破損ファイル</string>
+	<key>Audio Help</key>
+	<string>オーディオ ヘルプ</string>
+	<key>DC42</key>
+	<string>Disk Copy 4.2 形式</string>
+	<key>%@ (Unknown format)</key>
+	<string>%@ (未知のフォーマット)</string>
 	<key>Video Help</key>
 	<string>ビデオ ヘルプ</string>
-	<key>Waiting for a disc to be inserted...</key>
-	<string>ディスクが挿入されるのを待っています...</string>
-	<key>Waiting for the drive...</key>
-	<string>ドライブを待機中...</string>
-	<key>Whole device</key>
-	<string>全装置</string>
-	<key>Would you like to convert that file to DVD mpg?</key>
-	<string>DVD mpg にそのファイルを変換しますか?</string>
-	<key>Would you like to convert that file to DivX avi?</key>
-	<string>DivX avi にそのファイルを変換しますか?</string>
-	<key>Would you like to convert that file to SVCD mpg?</key>
-	<string>SVCD mpg にそのファイルを変換しますか?</string>
-	<key>Would you like to convert that file to VCD mpg?</key>
-	<string>VCD mpg にそのファイルを変換しますか?</string>
-	<key>Would you like to convert that file to mp3?</key>
-	<string>mp3 にそのファイルを変換しますか?</string>
-	<key>Would you like to convert that file to mp3?
+	<key>Failed to copy &apos;%@&apos; to &apos;%@&apos;. %@</key>
+	<string>&apos;%1$@&apos;を&apos;%2$@&apos;へコピーできませんでした。%3$@</string>
+	<key>UNIV</key>
+	<string>ハイブリッド 形式</string>
+	<key>Failed to delete &apos;%@&apos;.</key>
+	<string>&apos;%@&apos;を削除するのに失敗しました。</string>
+	<key>Open</key>
+	<string>開く</string>
+	<key>Failed to write &apos;%@&apos; to &apos;%@&apos;</key>
+	<string>&apos;%1$@&apos;を&apos;%2$@&apos;へ書き出すのに失敗しました</string>
+	<key>Preferences Help</key>
+	<string>環境設定 ヘルプ</string>
+	<key>Time</key>
+	<string>時刻</string>
+	<key>Closing track (%@)</key>
+	<string>トラック (%@)を閉じています</string>
+	<key>Audio CD</key>
+	<string>オーディオ CD</string>
+	<key>%@ (Unsupported audio)</key>
+	<string>%@ (サポートされていないオーディオ)</string>
+	<key>To burn a Audio-CD the media should be a CD</key>
+	<string>オーディオCDを作成する為にはメディアはCDでなければなりません</string>
+	<key>%@ Help</key>
+	<string>%@ ヘルプ</string>
+	<key>RdWr</key>
+	<string>読み/書き 形式</string>
+	<key>Untitled Folder</key>
+	<string>名称未設定フォルダー</string>
+	<key>Are you sure you want to cancel?</key>
+	<string>キャンセルすることに間違いありませんか?</string>
+	<key>Would you like to convert that file to %@?%@</key>
+	<string>%@ にそのファイルを変換しますか?%@</string>
+	<key>Finished erasing</key>
+	<string>消去完了</string>
+	<key>Only Mode1 and Audio tracks are supported</key>
+	<string>モード1とオーディオトラックのみがサポートされています</string>
+	<key>Chapter Menu</key>
+	<string>チャプターメニュー</string>
+	<key>Succesfully created a disk image</key>
+	<string>ディスクイメージを正常に作成しました</string>
+	<key>Choose a location to save the image file</key>
+	<string>ディスクイメージファイルを保存する為の場所を選択してください</string>
+	<key>Preparing to encode</key>
+	<string>エンコードの準備</string>
+	<key>No CD</key>
+	<string>CD無し</string>
+	<key>Toc file</key>
+	<string>TOC(目次) ファイル</string>
+	<key>Image failed</key>
+	<string>ディスクイメージ作成に失敗しました</string>
+	<key>ROCo</key>
+	<string>圧縮 形式</string>
+	<key>Untitled</key>
+	<string>名称未設定</string>
+	<key>Some files are to large</key>
+	<string>いくつかのファイルは大きすぎます</string>
+	<key>There was a problem creating the image</key>
+	<string>ディスクイメージを作成するときに問題がありました</string>
+	<key>No</key>
+	<string>いいえ</string>
+	<key>
 (Note: there are a few protected mp4 files which can&apos;t be converted)</key>
-	<string>そのファイルをmp3に変換したいですか?(いくつかの変換されないmp4ファイルが存在します)</string>
-	<key>Would you like to convert that file to mp3?
-(Note: there is a protected mp4 file which can&apos;t be converted)</key>
-	<string>そのファイルをmp3に変換したいですか?(変換されないmp4ファイルが存在します)</string>
-	<key>Would you like to convert that file to wav?</key>
-	<string>wav にそのファイルを変換しますか?</string>
-	<key>Would you like to convert that file to wav?
-(Note: there are a few protected mp4 files which can&apos;t be converted)</key>
-	<string>そのファイルをwavに変換したいですか?(いくつかの変換されないmp4ファイルが存在します)</string>
-	<key>Would you like to convert that file to wav?
-(Note: there is a protected mp4 file which can&apos;t be converted)</key>
-	<string>そのファイルをwavに変換したいですか?(変換されないmp4ファイルが存在します)</string>
-	<key>Would you like to convert those files to DVD mpg?</key>
-	<string>DVD mpg にそのファイルを変換しますか?</string>
-	<key>Would you like to convert those files to DivX avi?</key>
-	<string>DivX avi にそのファイルを変換しますか?</string>
-	<key>Would you like to convert those files to SVCD mpg?</key>
-	<string>SVCD mpg にそのファイルを変換しますか?</string>
-	<key>Would you like to convert those files to VCD mpg?</key>
-	<string>VCD mpg にそのファイルを変換しますか?</string>
-	<key>Would you like to convert those files to mp3?</key>
-	<string>mp3 にそのファイルを変換しますか?</string>
-	<key>Would you like to convert those files to mp3?
-(Note: there are a few protected mp4 files which can&apos;t be converted)</key>
-	<string>それらのファイルをmp3に変換したいですか?(いくつかの変換されないmp4ファイルが存在します)</string>
-	<key>Would you like to convert those files to mp3?
-(Note: there is a protected mp4 file which can&apos;t be converted)</key>
-	<string>それらのファイルをmp3に変換したいですか?(変換されないmp4ファイルが存在します)</string>
-	<key>Would you like to convert those files to wav?</key>
-	<string>wav にそのファイルを変換しますか?</string>
-	<key>Would you like to convert those files to wav?
-(Note: there are a few protected mp4 files which can&apos;t be converted)</key>
-	<string>それらのファイルをwavに変換したいですか?(いくつかの変換されないmp4ファイルが存在します)</string>
-	<key>Would you like to convert those files to wav?
-(Note: there is a protected mp4 file which can&apos;t be converted)</key>
-	<string>それらのファイルをwavに変換したいですか?(変換されないmp4ファイルが存在します)</string>
-	<key>Writing track</key>
-	<string>トラックを書き込み中</string>
-	<key>Writing track </key>
-	<string>トラックを書き込み中 </string>
+	<string>
+(注意:変換できないいくつかの保護されたmp4ファイルがあります)</string>
+	<key>Processing: %@ (%i of %i)</key>
+	<string>経過: %1$@ (%3$i の %2$i)</string>
+	<key>Unsupported Image</key>
+	<string>サポートされていないディスクイメージ</string>
+	<key>Unknown disk image</key>
+	<string>未知のディスクイメージ</string>
+	<key>Continue</key>
+	<string>継続</string>
 	<key>Writing tracks</key>
 	<string>トラックを書き込み中</string>
-	<key>Yes</key>
-	<string>はい</string>
-	<key>iPod image</key>
-	<string>iPod イメージ</string>
+	<key>UDBZ</key>
+	<string>圧縮 形式</string>
+	<key>Generating DVD folder: (%.0f%@)</key>
+	<string>DVDフォルダーを作成中: (%2$.の%3$@)</string>
+	<key>UDF / ISO9660 (only)</key>
+	<string>UDF/ISO9660 のみ</string>
+	<key>IPOD</key>
+	<string>iPod 形式</string>
+	<key>Still try to burn the disc?</key>
+	<string>ディスク作成を続けますか?</string>
+	<key>Encoding file %i of %i to %@</key>
+	<string>ファイル %2$i の %1$i を %3$@ へエンコード中</string>
+	<key>Preparing...</key>
+	<string>準備中...</string>
+	<key>After canceling the disc can&apos;t be used anymore</key>
+	<string>キャンセルすると以後はディスクを使用できなくなります</string>
+	<key>Choose a location to save the burn file</key>
+	<string>burnファイルを保存する為の場所を選択してください</string>
+	<key>Failed to install theme in the &apos;Application Support&apos; folder</key>
+	<string>&apos;Application Support&apos; フォルダーへそれらをインストールするのに失敗しました</string>
 </dict>
 </plist>
