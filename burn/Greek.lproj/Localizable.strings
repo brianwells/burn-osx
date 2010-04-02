@@ -2,106 +2,106 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-	<key>Console</key>
-	<string>Κονσόλα</string>
-	<key>Would you like to convert that file to mp3?</key>
-	<string>Θέλετε να μετατρέψετε το αρχείο σε mp3;</string>
+	<key>UDSP</key>
+	<string>Σποραδική εικόνα</string>
+	<key>Eject Disc</key>
+	<string>Εξαγωγή δίσκου</string>
 	<key>Data Help</key>
 	<string>Βοήθεια δεδομένων</string>
 	<key>Unsuported Toc file</key>
 	<string>Μη υποστηριζόμενο TOC αρχείo</string>
 	<key>Finishing...</key>
 	<string>Ολοκλήρωση...</string>
-	<key>Raw</key>
-	<string>Raw</string>
-	<key>Would you like to convert that file to SVCD mpg?</key>
-	<string>Θέλετε να μετατρέψετε το αρχείο σε mpg SVCD;</string>
+	<key>%@ (Unknown error)</key>
+	<string>%@ (Άγνωστο σφάλμα)</string>
+	<key>Mount Image</key>
+	<string>Άνοιγμα Εικόνας</string>
 	<key>Can&apos;t determine disc format</key>
 	<string>Δεν μπορεί να καθορίσει τη μορφή δίσκου</string>
-	<key>NDIF compressed</key>
-	<string>NDIF συμπίεση</string>
-	<key>Would you like to convert that file to VCD mpg?</key>
-	<string>Θέλετε να μετατρέψετε το αρχείο σε mpg VCD;</string>
-	<key>Closing track </key>
-	<string>Κλείσιμο γραμμής</string>
 	<key>Finished converting</key>
 	<string>Ολοκληρώθηκε η μετατροπή</string>
+	<key>Failed to burn &apos;%@&apos;</key>
+	<string>Απέτυχε να γράψει &apos;%@&apos;</string>
 	<key>Copying disc</key>
 	<string>Αντιγραφή δίσκου</string>
 	<key>Remuxing: </key>
 	<string>Remuxing: </string>
-	<key>Would you like to convert those files to mp3?</key>
-	<string>Θέλετε να μετατρέψετε τα αρχεία σε mp3;</string>
 	<key>Closing session</key>
 	<string>Κλείσιμο συνόδου</string>
-	<key>Decoding sound: </key>
-	<string>Αποκωδικοποίηση ήχου:</string>
 	<key>Choose a location to save a temporary folder</key>
 	<string>Επιλέξτε μια θέση για να αποθηκεύσετε ένα προσωρινό φάκελο</string>
 	<key>Finished burning</key>
 	<string>Ολοκληρώθηκε το γράψιμο</string>
-	<key>MP3 Disc</key>
-	<string>MP3 Δίσκος</string>
+	<key>Some files specified in the %@ file are missing.</key>
+	<string>Κάποια αρχεία που ορίζεται στο %@ λείπει.</string>
+	<key>Writing track (%@)</key>
+	<string>Γράφοντας το κομμάτι (%@)</string>
+	<key>UDSB</key>
+	<string>Δέσμη σποραδικής εικόνας</string>
+	<key>Mounting: %@</key>
+	<string>Άνοιγμα: %@</string>
 	<key>The PC (Joliet) or ISO9660 filesystem can only handle files smaller than 2GB</key>
 	<string>Το PC (Joliet) ή ISO9660 filesystem μπορεί να χειριστεί αρχεία μικρότερα από 2GB</string>
-	<key>Would you like to convert that file to DVD mpg?</key>
-	<string>Θέλετε να μετατρέψετε το αρχείο mpg σε DVD;</string>
-	<key> GB</key>
-	<string> GB</string>
 	<key>Burn failed to encode one file</key>
-	<string>Η εγγραφή απέτυχε να κωδικοποιήσει ένα αρχείο</string>
-	<key>Total time: </key>
-	<string>Συνολικός χρόνος:</string>
-	<key>Would you like to convert that file to wav?
-(Note: there are a few protected mp4 files which can&apos;t be converted)</key>
-	<string>Θέλετε να μετατρέψετε το αρχείο σε wav; 
-(Σημείωση: υπάρχουν ορισμένα προστατευμένα MP4 αρχεία που δεν μπορούν να μετατραπούν)</string>
+	<string>Το Burn απέτυχε να κωδικοποιήσει ένα αρχείο</string>
 	<key>There was a problem authoring the DVD</key>
 	<string>Υπήρξε ένα πρόβλημα με την δημιουργία DVD</string>
 	<key>Copy</key>
 	<string>Αντιγραφή</string>
+	<key>The Burn file is corrupt or a wrong filetype</key>
+	<string>Το αρχείο Burn είναι κατεστραμμένο ή λάθος τύπος αρχείου</string>
+	<key>Burning &apos;%@&apos;</key>
+	<string>Έγγραφη &apos;%@&apos;</string>
 	<key>Waiting for the drive...</key>
 	<string>Αναμονή για το δίσκο ...</string>
 	<key>Creating image file</key>
 	<string>Δημιουργία του αρχείου εικόνας</string>
-	<key>Would you like to convert those files to DivX avi?</key>
-	<string>Θέλετε να μετατρέψετε τα αρχεία σε DivX avi;</string>
+	<key>Failed to save Burn file</key>
+	<string>Αποτυχία αποθήκευσης αρχείου Burn</string>
+	<key>Finished converting %ld files</key>
+	<string>Ολοκληρώθηκε η μετατροπή %ld αρχείων</string>
 	<key>Preview</key>
 	<string>Προεπισκόπηση</string>
-	<key> free</key>
-	<string> ελεύθερο</string>
-	<key>Audio</key>
-	<string>Ηχητικό</string>
 	<key>One incompatible file</key>
 	<string>Ένα μη ολοκληρομένο αρχείο</string>
-	<key>Would you like to convert those files to mp3?
-(Note: there are a few protected mp4 files which can&apos;t be converted)</key>
-	<string>Θέλετε να μετατρέψετε τα αρχεία σε mp3; 
-(Σημείωση: υπάρχουν ορισμένα προστατευμένα MP4 αρχεία που δεν μπορούν να μετατραπούν)</string>
-	<key>This file can&apos;t be converted, would you like to continue?</key>
-	<string>Το αρχείο αυτό δεν μπορεί να μετατραπεί, θέλετε να συνεχίσετε;</string>
+	<key>Audio</key>
+	<string>Ηχητικό</string>
+	<key>Total size: %@</key>
+	<string>Συνολικό μέγεθος: %@</string>
 	<key>One protected mp4 file</key>
 	<string>Ένα προστατευμένο mp4 αρχείο</string>
-	<key> was burned successfully</key>
-	<string>γράφτηκε με επιτυχία</string>
+	<key>Opening track %ld</key>
+	<string>Άνοιγμα κομματιού %ld</string>
+	<key>%@ (Couldn&apos;t get attributes)</key>
+	<string>%@ (Δεν μπόρεσε να πάρει τις ιδιότητες)</string>
+	<key>File path: %@</key>
+	<string>Διαδρομή αρχείου: %@</string>
+	<key>%ld files</key>
+	<string>%ld αρχεία</string>
+	<key>Failed to create &apos;%@&apos;</key>
+	<string>Δεν είναι δυνατή η δημιουργία&apos;%@&apos;</string>
 	<key>Not enough space</key>
 	<string>Δεν υπάρχει επαρκής χώρος</string>
 	<key>Choose a location to save a copy of the disc</key>
 	<string>Επιλέξτε μια θέση για να αποθηκεύσετε ένα αντίγραφο του δίσκου</string>
-	<key> to SVCD mpg</key>
-	<string> σε SVCD mpg</string>
 	<key>Yes</key>
 	<string>Ναι</string>
 	<key>Choose a location to save the re-muxed files</key>
 	<string>Επιλέξτε μια θέση για να αποθηκεύσετε τα re-muxed αρχεία</string>
-	<key>Encoding file </key>
-	<string>Κωδικοποίηση αρχείου</string>
+	<key>%@ (No video)</key>
+	<string>%@ (Χωρίς βίντεο)</string>
+	<key>Decoding sound: %@</key>
+	<string>Αποκωδικοποίηση ήχου: %@</string>
+	<key>UDIF</key>
+	<string>Εικόνα Ανάγνωσης/Εγγραφής</string>
+	<key>UDTO</key>
+	<string>Κύριο DVD/CD</string>
+	<key>Would you like to convert those files to %@?%@</key>
+	<string>Θέλετε να μετατρέψετε τα αρχεία σε %@;%@</string>
 	<key>Verifying...</key>
 	<string>Επαλήθευση...</string>
 	<key>Unmount</key>
 	<string>Κλείσιμο</string>
-	<key> (No audio/video)</key>
-	<string> (Χωρίς ήχος/βίντεο)</string>
 	<key>Video</key>
 	<string>Βίντεο</string>
 	<key>Burn Temporary</key>
@@ -110,144 +110,120 @@
 	<string>Επιλέξτε μια θέση για να αποθηκεύσετε το αρχείο muxed</string>
 	<key>Maximum Possible</key>
 	<string>Μέγιστη δυνατή</string>
-	<key>UDIF-stub</key>
-	<string>UDIF-stub</string>
 	<key>Failed converting</key>
 	<string>Αποτυχία μετατροπής</string>
+	<key>Writing track %ld of %ld (%@)</key>
+	<string>Γράφοντας το κομμάτι %ld από %ld (%@)</string>
 	<key>Creating: </key>
 	<string>Δημιουργός:</string>
 	<key>Burn</key>
 	<string>Εγραφή</string>
-	<key> (No video)</key>
-	<string> (Χωρίς βίντεο)</string>
-	<key>Failed to burn </key>
-	<string>Απέτυχε να γράψει</string>
 	<key>Authoring DVD...</key>
 	<string>Δημιουργία DVD...</string>
-	<key>Processing: </key>
-	<string>Επεξεργασία:</string>
+	<key>Can&apos;t overwrite &apos;%@&apos; in &apos;%@&apos;</key>
+	<string>Δεν είναι δυνατή η αντικατάσταση &apos;%@&apos; στο &apos;%@&apos;</string>
 	<key>Burning failed</key>
 	<string>Απέτυχε η εγγραφή</string>
+	<key>Processing: </key>
+	<string>Επεξεργασία:</string>
 	<key>Ready to copy</key>
 	<string>Έτοιμο να αντιγράψει</string>
 	<key>Some incompatible files</key>
 	<string>Μερικά ασύμβατα αρχεία</string>
-	<key>Limited</key>
-	<string>Περιορισμένο</string>
 	<key>Waiting for a disc to be inserted...</key>
 	<string>Αναμονή για να εισαχθεί ένας δίσκο...</string>
 	<key>Creating DVD Theme</key>
 	<string>Δημιουργία DVD Θέματος</string>
 	<key>There was a problem erasing the disc</key>
 	<string>Υπήρξε ένα πρόβλημα διαγραφή του δίσκου</string>
-	<key>Would you like to convert those files to wav?
-(Note: there are a few protected mp4 files which can&apos;t be converted)</key>
-	<string>Θέλετε να μετατρέψετε τα αρχεία σε wav; 
-(Σημείωση: υπάρχουν ορισμένα προστατευμένα MP4 αρχεία που δεν μπορούν να μετατραπούν)</string>
-	<key>Choose a location to save the avi files</key>
-	<string>Επιλέξτε μια θέση για να αποθηκεύσετε τα αρχεία avi</string>
-	<key> of </key>
-	<string> από </string>
-	<key>Writing track </key>
-	<string>Γράφοντας το κομμάτι</string>
-	<key>Would you like to convert those files to VCD mpg?</key>
-	<string>Θέλετε να μετατρέψετε τα αρχεία σε VCD mpg;</string>
-	<key>Would you like to convert that file to wav?
-(Note: there is a protected mp4 file which can&apos;t be converted)</key>
-	<string>Θέλετε να μετατρέψετε το αρχείο σε wav; 
-(Σημείωση: Υπάρχει ένα προστατευμένο MP4 αρχείο που δεν μπορεί να μετατραπεί)</string>
-	<key> (Unknown error)</key>
-	<string> (Άγνωστο σφάλμα)</string>
+	<key>Choose a location to save the %@ files</key>
+	<string>Επιλέξτε μια θέση για να αποθηκεύσετε τα αρχεία %@</string>
+	<key>Failed to create temporary folder</key>
+	<string>Αποτυχία δημιουργίας προσωρινού φακέλου</string>
+	<key>Rken</key>
+	<string>Εικόνα Συμπιεσμένη</string>
+	<key>UDRW</key>
+	<string>Εικόνα Ανάγνωσης/Εγγραφής</string>
+	<key>%@ (No audio/video)</key>
+	<string>%@ (Χωρίς ήχος/βίντεο)</string>
 	<key>Generating DVD folder</key>
 	<string>Παραγωγή φακέλου DVD</string>
 	<key>The disc has been succesfully erased</key>
 	<string>Ο δίσκος έχει επιτυχώς διαγραφεί</string>
-	<key>Would you like to convert that file to mp3?
-(Note: there are a few protected mp4 files which can&apos;t be converted)</key>
-	<string>Θέλετε να μετατρέψετε το αρχείο σε mp3; 
-(Σημείωση: υπάρχουν ορισμένα προστατευμένα MP4 αρχεία που δεν μπορούν να μετατραπούν)</string>
-	<key>Opening track </key>
-	<string>Άνοιγμα κομματιού</string>
-	<key>Choose a location to save the wav files</key>
-	<string>Επιλέξτε μια θέση για να αποθηκεύσετε τα αρχεία WAV</string>
+	<key>%@ (No audio)</key>
+	<string>%@ (Χωρίς ήχο)</string>
 	<key>Burner</key>
 	<string>Εγγραφέας</string>
 	<key>No disc</key>
 	<string>Χωρίς δίσκο</string>
 	<key>Open...</key>
 	<string>Άνοιγμα...</string>
-	<key>Failed to create </key>
-	<string>Απέτυχε η δημιουργία</string>
 	<key>There was a problem copying the disc</key>
 	<string>Υπήρξε πρόβλημα στην αντιγραφή του δίσκου</string>
-	<key>Would you like to convert that file to mp3?
-(Note: there is a protected mp4 file which can&apos;t be converted)</key>
-	<string>Θέλετε να μετατρέψετε το αρχείο σε mp3; 
-(Σημείωση: Υπάρχει ένα προστατευμένο MP4 αρχείο που δεν μπορεί να μετατραπεί)</string>
+	<key>UDCO</key>
+	<string>Εικόνα Συμπιεσμένη</string>
 	<key>Copy Help</key>
 	<string>Αντιγράψτε Βοήθεια</string>
 	<key>No discs, try inserting a cd/dvd.</key>
 	<string>Χωρίς δίσκο, δοκιμάστε να προσθέσετε ένα CD/DVD.</string>
-	<key> (Unknown format)</key>
-	<string> (Άγνωστο format)</string>
 	<key>Scanning for disks...</key>
 	<string>Σάρωση για δίσκους...</string>
 	<key>Choose</key>
 	<string>Επιλογή</string>
-	<key>Some files specified in the Toc file are missing.</key>
-	<string>Κάποια αρχεία που ορίζεται στο TOC αρχείο λείπουν.</string>
 	<key>Writing track</key>
 	<string>Γράφοντας κομμάτια</string>
 	<key>Encoding: </key>
-	<string>Κωδικοποίηση:</string>
+	<string>Κωδικοποίηση: </string>
+	<key>Track %ld %@</key>
+	<string>Κομμάτι %ld %@</string>
 	<key>These files can&apos;t be converted</key>
 	<string>Τα αρχεία δεν μπορούν να μετατραπούν</string>
-	<key>Choose a location to save the mpg files</key>
-	<string>Επιλέξτε μια θέση για να αποθηκεύσετε τα αρχεία mpg</string>
-	<key>Compressed (bzip2)</key>
-	<string>Συμπιεσμένο (bzip2)</string>
-	<key> TB</key>
-	<string> TB</string>
+	<key>Finished converting 1 file</key>
+	<string>Ολοκληρώθηκε η μετατροπή 1 αρχείο</string>
+	<key>Total time: %@</key>
+	<string>Συνολικός χρόνος: %@</string>
 	<key>A cue/bin file needs to be burned on a CD</key>
 	<string>Ένα cue/bin αρχείο πρέπει να εγραφή σε ένα CD</string>
+	<key>Format</key>
+	<string>Μορφή:</string>
 	<key>Mounting image failed</key>
 	<string>Άνοιγμα εικόνας απέτυχε</string>
+	<key>Failed to eject</key>
+	<string>Αποτυχία εξαγωγής</string>
+	<key>UDxx</key>
+	<string>Απόκομμα UDIF</string>
 	<key>Some protected mp4 files</key>
 	<string>Κάποια προστατευόμενα MP4 αρχεία</string>
 	<key>Erasing disc</key>
 	<string>Διαγραφή δίσκου</string>
-	<key>Unknown</key>
-	<string>Άγνωστος</string>
-	<key>Would you like to convert those files to SVCD mpg?</key>
-	<string>Θέλετε να μετατρέψετε τα αρχεία σε SVCD mpg;</string>
+	<key>Rdxx</key>
+	<string>Εικόνα ανάγνωσης μόνο</string>
 	<key>There was a problem mounting the image</key>
 	<string>Υπήρξε πρόβλημα στο άνοιγμα της εικόνας</string>
-	<key>DivX</key>
-	<string>DivX</string>
 	<key>Size</key>
 	<string>Μέγεθος</string>
-	<key>Finished converting </key>
-	<string>Ολοκληρώθηκε η μετατροπή</string>
-	<key>Total size: </key>
-	<string>Συνολικό μέγεθος:</string>
-	<key> to DVD mpg</key>
-	<string> σε DVD mpg</string>
-	<key> to mp3</key>
-	<string> σε mp3</string>
+	<key>Convert</key>
+	<string>Μετατροπή</string>
+	<key>Maximum Possible (%.0fx)</key>
+	<string>Μέγιστη δυνατή (%.0fx)</string>
+	<key>UFBI</key>
+	<string>Ολόκληρη συσκευή</string>
+	<key>%@ free</key>
+	<string>%@ ελεύθερο</string>
 	<key>Save...</key>
 	<string>Αποθήκευση...</string>
+	<key>SPARSEBUNDLE</key>
+	<string>Δέσμη σποραδικής εικόνας</string>
 	<key>Erasing failed</key>
 	<string>Διαγραφή απέτυχε</string>
 	<key>Mounting disk image</key>
 	<string>Άνοιγμα εικόνας δίσκου</string>
-	<key>Mounting: </key>
-	<string>Άνοιγμα: </string>
 	<key>OK</key>
 	<string>OK</string>
 	<key>Eject</key>
 	<string>Εξαγωγή</string>
-	<key>Compressed (ADC)</key>
-	<string>Συμπιεσμένο (ADC)</string>
+	<key>UDZO</key>
+	<string>Εικόνα Συμπιεσμένη</string>
 	<key>Authoring failed</key>
 	<string>Η δημιουργία απέτυχε</string>
 	<key>Close</key>
@@ -256,24 +232,18 @@
 	<string>Έτοιμο να διαγράψει</string>
 	<key>Checking files...</key>
 	<string>Έλεγχος αρχείων...</string>
-	<key>Read-only</key>
-	<string>Μόνο ανάγνωση</string>
-	<key>Compressed</key>
-	<string>Συμπιεσμένο</string>
-	<key> MB</key>
-	<string> MB</string>
+	<key>SPARSE</key>
+	<string>Σποραδική εικόνα</string>
 	<key>Opening track</key>
 	<string>Άνοιγμα κομματιού</string>
-	<key>Would you like to convert those files to mp3?
-(Note: there is a protected mp4 file which can&apos;t be converted)</key>
-	<string>Θέλετε να μετατρέψετε τα αρχεία σε mp3; 
-(Σημείωση: Υπάρχει ένα προστατευμένο MP4 αρχείο που δεν μπορεί να μετατραπεί)</string>
 	<key>Burn failed to encode some files</key>
 	<string>Το Burn απέτυχε να κωδικοποιήσει κάποια αρχεία</string>
 	<key>DVD-Video</key>
 	<string>DVD-Βίντεο</string>
 	<key>General</key>
 	<string>Γενικά</string>
+	<key>Cue file</key>
+	<string>Cue αρχείο</string>
 	<key>Checking file...</key>
 	<string>Έλεγχος αρχείου...</string>
 	<key>Image not supported on Panther.
@@ -288,8 +258,8 @@ Mount the image and drop the mounted image in the window.</key>
 (Note: there is a protected mp4 file which can&apos;t be converted)</key>
 	<string>
 (Σημείωση: Υπάρχει ένα προστατευμένο MP4 αρχείο που δεν μπορεί να μετατραπεί)</string>
-	<key> (No audio)</key>
-	<string> (Χωρίς ήχο)</string>
+	<key>&apos;%@&apos; was burned succesfully</key>
+	<string>&apos;%@&apos; γράφτηκε με επιτυχία</string>
 	<key>This file can&apos;t be converted</key>
 	<string>Το αρχείο αυτό δεν μπορεί να μετατραπεί</string>
 	<key>No Recorder</key>
@@ -298,86 +268,76 @@ Mount the image and drop the mounted image in the window.</key>
 	<string>Έτοιμο να εγγραφεί</string>
 	<key>Mount</key>
 	<string>Άνοιγμα</string>
-	<key>iPod image</key>
-	<string>Εικόνα iPod</string>
+	<key>UDRO</key>
+	<string>Εικόνα ανάγνωσης μόνο</string>
+	<key>Can&apos;t create &apos;%@&apos; in &apos;%@&apos;</key>
+	<string>Δεν είναι δυνατή η δημιουργία&apos;%@&apos; στο &apos;%@&apos;</string>
 	<key>Cancel</key>
 	<string>Άκυρο</string>
+	<key>Closing track %ld of %ld (%@)</key>
+	<string>Κλείσιμο κομματιού %ld από %ld (%@)</string>
 	<key>Advanced</key>
 	<string>Προηγμένα</string>
-	<key>Choose a location to save the mp3 files</key>
-	<string>Επιλέξτε μια θέση για να αποθηκεύσετε τα αρχεία mp3</string>
-	<key>DVD-Audio</key>
-	<string>DVD-ήχου</string>
+	<key>Could not eject media from the drive</key>
+	<string>Δεν ήταν δυνατή η εξαγωγή των μέσων από τη μονάδα</string>
 	<key>Data</key>
 	<string>Δεδομένα</string>
 	<key>Choose an image file</key>
 	<string>Επιλέξτε ένα αρχείο εικόνας</string>
-	<key> (Couldn&apos;t get attributes)</key>
-	<string>(Δεν μπόρεσε να πάρει τις ιδιότητες)</string>
-	<key>NDIF read/write</key>
-	<string>NDIF read/write</string>
 	<key>Title Menu</key>
 	<string>Τίτλος Μενού</string>
-	<key>Would you like to convert that file to wav?</key>
-	<string>Θέλετε να μετατρέψετε το αρχείο σε wav;</string>
-	<key>Choose a location to save the DVD folder</key>
-	<string>Επιλέξτε μια θέση για να αποθηκεύσετε το φάκελο DVD</string>
-	<key> to VCD mpg</key>
-	<string> σε VCD mpg</string>
-	<key>Closing track</key>
-	<string>Κλείσιμο κομματιού</string>
-	<key>NDIF read-only</key>
-	<string>NDIF μόνο για ανάγνωση</string>
-	<key> to wav</key>
-	<string> σε wav</string>
-	<key>Open Log</key>
-	<string>Άνοιγμα Log</string>
-	<key>Would you like to convert those files to DVD mpg?</key>
-	<string>Θέλετε να μετατρέψετε τα αρχεία σε DVD mpg;</string>
+	<key>Creating image file &apos;%@&apos;</key>
+	<string>Δημιουργία του αρχείου εικόνας &apos;%@&apos;</string>
+	<key>Scanning for files and folders</key>
+	<string>Σάρωση για το αρχείο και για τους φακέλους</string>
+	<key>Invalid Burn file</key>
+	<string>Άκυρο αρχείο Burn</string>
 	<key>Image created</key>
 	<string>Εικόνα δημιουργήθηκε</string>
+	<key>Unmount Image</key>
+	<string>Αποφόρτωση εικόνας</string>
 	<key>Missing files</key>
 	<string>Λείπουν αρχεία</string>
 	<key>Audio Help</key>
 	<string>Βοήθεια ήχου</string>
-	<key>Read/write</key>
-	<string>Ανάγνωσης/Εγγραφής</string>
+	<key>DC42</key>
+	<string>Εικόνα Disk Copy 4.2</string>
+	<key>%@ (Unknown format)</key>
+	<string>%@ (Άγνωστο είδος αρχείου)</string>
 	<key>Video Help</key>
 	<string>Βοήθεια βίντεο</string>
-	<key> (Unsupported audio)</key>
-	<string> (Μη υποστηριζόμενος ήχος)</string>
-	<key>Would you like to convert those files to wav?
-(Note: there is a protected mp4 file which can&apos;t be converted)</key>
-	<string>Θέλετε να μετατρέψετε τα αρχεία σε wav; 
-(Σημείωση: Υπάρχει ένα προστατευμένο MP4 αρχείο που δεν μπορεί να μετατραπεί)</string>
-	<key> to DivX avi</key>
-	<string> σε DivX avi</string>
-	<key>Whole device</key>
-	<string>Ολόκληρη συσκευή</string>
+	<key>Failed to copy &apos;%@&apos; to &apos;%@&apos;. %@</key>
+	<string>Αποτυχία αντιγραφής &apos;%@&apos; στο &apos;%@&apos;</string>
+	<key>UNIV</key>
+	<string>Υβριδική εικόνα</string>
+	<key>Failed to delete &apos;%@&apos;.</key>
+	<string>Αποτυχία διαγραφής &apos;%@&apos;</string>
 	<key>Open</key>
 	<string>Άνοιγμα</string>
-	<key>Track </key>
-	<string>Κομμάτι </string>
-	<key> KB</key>
-	<string> KB</string>
+	<key>Failed to write &apos;%@&apos; to &apos;%@&apos;</key>
+	<string>Αποτυχία εγγραφής &apos;%@&apos; στο &apos;%@&apos;</string>
 	<key>Preferences Help</key>
 	<string>Βοήθεια Επιλογών</string>
 	<key>Time</key>
 	<string>Χρόνος</string>
-	<key>DVD/CD-master</key>
-	<string>DVD/CD-master</string>
+	<key>Closing track (%@)</key>
+	<string>Κλείσιμο κομματιού (%@)</string>
 	<key>Audio CD</key>
 	<string>CD ήχου</string>
-	<key>Disk Copy 4.2</key>
-	<string>Disk Copy 4.2</string>
+	<key>%@ (Unsupported audio)</key>
+	<string>%@ (Μη υποστηριζόμενος ήχος)</string>
 	<key>To burn a Audio-CD the media should be a CD</key>
 	<string>Για την εγγραφή ενός CD-ήχου τα μέσα αποθήκευσης θα πρέπει να είναι CD</string>
-	<key>These files can&apos;t be converted, would you like to continue?</key>
-	<string>Τα αρχεία δεν μπορούν να μετατραπούν, θέλετε να συνεχίσετε;</string>
-	<key> file</key>
-	<string> αρχείο</string>
-	<key>Would you like to convert those files to wav?</key>
-	<string>Θέλετε να μετατρέψετε τα αρχεία σε wav;</string>
+	<key>%@ Help</key>
+	<string>Βοήθεια %@</string>
+	<key>RdWr</key>
+	<string>Εικόνα Ανάγνωσης/Εγγραφής</string>
+	<key>Untitled Folder</key>
+	<string>Φάκελος χωρίς όνομα</string>
+	<key>Are you sure you want to cancel?</key>
+	<string>Είστε σίγουροι ότι θέλετε να ακυρώσετε;</string>
+	<key>Would you like to convert that file to %@?%@</key>
+	<string>Θέλετε να μετατρέψετε το αρχείο σε %@;%@</string>
 	<key>Finished erasing</key>
 	<string>Ολοκληρώθηκε η διαγραφή</string>
 	<key>Only Mode1 and Audio tracks are supported</key>
@@ -392,18 +352,16 @@ Mount the image and drop the mounted image in the window.</key>
 	<string>Προετοιμασία για την κωδικοποίηση</string>
 	<key>No CD</key>
 	<string>Χωρίς CD</string>
-	<key>There was a problem erasing the disc?</key>
-	<string>Υπήρξε ένα πρόβλημα διαγραφή του δίσκου;</string>
+	<key>Toc file</key>
+	<string>Αρχείο TOC</string>
 	<key>Image failed</key>
 	<string>Εικόνας απέτυχε</string>
+	<key>ROCo</key>
+	<string>Εικόνα Συμπιεσμένη</string>
 	<key>Untitled</key>
 	<string>Χωρίς τίτλο</string>
-	<key>NDIF compressed (KenCode)</key>
-	<string>NDIF συμπιεσμένο (KenCode)</string>
 	<key>Some files are to large</key>
 	<string>Μερικά αρχεία είναι πολύ μεγάλα</string>
-	<key>Would you like to convert that file to DivX avi?</key>
-	<string>Θέλετε να μετατρέψετε το αρχείο σε DivX avi;</string>
 	<key>There was a problem creating the image</key>
 	<string>Υπήρξε ένα πρόβλημα κατά τη δημιουργία της εικόνας</string>
 	<key>No</key>
@@ -412,31 +370,35 @@ Mount the image and drop the mounted image in the window.</key>
 (Note: there are a few protected mp4 files which can&apos;t be converted)</key>
 	<string>
 (Σημείωση: υπάρχουν ορισμένα προστατευμένα MP4 αρχεία που δεν μπορούν να μετατραπούν)</string>
-	<key>Scanning for for file and folders</key>
-	<string>Σάρωση για το αρχείο και για τους φακέλους</string>
-	<key>Burning </key>
-	<string>Έγγραφη</string>
+	<key>Processing: %@ (%i of %i)</key>
+	<string>Επεξεργασία: %@ (%i από %i)</string>
 	<key>Unsupported Image</key>
 	<string>Μη υποστηριζόμενη εικόνα</string>
 	<key>Unknown disk image</key>
 	<string>Άγνωστη εικόνα δίσκου</string>
 	<key>Continue</key>
 	<string>Συνέχεια</string>
-	<key> files</key>
-	<string> αρχεία</string>
 	<key>Writing tracks</key>
 	<string>Εγγραφη κομματιών</string>
+	<key>UDBZ</key>
+	<string>Εικόνα Συμπιεσμένη</string>
+	<key>Generating DVD folder: (%.0f%@)</key>
+	<string>Παραγωγή φακέλου DVD (%.0f%@</string>
 	<key>UDF / ISO9660 (only)</key>
 	<string>UDF / ISO9660 (Μόνο)</string>
-	<key>Eject Disk</key>
-	<string>Εξαγωγή Δίσκου</string>
-	<key>4 KB</key>
-	<string>4 KB</string>
-	<key>Preparing...</key>
-	<string>Προετοιμασία...</string>
+	<key>IPOD</key>
+	<string>Εικόνα iPod</string>
 	<key>Still try to burn the disc?</key>
 	<string>Ακόμα προσπαθείτε να γράψετε το δίσκο;</string>
+	<key>Encoding file %i of %i to %@</key>
+	<string>Κωδικοποίηση αρχείου %i από %i σε %@</string>
+	<key>Preparing...</key>
+	<string>Προετοιμασία...</string>
+	<key>After canceling the disc can&apos;t be used anymore</key>
+	<string>Μετά την ακύρωση του δίσκου δεν μπορεί να χρησιμοποιηθεί ξανά</string>
 	<key>Choose a location to save the burn file</key>
 	<string>Επιλέξτε μια θέση για να αποθηκεύσετε το αρχείο εγγραφής</string>
+	<key>Failed to install theme in the &apos;Application Support&apos; folder</key>
+	<string>Απέτυχε να εγκαταστήσει το θέμα στο φάκελο &apos;Υποστήριξη εφαρμογής&apos;</string>
 </dict>
 </plist>

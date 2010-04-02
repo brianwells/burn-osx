@@ -1,45 +1,25 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
-<plist version="1.0">
-<dict>
-	<key>IBClasses</key>
-	<array>
-		<dict>
-			<key>CLASS</key>
-			<string>FirstResponder</string>
-			<key>LANGUAGE</key>
-			<string>ObjC</string>
-			<key>SUPERCLASS</key>
-			<string>NSObject</string>
-		</dict>
-		<dict>
-			<key>ACTIONS</key>
-			<dict>
-				<key>recorderPopup</key>
-				<string>id</string>
-			</dict>
-			<key>CLASS</key>
-			<string>KWDiskInfo</string>
-			<key>LANGUAGE</key>
-			<string>ObjC</string>
-			<key>OUTLETS</key>
-			<dict>
-				<key>freeSpaceDisk</key>
-				<string>id</string>
-				<key>kindDisk</key>
-				<string>id</string>
-				<key>recorderPopup</key>
-				<string>id</string>
-				<key>usedSpaceDisk</key>
-				<string>id</string>
-				<key>writableDisk</key>
-				<string>id</string>
-			</dict>
-			<key>SUPERCLASS</key>
-			<string>NSWindowController</string>
-		</dict>
-	</array>
-	<key>IBVersion</key>
-	<string>1</string>
-</dict>
-</plist>
+{
+    IBClasses =     (
+                {
+            CLASS = FirstResponder;
+            LANGUAGE = ObjC;
+            SUPERCLASS = NSObject;
+        },
+                {
+            ACTIONS =             {
+                recorderPopup = id;
+            };
+            CLASS = KWDiskInfo;
+            LANGUAGE = ObjC;
+            OUTLETS =             {
+                freeSpaceDisk = id;
+                kindDisk = id;
+                recorderPopup = id;
+                usedSpaceDisk = id;
+                writableDisk = id;
+            };
+            SUPERCLASS = NSWindowController;
+        }
+    );
+    IBVersion = 1;
+}
