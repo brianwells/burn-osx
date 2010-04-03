@@ -33,8 +33,11 @@
                 audioView = id;
                 burnerPopup = id;
                 burnerView = id;
+                cdPopup = id;
+                cdTextCheckbox = id;
                 completionActionMatrix = id;
                 dataView = id;
+                dvdPopup = id;
                 generalView = id;
                 previewImagePopup = id;
                 previewImageView = id;
