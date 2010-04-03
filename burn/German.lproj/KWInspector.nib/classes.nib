@@ -10,18 +10,18 @@
             CLASS = FSPropertiesController;
             LANGUAGE = ObjC;
             OUTLETS =             {
-                attributeModDate = NSTextField;
-                backupDate = NSTextField;
-                contentModDate = NSTextField;
-                contentView = NSView;
-                creationDate = NSTextField;
-                gid = NSTextField;
-                included = NSButton;
-                lastAccessedDate = NSTextField;
-                mangledName = NSTextField;
-                perms = NSMatrix;
-                specificName = NSTextField;
-                uid = NSTextField;
+                attributeModDate = id;
+                backupDate = id;
+                contentModDate = id;
+                contentView = id;
+                creationDate = id;
+                gid = id;
+                included = id;
+                lastAccessedDate = id;
+                mangledName = id;
+                perms = id;
+                specificName = id;
+                uid = id;
             };
             SUPERCLASS = NSObject;
         },
@@ -42,22 +42,22 @@
             CLASS = HFSPlusController;
             LANGUAGE = ObjC;
             OUTLETS =             {
-                boundsBottom = NSTextField;
-                boundsLeft = NSTextField;
-                boundsRight = NSTextField;
-                boundsTop = NSTextField;
-                creator = NSTextField;
-                extFinderFlags = NSMatrix;
-                finderFlags = NSMatrix;
-                iconPosX = NSTextField;
-                iconPosY = NSTextField;
-                nodeID = NSTextField;
-                scrollPosX = NSTextField;
-                scrollPosY = NSTextField;
-                setHiddenExtension = NSButton;
-                tecHint = NSTextField;
-                type = NSTextField;
-                viewType = NSTextField;
+                boundsBottom = id;
+                boundsLeft = id;
+                boundsRight = id;
+                boundsTop = id;
+                creator = id;
+                extFinderFlags = id;
+                finderFlags = id;
+                iconPosX = id;
+                iconPosY = id;
+                nodeID = id;
+                scrollPosX = id;
+                scrollPosY = id;
+                setHiddenExtension = id;
+                tecHint = id;
+                type = id;
+                viewType = id;
             };
             SUPERCLASS = FSPropertiesController;
         },
@@ -65,10 +65,10 @@
             CLASS = ISO9660Controller;
             LANGUAGE = ObjC;
             OUTLETS =             {
-                level1MangledName = NSTextField;
-                level1SpecificName = NSTextField;
-                level2MangledName = NSTextField;
-                level2SpecificName = NSTextField;
+                level1MangledName = id;
+                level1SpecificName = id;
+                level2MangledName = id;
+                level2SpecificName = id;
             };
             SUPERCLASS = ISOController;
         },
@@ -76,11 +76,11 @@
             CLASS = ISOController;
             LANGUAGE = ObjC;
             OUTLETS =             {
-                effectiveDate = NSTextField;
-                expirationDate = NSTextField;
-                invisible = NSButton;
-                recordingDate = NSTextField;
-                versionNumber = NSTextField;
+                effectiveDate = id;
+                expirationDate = id;
+                invisible = id;
+                recordingDate = id;
+                versionNumber = id;
             };
             SUPERCLASS = FSPropertiesController;
         },
@@ -96,50 +96,25 @@
             CLASS = KWAudioDiscInspector;
             LANGUAGE = ObjC;
             OUTLETS =             {
-                arranger = id;
-                composer = id;
-                discIdent = id;
                 genreCode = id;
-                genreName = id;
-                mcn = id;
-                mcnCheckBox = id;
                 myView = id;
-                notes = id;
-                performer = id;
-                privateUse = id;
-                songwriter = id;
                 timeField = id;
-                title = id;
             };
             SUPERCLASS = NSObject;
         },
                 {
             ACTIONS =             {
                 ISRCChanged = id;
-                ISRCCheckBox = id;
                 optionsChanged = id;
             };
             CLASS = KWAudioInspector;
             LANGUAGE = ObjC;
             OUTLETS =             {
-                ISRCCDText = id;
-                ISRCCheckBox = id;
-                ISRCField = id;
-                arranger = id;
-                composer = id;
                 iconView = id;
-                indexPoints = id;
                 invalid = id;
                 myView = id;
                 nameField = id;
-                notes = id;
-                performer = id;
-                preEmphasis = id;
-                preGap = id;
-                privateUse = id;
-                songwriter = id;
                 timeField = id;
-                title = id;
             };
             SUPERCLASS = NSObject;
         },
@@ -154,24 +129,13 @@
             CLASS = KWAudioMP3Inspector;
             LANGUAGE = ObjC;
             OUTLETS =             {
-                album = id;
-                artist = id;
-                composer = id;
-                discNumber = id;
-                discTotal = id;
-                genre = id;
                 iconView = id;
                 imageString = id;
                 imageView = id;
                 myView = id;
                 nameField = id;
-                notes = id;
                 sizeField = id;
                 tabView = id;
-                title = id;
-                trackNumber = id;
-                trackTotal = id;
-                year = id;
             };
             SUPERCLASS = NSObject;
         },
@@ -221,28 +185,28 @@
             LANGUAGE = ObjC;
             OUTLETS =             {
                 allOptions = id;
-                fileChooser = NSPanel;
-                fileList = NSTableView;
+                fileChooser = id;
+                fileList = id;
                 gid = id;
                 hfsBoundsB = id;
                 hfsBoundsL = id;
                 hfsBoundsR = id;
                 hfsBoundsT = id;
-                hfsName = NSTextField;
-                hfsOptions = NSBox;
+                hfsName = id;
+                hfsOptions = id;
                 hfsScrollX = id;
                 hfsScrollY = id;
                 hfsViewType = id;
                 iconView = id;
                 isoLevel = id;
-                isoName = NSTextField;
-                isoOptions = NSBox;
-                jolietName = NSTextField;
-                jolietOptions = NSBox;
+                isoName = id;
+                isoOptions = id;
+                jolietName = id;
+                jolietOptions = id;
                 mainIconView = id;
                 myView = id;
                 nameField = id;
-                okButton = NSButton;
+                okButton = id;
                 perms = id;
                 sizeField = id;
                 tabView = id;
@@ -257,15 +221,15 @@
             CLASS = KWDataInspector;
             LANGUAGE = ObjC;
             OUTLETS =             {
-                hfsController = HFSPlusController;
-                iconView = NSImageView;
-                isoController = ISOController;
-                jolietController = JolietController;
+                hfsController = id;
+                iconView = id;
+                isoController = id;
+                jolietController = id;
                 myView = id;
-                nameField = NSTextField;
-                sizeField = NSTextField;
-                tabs = NSTabView;
-                udfController = UDFController;
+                nameField = id;
+                sizeField = id;
+                tabs = id;
+                udfController = id;
             };
             SUPERCLASS = NSObject;
         },
@@ -275,19 +239,18 @@
             OUTLETS =             {
                 audioController = id;
                 audioDiscController = id;
-                audioDiscView = id;
                 audioMP3Controller = id;
-                audioMP3View = id;
-                audioView = id;
                 dataController = id;
                 dataDiscController = id;
-                dataDiscView = id;
-                dataView = id;
                 dvdController = id;
-                dvdView = id;
                 emptyView = id;
             };
             SUPERCLASS = NSWindowController;
+        },
+                {
+            CLASS = NSDatePicker;
+            LANGUAGE = ObjC;
+            SUPERCLASS = NSControl;
         },
                 {
             CLASS = UDFController;
