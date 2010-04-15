@@ -39,12 +39,14 @@
 	id currentCombineCheckBox;
 	BOOL ignoreMode;
 	BOOL isOverwritable;
+	NSNumber *layerBreak;
 }
 
 //Main actions
 - (void)beginBurnSetupSheetForWindow:(NSWindow *)window modalDelegate:(id)delegate didEndSelector:(SEL)selector contextInfo:(void *)contextInfo;
 - (void)burnDiskImageAtPath:(NSString *)path;
 - (void)writeTrack:(id)track;
+- (void)setLayerBreak:(id)layerBreak;
 - (void)burnTrack:(id)track;
 - (void)burnTrackToImage:(NSDictionary *)dict;
 - (int)getImageSizeAtPath:(NSString *)path;

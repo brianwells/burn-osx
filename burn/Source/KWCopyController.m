@@ -159,7 +159,7 @@
 	NSWorkspace *sharedWorkspace = [NSWorkspace sharedWorkspace];
 
 	NSString *fileSystem = nil;
-	int size = 0;
+	long long size = 0;
 	BOOL canBeMounted = YES;
 	NSString *browseButtonText = nil;
 	NSString *realPath = nil;
@@ -186,18 +186,21 @@
 	}
 	else if ([defaultManager fileExistsAtPath:workingPath])
 	{
+		if ([[[workingPath pathExtension] lowercaseString] isEqualTo:@"dvd"])
+			realPath = [self getIsoForDvdFileAtPath:workingPath];
+		
 		if ([[[workingPath pathExtension] lowercaseString] isEqualTo:@"cue"])
 		{
 			fileSystem = NSLocalizedString(@"Cue file",nil);
 			size = [self cueImageSizeAtPath:workingPath];
 			canBeMounted = NO;
-		
+			
 			if (size == -1)
 			{
 				alertMessage = NSLocalizedString(@"Missing files",nil);
 				alertInformation = [NSString stringWithFormat:NSLocalizedString(@"Some files specified in the %@ file are missing.", nil), @"cue"];
 			}
-				
+			
 		}
 		else if ([[[workingPath pathExtension] lowercaseString] isEqualTo:@"toc"] && [KWCommonMethods OSVersion] >= 0x1040)
 		{
@@ -269,8 +272,10 @@
 
 					if ([[workingPath pathExtension] isEqualTo:@""])
 						size = [KWCommonMethods getSizeFromMountedVolume:workingPath] * 512;
-					else
-						size = [[[defaultManager fileAttributesAtPath:workingPath traverseLink:YES] objectForKey:NSFileSize] intValue];
+					else {
+						id tmp = [[defaultManager fileAttributesAtPath:realPath traverseLink:YES] objectForKey:NSFileSize];
+						size = [tmp longLongValue];
+					}
 				}
 
 				if ([[sharedWorkspace mountedLocalVolumePaths] containsObject:workingPath])
@@ -455,7 +460,7 @@
 	[myDiscCreationController saveImageWithName:[nameField stringValue] withType:3 withFileSystem:@""];
 }
 
-- (id)myTrackWithErrorString:(NSString **)error
+- (id)myTrackWithErrorString:(NSString **)error andLayerBreak:(NSNumber**)layerBreak
 {
 	if (!mountedPath)
 	{
@@ -465,11 +470,20 @@
 		}
 		else
 		{
+			NSString *workPath;
+			if ([[currentPath pathExtension] isEqualTo:@"dvd"]) 
+			{
+				workPath  = [self getIsoForDvdFileAtPath: currentPath];
+				*layerBreak = [self getLayerBreakForDvdFileAtPath: currentPath];
+			}
+			else
+				workPath  = currentPath;
+			
 			if ([KWCommonMethods OSVersion] < 0x1040)
-				return [[KWTrackProducer alloc] getTrackForImage:currentPath withSize:0];
+				return [[KWTrackProducer alloc] getTrackForImage:workPath withSize:0];
 			#if MAC_OS_X_VERSION_MAX_ALLOWED >= MAC_OS_X_VERSION_10_4
 			else
-				return [DRBurn layoutForImageFile:currentPath];
+				return [DRBurn layoutForImageFile:workPath];
 			#endif
 		}
 	}
@@ -783,6 +797,29 @@
 - (int)cueImageSizeAtPath:(NSString *)path
 {
 	return 0;
+}
+
+
+- (NSString *)getIsoForDvdFileAtPath:(NSString *)path
+{
+	NSString *info = [NSString stringWithContentsOfFile:path];
+	NSArray *arrayOfLines = [info componentsSeparatedByString:@"\n"];
+	NSString *iso = [arrayOfLines objectAtIndex:1];
+	iso = [iso stringByReplacingOccurrencesOfString:@"\r" withString:@""];
+	if ([iso isAbsolutePath])
+		return iso;
+	return [[path stringByDeletingLastPathComponent] stringByAppendingPathComponent: iso];
+}
+
+- (NSNumber *)getLayerBreakForDvdFileAtPath:(NSString *)path
+{
+	NSString *info = [NSString stringWithContentsOfFile:path];
+	NSArray *arrayOfLines = [info componentsSeparatedByString:@"\n"];
+	NSString *lbreak = [arrayOfLines objectAtIndex:0];
+	lbreak = [lbreak stringByReplacingOccurrencesOfString:@"\r" withString:@""];
+	lbreak = [lbreak stringByReplacingOccurrencesOfString:@"LayerBreak=" withString:@""];
+	long long val = [lbreak longLongValue];
+	return [NSNumber numberWithLongLong:val];
 }
 
 @end

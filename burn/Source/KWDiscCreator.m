@@ -320,6 +320,7 @@
 	NSMutableArray *tracks = [NSMutableArray array];
 	int result = 0;
 	BOOL maskSet = NO;
+	NSNumber *layerBreak = nil;
 
 	DRFolder *rootFolder = [[DRFolder alloc] initWithName:discName];
 	[rootFolder setExplicitFilesystemMask:nil];
@@ -466,7 +467,7 @@
 	
 	if ([[burner types] containsObject:[NSNumber numberWithInt:3]] && result == 0)
 	{
-		id copyTracks = [copyControllerOutlet myTrackWithErrorString:&errorString];
+		id copyTracks = [copyControllerOutlet myTrackWithErrorString:&errorString andLayerBreak:&layerBreak];
 	
 		if ([copyTracks isKindOfClass:[NSNumber class]])
 			result = [copyTracks intValue];
@@ -510,6 +511,7 @@
 				[progressPanel setCancelNotification:nil];
 				[progressPanel setTask:[NSString stringWithFormat:NSLocalizedString(@"Burning '%@'", nil), discName]];
 				[progressPanel setStatus:NSLocalizedString(@"Preparing...",nil)];
+				[burner performSelectorOnMainThread:@selector(setLayerBreak:) withObject:layerBreak waitUntilDone:YES];
 				[burner performSelectorOnMainThread:@selector(burnTrack:) withObject:tracks waitUntilDone:YES];
 			}
 			else

@@ -12,6 +12,7 @@
 	shouldClose = NO;
 	userCanceled = NO;
 	ignoreMode = NO;
+	layerBreak = nil;
 	[NSBundle loadNibNamed:@"KWBurner" owner:self];
 
 	return self;
@@ -271,7 +272,12 @@
 	}
 }
 
-- (void)burnTrack:(id)track
+- (void)setLayerBreak:(id)layerBreakIn
+{
+	layerBreak = layerBreakIn;
+}
+
+- (void)burnTrack:(id)track 
 {
 	burn = [[DRBurn alloc] initWithDevice:savedDevice];
 	
@@ -281,7 +287,10 @@
 		[burnProperties addEntriesFromDictionary:extraBurnProperties];
 	
 	[burnProperties setObject:[[NSUserDefaults standardUserDefaults] objectForKey:@"KWSimulateBurn"] forKey:DRBurnTestingKey];
-	[burnProperties setObject:[NSNumber numberWithInt:0.5] forKey:@"DRBurnDoubleLayerL0DataZoneBlocksKey"];
+	
+	if(layerBreak == nil)
+		layerBreak = [NSNumber numberWithInt:0.5];
+	[burnProperties setObject:layerBreak forKey:@"DRBurnDoubleLayerL0DataZoneBlocksKey"];
 	
 	[burn setProperties:burnProperties];
 	[self writeTrack:track];

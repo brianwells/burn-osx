@@ -58,7 +58,7 @@
 //Disc creation actions
 - (void)burn:(id)sender;
 - (void)saveImage:(id)sender;
-- (id)myTrackWithErrorString:(NSString **)error;
+- (id)myTrackWithErrorString:(NSString **)error andLayerBreak:(NSNumber**)layerBreak;
 - (void)remount:(id)object;
 
 //Other actions
@@ -76,5 +76,7 @@
 - (BOOL)isCueFile;
 - (BOOL)isAudioCD;
 - (int)cueImageSizeAtPath:(NSString *)path;
+- (NSString *)getIsoForDvdFileAtPath:(NSString *)path;
+- (NSNumber *)getLayerBreakForDvdFileAtPath:(NSString *)path;
 
 @end
