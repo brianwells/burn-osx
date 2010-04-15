@@ -760,8 +760,6 @@
 		FEC66B530F2CCD9200086E2C /* English */ = {isa = PBXFileReference; lastKnownFileType = folder; name = English; path = English.lproj/BurnHelp; sourceTree = "<group>"; };
 		FEC66B8B0F2CCD9B00086E2C /* Japanese */ = {isa = PBXFileReference; lastKnownFileType = folder; name = Japanese; path = Japanese.lproj/BurnHelp; sourceTree = "<group>"; };
 		FEC66BC30F2CCDA300086E2C /* zh_TW */ = {isa = PBXFileReference; lastKnownFileType = folder; name = zh_TW; path = zh_TW.lproj/BurnHelp; sourceTree = "<group>"; };
-		FED4EEE50FA5BEFA00E6C255 /* Spanish */ = {isa = PBXFileReference; lastKnownFileType = image.icns; name = Spanish; path = "Spanish.lproj/Copy document.icns"; sourceTree = "<group>"; };
-		FED4EEE60FA5BEFA00E6C255 /* Spanish */ = {isa = PBXFileReference; lastKnownFileType = image.icns; name = Spanish; path = "Spanish.lproj/Theme document.icns"; sourceTree = "<group>"; };
 		FED901170F2E248900947B06 /* English */ = {isa = PBXFileReference; lastKnownFileType = text.xml; name = English; path = English.lproj/Localizable.strings; sourceTree = "<group>"; };
 		FED901180F2E249B00947B06 /* English */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		FED901190F2E24C400947B06 /* Japanese */ = {isa = PBXFileReference; lastKnownFileType = text.html; name = Japanese; path = Japanese.lproj/Credits.html; sourceTree = "<group>"; };
@@ -2265,7 +2263,6 @@
 				FE0413150E62D420007FD22B /* zh_TW */,
 				FEE0FF1A0F6D35F1009BC562 /* Greek */,
 				FE3F2C890F88DCBF001364D1 /* ko */,
-				FED4EEE50FA5BEFA00E6C255 /* Spanish */,
 				FE25B66811772C08004F3B3D /* Italian */,
 			);
 			name = "Copy document.icns";
@@ -2285,7 +2282,6 @@
 				FE0413160E62D420007FD22B /* zh_TW */,
 				FEE0FF1B0F6D35F1009BC562 /* Greek */,
 				FE3F2C8A0F88DCBF001364D1 /* ko */,
-				FED4EEE60FA5BEFA00E6C255 /* Spanish */,
 				FE25B66911772C08004F3B3D /* Italian */,
 			);
 			name = "Theme document.icns";
