@@ -804,8 +804,8 @@
 {
 	NSString *info = [NSString stringWithContentsOfFile:path];
 	NSArray *arrayOfLines = [info componentsSeparatedByString:@"\n"];
-	NSString *iso = [arrayOfLines objectAtIndex:1];
-	iso = [iso stringByReplacingOccurrencesOfString:@"\r" withString:@""];
+	NSMutableString *iso = [NSMutableString stringWithString:[arrayOfLines objectAtIndex:1]];
+	[iso replaceOccurrencesOfString:@"\r" withString:@"" options:nil range:NSMakeRange(0, [iso length])];
 	if ([iso isAbsolutePath])
 		return iso;
 	return [[path stringByDeletingLastPathComponent] stringByAppendingPathComponent: iso];
@@ -815,10 +815,15 @@
 {
 	NSString *info = [NSString stringWithContentsOfFile:path];
 	NSArray *arrayOfLines = [info componentsSeparatedByString:@"\n"];
-	NSString *lbreak = [arrayOfLines objectAtIndex:0];
-	lbreak = [lbreak stringByReplacingOccurrencesOfString:@"\r" withString:@""];
-	lbreak = [lbreak stringByReplacingOccurrencesOfString:@"LayerBreak=" withString:@""];
-	long long val = [lbreak longLongValue];
+	NSMutableString *lbreak = [NSMutableString stringWithString:[arrayOfLines objectAtIndex:0]];
+	[lbreak replaceOccurrencesOfString:@"\r" withString:@"" options:nil range:NSMakeRange(0, [lbreak length])];
+	[lbreak replaceOccurrencesOfString:@"LayerBreak=" withString:@"" options:nil range:NSMakeRange(0, [lbreak length])];
+	NSScanner* textscanner = [NSScanner scannerWithString:lbreak];
+	long long val;
+	
+	if (![textscanner scanLongLong:&val])
+		val = 0.5;
+			
 	return [NSNumber numberWithLongLong:val];
 }
 
