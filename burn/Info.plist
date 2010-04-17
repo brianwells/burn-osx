@@ -35,6 +35,7 @@
 				<string>toc</string>
 				<string>cdr</string>
 				<string>sparseimage</string>
+				<string>dvd</string>
 			</array>
 			<key>CFBundleTypeIconFile</key>
 			<string>Copy document</string>
