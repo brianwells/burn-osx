@@ -27,8 +27,8 @@
 				FE2B21251105E40F008A027B,
 				FE2B22131105E41E008A027B,
 				FE2B23021105E431008A027B,
-				FE2B23111105E43F008A027B,
 				FE2B23FF1105E44E008A027B,
+				FE9D36E9117F90C60061A80D,
 			);
 			isa = PBXVariantGroup;
 			name = InfoPlist.strings;
@@ -142,6 +142,7 @@
 				ru,
 				Spanish,
 				zh_TW,
+				Italian,
 			);
 			mainGroup = 29B97314FDCFA39411CA2CEA;
 			projectDirPath = "";
@@ -212,8 +213,8 @@
 				FE2B21301105E40F008A027B,
 				FE2B221E1105E41E008A027B,
 				FE2B230D1105E431008A027B,
-				FE2B231C1105E43F008A027B,
 				FE2B240A1105E44E008A027B,
+				FE9D36F6117F91550061A80D,
 			);
 			isa = PBXVariantGroup;
 			name = MainMenu.nib;
@@ -2302,18 +2303,18 @@
 			isa = PBXFileReference;
 			lastKnownFileType = sourcecode.c.h;
 			name = KWAudioController.h;
-			path = /Users/maarten/burn/Source/KWAudioController.h;
-			refType = 0;
-			sourceTree = "<absolute>";
+			path = Source/KWAudioController.h;
+			refType = 4;
+			sourceTree = "<group>";
 		};
 		FE2B1AA91105E0FA008A027B = {
 			fileEncoding = 4;
 			isa = PBXFileReference;
 			lastKnownFileType = sourcecode.c.objc;
 			name = KWAudioController.m;
-			path = /Users/maarten/burn/Source/KWAudioController.m;
-			refType = 0;
-			sourceTree = "<absolute>";
+			path = Source/KWAudioController.m;
+			refType = 4;
+			sourceTree = "<group>";
 		};
 		FE2B1AAA1105E0FA008A027B = {
 			fileEncoding = 4;
@@ -2708,7 +2709,6 @@
 				FE2B20351105E400008A027B,
 				FE2B21241105E40F008A027B,
 				FE2B23011105E430008A027B,
-				FE2B23101105E43F008A027B,
 			);
 			isa = PBXVariantGroup;
 			name = Credits.html;
@@ -2743,8 +2743,8 @@
 				FE2B212F1105E40F008A027B,
 				FE2B221D1105E41E008A027B,
 				FE2B230C1105E431008A027B,
-				FE2B231B1105E43F008A027B,
 				FE2B24091105E44E008A027B,
+				FE9D36EA117F90C60061A80D,
 			);
 			isa = PBXVariantGroup;
 			name = Localizable.strings;
@@ -2798,8 +2798,8 @@
 				FE2B21231105E40F008A027B,
 				FE2B22121105E41E008A027B,
 				FE2B23001105E430008A027B,
-				FE2B230F1105E43F008A027B,
 				FE2B23FE1105E44E008A027B,
+				FE9D36E5117F90850061A80D,
 			);
 			isa = PBXVariantGroup;
 			name = "Copy document.icns";
@@ -2827,8 +2827,8 @@
 				FE2B21261105E40F008A027B,
 				FE2B22141105E41E008A027B,
 				FE2B23031105E431008A027B,
-				FE2B23121105E43F008A027B,
 				FE2B24001105E44E008A027B,
+				FE9D36ED117F91540061A80D,
 			);
 			isa = PBXVariantGroup;
 			name = KWBurner.nib;
@@ -2856,8 +2856,8 @@
 				FE2B21271105E40F008A027B,
 				FE2B22151105E41E008A027B,
 				FE2B23041105E431008A027B,
-				FE2B23131105E43F008A027B,
 				FE2B24011105E44E008A027B,
+				FE9D36EE117F91550061A80D,
 			);
 			isa = PBXVariantGroup;
 			name = KWDiscInfo.nib;
@@ -2885,8 +2885,8 @@
 				FE2B21281105E40F008A027B,
 				FE2B22161105E41E008A027B,
 				FE2B23051105E431008A027B,
-				FE2B23141105E43F008A027B,
 				FE2B24021105E44E008A027B,
+				FE9D36EF117F91550061A80D,
 			);
 			isa = PBXVariantGroup;
 			name = KWDiscScanner.nib;
@@ -2914,8 +2914,8 @@
 				FE2B21291105E40F008A027B,
 				FE2B22171105E41E008A027B,
 				FE2B23061105E431008A027B,
-				FE2B23151105E43F008A027B,
 				FE2B24031105E44E008A027B,
+				FE9D36F0117F91550061A80D,
 			);
 			isa = PBXVariantGroup;
 			name = KWEjecter.nib;
@@ -2943,8 +2943,8 @@
 				FE2B212A1105E40F008A027B,
 				FE2B22181105E41E008A027B,
 				FE2B23071105E431008A027B,
-				FE2B23161105E43F008A027B,
 				FE2B24041105E44E008A027B,
+				FE9D36F1117F91550061A80D,
 			);
 			isa = PBXVariantGroup;
 			name = KWEraser.nib;
@@ -2972,8 +2972,8 @@
 				FE2B212B1105E40F008A027B,
 				FE2B22191105E41E008A027B,
 				FE2B23081105E431008A027B,
-				FE2B23171105E43F008A027B,
 				FE2B24051105E44E008A027B,
+				FE9D36F2117F91550061A80D,
 			);
 			isa = PBXVariantGroup;
 			name = KWInspector.nib;
@@ -3001,8 +3001,8 @@
 				FE2B212C1105E40F008A027B,
 				FE2B221A1105E41E008A027B,
 				FE2B23091105E431008A027B,
-				FE2B23181105E43F008A027B,
 				FE2B24061105E44E008A027B,
+				FE9D36F3117F91550061A80D,
 			);
 			isa = PBXVariantGroup;
 			name = KWPreferences.nib;
@@ -3030,8 +3030,8 @@
 				FE2B212D1105E40F008A027B,
 				FE2B221B1105E41E008A027B,
 				FE2B230A1105E431008A027B,
-				FE2B23191105E43F008A027B,
 				FE2B24071105E44E008A027B,
+				FE9D36F4117F91550061A80D,
 			);
 			isa = PBXVariantGroup;
 			name = KWProgress.nib;
@@ -3059,8 +3059,8 @@
 				FE2B212E1105E40F008A027B,
 				FE2B221C1105E41E008A027B,
 				FE2B230B1105E431008A027B,
-				FE2B231A1105E43F008A027B,
 				FE2B24081105E44E008A027B,
+				FE9D36F5117F91550061A80D,
 			);
 			isa = PBXVariantGroup;
 			name = KWRecorderInfo.nib;
@@ -3088,8 +3088,8 @@
 				FE2B21311105E40F008A027B,
 				FE2B221F1105E41E008A027B,
 				FE2B230E1105E431008A027B,
-				FE2B231D1105E43F008A027B,
 				FE2B240B1105E44E008A027B,
+				FE9D36E6117F90850061A80D,
 			);
 			isa = PBXVariantGroup;
 			name = "Theme document.icns";
@@ -4320,126 +4320,6 @@
 			refType = 4;
 			sourceTree = "<group>";
 		};
-		FE2B230F1105E43F008A027B = {
-			isa = PBXFileReference;
-			lastKnownFileType = image.icns;
-			name = Spanish;
-			path = "Spanish.lproj/Copy document.icns";
-			refType = 4;
-			sourceTree = "<group>";
-		};
-		FE2B23101105E43F008A027B = {
-			isa = PBXFileReference;
-			lastKnownFileType = text.html;
-			name = Spanish;
-			path = Spanish.lproj/Credits.html;
-			refType = 4;
-			sourceTree = "<group>";
-		};
-		FE2B23111105E43F008A027B = {
-			isa = PBXFileReference;
-			lastKnownFileType = text.plist.strings;
-			name = Spanish;
-			path = Spanish.lproj/InfoPlist.strings;
-			refType = 4;
-			sourceTree = "<group>";
-		};
-		FE2B23121105E43F008A027B = {
-			isa = PBXFileReference;
-			lastKnownFileType = wrapper.nib;
-			name = Spanish;
-			path = Spanish.lproj/KWBurner.nib;
-			refType = 4;
-			sourceTree = "<group>";
-		};
-		FE2B23131105E43F008A027B = {
-			isa = PBXFileReference;
-			lastKnownFileType = wrapper.nib;
-			name = Spanish;
-			path = Spanish.lproj/KWDiscInfo.nib;
-			refType = 4;
-			sourceTree = "<group>";
-		};
-		FE2B23141105E43F008A027B = {
-			isa = PBXFileReference;
-			lastKnownFileType = wrapper.nib;
-			name = Spanish;
-			path = Spanish.lproj/KWDiscScanner.nib;
-			refType = 4;
-			sourceTree = "<group>";
-		};
-		FE2B23151105E43F008A027B = {
-			isa = PBXFileReference;
-			lastKnownFileType = wrapper.nib;
-			name = Spanish;
-			path = Spanish.lproj/KWEjecter.nib;
-			refType = 4;
-			sourceTree = "<group>";
-		};
-		FE2B23161105E43F008A027B = {
-			isa = PBXFileReference;
-			lastKnownFileType = wrapper.nib;
-			name = Spanish;
-			path = Spanish.lproj/KWEraser.nib;
-			refType = 4;
-			sourceTree = "<group>";
-		};
-		FE2B23171105E43F008A027B = {
-			isa = PBXFileReference;
-			lastKnownFileType = wrapper.nib;
-			name = Spanish;
-			path = Spanish.lproj/KWInspector.nib;
-			refType = 4;
-			sourceTree = "<group>";
-		};
-		FE2B23181105E43F008A027B = {
-			isa = PBXFileReference;
-			lastKnownFileType = wrapper.nib;
-			name = Spanish;
-			path = Spanish.lproj/KWPreferences.nib;
-			refType = 4;
-			sourceTree = "<group>";
-		};
-		FE2B23191105E43F008A027B = {
-			isa = PBXFileReference;
-			lastKnownFileType = wrapper.nib;
-			name = Spanish;
-			path = Spanish.lproj/KWProgress.nib;
-			refType = 4;
-			sourceTree = "<group>";
-		};
-		FE2B231A1105E43F008A027B = {
-			isa = PBXFileReference;
-			lastKnownFileType = wrapper.nib;
-			name = Spanish;
-			path = Spanish.lproj/KWRecorderInfo.nib;
-			refType = 4;
-			sourceTree = "<group>";
-		};
-		FE2B231B1105E43F008A027B = {
-			isa = PBXFileReference;
-			lastKnownFileType = text.plist.strings;
-			name = Spanish;
-			path = Spanish.lproj/Localizable.strings;
-			refType = 4;
-			sourceTree = "<group>";
-		};
-		FE2B231C1105E43F008A027B = {
-			isa = PBXFileReference;
-			lastKnownFileType = wrapper.nib;
-			name = Spanish;
-			path = Spanish.lproj/MainMenu.nib;
-			refType = 4;
-			sourceTree = "<group>";
-		};
-		FE2B231D1105E43F008A027B = {
-			isa = PBXFileReference;
-			lastKnownFileType = image.icns;
-			name = Spanish;
-			path = "Spanish.lproj/Theme document.icns";
-			refType = 4;
-			sourceTree = "<group>";
-		};
 		FE2B231E1105E44D008A027B = {
 			isa = PBXFileReference;
 			lastKnownFileType = folder;
@@ -4643,18 +4523,18 @@
 			isa = PBXFileReference;
 			lastKnownFileType = sourcecode.c.h;
 			name = UDFController.h;
-			path = /Users/maarten/burn/Source/UDFController.h;
-			refType = 0;
-			sourceTree = "<absolute>";
+			path = Source/UDFController.h;
+			refType = 4;
+			sourceTree = "<group>";
 		};
 		FE9C13F7111458930062E820 = {
 			fileEncoding = 4;
 			isa = PBXFileReference;
 			lastKnownFileType = sourcecode.c.objc;
 			name = UDFController.m;
-			path = /Users/maarten/burn/Source/UDFController.m;
-			refType = 0;
-			sourceTree = "<absolute>";
+			path = Source/UDFController.m;
+			refType = 4;
+			sourceTree = "<group>";
 		};
 		FE9C13F9111458930062E820 = {
 			fileRef = FE9C13F7111458930062E820;
@@ -4687,18 +4567,18 @@
 			isa = PBXFileReference;
 			lastKnownFileType = sourcecode.c.h;
 			name = KWAudioInspector.h;
-			path = /Users/maarten/burn/Source/KWAudioInspector.h;
-			refType = 0;
-			sourceTree = "<absolute>";
+			path = Source/KWAudioInspector.h;
+			refType = 4;
+			sourceTree = "<group>";
 		};
 		FE9C1401111458E20062E820 = {
 			fileEncoding = 4;
 			isa = PBXFileReference;
 			lastKnownFileType = sourcecode.c.objc;
 			name = KWAudioInspector.m;
-			path = /Users/maarten/burn/Source/KWAudioInspector.m;
-			refType = 0;
-			sourceTree = "<absolute>";
+			path = Source/KWAudioInspector.m;
+			refType = 4;
+			sourceTree = "<group>";
 		};
 		FE9C1403111458E20062E820 = {
 			fileRef = FE9C1401111458E20062E820;
@@ -4711,18 +4591,18 @@
 			isa = PBXFileReference;
 			lastKnownFileType = sourcecode.c.h;
 			name = KWAudioDiscInspector.h;
-			path = /Users/maarten/burn/Source/KWAudioDiscInspector.h;
-			refType = 0;
-			sourceTree = "<absolute>";
+			path = Source/KWAudioDiscInspector.h;
+			refType = 4;
+			sourceTree = "<group>";
 		};
 		FE9C1409111458F90062E820 = {
 			fileEncoding = 4;
 			isa = PBXFileReference;
 			lastKnownFileType = sourcecode.c.objc;
 			name = KWAudioDiscInspector.m;
-			path = /Users/maarten/burn/Source/KWAudioDiscInspector.m;
-			refType = 0;
-			sourceTree = "<absolute>";
+			path = Source/KWAudioDiscInspector.m;
+			refType = 4;
+			sourceTree = "<group>";
 		};
 		FE9C140B111458F90062E820 = {
 			fileRef = FE9C1409111458F90062E820;
@@ -4771,6 +4651,118 @@
 			isa = PBXBuildFile;
 			settings = {
 			};
+		};
+		FE9D36E5117F90850061A80D = {
+			isa = PBXFileReference;
+			lastKnownFileType = image.icns;
+			name = Italian;
+			path = "Italian.lproj/Copy document.icns";
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		FE9D36E6117F90850061A80D = {
+			isa = PBXFileReference;
+			lastKnownFileType = image.icns;
+			name = Italian;
+			path = "Italian.lproj/Theme document.icns";
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		FE9D36E9117F90C60061A80D = {
+			isa = PBXFileReference;
+			lastKnownFileType = text.plist.strings;
+			name = Italian;
+			path = Italian.lproj/InfoPlist.strings;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		FE9D36EA117F90C60061A80D = {
+			isa = PBXFileReference;
+			lastKnownFileType = text.plist.strings;
+			name = Italian;
+			path = Italian.lproj/Localizable.strings;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		FE9D36ED117F91540061A80D = {
+			isa = PBXFileReference;
+			lastKnownFileType = wrapper.nib;
+			name = Italian;
+			path = Italian.lproj/KWBurner.nib;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		FE9D36EE117F91550061A80D = {
+			isa = PBXFileReference;
+			lastKnownFileType = wrapper.nib;
+			name = Italian;
+			path = Italian.lproj/KWDiscInfo.nib;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		FE9D36EF117F91550061A80D = {
+			isa = PBXFileReference;
+			lastKnownFileType = wrapper.nib;
+			name = Italian;
+			path = Italian.lproj/KWDiscScanner.nib;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		FE9D36F0117F91550061A80D = {
+			isa = PBXFileReference;
+			lastKnownFileType = wrapper.nib;
+			name = Italian;
+			path = Italian.lproj/KWEjecter.nib;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		FE9D36F1117F91550061A80D = {
+			isa = PBXFileReference;
+			lastKnownFileType = wrapper.nib;
+			name = Italian;
+			path = Italian.lproj/KWEraser.nib;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		FE9D36F2117F91550061A80D = {
+			isa = PBXFileReference;
+			lastKnownFileType = wrapper.nib;
+			name = Italian;
+			path = Italian.lproj/KWInspector.nib;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		FE9D36F3117F91550061A80D = {
+			isa = PBXFileReference;
+			lastKnownFileType = wrapper.nib;
+			name = Italian;
+			path = Italian.lproj/KWPreferences.nib;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		FE9D36F4117F91550061A80D = {
+			isa = PBXFileReference;
+			lastKnownFileType = wrapper.nib;
+			name = Italian;
+			path = Italian.lproj/KWProgress.nib;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		FE9D36F5117F91550061A80D = {
+			isa = PBXFileReference;
+			lastKnownFileType = wrapper.nib;
+			name = Italian;
+			path = Italian.lproj/KWRecorderInfo.nib;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		FE9D36F6117F91550061A80D = {
+			isa = PBXFileReference;
+			lastKnownFileType = wrapper.nib;
+			name = Italian;
+			path = Italian.lproj/MainMenu.nib;
+			refType = 4;
+			sourceTree = "<group>";
 		};
 		FE9E13EA111871A600239961 = {
 			buildPhases = (
@@ -5580,7 +5572,6 @@
 				FE9E148F111871A600239961,
 				FE9E1490111871A600239961,
 				FE9E1491111871A600239961,
-				FE9E1492111871A600239961,
 				FE9E1493111871A600239961,
 				FE9E1494111871A600239961,
 			);
@@ -5607,12 +5598,6 @@
 		};
 		FE9E1491111871A600239961 = {
 			fileRef = FE2B33071105E5A8008A027B;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
-		FE9E1492111871A600239961 = {
-			fileRef = FE9D0C231112E75A007816C0;
 			isa = PBXBuildFile;
 			settings = {
 			};
@@ -7345,7 +7330,6 @@
 				FE9E15F1111871ED00239961,
 				FE9E15F2111871ED00239961,
 				FE9E15F3111871ED00239961,
-				FE9E15F4111871ED00239961,
 				FE9E15F5111871ED00239961,
 				FE9E15F6111871ED00239961,
 			);
@@ -7372,12 +7356,6 @@
 		};
 		FE9E15F3111871ED00239961 = {
 			fileRef = FE2B33071105E5A8008A027B;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
-		FE9E15F4111871ED00239961 = {
-			fileRef = FE9D0C231112E75A007816C0;
 			isa = PBXBuildFile;
 			settings = {
 			};
