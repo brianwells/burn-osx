@@ -6,8 +6,6 @@
 	<string>Σποραδική εικόνα</string>
 	<key>Eject Disc</key>
 	<string>Εξαγωγή δίσκου</string>
-	<key>Data Help</key>
-	<string>Βοήθεια δεδομένων</string>
 	<key>Unsuported Toc file</key>
 	<string>Μη υποστηριζόμενο TOC αρχείo</string>
 	<key>Finishing...</key>
@@ -162,8 +160,6 @@
 	<string>Υπήρξε πρόβλημα στην αντιγραφή του δίσκου</string>
 	<key>UDCO</key>
 	<string>Εικόνα Συμπιεσμένη</string>
-	<key>Copy Help</key>
-	<string>Αντιγράψτε Βοήθεια</string>
 	<key>No discs, try inserting a cd/dvd.</key>
 	<string>Χωρίς δίσκο, δοκιμάστε να προσθέσετε ένα CD/DVD.</string>
 	<key>Scanning for disks...</key>
@@ -298,14 +294,10 @@ Mount the image and drop the mounted image in the window.</key>
 	<string>Αποφόρτωση εικόνας</string>
 	<key>Missing files</key>
 	<string>Λείπουν αρχεία</string>
-	<key>Audio Help</key>
-	<string>Βοήθεια ήχου</string>
 	<key>DC42</key>
 	<string>Εικόνα Disk Copy 4.2</string>
 	<key>%@ (Unknown format)</key>
 	<string>%@ (Άγνωστο είδος αρχείου)</string>
-	<key>Video Help</key>
-	<string>Βοήθεια βίντεο</string>
 	<key>Failed to copy &apos;%@&apos; to &apos;%@&apos;. %@</key>
 	<string>Αποτυχία αντιγραφής &apos;%@&apos; στο &apos;%@&apos;</string>
 	<key>UNIV</key>
@@ -316,8 +308,6 @@ Mount the image and drop the mounted image in the window.</key>
 	<string>Άνοιγμα</string>
 	<key>Failed to write &apos;%@&apos; to &apos;%@&apos;</key>
 	<string>Αποτυχία εγγραφής &apos;%@&apos; στο &apos;%@&apos;</string>
-	<key>Preferences Help</key>
-	<string>Βοήθεια Επιλογών</string>
 	<key>Time</key>
 	<string>Χρόνος</string>
 	<key>Closing track (%@)</key>

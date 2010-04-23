@@ -133,16 +133,14 @@
 	CFBundleRef myApplicationBundle = CFBundleGetMainBundle();
 	CFTypeRef myBookName = CFBundleGetValueForInfoDictionaryKey(myApplicationBundle,CFSTR("CFBundleHelpBookName"));
  
-	if ([[itemHelp title] isEqualTo:NSLocalizedString(@"Data Help",nil)])
+	if ([[itemHelp title] isEqualTo:[NSString stringWithFormat:NSLocalizedString(@"%@ Help", nil), NSLocalizedString(@"Data", nil)]])
 		AHLookupAnchor(myBookName, CFSTR("data"));
-	else if ([[itemHelp title] isEqualTo:NSLocalizedString(@"Audio Help",nil)])
+	else if ([[itemHelp title] isEqualTo:[NSString stringWithFormat:NSLocalizedString(@"%@ Help", nil), NSLocalizedString(@"Audio", nil)]])
 		AHLookupAnchor(myBookName, CFSTR("audio"));
-	else if ([[itemHelp title] isEqualTo:NSLocalizedString(@"Video Help",nil)])
+	else if ([[itemHelp title] isEqualTo:[NSString stringWithFormat:NSLocalizedString(@"%@ Help", nil), NSLocalizedString(@"Video", nil)]])
 		AHLookupAnchor(myBookName, CFSTR("video"));
-	else if ([[itemHelp title] isEqualTo:NSLocalizedString(@"Copy Help",nil)])
+	else if ([[itemHelp title] isEqualTo:[NSString stringWithFormat:NSLocalizedString(@"%@ Help", nil), NSLocalizedString(@"Copy", nil)]])
 		AHLookupAnchor(myBookName, CFSTR("copy"));
-	else if ([[itemHelp title] isEqualTo:NSLocalizedString(@"Preferences Help",nil)])
-		AHLookupAnchor(myBookName, CFSTR("preferences"));;
 }
 
 - (IBAction)newTabViewAction:(id)sender

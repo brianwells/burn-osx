@@ -6,8 +6,6 @@
 	<string>Obraz disku typu sparse</string>
 	<key>Eject Disc</key>
 	<string>Vysunout disk</string>
-	<key>Data Help</key>
-	<string>Nápověda pro Data</string>
 	<key>Unsuported Toc file</key>
 	<string>Nepodporovaný soubor Toc</string>
 	<key>Finishing...</key>
@@ -162,8 +160,6 @@
 	<string>Vyskytl se problém při kopírování disku</string>
 	<key>UDCO</key>
 	<string>Komprimovaný obraz disku</string>
-	<key>Copy Help</key>
-	<string>Náprověda pro Kopírování</string>
 	<key>No discs, try inserting a cd/dvd.</key>
 	<string>Žádné disky, zkuste vložit CD/DVD.</string>
 	<key>Scanning for disks...</key>
@@ -298,14 +294,10 @@ Připojit obraz disku a vhoďte připojený obraz disku do okna.</string>
 	<string>Odpojit obraz disku</string>
 	<key>Missing files</key>
 	<string>Chybějící soubory</string>
-	<key>Audio Help</key>
-	<string>Nápověda pro audio</string>
 	<key>DC42</key>
 	<string>Disk Copy 4.2 disku</string>
 	<key>%@ (Unknown format)</key>
 	<string>%@ (Neznámý formát)</string>
-	<key>Video Help</key>
-	<string>Nápověda pro Video</string>
 	<key>Failed to copy &apos;%@&apos; to &apos;%@&apos;. %@</key>
 	<string>Kopírování &apos;%1$@&apos; na &apos;%2$@&apos; selhalo. %3$@</string>
 	<key>UNIV</key>
@@ -316,8 +308,6 @@ Připojit obraz disku a vhoďte připojený obraz disku do okna.</string>
 	<string>Otevřít</string>
 	<key>Failed to write &apos;%@&apos; to &apos;%@&apos;</key>
 	<string>Zápis &apos;%1$@&apos; na &apos;%2$@&apos; selhal</string>
-	<key>Preferences Help</key>
-	<string>Nápověda pro předvolby</string>
 	<key>Time</key>
 	<string>Čas</string>
 	<key>Closing track (%@)</key>

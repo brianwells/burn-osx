@@ -6,8 +6,6 @@
 	<string>분할 디스크 이미지</string>
 	<key>Eject Disc</key>
 	<string>디스크 추출</string>
-	<key>Data Help</key>
-	<string>데이터 도움말</string>
 	<key>Unsuported Toc file</key>
 	<string>지원되지 않는 TOC(목차) 파일</string>
 	<key>Finishing...</key>
@@ -298,14 +296,10 @@ Mount the image and drop the mounted image in the window.</key>
 	<string>디스크 이미지 마운트 해제</string>
 	<key>Missing files</key>
 	<string>존재하지 않는 파일</string>
-	<key>Audio Help</key>
-	<string>오디오 도움말</string>
 	<key>DC42</key>
 	<string>Disk Copy 4.2의 디스크 이미지</string>
 	<key>%@ (Unknown format)</key>
 	<string>%@ (알 수 없는 포맷)</string>
-	<key>Video Help</key>
-	<string>비디오 도움말</string>
 	<key>Failed to copy &apos;%@&apos; to &apos;%@&apos;. %@</key>
 	<string>&apos;%@&apos; 를 &apos;%@&apos;로 복사하지 못하였습니다. %@</string>
 	<key>UNIV</key>
@@ -316,8 +310,6 @@ Mount the image and drop the mounted image in the window.</key>
 	<string>열기</string>
 	<key>Failed to write &apos;%@&apos; to &apos;%@&apos;</key>
 	<string>&apos;%@&apos; 를 &apos;%@&apos;에 쓰지 못하였습니다.</string>
-	<key>Preferences Help</key>
-	<string>환경설정 도움말</string>
 	<key>Time</key>
 	<string>시간</string>
 	<key>Closing track (%@)</key>

@@ -6,8 +6,6 @@
 	<string>Schijfkopie (beperkt)</string>
 	<key>Eject Disc</key>
 	<string>Verwijder schijf</string>
-	<key>Data Help</key>
-	<string>Data Help</string>
 	<key>Unsuported Toc file</key>
 	<string>Niet ondersteund Toc bestand</string>
 	<key>Finishing...</key>
@@ -162,8 +160,6 @@
 	<string>Er was een probleem bij het kopieëren van de schijf</string>
 	<key>UDCO</key>
 	<string>Schijfkopie (gecomprimeerd)</string>
-	<key>Copy Help</key>
-	<string>Kopie Help</string>
 	<key>No discs, try inserting a cd/dvd.</key>
 	<string>Geen schijven</string>
 	<key>Scanning for disks...</key>
@@ -298,14 +294,10 @@ Activeer het schijfkopie bestand en sleep de schijf in het venster.</string>
 	<string>Deactiveer</string>
 	<key>Missing files</key>
 	<string>Ontbrekende bestanden</string>
-	<key>Audio Help</key>
-	<string>Muziek Help</string>
 	<key>DC42</key>
 	<string>Disc Copy 4.2 schijfkopie</string>
 	<key>%@ (Unknown format)</key>
 	<string>%@ (Onbekend formaat)</string>
-	<key>Video Help</key>
-	<string>Video Help</string>
 	<key>Failed to copy &apos;%@&apos; to &apos;%@&apos;. %@</key>
 	<string>Kopieeren van &apos;%@&apos; naar &apos;%@&apos;. %@</string>
 	<key>UNIV</key>
@@ -316,8 +308,6 @@ Activeer het schijfkopie bestand en sleep de schijf in het venster.</string>
 	<string>Open</string>
 	<key>Failed to write &apos;%@&apos; to &apos;%@&apos;</key>
 	<string>Het schrijven van &apos;%@&apos; naar &apos;%@&apos; is mislukt</string>
-	<key>Preferences Help</key>
-	<string>Voorkeuren Help</string>
 	<key>Time</key>
 	<string>Tijd</string>
 	<key>Closing track (%@)</key>

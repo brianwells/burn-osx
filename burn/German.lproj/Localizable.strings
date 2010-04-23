@@ -6,8 +6,6 @@
 	<string>Sparse Image</string>
 	<key>Eject Disc</key>
 	<string>Disc auswerfen</string>
-	<key>Data Help</key>
-	<string>Daten Hilfe</string>
 	<key>Unsuported Toc file</key>
 	<string>Nicht unterstützte TOC-Datei</string>
 	<key>Finishing...</key>
@@ -162,8 +160,6 @@
 	<string>Beim kopieren der Disk ist ein Fehler aufgetreten</string>
 	<key>UDCO</key>
 	<string>Komprimiertes Image</string>
-	<key>Copy Help</key>
-	<string>Kopier-Hilfe</string>
 	<key>No discs, try inserting a cd/dvd.</key>
 	<string>Keine Disks. Versuche eine CD/DVD einzulegen.</string>
 	<key>Scanning for disks...</key>
@@ -298,14 +294,10 @@ Mounte das Image und wirf das gemountete Image auf dieses Fenster.</string>
 	<string>Image auswerfen</string>
 	<key>Missing files</key>
 	<string>Fehlende Dateien</string>
-	<key>Audio Help</key>
-	<string>Audio Hilfe</string>
 	<key>DC42</key>
 	<string>Disk Copy 4.2 Image</string>
 	<key>%@ (Unknown format)</key>
 	<string>%@ (Unbekanntes Format)</string>
-	<key>Video Help</key>
-	<string>Video Hilfe</string>
 	<key>Failed to copy &apos;%@&apos; to &apos;%@&apos;. %@</key>
 	<string>Kopieren von &apos;%@&apos; zu &apos;%@&apos; fehlgeschlagen</string>
 	<key>UNIV</key>
@@ -316,8 +308,6 @@ Mounte das Image und wirf das gemountete Image auf dieses Fenster.</string>
 	<string>Öffnen</string>
 	<key>Failed to write &apos;%@&apos; to &apos;%@&apos;</key>
 	<string>Schreiben von &apos;%@&apos; nach &apos;%@&apos; fehlgeschlagen</string>
-	<key>Preferences Help</key>
-	<string>Einstellung Hilfe</string>
 	<key>Time</key>
 	<string>Zeit</string>
 	<key>Closing track (%@)</key>

@@ -6,8 +6,6 @@
 	<string>Imagem esparsa</string>
 	<key>Eject Disc</key>
 	<string>Ejetar Disco</string>
-	<key>Data Help</key>
-	<string>Ajuda Dados</string>
 	<key>Unsuported Toc file</key>
 	<string>Arquivo Toc não suportado</string>
 	<key>Finishing...</key>
@@ -162,8 +160,6 @@
 	<string>Ocorreu um problema ao copiar o disco</string>
 	<key>UDCO</key>
 	<string>Imagem Comprimida</string>
-	<key>Copy Help</key>
-	<string>Ajuda Copiar</string>
 	<key>No discs, try inserting a cd/dvd.</key>
 	<string>Sem discos, tente inserindo um cd/dvd.</string>
 	<key>Scanning for disks...</key>
@@ -298,14 +294,10 @@ Monte a imagem e jogue a imagem montada na janela.</string>
 	<string>Desmontar Imagem</string>
 	<key>Missing files</key>
 	<string>Arquivos perdidos</string>
-	<key>Audio Help</key>
-	<string>Ajuda Áudio</string>
 	<key>DC42</key>
 	<string>Imagem Disk Copy 4.2</string>
 	<key>%@ (Unknown format)</key>
 	<string>%@ (Formato desconhecido)</string>
-	<key>Video Help</key>
-	<string>Ajuda Vídeo</string>
 	<key>Failed to copy &apos;%@&apos; to &apos;%@&apos;. %@</key>
 	<string>Falhou ao copiar &apos;%@&apos; para &apos;%@&apos;. %@</string>
 	<key>UNIV</key>
@@ -316,8 +308,6 @@ Monte a imagem e jogue a imagem montada na janela.</string>
 	<string>Abrir</string>
 	<key>Failed to write &apos;%@&apos; to &apos;%@&apos;</key>
 	<string>Falhou ao escrever &apos;%@&apos; para &apos;%@&apos;</string>
-	<key>Preferences Help</key>
-	<string>Ajuda das Preferências</string>
 	<key>Time</key>
 	<string>Hora</string>
 	<key>Closing track (%@)</key>

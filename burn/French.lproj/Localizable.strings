@@ -6,8 +6,6 @@
 	<string>Image-disque non compressée extensible ( &gt; 10.5)</string>
 	<key>Eject Disc</key>
 	<string>Ejecter le disque</string>
-	<key>Data Help</key>
-	<string>Aide données</string>
 	<key>Unsuported Toc file</key>
 	<string>Fichier de table d&apos;allocation inconnu</string>
 	<key>Finishing...</key>
@@ -169,8 +167,6 @@
 	<string>Il y a eu un problème lors de la copie</string>
 	<key>UDCO</key>
 	<string>Image-disque compressée</string>
-	<key>Copy Help</key>
-	<string>Aide Copie</string>
 	<key>No discs, try inserting a cd/dvd.</key>
 	<string>Pas de disques, insérez un cd/dvd.</string>
 	<key>Scanning for disks...</key>
@@ -305,14 +301,10 @@ Note: il y a un fichier mp4 protégé qui ne sera pas converti)</string>
 	<string>Dmonter l&apos;image-disque</string>
 	<key>Missing files</key>
 	<string>Fichiers manquants</string>
-	<key>Audio Help</key>
-	<string>Aide Audio</string>
 	<key>DC42</key>
 	<string>Image-disque 4.2</string>
 	<key>%@ (Unknown format)</key>
 	<string>%@ (Format inconnu)</string>
-	<key>Video Help</key>
-	<string>Aide Vidéo</string>
 	<key>Failed to copy &apos;%@&apos; to &apos;%@&apos;. %@</key>
 	<string>Impossible de copier &apos;%@&apos; vers &apos;%@&apos;. %@</string>
 	<key>UNIV</key>
@@ -323,8 +315,6 @@ Note: il y a un fichier mp4 protégé qui ne sera pas converti)</string>
 	<string>Ouvrir</string>
 	<key>Failed to write &apos;%@&apos; to &apos;%@&apos;</key>
 	<string>Impossible d&apos;crire &apos;%@&apos; vers &apos;%@&apos;</string>
-	<key>Preferences Help</key>
-	<string>Aide Préférences</string>
 	<key>Time</key>
 	<string>Durée</string>
 	<key>Closing track (%@)</key>

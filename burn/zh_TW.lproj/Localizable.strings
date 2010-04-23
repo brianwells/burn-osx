@@ -6,8 +6,6 @@
 	<string>分散映像檔</string>
 	<key>Failed to install theme in the &apos;Application Support&apos; folder</key>
 	<string>安裝在&apos;Application Support&apos; 資料夾的主題失敗</string>
-	<key>Data Help</key>
-	<string>資料輔助說明</string>
 	<key>Unsuported Toc file</key>
 	<string>未支援的 Toc 檔案</string>
 	<key>Finishing...</key>
@@ -162,8 +160,6 @@
 	<string>拷貝這個DVD發生問題</string>
 	<key>UDCO</key>
 	<string>壓縮映像檔</string>
-	<key>Copy Help</key>
-	<string>拷貝輔助說明</string>
 	<key>No discs, try inserting a cd/dvd.</key>
 	<string>沒有光碟，嘗試插入一個 cd/dvd。</string>
 	<key>Scanning for disks...</key>
@@ -298,14 +294,10 @@ Mount the image and drop the mounted image in the window.</key>
 	<string>為載入映像檔</string>
 	<key>Missing files</key>
 	<string>檔案遺失</string>
-	<key>Audio Help</key>
-	<string>音樂輔助說明</string>
 	<key>DC42</key>
 	<string>Disk Copy 4.2 映像檔</string>
 	<key>%@ (Unknown format)</key>
 	<string>%@ (未知的格式)</string>
-	<key>Video Help</key>
-	<string>影片輔助說明</string>
 	<key>Failed to copy &apos;%@&apos; to &apos;%@&apos;. %@</key>
 	<string>拷貝 &apos;%1$@&apos; 到 &apos;%2$@&apos; 失敗. %3$@</string>
 	<key>UNIV</key>
@@ -316,8 +308,6 @@ Mount the image and drop the mounted image in the window.</key>
 	<string>開啟</string>
 	<key>Failed to write &apos;%@&apos; to &apos;%@&apos;</key>
 	<string>寫入 &apos;%1$@&apos; 到 &apos;%2$@&apos; 失敗</string>
-	<key>Preferences Help</key>
-	<string>偏好設定輔助說明</string>
 	<key>Time</key>
 	<string>時間</string>
 	<key>Closing track (%@)</key>
