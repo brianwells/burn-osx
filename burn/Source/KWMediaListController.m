@@ -171,21 +171,24 @@
 	}
 	else
 	{
+		NSFileManager *defaultManager = [NSFileManager defaultManager];
+		NSMutableArray *files = [NSMutableArray array];
+		//Needed for 10.5 and lower (the Finder messes up orders)
+		NSArray *sortedPaths = [paths sortedArrayUsingSelector:@selector(localizedCaseInsensitiveCompare:)];
+	
 		int x = 0;
-		for (x=0;x<[paths count];x++)
+		for (x=0;x<[sortedPaths count];x++)
 		{
 			NSAutoreleasePool *subPool = [[NSAutoreleasePool alloc] init];
 			
 			if (cancelAddingFiles == YES)
 				break;
 			
-			NSFileManager *defaultManager = [NSFileManager defaultManager];
 			NSDirectoryEnumerator *enumer;
 			NSString* pathName;
-			NSString *realPath = [self getRealPath:[paths objectAtIndex:x]];
+			NSString *realPath = [self getRealPath:[sortedPaths objectAtIndex:x]];
 			BOOL fileIsFolder = NO;
-			NSMutableArray *files = [NSMutableArray array];
-	
+			
 			[defaultManager fileExistsAtPath:realPath isDirectory:&fileIsFolder];
 
 			if (fileIsFolder)
@@ -226,40 +229,42 @@
 						//[self performSelectorOnMainThread:@selector(addFile:isSelfEncoded:) withObject:realPath waitUntilDone:YES];
 				}
 			}
-			
-			int numberOfFiles = [files count];
-			BOOL audioCD = [currentFileSystem isEqualTo:@"-audio-cd"];
-			
-			if (audioCD)
-				[progressPanel setMaximumValue:[NSNumber numberWithInt:numberOfFiles]];
-			
-			int i = 0;
-			for (i=0;i<[files count];i++)
-			{
-				if (cancelAddingFiles == YES)
-					break;
-				
-				NSAutoreleasePool *subpool = [[NSAutoreleasePool alloc] init];
-				
-				NSString *file = [files objectAtIndex:i];
-				
-				if (audioCD)
-				{
-					NSString *fileName = [defaultManager displayNameAtPath:file];
-					[progressPanel setStatus:[NSString stringWithFormat:NSLocalizedString(@"Processing: %@ (%i of %i)", nil), fileName, i + 1, numberOfFiles]];
-				}
-				
-				[self addFile:file isSelfEncoded:nil];
-				
-				if (audioCD)
-					[progressPanel setValue:[NSNumber numberWithInt:i + 1]];
-				
-				[subpool release];
-			}
 	
 			[subPool release];
 		}
+		
+		int numberOfFiles = [files count];
+		BOOL audioCD = [currentFileSystem isEqualTo:@"-audio-cd"];
+			
+		if (audioCD)
+			[progressPanel setMaximumValue:[NSNumber numberWithInt:numberOfFiles]];
+			
+		int i = 0;
+		for (i=0;i<[files count];i++)
+		{
+			if (cancelAddingFiles == YES)
+				break;
+				
+			NSAutoreleasePool *subpool = [[NSAutoreleasePool alloc] init];
+				
+			NSString *file = [files objectAtIndex:i];
+				
+			if (audioCD)
+			{
+				NSString *fileName = [defaultManager displayNameAtPath:file];
+				[progressPanel setStatus:[NSString stringWithFormat:NSLocalizedString(@"Processing: %@ (%i of %i)", nil), fileName, i + 1, numberOfFiles]];
+			}
+				
+			[self addFile:file isSelfEncoded:nil];
+				
+			if (audioCD)
+				[progressPanel setValue:[NSNumber numberWithInt:i + 1]];
+				
+			[subpool release];
+		}
 	}
+	
+	
 	
 	cancelAddingFiles = NO;
 	currentDropRow = -1;
