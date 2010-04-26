@@ -601,14 +601,14 @@
 - (int)testFile:(NSString *)path
 {
 	NSString *displayName = [[NSFileManager defaultManager] displayNameAtPath:path];
-
+	NSString *tempFile = [[[NSUserDefaults standardUserDefaults] objectForKey:@"KWTemporaryLocation"] stringByAppendingPathComponent:@"tempkf.mpg"];
+	
 	BOOL audioWorks = YES;
 	BOOL videoWorks = YES;
 	BOOL keepGoing = YES;
 
 	while (keepGoing == YES)
 	{
-		NSString *tempFile = [[[NSUserDefaults standardUserDefaults] objectForKey:@"KWTemporaryLocation"] stringByAppendingPathComponent:@"tempkf.mpg"];
 		NSMutableArray *arguments = [NSMutableArray arrayWithObjects:@"-t",@"0.1",@"-threads",[[NSNumber numberWithInt:[[[NSUserDefaults standardUserDefaults] objectForKey:@"KWEncodingThreads"] intValue]] stringValue],@"-i",path,@"-target",@"pal-vcd", nil];
 			
 		if (videoWorks == NO)
@@ -760,9 +760,9 @@
 				return 0;
 			}
 		}
-		
-		[KWCommonMethods removeItemAtPath:tempFile];
 	}
+	
+	[KWCommonMethods removeItemAtPath:tempFile];
 	
 	return 0;
 }

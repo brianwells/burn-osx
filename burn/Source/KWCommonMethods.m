@@ -181,7 +181,9 @@
 
 + (NSString *)temporaryLocation:(NSString *)file saveDescription:(NSString *)description
 {
-	if ([[[NSUserDefaults standardUserDefaults] objectForKey:@"KWTemporaryLocationPopup"] intValue] == 2)
+	NSUserDefaults *standardDefaults = [NSUserDefaults standardUserDefaults];
+
+	if ([[standardDefaults objectForKey:@"KWTemporaryLocationPopup"] intValue] == 2)
 	{
 		NSSavePanel *sheet = [NSSavePanel savePanel];
 		[sheet setMessage:description];
@@ -195,7 +197,17 @@
 	}
 	else
 	{
-		return [KWCommonMethods uniquePathNameFromPath:[[[NSUserDefaults standardUserDefaults] objectForKey:@"KWTemporaryLocation"] stringByAppendingPathComponent:file]];
+		NSString *temporaryFile =  [KWCommonMethods uniquePathNameFromPath:[[standardDefaults objectForKey:@"KWTemporaryLocation"] stringByAppendingPathComponent:file]];
+		
+		//Save the temporary files, when they should be deleted
+		if ([[standardDefaults objectForKey:@"KWCleanTemporaryFolderAction"] intValue] == 1 && [[standardDefaults objectForKey:@"KWTemporaryLocationPopup"] intValue] != 2)
+		{
+			NSMutableArray *temporaryFiles = [NSMutableArray arrayWithArray:[standardDefaults objectForKey:@"KWTemporaryFiles"]];
+			[temporaryFiles addObject:temporaryFile];
+			[standardDefaults setObject:temporaryFiles forKey:@"KWTemporaryFiles"];
+		}
+		
+		return temporaryFile;
 	}
 }
 

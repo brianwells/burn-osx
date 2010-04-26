@@ -75,6 +75,7 @@
 														@"KWEncodingThreads",
 														@"KWSimulateBurn",
 														@"KWDVDAspectMode",
+														@"KWTemporaryFiles",
 	nil];
 
 	NSArray *defaultValues = [NSArray arrayWithObjects:	[NSNumber numberWithBool:YES],		// KWUseSoundEffects
@@ -145,6 +146,7 @@
 														[NSNumber numberWithInt:8],			//KWEncodingThreads
 														[NSNumber numberWithBool:NO],		//KWSimulateBurn
 														[NSNumber numberWithInt:0],			//KWDVDAspectMode
+														[NSArray array],					//KWTemporaryFiles
 	nil];
 
 	NSDictionary *appDefaults = [NSDictionary dictionaryWithObjects:defaultValues forKeys:defaultKeys];

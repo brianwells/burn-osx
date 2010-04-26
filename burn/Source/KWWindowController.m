@@ -514,18 +514,16 @@
 
 	if ([[standardDefaults objectForKey:@"KWCleanTemporaryFolderAction"] intValue] == 1 && [[standardDefaults objectForKey:@"KWTemporaryLocationPopup"] intValue] != 2)
 	{
-		NSString *temporaryLocation = [standardDefaults objectForKey:@"KWTemporaryLocation"];
-		NSFileManager *defaultManager = [NSFileManager defaultManager];
-		NSArray *files = [defaultManager directoryContentsAtPath:temporaryLocation];
+		NSArray *files = [standardDefaults objectForKey:@"KWTemporaryFiles"];
 	
 		int i;
 		for (i=0;i<[files count];i++)
 		{
 			NSString *path = [files objectAtIndex:i];
-		
-			if (![path isEqualTo:@".localized"] && ![path isEqualTo:@"Icon\r"])
-				[KWCommonMethods removeItemAtPath:[temporaryLocation stringByAppendingPathComponent:path]];
+			[KWCommonMethods removeItemAtPath:path];
 		}
+		
+		[standardDefaults setObject:[NSArray array] forKey:@"KWTemporaryFiles"];
 	}
 	
 	if ([standardDefaults boolForKey:@"KWFirstRun"] == YES)
