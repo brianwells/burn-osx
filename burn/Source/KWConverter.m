@@ -1057,7 +1057,9 @@
 {
 	status = 2;
 	NSArray *arguments = [NSArray arrayWithObjects:@"-threads",[[NSNumber numberWithInt:[[[NSUserDefaults standardUserDefaults] objectForKey:@"KWEncodingThreads"] intValue]] stringValue],@"-i",path,@"-y",@"-acodec",@"copy",@"-vcodec",@"copy",@"-target",@"dvd",outFile,nil];
-	BOOL result = [KWCommonMethods launchNSTaskAtPath:[KWCommonMethods ffmpegPath] withArguments:arguments outputError:YES outputString:YES output:nil];
+	//Not used yet
+	NSString *errorsString;
+	BOOL result = [KWCommonMethods launchNSTaskAtPath:[KWCommonMethods ffmpegPath] withArguments:arguments outputError:YES outputString:YES output:&errorsString];
 	status = 0;
 	
 	if (result)
@@ -1097,7 +1099,9 @@
 	{
 		status = 2;
 		NSArray *arguments = [NSArray arrayWithObjects:@"-threads",[[NSNumber numberWithInt:[[[NSUserDefaults standardUserDefaults] objectForKey:@"KWEncodingThreads"] intValue]] stringValue],@"-i",path,@"-threads",[[NSNumber numberWithInt:[[[NSUserDefaults standardUserDefaults] objectForKey:@"KWEncodingThreads"] intValue]] stringValue],@"-i",audioFile,@"-y",@"-acodec",@"copy",@"-vcodec",@"copy",@"-target",@"dvd",outputPath,nil];
-		BOOL result = [KWCommonMethods launchNSTaskAtPath:[KWCommonMethods ffmpegPath] withArguments:arguments outputError:YES outputString:YES output:nil];
+		//Not used yet
+		NSString *errorsString;
+		BOOL result = [KWCommonMethods launchNSTaskAtPath:[KWCommonMethods ffmpegPath] withArguments:arguments outputError:YES outputString:YES output:&errorsString];
 		status = 0;
 
 		if (result)

@@ -656,7 +656,9 @@
 		path = object;
 		
 	NSArray *arguments = [NSArray arrayWithObjects:@"mount",path,nil];
-	[KWCommonMethods launchNSTaskAtPath:@"/usr/bin/hdiutil" withArguments:arguments outputError:NO outputString:YES output:nil];
+	
+	NSString *errorsString;
+	[KWCommonMethods launchNSTaskAtPath:@"/usr/bin/hdiutil" withArguments:arguments outputError:NO outputString:YES output:&errorsString];
 	
 	NSNotificationCenter *workspaceCenter = [[NSWorkspace sharedWorkspace] notificationCenter];
 	[workspaceCenter addObserver:self selector:@selector(deviceUnmounted:) name:NSWorkspaceDidUnmountNotification object:nil];
