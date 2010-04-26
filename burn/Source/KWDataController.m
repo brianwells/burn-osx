@@ -1381,7 +1381,8 @@ static NSString*	EDBCurrentSelection							= @"EDBCurrentSelection";
     }
 	else if ([pboard availableTypeFromArray:[NSArray arrayWithObjects:NSFilenamesPboardType, nil]] != nil) 
 	{
-		NSArray* 		paths = [pboard propertyListForType:NSFilenamesPboardType];
+		//Needed for 10.5 and lower (the Finder messes up orders)
+		NSArray *paths = [[pboard propertyListForType:NSFilenamesPboardType] sortedArrayUsingSelector:@selector(localizedCaseInsensitiveCompare:)];
 		NSEnumerator*	iter = [paths objectEnumerator];
 		NSString*		path;
 		
