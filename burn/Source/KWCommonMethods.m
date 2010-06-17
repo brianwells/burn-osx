@@ -1183,7 +1183,10 @@
 	}
 		
 	if (z == 0)
+	{
+		*error = @"Missing files in the VIDEO_TS Folder";
 		succes = 1;
+	}
 		
 	return succes;
 	#else
