@@ -83,14 +83,20 @@
 {
 	fclose(file);
 	
-	if (folderPath)
+	if (folderPath) {
 		[folderPath release];
+		folderPath = nil;
+	}
 	
-	if (discName)
+	if (discName) {
 		[discName release];
+		discName = nil;
+	}
 	
-	if (mpegFiles)
+	if (mpegFiles) {
 		[mpegFiles release];
+		mpegFiles = nil;
+	}
 }
 
 @end
