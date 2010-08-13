@@ -299,6 +299,7 @@
 		[dict setObject:[NSNumber numberWithInt:sessionFormat] forKey:DRSessionFormatKey];
 		[dict setObject:[NSNumber numberWithInt:trackMode] forKey:DRTrackModeKey];
 		[dict setObject:DRSCMSCopyrightFree forKey:DRSerialCopyManagementStateKey];
+		[dict setObject:DRVerificationTypeNone forKey:DRVerificationTypeKey];	// verify not supported for CUE files ?
 	
 		if (firstTrack == YES)
 		{
@@ -421,6 +422,7 @@
 			[dict setObject:[NSNumber numberWithInt:0] forKey:DRSessionFormatKey];
 			[dict setObject:[NSNumber numberWithInt:0] forKey:DRTrackModeKey];
 			[dict setObject:[currentTrack objectForKey:@"Pre-Emphasis Enabled"] forKey:DRAudioPreEmphasisKey];
+			[dict setObject:DRVerificationTypeNone forKey:DRVerificationTypeKey];	// verify not supported for Audio CDs
 		
 			[track setProperties:dict];
 		
@@ -454,7 +456,7 @@
 	[properties setObject:[NSNumber numberWithInt:0] forKey:DRTrackModeKey];
 	[properties setObject:path forKey:@"KWAudioPath"];
 	[properties setObject:[NSNumber numberWithBool:YES] forKey:@"KWFirstTrack"];
-	[properties setObject:DRVerificationTypeNone forKey:DRVerificationTypeKey];
+	[properties setObject:DRVerificationTypeNone forKey:DRVerificationTypeKey];	// verify not supported for Audio CDs
 		
 	[track setProperties:properties];
 
@@ -662,6 +664,7 @@
 	[dict setObject:[NSNumber numberWithInt:kDRSessionFormatMode1Data] forKey:DRSessionFormatKey];
 	[dict setObject:[NSNumber numberWithInt:kDRTrackMode1Data] forKey:DRTrackModeKey];
 	[dict setObject:[NSNumber numberWithBool:YES] forKey:@"KWFirstTrack"];
+	[dict setObject:DRVerificationTypeChecksum forKey:DRVerificationTypeKey];
 		
 	[track setProperties:dict];
 
