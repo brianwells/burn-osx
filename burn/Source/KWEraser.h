@@ -17,6 +17,7 @@
 	BOOL shouldClose;
 	SEL endSelector;
 	id endDelegate;
+	DRDevice *reservedDevice;
 }
 //Main actions
 - (void)setupWindow;
@@ -38,5 +39,6 @@
 //Other actions
 - (DRDevice *)currentDevice;
 - (DRDevice *)savedDevice;
+- (void)reserveDevice:(DRDevice *)device;
 
 @end

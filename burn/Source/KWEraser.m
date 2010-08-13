@@ -7,6 +7,7 @@
 {
 	self = [super init];
 
+	reservedDevice = nil;
 	shouldClose = NO;
 	[NSBundle loadNibNamed:@"KWEraser" owner:self];
 
@@ -15,6 +16,7 @@
 
 - (void)dealloc
 {
+	[self reserveDevice:nil];
 	[super dealloc];
 }
 
@@ -106,6 +108,7 @@
 
 - (void)updateDevice:(DRDevice *)device
 {
+	[self reserveDevice:device];
 	NSDictionary *deviceStatus = [device status];
 	NSString *statusString = [deviceStatus objectForKey:DRDeviceMediaStateKey];
 
@@ -340,6 +343,15 @@
 	}
 	
 	return [devices objectAtIndex:0];
+}
+
+- (void)reserveDevice:(DRDevice *)device
+{
+	[device acquireMediaReservation];
+	[device retain];
+	[reservedDevice releaseMediaReservation];
+	[reservedDevice release];
+	reservedDevice = device;
 }
 
 @end

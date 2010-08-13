@@ -40,6 +40,7 @@
 	BOOL ignoreMode;
 	BOOL isOverwritable;
 	NSNumber *layerBreak;
+	DRDevice *reservedDevice;
 }
 
 //Main actions
@@ -80,6 +81,7 @@
 - (int)currentType;
 - (void)addBurnProperties:(NSDictionary *)properties;
 - (NSDictionary *)properties;
+- (void)reserveDevice:(DRDevice *)device;
 
 @end
 

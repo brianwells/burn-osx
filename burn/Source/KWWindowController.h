@@ -32,6 +32,7 @@
 	KWEjecter *ejecter;
 	KWProgress *progressPanel;
 	BOOL discInserted;
+	DRDevice *reservedDevice;
 }
 
 //Main window actions
@@ -59,5 +60,6 @@
 //Other actions
 - (NSString *)getRecorderDisplayNameForDevice:(DRDevice *)device;
 - (void)open:(NSString *)pathname;
+- (void)reserveDevice:(DRDevice *)device;
 
 @end

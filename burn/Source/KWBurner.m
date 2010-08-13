@@ -9,6 +9,7 @@
 {
 	self = [super init];
 
+	reservedDevice = nil;
 	shouldClose = NO;
 	userCanceled = NO;
 	ignoreMode = NO;
@@ -26,6 +27,7 @@
 		imagePath = nil;
 	}
 
+	[self reserveDevice:nil];
 	[super dealloc];
 }
 
@@ -351,6 +353,7 @@
 
 - (void)updateDevice:(DRDevice *)device
 {
+	[self reserveDevice:device];
 	if (ignoreMode == YES)
 	{
 		[eraseCheckBox setEnabled:YES];
@@ -947,6 +950,15 @@ return [[[[savedDevice status] objectForKey:DRDeviceMediaInfoKey] objectForKey:D
 - (NSDictionary *)properties
 {
 	return properties;
+}
+
+- (void)reserveDevice:(DRDevice *)device
+{
+	[device acquireMediaReservation];
+	[device retain];
+	[reservedDevice releaseMediaReservation];
+	[reservedDevice release];
+	reservedDevice = device;
 }
 
 @end

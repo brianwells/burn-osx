@@ -22,6 +22,8 @@
 
 - (void)dealloc 
 {
+	[self reserveDevice:nil];
+
 	[[NSNotificationCenter defaultCenter] removeObserver:self];
 
 	DRNotificationCenter *burnNotificationCenter = [DRNotificationCenter currentRunLoopCenter];
@@ -35,6 +37,9 @@
 - (void)awakeFromNib
 {
 	DRDevice *currentDevice = [KWCommonMethods getCurrentDevice];
+
+	reservedDevice = nil;
+	[self reserveDevice:currentDevice];
 
 	if ([[DRDevice devices] count] > 0)
 	{
@@ -103,6 +108,8 @@
 		[[NSUserDefaults standardUserDefaults] setObject:burnDict forKey:@"KWDefaultDeviceIdentifier"];
 	
 		[[NSNotificationCenter defaultCenter] postNotificationName:@"KWMediaChanged" object:nil];
+
+		[self reserveDevice:[KWCommonMethods getCurrentDevice]];
 	}
 }
 
@@ -529,6 +536,15 @@
 	if ([standardDefaults boolForKey:@"KWFirstRun"] == YES)
 		[standardDefaults setObject:[NSNumber numberWithBool:NO] forKey:@"KWFirstRun"];
 	return YES;
+}
+
+- (void)reserveDevice:(DRDevice *)device
+{
+	[device acquireMediaReservation];
+	[device retain];
+	[reservedDevice releaseMediaReservation];
+	[reservedDevice release];
+	reservedDevice = device;
 }
 
 @end
