@@ -330,12 +330,12 @@ return self;
 {
 	NSString *completionAction;
 
-	if ([[[completionActionMatrix cells] objectAtIndex:0] state] == NSOnState)
+	if ([sender selectedCell] == [[sender cells] objectAtIndex:0])
 		completionAction = @"DRBurnCompletionActionEject";
 	else
 		completionAction = @"DRBurnCompletionActionMount";
 
-	[[NSUserDefaults standardUserDefaults] setObject:@"DRBurnCompletionActionMount" forKey:@"KWBurnOptionsCompletionAction"];
+	[[NSUserDefaults standardUserDefaults] setObject:completionAction forKey:@"KWBurnOptionsCompletionAction"];
 }
 
 //Video
