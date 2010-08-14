@@ -664,8 +664,12 @@
 	[dict setObject:[NSNumber numberWithInt:kDRSessionFormatMode1Data] forKey:DRSessionFormatKey];
 	[dict setObject:[NSNumber numberWithInt:kDRTrackMode1Data] forKey:DRTrackModeKey];
 	[dict setObject:[NSNumber numberWithBool:YES] forKey:@"KWFirstTrack"];
-	[dict setObject:DRVerificationTypeChecksum forKey:DRVerificationTypeKey];
-		
+	if ([KWCommonMethods OSVersion] >= 0x1040) {
+		[dict setObject:@"DRVerificationTypeChecksum" forKey:DRVerificationTypeKey];
+	} else {
+		[dict setObject:DRVerificationTypeNone forKey:DRVerificationTypeKey];
+	}
+
 	[track setProperties:dict];
 
 	return track;
