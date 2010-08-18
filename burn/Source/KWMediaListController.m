@@ -107,7 +107,7 @@
 }
 
 //Bogusmethod used in subclass
-- (void)addFile:(NSString *)path isSelfEncoded:(BOOL)selfEncoded{}
+- (void)addFile:(id)file isSelfEncoded:(BOOL)selfEncoded{}
 
 //Add a DVD-Folder and delete the rest
 - (void)addDVDFolder:(NSString *)path
@@ -333,6 +333,7 @@
 	
 	NSDictionary *options = [NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:path, convertExtension, [[NSUserDefaults standardUserDefaults] objectForKey:@"KWDefaultRegion"], [NSNumber numberWithInt:convertKind], nil]  forKeys:[NSArray arrayWithObjects:@"KWConvertDestination", @"KWConvertExtension", @"KWConvertRegion", @"KWConvertKind", nil]];
 	NSString *errorString;
+	
 	int result = [converter batchConvert:filePaths withOptions:options errorString:&errorString];
 
 	NSArray *succeededFiles = [NSArray arrayWithArray:[converter succesArray]];

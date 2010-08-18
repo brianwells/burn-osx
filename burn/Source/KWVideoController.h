@@ -28,7 +28,7 @@
 }
 
 //Main actions
-- (void)addFile:(NSString *)path isSelfEncoded:(BOOL)selfEncoded;
+- (void)addFile:(id)file isSelfEncoded:(BOOL)selfEncoded;
 
 //Disc creation actions
 //Set type temporary to video for burning

@@ -183,8 +183,14 @@
 }
 
 //Add the file to the tableview
-- (void)addFile:(NSString *)path isSelfEncoded:(BOOL)selfEncoded
+- (void)addFile:(id)file isSelfEncoded:(BOOL)selfEncoded
 {
+	NSString *path;
+	if ([file isKindOfClass:[NSString class]])
+		path = file;
+	else
+		path = [file objectForKey:@"Path"];
+
 	int selrow = [tableViewPopup indexOfSelectedItem];
 
 	NSString *fileType = NSFileTypeForHFSTypeCode([[[[NSFileManager defaultManager] fileAttributesAtPath:path traverseLink:YES] objectForKey:NSFileHFSTypeCode] longValue]);

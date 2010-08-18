@@ -61,7 +61,7 @@
 //Delete the selected row(s)
 - (IBAction)deleteFiles:(id)sender;
 //Bogusmethod used in subclass
-- (void)addFile:(NSString *)path isSelfEncoded:(BOOL)selfEncoded;
+- (void)addFile:(id)file isSelfEncoded:(BOOL)selfEncoded;
 //Add a DVD-Folder and delete the rest
 - (void)addDVDFolder:(NSString *)path;
 //Check files in a seperate thread
