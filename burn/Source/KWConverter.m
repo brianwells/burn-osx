@@ -75,7 +75,9 @@
 		
 			if (output == 0)
 			{
-				[convertedFiles addObject:encodedOutputFile];
+				NSDictionary *output = [NSDictionary dictionaryWithObjectsAndKeys:encodedOutputFile, @"Path", [KWCommonMethods quicktimeChaptersFromFile:currentPath], @"Chapters", nil];
+			
+				[convertedFiles addObject:output];
 			}
 			else if (output == 1)
 			{

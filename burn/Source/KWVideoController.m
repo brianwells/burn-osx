@@ -78,8 +78,21 @@
 #pragma mark -
 #pragma mark •• Main actions
 
-- (void)addFile:(NSString *)path isSelfEncoded:(BOOL)selfEncoded
+- (void)addFile:(id)file isSelfEncoded:(BOOL)selfEncoded
 {
+	NSString *path;
+	NSMutableArray *chapters = [NSMutableArray array];
+	
+	if ([file isKindOfClass:[NSString class]])
+	{
+		path = file;
+	}
+	else
+	{
+		chapters = [file objectForKey:@"Chapters"];
+		path = [file objectForKey:@"Path"];
+	}
+
 	BOOL isWide;
 	BOOL unsavediMovieProject = NO;
 	int selrow = [tableViewPopup indexOfSelectedItem];
@@ -194,7 +207,7 @@
 				if (selrow == 2)
 				{
 					[rowData setObject:[NSNumber numberWithBool:isWide] forKey:@"WideScreen"];
-					[rowData setObject:[NSArray array] forKey:@"Chapters"];
+					[rowData setObject:chapters forKey:@"Chapters"];
 				}
 				
 				float displaySize = [[attrib objectForKey:NSFileSize] floatValue];

@@ -22,7 +22,9 @@
 
 //String format actions
 //Format time (example: 90 seconds to 00:00:90)
-+ (NSString *)formatTime:(int)totalSeconds;
++ (NSString *)formatTime:(int)time;
+//Format time for chapters on DVD (exact: 90 seconds to 00:00:90.00)
++ (NSString *)formatTimeForChapter:(float)time;
 //Make 1048576 bytes look like 1 MB
 + (NSString *)makeSizeFromFloat:(float)size;
 
@@ -103,5 +105,7 @@
 + (BOOL)launchNSTaskAtPath:(NSString *)path withArguments:(NSArray *)arguments outputError:(BOOL)error outputString:(BOOL)string output:(id *)data;
 //Standard informative alert
 + (void)standardAlertWithMessageText:(NSString *)message withInformationText:(NSString *)information withParentWindow:(NSWindow *)parent;
+//Get chapters using QTKit
++ (NSMutableArray *)quicktimeChaptersFromFile:(NSString *)path;
 
 @end

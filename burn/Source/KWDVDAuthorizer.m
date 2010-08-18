@@ -128,7 +128,7 @@
 			for (i=0;i<[chapters count];i++)
 			{
 				NSDictionary *chapterDictionary = [chapters objectAtIndex:i];
-				int time = [[chapterDictionary objectForKey:@"RealTime"] intValue];
+				float time = [[chapterDictionary objectForKey:@"RealTime"] floatValue];
 				
 				if (time > 0)
 				{
@@ -137,8 +137,8 @@
 						endString = @",";
 					else
 						endString = @"\"";
-				
-					xmlFile = [NSString stringWithFormat:@"%@%@%@", xmlFile, [KWCommonMethods formatTime:time], endString];
+					
+					xmlFile = [NSString stringWithFormat:@"%@%@%@", xmlFile, [KWCommonMethods formatTimeForChapter:time], endString];
 				}
 			}
 		}
@@ -571,9 +571,9 @@
 		
 		NSArray *arguments;
 		if ([[standardUserDefaults objectForKey:@"KWDVDThemeFormat"] intValue] == 0)
-			arguments = [NSArray arrayWithObjects:@"-f",@"image2pipe",@"-threads",[[NSNumber numberWithInt:[[[NSUserDefaults standardUserDefaults] objectForKey:@"KWEncodingThreads"] intValue]] stringValue],@"-i",@"pipe:.jpg",@"-target",format,@"-",@"-an",nil];
+			arguments = [NSArray arrayWithObjects: @"-shortest", @"-f",@"image2pipe",@"-threads",[[NSNumber numberWithInt:[[[NSUserDefaults standardUserDefaults] objectForKey:@"KWEncodingThreads"] intValue]] stringValue], @"-i",@"pipe:.jpg",@"-f", @"s16le", @"-ac", @"2", @"-i", @"/dev/zero",@"-target",format,@"-",@"-an",nil];
 		else
-			arguments = [NSArray arrayWithObjects:@"-f",@"image2pipe",@"-threads",[[NSNumber numberWithInt:[[[NSUserDefaults standardUserDefaults] objectForKey:@"KWEncodingThreads"] intValue]] stringValue],@"-i",@"pipe:.jpg",@"-target",format,@"-",@"-an",@"-aspect",@"16:9",nil];
+			arguments = [NSArray arrayWithObjects: @"-shortest", @"-f",@"image2pipe",@"-threads",[[NSNumber numberWithInt:[[[NSUserDefaults standardUserDefaults] objectForKey:@"KWEncodingThreads"] intValue]] stringValue], @"-i",@"pipe:.jpg",@"-f", @"s16le", @"-ac", @"2", @"-i", @"/dev/zero", @"-target",format,@"-",@"-an",@"-aspect",@"16:9",nil];
 	
 		[ffmpeg setArguments:arguments];
 		[ffmpeg setStandardInput:pipe];
@@ -601,7 +601,16 @@
 	
 		NSData *tiffData = [image TIFFRepresentation];
 		NSBitmapImageRep *bitmap = [NSBitmapImageRep imageRepWithData:tiffData];
-		[myHandle writeData:[bitmap representationUsingType:NSJPEGFileType properties:[NSDictionary dictionaryWithObject:[NSNumber numberWithFloat:1.0] forKey:NSImageCompressionFactor]]];
+		
+		NSData *jpgData = [bitmap representationUsingType:NSJPEGFileType properties:[NSDictionary dictionaryWithObject:[NSNumber numberWithFloat:1.0] forKey:NSImageCompressionFactor]];
+		
+		int q = 0;
+		while (q < 25)
+		{
+			q = q + 1;
+			[myHandle writeData:jpgData];
+		}
+		
 		[myHandle closeFile];
 
 		[ffmpeg waitUntilExit];
@@ -800,7 +809,7 @@
 			for (x=0;x<[chapters count];x++)
 			{
 				NSDictionary *currentChapter = [chapters objectAtIndex:x];
-				int time = [[currentChapter objectForKey:@"RealTime"] intValue];
+				float time = [[currentChapter objectForKey:@"RealTime"] floatValue];
 				
 				if (time > 0)
 				{
@@ -809,8 +818,10 @@
 						endString = @",";
 					else
 						endString = @"\"";
-				
-					xmlContent = [NSString stringWithFormat:@"%@%@%@", xmlContent, [KWCommonMethods formatTime:time], endString];
+					
+					NSLog([KWCommonMethods formatTimeForChapter:time]);
+					
+					xmlContent = [NSString stringWithFormat:@"%@%@%@", xmlContent, [KWCommonMethods formatTimeForChapter:time], endString];
 				}
 			}
 		}

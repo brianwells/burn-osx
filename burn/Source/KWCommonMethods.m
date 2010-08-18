@@ -77,6 +77,16 @@
 	return [NSString stringWithFormat:@"%02.0f:%02.0f:%02.0f", hours, minutes, seconds];
 }
 
++ (NSString *)formatTimeForChapter:(float)time
+{
+	int hours = (int)time / 60 / 60;
+	int minutes = (int)time / 60 - (hours * 60);
+	int seconds = (int)time - ((int)minutes * 60) - ((int)hours * 60 * 60);
+	float frames = (time - (int)time) * 100;	
+
+	return [NSString stringWithFormat:@"%02.0f:%02.0f:%02.0f.%02.0f", (float)hours, (float)minutes, (float)seconds, frames];
+}
+
 + (NSString *)makeSizeFromFloat:(float)size
 {
 	float blockSize;
@@ -93,8 +103,6 @@
 		else
 			return [NSString localizedStringWithFormat: NSLocalizedString(@"%.0f KB", nil), size];
 	}
-	
-	
 		
 	BOOL isKB = (size < blockSize * blockSize);
 	BOOL isMB = (size < blockSize * blockSize * blockSize);
@@ -1289,6 +1297,45 @@
 		[alert beginSheetModalForWindow:parent modalDelegate:self didEndSelector:nil contextInfo:nil];
 	else
 		[alert runModal];
+}
+
++ (NSMutableArray *)quicktimeChaptersFromFile:(NSString *)path
+{
+	NSMutableArray *chapters = [NSMutableArray array];
+			
+	if ([KWCommonMethods isQuickTimeSevenInstalled] && [KWCommonMethods OSVersion] >= 0x1050)
+	{
+		if ([QTMovie canInitWithFile:path])
+		{
+			QTMovie *movie = [QTMovie movieWithFile:path error:nil];
+			NSArray *qtChapters = [movie chapters];
+			
+			if (qtChapters)
+			{
+				int i;
+				for (i=0;i<[qtChapters count];i++)
+				{
+					NSDictionary *qtChapter = [qtChapters objectAtIndex:i];
+					NSString *title = [qtChapter objectForKey:@"QTMovieChapterName"];
+					QTTime qtTime = [[qtChapter objectForKey:@"QTMovieChapterStartTime"] QTTimeValue];
+					int seconds = (int)qtTime.timeValue/(int)qtTime.timeScale;
+					float frames = (((float)qtTime.timeValue/(float)qtTime.timeScale) - seconds) * ((float)qtTime.timeScale / 1000) / 2;
+					float time = seconds + frames;
+				
+					NSMutableDictionary *rowData = [NSMutableDictionary dictionary];
+
+					[rowData setObject:[KWCommonMethods formatTime:time] forKey:@"Time"];
+					[rowData setObject:title forKey:@"Title"];
+					[rowData setObject:[NSNumber numberWithFloat:time] forKey:@"RealTime"];
+					[rowData setObject:[[movie frameImageAtTime:qtTime] TIFFRepresentationUsingCompression:NSTIFFCompressionLZW factor:0] forKey:@"Image"];
+					
+					[chapters addObject:rowData];
+				}
+			}
+		}
+	}
+	
+	return chapters;
 }
 
 @end
