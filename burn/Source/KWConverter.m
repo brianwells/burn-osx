@@ -65,6 +65,7 @@
 			
 			useWav = (output == 2 | output == 4 | output == 8);
 			useQuickTime = (output == 2 | output == 3 | output == 6);
+			copyAudio = [self containsAC3:currentPath];
 			
 			if (useWav)
 				output = [self encodeAudioAtPath:currentPath];
@@ -325,11 +326,29 @@
 	else if (convertKind == 3)
 	{
 		[args addObjectsFromArray:[NSArray arrayWithObjects:@"-target",ffmpegFormat,@"-ac",@"2",@"-aspect",aspect,@"-acodec",nil]];
+		
+		if (copyAudio == NO)
+		{
+			if ([[defaults objectForKey:@"KWDefaultDVDSoundType"] intValue] == 0)
+				[args addObject:@"mp2"];
+			else
+				[args addObject:@"ac3"];
 				
-		if ([[defaults objectForKey:@"KWDefaultDVDSoundType"] intValue] == 0)
-			[args addObject:@"mp2"];
+			if ([defaults boolForKey:@"KWCustomDVDSoundBitrate"])
+			{
+				[args addObject:@"-ab"];
+				[args addObject:[NSString stringWithFormat:@"%i", [[defaults objectForKey:@"KWDefaultDVDSoundBitrate"] intValue] * 1000]];
+			}
+			else if ([[defaults objectForKey:@"KWDefaultDVDSoundType"] intValue] == 0)
+			{
+				[args addObject:@"-ab"];
+				[args addObject:@"224000"];
+			}
+		}
 		else
-			[args addObject:@"ac3"];
+		{
+			[args addObject:@"copy"];
+		}
 					
 		if ([defaults boolForKey:@"KWCustomDVDVideoBitrate"])
 		{
@@ -337,16 +356,7 @@
 			[args addObject:[NSString stringWithFormat:@"%i", [[defaults objectForKey:@"KWDefaultDVDVideoBitrate"] intValue] * 1000]];
 		}
 					
-		if ([defaults boolForKey:@"KWCustomDVDSoundBitrate"])
-		{
-			[args addObject:@"-ab"];
-			[args addObject:[NSString stringWithFormat:@"%i", [[defaults objectForKey:@"KWDefaultDVDSoundBitrate"] intValue] * 1000]];
-		}
-		else if ([[defaults objectForKey:@"KWDefaultDVDSoundType"] intValue] == 0)
-		{
-			[args addObject:@"-ab"];
-			[args addObject:@"224000"];
-		}
+		
 	}
 	else if (convertKind == 5)
 	{
@@ -1000,6 +1010,17 @@
 	
 	if (string)
 		return ([[[path pathExtension] lowercaseString] isEqualTo:@"avi"] && ([string rangeOfString:@"Video: mpeg4"].length > 0 | ([[NSUserDefaults standardUserDefaults] boolForKey:@"KWAllowMSMPEG4"] == YES && [string rangeOfString:@"Video: msmpeg4"].length > 0)));
+
+	return NO;
+}
+
+//Check for ac3 audio
+- (BOOL)containsAC3:(NSString *)path
+{
+	NSString *string = [self ffmpegOutputForPath:path];
+	
+	if (string)
+		return ([string rangeOfString:@"Audio: ac3"].length > 0);
 
 	return NO;
 }

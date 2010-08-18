@@ -39,6 +39,7 @@
 	
 	BOOL useWav;
 	BOOL useQuickTime;
+	BOOL copyAudio;
 }
 
 //Encode actions
@@ -72,6 +73,8 @@
 - (BOOL)isDVD:(NSString *)path isWideAspect:(BOOL *)wideAspect;
 //Check if the file is a valid MPEG4 file (return YES if it is valid)
 - (BOOL)isMPEG4:(NSString *)path;
+//Check for ac3 audio
+- (BOOL)containsAC3:(NSString *)path;
 
 //Framework actions
 - (NSArray *)succesArray;
