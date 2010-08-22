@@ -91,6 +91,7 @@
 - (BOOL)isCompatible;
 - (BOOL)isOnlyHFSPlus;
 - (void)deleteTemporayFiles:(BOOL)needed;
+- (void)saveDataPopup:(id)sender;
 
 //Inspector actions
 - (void)volumeLabelSelected:(NSNotification *)notif;
