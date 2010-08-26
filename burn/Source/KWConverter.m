@@ -262,10 +262,21 @@
 	
 	[ffmpeg setLaunchPath:[KWCommonMethods ffmpegPath]];
 	
-	NSMutableArray *args = [NSMutableArray arrayWithObjects:@"-threads", [[defaults objectForKey:@"KWEncodingThreads"] stringValue], nil];
+	NSMutableArray *args;
+	
+	//QuickTime movie containers don't seem to like threads so only use it for the output file
+	NSString *pathExtension = [path pathExtension];
+	if ([pathExtension isEqualTo:@"mov"] | [pathExtension isEqualTo:@"m4v"] | [pathExtension isEqualTo:@"mp4"])
+		args = [NSMutableArray array];
+	else
+		args = [NSMutableArray arrayWithObjects:@"-threads", [[defaults objectForKey:@"KWEncodingThreads"] stringValue], nil];
+	
 	[args addObjectsFromArray:quicktimeOptions];
 	[args addObjectsFromArray:wavOptions];
 	[args addObjectsFromArray:inputOptions];
+	
+	if ([pathExtension isEqualTo:@"mov"] | [pathExtension isEqualTo:@"m4v"] | [pathExtension isEqualTo:@"mp4"])
+		[args addObjectsFromArray:[NSArray arrayWithObjects:@"-threads", [[defaults objectForKey:@"KWEncodingThreads"] stringValue], nil]];
 
 	if (convertKind == 1 | convertKind == 2)
 	{
