@@ -13,7 +13,7 @@
 
 - (void)setDetails:(NSString *)details
 {
-	if (details)
+	if (details != nil)
 	{
 		expanded = NO;
 	
