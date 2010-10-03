@@ -293,6 +293,7 @@
 		[dict setObject:[NSNumber numberWithInt:sessionFormat] forKey:DRSessionFormatKey];
 		[dict setObject:[NSNumber numberWithInt:trackMode] forKey:DRTrackModeKey];
 		[dict setObject:DRSCMSCopyrightFree forKey:DRSerialCopyManagementStateKey];
+		//[dict setObject:DRVerificationTypeProduceAgain forKey:DRVerificationTypeKey];
 	
 		if (firstTrack == YES)
 		{
@@ -415,6 +416,7 @@
 			[dict setObject:[NSNumber numberWithInt:0] forKey:DRSessionFormatKey];
 			[dict setObject:[NSNumber numberWithInt:0] forKey:DRTrackModeKey];
 			[dict setObject:[currentTrack objectForKey:@"Pre-Emphasis Enabled"] forKey:DRAudioPreEmphasisKey];
+			//[dict setObject:DRVerificationTypeProduceAgain forKey:DRVerificationTypeKey];
 		
 			[track setProperties:dict];
 		
@@ -448,7 +450,7 @@
 	[properties setObject:[NSNumber numberWithInt:0] forKey:DRTrackModeKey];
 	[properties setObject:path forKey:@"KWAudioPath"];
 	[properties setObject:[NSNumber numberWithBool:YES] forKey:@"KWFirstTrack"];
-	[properties setObject:DRVerificationTypeNone forKey:DRVerificationTypeKey];
+	//[properties setObject:DRVerificationTypeProduceAgain forKey:DRVerificationTypeKey];
 		
 	[track setProperties:properties];
 
@@ -551,7 +553,7 @@
 	readHandle = [trackPipe fileHandleForReading];
 
 	[trackCreator setLaunchPath:[KWCommonMethods ffmpegPath]];
-	[trackCreator setArguments:[NSArray arrayWithObjects:@"-i",path,@"-f",@"s16le",@"-",nil]];
+	[trackCreator setArguments:[NSArray arrayWithObjects:@"-i", path, @"-f", @"s16le", @"-ac", @"2", @"-", nil]];
 	[trackCreator setStandardOutput:calcPipe];
 	
 	if (![[NSUserDefaults standardUserDefaults] boolForKey:@"KWDebug"])
@@ -656,6 +658,7 @@
 	[dict setObject:[NSNumber numberWithInt:kDRSessionFormatMode1Data] forKey:DRSessionFormatKey];
 	[dict setObject:[NSNumber numberWithInt:kDRTrackMode1Data] forKey:DRTrackModeKey];
 	[dict setObject:[NSNumber numberWithBool:YES] forKey:@"KWFirstTrack"];
+	//[dict setObject:DRVerificationTypeProduceAgain forKey:DRVerificationTypeKey];
 		
 	[track setProperties:dict];
 
@@ -668,7 +671,7 @@
 	NSPipe *outPipe = [[NSPipe alloc] init];
 	NSFileHandle *outHandle = [outPipe fileHandleForReading];
 	[ffmpeg setLaunchPath:[KWCommonMethods ffmpegPath]];
-	[ffmpeg setArguments:[NSArray arrayWithObjects:@"-i",path,@"-f",@"s16le",@"-",nil]];
+	[ffmpeg setArguments:[NSArray arrayWithObjects:@"-i", path, @"-f", @"s16le", @"-ac", @"2", @"-", nil]];
 	[ffmpeg setStandardOutput:outPipe];
 	
 	if (![[NSUserDefaults standardUserDefaults] boolForKey:@"KWDebug"])
@@ -693,7 +696,7 @@
 	[ffmpeg waitUntilExit];
 	[ffmpeg release];
 	[outPipe release];
-	
+
 	return size /  2352;
 }
 
