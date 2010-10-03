@@ -80,8 +80,8 @@
 - (NSArray *)succesArray;
 
 //Other actions
-- (NSString *)convertToEven:(NSString *)number;
-- (NSString *)getPadSize:(float)size withAspect:(NSSize)aspect withTopBars:(BOOL)topBars;
+- (int)convertToEven:(NSString *)number;
+- (int)getPadSize:(float)size withAspect:(NSSize)aspect withTopBars:(BOOL)topBars;
 - (BOOL)remuxMPEG2File:(NSString *)path outPath:(NSString *)outFile;
 - (BOOL)canCombineStreams:(NSString *)path;
 - (BOOL)combineStreams:(NSString *)path atOutputPath:(NSString *)outputPath;

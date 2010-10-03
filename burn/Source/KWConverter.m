@@ -141,6 +141,8 @@
 	NSArray *wavOptions = [NSArray array];
 	NSArray *inputOptions = [NSArray array];
 	
+	NSSize outputSize;
+	
 	// To keep the aspect ratio ffmpeg needs to pad the movie
 	NSArray *padOptions = [NSArray array];
 	NSSize aspectSize = NSMakeSize(4, 3);
@@ -170,7 +172,12 @@
 		else if (convertRegion == 0)
 			calculateSize = 288;
 		else
-			calculateSize = 244;
+			calculateSize = 240;
+			
+		if (convertRegion == 0)
+			outputSize = NSMakeSize(352, 288);
+		else
+			outputSize = NSMakeSize(352, 240);
 	}
 	
 	if (convertKind == 2)
@@ -181,6 +188,11 @@
 			calculateSize = 576;
 		else
 			calculateSize = 480;
+			
+		if (convertRegion == 0)
+			outputSize = NSMakeSize(480, 576);
+		else
+			outputSize = NSMakeSize(480, 480);
 	}
 	
 	if (convertKind == 3)
@@ -204,16 +216,24 @@
 				
 			topBars = (inputAspect > (float)16 / (float)9);
 		}
+		
+		if (convertRegion == 0)
+			outputSize = NSMakeSize(720, 576);
+		else
+			outputSize = NSMakeSize(720, 480);
 	}
 		
 	if ((convertKind == 1 | convertKind == 2 | convertKind == 3) && ((inputAspect != (float)4 / (float)3 | (inputAspect == (float)4 / (float)3 && dvdAspectMode == 2 && convertKind == 3)) && (inputAspect != (float)16 / (float)9) | (inputAspect == (float)16 / (float)9 && convertKind == 1 | convertKind == 2 | dvdAspectMode == 1)))
 	{
-		NSString *padSize = [self getPadSize:calculateSize withAspect:aspectSize withTopBars:topBars];
+		int padSize = [self getPadSize:calculateSize withAspect:aspectSize withTopBars:topBars];
 		
 		if (topBars)
-			padOptions = [NSArray arrayWithObjects:@"-padtop", padSize, @"-padbottom", padSize, nil];
+			padOptions = [NSArray arrayWithObjects:@"-vf", [NSString stringWithFormat:@"scale=%i:%i,pad=%i:%i:0:%i:black", (int)outputSize.width, (int)outputSize.height - (padSize * 2), (int)outputSize.width, (int)outputSize.height, padSize], nil];
+			//padOptions = [NSArray arrayWithObjects:@"-padtop", padSize, @"-padbottom", padSize, nil];
 		else
-			padOptions = [NSArray arrayWithObjects:@"-padleft", padSize, @"-padright", padSize, nil];
+			padOptions = [NSArray arrayWithObjects:@"-vf", [NSString stringWithFormat:@"scale=%i:%i,pad=%i:%i:%i:0:black", (int)outputSize.width - (padSize * 2), (int)outputSize.height, (int)outputSize.width, (int)outputSize.height, padSize], nil];
+			//padOptions = [NSArray arrayWithObjects:@"-padleft", padSize, @"-padright", padSize, nil];
+			
 	}
 	
 	aspect = [NSString stringWithFormat:@"%.0f:%.0f", aspectSize.width, aspectSize.height];
@@ -380,19 +400,22 @@
 	}
 		
 	[args addObject:outFileWithExtension];
-		
-	//Fix for DV to mpeg2 PAL conversion
-	if (inputFormat == 1 && convertRegion == 1)
+
+	//Fix for DV to mpeg2 conversion
+	if (inputFormat == 1)
 	{
 		if (convertKind == 2)
 		{
 			//SVCD
-			[args addObjectsFromArray:[NSArray arrayWithObjects:@"-cropleft", @"22", @"-cropright", @"22", nil]];
+			//[args addObjectsFromArray:[NSArray arrayWithObjects:@"-cropleft", @"22", @"-cropright", @"22", nil]];
+			[args addObjectsFromArray:[NSArray arrayWithObjects:@"-vf", [NSString stringWithFormat:@"scale=%i:%i,crop=%i:%i:%i:%i", (int)outputSize.width + 12, (int)outputSize.height, (int)outputSize.width, (int)outputSize.height, 6, 0], nil]];
+			
 		}
 		else if (convertKind == 3)
 		{
 			//DVD
-			[args addObjectsFromArray:[NSArray arrayWithObjects:@"-cropleft", @"24", @"-cropright", @"24", nil]];
+			//[args addObjectsFromArray:[NSArray arrayWithObjects:@"-cropleft", @"24", @"-cropright", @"24", nil]];
+			[args addObjectsFromArray:[NSArray arrayWithObjects:@"-vf", [NSString stringWithFormat:@"scale=%i:%i,crop=%i:%i:%i:%i", (int)outputSize.width + 16, (int)outputSize.height, (int)outputSize.width, (int)outputSize.height, 8, 0], nil]];
 		}
 	}
 		
@@ -401,20 +424,23 @@
 	if ([defaults boolForKey:@"KWSaveBorders"] == YES)
 	{
 		NSNumber *borderSize = [[NSUserDefaults standardUserDefaults] objectForKey:@"KWSaveBorderSize"];
-		NSString *heightBorder = [borderSize stringValue];
-		NSString *widthBorder = [self convertToEven:[[NSNumber numberWithFloat:inputWidth / (inputHeight / [borderSize floatValue])] stringValue]];
-		
+		int heightBorder = [borderSize intValue];
+		int widthBorder = [self convertToEven:[[NSNumber numberWithFloat:inputWidth / (inputHeight / [borderSize floatValue])] stringValue]];
 		
 		if ([padOptions count] > 0 && [[padOptions objectAtIndex:0] isEqualTo:@"-padtop"])
 		{
-			[args addObjectsFromArray:[NSArray arrayWithObjects:@"-padleft", widthBorder, @"-padright", widthBorder, nil]];
+			//[args addObjectsFromArray:[NSArray arrayWithObjects:@"-padleft", widthBorder, @"-padright", widthBorder, nil]];
+			[args addObjectsFromArray:[NSArray arrayWithObjects:@"-vf", [NSString stringWithFormat:@"scale=%i:%i,pad=%i:%i:%i:0:black", (int)outputSize.width - (widthBorder * 2), (int)outputSize.height, (int)outputSize.width, (int)outputSize.height, widthBorder], nil]];
 		}
 		else
 		{
-			[args addObjectsFromArray:[NSArray arrayWithObjects:@"-padtop", heightBorder, @"-padbottom", heightBorder, nil]];
+			//[args addObjectsFromArray:[NSArray arrayWithObjects:@"-padtop", heightBorder, @"-padbottom", heightBorder, nil]];
+			[args addObjectsFromArray:[NSArray arrayWithObjects:@"-vf", [NSString stringWithFormat:@"scale=%i:%i,pad=%i:%i:0:%i:black", (int)outputSize.width, (int)outputSize.height - (heightBorder * 2), (int)outputSize.width, (int)outputSize.height, heightBorder], nil]];
 			
 			if ([padOptions count] == 0)
-				[args addObjectsFromArray:[NSArray arrayWithObjects:@"-padleft", widthBorder, @"-padright", widthBorder, nil]];
+				[args addObjectsFromArray:[NSArray arrayWithObjects:@"-vf", [NSString stringWithFormat:@"scale=%i:%i,pad=%i:%i:%i:0:black", (int)outputSize.width - (widthBorder * 2), (int)outputSize.height, (int)outputSize.width, (int)outputSize.height, widthBorder], nil]];
+				//[args addObjectsFromArray:[NSArray arrayWithObjects:@"-padleft", widthBorder, @"-padright", widthBorder, nil]];
+				
 		}
 	}
 		
@@ -1055,7 +1081,7 @@
 #pragma mark -
 #pragma mark •• Other actions
 
-- (NSString *)convertToEven:(NSString *)numberAsString
+- (int)convertToEven:(NSString *)numberAsString
 {
 	NSString *convertedNumber = [[NSNumber numberWithInt:[numberAsString intValue]] stringValue];
 
@@ -1063,12 +1089,12 @@
 	NSString *lastCharacter = [NSString stringWithFormat:@"%C", ch];
 
 	if ([lastCharacter isEqualTo:@"1"] | [lastCharacter isEqualTo:@"3"] | [lastCharacter isEqualTo:@"5"] | [lastCharacter isEqualTo:@"7"] | [lastCharacter isEqualTo:@"9"])
-		return [[NSNumber numberWithInt:[convertedNumber intValue] + 1] stringValue];
+		return [[NSNumber numberWithInt:[convertedNumber intValue] + 1] intValue];
 	else
-		return convertedNumber;
+		return [convertedNumber intValue];
 }
 
-- (NSString *)getPadSize:(float)size withAspect:(NSSize)aspect withTopBars:(BOOL)topBars
+- (int)getPadSize:(float)size withAspect:(NSSize)aspect withTopBars:(BOOL)topBars
 {
 	NSUserDefaults *standardDefaults = [NSUserDefaults standardUserDefaults];
 
