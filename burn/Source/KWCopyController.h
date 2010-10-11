@@ -38,6 +38,7 @@
 	NSString *mountedPath;
 	NSString *imageMountedPath;
 	NSString *savedPath;
+	NSString *audioDiscPath;
 	//Out little helpers
 	KWProgress *progressPanel;
 	KWDiscScanner* scanner;
@@ -78,5 +79,6 @@
 - (int)cueImageSizeAtPath:(NSString *)path;
 - (NSString *)getIsoForDvdFileAtPath:(NSString *)path;
 - (NSNumber *)getLayerBreakForDvdFileAtPath:(NSString *)path;
+- (NSDictionary *)isoInfo;
 
 @end

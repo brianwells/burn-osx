@@ -206,6 +206,16 @@
 		if ([[imagePath pathExtension] isEqualTo:@"cue"] && burner)
 			[KWCommonMethods writeString:[audioControllerOutlet cueStringWithBinFile:[[[imagePath lastPathComponent] stringByDeletingPathExtension] stringByAppendingPathExtension:@"bin"]] toFile:imagePath errorString:nil];
 	
+		if ([[[mainTabView selectedTabViewItem] identifier] isEqualTo:@"Copy"])
+		{
+			[copyControllerOutlet remount:nil];
+		
+			NSDictionary *infoDict = [copyControllerOutlet isoInfo];
+			
+			if (infoDict)
+				[infoDict writeToFile:[[imagePath stringByDeletingPathExtension] stringByAppendingPathExtension:@"isoInfo"] atomically:YES];
+		}
+	
 		[[NSNotificationCenter defaultCenter] postNotificationName:@"growlCreateImage" object:NSLocalizedString(@"Succesfully created a disk image",nil)];
 	}
 	else if ([returnCode isEqualTo:@"KWFailure"])

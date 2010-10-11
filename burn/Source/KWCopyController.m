@@ -202,6 +202,34 @@
 			}
 			
 		}
+		else if ([[[workingPath pathExtension] lowercaseString] isEqualTo:@"isoinfo"])
+		{
+			fileSystem = NSLocalizedString(@"Audio-CD Image",nil);
+			NSDictionary *infoDict = [NSDictionary dictionaryWithContentsOfFile:workingPath];
+			
+			NSArray *sessions = [infoDict objectForKey:@"Sessions"];
+
+			int y = 0;
+			size = 0;
+			for (y=0;y<[sessions count];y++)
+			{
+				NSDictionary *session = [sessions objectAtIndex:y];
+				
+				size = size + [[session objectForKey:@"Leadout Block"] intValue];
+			}
+			
+			
+			size = size * 2352;
+
+			canBeMounted = NO;
+			
+			/*if (size == -1)
+			{
+				alertMessage = NSLocalizedString(@"Missing files",nil);
+				alertInformation = [NSString stringWithFormat:NSLocalizedString(@"Some files specified in the %@ file are missing.", nil), @"info"];
+			}*/
+			
+		}
 		else if ([[[workingPath pathExtension] lowercaseString] isEqualTo:@"toc"] && [KWCommonMethods OSVersion] >= 0x1040)
 		{
 			//Check if there is a mode2, if so it's not supported by
@@ -462,6 +490,13 @@
 
 - (id)myTrackWithErrorString:(NSString **)error andLayerBreak:(NSNumber**)layerBreak
 {
+	if ([[[currentPath pathExtension] lowercaseString] isEqualTo:@"isoinfo"])
+	{
+		NSDictionary *infoDict = [NSDictionary dictionaryWithContentsOfFile:currentPath];
+	
+		return [[KWTrackProducer alloc] getTracksOfAudioCD:[[currentPath stringByDeletingPathExtension] stringByAppendingPathExtension:@"iso"] withToc:infoDict];
+	}
+
 	if (!mountedPath)
 	{
 		if ([[currentPath pathExtension] isEqualTo:@"cue"] && [KWCommonMethods OSVersion] < 0x1040)
@@ -504,6 +539,11 @@
 		NSString *disc = [@"/dev/disk" stringByAppendingString:[[[[path componentsSeparatedByString:@"/dev/disk"] objectAtIndex:1] componentsSeparatedByString:@"s"] objectAtIndex:0]];
 		NSString *outputFile;
 		NSDictionary *tocFile = nil;
+		
+		if (audioDiscPath)
+			[audioDiscPath release];
+		
+		audioDiscPath = [disc retain];
 	
 		if (![disc isEqualTo:deviceMediaPath] | shouldBurn == NO)
 		{
@@ -593,17 +633,20 @@
 			if (![[KWCommonMethods savedDevice] ejectMedia])
 				return [NSNumber numberWithInt:1];
 		}
-
+		
 		if (tocFile)
-		{
+		{NSLog(@"1");
 			if (![path isEqualTo:deviceMediaPath] | shouldBurn == NO)
-			{
+			{NSLog(@"2");
 				[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(remount:) name:@"KWDoneBurning" object:nil];
 			
 				return [[KWTrackProducer alloc] getTracksOfAudioCD:path withToc:tocFile];
 			}
 			else
-			{
+			{NSLog(@"3");
+				NSString *infoFile = [[outputFile stringByDeletingPathExtension] stringByAppendingPathExtension:@"isoInfo"];
+				[tocFile writeToFile:infoFile atomically:YES];
+			
 				return [[KWTrackProducer alloc] getTracksOfAudioCD:outputFile withToc:tocFile];
 			}
 		}
@@ -612,7 +655,7 @@
 			return [[KWTrackProducer alloc] getTrackForImage:outputFile withSize:blocks];
 		}
 		else
-		{
+		{NSLog(@"4");
 			#if MAC_OS_X_VERSION_MAX_ALLOWED >= MAC_OS_X_VERSION_10_4
 			return [DRBurn layoutForImageFile:outputFile];
 			#endif
@@ -650,11 +693,18 @@
 {
 	[[NSNotificationCenter defaultCenter] removeObserver:self name:@"KWDoneBurning" object:nil];
 	
-	NSString *path = currentPath;
+	NSString *path;
 	
-	if ([object isKindOfClass:[NSString class]])
-		path = object;
-		
+	if (object)
+	{
+		if ([object isKindOfClass:[NSString class]])
+			path = object;
+	}
+	else
+	{
+		path = audioDiscPath;
+	}
+	NSLog(@"Path: %@", path);
 	NSArray *arguments = [NSArray arrayWithObjects:@"mount",path,nil];
 	
 	NSString *errorsString;
@@ -827,6 +877,14 @@
 		val = 0.5;
 			
 	return [NSNumber numberWithLongLong:val];
+}
+
+- (NSDictionary *)isoInfo
+{
+	if ([[NSFileManager defaultManager] fileExistsAtPath:[mountedPath stringByAppendingPathComponent:@".TOC.plist"]])
+		return [NSDictionary dictionaryWithContentsOfFile:[mountedPath stringByAppendingPathComponent:@".TOC.plist"]];
+		
+	return nil;
 }
 
 @end

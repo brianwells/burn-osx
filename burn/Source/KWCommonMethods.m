@@ -1034,9 +1034,9 @@
 + (NSArray *)diskImageTypes
 {
 	if ([KWCommonMethods OSVersion] < 0x1040)
-		return [NSArray arrayWithObjects:@"sparseimage",@"toast",@"img", @"dmg", @"iso", @"cue",@"cdr",@"dvd", nil];
+		return [NSArray arrayWithObjects:@"isoInfo", @"sparseimage",@"toast",@"img", @"dmg", @"iso", @"cue",@"cdr",@"dvd", nil];
 	else
-		return [NSArray arrayWithObjects:@"sparseimage",@"toast", @"img", @"dmg", @"iso", @"cue", @"toc",@"cdr", @"dvd", nil];
+		return [NSArray arrayWithObjects:@"isoInfo", @"sparseimage",@"toast", @"img", @"dmg", @"iso", @"cue", @"toc",@"cdr", @"dvd", nil];
 }
 
 //Create an array with indexes of selected rows in a tableview
