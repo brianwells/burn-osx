@@ -394,7 +394,7 @@
 		
 			int size;
 		
-			if (x + 1 < [currentTrack count])
+			if (x + 1 < [tracks count])
 				size = [[[tracks objectAtIndex:x + 1] objectForKey:@"Start Block"] intValue] - [[currentTrack objectForKey:@"Start Block"] intValue];
 			else
 				size = [leadout intValue] - [[currentTrack objectForKey:@"Start Block"] intValue];
