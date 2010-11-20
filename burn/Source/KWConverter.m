@@ -65,6 +65,7 @@
 			
 			useWav = (output == 2 | output == 4 | output == 8);
 			useQuickTime = (output == 2 | output == 3 | output == 6);
+			
 			copyAudio = [self containsAC3:currentPath];
 			
 			if (useWav)
@@ -356,7 +357,7 @@
 	}
 	else if (convertKind == 3)
 	{
-		[args addObjectsFromArray:[NSArray arrayWithObjects:@"-target",ffmpegFormat,@"-ac",@"2",@"-aspect",aspect,@"-acodec",nil]];
+		[args addObjectsFromArray:[NSArray arrayWithObjects:@"-target",ffmpegFormat,@"-ac",@"2", @"-vf", [NSString stringWithFormat:@"aspect=%@", aspect], @"-aspect",aspect,@"-acodec",nil]];
 		
 		if (copyAudio == NO)
 		{
@@ -674,12 +675,20 @@
 		
 		int code = 0;
 		NSString *error = @"%@ (Unknown error)";
+		
+		if ([string rangeOfString:@"Video: Apple Intermediate Codec"].length > 0)
+		{
+			if ([self setTimeAndAspectFromOutputString:string fromFile:path])
+				return 2;
+			else
+				return 0;
+		}
 			
 		if ([string rangeOfString:@"error reading header: -1"].length > 0 && [string rangeOfString:@"iDVD"].length > 0)
 			code = 2;
 	
 		// Check if ffmpeg reconizes the file
-		if ([string rangeOfString:@"Unknown format"].length > 0)
+		if ([string rangeOfString:@"Unknown format"].length > 0 && [string rangeOfString:@"Unknown format is not supported as input pixel format"].length == 0)
 		{
 			error = [NSString stringWithFormat:NSLocalizedString(@"%@ (Unknown format)", nil), displayName];
 			[self setErrorStringWithString:error];
@@ -923,22 +932,26 @@
 			inputFormat = 1;
 		}
 
-		if ([inputString rangeOfString:@"DAR 16:9"].length > 0 && [inputString rangeOfString:@"mpeg2video"].length > 0)
+		if ([inputString rangeOfString:@"DAR 16:9"].length > 0)
 		{
 			inputAspect = (float)16 / (float)9;
-			inputWidth = 1024;
-			inputFormat = 2;
+			
+			if ([inputString rangeOfString:@"mpeg2video"].length > 0)
+			{
+				inputWidth = 1024;
+				inputFormat = 2;
+			}
 		}
 	
 		//iMovie projects with HDV 1080i are 16:9, ffmpeg guesses 4:3
 		if ([inputString rangeOfString:@"Video: Apple Intermediate Codec"].length > 0)
 		{
-			if ([file rangeOfString:@".iMovieProject"].length > 0)
-			{
+			//if ([file rangeOfString:@".iMovieProject"].length > 0)
+			//{
 				inputAspect = (float)16 / (float)9;
 				inputWidth = 1024;
 				inputHeight = 576;
-			}
+			//}
 		}
 	}
 	
