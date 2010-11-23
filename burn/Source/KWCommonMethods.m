@@ -560,7 +560,7 @@
 		return 32;
 	else if ([folder explicitFilesystemMask] == DRFilesystemInclusionMaskISO9660)
 		return 30;
-	else if ([folder explicitFilesystemMask] == DRFilesystemInclusionMaskJoliet)
+	else if (([folder explicitFilesystemMask] == DRFilesystemInclusionMaskJoliet) | [folder explicitFilesystemMask] == 1<<5)
 		return 16;
 		
 	return 32;
