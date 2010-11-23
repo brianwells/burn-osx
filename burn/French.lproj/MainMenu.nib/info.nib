@@ -13,7 +13,7 @@
 		<key>569</key>
 		<string>383 514 275 62 0 0 1024 746 </string>
 		<key>571</key>
-		<string>397 488 245 96 0 0 1024 746 </string>
+		<string>389 488 245 96 0 0 1024 746 </string>
 	</dict>
 	<key>IBFramework Version</key>
 	<string>489.0</string>
@@ -21,6 +21,7 @@
 	<integer>3</integer>
 	<key>IBOpenObjects</key>
 	<array>
+		<integer>544</integer>
 		<integer>571</integer>
 	</array>
 	<key>IBSystem Version</key>

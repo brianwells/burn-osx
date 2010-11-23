@@ -62,6 +62,7 @@ static NSString*	EDBCurrentSelection							= @"EDBCurrentSelection";
 																[NSNumber numberWithUnsignedInt:DRFilesystemInclusionMaskJoliet],
 																[NSNumber numberWithUnsignedInt:1<<2],
 																[NSNumber numberWithUnsignedInt:(1<<4)],
+																[NSNumber numberWithUnsignedInt:(1<<5)],
 																nil];
 	
 		//Root folder of the disc
@@ -343,6 +344,10 @@ static NSString*	EDBCurrentSelection							= @"EDBCurrentSelection";
 		{
 			mask = (mask | 1<<2);
 		}
+		else if ([[advancedCheckboxes cellAtRow:5 column:0] state] == NSOnState)
+		{
+			mask = (mask | 1<<5);
+		}
 		else
 		{
 			int i;
@@ -543,6 +548,7 @@ static NSString*	EDBCurrentSelection							= @"EDBCurrentSelection";
 {
 	BOOL pantherUDF = [[advancedCheckboxes cellAtRow:3 column:0] state] == NSOnState && [KWCommonMethods OSVersion] < 0x1040;
 	BOOL hfsStandard = [[advancedCheckboxes cellAtRow:4 column:0] state] == NSOnState;
+	BOOL jolietLong = [[advancedCheckboxes cellAtRow:5 column:0] state] == NSOnState;
 	BOOL oneSelected = NO;
 	
 	int i = 0;
@@ -553,7 +559,7 @@ static NSString*	EDBCurrentSelection							= @"EDBCurrentSelection";
 		if ([control state] == NSOnState)
 			oneSelected = YES;
 					
-		if ((pantherUDF && (i < 3 | i > 3)) | (hfsStandard && i < 4))
+		if ((pantherUDF && (i < 3 | i > 3)) | (hfsStandard && (i < 4 | i > 4)) | jolietLong && i < 5)
 			[control setEnabled:NO];
 		else
 			[control setEnabled:YES];
@@ -614,7 +620,7 @@ static NSString*	EDBCurrentSelection							= @"EDBCurrentSelection";
 {
 	KWDRFolder *rootFolder = (KWDRFolder*)[(FSNodeData*)[treeData nodeData] fsObject];
 
-	if ([rootFolder explicitFilesystemMask] == 1<<4 | ([rootFolder explicitFilesystemMask] == 1<<2 && [KWCommonMethods OSVersion] < 0x1040))
+	if ([rootFolder explicitFilesystemMask] == 1<<4 | ([rootFolder explicitFilesystemMask] == 1<<2 && [KWCommonMethods OSVersion] < 0x1040) | [rootFolder explicitFilesystemMask] == 1<<5)
 	{
 		NSString *outputFolder = [KWCommonMethods temporaryLocation:[discName stringValue] saveDescription:NSLocalizedString(@"Choose a location to save a temporary folder",nil)];
 		
@@ -632,6 +638,9 @@ static NSString*	EDBCurrentSelection							= @"EDBCurrentSelection";
 			
 			if ([rootFolder explicitFilesystemMask] == 1<<4)
 				type = 1;
+				
+			if ([rootFolder explicitFilesystemMask] == 1<<5)
+				type = 8;
 	
 			return [[KWTrackProducer alloc] getTrackForFolder:outputFolder ofType:type withDiscName:[discName stringValue]];
 		}
@@ -1104,7 +1113,7 @@ static NSString*	EDBCurrentSelection							= @"EDBCurrentSelection";
 {
 	KWDRFolder *rootFolder = (KWDRFolder*)[(FSNodeData*)[treeData nodeData] fsObject];
 
-	if (([rootFolder explicitFilesystemMask] == 1<<2 && [KWCommonMethods OSVersion] < 0x1040) | [rootFolder explicitFilesystemMask] == 1<<4)
+	if (([rootFolder explicitFilesystemMask] == 1<<2 && [KWCommonMethods OSVersion] < 0x1040) | [rootFolder explicitFilesystemMask] == 1<<4 | [rootFolder explicitFilesystemMask] == 1<<5)
 		return NO;
 	
 	return YES;

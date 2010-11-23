@@ -482,6 +482,8 @@
 		[options addObject:@"-dvd-video"];
 	else if (type == 7)
 		[options addObject:@"-dvd-audio"];
+	else if (type == 8)
+		[options addObjectsFromArray:[NSArray arrayWithObjects:@"-r", @"-joliet", @"-joliet-long", nil]];
 		
 	[options addObject:folderPath];
 	
@@ -624,6 +626,8 @@
 		[options addObject:@"-dvd-video"];
 	else if (type == 7)
 		[options addObject:@"-dvd-audio"];
+	else if (type == 8)
+		[options addObjectsFromArray:[NSArray arrayWithObjects:@"-r", @"-joliet", @"-joliet-long", nil]];
 		
 	[options addObject:folderPath];
 
