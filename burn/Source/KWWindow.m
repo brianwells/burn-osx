@@ -5,7 +5,9 @@
 
 - (BOOL)respondsToSelector:(SEL)aSelector
 {
-	if ([self attachedSheet])
+	NSString *selectorString = NSStringFromSelector(aSelector);
+	
+	if ([self attachedSheet] && [selectorString rangeOfString:@"accessibility"].length == 0)
 		return NO;
 
 	KWTabViewItem *tabViewItem = (KWTabViewItem *)[mainTabView selectedTabViewItem];
