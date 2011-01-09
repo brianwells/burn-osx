@@ -390,5 +390,13 @@ Activeer het schijfkopie bestand en sleep de schijf in het venster.</string>
 	<string>Kies een locatie om het brand bestand te bewaren</string>
 	<key>Failed to install theme in the &apos;Application Support&apos; folder</key>
 	<string>Het installeren van een thema in de map &apos;Application Support&apos; is mislukt</string>
+	<key>Select to create a data disc</key>
+	<string>Selecteer om een dataschijf te aan te maken</string>
+	<key>Select to create a audio disc</key>
+	<string>Selecteer om een audioschijf te aan te maken</string>
+	<key>Select to create a video disc</key>
+	<string>Selecteer om een videoschijf te aan te maken</string>
+	<key>Select to copy a disc or disk image</key>
+	<string>Selecteer om een schijf of schijfkopie te kopieëren</string>
 </dict>
 </plist>

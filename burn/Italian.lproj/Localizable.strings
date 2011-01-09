@@ -398,5 +398,13 @@ Montare l&apos;immagine e rilasciare l&apos;immagine montata nella finestra.</st
 	<string>Scegli dove salvare il file Burn</string>
 	<key>Failed to install theme in the &apos;Application Support&apos; folder</key>
 	<string>Installazione del tema nella cartella &apos;Supporto Applicazione&apos; non riuscita</string>
+	<key>Select to create a data disc</key>
+	<string>Scegliere per creare un disco dati</string>
+	<key>Select to create a audio disc</key>
+	<string>Scegliere per creare un disco audio</string>
+	<key>Select to create a video disc</key>
+	<string>Scegliere per creare un disco video</string>
+	<key>Select to copy a disc or disk image</key>
+	<string>Scegliere per copiare un disco o un'immagine disco</string>
 </dict>
 </plist>
