@@ -359,7 +359,7 @@
 	}
 	else if (convertKind == 3)
 	{
-		[args addObjectsFromArray:[NSArray arrayWithObjects:@"-target",ffmpegFormat,@"-ac",@"2", @"-vf", [NSString stringWithFormat:@"aspect=%@", aspect], @"-aspect",aspect,@"-acodec",nil]];
+		[args addObjectsFromArray:[NSArray arrayWithObjects:@"-target",ffmpegFormat,@"-ac",@"2", @"-vf", [NSString stringWithFormat:@"setdar=%@", aspect], @"-aspect",aspect,@"-acodec",nil]];
 		
 		if (copyAudio == NO)
 		{
