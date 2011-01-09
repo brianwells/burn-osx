@@ -72,7 +72,7 @@
 {
 	NSMutableDictionary *rowData = [NSMutableDictionary dictionary];
 
-	[rowData setObject:[KWCommonMethods formatTime:(int)[timeSlider doubleValue]] forKey:@"Time"];
+	[rowData setObject:[KWCommonMethods formatTime:(NSInteger)[timeSlider doubleValue]] forKey:@"Time"];
 	[rowData setObject:[titleField stringValue] forKey:@"Title"];
 	[rowData setObject:[NSNumber numberWithDouble:[timeSlider doubleValue]] forKey:@"RealTime"];
 	[rowData setObject:[[previewView image] TIFFRepresentationUsingCompression:NSTIFFCompressionLZW factor:0] forKey:@"Image"];
@@ -118,9 +118,9 @@
 
 - (IBAction)timeSlider:(id)sender
 {
-	[previewView setImage:[[KWConverter alloc] getImageAtPath:[currentObject objectForKey:@"Path"] atTime:(int)[timeSlider doubleValue] isWideScreen:[[currentObject objectForKey:@"WideScreen"] boolValue]]];
+	[previewView setImage:[[KWConverter alloc] getImageAtPath:[currentObject objectForKey:@"Path"] atTime:(NSInteger)[timeSlider doubleValue] isWideScreen:[[currentObject objectForKey:@"WideScreen"] boolValue]]];
 
-	[currentTimeField setStringValue:[KWCommonMethods formatTime:(int)[timeSlider doubleValue]]];
+	[currentTimeField setStringValue:[KWCommonMethods formatTime:(NSInteger)[timeSlider doubleValue]]];
 }
 
 ///////////////////////
@@ -130,17 +130,17 @@
 #pragma mark -
 #pragma mark •• Tableview actions
 
-- (BOOL)tableView:(NSTableView *)tableView shouldEditTableColumn:(NSTableColumn *)tableColumn row:(int)row
+- (BOOL)tableView:(NSTableView *)tableView shouldEditTableColumn:(NSTableColumn *)tableColumn row:(NSInteger)row
 {    return NO; }
 
-- (int) numberOfRowsInTableView:(NSTableView *)tableView
+- (NSInteger) numberOfRowsInTableView:(NSTableView *)tableView
 {
 	return [tableData count];
 }
 
 - (id) tableView:(NSTableView *)tableView
     objectValueForTableColumn:(NSTableColumn *)tableColumn
-    row:(int)row
+    row:(NSInteger)row
 {
     NSDictionary *rowData = [tableData objectAtIndex:row];
     return [rowData objectForKey:[tableColumn identifier]];
@@ -149,7 +149,7 @@
 - (void)tableView:(NSTableView *)tableView
     setObjectValue:(id)anObject
     forTableColumn:(NSTableColumn *)tableColumn
-    row:(int)row
+    row:(NSInteger)row
 {
 	NSMutableDictionary *rowData = [tableData objectAtIndex:row];
 	[rowData setObject:anObject forKey:[tableColumn identifier]];

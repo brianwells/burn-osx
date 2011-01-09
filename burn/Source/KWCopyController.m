@@ -78,7 +78,7 @@
 }
 
 //If the user clicked OK check the image file
-- (void)openPanelDidEnd:(NSOpenPanel *)sheet returnCode:(int)returnCode contextInfo:(void *)contextInfo
+- (void)openPanelDidEnd:(NSOpenPanel *)sheet returnCode:(NSInteger)returnCode contextInfo:(void *)contextInfo
 {
 	[sheet orderOut:self];
 
@@ -209,7 +209,7 @@
 			
 			NSArray *sessions = [infoDict objectForKey:@"Sessions"];
 
-			int y = 0;
+			NSInteger y = 0;
 			size = 0;
 			for (y=0;y<[sessions count];y++)
 			{
@@ -234,15 +234,23 @@
 		{
 			//Check if there is a mode2, if so it's not supported by
 			//Apple's Disc burning framework, so show a allert
+			#if MAC_OS_X_VERSION_MAX_ALLOWED >= MAC_OS_X_VERSION_10_4
+			if (![[NSString stringWithContentsOfFile:workingPath usedEncoding:nil error:nil] rangeOfString:@"MODE2"].length > 0)
+			#else
 			if (![[NSString stringWithContentsOfFile:workingPath] rangeOfString:@"MODE2"].length > 0)
+			#endif
 			{
 				NSDictionary *attrib;
+				#if MAC_OS_X_VERSION_MAX_ALLOWED >= MAC_OS_X_VERSION_10_4
+				NSArray *paths = [[NSString stringWithContentsOfFile:workingPath usedEncoding:nil error:nil] componentsSeparatedByString:@"FILE \""];
+				#else
 				NSArray *paths = [[NSString stringWithContentsOfFile:workingPath] componentsSeparatedByString:@"FILE \""];
+				#endif
 				NSString *filePath;
 				NSString *previousPath;
 				BOOL fileAreCorrect = YES;
 				
-				int z;
+				NSInteger z;
 				for (z=1;z<[paths count];z++)
 				{
 					filePath = [[[paths objectAtIndex:z] componentsSeparatedByString:@"\""] objectAtIndex:0];
@@ -404,7 +412,7 @@
 	[scanner beginSetupSheetForWindow:mainWindow modelessDelegate:self didEndSelector:@selector(scannerDidEnd:returnCode:contextInfo:) contextInfo:nil];
 }
 
-- (void)scannerDidEnd:(NSPanel *)sheet returnCode:(int)returnCode contextInfo:(void *)contextInfo
+- (void)scannerDidEnd:(NSPanel *)sheet returnCode:(NSInteger)returnCode contextInfo:(void *)contextInfo
 {
 	[sheet orderOut:self];
 
@@ -611,7 +619,7 @@
 			[defaultCenter removeObserver:self name:@"KWStopImaging" object:nil];
 			[timer invalidate];
 			
-			int status = [cp terminationStatus];
+			NSInteger status = [cp terminationStatus];
 			
 			[cp release];
 		
@@ -744,9 +752,9 @@
 	return [super respondsToSelector:aSelector];
 }
 
-- (int)numberOfRows
+- (NSInteger)numberOfRows
 {
-	int rows;
+	NSInteger rows;
 	
 	if (currentPath != nil)
 		rows = 1;
@@ -836,7 +844,7 @@
 {
 	if (needed)
 	{
-		int i;
+		NSInteger i;
 		for (i=0;i<[temporaryFiles count];i++)
 		{
 			[KWCommonMethods removeItemAtPath:[temporaryFiles objectAtIndex:i]];
@@ -846,7 +854,7 @@
 	[temporaryFiles removeAllObjects];
 }
 
-- (int)cueImageSizeAtPath:(NSString *)path
+- (NSInteger)cueImageSizeAtPath:(NSString *)path
 {
 	return 0;
 }
@@ -854,10 +862,14 @@
 
 - (NSString *)getIsoForDvdFileAtPath:(NSString *)path
 {
+	#if MAC_OS_X_VERSION_MAX_ALLOWED >= MAC_OS_X_VERSION_10_4
+	NSString *info = [NSString stringWithContentsOfFile:path usedEncoding:nil error:nil];
+	#else
 	NSString *info = [NSString stringWithContentsOfFile:path];
+	#endif
 	NSArray *arrayOfLines = [info componentsSeparatedByString:@"\n"];
 	NSMutableString *iso = [NSMutableString stringWithString:[arrayOfLines objectAtIndex:1]];
-	[iso replaceOccurrencesOfString:@"\r" withString:@"" options:nil range:NSMakeRange(0, [iso length])];
+	[iso replaceOccurrencesOfString:@"\r" withString:@"" options:NSCaseInsensitiveSearch range:NSMakeRange(0, [iso length])];
 	if ([iso isAbsolutePath])
 		return iso;
 	return [[path stringByDeletingLastPathComponent] stringByAppendingPathComponent: iso];
@@ -865,11 +877,15 @@
 
 - (NSNumber *)getLayerBreakForDvdFileAtPath:(NSString *)path
 {
+	#if MAC_OS_X_VERSION_MAX_ALLOWED >= MAC_OS_X_VERSION_10_4
+	NSString *info = [NSString stringWithContentsOfFile:path usedEncoding:nil error:nil];
+	#else
 	NSString *info = [NSString stringWithContentsOfFile:path];
+	#endif
 	NSArray *arrayOfLines = [info componentsSeparatedByString:@"\n"];
 	NSMutableString *lbreak = [NSMutableString stringWithString:[arrayOfLines objectAtIndex:0]];
-	[lbreak replaceOccurrencesOfString:@"\r" withString:@"" options:nil range:NSMakeRange(0, [lbreak length])];
-	[lbreak replaceOccurrencesOfString:@"LayerBreak=" withString:@"" options:nil range:NSMakeRange(0, [lbreak length])];
+	[lbreak replaceOccurrencesOfString:@"\r" withString:@"" options:NSCaseInsensitiveSearch range:NSMakeRange(0, [lbreak length])];
+	[lbreak replaceOccurrencesOfString:@"LayerBreak=" withString:@"" options:NSCaseInsensitiveSearch range:NSMakeRange(0, [lbreak length])];
 	NSScanner* textscanner = [NSScanner scannerWithString:lbreak];
 	long long val;
 	

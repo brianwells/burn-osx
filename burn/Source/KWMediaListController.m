@@ -83,7 +83,7 @@
 }
 
 //Check all files
-- (void)openPanelDidEnd:(NSOpenPanel *)sheet returnCode:(int)returnCode contextInfo:(void *)contextInfo
+- (void)openPanelDidEnd:(NSOpenPanel *)sheet returnCode:(NSInteger)returnCode contextInfo:(void *)contextInfo
 {
 	[sheet orderOut:self];
 
@@ -176,7 +176,7 @@
 		//Needed for 10.5 and lower (the Finder messes up orders)
 		NSArray *sortedPaths = [paths sortedArrayUsingSelector:@selector(localizedCaseInsensitiveCompare:)];
 	
-		int x = 0;
+		NSInteger x = 0;
 		for (x=0;x<[sortedPaths count];x++)
 		{
 			NSAutoreleasePool *subPool = [[NSAutoreleasePool alloc] init];
@@ -233,13 +233,13 @@
 			[subPool release];
 		}
 		
-		int numberOfFiles = [files count];
+		NSInteger numberOfFiles = [files count];
 		BOOL audioCD = [currentFileSystem isEqualTo:@"-audio-cd"];
 			
 		if (audioCD)
 			[progressPanel setMaximumValue:[NSNumber numberWithInt:numberOfFiles]];
 			
-		int i = 0;
+		NSInteger i = 0;
 		for (i=0;i<[files count];i++)
 		{
 			if (cancelAddingFiles == YES)
@@ -255,7 +255,7 @@
 				[progressPanel setStatus:[NSString stringWithFormat:NSLocalizedString(@"Processing: %@ (%i of %i)", nil), fileName, i + 1, numberOfFiles]];
 			}
 				
-			[self addFile:file isSelfEncoded:nil];
+			[self addFile:file isSelfEncoded:YES];
 				
 			if (audioCD)
 				[progressPanel setValue:[NSNumber numberWithInt:i + 1]];
@@ -291,7 +291,7 @@
 - (IBAction)accessOptions:(id)sender
 {	
 	//Setup options menus
-	int i = 0;
+	NSInteger i = 0;
 	for (i=0;i<[optionsPopup numberOfItems]-1;i++)
 	{
 		[[optionsPopup itemAtIndex:i+1] setState:[[[NSUserDefaults standardUserDefaults] objectForKey:[optionsMappings objectAtIndex:i]] intValue]];
@@ -321,7 +321,7 @@
 
 	NSMutableArray *filePaths = [[NSMutableArray alloc] init];
 
-	int x;
+	NSInteger x;
 	for (x=0;x<[incompatibleFiles count];x++)
 	{
 		[filePaths addObject:[[incompatibleFiles objectAtIndex:x] objectForKey:@"Path"]];
@@ -334,13 +334,13 @@
 	NSDictionary *options = [NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:path, convertExtension, [[NSUserDefaults standardUserDefaults] objectForKey:@"KWDefaultRegion"], [NSNumber numberWithInt:convertKind], nil]  forKeys:[NSArray arrayWithObjects:@"KWConvertDestination", @"KWConvertExtension", @"KWConvertRegion", @"KWConvertKind", nil]];
 	NSString *errorString;
 	
-	int result = [converter batchConvert:filePaths withOptions:options errorString:&errorString];
+	NSInteger result = [converter batchConvert:filePaths withOptions:options errorString:&errorString];
 
 	NSArray *succeededFiles = [NSArray arrayWithArray:[converter succesArray]];
 	
 	[converter release];
 
-	int y;
+	NSInteger y;
 	for (y=0;y<[succeededFiles count];y++)
 	{
 		[self addFile:[succeededFiles objectAtIndex:y] isSelfEncoded:YES];
@@ -428,7 +428,7 @@
 }
 
 //Alert did end, whe don't need to do anything special, well releasing the alert we do, the user should
-- (void)alertDidEnd:(NSAlert *)alert returnCode:(int)returnCode contextInfo:(void *)contextInfo
+- (void)alertDidEnd:(NSAlert *)alert returnCode:(NSInteger)returnCode contextInfo:(void *)contextInfo
 {
 	[[alert window] orderOut:self];
 	
@@ -457,7 +457,7 @@
 }
 
 //Place has been chosen change our editfield with this path
-- (void)savePanelDidEnd:(NSOpenPanel *)sheet returnCode:(int)returnCode contextInfo:(void *)contextInfo
+- (void)savePanelDidEnd:(NSOpenPanel *)sheet returnCode:(NSInteger)returnCode contextInfo:(void *)contextInfo
 {
 	[sheet orderOut:self];
 
@@ -545,7 +545,7 @@
 
 	[tableData removeAllObjects];
 
-		int i;
+		NSInteger i;
 		for (i=0;i<[savedArray count];i++)
 		{
 			NSDictionary *currentDictionary = [savedArray objectAtIndex:i];
@@ -579,7 +579,7 @@
 	[sheet beginSheetForDirectory:nil file:[[discName stringValue] stringByAppendingPathExtension:@"burn"] modalForWindow:mainWindow modalDelegate:self didEndSelector:@selector(saveDocumentPanelDidEnd:returnCode:contextInfo:) contextInfo:nil];
 }
 
-- (void)saveDocumentPanelDidEnd:(NSSavePanel *)sheet returnCode:(int)returnCode contextInfo:(void *)contextInfo
+- (void)saveDocumentPanelDidEnd:(NSSavePanel *)sheet returnCode:(NSInteger)returnCode contextInfo:(void *)contextInfo
 {
 	[sheet orderOut:self];
 
@@ -588,7 +588,7 @@
 		NSMutableArray *tempArray = [NSMutableArray arrayWithArray:tableData];
 		NSMutableDictionary *tempDict;
 	
-		int i;
+		NSInteger i;
 		for (i=0;i<[tempArray count];i++)
 		{
 			NSMutableDictionary *currentDict = [tempArray objectAtIndex:i];
@@ -599,7 +599,7 @@
 	
 		NSDictionary *burnFileProperties = [NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:tempArray,[discName stringValue],nil] forKeys:[NSArray arrayWithObjects:@"Files",@"Name",nil]];
 		
-		int type = currentType;
+		NSInteger type = currentType;
 		
 			if (currentType == 4)
 			type = 2;
@@ -639,14 +639,14 @@
 		[tableView unregisterDraggedTypes];
 }
 
-- (BOOL)tableView:(NSTableView *)tableView shouldEditTableColumn:(NSTableColumn *)tableColumn row:(int)row
+- (BOOL)tableView:(NSTableView *)tableView shouldEditTableColumn:(NSTableColumn *)tableColumn row:(NSInteger)row
 {    
 	return NO; 
 }
 
-- (NSDragOperation)tableView:(NSTableView*)tv validateDrop:(id <NSDraggingInfo>)info proposedRow:(int)row proposedDropOperation:(NSTableViewDropOperation)op
+- (NSDragOperation)tableView:(NSTableView*)tv validateDrop:(id <NSDraggingInfo>)info proposedRow:(NSInteger)row proposedDropOperation:(NSTableViewDropOperation)op
 {
-	int result = NSDragOperationNone;
+	NSInteger result = NSDragOperationNone;
 
     if (op == NSTableViewDropAbove && canBeReorderd)
 	{
@@ -661,7 +661,7 @@
 	return (result);
 }
 
-- (BOOL)tableView:(NSTableView*)tv acceptDrop:(id <NSDraggingInfo>)info row:(int)row dropOperation:(NSTableViewDropOperation)op
+- (BOOL)tableView:(NSTableView*)tv acceptDrop:(id <NSDraggingInfo>)info row:(NSInteger)row dropOperation:(NSTableViewDropOperation)op
 {
 NSPasteboard *pboard = [info draggingPasteboard];
 
@@ -671,7 +671,7 @@ NSPasteboard *pboard = [info draggingPasteboard];
 		id object = [NSUnarchiver unarchiveObjectWithData:data];
 		[tableData insertObject:object atIndex:row];
 		
-		int removeRow = [[pboard stringForType:@"KWRemoveRowPboardType"] intValue];
+		NSInteger removeRow = [[pboard stringForType:@"KWRemoveRowPboardType"] intValue];
 		if (removeRow > row)
 			[tableData removeObjectAtIndex:removeRow+1];
 		else
@@ -684,7 +684,7 @@ NSPasteboard *pboard = [info draggingPasteboard];
 		NSArray *keys = [[[pboard propertyListForType:@"CorePasteboardFlavorType 0x6974756E"] objectForKey:@"Tracks"] allKeys];
 		NSMutableArray *fileList = [NSMutableArray array];
 	
-		int i;
+		NSInteger i;
 		for (i=0;i<[keys count];i++)
 		{
 			NSURL *url = [[NSURL alloc] initWithString:[[[[pboard propertyListForType:@"CorePasteboardFlavorType 0x6974756E"] objectForKey:@"Tracks"] objectForKey:[keys objectAtIndex:i]] objectForKey:@"Location"]];
@@ -705,12 +705,12 @@ NSPasteboard *pboard = [info draggingPasteboard];
 return YES;
 }
 
-- (int) numberOfRowsInTableView:(NSTableView *)tableView
+- (NSInteger) numberOfRowsInTableView:(NSTableView *)tableView
 {
     return [tableData count];
 }
 
-- (id) tableView:(NSTableView *)tableView objectValueForTableColumn:(NSTableColumn *)tableColumn row:(int)row
+- (id) tableView:(NSTableView *)tableView objectValueForTableColumn:(NSTableColumn *)tableColumn row:(NSInteger)row
 {
 	if ([tableData count] > 0)
 	{
@@ -723,7 +723,7 @@ return YES;
 	}
 }
 
-- (void)tableView:(NSTableView *)tableView setObjectValue:(id)anObject forTableColumn:(NSTableColumn *)tableColumn row:(int)row
+- (void)tableView:(NSTableView *)tableView setObjectValue:(id)anObject forTableColumn:(NSTableColumn *)tableColumn row:(NSInteger)row
 {
     NSMutableDictionary *rowData = [tableData objectAtIndex:row];
     [rowData setObject:anObject forKey:[tableColumn identifier]];
@@ -756,7 +756,7 @@ return YES;
 #pragma mark •• Other actions
 
 //Check for rows
-- (int)numberOfRows
+- (NSInteger)numberOfRows
 {
 	return [tableData count];
 }
@@ -778,7 +778,7 @@ return YES;
 	{
 		DRFolder *discRoot = [DRFolder virtualFolderWithName:@"Untitled"];
 	
-		int i;
+		NSInteger i;
 		DRFSObject *fsObj;
 		for (i=0;i<[tableData count];i++)
 		{
@@ -803,7 +803,7 @@ return YES;
 //Find name in array of folders
 - (DRFolder *)checkArray:(NSArray *)array forFolderWithName:(NSString *)name
 {
-	int i;
+	NSInteger i;
 	for (i=0;i<[array count];i++)
 	{
 		DRFolder *currentFolder = [array objectAtIndex:i];
@@ -828,7 +828,7 @@ return YES;
 {
 	if (needed)
 	{
-		int i;
+		NSInteger i;
 		for (i=0;i<[temporaryFiles count];i++)
 		{
 			[KWCommonMethods removeItemAtPath:[temporaryFiles objectAtIndex:i]];
@@ -881,7 +881,7 @@ return YES;
 
 - (void)controlTextDidChange:(NSNotification *)aNotification
 {
-	int maxCharacters = 32;
+	NSInteger maxCharacters = 32;
 	NSString *nameString = [discName stringValue];
 	
 	if ([nameString length] > maxCharacters)

@@ -195,7 +195,7 @@
 			NSBundle *mainBundle = [NSBundle mainBundle];
 			NSArray *resourceFolders = [mainBundle localizations];
 		
-			int y;
+			NSInteger y;
 			for (y=0;y<[resourceFolders count];y++)
 			{
 				//Create a localized dictionary file

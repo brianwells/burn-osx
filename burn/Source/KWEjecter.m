@@ -30,7 +30,7 @@
 	[popupButton removeAllItems];
 	
 	NSArray *devices = [DRDevice devices];
-	int i;
+	NSInteger i;
 	for (i=0;i< [devices count];i++)
 	{
 		[popupButton addItemWithTitle:[[devices objectAtIndex:i] displayName]];
@@ -41,7 +41,7 @@
 	[NSApp beginSheet:[self window] modalForWindow:atachWindow modalDelegate:self didEndSelector: @selector(sheetDidEnd:returnCode:contextInfo:) contextInfo:nil];
 }
 
-- (void)sheetDidEnd:(NSWindow *)sheet returnCode:(int)returnCode contextInfo:(void *)contextInfo
+- (void)sheetDidEnd:(NSWindow *)sheet returnCode:(NSInteger)returnCode contextInfo:(void *)contextInfo
 {
 	[sheet orderOut:self];
 }

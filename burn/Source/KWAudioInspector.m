@@ -68,7 +68,7 @@
 	
 	while ((cntl = [iter nextObject]) != NULL)
 	{
-		int index = [cntl tag] - 1;
+		NSInteger index = [cntl tag] - 1;
 		id property;
 		
 		if (index > -1 && index < 12)
@@ -125,7 +125,7 @@
 	}
 	else
 	{
-		int i;
+		NSInteger i;
 		for (i=0;i<[indexes count];i++)
 		{
 			id currentValue;
@@ -158,7 +158,7 @@
 - (IBAction)optionsChanged:(id)sender
 {
 	#if MAC_OS_X_VERSION_MAX_ALLOWED >= MAC_OS_X_VERSION_10_4
-	int index = [sender tag] - 1;
+	NSInteger index = [sender tag] - 1;
 	NSString *currentKey = [tagMappings objectAtIndex:index];
 	KWAudioController *controller = [currentTableView delegate];
 	NSArray *selectedRows = [KWCommonMethods selectedRowsAtRowIndexes:[currentTableView selectedRowIndexes]];
@@ -168,10 +168,10 @@
 		DRCDTextBlock *currentCDTextBlock = [controller myTextBlock];
 		NSMutableArray *currentTracks = [controller myTracks];
 		
-		int i;
+		NSInteger i;
 		for (i=0;i<[selectedRows count];i++)
 		{
-			int selectedTrack = [[selectedRows objectAtIndex:i] intValue] + 1;
+			NSInteger selectedTrack = [[selectedRows objectAtIndex:i] intValue] + 1;
 			id value;
 			
 				if ([currentKey isEqualTo:DRCDTextMCNISRCKey])
@@ -193,7 +193,7 @@
 	{
 		NSMutableArray *currentTracks = [controller myTracks];
 		
-		int i;
+		NSInteger i;
 		for (i=0;i<[selectedRows count];i++)
 		{
 			id value;

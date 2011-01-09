@@ -19,7 +19,7 @@
 	TagAPI *Tag;
 	NSTableView *currentTableView;
 	NSArray *methodMappings;
-	int currentIndex;
+	NSInteger currentIndex;
 }
 - (void)updateView:(id)object;
 - (id)getObjectWithSelector:(SEL)selector fromObjects:(NSArray *)objects;

@@ -47,7 +47,7 @@
 	NSString *rootName = @"";
 	NSArray *mountedRemovableMedia = [[NSWorkspace sharedWorkspace] mountedRemovableMedia];
 	
-	int i;
+	NSInteger i;
 	for( i=0; i<[mountedRemovableMedia count]; i++ )
 	{
 		NSString *path = [mountedRemovableMedia objectAtIndex:i];
@@ -68,7 +68,7 @@
 			{ 
 				NSMutableDictionary *rowData = [NSMutableDictionary dictionary];
 		
-				int size = [KWCommonMethods getSizeFromMountedVolume:path] * 512;
+				NSInteger size = [KWCommonMethods getSizeFromMountedVolume:path] * 512;
 
 				[rowData setObject:[path lastPathComponent] forKey:@"Name"];
 				[rowData setObject:[[[NSWorkspace sharedWorkspace] iconForFile:path] retain] forKey:@"Icon"];
@@ -185,19 +185,19 @@
 #pragma mark -
 #pragma mark •• Tableview actions
 
-- (BOOL)tableView:(NSTableView *)tableView shouldEditTableColumn:(NSTableColumn *)tableColumn row:(int)row
+- (BOOL)tableView:(NSTableView *)tableView shouldEditTableColumn:(NSTableColumn *)tableColumn row:(NSInteger)row
 {    
 	return NO;
 }
 
-- (int) numberOfRowsInTableView:(NSTableView *)tableView
+- (NSInteger) numberOfRowsInTableView:(NSTableView *)tableView
 {
     return [tableData count];
 }
 
 - (id) tableView:(NSTableView *)tableView
     objectValueForTableColumn:(NSTableColumn *)tableColumn
-    row:(int)row
+    row:(NSInteger)row
 {
     NSDictionary *rowData = [tableData objectAtIndex:row];
     return [rowData objectForKey:[tableColumn identifier]];
@@ -206,7 +206,7 @@
 - (void) tableView:(NSTableView *)tableView
     setObjectValue:(id)anObject
     forTableColumn:(NSTableColumn *)tableColumn
-    row:(int)row
+    row:(NSInteger)row
 {
     NSMutableDictionary *rowData = [tableData objectAtIndex:row];
     [rowData setObject:anObject forKey:[tableColumn identifier]];

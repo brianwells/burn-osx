@@ -20,20 +20,20 @@
 	NSDictionary *theme;
 	
 	NSNumber *progressSize;
-	int fileSize;
+	NSInteger fileSize;
 }
 
 //Standard DVD-Video
-- (int)createStandardDVDFolderAtPath:(NSString *)path withFileArray:(NSArray *)fileArray withSize:(NSNumber *)size errorString:(NSString **)error;
+- (NSInteger)createStandardDVDFolderAtPath:(NSString *)path withFileArray:(NSArray *)fileArray withSize:(NSNumber *)size errorString:(NSString **)error;
 - (void)createStandardDVDXMLAtPath:(NSString *)path withFileArray:(NSArray *)fileArray errorString:(NSString **)error;
 //Standard DVD-Audio
-- (int)createStandardDVDAudioFolderAtPath:(NSString *)path withFiles:(NSArray *)files errorString:(NSString **)error;
+- (NSInteger)createStandardDVDAudioFolderAtPath:(NSString *)path withFiles:(NSArray *)files errorString:(NSString **)error;
 - (void)startTimer:(NSArray *)object;
 - (void)imageProgress:(NSTimer *)theTimer;
 
 //DVD-Video with menu
 //Create a menu with given files and chapters
-- (int)createDVDMenuFiles:(NSString *)path withTheme:(NSDictionary *)currentTheme withFileArray:(NSArray *)fileArray withSize:(NSNumber *)size withName:(NSString *)name errorString:(NSString **)error;
+- (NSInteger)createDVDMenuFiles:(NSString *)path withTheme:(NSDictionary *)currentTheme withFileArray:(NSArray *)fileArray withSize:(NSNumber *)size withName:(NSString *)name errorString:(NSString **)error;
 
 //Main actions
 //Create root menu (Start and Titles)
@@ -61,11 +61,12 @@
 - (NSImage *)selectionMaskWithTitles:(BOOL)titles withObjects:(NSArray *)objects addNext:(BOOL)next addPrevious:(BOOL)previous;
 
 //Other actions
-- (NSImage *)getPreviewImageFromTheme:(NSDictionary *)currentTheme ofType:(int)type;
+- (NSImage *)getPreviewImageFromTheme:(NSDictionary *)currentTheme ofType:(NSInteger)type;
 - (NSImage *)previewImage;
-- (void)drawString:(NSString *)string inRect:(NSRect)rect onImage:(NSImage *)image withFontName:(NSString *)fontName withSize:(int)size withColor:(NSColor *)color useAlignment:(NSTextAlignment)alignment;
-- (void)drawBoxInRect:(NSRect)rect lineWidth:(int)width onImage:(NSImage *)image;
+- (void)drawString:(NSString *)string inRect:(NSRect)rect onImage:(NSImage *)image withFontName:(NSString *)fontName withSize:(NSInteger)size withColor:(NSColor *)color useAlignment:(NSTextAlignment)alignment;
+- (void)drawBoxInRect:(NSRect)rect lineWidth:(NSInteger)width onImage:(NSImage *)image;
 - (void)drawImage:(NSImage *)drawImage inRect:(NSRect)rect onImage:(NSImage *)image;
 - (NSImage *)resizeImage:(NSImage *)image;
+- (NSImage *)imageForAudioTrackWithName:(NSString *)name withTheme:(NSDictionary *)currentTheme;
 
 @end

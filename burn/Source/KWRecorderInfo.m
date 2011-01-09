@@ -79,7 +79,7 @@
 		[recorderPopup removeAllItems];
 
 		NSArray *devices = [DRDevice devices];
-		int i;
+		NSInteger i;
 		for (i=0;i< [devices count];i++)
 		{
 			[recorderPopup addItemWithTitle:[[devices objectAtIndex:i] displayName]];
@@ -152,7 +152,7 @@
 	NSString *writesOn = @"";
 	NSString *space = @"";
 	
-	int i;
+	NSInteger i;
 	for (i=0;i< [typeKeys count];i++)
 	{
 	NSString *currentKey = [typeKeys objectAtIndex:i];
@@ -175,7 +175,7 @@
 
 	[recorderPopup removeAllItems];
 		
-	int i;
+	NSInteger i;
 	for (i=0;i< [devices count];i++)
 	{
 		[recorderPopup addItemWithTitle:[[devices objectAtIndex:i] displayName]];

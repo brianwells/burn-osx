@@ -107,7 +107,7 @@
     [super editWithFrame: textFrame inView: controlView editor:textObj delegate:anObject event: theEvent];
 }
 
-- (void)selectWithFrame:(NSRect)aRect inView:(NSView *)controlView editor:(NSText *)textObj delegate:(id)anObject start:(int)selStart length:(int)selLength
+- (void)selectWithFrame:(NSRect)aRect inView:(NSView *)controlView editor:(NSText *)textObj delegate:(id)anObject start:(NSInteger)selStart length:(NSInteger)selLength
 {
     NSRect textFrame, imageFrame;
     NSDivideRect (aRect, &imageFrame, &textFrame, 3 + 16, NSMinXEdge);
@@ -119,7 +119,7 @@
 	if (![folder isVirtual])
 		[[NSFileManager defaultManager] fileExistsAtPath:[folder sourcePath] isDirectory:&isDir];
 
-	int newSelLength;
+	NSInteger newSelLength;
 	if ([folder isVirtual] && ![folder isFilePackage])
 		newSelLength = ([[self stringValue] length]);
 	else if (![folder isVirtual] && isDir && ![[NSWorkspace sharedWorkspace] isFilePackageAtPath:[folder sourcePath]])

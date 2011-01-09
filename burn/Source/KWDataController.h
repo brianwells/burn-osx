@@ -11,7 +11,7 @@
 {	
     //Main Window
 	IBOutlet id	mainWindow;
-	IBOutlet id	outlineView;
+	IBOutlet NSOutlineView	*outlineView;
 	IBOutlet id	fileSystemPopup;
 	IBOutlet id	discName;
 	IBOutlet id	totalSizeText;
@@ -29,7 +29,7 @@
 	
 	//Advanced Sheet
 	IBOutlet id	advancedSheet;
-	IBOutlet id advancedCheckboxes;
+	IBOutlet NSMatrix *advancedCheckboxes;
 	IBOutlet id	okSheet;
 	
 	//Disc creation
@@ -102,6 +102,6 @@
 - (NSArray *)selectedDRFSObjects;
 - (void)setOutlineViewState:(NSNotification *)notif;
 - (IBAction)outlineViewAction:(id)sender;
-- (int)numberOfRows;
+- (NSInteger)numberOfRows;
 
 @end

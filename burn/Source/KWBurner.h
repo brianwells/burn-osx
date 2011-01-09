@@ -26,14 +26,14 @@
 	
 	//Variables
 	BOOL shouldClose;
-	int size;
-	int trackNumber; //Must delete
+	NSInteger size;
+	NSInteger trackNumber; //Must delete
 	DRDevice *savedDevice;
 	NSDictionary *properties;
 	DRBurn *burn;
 	NSDictionary *extraBurnProperties;
 	BOOL userCanceled;
-	int currentType;
+	NSInteger currentType;
 	NSArray *combinableTypes;
 	NSString *imagePath;
 	id currentCombineCheckBox;
@@ -49,7 +49,7 @@
 - (void)setLayerBreak:(id)layerBreak;
 - (void)burnTrack:(id)track;
 - (void)burnTrackToImage:(NSDictionary *)dict;
-- (int)getImageSizeAtPath:(NSString *)path;
+- (NSInteger)getImageSizeAtPath:(NSString *)path;
 - (void)updateDevice:(DRDevice *)device;
 //Main Sheet actions
 - (IBAction)burnButton:(id)sender;
@@ -74,10 +74,10 @@
 - (BOOL)canBurn;
 - (void)stopBurning:(NSNotification *)notif;
 - (BOOL)isCD;
-- (void)setType:(int)type;
+- (void)setType:(NSInteger)type;
 - (void)setCombinableTypes:(NSArray *)types;
 - (NSArray *)types;
-- (int)currentType;
+- (NSInteger)currentType;
 - (void)addBurnProperties:(NSDictionary *)properties;
 - (NSDictionary *)properties;
 

@@ -30,7 +30,7 @@
 	[burnerPopup removeAllItems];
 	
 	NSArray *devices = [DRDevice devices];
-	int i;
+	NSInteger i;
 	for (i=0;i< [devices count];i++)
 	{
 		[burnerPopup addItemWithTitle:[[devices objectAtIndex:i] displayName]];
@@ -57,19 +57,19 @@
 	[NSApp beginSheet:[self window] modalForWindow:window modalDelegate:self didEndSelector:@selector(sheetDidEnd:returnCode:contextInfo:) contextInfo:window];
 }
 
-- (int)beginEraseWindow
+- (NSInteger)beginEraseWindow
 {
 	[burnerPopup removeAllItems];
 	
 	[self setupWindow];
 	
-	int x = [NSApp runModalForWindow:[self window]];
+	NSInteger x = [NSApp runModalForWindow:[self window]];
 	[[self window] close];
 
 	return x;
 }
 
-- (void)sheetDidEnd:(NSWindow *)sheet returnCode:(int)returnCode contextInfo:(void *)contextInfo
+- (void)sheetDidEnd:(NSWindow *)sheet returnCode:(NSInteger)returnCode contextInfo:(void *)contextInfo
 {
 	[sheet orderOut:self];
 	[[DRNotificationCenter currentRunLoopCenter] removeObserver:self name:DRDeviceStatusChangedNotification object:nil];
@@ -174,7 +174,7 @@
 	}
 	
 	NSArray *devices = [DRDevice devices];
-	int z;
+	NSInteger z;
 	for (z=0;z<[devices count];z++)
 	{
 		DRDevice *device = [devices objectAtIndex:z];
@@ -261,7 +261,7 @@
 	NSString *statusString = nil;
 	
 	if ([[NSUserDefaults standardUserDefaults] boolForKey:@"KWDebug"])
-		NSLog([status description]);
+		NSLog(@"%@", [status description]);
 	
 	NSNumber *percent = [status objectForKey:DRStatusPercentCompleteKey];
 	if ([percent floatValue] > 0)
@@ -328,7 +328,7 @@
 - (DRDevice *)savedDevice
 {
 	NSArray *devices = [DRDevice devices];
-	int i;
+	NSInteger i;
 	for (i=0;i< [devices count];i++)
 	{
 	DRDevice *currentDevice = [devices objectAtIndex:i];

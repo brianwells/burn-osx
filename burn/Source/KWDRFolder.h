@@ -20,7 +20,7 @@
 	NSString *displayName;
 	NSString *originalName;
 
-	int myNumber;
+	NSInteger myNumber;
 }
 
 - (void)setFolderIcon:(NSImage *)image;

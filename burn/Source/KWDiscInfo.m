@@ -83,7 +83,7 @@
 		[recorderPopup removeAllItems];
 	
 		NSArray *devices = [DRDevice devices];
-		int i;
+		NSInteger i;
 		for (i=0;i< [devices count];i++)
 		{
 			[recorderPopup addItemWithTitle:[[devices objectAtIndex:i] displayName]];
@@ -150,7 +150,7 @@
 
 	[recorderPopup removeAllItems];
 		
-	int i;
+	NSInteger i;
 	for (i=0;i< [devices count];i++)
 	{
 		[recorderPopup addItemWithTitle:[[devices objectAtIndex:i] displayName]];

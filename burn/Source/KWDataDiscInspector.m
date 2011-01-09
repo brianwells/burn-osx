@@ -150,7 +150,7 @@ static NSArray* filesystemNameTagMappings = nil;
 
 - (IBAction)setVolumeProperty:(id)sender
 {
-	int currentIndex = [sender tag] - 1;
+	NSInteger currentIndex = [sender tag] - 1;
 	NSString *propertyTag = [propertyTagMappings objectAtIndex:[sender tag] - 1];
 	id objectValue = [sender objectValue];
 
@@ -183,7 +183,7 @@ static NSArray* filesystemNameTagMappings = nil;
 
 - (IBAction)selectRootDirFile:(id)sender
 {
-	int	returnCode;
+	NSInteger	returnCode;
 	
 	// Get the current list of root files from the mail app controller. This will be the 
 	// list of files that you can choose from. For any of the special ISO root files 
@@ -193,7 +193,7 @@ static NSArray* filesystemNameTagMappings = nil;
 	NSArray *rootChildren = [filesystemRoot children];
 	NSMutableArray*	mutableRootFiles = [NSMutableArray arrayWithCapacity:1];
 	
-	int i;
+	NSInteger i;
 	for (i=0;i<[rootChildren count];i++)
 	{
 		id currentObject = [rootChildren objectAtIndex:i];
@@ -246,7 +246,7 @@ static NSArray* filesystemNameTagMappings = nil;
 	// The correct filesystem is encoded in the tag of the object.
 	NSString*	filesystem;
 	NSString*	volumeName;
-	int			index = [sender tag] - 31;
+	NSInteger			index = [sender tag] - 31;
 	
 	// If it's index 1 (that's ISO), we need to look at the ISO level popup.
 	// For the filesystem names, we need to get specific since while we're 
@@ -258,7 +258,7 @@ static NSArray* filesystemNameTagMappings = nil;
 	// for ISO.
 	if (index == 1)
 	{
-		int isoLevelInt = [[fsProperties objectForKey:DRISOLevel] intValue];
+		NSInteger isoLevelInt = [[fsProperties objectForKey:DRISOLevel] intValue];
 		index = index + (isoLevelInt ? isoLevelInt : 1);
 	}
 
@@ -319,7 +319,7 @@ static NSArray* filesystemNameTagMappings = nil;
 		
 		NSArray *fileKeys = [NSArray arrayWithObjects:DRCopyrightFile, DRBibliographicFile, DRAbstractFile,nil];
 		
-		int x;
+		NSInteger x;
 		for (x=0;x<[fileKeys count];x++)
 		{
 			NSString *currentKey = [fileKeys objectAtIndex:x];
@@ -348,7 +348,7 @@ static NSArray* filesystemNameTagMappings = nil;
 		[self setOptionsForViews:[[allOptions contentView] subviews] setEnabled:YES];
 		
 		//Set ISO level
-		int isoLevelNumber = [[fsProperties objectForKey:DRISOLevel] intValue] - 1;
+		NSInteger isoLevelNumber = [[fsProperties objectForKey:DRISOLevel] intValue] - 1;
 		[isoLevel selectItemAtIndex:isoLevelNumber];
 	}
 	
@@ -357,7 +357,7 @@ static NSArray* filesystemNameTagMappings = nil;
 	if ([KWCommonMethods OSVersion] >= 0x1040)
 	{
 		//Set UDF version
-		int udfVersionNumber = [[NSNumber numberWithBool:[[[filesystemRoot propertiesForFilesystem:@"DRUDF" mergeWithOtherFilesystems:NO] objectForKey:@"DRUDFWriteVersion"] isEqualTo:@"DRUDFVersion150"]] intValue] + 1;
+		NSInteger udfVersionNumber = [[NSNumber numberWithBool:[[[filesystemRoot propertiesForFilesystem:@"DRUDF" mergeWithOtherFilesystems:NO] objectForKey:@"DRUDFWriteVersion"] isEqualTo:@"DRUDFVersion150"]] intValue] + 1;
 		[udfVersion selectItemAtIndex:udfVersionNumber];
 	}
 
@@ -459,7 +459,7 @@ static NSArray* filesystemNameTagMappings = nil;
 
 	//Check for disc icon
 	NSArray *rootChildren = [(DRFolder *)object children];
-	int i;
+	NSInteger i;
 	for (i=0;i<[rootChildren count];i++)
 	{
 		if ([[[rootChildren objectAtIndex:i] baseName] isEqualTo:@".VolumeIcon.icns"])
@@ -510,7 +510,7 @@ static NSArray* filesystemNameTagMappings = nil;
 	[openPanel beginSheetForDirectory:nil file:nil types:[NSArray arrayWithObject:@"icns"] modalForWindow:[myView window] modalDelegate:self didEndSelector:@selector(openFileEnded:returnCode:contextInfo:) contextInfo:nil];
 }
 
-- (void)openFileEnded:(NSOpenPanel*)panel returnCode:(int)returnCode contextInfo:(void *)contextInfo
+- (void)openFileEnded:(NSOpenPanel*)panel returnCode:(NSInteger)returnCode contextInfo:(void *)contextInfo
 {
 	[panel orderOut:self];
 
@@ -530,7 +530,7 @@ static NSArray* filesystemNameTagMappings = nil;
 {
 	NSArray *rootChildren = [filesystemRoot children];
 	
-	int i;
+	NSInteger i;
 	for (i=0;i<[rootChildren count];i++)
 	{
 		if ([[[rootChildren objectAtIndex:i] baseName] isEqualTo:@".VolumeIcon.icns"])
@@ -589,12 +589,12 @@ static NSArray* filesystemNameTagMappings = nil;
 
 #pragma mark -
 #pragma mark •• Data source methods
-- (int)numberOfRowsInTableView:(NSTableView *)aTableView
+- (NSInteger)numberOfRowsInTableView:(NSTableView *)aTableView
 {
 	return [rootFiles count];
 }
 
-- (id)tableView:(NSTableView *)aTableView objectValueForTableColumn:(NSTableColumn *)tableColumn row:(int)rowIndex
+- (id)tableView:(NSTableView *)aTableView objectValueForTableColumn:(NSTableColumn *)tableColumn row:(NSInteger)rowIndex
 {
 	return [[rootFiles objectAtIndex:rowIndex]valueForKey:[tableColumn identifier]];
 }
@@ -631,7 +631,7 @@ static NSArray* filesystemNameTagMappings = nil;
 		{
 			NSArray *views = [tabView subviews];
 			
-			int x;
+			NSInteger x;
 			for (x=0;x<[views count];x++)
 			{
 				id currentView = [views objectAtIndex:x];
@@ -640,7 +640,7 @@ static NSArray* filesystemNameTagMappings = nil;
 		}
 		else
 		{
-			int index = [cntl tag] - 1;
+			NSInteger index = [cntl tag] - 1;
 		
 			if (index > -1 && index < 30)
 			{

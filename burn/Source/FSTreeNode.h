@@ -80,16 +80,16 @@
 
 @interface FSTreeNode : TreeNode
 {
-int myNumber;
+NSInteger myNumber;
 }
 
 - (void)addChild:(TreeNode*)child;
-- (int) numberOfChildren;
+- (NSInteger) numberOfChildren;
 - (NSArray*) children;
 
 - (id)initWithCoder:(NSCoder *)pCoder;
 - (void)encodeWithCoder:(NSCoder *)pCoder;
 
-- (int) myNumber;
+- (NSInteger) myNumber;
 
 @end

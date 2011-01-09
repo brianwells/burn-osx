@@ -158,7 +158,7 @@
 	unsigned short	fndrFlags = 0;
 	NSEnumerator*	iter;
 	NSCell*			cell;
-	int x;
+	NSInteger x;
 	
 	BOOL isDir = [self isFolder:[inspectedItems objectAtIndex:0]];
 	BOOL multiEqual = YES;
@@ -183,7 +183,7 @@
 	[scrollPosY setEnabled:!enableState];
 	[viewType setEnabled:!enableState];
 	
-	int state = NSOnState;
+	NSInteger state = NSOnState;
 	for (x=0;x<[inspectedItems count];x++)
 	{
 		if (![self extensionHiddenOfFSObject:[inspectedItems objectAtIndex:x]])
@@ -205,13 +205,21 @@
 
 		data = [self getPropertyForKey:DRMacFileCreator];
 		if (data)
+			#if MAC_OS_X_VERSION_MAX_ALLOWED >= MAC_OS_X_VERSION_10_4
+			[creator setStringValue:[NSString stringWithCString:[data bytes] encoding:NSASCIIStringEncoding]];
+			#else
 			[creator setStringValue:[NSString stringWithCString:[data bytes] length:4]];
+			#endif
 		else
 			[creator setStringValue:@""];
 		
 		data = [self getPropertyForKey:DRMacFileType];
 		if (data)
+			#if MAC_OS_X_VERSION_MAX_ALLOWED >= MAC_OS_X_VERSION_10_4
+			[type setStringValue:[NSString stringWithCString:[data bytes] encoding:NSASCIIStringEncoding]];
+			#else
 			[type setStringValue:[NSString stringWithCString:[data bytes] length:4]];
+			#endif
 		else
 			[type setStringValue:@""];
 	
@@ -292,7 +300,7 @@
 	
 	positionData = [NSData dataWithBytes:&iconPosition length:sizeof(iconPosition)];
 	
-	int x;
+	NSInteger x;
 	for (x=0;x<[inspectedItems count];x++)
 	{
 		[[inspectedItems objectAtIndex:x] setProperty:positionData forKey:DRMacIconLocation inFilesystem:[self filesystem]];
@@ -315,7 +323,7 @@
 			invisible = ([cell state] == NSOnState);
 	}
 	
-	int x;
+	NSInteger x;
 	for (x=0;x<[inspectedItems count];x++)
 	{
 		id currentItem = [inspectedItems objectAtIndex:x];
@@ -343,7 +351,7 @@
 	
 		boundsData = [NSData dataWithBytes:&windowBounds length:sizeof(windowBounds)];
 	
-		int x;
+		NSInteger x;
 		for (x=0;x<[inspectedItems count];x++)
 		{
 			[[inspectedItems objectAtIndex:x] setProperty:boundsData forKey:DRMacWindowBounds inFilesystem:[self filesystem]];
@@ -364,7 +372,7 @@
 	
 		positionData = [NSData dataWithBytes:&scrollPosition length:sizeof(scrollPosition)];
 	
-		int x;
+		NSInteger x;
 		for (x=0;x<[inspectedItems count];x++)
 		{
 			[[inspectedItems objectAtIndex:x] setProperty:positionData forKey:DRMacScrollPosition inFilesystem:[self filesystem]];
@@ -378,7 +386,7 @@
 										  
 	data = [NSData dataWithBytes:[data bytes] length:4];
 	
-	int x;
+	NSInteger x;
 	for (x=0;x<[inspectedItems count];x++)
 	{
 		[[inspectedItems objectAtIndex:x] setProperty:data forKey:[propertyMappings objectAtIndex:[sender tag]] inFilesystem:[self filesystem]];
@@ -387,7 +395,7 @@
 
 - (IBAction)setHiddenExtension:(id)sender
 {
-	int x;
+	NSInteger x;
 	for (x=0;x<[inspectedItems count];x++)
 	{
 		DRFSObject *currentItem = [inspectedItems objectAtIndex:x];

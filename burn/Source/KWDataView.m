@@ -101,7 +101,7 @@
 				
 					NSArray *files = [[NSFileManager defaultManager] directoryContentsAtPath:path];
 					NSMutableArray *fulPaths = [[NSMutableArray alloc] init];
-					int i = 0;
+					NSInteger i = 0;
 					for (i=0;i<[files count];i++)
 					{
 						[fulPaths addObject:[path stringByAppendingPathComponent:[files objectAtIndex:i]]];

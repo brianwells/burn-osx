@@ -34,7 +34,7 @@
 															nil];
 	
 	NSNotificationCenter *defaultCenter = [NSNotificationCenter defaultCenter];
-	int i;
+	NSInteger i;
 	for (i=0;i< [notificationNames count];i++)
 	{
 		[defaultCenter addObserver:self selector:@selector(growlMessage:) name:[notificationNames objectAtIndex:i] object:nil];
@@ -68,7 +68,7 @@
 
 - (void)growlMessage:(NSNotification *)notif
 {
-	int index = [notificationNames indexOfObject:[notif name]];
+	NSInteger index = [notificationNames indexOfObject:[notif name]];
 	
 		if ([[NSUserDefaults standardUserDefaults] boolForKey:@"KWUseSoundEffects"])
 		{

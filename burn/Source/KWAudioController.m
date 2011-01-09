@@ -7,7 +7,9 @@
 //
 
 #import "KWAudioController.h"
+#if MAC_OS_X_VERSION_MAX_ALLOWED < MAC_OS_X_VERSION_10_4
 #import <QuickTime/QuickTime.h>
+#endif
 #import <ID3/TagAPI.h>
 #import "KWWindowController.h"
 #import "KWCommonMethods.h"
@@ -132,6 +134,7 @@
 	}
 	else
 	{
+		#if MAC_OS_X_VERSION_MAX_ALLOWED < MAC_OS_X_VERSION_10_4
 		//EnterMovies for QuickTime 6 functions later to be used
 		EnterMovies();
 	
@@ -147,6 +150,7 @@
 		[playButton setEnabled:YES];
 		[nextButton setEnabled:YES];
 		[stopButton setEnabled:YES];
+		#endif
 	}
 	
 	//Set save popup title
@@ -167,7 +171,7 @@
 //Delete tracks from tracks array (Audio-CD only)
 - (IBAction)deleteFiles:(id)sender
 {	
-	int selrow = [tableViewPopup indexOfSelectedItem];
+	NSInteger selrow = [tableViewPopup indexOfSelectedItem];
 	
 	if (selrow == 0)
 	{
@@ -191,7 +195,7 @@
 	else
 		path = [file objectForKey:@"Path"];
 
-	int selrow = [tableViewPopup indexOfSelectedItem];
+	NSInteger selrow = [tableViewPopup indexOfSelectedItem];
 
 	NSString *fileType = NSFileTypeForHFSTypeCode([[[[NSFileManager defaultManager] fileAttributesAtPath:path traverseLink:YES] objectForKey:NSFileHFSTypeCode] longValue]);
 
@@ -300,7 +304,7 @@
 					}
 				}
 			
-				int lastTrack = [tracks count] - 1;
+				NSInteger lastTrack = [tracks count] - 1;
 	
 				[cdtext setObject:[Tag getTitle] forKey:DRCDTextTitleKey ofTrack:lastTrack];
 				[cdtext setObject:[Tag getArtist] forKey:DRCDTextPerformerKey ofTrack:lastTrack];
@@ -334,7 +338,7 @@
 - (IBAction)changeDiscName:(id)sender
 {
 	#if MAC_OS_X_VERSION_MAX_ALLOWED >= MAC_OS_X_VERSION_10_4
-	int selrow = [tableViewPopup indexOfSelectedItem];
+	NSInteger selrow = [tableViewPopup indexOfSelectedItem];
 	
 	if	(selrow == 0)
 	{
@@ -353,7 +357,7 @@
 //Create a track for burning
 - (id)myTrackWithBurner:(KWBurner *)burner errorString:(NSString **)error
 {
-	int selrow = [tableViewPopup indexOfSelectedItem];
+	NSInteger selrow = [tableViewPopup indexOfSelectedItem];
 
 	//Stop the music before burning
 	if ([KWCommonMethods isQuickTimeSevenInstalled])
@@ -367,7 +371,7 @@
 		{
 			[temporaryFiles addObject:outputFolder];
 	
-			int succes = [self authorizeFolderAtPathIfNeededAtPath:outputFolder errorString:&*error];
+			NSInteger succes = [self authorizeFolderAtPathIfNeededAtPath:outputFolder errorString:&*error];
 	
 			if (succes == 0)
 				return [[KWTrackProducer alloc] getTrackForFolder:outputFolder ofType:7 withDiscName:[discName stringValue]];
@@ -384,7 +388,7 @@
 	{
 		DRFolder *discRoot = [DRFolder virtualFolderWithName:[discName stringValue]];
 	
-		int i;
+		NSInteger i;
 		for (i=0;i<[tableData count];i++)
 		{
 			DRFolder *myFolder = discRoot;
@@ -457,9 +461,9 @@
 	return nil;
 }
 
-- (int)authorizeFolderAtPathIfNeededAtPath:(NSString *)path errorString:(NSString **)error;
+- (NSInteger)authorizeFolderAtPathIfNeededAtPath:(NSString *)path errorString:(NSString **)error;
 {
-	int succes;
+	NSInteger succes;
 	NSDictionary *currentData = [tableData objectAtIndex:0];
 	
 	if ([tableData count] > 0 && [[[currentData objectForKey:@"Name"] lowercaseString] isEqualTo:@"audio_ts"])
@@ -479,7 +483,7 @@
 	
 		NSMutableArray *files = [NSMutableArray array];
 
-		int i;
+		NSInteger i;
 		for (i=0;i<[tableData count];i++)
 		{
 			[files addObject:[[tableData objectAtIndex:i] objectForKey:@"Path"]];
@@ -505,7 +509,7 @@
 
 - (void)tableViewSelectionDidChange:(NSNotification *)notification
 {
-	int selrow = [tableViewPopup indexOfSelectedItem];
+	NSInteger selrow = [tableViewPopup indexOfSelectedItem];
 
 	NSNotificationCenter *defaultCenter = [NSNotificationCenter defaultCenter];
 
@@ -532,7 +536,7 @@
 //Set the current tableview and tabledata to the selected popup item
 - (void)getTableView
 {
-	int selrow = [tableViewPopup indexOfSelectedItem];
+	NSInteger selrow = [tableViewPopup indexOfSelectedItem];
 	
 	if (allowedFileTypes)
 	{
@@ -562,7 +566,7 @@
 //Popup clicked
 - (IBAction)tableViewPopup:(id)sender
 {
-	int selrow = [tableViewPopup indexOfSelectedItem];
+	NSInteger selrow = [tableViewPopup indexOfSelectedItem];
 	canBeReorderd = YES;
 	isDVD = NO;
 	currentFileSystem = @"";
@@ -678,14 +682,14 @@
 			if (pause == NO | sender == tableView)
 			{
 				//If there still is a movie (when a user double-clicked a row) stop it and make movie nil
-				if (!movie == nil)
+				if (movie != nil)
 				{
 					[movie stop];
 					[movie release];
 					movie = nil;
 				}
 				
-				int selrow = [tableView selectedRow];
+				NSInteger selrow = [tableView selectedRow];
 				
 				//Check if a row is selected if not play first song 
 				if (selrow > -1)
@@ -730,7 +734,7 @@
 	if ([tableData count] > 0)
 	{
 		//Check if there is a movie, so we have something to stop
-		if (!movie == nil)
+		if (movie != nil)
 		{
 			[movie stop];
 			
@@ -752,7 +756,7 @@
 - (IBAction)back:(id)sender
 {
 	#ifdef USE_QTKIT
-	if (!movie==nil)
+	if (movie != nil)
 	{
 		//Only fire if the player is already playing
 		if ([playButton image] == [NSImage imageNamed:@"Pause"])
@@ -761,7 +765,7 @@
 			if (playingSong - 1 > - 1)
 			{
 				//Stop previous movie
-				if (!movie == nil)
+				if (movie != nil)
 				{
 					[movie stop];
 					[movie release];
@@ -782,7 +786,7 @@
 			if (playingSong - 1 > - 1)
 			{
 				//Stop previous movie
-				if (!movie == nil)
+				if (movie != nil)
 				{
 					[movie stop];
 					[movie release];
@@ -805,7 +809,7 @@
 - (IBAction)forward:(id)sender
 {
 	#ifdef USE_QTKIT
-	if (!movie==nil)
+	if (movie != nil)
 	{
 		//Only fire if the player is already playing
 		if ([playButton image] == [NSImage imageNamed:@"Pause"])
@@ -814,7 +818,7 @@
 			if (playingSong + 1 < [tableData count])
 			{
 				//Stop previous movie
-				if (!movie == nil)
+				if (movie != nil)
 				{
 					[movie stop];
 					[movie release];
@@ -831,7 +835,7 @@
 			if (playingSong + 1 < [tableData count])
 			{
 				//Stop previous movie
-				if (!movie == nil)
+				if (movie != nil)
 				{
 					[movie stop];
 					[movie release];
@@ -854,7 +858,7 @@
 	if (playingSong + 1 < [tableData count])
 	{
 		//Stop previous movie
-		if (!movie == nil)
+		if (movie != nil)
 		{
 			[movie stop];
 			[movie release];
@@ -878,7 +882,7 @@
 	#ifdef USE_QTKIT
 	if ([KWCommonMethods isQuickTimeSevenInstalled])
 	{
-		if (!movie==nil)
+		if (movie != nil)
 		{
 			if (display < 2)
 				display = display + 1;
@@ -916,14 +920,14 @@
 		NSString *displayText;
 		NSString *timeString;
 		
-		int time = (int)[movie currentTime].timeValue/(int)[movie currentTime].timeScale;
+		NSInteger time = (NSInteger)[movie currentTime].timeValue/(NSInteger)[movie currentTime].timeScale;
 				
 		if (display == 2)
-			time = (int)[movie duration].timeValue/(int)[movie duration].timeScale - time;
+			time = (NSInteger)[movie duration].timeValue/(NSInteger)[movie duration].timeScale - time;
 			
 		timeString = [KWCommonMethods formatTime:time];
 				
-		int selrow = [tableViewPopup indexOfSelectedItem];
+		NSInteger selrow = [tableViewPopup indexOfSelectedItem];
 		if (selrow == 1 | selrow == 2)
 		{
 			NSString *displayName = [[NSFileManager defaultManager] displayNameAtPath:[[tableData objectAtIndex:playingSong] objectForKey:@"Path"]];
@@ -968,8 +972,8 @@
 	}
 	else
 	{
-		int i;
-		int size = 0;
+		NSInteger i;
+		NSInteger size = 0;
 		for (i=0;i<[tracks count];i++)
 		{
 			DRTrack *currentTrack = [tracks objectAtIndex:i];
@@ -989,10 +993,11 @@
 }
 
 //Get movie duration using NSMovie so it works in Panther too
-- (int)getMovieDuration:(NSString *)path
+- (NSInteger)getMovieDuration:(NSString *)path
 {
-	int duration;
-
+	NSInteger duration;
+	
+	#if MAC_OS_X_VERSION_MAX_ALLOWED < MAC_OS_X_VERSION_10_4
 	NSMovie *theMovie = [[NSMovie alloc] initWithURL:[NSURL fileURLWithPath:path] byReference:NO];
 
 	if (theMovie)
@@ -1000,6 +1005,11 @@
 		duration = GetMovieDuration([theMovie QTMovie]) / GetMovieTimeScale([theMovie QTMovie]);
 		[theMovie release];
 	}
+	#else
+	QTMovie *qtMovie = [QTMovie movieWithFile:path error:nil];
+	QTTime movieDuration = [qtMovie duration];
+	duration = (NSInteger)movieDuration.timeValue / (NSInteger)movieDuration.timeScale;
+	#endif
 
 	return duration;
 }
@@ -1045,14 +1055,14 @@
 	{
 		NSArray *keys = [cueMappings allKeys];
 	
-		int i;
+		NSInteger i;
 		for (i=0;i<[keys count];i++)
 		{
 			NSString *key = [keys objectAtIndex:i];
 			NSString *cueString = [cueMappings objectForKey:key];
 			id object = [cdtext objectForKey:key ofTrack:0];
 		
-			if (object && ![[NSString stringWithFormat:@"%@", object] isEqualTo:@""] && (![cueString isEqualTo:@"MESSAGE"] | [object length] > 1))
+			if (object && ![[NSString stringWithFormat:@"%@", object] isEqualTo:@""] && (![cueString isEqualTo:@"MESSAGE"] | [(NSString *)object length] > 1))
 			{
 				if (i > 7)
 					cueFile = [NSString stringWithFormat:@"%@\n%@ %@", cueFile, cueString, object];
@@ -1073,11 +1083,11 @@
 	}
 	#endif
 		
-	int x;
-	int size = 0;
+	NSInteger x;
+	NSInteger size = 0;
 	for (x=0;x<[tracks count];x++)
 	{
-		int trackNumber = x + 1;
+		NSInteger trackNumber = x + 1;
 		cueFile = [NSString stringWithFormat:@"%@\n  TRACK %2i AUDIO", cueFile, trackNumber];
 		
 		#if MAC_OS_X_VERSION_MAX_ALLOWED >= MAC_OS_X_VERSION_10_4
@@ -1085,14 +1095,14 @@
 		{
 			NSArray *keys = [cueMappings allKeys];
 		
-			int i;
+			NSInteger i;
 			for (i=0;i<[keys count];i++)
 			{
 				NSString *key = [keys objectAtIndex:i];
 				NSString *cueString = [cueMappings objectForKey:key];
 				id object = [cdtext objectForKey:key ofTrack:trackNumber];
 		
-				if (object && ![[NSString stringWithFormat:@"%@", object] isEqualTo:@""] && (![cueString isEqualTo:@"MESSAGE"] | [object length] > 1))
+				if (object && ![[NSString stringWithFormat:@"%@", object] isEqualTo:@""] && (![cueString isEqualTo:@"MESSAGE"] | [(NSString *)object length] > 1))
 				{
 					if (i > 7)
 						cueFile = [NSString stringWithFormat:@"%@\n    %@ %@", cueFile, cueString, object];
@@ -1120,7 +1130,7 @@
 		
 		DRTrack *currentTrack = [tracks objectAtIndex:x];
 		NSDictionary *trackProperties = [currentTrack properties];
-		int pregap = [[trackProperties objectForKey:DRPreGapLengthKey] intValue];
+		NSInteger pregap = [[trackProperties objectForKey:DRPreGapLengthKey] intValue];
 			
 		if (pregap > 0)
 		{
@@ -1129,7 +1139,7 @@
 			size = size + pregap;
 		}
 		
-		int trackSize = [[trackProperties objectForKey:DRTrackLengthKey] intValue];
+		NSInteger trackSize = [[trackProperties objectForKey:DRTrackLengthKey] intValue];
 		NSString *time = [[DRMSF msfWithFrames:size] description];
 		cueFile = [NSString stringWithFormat:@"%@\n    INDEX 01 %@", cueFile, time];
 		size = size + trackSize;

@@ -111,7 +111,7 @@ return self;
 	[[cells objectAtIndex:0] setObjectValue:[NSNumber numberWithBool:!mount]];
 	[[cells objectAtIndex:1] setObjectValue:[NSNumber numberWithBool:mount]];
 	
-	int selectedCDItem = [[standardDefaults objectForKey:@"KWDefaultCDMedia"] intValue];
+	NSInteger selectedCDItem = [[standardDefaults objectForKey:@"KWDefaultCDMedia"] intValue];
 	if (selectedCDItem == 0 | selectedCDItem == 3)
 		[standardDefaults setObject:[NSNumber numberWithInt:6] forKey:@"KWDefaultCDMedia"];
 	
@@ -119,7 +119,7 @@ return self;
 	[(NSMenuItem *)[cdPopup itemAtIndex:0] setEnabled:NO];
 	[(NSMenuItem *)[cdPopup itemAtIndex:3] setEnabled:NO];
 	
-	int selectedDVDItem = [[standardDefaults objectForKey:@"KWDefaultDVDMedia"] intValue];
+	NSInteger selectedDVDItem = [[standardDefaults objectForKey:@"KWDefaultDVDMedia"] intValue];
 	if (selectedDVDItem == 0 | selectedDVDItem == 3)
 		[standardDefaults setObject:[NSNumber numberWithInt:4] forKey:@"KWDefaultDVDMedia"];
 	
@@ -150,7 +150,7 @@ return self;
 	[mightBeThemes addObject:@"---"];
 	[mightBeThemes addObjectsFromArray:userThemes];
 	
-	int y;
+	NSInteger y;
 	for (y=0;y<[mightBeThemes count];y++)
 	{
 		NSString *currentFile = [mightBeThemes objectAtIndex:y];
@@ -233,7 +233,7 @@ return self;
 {
 	NSUserDefaults *standardDefaults = [NSUserDefaults standardUserDefaults];
 	NSNotificationCenter *defaultCenter = [NSNotificationCenter defaultCenter];
-	int tag = [sender tag];
+	NSInteger tag = [sender tag];
 	id object = [sender objectValue];
 
 	if (tag == 4)
@@ -281,7 +281,7 @@ return self;
 #pragma mark -
 #pragma mark •• - General
 
-- (void)temporaryOpenPanelDidEnd:(NSOpenPanel *)sheet returnCode:(int)returnCode contextInfo:(void *)contextInfo
+- (void)temporaryOpenPanelDidEnd:(NSOpenPanel *)sheet returnCode:(NSInteger)returnCode contextInfo:(void *)contextInfo
 {
 	[sheet orderOut:self];
 	
@@ -362,7 +362,7 @@ return self;
 	[sheet beginSheetForDirectory:nil file:nil types:[NSArray arrayWithObject:@"burnTheme"] modalForWindow:[self window] modalDelegate:self didEndSelector:@selector(themeOpenPanelDidEnd:returnCode:contextInfo:) contextInfo:nil];
 }
 
-- (void)themeOpenPanelDidEnd:(NSOpenPanel *)sheet returnCode:(int)returnCode contextInfo:(void *)contextInfo
+- (void)themeOpenPanelDidEnd:(NSOpenPanel *)sheet returnCode:(NSInteger)returnCode contextInfo:(void *)contextInfo
 {
 	[sheet orderOut:self];
 
@@ -387,7 +387,7 @@ return self;
 
 				if ([themePaths indexOfObject:@"Seperator"] == [themePaths count] - 1)
 				{
-					int index = [themePopup numberOfItems] - 1;
+					NSInteger index = [themePopup numberOfItems] - 1;
 					[themePopup removeItemAtIndex:index];
 					[themePaths removeObjectAtIndex:index];
 				}
@@ -446,7 +446,7 @@ return self;
 	[sheet beginSheetForDirectory:nil file:nil types:nil modalForWindow:[self window] modalDelegate:self didEndSelector:@selector(openPanelDidEnd:returnCode:contextInfo:) contextInfo:nil];
 }
 
-- (void)openPanelDidEnd:(NSOpenPanel *)sheet returnCode:(int)returnCode contextInfo:(void *)contextInfo
+- (void)openPanelDidEnd:(NSOpenPanel *)sheet returnCode:(NSInteger)returnCode contextInfo:(void *)contextInfo
 {
 	[sheet orderOut:self];
 
@@ -595,7 +595,7 @@ return self;
 	
 	if (succes)
 	{
-		int i = 0;
+		NSInteger i = 0;
 		for (i=0;i<[files count];i++)
 		{
 			NSString *oldFile = [files objectAtIndex:i];
@@ -639,7 +639,7 @@ return self;
 	NSEnumerator *iter = [[[NSEnumerator alloc] init] autorelease];
 	NSControl *cntl;
 
-	int x;
+	NSInteger x;
 	for (x=0;x<[views count];x++)
 	{
 		NSView *currentView;
@@ -655,7 +655,7 @@ return self;
 			if ([cntl isKindOfClass:[NSTabView class]])
 			[self setViewOptions:[(NSTabView *)cntl tabViewItems]];
 		
-			int index = [cntl tag] - 1;
+			NSInteger index = [cntl tag] - 1;
 			id property = nil;
 		
 			if (index > -1 && index < 54)
@@ -674,8 +674,8 @@ return self;
 
 - (void)checkForExceptions:(NSButton *)button
 {
-	int tag = [button tag];
-	int state;
+	NSInteger tag = [button tag];
+	NSInteger state;
 		
 	if ([button respondsToSelector:@selector(state)])
 		state = [button state];
@@ -727,7 +727,7 @@ return self;
 		[[videoView viewWithTag:24] setHidden:(state == NSOnState)];
 		[[videoView viewWithTag:99] setHidden:(state == NSOnState)];
 
-		int height;
+		NSInteger height;
 
 		if (state == NSOnState)
 			height = dataViewHeight - 26;

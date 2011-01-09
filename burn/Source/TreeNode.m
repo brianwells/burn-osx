@@ -175,7 +175,7 @@
 
 - (void)removeChild:(TreeNode*)child
 {
-    int index = [self indexOfChild: child];
+    NSInteger index = [self indexOfChild: child];
     if (index != NSNotFound)
 	{
 		[nodeChildren removeObjectAtIndex:index];
@@ -187,17 +187,17 @@
     [[self nodeParent] removeChild:self];
 }
 
-- (int) indexOfChild:(TreeNode*)child
+- (NSInteger)indexOfChild:(TreeNode*)child
 {
     return [nodeChildren indexOfObject:child];
 }
 
-- (int) indexOfChildIdenticalTo:(TreeNode*)child
+- (NSInteger) indexOfChildIdenticalTo:(TreeNode*)child
 {
     return [nodeChildren indexOfObjectIdenticalTo:child];
 }
 
-- (int) numberOfChildren
+- (NSInteger) numberOfChildren
 {
     return [[self children] count];
 }
@@ -217,7 +217,7 @@
     return [[self children] lastObject];
 }
 
-- (TreeNode*) childAtIndex:(int)index
+- (TreeNode*) childAtIndex:(NSInteger)index
 {
     return [[self children] objectAtIndex:index];
 }

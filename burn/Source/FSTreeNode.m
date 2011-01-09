@@ -319,13 +319,13 @@
 		NSMutableArray *baseNames = [NSMutableArray array];
 		NSString *newName = [childObj baseName];
 		
-		int i = 0;
+		NSInteger i = 0;
 		for (i=0;i<[children count];i++)
 		{
 			[baseNames addObject:[[children objectAtIndex:i] baseName]];
 		}
 			
-		int x = 1;
+		NSInteger x = 1;
 		while ([baseNames containsObject:newName])
 		{
 			newName = [NSString stringWithFormat:@"%@ %ld", [childObj baseName], (long)x];
@@ -389,7 +389,7 @@
 		
 		NSArray *objects = [selfObj children];
 
-		int i;
+		NSInteger i;
 		for (i=0;i<[objects count];i++)
 		{
 			NSAutoreleasePool *subPool = [[NSAutoreleasePool alloc] init];
@@ -416,7 +416,7 @@
 return [super children];
 }
 
-- (int) numberOfChildren
+- (NSInteger) numberOfChildren
 {
 	KWDRFolder*	selfObj = (KWDRFolder*)[(FSNodeData*)nodeData fsObject];
 
@@ -447,7 +447,7 @@ return [super children];
 		return self;
 	} // end if	
 	
-	[pCoder decodeValueOfObjCType:@encode(int) at: &myNumber]; 
+	[pCoder decodeValueOfObjCType:@encode(NSInteger) at: &myNumber]; 
 	
 	if (myNumber) {
 		myNumber++;
@@ -461,10 +461,10 @@ return [super children];
 
 - (void)encodeWithCoder:(NSCoder *)pCoder;
 {
-	[pCoder encodeValueOfObjCType:@encode(int) at: &myNumber];
+	[pCoder encodeValueOfObjCType:@encode(NSInteger) at: &myNumber];
 }// end encodeWithCoder
 
-- (int) myNumber {
+- (NSInteger) myNumber {
 	return myNumber;
 } // end myNumber
 

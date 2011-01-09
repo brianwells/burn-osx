@@ -21,7 +21,7 @@
 //Main actions
 - (void)setupWindow;
 - (void)beginEraseSheetForWindow:(NSWindow *)window modalDelegate:(id)delegate didEndSelector:(SEL)selector;
-- (int)beginEraseWindow;
+- (NSInteger)beginEraseWindow;
 - (void)erase;
 - (void)updateDevice:(DRDevice *)device;
 

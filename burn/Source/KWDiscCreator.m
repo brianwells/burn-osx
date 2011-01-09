@@ -46,7 +46,7 @@
 #pragma mark -
 #pragma mark •• Image actions
 
-- (void)saveImageWithName:(NSString *)name withType:(int)type withFileSystem:(NSString *)fileSystem
+- (void)saveImageWithName:(NSString *)name withType:(NSInteger)type withFileSystem:(NSString *)fileSystem
 {
 	NSString *extension;
 	NSArray *info;
@@ -92,7 +92,7 @@
 	[sheet beginSheetForDirectory:nil file:name modalForWindow:mainWindow modalDelegate:self didEndSelector:@selector(saveImageSavePanelDidEnd:returnCode:contextInfo:) contextInfo:info];
 }
 
-- (void)saveImageSavePanelDidEnd:(NSSavePanel *)sheet returnCode:(int)returnCode contextInfo:(void *)contextInfo
+- (void)saveImageSavePanelDidEnd:(NSSavePanel *)sheet returnCode:(NSInteger)returnCode contextInfo:(void *)contextInfo
 {
 	[sheet orderOut:self];
 	
@@ -128,7 +128,7 @@
 {
 	NSAutoreleasePool *pool=[[NSAutoreleasePool alloc] init];
 
-	int succes = 0;
+	NSInteger succes = 0;
 
 	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(imageFinished:) name:@"KWBurnFinished" object:burner];
 	
@@ -146,7 +146,7 @@
 	[pool release];
 }
 
-- (void)showAuthorFailedOfType:(int)type
+- (void)showAuthorFailedOfType:(NSInteger)type
 {	
 	[progressPanel endSheet];
 	[progressPanel release];
@@ -179,7 +179,7 @@
 {
 	if (extensionHiddenArray)
 	{
-		int x;
+		NSInteger x;
 		for (x=0;x<[extensionHiddenArray count];x++)
 		{
 			[[NSFileManager defaultManager] changeFileAttributes:[NSDictionary dictionaryWithObject:[[extensionHiddenArray objectAtIndex:x] objectForKey:@"Extension Hidden"] forKey:NSFileExtensionHidden] atPath:[[extensionHiddenArray objectAtIndex:x] objectForKey:@"Path"]];
@@ -277,7 +277,7 @@
 #pragma mark -
 #pragma mark •• Burn actions
 
-- (void)burnDiscWithName:(NSString *)name withType:(int)type
+- (void)burnDiscWithName:(NSString *)name withType:(NSInteger)type
 {
 	burner = [[KWBurner alloc] init];
 	discName = [name retain];
@@ -290,7 +290,7 @@
 	[burner beginBurnSetupSheetForWindow:mainWindow modalDelegate:self didEndSelector:@selector(burnSetupPanelEnded:returnCode:contextInfo:) contextInfo:nil];
 }
 
-- (void)burnSetupPanelEnded:(KWBurner *)myBurner returnCode:(int)returnCode contextInfo:(void *)contextInfo
+- (void)burnSetupPanelEnded:(KWBurner *)myBurner returnCode:(NSInteger)returnCode contextInfo:(void *)contextInfo
 {
 	if (returnCode == NSOKButton)
 	{
@@ -328,12 +328,12 @@
 	NSAutoreleasePool *pool=[[NSAutoreleasePool alloc] init];
 
 	NSMutableArray *tracks = [NSMutableArray array];
-	int result = 0;
+	NSInteger result = 0;
 	BOOL maskSet = NO;
 	NSNumber *layerBreak = nil;
 
 	DRFolder *rootFolder = [[DRFolder alloc] initWithName:discName];
-	[rootFolder setExplicitFilesystemMask:nil];
+	[rootFolder setExplicitFilesystemMask:0];
 
 	if ([[burner types] containsObject:[NSNumber numberWithInt:1]])
 	{
@@ -348,7 +348,7 @@
 					
 				if ([audioTracks isVirtual])
 				{
-					int x;
+					NSInteger x;
 					for (x=0;x<[[audioTracks children] count];x++)
 					{
 						[rootFolder addChild:[self newDRFSObject:[[audioTracks children] objectAtIndex:x]]];
@@ -394,7 +394,7 @@
 					
 				if ([videoTracks isVirtual])
 				{
-					int x;
+					NSInteger x;
 					for (x=0;x<[[videoTracks children] count];x++)
 					{
 						[rootFolder addChild:[self newDRFSObject:[[videoTracks children] objectAtIndex:x]]];
@@ -443,7 +443,7 @@
 					extensionHiddenArray = [[NSMutableArray alloc] init];
 				}
 			
-				int x;
+				NSInteger x;
 				for (x=0;x<[[dataTracks children] count];x++)
 				{
 					NSAutoreleasePool *subPool = [[NSAutoreleasePool alloc] init];
@@ -560,7 +560,7 @@
 
 	if (extensionHiddenArray)
 	{
-		int x;
+		NSInteger x;
 		for (x=0;x<[extensionHiddenArray count];x++)
 		{
 			[[NSFileManager defaultManager] changeFileAttributes:[NSDictionary dictionaryWithObject:[[extensionHiddenArray objectAtIndex:x] objectForKey:@"Extension Hidden"] forKey:NSFileExtensionHidden] atPath:[[extensionHiddenArray objectAtIndex:x] objectForKey:@"Path"]];
@@ -635,7 +635,7 @@
 		{
 			newObject = [DRFolder virtualFolderWithName:[object baseName]];
 		
-			int x;
+			NSInteger x;
 			for (x=0;x<[[(DRFolder *)object children] count];x++)
 			{
 				[(DRFolder *)newObject addChild:[self newDRFSObject:[[(DRFolder *)object children] objectAtIndex:x]]];

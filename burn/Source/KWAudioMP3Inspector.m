@@ -68,7 +68,7 @@
 
 	while ((cntl = [iter nextObject]) != NULL)
 	{
-		int index = [cntl tag] - 1;
+		NSInteger index = [cntl tag] - 1;
 		
 		if (index > -1 && index < 11)
 		{	
@@ -81,7 +81,7 @@
 			{
 				NSString *genreList = [property objectAtIndex:0];
 			
-				int i;
+				NSInteger i;
 				for (i=1;i<[property count];i++)
 				{
 					NSString *newGenre = [property objectAtIndex:i];
@@ -118,7 +118,7 @@
 	}
 	else 
 	{
-		int i;
+		NSInteger i;
 		for (i=0;i<[objects count];i++)
 		{
 			[Tag examineFile:[[objects objectAtIndex:i] objectForKey:@"Path"]];
@@ -142,7 +142,7 @@
 
 - (void)setObjectWithSelector:(SEL)selector forObjects:(NSArray *)objects withObject:(id)object
 {
-	int i;
+	NSInteger i;
 	for (i=0;i<[objects count];i++)
 	{
 		id finalObject = object;
@@ -206,7 +206,7 @@
 	[openPanel beginSheetForDirectory:nil file:nil types:[NSImage imageFileTypes] modalForWindow:[myView window] modalDelegate:self didEndSelector:@selector(openFileEnded:returnCode:contextInfo:) contextInfo:nil];
 }
 
-- (void)openFileEnded:(NSOpenPanel*)panel returnCode:(int)returnCode contextInfo:(void *)contextInfo
+- (void)openFileEnded:(NSOpenPanel*)panel returnCode:(NSInteger)returnCode contextInfo:(void *)contextInfo
 {
 	[panel orderOut:self];
 
@@ -223,7 +223,7 @@
 
 		NSArray *files = [panel filenames];
 		
-		int i;
+		NSInteger i;
 		for (i=0;i<[files count];i++)
 		{
 			NSMutableDictionary *image = [NSMutableDictionary dictionaryWithCapacity:4];
@@ -262,7 +262,7 @@
 	NSArray *tableData = [controller myDataSource];
 	NSArray *currentObjects = [KWCommonMethods allSelectedItemsInTableView:currentTableView fromArray:tableData];
 	
-	int index = [sender tag] - 1;
+	NSInteger index = [sender tag] - 1;
 	id currentMethod = [methodMappings objectAtIndex:index];
 	NSString *methodString = [NSString stringWithFormat:@"set%@:", currentMethod];
 	SEL method = NSSelectorFromString(methodString);

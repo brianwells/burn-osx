@@ -9,7 +9,9 @@
 #import "KWCommonMethods.h"
 #import "KWDRFolder.h"
 #import "KWWindowController.h"
+#if MAC_OS_X_VERSION_MAX_ALLOWED < MAC_OS_X_VERSION_10_4
 #import <QuickTime/QuickTime.h>
+#endif
 #ifdef USE_QTKIT
 #import <QTKit/QTKit.h>
 #endif
@@ -39,17 +41,20 @@
 #pragma mark -
 #pragma mark •• OS actions
 
-+ (int)OSVersion
++ (NSInteger)OSVersion
 {
 	SInt32 MacVersion;
 	
 	Gestalt(gestaltSystemVersion, &MacVersion);
 	
-	return (int)MacVersion;
+	return (NSInteger)MacVersion;
 }
 
 + (BOOL)isQuickTimeSevenInstalled
 {
+	#if MAC_OS_X_VERSION_MAX_ALLOWED >= MAC_OS_X_VERSION_10_4
+	return YES;
+	#else
 	#ifdef USE_QTKIT
 	long version;
 	OSErr result;
@@ -58,6 +63,7 @@
 	return ((result == noErr) && (version >= 0x07000000));
 	#else
 	return NO;
+	#endif
 	#endif
 }
 
@@ -68,7 +74,7 @@
 #pragma mark -
 #pragma mark •• String format actions
 
-+ (NSString *)formatTime:(int)time
++ (NSString *)formatTime:(NSInteger)time
 {
 	float hours = time / 60 / 60;
 	float minutes = time / 60 - (hours * 60);
@@ -79,10 +85,10 @@
 
 + (NSString *)formatTimeForChapter:(float)time
 {
-	int hours = (int)time / 60 / 60;
-	int minutes = (int)time / 60 - (hours * 60);
-	int seconds = (int)time - ((int)minutes * 60) - ((int)hours * 60 * 60);
-	float frames = (time - (int)time) * 100;	
+	NSInteger hours = (NSInteger)time / 60 / 60;
+	NSInteger minutes = (NSInteger)time / 60 - (hours * 60);
+	NSInteger seconds = (NSInteger)time - ((NSInteger)minutes * 60) - ((NSInteger)hours * 60 * 60);
+	float frames = (time - (NSInteger)time) * 100;	
 
 	return [NSString stringWithFormat:@"%02.0f:%02.0f:%02.0f.%02.0f", (float)hours, (float)minutes, (float)seconds, frames];
 }
@@ -170,7 +176,7 @@
 		else
 			pathExtension = [@"." stringByAppendingString:[path pathExtension]];
 
-		int y = 0;
+		NSInteger y = 0;
 		while ([[NSFileManager defaultManager] fileExistsAtPath:[newPath stringByAppendingString:pathExtension]])
 		{
 			newPath = [path stringByDeletingPathExtension];
@@ -402,7 +408,11 @@
 		else 
 		{
 			// check if file is in .hidden
+			#if MAC_OS_X_VERSION_MAX_ALLOWED >= MAC_OS_X_VERSION_10_4
+			NSString *hiddenFile = [NSString stringWithContentsOfFile:@"/.hidden" usedEncoding:nil error:nil];
+			#else
 			NSString *hiddenFile = [NSString stringWithContentsOfFile:@"/.hidden"];
+			#endif
 			NSArray *dotHiddens = [hiddenFile componentsSeparatedByString:@"\n"];
 		
 			if ([dotHiddens containsObject:[path lastPathComponent]])
@@ -535,7 +545,7 @@
 {
 	if ([folder isVirtual])
 	{
-		int i=0;
+		NSInteger i=0;
 		for (i=0;i<[[folder children] count];i++)
 		{
 			if ([[[[folder children] objectAtIndex:i] baseName] isEqualTo:@".localized"])
@@ -550,7 +560,7 @@
 	return NO;
 }
 
-+ (int)maxLabelLength:(DRFolder *)folder
++ (NSInteger)maxLabelLength:(DRFolder *)folder
 {
 	if ([folder explicitFilesystemMask] == DRFilesystemInclusionMaskHFSPlus)
 		return 255;
@@ -649,8 +659,6 @@
 		
 	if (!succes)
 	{
-		NSLog(@"Path: %@, Destination: %@", path, dest);
-		NSLog([tempError localizedDescription]);
 		succes = [KWCommonMethods copyItemAtPath:path toPath:dest errorString:&*error];
 	}
 	
@@ -704,11 +712,13 @@
 	}
 	else
 	{
+		#if MAC_OS_X_VERSION_MAX_ALLOWED < MAC_OS_X_VERSION_10_4
 		succes = [string writeToFile:path atomically:YES];
 		NSFileManager *defaultManager = [NSFileManager defaultManager];
 		NSString *file = [defaultManager displayNameAtPath:path];
 		NSString *parent = [defaultManager displayNameAtPath:[path stringByDeletingLastPathComponent]];
 		details = [NSString stringWithFormat:NSLocalizedString(@"Failed to write '%@' to '%@'", nil), file, parent];
+		#endif
 	}
 
 	if (!succes)
@@ -800,7 +810,7 @@
 	string=[[NSString alloc] initWithData:[handle readDataToEndOfFile] encoding:NSUTF8StringEncoding];
 	
 	if ([[NSUserDefaults standardUserDefaults] boolForKey:@"KWDebug"])
-		NSLog(string);
+		NSLog(@"%@", string);
 
 	[du waitUntilExit];
 	[pipe release];
@@ -818,7 +828,7 @@
 	float size = 0;
 	
 	NSArray *children = [(DRFolder *)obj children];
-	int i = 0;
+	NSInteger i = 0;
 	for (i=0;i<[children count];i++)
 	{
 		NSAutoreleasePool *subPool = [[NSAutoreleasePool alloc] init];
@@ -852,7 +862,7 @@
 	NSMutableArray *items = [NSMutableArray array];
 	NSIndexSet *indexSet = [tableView selectedRowIndexes];
 	
-	unsigned current_index = [indexSet firstIndex];
+	NSUInteger current_index = [indexSet firstIndex];
     while (current_index != NSNotFound)
     {
 		if ([array objectAtIndex:current_index]) 
@@ -870,7 +880,7 @@
 	
 	if ([devices count] > 0)
 	{
-		int i;
+		NSInteger i;
 		for (i=0;i< [devices count];i++)
 		{
 		DRDevice *device = [devices objectAtIndex:i];
@@ -890,7 +900,7 @@
 	NSArray *lines = [string componentsSeparatedByString:@"\n"];
 	NSMutableDictionary *dictionary = [NSMutableDictionary dictionary];
 
-	int x;
+	NSInteger x;
 	for (x=0;x<[lines count];x++)
 	{
 		NSArray *elements = [[lines objectAtIndex:x] componentsSeparatedByString:@":"];
@@ -912,7 +922,7 @@
 	return dictionary;
 }
 
-+ (int)getSizeFromMountedVolume:(NSString *)mountPoint
++ (NSInteger)getSizeFromMountedVolume:(NSString *)mountPoint
 {
 	NSTask *df = [[NSTask alloc] init];
 	NSPipe *pipe = [[NSPipe alloc] init];
@@ -928,7 +938,7 @@
 	string=[[NSString alloc] initWithData:[handle readDataToEndOfFile] encoding:NSUTF8StringEncoding];
 	
 	if ([[NSUserDefaults standardUserDefaults] boolForKey:@"KWDebug"] == YES)
-		NSLog(string);
+		NSLog(@"%@", string);
 
 	[df waitUntilExit];
 	[pipe release];
@@ -936,8 +946,8 @@
 
 	NSArray *objects = [[[string componentsSeparatedByString:@"\n"] objectAtIndex:1] componentsSeparatedByString:@" "];
 
-	int size = 0;
-	int x = 1;
+	NSInteger size = 0;
+	NSInteger x = 1;
 
 	while (size == 0)
 	{
@@ -958,7 +968,7 @@
 {
 	NSArray *devices = [DRDevice devices];
 	
-	int i;
+	NSInteger i;
 	for (i=0;i< [devices count];i++)
 	{
 		if ([[[[devices objectAtIndex:i] info] objectForKey:@"DRDeviceProductNameKey"] isEqualTo:[[[NSUserDefaults standardUserDefaults] dictionaryForKey:@"KWDefaultDeviceIdentifier"] objectForKey:@"Product"]])
@@ -991,7 +1001,7 @@
 {
 	[popup removeAllItems];
 		
-	int i;
+	NSInteger i;
 	NSArray *devices = [DRDevice devices];
 	for (i=0;i< [devices count];i++)
 	{
@@ -1045,7 +1055,7 @@
 	//Get the selected rows and save them
 	NSMutableArray *selectedRows = [NSMutableArray array];
 	
-	unsigned current_index = [indexSet lastIndex];
+	NSUInteger current_index = [indexSet lastIndex];
     while (current_index != NSNotFound)
     {
 		[selectedRows addObject:[NSNumber numberWithUnsignedInt:current_index]];
@@ -1061,7 +1071,7 @@
 	NSMutableArray *addFileTypes = [NSMutableArray arrayWithArray:[KWCommonMethods quicktimeTypes]];
 	NSArray *extraExtensions = [NSArray arrayWithObjects:@"vob",@"wma",@"wmv",@"asf",@"asx",@"ogg",@"flv",@"rm",@"rmvb",@"flac",@"mts",nil];
 		
-	int i;
+	NSInteger i;
 	for (i=0;i<[extraExtensions count];i++)
 	{
 		NSString *extension = [extraExtensions objectAtIndex:i];
@@ -1086,6 +1096,7 @@
 	}
 	else
 	{
+		#if MAC_OS_X_VERSION_MAX_ALLOWED < MAC_OS_X_VERSION_10_4
 		NSMutableArray *qtTypes = [NSMutableArray array];
 		ComponentDescription findCD = {0, 0, 0, 0, 0};
 		ComponentDescription infoCD = {0, 0, 0, 0, 0};
@@ -1108,6 +1119,7 @@
 		}
 	
 		[filetypes addObjectsFromArray:qtTypes];
+		#endif
 	}
 
 	//Remove midi and playlist files since they doesn't work
@@ -1125,11 +1137,11 @@
 	return filetypes;
 }
 
-+ (int)createDVDFolderAtPath:(NSString *)path ofType:(int)type fromTableData:(id)tableData errorString:(NSString **)error
++ (NSInteger)createDVDFolderAtPath:(NSString *)path ofType:(NSInteger)type fromTableData:(id)tableData errorString:(NSString **)error
 {
 	#if MAC_OS_X_VERSION_MAX_ALLOWED >= MAC_OS_X_VERSION_10_4
-	int succes;
-	int x, z = 0;
+	NSInteger succes;
+	NSInteger x, z = 0;
 	NSArray *files;
 	NSPredicate *trackPredicate;
 
@@ -1221,13 +1233,13 @@
 		NSArray *showArgs = [command arguments];
 		NSString *commandString = [command launchPath];
 
-		int i;
+		NSInteger i;
 		for (i=0;i<[showArgs count];i++)
 		{
 			commandString = [NSString stringWithFormat:@"%@ %@", commandString, [showArgs objectAtIndex:i]];
 		}
 	
-		NSLog(commandString);
+		NSLog(@"%@", commandString);
 	}
 }
 
@@ -1272,7 +1284,7 @@
 		
 	[task waitUntilExit];
 	
-	int result = [task terminationStatus];
+	NSInteger result = [task terminationStatus];
 
 	if (!error && result != 0)
 		output = errorString;
@@ -1312,13 +1324,13 @@
 			
 			if (qtChapters)
 			{
-				int i;
+				NSInteger i;
 				for (i=0;i<[qtChapters count];i++)
 				{
 					NSDictionary *qtChapter = [qtChapters objectAtIndex:i];
 					NSString *title = [qtChapter objectForKey:@"QTMovieChapterName"];
 					QTTime qtTime = [[qtChapter objectForKey:@"QTMovieChapterStartTime"] QTTimeValue];
-					int seconds = (int)qtTime.timeValue/(int)qtTime.timeScale;
+					NSInteger seconds = (NSInteger)qtTime.timeValue/(NSInteger)qtTime.timeScale;
 					float frames = (((float)qtTime.timeValue/(float)qtTime.timeScale) - seconds) * ((float)qtTime.timeScale / 1000) / 2;
 					float time = seconds + frames;
 				

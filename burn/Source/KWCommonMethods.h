@@ -9,6 +9,14 @@
 #import <Cocoa/Cocoa.h>
 #import <DiscRecording/DiscRecording.h>
 
+#if __LP64__ || NS_BUILD_32_LIKE_64
+typedef long NSInteger;
+typedef unsigned long NSUInteger;
+#else
+typedef NSInteger NSInteger;
+typedef unsigned NSInteger NSUInteger;
+#endif
+
 @interface KWCommonMethods : NSObject 
 {
 
@@ -16,13 +24,13 @@
 
 //OS actions
 //Check for Snow Leopard (used to show new sizes divided by 1000 instead of 1024)
-+ (int)OSVersion;
++ (NSInteger)OSVersion;
 //Check is QuickTime 7 is installed (QTKit)
 + (BOOL)isQuickTimeSevenInstalled;
 
 //String format actions
 //Format time (example: 90 seconds to 00:00:90)
-+ (NSString *)formatTime:(int)time;
++ (NSString *)formatTime:(NSInteger)time;
 //Format time for chapters on DVD (exact: 90 seconds to 00:00:90.00)
 + (NSString *)formatTimeForChapter:(float)time;
 //Make 1048576 bytes look like 1 MB
@@ -54,7 +62,7 @@
 //Check if a virtual or real folder contains .localized
 + (BOOL)isDRFolderIsLocalized:(DRFolder *)folder;
 //Get the max lable size
-+ (int)maxLabelLength:(DRFolder *)folder;
++ (NSInteger)maxLabelLength:(DRFolder *)folder;
 
 //Error actions
 + (BOOL)createDirectoryAtPath:(NSString *)path errorString:(NSString **)error;
@@ -78,7 +86,7 @@
 //Convert a string base output to a dictionary
 + (NSDictionary *)getDictionaryFromString:(NSString *)string;
 //Use df to get the size of a mounted volume
-+ (int)getSizeFromMountedVolume:(NSString *)mountPoint;
++ (NSInteger)getSizeFromMountedVolume:(NSString *)mountPoint;
 //Get the current device
 + (DRDevice *)savedDevice;
 //Get the default media size
@@ -98,7 +106,7 @@
 //Get qt types
 + (NSArray *)quicktimeTypes;
 //Create a compilant DVD-Video or Audio folder
-+ (int)createDVDFolderAtPath:(NSString *)path ofType:(int)type fromTableData:(id)tableData errorString:(NSString **)error;
++ (NSInteger)createDVDFolderAtPath:(NSString *)path ofType:(NSInteger)type fromTableData:(id)tableData errorString:(NSString **)error;
 //Log command with arguments for easier debugging
 + (void)logCommandIfNeeded:(NSTask *)command;
 //Conveniant method to load a NSTask

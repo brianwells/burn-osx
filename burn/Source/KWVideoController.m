@@ -95,7 +95,7 @@
 
 	BOOL isWide;
 	BOOL unsavediMovieProject = NO;
-	int selrow = [tableViewPopup indexOfSelectedItem];
+	NSInteger selrow = [tableViewPopup indexOfSelectedItem];
 	NSUserDefaults *standardDefaults = [NSUserDefaults standardUserDefaults];
 	
 	if ([path rangeOfString:@".iMovieProject"].length > 0)
@@ -277,12 +277,12 @@
 //Create a track for burning
 - (id)myTrackWithBurner:(KWBurner *)burner errorString:(NSString **)error
 {
-	int selrow = [tableViewPopup indexOfSelectedItem];
+	NSInteger selrow = [tableViewPopup indexOfSelectedItem];
 
 	if (selrow == 2)
 	{
 		NSString *outputFolder = [KWCommonMethods temporaryLocation:[discName stringValue] saveDescription:NSLocalizedString(@"Choose a location to save a temporary folder",nil)];
-		int succes;
+		NSInteger succes;
 	
 		if (outputFolder)
 		{
@@ -320,7 +320,7 @@
 	{
 		DRFolder *rootFolder = [DRFolder virtualFolderWithName:[discName stringValue]];
 		
-		int i;
+		NSInteger i;
 		DRFSObject *fsObj;
 		for (i=0;i<[tableData count];i++)
 		{
@@ -347,9 +347,9 @@
 	return nil;
 }
 
-- (int)authorizeFolderAtPathIfNeededAtPath:(NSString *)path errorString:(NSString **)error
+- (NSInteger)authorizeFolderAtPathIfNeededAtPath:(NSString *)path errorString:(NSString **)error
 {
-	int succes;
+	NSInteger succes;
 	NSDictionary *currentData = [tableData objectAtIndex:0];
 	
 	if ([tableData count] > 0 && [[[currentData objectForKey:@"Name"] lowercaseString] isEqualTo:@"video_ts"])
@@ -358,7 +358,7 @@
 	}
 	else
 	{
-		int totalSize = [[self totalSize] floatValue];
+		NSInteger totalSize = [[self totalSize] floatValue];
 		NSNotificationCenter *defaultCenter = [NSNotificationCenter defaultCenter];
 		
 		[defaultCenter postNotificationName:@"KWMaximumValueChanged" object:[NSNumber numberWithFloat:totalSize]];
@@ -394,7 +394,7 @@
 
 - (void)tableViewSelectionDidChange:(NSNotification *)notification
 {
-	int selrow = [tableViewPopup indexOfSelectedItem];
+	NSInteger selrow = [tableViewPopup indexOfSelectedItem];
 	NSNotificationCenter *defaultCenter = [NSNotificationCenter defaultCenter];
 	
 	if (selrow == 2 && [tableView selectedRow] > -1)
@@ -411,7 +411,7 @@
 //Set the current tableview and tabledata to the selected popup item
 - (void)getTableView
 {
-	int selrow = [tableViewPopup indexOfSelectedItem];
+	NSInteger selrow = [tableViewPopup indexOfSelectedItem];
 	currentType = 2;
 	currentFileSystem = @"";
 	convertExtension = @"mpg";
@@ -458,7 +458,7 @@
 //Popup clicked
 - (IBAction)tableViewPopup:(id)sender
 {
-	int selrow = [tableViewPopup indexOfSelectedItem];
+	NSInteger selrow = [tableViewPopup indexOfSelectedItem];
 
 	if (selrow == 2)
 		[popupIcon setImage:[NSImage imageNamed:@"DVD"]];
@@ -495,7 +495,7 @@
 {
 	NSMutableArray *files = [NSMutableArray array];
 
-	int i;
+	NSInteger i;
 	for (i=0;i<[tableData count];i++)
 	{
 		[files addObject:[[tableData objectAtIndex:i] objectForKey:@"Path"]];
@@ -517,7 +517,7 @@
 
 - (float)totalSVCDSize
 {
-	int numberOfFiles = [tableData count];
+	NSInteger numberOfFiles = [tableData count];
 
 	if (numberOfFiles == 0)
 		return 0;
@@ -525,7 +525,7 @@
 	NSFileManager *defaultManager = [NSFileManager defaultManager];
 	float size = 1058400;
 	
-	int i;
+	NSInteger i;
 	for (i=0;i<[tableData count];i++)
 	{
 		NSString *path = [[tableData objectAtIndex:i] objectForKey:@"Path"];

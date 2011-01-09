@@ -54,8 +54,8 @@
 {
 	NSWindow *window = [self window];
 	NSRect windowFrame = [window frame];
-	int newHeight = windowFrame.size.height;
-	int newY = windowFrame.origin.y;
+	NSInteger newHeight = windowFrame.size.height;
+	NSInteger newY = windowFrame.origin.y;
 
 	if (expanded)
 	{

@@ -28,7 +28,7 @@
 	[super dealloc];
 }
 
-- (int)createSVCDImage:(NSString *)path withFiles:(NSArray *)files withLabel:(NSString *)label createVCD:(BOOL)VCD hideExtension:(NSNumber *)hide errorString:(NSString **)error
+- (NSInteger)createSVCDImage:(NSString *)path withFiles:(NSArray *)files withLabel:(NSString *)label createVCD:(BOOL)VCD hideExtension:(NSNumber *)hide errorString:(NSString **)error
 {
 	NSNotificationCenter *defaultCenter = [NSNotificationCenter defaultCenter];
 	NSFileManager *defaultManager = [NSFileManager defaultManager];
@@ -36,7 +36,7 @@
 	NSString *binFile = [path stringByAppendingPathExtension:@"bin"];
 	totalSize = 0;
 	
-		int i;
+		NSInteger i;
 		for (i=0;i<[files count];i++)
 		{
 			totalSize = totalSize + [[[defaultManager fileAttributesAtPath:[files objectAtIndex:i] traverseLink:YES] objectForKey:NSFileSize] floatValue] / 2048;
@@ -106,7 +106,7 @@
 		string=[[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
 	
 		if ([[NSUserDefaults standardUserDefaults] boolForKey:@"Debug"])
-			NSLog(string);
+			NSLog(@"%@", string);
 			
 		[string release];
 		
@@ -122,7 +122,7 @@
 
 	[defaultCenter postNotificationName:@"KWCancelNotificationChanged" object:nil];
 
-	int taskStatus = [vcdimager terminationStatus];
+	NSInteger taskStatus = [vcdimager terminationStatus];
 	
 		[vcdimager release];
 		[pipe release];

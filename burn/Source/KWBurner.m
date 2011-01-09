@@ -47,7 +47,7 @@
 
 	[burnerPopup removeAllItems];
 
-	int i;
+	NSInteger i;
 	for (i=0;i< [[DRDevice devices] count];i++)
 	{
 		NSString *displayName = [[[DRDevice devices] objectAtIndex:i] displayName];
@@ -60,7 +60,7 @@
 	
 	[self updateDevice:[self currentDevice]];
 
-	int height = 205;
+	NSInteger height = 205;
 
 	if (currentType < 3 && [combinableTypes count] > 1 && [combinableTypes containsObject:[NSNumber numberWithInt:currentType]])
 	{
@@ -82,7 +82,7 @@
 	[NSApp beginSheet:myWindow modalForWindow:window modalDelegate:self didEndSelector:@selector(sheetDidEnd:returnCode:contextInfo:) contextInfo:[[NSArray arrayWithObjects:delegate,NSStringFromSelector(selector), contextInfo,nil] retain]];
 }
 
-- (void)sheetDidEnd:(NSWindow *)sheet returnCode:(int)returnCode contextInfo:(void *)contextInfo
+- (void)sheetDidEnd:(NSWindow *)sheet returnCode:(NSInteger)returnCode contextInfo:(void *)contextInfo
 {
 	[sheet orderOut:self];
 	
@@ -184,7 +184,7 @@
 			#if MAC_OS_X_VERSION_MAX_ALLOWED >= MAC_OS_X_VERSION_10_4
 			id layout = [DRBurn layoutForImageFile:path];
 		
-			if (!layout == nil)
+			if (layout != nil)
 				[burn writeLayout:layout];
 			else
 				[[NSNotificationCenter defaultCenter] postNotificationName:@"KWBurnFinished" object:self userInfo:[NSDictionary dictionaryWithObject:@"KWFailure" forKey:@"ReturnCode"]];
@@ -215,11 +215,11 @@
 	}
 	else
 	{
-		int numberOfTracks = [(NSArray *)track count];
+		NSInteger numberOfTracks = [(NSArray *)track count];
 
 		if (numberOfTracks > 0)
 		{
-			int i;
+			NSInteger i;
 			for (i=0;i<numberOfTracks;i++)
 			{
 				id newTrack = [(NSArray *)track objectAtIndex:i];
@@ -236,7 +236,7 @@
 				}
 				else
 				{
-					int i;
+					NSInteger i;
 					for (i=0;i<[(NSArray *)newTrack count];i++)
 					{
 						size = size + [[(NSArray *)newTrack objectAtIndex:i] estimateLength];
@@ -318,19 +318,23 @@
 	isOverwritable = YES;
 }
 
-- (int)getImageSizeAtPath:(NSString *)path
+- (NSInteger)getImageSizeAtPath:(NSString *)path
 {
 	if ([[path pathExtension] isEqualTo:@"cue"])
 	{
-		return (int)[[[[NSFileManager defaultManager] fileAttributesAtPath:[[path stringByDeletingPathExtension] stringByAppendingPathExtension:@"bin"] traverseLink:YES] objectForKey:NSFileSize] floatValue] / 1024;
+		return (NSInteger)[[[[NSFileManager defaultManager] fileAttributesAtPath:[[path stringByDeletingPathExtension] stringByAppendingPathExtension:@"bin"] traverseLink:YES] objectForKey:NSFileSize] floatValue] / 1024;
 	}
 	else if ([[path pathExtension] isEqualTo:@"toc"])
 	{
 		float appendSize = 0;
+		#if MAC_OS_X_VERSION_MAX_ALLOWED >= MAC_OS_X_VERSION_10_4
+		NSArray *paths = [[NSString stringWithContentsOfFile:path usedEncoding:nil error:nil] componentsSeparatedByString:@"FILE \""];
+		#else
 		NSArray *paths = [[NSString stringWithContentsOfFile:path] componentsSeparatedByString:@"FILE \""];
+		#endif
 		NSString  *filePath;
 			
-		int z;
+		NSInteger z;
 		for (z=1;z<[paths count];z++)
 		{
 			filePath = [[[paths objectAtIndex:z] componentsSeparatedByString:@"\""] objectAtIndex:0];
@@ -341,11 +345,11 @@
 			appendSize = appendSize + [[[[NSFileManager defaultManager] fileAttributesAtPath:filePath traverseLink:YES] objectForKey:NSFileSize] floatValue];
 		}
 			
-		return (int)appendSize / 1024;
+		return (NSInteger)appendSize / 1024;
 	}
 	else
 	{
-		return (int)[[[[NSFileManager defaultManager] fileAttributesAtPath:path traverseLink:YES] objectForKey:NSFileSize] floatValue] / 1024;
+		return (NSInteger)[[[[NSFileManager defaultManager] fileAttributesAtPath:path traverseLink:YES] objectForKey:NSFileSize] floatValue] / 1024;
 	}
 }
 
@@ -449,7 +453,7 @@
 	
 	NSArray *devices = [DRDevice devices];
 	
-	int z;
+	NSInteger z;
 	for (z=0;z<[devices count];z++)
 	{
 		DRDevice *device = [devices objectAtIndex:z];
@@ -540,7 +544,7 @@
 	
 	NSArray *devices = [DRDevice devices];
 
-	int i;
+	NSInteger i;
 	for (i=0;i< [devices count];i++)
 	{
 		[burnerPopup addItemWithTitle:[[devices objectAtIndex:i] displayName]];
@@ -565,7 +569,7 @@
 	NSString *statusString = nil;
 	
 	if ([[NSUserDefaults standardUserDefaults] boolForKey:@"KWDebug"])
-		NSLog([status description]);
+		NSLog(@"%@", [status description]);
 	
 	if ([[status objectForKey:DRStatusPercentCompleteKey] floatValue] > 0)
 	{
@@ -663,7 +667,7 @@
 				errorString = [[status objectForKey:DRErrorStatusKey] objectForKey:@"DRErrorStatusErrorInfoStringKey"];
 			else
 				errorString = [[status objectForKey:DRErrorStatusKey] objectForKey:DRErrorStatusErrorStringKey];
-		NSLog(errorString);
+		NSLog(@"%@", errorString);
 			[defaultCenter postNotificationName:@"KWBurnFinished" object:self userInfo:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"KWFailure", errorString,nil] forKeys:[NSArray arrayWithObjects:@"ReturnCode",@"Error",nil]]];
 		}
 		
@@ -737,7 +741,7 @@
 - (void)prepareTypes
 {
 	
-	int i;
+	NSInteger i;
 	for (i=0;i< 3;i++)
 	{
 		[[sessions cellWithTag:i] setState:NSOffState];
@@ -771,7 +775,7 @@
 	{
 		float speed;
 	
-		int z;
+		NSInteger z;
 		for (z=0;z<[speeds count];z++)
 		{
 			speed = [[speeds objectAtIndex:z] floatValue];
@@ -816,7 +820,7 @@
 {
 	NSArray *devices = [DRDevice devices];
 	
-	int i;
+	NSInteger i;
 	for (i=0;i< [devices count];i++)
 	{
 		DRDevice *device = [devices objectAtIndex:i];
@@ -835,7 +839,7 @@
 	if (imagePath)
 		return YES;
 
-	int space;
+	NSInteger space;
 	NSDictionary *mediaInfo = [[savedDevice status] objectForKey:DRDeviceMediaInfoKey];
 
 	if ([[mediaInfo objectForKey:DRDeviceMediaIsBlankKey] boolValue])
@@ -848,7 +852,7 @@
 	}
 	else
 	{
-		space = (int)[KWCommonMethods defaultSizeForMedia:@"KWDefaultCDMedia"];
+		space = (NSInteger)[KWCommonMethods defaultSizeForMedia:@"KWDefaultCDMedia"];
 	}
 		
 	if ([[NSUserDefaults standardUserDefaults] boolForKey:@"KWAllowOverBurning"])
@@ -901,7 +905,7 @@
 return [[[[savedDevice status] objectForKey:DRDeviceMediaInfoKey] objectForKey:DRDeviceMediaClassKey] isEqualTo:DRDeviceMediaClassCD];
 }
 
-- (void)setType:(int)type
+- (void)setType:(NSInteger)type
 {
 	currentType = type;
 }
@@ -911,7 +915,7 @@ return [[[[savedDevice status] objectForKey:DRDeviceMediaInfoKey] objectForKey:D
 	combinableTypes = types;
 }
 
-- (int)currentType
+- (NSInteger)currentType
 {
 	return currentType;
 }

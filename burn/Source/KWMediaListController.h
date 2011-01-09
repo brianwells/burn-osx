@@ -42,14 +42,14 @@
 	NSArray *optionsMappings;
 	NSString *dvdFolderName;
 	NSString *convertExtension;
-	int convertKind;
+	NSInteger convertKind;
 	NSString *currentFileSystem;
 	BOOL useRegion;
 	BOOL isDVD;
 	BOOL canBeReorderd;
 	BOOL cancelAddingFiles;
-	int currentDropRow;
-	int currentType;
+	NSInteger currentDropRow;
+	NSInteger currentType;
 	KWProgress *progressPanel;
 	KWConverter *converter;
 	id optionsPopup;
@@ -107,7 +107,7 @@
 
 //Other actions
 //Check for rows
-- (int)numberOfRows;
+- (NSInteger)numberOfRows;
 //Set total size or time
 - (void)setTotal;
 //Get the total size

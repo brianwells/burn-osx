@@ -49,7 +49,7 @@
 	
 	while ((cntl = [iter nextObject]) != NULL)
 	{
-		int index = [cntl tag] - 1;
+		NSInteger index = [cntl tag] - 1;
 		
 		if (index > -1 && index < 11)
 		{	

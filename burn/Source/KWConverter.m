@@ -1,6 +1,8 @@
 #import "KWConverter.h"
 #import "KWCommonMethods.h"
+#if MAC_OS_X_VERSION_MAX_ALLOWED < MAC_OS_X_VERSION_10_4
 #import <QuickTime/QuickTime.h>
+#endif
 
 @implementation KWConverter
 
@@ -41,7 +43,7 @@
 #pragma mark -
 #pragma mark •• Encode actions
 
-- (int)batchConvert:(NSArray *)files withOptions:(NSDictionary *)options errorString:(NSString **)error
+- (NSInteger)batchConvert:(NSArray *)files withOptions:(NSDictionary *)options errorString:(NSString **)error
 {
 	//Set the options
 	convertDestination = [options objectForKey:@"KWConvertDestination"];
@@ -49,7 +51,7 @@
 	convertRegion = [[options objectForKey:@"KWConvertRegion"] intValue];
 	convertKind = [[options objectForKey:@"KWConvertKind"] intValue];
 
-	int i;
+	NSInteger i;
 	for (i=0;i<[files count];i++)
 	{
 		NSString *currentPath = [files objectAtIndex:i];
@@ -61,7 +63,7 @@
 			[[NSNotificationCenter defaultCenter] postNotificationName:@"KWTaskChanged" object:[NSString stringWithFormat:NSLocalizedString(@"Encoding file %i of %i to %@", nil), i + 1, [files count], [options objectForKey:@"KWConvertExtension"]]];
 		
 			//Test the file on how to encode it
-			int output = [self testFile:currentPath];
+			NSInteger output = [self testFile:currentPath];
 			
 			useWav = (output == 2 | output == 4 | output == 8);
 			useQuickTime = (output == 2 | output == 3 | output == 6);
@@ -127,7 +129,7 @@
 }
 
 //Encode the file, use wav file if quicktime created it, use pipe (from movtoy4m)
-- (int)encodeFileAtPath:(NSString *)path
+- (NSInteger)encodeFileAtPath:(NSString *)path
 {
 	[[NSNotificationCenter defaultCenter] postNotificationName:@"KWStatusChanged" object:[NSLocalizedString(@"Encoding: ", Localized) stringByAppendingString:[[NSFileManager defaultManager] displayNameAtPath:path]]];
 	NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
@@ -147,9 +149,9 @@
 	// To keep the aspect ratio ffmpeg needs to pad the movie
 	NSArray *padOptions = [NSArray array];
 	NSSize aspectSize = NSMakeSize(4, 3);
-	//int dvdAspectMode = [[defaults objectForKey:@"KWDVDAspectMode"] intValue];
-	int dvdAspectMode = [[defaults objectForKey:@"KWDVDForce43"] intValue];
-	int calculateSize;
+	//NSInteger dvdAspectMode = [[defaults objectForKey:@"KWDVDAspectMode"] intValue];
+	NSInteger dvdAspectMode = [[defaults objectForKey:@"KWDVDForce43"] intValue];
+	NSInteger calculateSize;
 	BOOL topBars;
 	
 	if (convertRegion == 0)
@@ -226,13 +228,13 @@
 		
 	if ((convertKind == 1 | convertKind == 2 | convertKind == 3) && ((inputAspect != (float)4 / (float)3 | (inputAspect == (float)4 / (float)3 && dvdAspectMode == 2 && convertKind == 3)) && (inputAspect != (float)16 / (float)9) | (inputAspect == (float)16 / (float)9 && convertKind == 1 | convertKind == 2 | dvdAspectMode == 1)))
 	{
-		int padSize = [self getPadSize:calculateSize withAspect:aspectSize withTopBars:topBars];
+		NSInteger padSize = [self getPadSize:calculateSize withAspect:aspectSize withTopBars:topBars];
 		
 		if (topBars)
-			padOptions = [NSArray arrayWithObjects:@"-vf", [NSString stringWithFormat:@"scale=%i:%i,pad=%i:%i:0:%i:black", (int)outputSize.width, (int)outputSize.height - (padSize * 2), (int)outputSize.width, (int)outputSize.height, padSize], nil];
+			padOptions = [NSArray arrayWithObjects:@"-vf", [NSString stringWithFormat:@"scale=%i:%i,pad=%i:%i:0:%i:black", (NSInteger)outputSize.width, (NSInteger)outputSize.height - (padSize * 2), (NSInteger)outputSize.width, (NSInteger)outputSize.height, padSize], nil];
 			//padOptions = [NSArray arrayWithObjects:@"-padtop", padSize, @"-padbottom", padSize, nil];
 		else
-			padOptions = [NSArray arrayWithObjects:@"-vf", [NSString stringWithFormat:@"scale=%i:%i,pad=%i:%i:%i:0:black", (int)outputSize.width - (padSize * 2), (int)outputSize.height, (int)outputSize.width, (int)outputSize.height, padSize], nil];
+			padOptions = [NSArray arrayWithObjects:@"-vf", [NSString stringWithFormat:@"scale=%i:%i,pad=%i:%i:%i:0:black", (NSInteger)outputSize.width - (padSize * 2), (NSInteger)outputSize.height, (NSInteger)outputSize.width, (NSInteger)outputSize.height, padSize], nil];
 			//padOptions = [NSArray arrayWithObjects:@"-padleft", padSize, @"-padright", padSize, nil];
 			
 	}
@@ -409,14 +411,14 @@
 		{
 			//SVCD
 			//[args addObjectsFromArray:[NSArray arrayWithObjects:@"-cropleft", @"22", @"-cropright", @"22", nil]];
-			[args addObjectsFromArray:[NSArray arrayWithObjects:@"-vf", [NSString stringWithFormat:@"scale=%i:%i,crop=%i:%i:%i:%i", (int)outputSize.width + 12, (int)outputSize.height, (int)outputSize.width, (int)outputSize.height, 6, 0], nil]];
+			[args addObjectsFromArray:[NSArray arrayWithObjects:@"-vf", [NSString stringWithFormat:@"scale=%i:%i,crop=%i:%i:%i:%i", (NSInteger)outputSize.width + 12, (NSInteger)outputSize.height, (NSInteger)outputSize.width, (NSInteger)outputSize.height, 6, 0], nil]];
 			
 		}
 		else if (convertKind == 3)
 		{
 			//DVD
 			//[args addObjectsFromArray:[NSArray arrayWithObjects:@"-cropleft", @"24", @"-cropright", @"24", nil]];
-			[args addObjectsFromArray:[NSArray arrayWithObjects:@"-vf", [NSString stringWithFormat:@"scale=%i:%i,crop=%i:%i:%i:%i", (int)outputSize.width + 16, (int)outputSize.height, (int)outputSize.width, (int)outputSize.height, 8, 0], nil]];
+			[args addObjectsFromArray:[NSArray arrayWithObjects:@"-vf", [NSString stringWithFormat:@"scale=%i:%i,crop=%i:%i:%i:%i", (NSInteger)outputSize.width + 16, (NSInteger)outputSize.height, (NSInteger)outputSize.width, (NSInteger)outputSize.height, 8, 0], nil]];
 		}
 	}
 		
@@ -425,21 +427,21 @@
 	if ([defaults boolForKey:@"KWSaveBorders"] == YES)
 	{
 		NSNumber *borderSize = [[NSUserDefaults standardUserDefaults] objectForKey:@"KWSaveBorderSize"];
-		int heightBorder = [borderSize intValue];
-		int widthBorder = [self convertToEven:[[NSNumber numberWithFloat:inputWidth / (inputHeight / [borderSize floatValue])] stringValue]];
+		NSInteger heightBorder = [borderSize intValue];
+		NSInteger widthBorder = [self convertToEven:[[NSNumber numberWithFloat:inputWidth / (inputHeight / [borderSize floatValue])] stringValue]];
 		
 		if ([padOptions count] > 0 && [[padOptions objectAtIndex:0] isEqualTo:@"-padtop"])
 		{
 			//[args addObjectsFromArray:[NSArray arrayWithObjects:@"-padleft", widthBorder, @"-padright", widthBorder, nil]];
-			[args addObjectsFromArray:[NSArray arrayWithObjects:@"-vf", [NSString stringWithFormat:@"scale=%i:%i,pad=%i:%i:%i:0:black", (int)outputSize.width - (widthBorder * 2), (int)outputSize.height, (int)outputSize.width, (int)outputSize.height, widthBorder], nil]];
+			[args addObjectsFromArray:[NSArray arrayWithObjects:@"-vf", [NSString stringWithFormat:@"scale=%i:%i,pad=%i:%i:%i:0:black", (NSInteger)outputSize.width - (widthBorder * 2), (NSInteger)outputSize.height, (NSInteger)outputSize.width, (NSInteger)outputSize.height, widthBorder], nil]];
 		}
 		else
 		{
 			//[args addObjectsFromArray:[NSArray arrayWithObjects:@"-padtop", heightBorder, @"-padbottom", heightBorder, nil]];
-			[args addObjectsFromArray:[NSArray arrayWithObjects:@"-vf", [NSString stringWithFormat:@"scale=%i:%i,pad=%i:%i:0:%i:black", (int)outputSize.width, (int)outputSize.height - (heightBorder * 2), (int)outputSize.width, (int)outputSize.height, heightBorder], nil]];
+			[args addObjectsFromArray:[NSArray arrayWithObjects:@"-vf", [NSString stringWithFormat:@"scale=%i:%i,pad=%i:%i:0:%i:black", (NSInteger)outputSize.width, (NSInteger)outputSize.height - (heightBorder * 2), (NSInteger)outputSize.width, (NSInteger)outputSize.height, heightBorder], nil]];
 			
 			if ([padOptions count] == 0)
-				[args addObjectsFromArray:[NSArray arrayWithObjects:@"-vf", [NSString stringWithFormat:@"scale=%i:%i,pad=%i:%i:%i:0:black", (int)outputSize.width - (widthBorder * 2), (int)outputSize.height, (int)outputSize.width, (int)outputSize.height, widthBorder], nil]];
+				[args addObjectsFromArray:[NSArray arrayWithObjects:@"-vf", [NSString stringWithFormat:@"scale=%i:%i,pad=%i:%i:%i:0:black", (NSInteger)outputSize.width - (widthBorder * 2), (NSInteger)outputSize.height, (NSInteger)outputSize.width, (NSInteger)outputSize.height, widthBorder], nil]];
 				//[args addObjectsFromArray:[NSArray arrayWithObjects:@"-padleft", widthBorder, @"-padright", widthBorder, nil]];
 				
 		}
@@ -471,7 +473,7 @@
 		string=[[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
 	
 		if ([defaults boolForKey:@"KWDebug"] == YES)
-			NSLog(string);
+			NSLog(@"%@", string);
 		
 		//Format the time sting ffmpeg outputs and format it to percent
 		if ([string rangeOfString:@"time="].length > 0)
@@ -503,7 +505,7 @@
 	[ffmpeg waitUntilExit];
 
 	//Check if the encoding succeeded, if not remove the mpg file ,NOT POSSIBLE :-(
-	int taskStatus = [ffmpeg terminationStatus];
+	NSInteger taskStatus = [ffmpeg terminationStatus];
 
 	//Release ffmpeg
 	[ffmpeg release];
@@ -549,7 +551,7 @@
 }
 
 //Encode sound to wav
-- (int)encodeAudioAtPath:(NSString *)path
+- (NSInteger)encodeAudioAtPath:(NSString *)path
 {
 	NSFileManager *defaultFileManager = [NSFileManager defaultManager];
 	[[NSNotificationCenter defaultCenter] postNotificationName:@"KWStatusChanged" object:[NSString stringWithFormat:NSLocalizedString(@"Decoding sound: %@", nil), [[NSFileManager defaultManager] displayNameAtPath:path]]];
@@ -569,7 +571,7 @@
 	movtowav = [[NSTask alloc] init];
 	[movtowav setLaunchPath:[[NSBundle mainBundle] pathForResource:@"movtowav" ofType:@""]];
 	[movtowav setArguments:[NSArray arrayWithObjects:@"-o", [outputFile stringByAppendingString:@".wav"], path,nil]];
-	int taskStatus;
+	NSInteger taskStatus;
 
 	NSPipe *pipe=[[NSPipe alloc] init];
 	NSFileHandle *handle=[pipe fileHandleForReading];
@@ -579,7 +581,7 @@
 	NSString *string=[[NSString alloc] initWithData:[handle readDataToEndOfFile] encoding:NSUTF8StringEncoding];
 
 	if ([[NSUserDefaults standardUserDefaults] boolForKey:@"KWDebug"] == YES)
-		NSLog(string);
+		NSLog(@"%@", string);
 
 	status = 1;
 	[movtowav waitUntilExit];
@@ -648,7 +650,7 @@
 #pragma mark •• Test actions
 
 //Test if ffmpeg can encode, sound and/or video, and if it does have any sound
-- (int)testFile:(NSString *)path
+- (NSInteger)testFile:(NSString *)path
 {
 	NSString *displayName = [[NSFileManager defaultManager] displayNameAtPath:path];
 	NSString *tempFile = [[[NSUserDefaults standardUserDefaults] objectForKey:@"KWTemporaryLocation"] stringByAppendingPathComponent:@"tempkf.mpg"];
@@ -673,7 +675,7 @@
 		
 		keepGoing = NO;
 		
-		int code = 0;
+		NSInteger code = 0;
 		NSString *error = @"%@ (Unknown error)";
 		
 		if ([string rangeOfString:@"Video: Apple Intermediate Codec"].length > 0)
@@ -910,7 +912,11 @@
 			
 				if ([[NSFileManager defaultManager] fileExistsAtPath:projectSettings])
 				{
+					#if MAC_OS_X_VERSION_MAX_ALLOWED >= MAC_OS_X_VERSION_10_4
+					if ([[NSString stringWithContentsOfFile:projectSettings usedEncoding:nil error:nil] rangeOfString:@"WIDE"].length > 0)
+					#else
 					if ([[NSString stringWithContentsOfFile:projectSettings] rangeOfString:@"WIDE"].length > 0)
+					#endif
 					{
 						inputWidth = 1024;
 						inputAspect = (float)16 / (float)9;
@@ -1094,7 +1100,7 @@
 #pragma mark -
 #pragma mark •• Other actions
 
-- (int)convertToEven:(NSString *)numberAsString
+- (NSInteger)convertToEven:(NSString *)numberAsString
 {
 	NSString *convertedNumber = [[NSNumber numberWithInt:[numberAsString intValue]] stringValue];
 
@@ -1107,7 +1113,7 @@
 		return [convertedNumber intValue];
 }
 
-- (int)getPadSize:(float)size withAspect:(NSSize)aspect withTopBars:(BOOL)topBars
+- (NSInteger)getPadSize:(float)size withAspect:(NSSize)aspect withTopBars:(BOOL)topBars
 {
 	NSUserDefaults *standardDefaults = [NSUserDefaults standardUserDefaults];
 
@@ -1193,14 +1199,14 @@
 	}
 }
 
-- (int)totalTimeInSeconds:(NSString *)path
+- (NSInteger)totalTimeInSeconds:(NSString *)path
 {
 	NSString *string = [self ffmpegOutputForPath:path];
 	NSString *durationsString = [[[[string componentsSeparatedByString:@"Duration: "] objectAtIndex:1] componentsSeparatedByString:@"."] objectAtIndex:0];
 
-	int hours = [[[durationsString componentsSeparatedByString:@":"] objectAtIndex:0] intValue];
-	int minutes = [[[durationsString componentsSeparatedByString:@":"] objectAtIndex:1] intValue];
-	int seconds = [[[durationsString componentsSeparatedByString:@":"] objectAtIndex:2] intValue];
+	NSInteger hours = [[[durationsString componentsSeparatedByString:@":"] objectAtIndex:0] intValue];
+	NSInteger minutes = [[[durationsString componentsSeparatedByString:@":"] objectAtIndex:1] intValue];
+	NSInteger seconds = [[[durationsString componentsSeparatedByString:@":"] objectAtIndex:2] intValue];
 
 	return seconds + (minutes * 60) + (hours * 60 * 60);
 }
@@ -1211,7 +1217,7 @@
 	return [[[[[[[string componentsSeparatedByString:@"Duration: "] objectAtIndex:1] componentsSeparatedByString:@","] objectAtIndex:0] componentsSeparatedByString:@":"] objectAtIndex:1] stringByAppendingString:[@":" stringByAppendingString:[[[[[[string componentsSeparatedByString:@"Duration: "] objectAtIndex:1] componentsSeparatedByString:@","] objectAtIndex:0] componentsSeparatedByString:@":"] objectAtIndex:2]]];
 }
 
-- (NSImage *)getImageAtPath:(NSString *)path atTime:(int)time isWideScreen:(BOOL)wide
+- (NSImage *)getImageAtPath:(NSString *)path atTime:(NSInteger)time isWideScreen:(BOOL)wide
 {
 	NSArray *arguments = [NSArray arrayWithObjects:@"-ss",[[NSNumber numberWithInt:time] stringValue],@"-i",path,@"-vframes",@"1" ,@"-f",@"image2",@"-",nil];
 	NSData *data;

@@ -45,14 +45,14 @@
 - (IBAction)saveCombineSessions:(id)sender;
 
 //Image actions
-- (void)saveImageWithName:(NSString *)name withType:(int)type withFileSystem:(NSString *)fileSystem;
+- (void)saveImageWithName:(NSString *)name withType:(NSInteger)type withFileSystem:(NSString *)fileSystem;
 - (void)createImage:(NSDictionary *)dict;
-- (void)showAuthorFailedOfType:(int)type;
+- (void)showAuthorFailedOfType:(NSInteger)type;
 - (void)imageFinished:(id)object;
 
 //Burn actions
-- (void)burnDiscWithName:(NSString *)name withType:(int)type;
-- (void)burnSetupPanelEnded:(KWBurner *)myBurner returnCode:(int)returnCode contextInfo:(void *)contextInfo;
+- (void)burnDiscWithName:(NSString *)name withType:(NSInteger)type;
+- (void)burnSetupPanelEnded:(KWBurner *)myBurner returnCode:(NSInteger)returnCode contextInfo:(void *)contextInfo;
 - (void)burnTracks;
 - (void)burnFinished:(NSNotification*)notif;
 

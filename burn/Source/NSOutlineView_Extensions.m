@@ -61,7 +61,7 @@
     NSMutableArray *items = [NSMutableArray array];
 	NSIndexSet *indexSet = [self selectedRowIndexes];
 	
-	unsigned current_index = [indexSet firstIndex];
+	NSUInteger current_index = [indexSet firstIndex];
     while (current_index != NSNotFound)
     {
 		id itemAtRow = [self itemAtRow:current_index];
@@ -77,13 +77,13 @@
 
 - (void)selectItems:(NSArray*)items byExtendingSelection:(BOOL)extend 
 {
-    int i;
+    NSInteger i;
     if (extend==NO) 
 		[self deselectAll:nil];
    
 	for (i=0;i<[items count];i++) 
 	{
-        int row = [self rowForItem:[items objectAtIndex:i]];
+        NSInteger row = [self rowForItem:[items objectAtIndex:i]];
 		
         if(row>=0) 
 			[self selectRowIndexes:[NSIndexSet indexSetWithIndex:row] byExtendingSelection:YES];

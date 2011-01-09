@@ -65,7 +65,7 @@
 //Other actions
 - (NSString *)myDisc;
 - (NSNumber *)totalSize;
-- (int)numberOfRows;
+- (NSInteger)numberOfRows;
 - (BOOL)isMounted;
 - (BOOL)isRealDisk;
 - (BOOL)isCompatible;
@@ -76,7 +76,7 @@
 - (void)deleteTemporayFiles:(BOOL)needed;
 - (BOOL)isCueFile;
 - (BOOL)isAudioCD;
-- (int)cueImageSizeAtPath:(NSString *)path;
+- (NSInteger)cueImageSizeAtPath:(NSString *)path;
 - (NSString *)getIsoForDvdFileAtPath:(NSString *)path;
 - (NSNumber *)getLayerBreakForDvdFileAtPath:(NSString *)path;
 - (NSDictionary *)isoInfo;

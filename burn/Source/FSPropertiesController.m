@@ -115,7 +115,7 @@
 
 - (BOOL)checkForFileSystemMasksInObjects:(NSArray *)objects
 {
-	int x;
+	NSInteger x;
 	for (x=0;x<[objects count];x++)
 	{
 		if ([[objects objectAtIndex:x] explicitFilesystemMask] & [self mask])
@@ -127,7 +127,7 @@
 
 - (BOOL)checkForFileSystemMasksInParentsOfObjects:(NSArray *)objects
 {
-	int x;
+	NSInteger x;
 	for (x=0;x<[objects count];x++)
 	{
 		if ([[(DRFSObject *)[objects objectAtIndex:x] parent] effectiveFilesystemMask] & [self mask])
@@ -141,7 +141,7 @@
 {
 	id object = [[inspectedItems objectAtIndex:0] propertyForKey:key inFilesystem:[self filesystem] mergeWithOtherFilesystems:NO];
 
-	int x;
+	NSInteger x;
 	for (x=0;x<[inspectedItems count];x++)
 	{
 		if (![object isEqualTo:[[inspectedItems objectAtIndex:x] propertyForKey:key inFilesystem:[self filesystem] mergeWithOtherFilesystems:NO]])
@@ -153,7 +153,7 @@
 
 - (IBAction)setIncludedBit:(id)sender
 {
-	int x;
+	NSInteger x;
 	for (x=0;x<[inspectedItems count];x++)
 	{
 		id currentItem = [inspectedItems objectAtIndex:x];
@@ -270,7 +270,7 @@
 
 	if (objValue)
 	{
-		int x;
+		NSInteger x;
 		for (x=0;x<[inspectedItems count];x++)
 		{
 			[[inspectedItems objectAtIndex:x] setProperty:objValue forKey:[propertyMappings objectAtIndex:[sender tag]] inFilesystem:[self filesystem]];
@@ -311,7 +311,7 @@
 	// querying this array by using the tag obtained from the sender
 	// [propertyMappings objectAtIndex:[sender tag]]
 
-	int x;
+	NSInteger x;
 	for (x=0;x<[inspectedItems count];x++)
 	{
 		[[inspectedItems objectAtIndex:x] setProperty:[NSNumber numberWithUnsignedShort:mode] forKey:[propertyMappings objectAtIndex:[sender tag]] inFilesystem:[self filesystem]];

@@ -32,8 +32,8 @@
 	#ifdef QTKIT_EXTERN
 	QTMovie *movie;
 	#endif
-	int playingSong;
-	int display;
+	NSInteger playingSong;
+	NSInteger display;
 	BOOL pause;
 	NSTimer *displayTimer;
 	KWDVDAuthorizer *DVDAuthorizer;
@@ -55,7 +55,7 @@
 //Disc creation actions
 //Create a track for burning
 - (id)myTrackWithBurner:(KWBurner *)burner errorString:(NSString **)error;
-- (int)authorizeFolderAtPathIfNeededAtPath:(NSString *)path errorString:(NSString **)error;
+- (NSInteger)authorizeFolderAtPathIfNeededAtPath:(NSString *)path errorString:(NSString **)error;
 
 //Player actions
 - (IBAction)play:(id)sender;
@@ -71,7 +71,7 @@
 //Calculate and return total time as string
 - (NSString *)totalTime;
 //Get movie duration using NSMovie so it works in Panther too
-- (int)getMovieDuration:(NSString *)path;
+- (NSInteger)getMovieDuration:(NSString *)path;
 //Check if the disc can be combined
 - (BOOL)isCombinable;
 //Check if the disc is a Audio CD disc

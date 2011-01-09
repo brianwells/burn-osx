@@ -22,21 +22,21 @@
 	NSString *discName;
 	NSArray *mpegFiles;
 	//Types 1 = hfsstandard; 2 = udf; 3 = dvd-video; 4 = vcd; 5 = svcd; 6 = audiocd 7 = dvd-audio
-	int	type;
+	NSInteger	type;
 	BOOL createdTrack;
 	NSTask *trackCreator;
 	NSPipe *trackPipe;
-	int currentImageSize;
+	NSInteger currentImageSize;
 	NSTimer *prepareTimer;
 	NSString *currentAudioTrack;
 }
 
 //Track actions
 - (NSArray *)getTracksOfCueFile:(NSString *)path;
-- (DRTrack *)getTrackForImage:(NSString *)path withSize:(int)size;
-- (DRTrack *)getTrackForFolder:(NSString *)path ofType:(int)imageType withDiscName:(NSString *)name;
-- (NSArray *)getTrackForVCDMPEGFiles:(NSArray *)files withDiscName:(NSString *)name ofType:(int)imageType;
-- (NSArray *)getTracksOfLayout:(NSString *)layout withTotalSize:(int)size;
+- (DRTrack *)getTrackForImage:(NSString *)path withSize:(NSInteger)size;
+- (DRTrack *)getTrackForFolder:(NSString *)path ofType:(NSInteger)imageType withDiscName:(NSString *)name;
+- (NSArray *)getTrackForVCDMPEGFiles:(NSArray *)files withDiscName:(NSString *)name ofType:(NSInteger)imageType;
+- (NSArray *)getTracksOfLayout:(NSString *)layout withTotalSize:(NSInteger)size;
 - (NSArray *)getTracksOfVcd;
 - (NSArray *)getTracksOfAudioCD:(NSString *)path withToc:(NSDictionary *)toc;
 - (DRTrack *)getAudioTrackForPath:(NSString *)path;
@@ -48,7 +48,7 @@
 
 //Other
 - (float)imageSize;
-- (DRTrack *)createDefaultTrackWithSize:(int)size;
+- (DRTrack *)createDefaultTrackWithSize:(NSInteger)size;
 - (float)audioTrackSizeAtPath:(NSString *)path;
 
 @end

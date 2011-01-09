@@ -108,15 +108,19 @@
 {
 	NSString *binPath= [[path stringByDeletingPathExtension] stringByAppendingPathExtension:@"bin"];
 	file = fopen([binPath fileSystemRepresentation], "r");
-
+	
+	#if MAC_OS_X_VERSION_MAX_ALLOWED >= MAC_OS_X_VERSION_10_4
+	return [self getTracksOfLayout:[NSString stringWithContentsOfFile:path usedEncoding:nil error:nil] withTotalSize:[[[NSFileManager defaultManager] fileAttributesAtPath:binPath traverseLink:YES] fileSize]];
+	#else
 	return [self getTracksOfLayout:[NSString stringWithContentsOfFile:path] withTotalSize:[[[NSFileManager defaultManager] fileAttributesAtPath:binPath traverseLink:YES] fileSize]];
+	#endif
 }
 
-- (DRTrack *)getTrackForImage:(NSString *)path withSize:(int)size
+- (DRTrack *)getTrackForImage:(NSString *)path withSize:(NSInteger)size
 {
 	file = fopen([path fileSystemRepresentation], "r");
 
-	int fileSize;
+	NSInteger fileSize;
 
 	if (size > 0)
 		fileSize = size;
@@ -126,7 +130,7 @@
 	return [self createDefaultTrackWithSize:fileSize];
 }
 
-- (DRTrack *)getTrackForFolder:(NSString *)path ofType:(int)imageType withDiscName:(NSString *)name
+- (DRTrack *)getTrackForFolder:(NSString *)path ofType:(NSInteger)imageType withDiscName:(NSString *)name
 {
 	type = imageType;
 	folderPath = [path copy];
@@ -135,7 +139,7 @@
 	return [self createDefaultTrackWithSize:[self imageSize]];
 }
 
-- (NSArray *)getTrackForVCDMPEGFiles:(NSArray *)files withDiscName:(NSString *)name ofType:(int)imageType
+- (NSArray *)getTrackForVCDMPEGFiles:(NSArray *)files withDiscName:(NSString *)name ofType:(NSInteger)imageType
 {
 	discName = [name copy];
 	mpegFiles = [files copy];
@@ -145,12 +149,12 @@
 	return [self getTracksOfVcd];
 }
 
-- (NSArray *)getTracksOfLayout:(NSString *)layout withTotalSize:(int)size
+- (NSArray *)getTracksOfLayout:(NSString *)layout withTotalSize:(NSInteger)size
 {
 	NSMutableArray *array = [NSMutableArray array];
 	NSScanner *scanner   = [NSScanner scannerWithString:layout];
 	
-	int totalSize;
+	NSInteger totalSize;
 	if ([layout rangeOfString:@"2048"].length > 0)
 		totalSize = size / 2048;
 	else if ([layout rangeOfString:@"2336"].length > 0)
@@ -165,26 +169,26 @@
 	}
 						
 	BOOL done     = NO;
-	int  savedGap = 150;
+	NSInteger  savedGap = 150;
 	BOOL firstTrack = YES;
 	
 	while (!done)
 	{
-		int m, s, f;
+		NSInteger m, s, f;
 		
-		int trackID;
-		int length;
-		int pregap = savedGap;
-		int blockType;
-		int dataForm;
-		int trackMode;
-		int sessionFormat;
-		int blockSize = 0;
+		NSInteger trackID;
+		NSInteger length;
+		NSInteger pregap = savedGap;
+		NSInteger blockType;
+		NSInteger dataForm;
+		NSInteger trackMode;
+		NSInteger sessionFormat;
+		NSInteger blockSize = 0;
 		
 		if (![scanner skipPastString:@"TRACK"])
 			break;
 		
-		if (![scanner scanInt:&trackID])
+		if (![scanner scanInteger:&trackID])
 		{
 			//NSLog(@"Could not parse track number.");
 		
@@ -244,33 +248,33 @@
 			return nil;
 		}
 		
-		if (![scanner scanInt:&m]) break;
+		if (![scanner scanInteger:&m]) break;
 		if (![scanner skipPastString:@":"]) break;
-		if (![scanner scanInt:&s]) break;
+		if (![scanner scanInteger:&s]) break;
 		if (![scanner skipPastString:@":"]) break;
-		if (![scanner scanInt:&f]) break;
+		if (![scanner scanInteger:&f]) break;
 		
-		int startTime = (m * 60 + s) * 75 + f;
+		NSInteger startTime = (m * 60 + s) * 75 + f;
 		unsigned location = [scanner scanLocation];
 		
 		if ([scanner skipPastString:@"INDEX 00"])
 		{
-			if (![scanner scanInt:&m]) break;
+			if (![scanner scanInteger:&m]) break;
 			if (![scanner skipPastString:@":"]) break;
-			if (![scanner scanInt:&s]) break;
+			if (![scanner scanInteger:&s]) break;
 			if (![scanner skipPastString:@":"]) break;
-			if (![scanner scanInt:&f]) break;
+			if (![scanner scanInteger:&f]) break;
 			
-			int time = (m * 60 + s) * 75 + f;
+			NSInteger time = (m * 60 + s) * 75 + f;
 			length   = time - startTime;
 			
 			if ([scanner skipPastString:@"INDEX 01"])
 			{
-				if (![scanner scanInt:&m]) break;
+				if (![scanner scanInteger:&m]) break;
 				if (![scanner skipPastString:@":"]) break;
-				if (![scanner scanInt:&s]) break;
+				if (![scanner scanInteger:&s]) break;
 				if (![scanner skipPastString:@":"]) break;
-				if (![scanner scanInt:&f]) break;
+				if (![scanner scanInteger:&f]) break;
 				
 				savedGap   = (m * 60 + s) * 75 + f - time;
 			}
@@ -324,7 +328,7 @@
 	[arguments addObject:[@"--cue-file=" stringByAppendingString:@"/dev/fd/1"]];
 	[arguments addObject:[@"--bin-file=" stringByAppendingString:@"/dev/fd/2"]];
 
-	int i;
+	NSInteger i;
 	for (i=0;i<[mpegFiles count];i++)
 	{
 		[arguments addObject:[mpegFiles objectAtIndex:i]];
@@ -344,7 +348,7 @@
 	[vcdimager launch];
 
 	NSData *data;
-	int size = 0;
+	NSInteger size = 0;
 
 	NSAutoreleasePool *innerPool = [[NSAutoreleasePool alloc] init];
 
@@ -375,7 +379,7 @@
 	NSMutableArray *mySessions = [NSMutableArray array];
 	NSMutableArray *myTracks = [NSMutableArray array];
 
-	int i = 0;
+	NSInteger i = 0;
 	for (i=0;i<[sessions count];i++)
 	{
 		NSAutoreleasePool *innerPool = [[NSAutoreleasePool alloc] init];
@@ -385,14 +389,14 @@
 		NSNumber *leadout = [session objectForKey:@"Leadout Block"]; 
 		NSArray *tracks = [session objectForKey:@"Track Array"];
 	
-		int x = 0;
+		NSInteger x = 0;
 		for (x=0;x<[tracks count];x++)
 		{
 			NSAutoreleasePool *innerPool = [[NSAutoreleasePool alloc] init];
 			
 			NSDictionary *currentTrack = [tracks objectAtIndex:x];
 		
-			int size;
+			NSInteger size;
 		
 			if (x + 1 < [tracks count])
 				size = [[[tracks objectAtIndex:x + 1] objectForKey:@"Start Block"] intValue] - [[currentTrack objectForKey:@"Start Block"] intValue];
@@ -508,7 +512,7 @@
 	
 	[arguments addObjectsFromArray:[NSArray arrayWithObjects:@"--update-scan-offsets", @"-l", discName, [@"--cue-file=" stringByAppendingString:@"/dev/fd/1"], [@"--bin-file=" stringByAppendingString:@"/dev/fd/2"], nil]];
 
-	int i;
+	NSInteger i;
 	for (i=0;i<[mpegFiles count];i++)
 	{
 		[arguments addObject:[mpegFiles objectAtIndex:i]];
@@ -650,7 +654,7 @@
 	return size;
 }
 
-- (DRTrack *)createDefaultTrackWithSize:(int)size
+- (DRTrack *)createDefaultTrackWithSize:(NSInteger)size
 {
 	DRTrack *track = [[DRTrack alloc] initWithProducer:self];
 	NSMutableDictionary *dict = [NSMutableDictionary dictionary];

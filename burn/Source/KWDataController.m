@@ -181,7 +181,7 @@ static NSString*	EDBCurrentSelection							= @"EDBCurrentSelection";
 	[openPanel beginSheetForDirectory:nil file:nil types:nil modalForWindow:mainWindow modalDelegate:self didEndSelector:@selector(addRealFileEnded:returnCode:contextInfo:) contextInfo:nil];
 }
 
-- (void)addRealFileEnded:(NSOpenPanel*)panel returnCode:(int)returnCode contextInfo:(void *)contextInfo
+- (void)addRealFileEnded:(NSOpenPanel*)panel returnCode:(NSInteger)returnCode contextInfo:(void *)contextInfo
 {
 	[panel orderOut:self];
 
@@ -206,7 +206,7 @@ static NSString*	EDBCurrentSelection							= @"EDBCurrentSelection";
 				NSArray *files = [defaultManager directoryContentsAtPath:path];
 				NSMutableArray *fulPaths = [NSMutableArray array];
 				
-				int i = 0;
+				NSInteger i = 0;
 				for (i=0;i<[files count];i++)
 				{
 					[fulPaths addObject:[path stringByAppendingPathComponent:[files objectAtIndex:i]]];
@@ -280,7 +280,7 @@ static NSString*	EDBCurrentSelection							= @"EDBCurrentSelection";
 	
 	[outlineView abortEditing];
   
-	int x;
+	NSInteger x;
 	for (x=0;x<[selection count];x++)
 	{
 		NSAutoreleasePool *subPool = [[NSAutoreleasePool alloc] init];
@@ -350,7 +350,7 @@ static NSString*	EDBCurrentSelection							= @"EDBCurrentSelection";
 		}
 		else
 		{
-			int i;
+			NSInteger i;
 			for (i=0;i<[advancedCheckboxes numberOfRows] - 1;i++)
 			{
 				NSNumber *filesystemMask = [advancedFilesystems objectAtIndex:i];
@@ -370,7 +370,7 @@ static NSString*	EDBCurrentSelection							= @"EDBCurrentSelection";
 	}
 	else
 	{
-		int discNameLength = [KWCommonMethods maxLabelLength:rootFolder];
+		NSInteger discNameLength = [KWCommonMethods maxLabelLength:rootFolder];
 		NSString *baseName = [rootFolder baseName];
 
 		if ([baseName length] > discNameLength)
@@ -418,7 +418,7 @@ static NSString*	EDBCurrentSelection							= @"EDBCurrentSelection";
 	}
 }
 
-- (void)advancedSheetDidEnd:(NSWindow*)panel returnCode:(int)returnCode contextInfo:(void *)contextInfo
+- (void)advancedSheetDidEnd:(NSWindow*)panel returnCode:(NSInteger)returnCode contextInfo:(void *)contextInfo
 {
 	[panel orderOut:self];
 	
@@ -426,7 +426,7 @@ static NSString*	EDBCurrentSelection							= @"EDBCurrentSelection";
 	{
 		NSMutableArray *saveFilesystems = [NSMutableArray array];
 	
-		int i;
+		NSInteger i;
 		for (i=0;i<[advancedCheckboxes numberOfRows];i++)
 		{
 			NSNumber *filesystemMask = [advancedFilesystems objectAtIndex:i];
@@ -482,7 +482,7 @@ static NSString*	EDBCurrentSelection							= @"EDBCurrentSelection";
 - (IBAction)accessOptions:(id)sender
 {
 	//Setup options menu
-	int i = 0;
+	NSInteger i = 0;
 	for (i=0;i<[optionsPopup numberOfItems]-1;i++)
 	{
 		[[optionsPopup itemAtIndex:i+1] setState:[[[NSUserDefaults standardUserDefaults] objectForKey:[optionsMappings objectAtIndex:i]] intValue]];
@@ -520,7 +520,7 @@ static NSString*	EDBCurrentSelection							= @"EDBCurrentSelection";
 			
 			if (![outlineView isItemExpanded:currentItem])
 			{
-				int parentRow = [outlineView rowForItem:[currentItem nodeParent]];
+				NSInteger parentRow = [outlineView rowForItem:[currentItem nodeParent]];
 				
 				if (parentRow == -1)
 					[outlineView deselectAll:self];
@@ -551,7 +551,7 @@ static NSString*	EDBCurrentSelection							= @"EDBCurrentSelection";
 	BOOL jolietLong = [[advancedCheckboxes cellAtRow:5 column:0] state] == NSOnState;
 	BOOL oneSelected = NO;
 	
-	int i = 0;
+	NSInteger i = 0;
 	for (i=0;i<[advancedCheckboxes numberOfRows];i++)
 	{
 		id control = [advancedCheckboxes cellAtRow:i column:0];
@@ -584,7 +584,7 @@ static NSString*	EDBCurrentSelection							= @"EDBCurrentSelection";
 	//Set advanced sheet file systems
 	NSArray *sheetFilesystems = [[NSUserDefaults standardUserDefaults] objectForKey:@"KWAdvancedFilesystems"];
 	
-	int i = 0;
+	NSInteger i = 0;
 	for (i=0;i<[advancedCheckboxes numberOfRows];i++)
 	{
 		id control = [advancedCheckboxes cellAtRow:i column:0];
@@ -634,7 +634,7 @@ static NSString*	EDBCurrentSelection							= @"EDBCurrentSelection";
 			if (![self createVirtualFolder:[SAFENODE(treeData) children] atPath:outputFolder errorString:&*error])
 				return [NSNumber numberWithInt:1];
 			
-			int type = 2;
+			NSInteger type = 2;
 			
 			if ([rootFolder explicitFilesystemMask] == 1<<4)
 				type = 1;
@@ -792,7 +792,7 @@ static NSString*	EDBCurrentSelection							= @"EDBCurrentSelection";
 	NSMutableArray *virtualFolders = [[NSMutableArray alloc] init];
 	NSIndexSet *selectedItem;
 
-	int i = 0;
+	NSInteger i = 0;
 	for (i=0;i<[ar count];i++)
 	{
 		if ([[[ar objectAtIndex:i] objectForKey:@"Path"] isEqualTo:@"isVirtual"])
@@ -854,7 +854,7 @@ static NSString*	EDBCurrentSelection							= @"EDBCurrentSelection";
 				
 		if ([[virtualFolders objectAtIndex:i] objectForKey:@"Entries"])
 		{
-			int x;
+			NSInteger x;
 			NSArray *entries = [[virtualFolders objectAtIndex:i] objectForKey:@"Entries"];
 			for (x=0;x<[entries count];x++)
 			{
@@ -899,7 +899,7 @@ static NSString*	EDBCurrentSelection							= @"EDBCurrentSelection";
 		}
 		else
 		{
-			int y;
+			NSInteger y;
 			for (y=0;y<[outlineView numberOfRows];y++)
 			{
 				if ([[NODE_DATA([outlineView itemAtRow:y]) fsObject] isVirtual] && [(KWDRFolder *)[NODE_DATA([outlineView itemAtRow:y]) fsObject] isExpanded])
@@ -924,7 +924,7 @@ static NSString*	EDBCurrentSelection							= @"EDBCurrentSelection";
 	[sheet beginSheetForDirectory:nil file:[[discName stringValue] stringByAppendingString:@".burn"] modalForWindow:mainWindow modalDelegate:self didEndSelector:@selector(savePanelDidEnd:returnCode:contextInfo:) contextInfo:nil];
 }
 
-- (void)savePanelDidEnd:(NSSavePanel *)sheet returnCode:(int)returnCode contextInfo:(void *)contextInfo
+- (void)savePanelDidEnd:(NSSavePanel *)sheet returnCode:(NSInteger)returnCode contextInfo:(void *)contextInfo
 {
 	[sheet orderOut:self];
 
@@ -1135,7 +1135,7 @@ static NSString*	EDBCurrentSelection							= @"EDBCurrentSelection";
 {
 	if (needed)
 	{
-		int i;
+		NSInteger i;
 		for (i=0;i<[temporaryFiles count];i++)
 		{
 			[KWCommonMethods removeItemAtPath:[temporaryFiles objectAtIndex:i]];
@@ -1148,7 +1148,7 @@ static NSString*	EDBCurrentSelection							= @"EDBCurrentSelection";
 - (void)controlTextDidChange:(NSNotification *)aNotification
 {
 	KWDRFolder *rootFolder = (KWDRFolder*)[(FSNodeData*)[treeData nodeData] fsObject];
-	int maxCharacters = [KWCommonMethods maxLabelLength:rootFolder];
+	NSInteger maxCharacters = [KWCommonMethods maxLabelLength:rootFolder];
 	
 	NSString *nameString = [discName stringValue];
 	NSString *oldName = [NSString stringWithString:nameString];
@@ -1205,7 +1205,7 @@ static NSString*	EDBCurrentSelection							= @"EDBCurrentSelection";
 	NSArray* selectedNodes = [outlineView allSelectedItems];
 	NSMutableArray *objects = [NSMutableArray array];
 
-	int x;
+	NSInteger x;
 	for (x=0;x<[selectedNodes count];x++)
 	{
 		[objects addObject:[NODE_DATA((TreeNode *)[selectedNodes objectAtIndex:x]) fsObject]];
@@ -1239,7 +1239,7 @@ static NSString*	EDBCurrentSelection							= @"EDBCurrentSelection";
 	[[NSNotificationCenter defaultCenter] postNotificationName:EDBSelectionChangedNotification object:self userInfo:[NSDictionary dictionaryWithObjectsAndKeys:[outlineView allSelectedItems], EDBCurrentSelection, nil]];
 }
 
-- (int)numberOfRows
+- (NSInteger)numberOfRows
 {
 	return [outlineView numberOfRows];
 }
@@ -1250,7 +1250,7 @@ static NSString*	EDBCurrentSelection							= @"EDBCurrentSelection";
 }
 
 // Required methods.
-- (id)outlineView:(NSOutlineView *)olv child:(int)index ofItem:(id)item 
+- (id)outlineView:(NSOutlineView *)olv child:(NSInteger)index ofItem:(id)item 
 {
     return [SAFENODE(item) childAtIndex:index];
 }
@@ -1260,7 +1260,7 @@ static NSString*	EDBCurrentSelection							= @"EDBCurrentSelection";
     return [NODE_DATA(item) isExpandable];
 }
 
-- (int)outlineView:(NSOutlineView *)olv numberOfChildrenOfItem:(id)item 
+- (NSInteger)outlineView:(NSOutlineView *)olv numberOfChildrenOfItem:(id)item 
 {
     return [SAFENODE(item) numberOfChildren];
 }
@@ -1315,7 +1315,7 @@ static NSString*	EDBCurrentSelection							= @"EDBCurrentSelection";
 	return YES;
 }
 
-- (unsigned int)outlineView:(NSOutlineView*)olv validateDrop:(id <NSDraggingInfo>)info proposedItem:(id)item proposedChildIndex:(int)childIndex 
+- (NSDragOperation)outlineView:(NSOutlineView*)olv validateDrop:(id <NSDraggingInfo>)info proposedItem:(id)item proposedChildIndex:(NSInteger)childIndex 
 {
     // This method validates whether or not the proposal is a valid one. Returns NO if the drop should not be allowed.
     TreeNode *target = item;
@@ -1367,7 +1367,7 @@ static NSString*	EDBCurrentSelection							= @"EDBCurrentSelection";
 		{
 			NSAutoreleasePool *subPool = [[NSAutoreleasePool alloc] init];
 		
-			int x;
+			NSInteger x;
 			BOOL nameExists = NO;
 			for (x=0;x<[[parent children] count];x++)
 			{
@@ -1404,7 +1404,7 @@ static NSString*	EDBCurrentSelection							= @"EDBCurrentSelection";
 			id nodeData = [FSNodeData nodeDataWithPath:path];
 			FSTreeNode*	newNode = [FSTreeNode treeNodeWithData:nodeData];
 		
-			int x;
+			NSInteger x;
 			BOOL nameExists = NO;
 			for (x=0;x<[[parent children] count];x++)
 			{
@@ -1432,7 +1432,7 @@ static NSString*	EDBCurrentSelection							= @"EDBCurrentSelection";
 		NSArray *keys = [[[pboard propertyListForType:@"CorePasteboardFlavorType 0x6974756E"] objectForKey:@"Tracks"] allKeys];
 		NSMutableArray *fileList = [NSMutableArray array];
 	
-		int i;
+		NSInteger i;
 		for (i=0;i<[keys count];i++)
 		{
 			NSURL *url = [[NSURL alloc] initWithString:[[[[pboard propertyListForType:@"CorePasteboardFlavorType 0x6974756E"] objectForKey:@"Tracks"] objectForKey:[keys objectAtIndex:i]] objectForKey:@"Location"]];
@@ -1450,7 +1450,7 @@ static NSString*	EDBCurrentSelection							= @"EDBCurrentSelection";
 			id nodeData = [FSNodeData nodeDataWithPath:path];
 			FSTreeNode*	newNode = [FSTreeNode treeNodeWithData:nodeData];
 			
-			int x;
+			NSInteger x;
 			BOOL nameExists = NO;
 			for (x=0;x<[[parent children] count];x++)
 			{
@@ -1470,7 +1470,7 @@ static NSString*	EDBCurrentSelection							= @"EDBCurrentSelection";
     [outlineView selectItems: itemsToSelect byExtendingSelection: NO];
 }
 
-- (BOOL)outlineView:(NSOutlineView*)olv acceptDrop:(id <NSDraggingInfo>)info item:(id)targetItem childIndex:(int)childIndex 
+- (BOOL)outlineView:(NSOutlineView*)olv acceptDrop:(id <NSDraggingInfo>)info item:(id)targetItem childIndex:(NSInteger)childIndex 
 {
     TreeNode* 		dropParent = nil;
     
@@ -1495,7 +1495,7 @@ static NSString*	EDBCurrentSelection							= @"EDBCurrentSelection";
 
 - (void)_addNewDataToSelection:(TreeNode *)newChild shouldSelect:(BOOL)select
 {
-	int			newRow = 0;
+	NSInteger			newRow = 0;
 	NSArray*	selectedNodes = [outlineView allSelectedItems];
 	TreeNode*	selectedNode = ([selectedNodes count] ? [selectedNodes objectAtIndex:0] : treeData);
 	TreeNode*	parentNode = nil;

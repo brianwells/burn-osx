@@ -39,7 +39,7 @@
 	NSMutableDictionary *itemsList;
 	
 	NSArray *preferenceMappings;
-	int dataViewHeight;
+	NSInteger dataViewHeight;
 	NSMutableArray *themePaths;
 }
 //PrefPane actions
