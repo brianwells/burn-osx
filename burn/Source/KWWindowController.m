@@ -81,9 +81,9 @@
 	
 	if ([devices count] > 1)
 	{
-		int x = 0;
+		NSInteger x = 0;
 
-		int i;
+		NSInteger i;
 		for (i=0;i< [devices count];i++)
 		{
 			if ([[[devices objectAtIndex:i] displayName] isEqualTo:[[[defaultBurner stringValue] componentsSeparatedByString:@"\n"] objectAtIndex:0]])
@@ -174,7 +174,7 @@
 	[openPanel beginSheetForDirectory:nil file:nil types:fileTypes modalForWindow:mainWindow modalDelegate:self didEndSelector:@selector(burnOpenPanelDidEnd:returnCode:contextInfo:) contextInfo:nil];
 }
 
-- (void)burnOpenPanelDidEnd:(NSOpenPanel *)openPanel returnCode:(int)returnCode contextInfo:(void *)contextInfo
+- (void)burnOpenPanelDidEnd:(NSOpenPanel *)openPanel returnCode:(NSInteger)returnCode contextInfo:(void *)contextInfo
 {
 	[openPanel orderOut:self];
 
@@ -193,7 +193,7 @@
 	[eraser beginEraseSheetForWindow:mainWindow modalDelegate:self didEndSelector:@selector(eraseSetupEnded:returnCode:)];
 }
 
-- (void)eraseSetupEnded:(KWEraser *)eraseSetupSheet returnCode:(int)returnCode
+- (void)eraseSetupEnded:(KWEraser *)eraseSetupSheet returnCode:(NSInteger)returnCode
 {
 	if (returnCode == NSOKButton)
 	{
@@ -317,10 +317,10 @@
     
     
 		id segment;
-		NSArray *descriptions = [NSArray arrayWithObjects:@"Select to create a data disc",@"Select to create a audio disc",@"Select to create a video disc",@"Select to copy a disc or disk image",nil];
+		NSArray *descriptions = [NSArray arrayWithObjects:NSLocalizedString(@"Select to create a data disc", nil),NSLocalizedString(@"Select to create a audio disc", nil),NSLocalizedString(@"Select to create a video disc", nil),NSLocalizedString(@"Select to copy a disc or disk image", nil),nil];
 		NSEnumerator *e = [segments objectEnumerator];
 			
-		int i = 0;
+		NSInteger i = 0;
 		while ((segment = [e nextObject])) 
 		{
 			[segment accessibilitySetOverrideValue:[descriptions objectAtIndex:i] forAttribute:NSAccessibilityHelpAttribute];
@@ -335,8 +335,10 @@
 	[mainItem setMinSize:NSMakeSize([newTabView frame].size.width,28)];
 	
 	//Some things don't work in Panther, so doing a trick to hide the toolbarbutton
+	#if MAC_OS_X_VERSION_MAX_ALLOWED < MAC_OS_X_VERSION_10_4
 	if ([KWCommonMethods OSVersion] < 0x1040)
 		[KWToolbarKiller poseAsClass:NSClassFromString(@"_NSThemeWidget")];
+	#endif
 	
     toolbar = [[[NSToolbar alloc] initWithIdentifier:@"mainToolbar"] autorelease];
     [toolbar setDelegate:self];
@@ -397,7 +399,7 @@
 		}
 		else
 		{
-			int media = [[[NSUserDefaults standardUserDefaults] objectForKey:@"KWDefaultMedia"] intValue];
+			NSInteger media = [[[NSUserDefaults standardUserDefaults] objectForKey:@"KWDefaultMedia"] intValue];
 		
 			if (media == 1)
 				space = [KWCommonMethods defaultSizeForMedia:@"KWDefaultCDMedia"];
@@ -490,7 +492,7 @@
 
 - (void)tabView:(NSTabView *)aTabView didSelectTabViewItem:(NSTabViewItem *)tabViewItem
 {
-	int segment = [aTabView indexOfTabViewItem:[aTabView selectedTabViewItem]];
+	NSInteger segment = [aTabView indexOfTabViewItem:[aTabView selectedTabViewItem]];
 	[newTabView setSelectedSegment:segment];
 	
 	id controller = [(KWTabViewItem *)[aTabView selectedTabViewItem] myController];
@@ -516,7 +518,7 @@
 	{
 		NSArray *files = [standardDefaults objectForKey:@"KWTemporaryFiles"];
 	
-		int i;
+		NSInteger i;
 		for (i=0;i<[files count];i++)
 		{
 			NSString *path = [files objectAtIndex:i];
