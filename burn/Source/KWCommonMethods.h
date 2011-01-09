@@ -13,8 +13,8 @@
 typedef long NSInteger;
 typedef unsigned long NSUInteger;
 #else
-typedef NSInteger NSInteger;
-typedef unsigned NSInteger NSUInteger;
+typedef int NSInteger;
+typedef unsigned int NSUInteger;
 #endif
 
 @interface KWCommonMethods : NSObject 
