@@ -255,7 +255,7 @@
 				[progressPanel setStatus:[NSString stringWithFormat:NSLocalizedString(@"Processing: %@ (%i of %i)", nil), fileName, i + 1, numberOfFiles]];
 			}
 				
-			[self addFile:file isSelfEncoded:YES];
+			[self addFile:file isSelfEncoded:NO];
 				
 			if (audioCD)
 				[progressPanel setValue:[NSNumber numberWithInt:i + 1]];
