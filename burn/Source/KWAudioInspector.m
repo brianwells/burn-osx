@@ -78,7 +78,7 @@
 				if (index < 8)
 				{
 					property = [self getObjectForKey:currentKey inObject:currentCDTextBlock atIndexes:selectedRows];
-				
+
 					if ([currentKey isEqualTo:DRCDTextMCNISRCKey])
 						property = [NSNumber numberWithBool:(property != nil)];
 				}
@@ -93,7 +93,15 @@
 				}
 				
 			if (property)
+			{
 				[cntl setObjectValue:property];
+			}
+			else
+			{
+				if ([cntl isKindOfClass:[NSTextField class]])
+					[cntl setObjectValue:@""];
+			}
+				
 				
 			property = nil;
 		}
@@ -109,7 +117,7 @@
 
 	if (cdText)
 	{
-		baseValue = [(DRCDTextBlock *)object objectForKey:key ofTrack:1];
+		baseValue = [(DRCDTextBlock *)object objectForKey:key ofTrack:[[indexes objectAtIndex:0] intValue] + 1];
 	}
 	else
 	{
@@ -126,7 +134,7 @@
 	else
 	{
 		NSInteger i;
-		for (i=0;i<[indexes count];i++)
+		for (i=1;i<[indexes count];i++)
 		{
 			id currentValue;
 				

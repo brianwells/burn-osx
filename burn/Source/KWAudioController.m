@@ -10,7 +10,7 @@
 #if MAC_OS_X_VERSION_MAX_ALLOWED < MAC_OS_X_VERSION_10_4
 #import <QuickTime/QuickTime.h>
 #endif
-#import <ID3/TagAPI.h>
+#import <MultiTag/MultiTag.h>
 #import "KWWindowController.h"
 #import "KWCommonMethods.h"
 #import "KWTrackProducer.h"
@@ -249,11 +249,11 @@
 		if (selrow == 1)
 		{
 			currentDropRow = -1;
-			TagAPI *Tag = [[TagAPI alloc] initWithGenreList:nil];
-			[Tag examineFile:path];
-			[rowData setObject:[[Tag getArtist] copy] forKey:@"Artist"];
-			[rowData setObject:[[Tag getAlbum] copy] forKey:@"Album"];
-			[Tag release];
+		
+			MultiTag *soundTag = [[MultiTag alloc] initWithFile:path];
+			[rowData setObject:[soundTag getTagArtist] forKey:@"Artist"];
+			[rowData setObject:[soundTag getTagAlbum] forKey:@"Album"];
+			[soundTag release];
 		}
 
 		if (selrow == 0)
@@ -267,51 +267,57 @@
 			[track setProperties:trackProperties];
 			[tracks addObject:track];
 			
-			if ([KWCommonMethods OSVersion] >= 0x1040 && [[[path pathExtension] lowercaseString] isEqualTo:@"mp3"])
+			if ([KWCommonMethods OSVersion] >= 0x1040 && [[[path pathExtension] lowercaseString] isEqualTo:@"mp3"] | [[[path pathExtension] lowercaseString] isEqualTo:@"m4a"])
 			{
 				#if MAC_OS_X_VERSION_MAX_ALLOWED >= MAC_OS_X_VERSION_10_4
-				TagAPI *Tag = [[TagAPI alloc] initWithGenreList:nil];
-				[Tag examineFile:path];
 				
+				MultiTag *soundTag = [[MultiTag alloc] initWithFile:path];
+				
+				NSString *album = [soundTag getTagAlbum];
+
 				if (!cdtext)
 				{
 					cdtext = [[DRCDTextBlock cdTextBlockWithLanguage:@"" encoding:DRCDTextEncodingISOLatin1Modified] retain];
-			
-					[cdtext setObject:[Tag getTitle] forKey:DRCDTextTitleKey ofTrack:0];
-					[cdtext setObject:[Tag getArtist] forKey:DRCDTextPerformerKey ofTrack:0];
+	
+					[cdtext setObject:[soundTag getTagArtist] forKey:DRCDTextPerformerKey ofTrack:0];
 				
-				
-					NSArray *genres = [Tag getGenreNames];
+					NSArray *genres = [soundTag getTagGenreNames];
 					if ([genres count] > 0)
 					{
 						[cdtext setObject:[NSNumber numberWithInt:0] forKey:DRCDTextGenreCodeKey ofTrack:0];
 						[cdtext setObject:[genres objectAtIndex:0] forKey:DRCDTextGenreKey ofTrack:0];
 					}
+					
+					[cdtext setObject:album forKey:DRCDTextTitleKey ofTrack:0];
+					[discName setStringValue:album];
 				}
 				else
 				{
-					if (![[cdtext objectForKey:DRCDTextTitleKey ofTrack:0] isEqualTo:[Tag getTitle]])
-					[cdtext setObject:@"" forKey:DRCDTextTitleKey ofTrack:0];
+					if (![[cdtext objectForKey:DRCDTextPerformerKey ofTrack:0] isEqualTo:[soundTag getTagArtist]])
+						[cdtext setObject:@"" forKey:DRCDTextPerformerKey ofTrack:0];
 				
-					if (![[cdtext objectForKey:DRCDTextPerformerKey ofTrack:0] isEqualTo:[Tag getArtist]])
-					[cdtext setObject:@"" forKey:DRCDTextPerformerKey ofTrack:0];
-				
-					NSArray *genres = [Tag getGenreNames];
+					NSArray *genres = [soundTag getTagGenreNames];
 					if ([genres count] > 0)
 					{
 						if (![[cdtext objectForKey:DRCDTextGenreKey ofTrack:0] isEqualTo:[genres objectAtIndex:0]])
-						[cdtext setObject:@"" forKey:DRCDTextGenreKey ofTrack:0];
+							[cdtext setObject:@"" forKey:DRCDTextGenreKey ofTrack:0];
+					}
+					
+					if (![[cdtext objectForKey:DRCDTextTitleKey ofTrack:0] isEqualTo:album])
+					{
+						[cdtext setObject:NSLocalizedString(@"Untitled", nil) forKey:DRCDTextTitleKey ofTrack:0];
+						[discName setStringValue:NSLocalizedString(@"Untitled", nil)];
 					}
 				}
 			
-				NSInteger lastTrack = [tracks count] - 1;
-	
-				[cdtext setObject:[Tag getTitle] forKey:DRCDTextTitleKey ofTrack:lastTrack];
-				[cdtext setObject:[Tag getArtist] forKey:DRCDTextPerformerKey ofTrack:lastTrack];
-				[cdtext setObject:[Tag getComposer] forKey:DRCDTextComposerKey ofTrack:lastTrack];
-				[cdtext setObject:[Tag getComments] forKey:DRCDTextSpecialMessageKey ofTrack:lastTrack];
-	
-				[Tag release];
+				NSInteger lastTrack = [tracks count];
+
+				[cdtext setObject:[soundTag getTagTitle] forKey:DRCDTextTitleKey ofTrack:lastTrack];
+				[cdtext setObject:[soundTag getTagArtist] forKey:DRCDTextPerformerKey ofTrack:lastTrack];
+				[cdtext setObject:[soundTag getTagComposer] forKey:DRCDTextComposerKey ofTrack:lastTrack];
+				[cdtext setObject:[soundTag getTagComments] forKey:DRCDTextSpecialMessageKey ofTrack:lastTrack];
+				
+				[soundTag release];
 				
 				#endif
 			}
@@ -395,34 +401,34 @@
 			
 			if ([[[NSUserDefaults standardUserDefaults] objectForKey:@"KWCreateArtistFolders"] boolValue] | [[[NSUserDefaults standardUserDefaults] objectForKey:@"KWCreateAlbumFolders"] boolValue])
 			{
-				TagAPI *Tag = [[TagAPI alloc] initWithGenreList:nil];
-				[Tag examineFile:[[tableData objectAtIndex:i] valueForKey:@"Path"]];
+				NSString *path = [[tableData objectAtIndex:i] valueForKey:@"Path"];
+				MultiTag *soundTag = [[MultiTag alloc] initWithFile:path];
 			
-				if ([[[NSUserDefaults standardUserDefaults] objectForKey:@"KWCreateArtistFolders"] boolValue] && ![[Tag getArtist] isEqualTo:@""])
+				if ([[[NSUserDefaults standardUserDefaults] objectForKey:@"KWCreateArtistFolders"] boolValue] && ![[soundTag getTagArtist] isEqualTo:@""])
 				{
-					DRFolder *artistFolder = [self checkArray:[myFolder children] forFolderWithName:[Tag getArtist]];
+					DRFolder *artistFolder = [self checkArray:[myFolder children] forFolderWithName:[soundTag getTagArtist]];
 					
 					if (!artistFolder)
-						artistFolder = [DRFolder virtualFolderWithName:[Tag getArtist]];
+						artistFolder = [DRFolder virtualFolderWithName:[soundTag getTagArtist]];
 					
 					[myFolder addChild:artistFolder];
 				
 					myFolder = artistFolder;
 				}
 				
-				if ([[[NSUserDefaults standardUserDefaults] objectForKey:@"KWCreateAlbumFolders"] boolValue] && ![[Tag getAlbum] isEqualTo:@""])
+				if ([[[NSUserDefaults standardUserDefaults] objectForKey:@"KWCreateAlbumFolders"] boolValue] && ![[soundTag getTagAlbum] isEqualTo:@""])
 				{
-					DRFolder *albumFolder = [self checkArray:[myFolder children] forFolderWithName:[Tag getAlbum]];
+					DRFolder *albumFolder = [self checkArray:[myFolder children] forFolderWithName:[soundTag getTagAlbum]];
 					
 					if (!albumFolder)
-						albumFolder = [DRFolder virtualFolderWithName:[Tag getAlbum]];
+						albumFolder = [DRFolder virtualFolderWithName:[soundTag getTagAlbum]];
 					
 					[myFolder addChild:albumFolder];
 					
 					myFolder = albumFolder;
 				}
 			
-				[Tag release];
+				[soundTag release];
 			}
 			
 			[myFolder addChild:[DRFile fileWithPath:[[tableData objectAtIndex:i] valueForKey:@"Path"]]];
