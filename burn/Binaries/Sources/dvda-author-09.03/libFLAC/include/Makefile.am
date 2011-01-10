@@ -1,2 +1,0 @@
-SUBDIRS=libogg
-DIST_SUBDIRS=libogg

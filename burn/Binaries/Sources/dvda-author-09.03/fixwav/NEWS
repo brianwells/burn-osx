@@ -1,5 +1,0 @@
-New automatic repair mode has been added to fixwav (May 2008)
-to avoid user data input and facilitate batch repairs.
-
-See source code, file src/checkParameters.c for theoretical details.
-

@@ -1,1 +1,0 @@
-noinst_HEADERS=all.h bitmath.h bitreader.h bitwriter.h cpu.h crc.h fixed.h float.h format.h lpc.h md5.h memory.h ogg_decoder_aspect.h ogg_encoder_aspect.h ogg_helper.h ogg_mapping.h stream_encoder_framing.h window.h

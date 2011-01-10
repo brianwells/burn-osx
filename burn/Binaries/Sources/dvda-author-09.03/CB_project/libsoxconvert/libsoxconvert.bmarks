@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
-<BrowseTracker_layout_file>
-	<ActiveTarget name="Release" />
-	<File name="../../libsoxconvert/src/libsoxconvert.c" open="1" top="0" tabpos="1">
-		<Cursor position="1101" topLine="0" />
-		<BrowseMarks positions="1310,1028" />
-		<Book_Marks positions="937,1358" />
-	</File>
-</BrowseTracker_layout_file>

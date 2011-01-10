@@ -1,3 +1,0 @@
-[submodule "libswscale"]
-	path = libswscale
-	url = git://git.mplayerhq.hu/libswscale

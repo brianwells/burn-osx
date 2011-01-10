@@ -1,4 +1,0 @@
-This directory contains FLAC-1.2.1 source code for dvda-author.
-Subdirectories FLAC, private, protected and share contain additional FLAC code.
-Subdirectory include contains Ogg code.
-config/ and m4/ are Autotools script directories. They contain, repsectively, configuration scripts and m4 macros.
