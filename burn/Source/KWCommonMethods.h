@@ -9,12 +9,14 @@
 #import <Cocoa/Cocoa.h>
 #import <DiscRecording/DiscRecording.h>
 
+#if MAC_OS_X_VERSION_MAX_ALLOWED < MAC_OS_X_VERSION_10_5
 #if __LP64__ || NS_BUILD_32_LIKE_64
 typedef long NSInteger;
 typedef unsigned long NSUInteger;
 #else
 typedef int NSInteger;
 typedef unsigned int NSUInteger;
+#endif
 #endif
 
 @interface KWCommonMethods : NSObject 
