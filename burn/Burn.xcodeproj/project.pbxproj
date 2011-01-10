@@ -207,6 +207,34 @@
 		FE6134FC1102016400C086EA /* KWAlert.m in Sources */ = {isa = PBXBuildFile; fileRef = FE6134F31102016400C086EA /* KWAlert.m */; };
 		FE6134FD1102016400C086EA /* KWMediaListController.m in Sources */ = {isa = PBXBuildFile; fileRef = FE6134F51102016400C086EA /* KWMediaListController.m */; };
 		FE6DBFD10BDCED47006F5F53 /* KWInspector.nib in Resources */ = {isa = PBXBuildFile; fileRef = FE6DBFCF0BDCED47006F5F53 /* KWInspector.nib */; };
+		FE7C160412DBCAF900CFDA59 /* Growl.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FE7C160212DBCAF900CFDA59 /* Growl.framework */; };
+		FE7C160512DBCAF900CFDA59 /* MultiTag.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FE7C160312DBCAF900CFDA59 /* MultiTag.framework */; };
+		FE7C160A12DBCB0200CFDA59 /* Growl.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = FE7C160212DBCAF900CFDA59 /* Growl.framework */; };
+		FE7C160B12DBCB0200CFDA59 /* MultiTag.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = FE7C160312DBCAF900CFDA59 /* MultiTag.framework */; };
+		FE7C161A12DBCB1B00CFDA59 /* Growl.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FE7C161812DBCB1B00CFDA59 /* Growl.framework */; };
+		FE7C161B12DBCB1B00CFDA59 /* MultiTag.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FE7C161912DBCB1B00CFDA59 /* MultiTag.framework */; };
+		FE7C162712DBCB2B00CFDA59 /* Growl.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = FE7C161812DBCB1B00CFDA59 /* Growl.framework */; };
+		FE7C162812DBCB2B00CFDA59 /* MultiTag.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = FE7C161912DBCB1B00CFDA59 /* MultiTag.framework */; };
+		FE7C162E12DBCB4100CFDA59 /* Growl.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FE7C162C12DBCB4100CFDA59 /* Growl.framework */; };
+		FE7C162F12DBCB4100CFDA59 /* MultiTag.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FE7C162D12DBCB4100CFDA59 /* MultiTag.framework */; };
+		FE7C163012DBCB4100CFDA59 /* Growl.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FE7C162C12DBCB4100CFDA59 /* Growl.framework */; };
+		FE7C163112DBCB4100CFDA59 /* MultiTag.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FE7C162D12DBCB4100CFDA59 /* MultiTag.framework */; };
+		FE7C163612DBCB5000CFDA59 /* Growl.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = FE7C162C12DBCB4100CFDA59 /* Growl.framework */; };
+		FE7C163712DBCB5000CFDA59 /* MultiTag.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = FE7C162D12DBCB4100CFDA59 /* MultiTag.framework */; };
+		FE7C163F12DBCB5800CFDA59 /* Growl.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = FE7C162C12DBCB4100CFDA59 /* Growl.framework */; };
+		FE7C164012DBCB5800CFDA59 /* MultiTag.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = FE7C162D12DBCB4100CFDA59 /* MultiTag.framework */; };
+		FE7C164612DBCB7800CFDA59 /* Growl.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FE7C164412DBCB7800CFDA59 /* Growl.framework */; };
+		FE7C164712DBCB7800CFDA59 /* MultiTag.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FE7C164512DBCB7800CFDA59 /* MultiTag.framework */; };
+		FE7C164C12DBCB8900CFDA59 /* Growl.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = FE7C164412DBCB7800CFDA59 /* Growl.framework */; };
+		FE7C164D12DBCB8900CFDA59 /* MultiTag.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = FE7C164512DBCB7800CFDA59 /* MultiTag.framework */; };
+		FE7C165A12DBCBBC00CFDA59 /* Growl.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FE7C165812DBCBBC00CFDA59 /* Growl.framework */; };
+		FE7C165B12DBCBBC00CFDA59 /* MultiTag.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FE7C165912DBCBBC00CFDA59 /* MultiTag.framework */; };
+		FE7C166012DBCBC500CFDA59 /* Growl.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = FE7C165812DBCBBC00CFDA59 /* Growl.framework */; };
+		FE7C166112DBCBC500CFDA59 /* MultiTag.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = FE7C165912DBCBBC00CFDA59 /* MultiTag.framework */; };
+		FE7C166E12DBCBDD00CFDA59 /* Growl.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FE7C166C12DBCBDD00CFDA59 /* Growl.framework */; };
+		FE7C166F12DBCBDD00CFDA59 /* MultiTag.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FE7C166D12DBCBDD00CFDA59 /* MultiTag.framework */; };
+		FE7C167B12DBCBFE00CFDA59 /* Growl.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = FE7C166C12DBCBDD00CFDA59 /* Growl.framework */; };
+		FE7C167C12DBCBFE00CFDA59 /* MultiTag.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = FE7C166D12DBCBDD00CFDA59 /* MultiTag.framework */; };
 		FE8088EC0DBC85C100F2644D /* -1.png in Resources */ = {isa = PBXBuildFile; fileRef = FE8088EB0DBC85C100F2644D /* -1.png */; };
 		FE8088ED0DBC85C100F2644D /* -1.png in Resources */ = {isa = PBXBuildFile; fileRef = FE8088EB0DBC85C100F2644D /* -1.png */; };
 		FE8088EE0DBC85C100F2644D /* -1.png in Resources */ = {isa = PBXBuildFile; fileRef = FE8088EB0DBC85C100F2644D /* -1.png */; };
@@ -326,37 +354,6 @@
 		FE9DB852110338EB0086F62C /* iso8859-1 in Resources */ = {isa = PBXBuildFile; fileRef = FE9DB850110338EB0086F62C /* iso8859-1 */; };
 		FE9DB853110338EB0086F62C /* iso8859-1 in Resources */ = {isa = PBXBuildFile; fileRef = FE9DB850110338EB0086F62C /* iso8859-1 */; };
 		FE9DB854110338EB0086F62C /* iso8859-1 in Resources */ = {isa = PBXBuildFile; fileRef = FE9DB850110338EB0086F62C /* iso8859-1 */; };
-		FEA1528E12DAECB30073FA9B /* Growl.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FEA1528612DAECB20073FA9B /* Growl.framework */; };
-		FEA1528F12DAECB30073FA9B /* ID3.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FEA1528712DAECB20073FA9B /* ID3.framework */; };
-		FEA1529112DAECB30073FA9B /* Growl.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FEA1527E12DAECB20073FA9B /* Growl.framework */; };
-		FEA1529212DAECB30073FA9B /* Growl.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FEA1528012DAECB20073FA9B /* Growl.framework */; };
-		FEA1529312DAECB30073FA9B /* Growl.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FEA1528212DAECB20073FA9B /* Growl.framework */; };
-		FEA1529412DAECB30073FA9B /* Growl.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FEA1528412DAECB20073FA9B /* Growl.framework */; };
-		FEA1529512DAECB30073FA9B /* Growl.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FEA1528612DAECB20073FA9B /* Growl.framework */; };
-		FEA1529612DAECB30073FA9B /* ID3.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FEA1528712DAECB20073FA9B /* ID3.framework */; };
-		FEA1529712DAECB30073FA9B /* Growl.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FEA1528912DAECB20073FA9B /* Growl.framework */; };
-		FEA1529812DAECB30073FA9B /* Growl.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FEA1527E12DAECB20073FA9B /* Growl.framework */; };
-		FEA1529912DAECB30073FA9B /* Growl.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FEA1528012DAECB20073FA9B /* Growl.framework */; };
-		FEA1529A12DAECB30073FA9B /* Growl.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FEA1528212DAECB20073FA9B /* Growl.framework */; };
-		FEA1529B12DAECB30073FA9B /* Growl.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FEA1528412DAECB20073FA9B /* Growl.framework */; };
-		FEA1529C12DAECB30073FA9B /* Growl.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FEA1528612DAECB20073FA9B /* Growl.framework */; };
-		FEA1529D12DAECB30073FA9B /* ID3.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FEA1528712DAECB20073FA9B /* ID3.framework */; };
-		FEA1529E12DAECB30073FA9B /* Growl.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FEA1528912DAECB20073FA9B /* Growl.framework */; };
-		FEA1529F12DAECB30073FA9B /* Growl.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FEA1527E12DAECB20073FA9B /* Growl.framework */; };
-		FEA152A012DAECB40073FA9B /* Growl.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FEA1528012DAECB20073FA9B /* Growl.framework */; };
-		FEA152A112DAECB40073FA9B /* Growl.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FEA1528212DAECB20073FA9B /* Growl.framework */; };
-		FEA152A212DAECB40073FA9B /* Growl.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FEA1528412DAECB20073FA9B /* Growl.framework */; };
-		FEA152A312DAECB40073FA9B /* Growl.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FEA1528612DAECB20073FA9B /* Growl.framework */; };
-		FEA152A412DAECB40073FA9B /* ID3.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FEA1528712DAECB20073FA9B /* ID3.framework */; };
-		FEA152A512DAECB40073FA9B /* Growl.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FEA1528912DAECB20073FA9B /* Growl.framework */; };
-		FEA152C312DAECC60073FA9B /* Growl.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = FEA1528612DAECB20073FA9B /* Growl.framework */; };
-		FEA152C412DAECC60073FA9B /* ID3.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = FEA1528712DAECB20073FA9B /* ID3.framework */; };
-		FEA152C512DAED030073FA9B /* Growl.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = FEA1528212DAECB20073FA9B /* Growl.framework */; };
-		FEA152D112DAED1F0073FA9B /* Growl.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = FEA1528912DAECB20073FA9B /* Growl.framework */; };
-		FEA152D712DAED280073FA9B /* Growl.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = FEA1528212DAECB20073FA9B /* Growl.framework */; };
-		FEA152D812DAED2F0073FA9B /* Growl.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = FEA1527E12DAECB20073FA9B /* Growl.framework */; };
-		FEA152DE12DAED3B0073FA9B /* Growl.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = FEA1528412DAECB20073FA9B /* Growl.framework */; };
-		FEA152DF12DAED470073FA9B /* Growl.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = FEA1528012DAECB20073FA9B /* Growl.framework */; };
 		FEA467270D97BDC60083527F /* MainMenu.nib in Resources */ = {isa = PBXBuildFile; fileRef = 2A37F4B6FDCFA73011CA2CEA /* MainMenu.nib */; };
 		FEA467290D97BDC60083527F /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 089C165FFE840EACC02AAC07 /* InfoPlist.strings */; };
 		FEA4672A0D97BDC60083527F /* Advanced.tiff in Resources */ = {isa = PBXBuildFile; fileRef = FEEF6F140B92E8BB00ED64A9 /* Advanced.tiff */; };
@@ -828,16 +825,6 @@
 		FEFFD773110267B100E12C50 /* KWDiscScanner.nib in Resources */ = {isa = PBXBuildFile; fileRef = FEFFD76E110267B100E12C50 /* KWDiscScanner.nib */; };
 /* End PBXBuildFile section */
 
-/* Begin PBXContainerItemProxy section */
-		FE5461E012DA2E4900461081 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 2A37F4A9FDCFA73011CA2CEA /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = FE54616112DA2E2E00461081;
-			remoteInfo = "Burn (Intel 64-bit) copy";
-		};
-/* End PBXContainerItemProxy section */
-
 /* Begin PBXCopyFilesBuildPhase section */
 		FE5461D712DA2E2E00461081 /* Copy Frameworks */ = {
 			isa = PBXCopyFilesBuildPhase;
@@ -845,7 +832,8 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				FEA152D112DAED1F0073FA9B /* Growl.framework in Copy Frameworks */,
+				FE7C162712DBCB2B00CFDA59 /* Growl.framework in Copy Frameworks */,
+				FE7C162812DBCB2B00CFDA59 /* MultiTag.framework in Copy Frameworks */,
 			);
 			name = "Copy Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -856,7 +844,8 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				FEA152DE12DAED3B0073FA9B /* Growl.framework in Copy Frameworks */,
+				FE7C166012DBCBC500CFDA59 /* Growl.framework in Copy Frameworks */,
+				FE7C166112DBCBC500CFDA59 /* MultiTag.framework in Copy Frameworks */,
 			);
 			name = "Copy Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -867,7 +856,8 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				FEA152D712DAED280073FA9B /* Growl.framework in Copy Frameworks */,
+				FE7C163F12DBCB5800CFDA59 /* Growl.framework in Copy Frameworks */,
+				FE7C164012DBCB5800CFDA59 /* MultiTag.framework in Copy Frameworks */,
 			);
 			name = "Copy Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -878,7 +868,8 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				FEA152D812DAED2F0073FA9B /* Growl.framework in Copy Frameworks */,
+				FE7C164C12DBCB8900CFDA59 /* Growl.framework in Copy Frameworks */,
+				FE7C164D12DBCB8900CFDA59 /* MultiTag.framework in Copy Frameworks */,
 			);
 			name = "Copy Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -889,7 +880,8 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				FEA152C512DAED030073FA9B /* Growl.framework in Copy Frameworks */,
+				FE7C163612DBCB5000CFDA59 /* Growl.framework in Copy Frameworks */,
+				FE7C163712DBCB5000CFDA59 /* MultiTag.framework in Copy Frameworks */,
 			);
 			name = "Copy Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -900,8 +892,8 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				FEA152C312DAECC60073FA9B /* Growl.framework in Copy Frameworks */,
-				FEA152C412DAECC60073FA9B /* ID3.framework in Copy Frameworks */,
+				FE7C160A12DBCB0200CFDA59 /* Growl.framework in Copy Frameworks */,
+				FE7C160B12DBCB0200CFDA59 /* MultiTag.framework in Copy Frameworks */,
 			);
 			name = "Copy Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -912,7 +904,8 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				FEA152DF12DAED470073FA9B /* Growl.framework in Copy Frameworks */,
+				FE7C167B12DBCBFE00CFDA59 /* Growl.framework in Copy Frameworks */,
+				FE7C167C12DBCBFE00CFDA59 /* MultiTag.framework in Copy Frameworks */,
 			);
 			name = "Copy Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1099,6 +1092,18 @@
 		FE6134F51102016400C086EA /* KWMediaListController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = KWMediaListController.m; path = Source/KWMediaListController.m; sourceTree = "<group>"; };
 		FE6DBFD00BDCED47006F5F53 /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = English.lproj/KWInspector.nib; sourceTree = "<group>"; };
 		FE7371CA0F5B0B7600EBC82E /* German */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = German; path = German.lproj/MainMenu.nib; sourceTree = "<group>"; };
+		FE7C160212DBCAF900CFDA59 /* Growl.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Growl.framework; sourceTree = "<group>"; };
+		FE7C160312DBCAF900CFDA59 /* MultiTag.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = MultiTag.framework; sourceTree = "<group>"; };
+		FE7C161812DBCB1B00CFDA59 /* Growl.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Growl.framework; sourceTree = "<group>"; };
+		FE7C161912DBCB1B00CFDA59 /* MultiTag.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = MultiTag.framework; sourceTree = "<group>"; };
+		FE7C162C12DBCB4100CFDA59 /* Growl.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Growl.framework; sourceTree = "<group>"; };
+		FE7C162D12DBCB4100CFDA59 /* MultiTag.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = MultiTag.framework; sourceTree = "<group>"; };
+		FE7C164412DBCB7800CFDA59 /* Growl.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Growl.framework; sourceTree = "<group>"; };
+		FE7C164512DBCB7800CFDA59 /* MultiTag.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = MultiTag.framework; sourceTree = "<group>"; };
+		FE7C165812DBCBBC00CFDA59 /* Growl.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Growl.framework; sourceTree = "<group>"; };
+		FE7C165912DBCBBC00CFDA59 /* MultiTag.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = MultiTag.framework; sourceTree = "<group>"; };
+		FE7C166C12DBCBDD00CFDA59 /* Growl.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Growl.framework; sourceTree = "<group>"; };
+		FE7C166D12DBCBDD00CFDA59 /* MultiTag.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = MultiTag.framework; sourceTree = "<group>"; };
 		FE8088EB0DBC85C100F2644D /* -1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "-1.png"; path = "Images/ProgressIndicator/-1.png"; sourceTree = "<group>"; };
 		FE888CB70CF9B4BA003620F1 /* Dutch */ = {isa = PBXFileReference; lastKnownFileType = text.html; name = Dutch; path = Dutch.lproj/Credits.html; sourceTree = "<group>"; };
 		FE888CB80CF9B4BA003620F1 /* Dutch */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = Dutch; path = Dutch.lproj/InfoPlist.strings; sourceTree = "<group>"; };
@@ -1119,13 +1124,6 @@
 		FE9F92140D312811002A7BDC /* pt_BR */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = pt_BR; path = pt_BR.lproj/KWRecorderInfo.nib; sourceTree = "<group>"; };
 		FE9F92150D312811002A7BDC /* pt_BR */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = pt_BR; path = pt_BR.lproj/Localizable.strings; sourceTree = "<group>"; };
 		FE9F92160D312811002A7BDC /* pt_BR */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = pt_BR; path = pt_BR.lproj/MainMenu.nib; sourceTree = "<group>"; };
-		FEA1527E12DAECB20073FA9B /* Growl.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Growl.framework; sourceTree = "<group>"; };
-		FEA1528012DAECB20073FA9B /* Growl.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Growl.framework; sourceTree = "<group>"; };
-		FEA1528212DAECB20073FA9B /* Growl.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Growl.framework; sourceTree = "<group>"; };
-		FEA1528412DAECB20073FA9B /* Growl.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Growl.framework; sourceTree = "<group>"; };
-		FEA1528612DAECB20073FA9B /* Growl.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Growl.framework; sourceTree = "<group>"; };
-		FEA1528712DAECB20073FA9B /* ID3.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = ID3.framework; sourceTree = "<group>"; };
-		FEA1528912DAECB20073FA9B /* Growl.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Growl.framework; sourceTree = "<group>"; };
 		FEA4679A0D97BDC60083527F /* Burn.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Burn.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		FEA468120D97BDCD0083527F /* Burn.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Burn.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		FEA469260D97E6DD0083527F /* dvda-author */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.executable"; name = "dvda-author"; path = "Binaries/Universal/dvda-author"; sourceTree = "<group>"; };
@@ -1315,8 +1313,8 @@
 				FEEF720B0B92F47700ED64A9 /* QTKit.framework in Frameworks */,
 				FEEF720C0B92F47700ED64A9 /* QuickTime.framework in Frameworks */,
 				FE3CA4E10BAC7D0E001FB922 /* Carbon.framework in Frameworks */,
-				FEA1528E12DAECB30073FA9B /* Growl.framework in Frameworks */,
-				FEA1528F12DAECB30073FA9B /* ID3.framework in Frameworks */,
+				FE7C160412DBCAF900CFDA59 /* Growl.framework in Frameworks */,
+				FE7C160512DBCAF900CFDA59 /* MultiTag.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1328,6 +1326,8 @@
 				FE5461D212DA2E2E00461081 /* DiscRecording.framework in Frameworks */,
 				FE5461D312DA2E2E00461081 /* QTKit.framework in Frameworks */,
 				FE5461D412DA2E2E00461081 /* Carbon.framework in Frameworks */,
+				FE7C161A12DBCB1B00CFDA59 /* Growl.framework in Frameworks */,
+				FE7C161B12DBCB1B00CFDA59 /* MultiTag.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1339,6 +1339,8 @@
 				FE8AFA9812DA1BDC004A83B9 /* DiscRecording.framework in Frameworks */,
 				FE8AFA9912DA1BDC004A83B9 /* QTKit.framework in Frameworks */,
 				FE8AFA9A12DA1BDC004A83B9 /* Carbon.framework in Frameworks */,
+				FE7C165A12DBCBBC00CFDA59 /* Growl.framework in Frameworks */,
+				FE7C165B12DBCBBC00CFDA59 /* MultiTag.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1351,13 +1353,8 @@
 				FEA4678D0D97BDC60083527F /* QTKit.framework in Frameworks */,
 				FEA4678E0D97BDC60083527F /* QuickTime.framework in Frameworks */,
 				FEA4678F0D97BDC60083527F /* Carbon.framework in Frameworks */,
-				FEA1529812DAECB30073FA9B /* Growl.framework in Frameworks */,
-				FEA1529912DAECB30073FA9B /* Growl.framework in Frameworks */,
-				FEA1529A12DAECB30073FA9B /* Growl.framework in Frameworks */,
-				FEA1529B12DAECB30073FA9B /* Growl.framework in Frameworks */,
-				FEA1529C12DAECB30073FA9B /* Growl.framework in Frameworks */,
-				FEA1529D12DAECB30073FA9B /* ID3.framework in Frameworks */,
-				FEA1529E12DAECB30073FA9B /* Growl.framework in Frameworks */,
+				FE7C163012DBCB4100CFDA59 /* Growl.framework in Frameworks */,
+				FE7C163112DBCB4100CFDA59 /* MultiTag.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1370,13 +1367,8 @@
 				FEA468050D97BDCD0083527F /* QTKit.framework in Frameworks */,
 				FEA468060D97BDCD0083527F /* QuickTime.framework in Frameworks */,
 				FEA468070D97BDCD0083527F /* Carbon.framework in Frameworks */,
-				FEA1529F12DAECB30073FA9B /* Growl.framework in Frameworks */,
-				FEA152A012DAECB40073FA9B /* Growl.framework in Frameworks */,
-				FEA152A112DAECB40073FA9B /* Growl.framework in Frameworks */,
-				FEA152A212DAECB40073FA9B /* Growl.framework in Frameworks */,
-				FEA152A312DAECB40073FA9B /* Growl.framework in Frameworks */,
-				FEA152A412DAECB40073FA9B /* ID3.framework in Frameworks */,
-				FEA152A512DAECB40073FA9B /* Growl.framework in Frameworks */,
+				FE7C164612DBCB7800CFDA59 /* Growl.framework in Frameworks */,
+				FE7C164712DBCB7800CFDA59 /* MultiTag.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1389,13 +1381,8 @@
 				FEDBF59A0F80782A00DABA72 /* QTKit.framework in Frameworks */,
 				FEDBF59B0F80782A00DABA72 /* QuickTime.framework in Frameworks */,
 				FEDBF59C0F80782A00DABA72 /* Carbon.framework in Frameworks */,
-				FEA1529112DAECB30073FA9B /* Growl.framework in Frameworks */,
-				FEA1529212DAECB30073FA9B /* Growl.framework in Frameworks */,
-				FEA1529312DAECB30073FA9B /* Growl.framework in Frameworks */,
-				FEA1529412DAECB30073FA9B /* Growl.framework in Frameworks */,
-				FEA1529512DAECB30073FA9B /* Growl.framework in Frameworks */,
-				FEA1529612DAECB30073FA9B /* ID3.framework in Frameworks */,
-				FEA1529712DAECB30073FA9B /* Growl.framework in Frameworks */,
+				FE7C162E12DBCB4100CFDA59 /* Growl.framework in Frameworks */,
+				FE7C162F12DBCB4100CFDA59 /* MultiTag.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1407,6 +1394,8 @@
 				FEF8A87712D9D2BF00FE302C /* DiscRecording.framework in Frameworks */,
 				FEF8A87812D9D2BF00FE302C /* QTKit.framework in Frameworks */,
 				FEF8A87A12D9D2BF00FE302C /* Carbon.framework in Frameworks */,
+				FE7C166E12DBCBDD00CFDA59 /* Growl.framework in Frameworks */,
+				FE7C166F12DBCBDD00CFDA59 /* MultiTag.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1633,6 +1622,66 @@
 			name = ProgressIndicator;
 			sourceTree = "<group>";
 		};
+		FE7C160112DBCAF900CFDA59 /* Universal */ = {
+			isa = PBXGroup;
+			children = (
+				FE7C160212DBCAF900CFDA59 /* Growl.framework */,
+				FE7C160312DBCAF900CFDA59 /* MultiTag.framework */,
+			);
+			name = Universal;
+			path = Frameworks/Universal;
+			sourceTree = "<group>";
+		};
+		FE7C161712DBCB1B00CFDA59 /* Universal 64-bit */ = {
+			isa = PBXGroup;
+			children = (
+				FE7C161812DBCB1B00CFDA59 /* Growl.framework */,
+				FE7C161912DBCB1B00CFDA59 /* MultiTag.framework */,
+			);
+			name = "Universal 64-bit";
+			path = "Frameworks/Universal 64-bit";
+			sourceTree = "<group>";
+		};
+		FE7C162B12DBCB4100CFDA59 /* PowerPC */ = {
+			isa = PBXGroup;
+			children = (
+				FE7C162C12DBCB4100CFDA59 /* Growl.framework */,
+				FE7C162D12DBCB4100CFDA59 /* MultiTag.framework */,
+			);
+			name = PowerPC;
+			path = Frameworks/PowerPC;
+			sourceTree = "<group>";
+		};
+		FE7C164312DBCB7800CFDA59 /* Intel */ = {
+			isa = PBXGroup;
+			children = (
+				FE7C164412DBCB7800CFDA59 /* Growl.framework */,
+				FE7C164512DBCB7800CFDA59 /* MultiTag.framework */,
+			);
+			name = Intel;
+			path = Frameworks/Intel;
+			sourceTree = "<group>";
+		};
+		FE7C165712DBCBBC00CFDA59 /* PowerPC 64-bit */ = {
+			isa = PBXGroup;
+			children = (
+				FE7C165812DBCBBC00CFDA59 /* Growl.framework */,
+				FE7C165912DBCBBC00CFDA59 /* MultiTag.framework */,
+			);
+			name = "PowerPC 64-bit";
+			path = "Frameworks/PowerPC 64-bit";
+			sourceTree = "<group>";
+		};
+		FE7C166B12DBCBDD00CFDA59 /* Intel 64-bit */ = {
+			isa = PBXGroup;
+			children = (
+				FE7C166C12DBCBDD00CFDA59 /* Growl.framework */,
+				FE7C166D12DBCBDD00CFDA59 /* MultiTag.framework */,
+			);
+			name = "Intel 64-bit";
+			path = "Frameworks/Intel 64-bit";
+			sourceTree = "<group>";
+		};
 		FE9DB849110338B10086F62C /* Support Files */ = {
 			isa = PBXGroup;
 			children = (
@@ -1644,69 +1693,14 @@
 		FEA1527012DAEC910073FA9B /* Included Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				FEA1527D12DAECB20073FA9B /* Intel */,
-				FEA1527F12DAECB20073FA9B /* Intel 64-bit */,
-				FEA1528112DAECB20073FA9B /* PowerPC */,
-				FEA1528312DAECB20073FA9B /* PowerPC 64-bit */,
-				FEA1528512DAECB20073FA9B /* Universal */,
-				FEA1528812DAECB20073FA9B /* Universal 64-bit */,
+				FE7C160112DBCAF900CFDA59 /* Universal */,
+				FE7C161712DBCB1B00CFDA59 /* Universal 64-bit */,
+				FE7C162B12DBCB4100CFDA59 /* PowerPC */,
+				FE7C164312DBCB7800CFDA59 /* Intel */,
+				FE7C165712DBCBBC00CFDA59 /* PowerPC 64-bit */,
+				FE7C166B12DBCBDD00CFDA59 /* Intel 64-bit */,
 			);
 			name = "Included Frameworks";
-			sourceTree = "<group>";
-		};
-		FEA1527D12DAECB20073FA9B /* Intel */ = {
-			isa = PBXGroup;
-			children = (
-				FEA1527E12DAECB20073FA9B /* Growl.framework */,
-			);
-			name = Intel;
-			path = Frameworks/Intel;
-			sourceTree = "<group>";
-		};
-		FEA1527F12DAECB20073FA9B /* Intel 64-bit */ = {
-			isa = PBXGroup;
-			children = (
-				FEA1528012DAECB20073FA9B /* Growl.framework */,
-			);
-			name = "Intel 64-bit";
-			path = "Frameworks/Intel 64-bit";
-			sourceTree = "<group>";
-		};
-		FEA1528112DAECB20073FA9B /* PowerPC */ = {
-			isa = PBXGroup;
-			children = (
-				FEA1528212DAECB20073FA9B /* Growl.framework */,
-			);
-			name = PowerPC;
-			path = Frameworks/PowerPC;
-			sourceTree = "<group>";
-		};
-		FEA1528312DAECB20073FA9B /* PowerPC 64-bit */ = {
-			isa = PBXGroup;
-			children = (
-				FEA1528412DAECB20073FA9B /* Growl.framework */,
-			);
-			name = "PowerPC 64-bit";
-			path = "Frameworks/PowerPC 64-bit";
-			sourceTree = "<group>";
-		};
-		FEA1528512DAECB20073FA9B /* Universal */ = {
-			isa = PBXGroup;
-			children = (
-				FEA1528612DAECB20073FA9B /* Growl.framework */,
-				FEA1528712DAECB20073FA9B /* ID3.framework */,
-			);
-			name = Universal;
-			path = Frameworks/Universal;
-			sourceTree = "<group>";
-		};
-		FEA1528812DAECB20073FA9B /* Universal 64-bit */ = {
-			isa = PBXGroup;
-			children = (
-				FEA1528912DAECB20073FA9B /* Growl.framework */,
-			);
-			name = "Universal 64-bit";
-			path = "Frameworks/Universal 64-bit";
 			sourceTree = "<group>";
 		};
 		FEA468150D97BDF60083527F /* Universal */ = {
@@ -2158,7 +2152,6 @@
 			buildRules = (
 			);
 			dependencies = (
-				FE5461E112DA2E4900461081 /* PBXTargetDependency */,
 			);
 			name = "Burn (Intel)";
 			productInstallPath = "$(HOME)/Applications";
@@ -2233,8 +2226,8 @@
 			projectRoot = "";
 			targets = (
 				8D15AC270486D014006FF6A4 /* Burn (Universal) */,
-				FEDBF52C0F80782A00DABA72 /* Burn (G3) */,
 				FE54616112DA2E2E00461081 /* Burn (Universal 64-bit) */,
+				FEDBF52C0F80782A00DABA72 /* Burn (G3) */,
 				FEA467250D97BDC60083527F /* Burn (PowerPC) */,
 				FEA4679D0D97BDCD0083527F /* Burn (Intel) */,
 				FE8AFA2712DA1BDC004A83B9 /* Burn (PowerPC 64-bit) */,
@@ -3103,14 +3096,6 @@
 		};
 /* End PBXSourcesBuildPhase section */
 
-/* Begin PBXTargetDependency section */
-		FE5461E112DA2E4900461081 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = FE54616112DA2E2E00461081 /* Burn (Universal 64-bit) */;
-			targetProxy = FE5461E012DA2E4900461081 /* PBXContainerItemProxy */;
-		};
-/* End PBXTargetDependency section */
-
 /* Begin PBXVariantGroup section */
 		089C165FFE840EACC02AAC07 /* InfoPlist.strings */ = {
 			isa = PBXVariantGroup;
@@ -3437,24 +3422,9 @@
 		C05733C808A9546B00998B17 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ARCHS = "$(NATIVE_ARCH_ACTUAL)";
 				COPY_PHASE_STRIP = NO;
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_1)",
-					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_2)",
-					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_3)",
-					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_4)",
-					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_5)",
-					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_6)",
-					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_7)",
-				);
-				FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_1 = "\"$(SRCROOT)/Frameworks\"";
-				FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_2 = "\"$(SRCROOT)/Frameworks/Intel\"";
-				FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_3 = "\"$(SRCROOT)/Frameworks/Intel 64-bit\"";
-				FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_4 = "\"$(SRCROOT)/Frameworks/PowerPC\"";
-				FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_5 = "\"$(SRCROOT)/Frameworks/PowerPC 64-bit\"";
-				FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_6 = "\"$(SRCROOT)/Frameworks/Universal\"";
-				FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_7 = "\"$(SRCROOT)/Frameworks/Universal 64-bit\"";
+				FRAMEWORK_SEARCH_PATHS = "\"$(SRCROOT)/Frameworks/Universal\"";
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_ENABLE_FIX_AND_CONTINUE = YES;
 				GCC_MODEL_TUNING = G5;
@@ -3479,19 +3449,9 @@
 					ppc,
 					i386,
 				);
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_1)",
-					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_2)",
-					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_3)",
-					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_4)",
-					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_5)",
-					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_6)",
-					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_7)",
-				);
-				FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_1 = "\"$(SRCROOT)/Frameworks/Universal\"";
+				FRAMEWORK_SEARCH_PATHS = "\"$(SRCROOT)/Frameworks/Universal\"";
 				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
-				GCC_MODEL_TUNING = G5;
+				GCC_MODEL_TUNING = G4;
 				INFOPLIST_FILE = Info.plist;
 				INSTALL_PATH = "$(HOME)/Applications";
 				LIBRARY_SEARCH_PATHS = "";
@@ -3548,36 +3508,12 @@
 		FE5461DB12DA2E2E00461081 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD_64_BIT_PRE_XCODE_3_1)";
-				ARCHS_STANDARD_64_BIT_PRE_XCODE_3_1 = x86_64;
+				ARCHS = "$(NATIVE_ARCH_ACTUAL)";
 				COPY_PHASE_STRIP = NO;
 				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_9)",
-					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_10)",
-					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_11)",
-					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_12)",
-					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_13)",
-					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_14)",
-					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_15)",
 					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_1)",
 				);
-				FRAMEWORK_SEARCH_PATHS_QUOTED_1 = "\"$(SRCROOT)/../../../../TestFramework/build/Release\"";
-				FRAMEWORK_SEARCH_PATHS_QUOTED_10 = "\"$(SRCROOT)/Frameworks\"";
-				FRAMEWORK_SEARCH_PATHS_QUOTED_11 = "\"$(SRCROOT)/Frameworks\"";
-				FRAMEWORK_SEARCH_PATHS_QUOTED_12 = "\"$(SRCROOT)/Frameworks\"";
-				FRAMEWORK_SEARCH_PATHS_QUOTED_13 = "\"$(SRCROOT)/Frameworks\"";
-				FRAMEWORK_SEARCH_PATHS_QUOTED_14 = "\"$(SRCROOT)/Frameworks\"";
-				FRAMEWORK_SEARCH_PATHS_QUOTED_15 = "\"$(SRCROOT)/Frameworks\"";
-				FRAMEWORK_SEARCH_PATHS_QUOTED_2 = "\"$(SRCROOT)/../../../../Library/Frameworks\"";
-				FRAMEWORK_SEARCH_PATHS_QUOTED_3 = "\"$(SRCROOT)/../../../../Library/Frameworks\"";
-				FRAMEWORK_SEARCH_PATHS_QUOTED_4 = "\"$(SRCROOT)\"";
-				FRAMEWORK_SEARCH_PATHS_QUOTED_5 = "\"$(SRCROOT)/Frameworks\"";
-				FRAMEWORK_SEARCH_PATHS_QUOTED_6 = "\"$(SRCROOT)/Frameworks/KWSVCDImager/build/Release\"";
-				FRAMEWORK_SEARCH_PATHS_QUOTED_7 = "\"$(SRCROOT)/Frameworks\"";
-				FRAMEWORK_SEARCH_PATHS_QUOTED_8 = "\"$(SRCROOT)/Frameworks\"";
-				FRAMEWORK_SEARCH_PATHS_QUOTED_9 = "\"$(SRCROOT)/Frameworks\"";
-				FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_1 = "\"$(SRCROOT)/Frameworks\"";
+				FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_1 = "\"$(SRCROOT)/Frameworks/Universal 64-bit\"";
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_ENABLE_FIX_AND_CONTINUE = YES;
 				GCC_MODEL_TUNING = G5;
@@ -3586,8 +3522,6 @@
 				INFOPLIST_FILE = "Info copy.plist";
 				INSTALL_PATH = "$(HOME)/Applications";
 				LIBRARY_SEARCH_PATHS = "";
-				LIBRARY_SEARCH_PATHS_QUOTED_1 = "\"$(SRCROOT)/Frameworks/KWSVCDImager/build/KWSVCDImager.build/Release/KWSVCDImager.build/Objects-normal/i386\"";
-				LIBRARY_SEARCH_PATHS_QUOTED_2 = "\"$(SRCROOT)/Frameworks/KWSVCDImager/build/KWSVCDImager.build/Release/KWSVCDImager.build/Objects-normal/ppc\"";
 				MACOSX_DEPLOYMENT_TARGET = 10.5;
 				OTHER_LDFLAGS = "";
 				PRODUCT_NAME = Burn;
@@ -3604,42 +3538,16 @@
 					ppc64,
 					x86_64,
 				);
-				ARCHS_STANDARD_64_BIT_PRE_XCODE_3_1 = x86_64;
 				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_9)",
-					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_10)",
-					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_11)",
-					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_12)",
-					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_13)",
-					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_14)",
-					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_15)",
 					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_1)",
 				);
-				FRAMEWORK_SEARCH_PATHS_QUOTED_1 = "\"$(SRCROOT)/../../../../TestFramework/build/Release\"";
-				FRAMEWORK_SEARCH_PATHS_QUOTED_10 = "\"$(SRCROOT)/Frameworks\"";
-				FRAMEWORK_SEARCH_PATHS_QUOTED_11 = "\"$(SRCROOT)/Frameworks\"";
-				FRAMEWORK_SEARCH_PATHS_QUOTED_12 = "\"$(SRCROOT)/Frameworks\"";
-				FRAMEWORK_SEARCH_PATHS_QUOTED_13 = "\"$(SRCROOT)/Frameworks\"";
-				FRAMEWORK_SEARCH_PATHS_QUOTED_14 = "\"$(SRCROOT)/Frameworks\"";
-				FRAMEWORK_SEARCH_PATHS_QUOTED_15 = "\"$(SRCROOT)/Frameworks\"";
-				FRAMEWORK_SEARCH_PATHS_QUOTED_2 = "\"$(SRCROOT)/../../../../Library/Frameworks\"";
-				FRAMEWORK_SEARCH_PATHS_QUOTED_3 = "\"$(SRCROOT)/../../../../Library/Frameworks\"";
-				FRAMEWORK_SEARCH_PATHS_QUOTED_4 = "\"$(SRCROOT)\"";
-				FRAMEWORK_SEARCH_PATHS_QUOTED_5 = "\"$(SRCROOT)/Frameworks\"";
-				FRAMEWORK_SEARCH_PATHS_QUOTED_6 = "\"$(SRCROOT)/Frameworks/KWSVCDImager/build/Release\"";
-				FRAMEWORK_SEARCH_PATHS_QUOTED_7 = "\"$(SRCROOT)/Frameworks\"";
-				FRAMEWORK_SEARCH_PATHS_QUOTED_8 = "\"$(SRCROOT)/Frameworks\"";
-				FRAMEWORK_SEARCH_PATHS_QUOTED_9 = "\"$(SRCROOT)/Frameworks\"";
-				FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_1 = "\"$(SRCROOT)/Frameworks\"";
+				FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_1 = "\"$(SRCROOT)/Frameworks/Universal 64-bit\"";
 				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
 				GCC_MODEL_TUNING = G5;
 				GCC_VERSION = "";
 				INFOPLIST_FILE = Info.plist;
 				INSTALL_PATH = "$(HOME)/Applications";
 				LIBRARY_SEARCH_PATHS = "";
-				LIBRARY_SEARCH_PATHS_QUOTED_1 = "\"$(SRCROOT)/Frameworks/KWSVCDImager/build/KWSVCDImager.build/Release/KWSVCDImager.build/Objects-normal/i386\"";
-				LIBRARY_SEARCH_PATHS_QUOTED_2 = "\"$(SRCROOT)/Frameworks/KWSVCDImager/build/KWSVCDImager.build/Release/KWSVCDImager.build/Objects-normal/ppc\"";
 				MACOSX_DEPLOYMENT_TARGET = 10.5;
 				OTHER_LDFLAGS = "";
 				PRODUCT_NAME = Burn;
@@ -3651,36 +3559,12 @@
 		FE8AFAA112DA1BDC004A83B9 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD_64_BIT_PRE_XCODE_3_1)";
-				ARCHS_STANDARD_64_BIT_PRE_XCODE_3_1 = x86_64;
+				ARCHS = "$(NATIVE_ARCH_ACTUAL)";
 				COPY_PHASE_STRIP = NO;
 				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_9)",
-					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_10)",
-					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_11)",
-					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_12)",
-					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_13)",
-					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_14)",
-					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_15)",
 					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_1)",
 				);
-				FRAMEWORK_SEARCH_PATHS_QUOTED_1 = "\"$(SRCROOT)/../../../../TestFramework/build/Release\"";
-				FRAMEWORK_SEARCH_PATHS_QUOTED_10 = "\"$(SRCROOT)/Frameworks\"";
-				FRAMEWORK_SEARCH_PATHS_QUOTED_11 = "\"$(SRCROOT)/Frameworks\"";
-				FRAMEWORK_SEARCH_PATHS_QUOTED_12 = "\"$(SRCROOT)/Frameworks\"";
-				FRAMEWORK_SEARCH_PATHS_QUOTED_13 = "\"$(SRCROOT)/Frameworks\"";
-				FRAMEWORK_SEARCH_PATHS_QUOTED_14 = "\"$(SRCROOT)/Frameworks\"";
-				FRAMEWORK_SEARCH_PATHS_QUOTED_15 = "\"$(SRCROOT)/Frameworks\"";
-				FRAMEWORK_SEARCH_PATHS_QUOTED_2 = "\"$(SRCROOT)/../../../../Library/Frameworks\"";
-				FRAMEWORK_SEARCH_PATHS_QUOTED_3 = "\"$(SRCROOT)/../../../../Library/Frameworks\"";
-				FRAMEWORK_SEARCH_PATHS_QUOTED_4 = "\"$(SRCROOT)\"";
-				FRAMEWORK_SEARCH_PATHS_QUOTED_5 = "\"$(SRCROOT)/Frameworks\"";
-				FRAMEWORK_SEARCH_PATHS_QUOTED_6 = "\"$(SRCROOT)/Frameworks/KWSVCDImager/build/Release\"";
-				FRAMEWORK_SEARCH_PATHS_QUOTED_7 = "\"$(SRCROOT)/Frameworks\"";
-				FRAMEWORK_SEARCH_PATHS_QUOTED_8 = "\"$(SRCROOT)/Frameworks\"";
-				FRAMEWORK_SEARCH_PATHS_QUOTED_9 = "\"$(SRCROOT)/Frameworks\"";
-				FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_1 = "\"$(SRCROOT)/Frameworks\"";
+				FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_1 = "\"$(SRCROOT)/Frameworks/PowerPC 64-bit\"";
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_ENABLE_FIX_AND_CONTINUE = YES;
 				GCC_MODEL_TUNING = G5;
@@ -3689,8 +3573,6 @@
 				INFOPLIST_FILE = "Info copy 2.plist";
 				INSTALL_PATH = "$(HOME)/Applications";
 				LIBRARY_SEARCH_PATHS = "";
-				LIBRARY_SEARCH_PATHS_QUOTED_1 = "\"$(SRCROOT)/Frameworks/KWSVCDImager/build/KWSVCDImager.build/Release/KWSVCDImager.build/Objects-normal/i386\"";
-				LIBRARY_SEARCH_PATHS_QUOTED_2 = "\"$(SRCROOT)/Frameworks/KWSVCDImager/build/KWSVCDImager.build/Release/KWSVCDImager.build/Objects-normal/ppc\"";
 				MACOSX_DEPLOYMENT_TARGET = 10.5;
 				OTHER_LDFLAGS = "";
 				PRODUCT_NAME = Burn;
@@ -3704,42 +3586,16 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ARCHS = ppc64;
-				ARCHS_STANDARD_64_BIT_PRE_XCODE_3_1 = x86_64;
 				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_9)",
-					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_10)",
-					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_11)",
-					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_12)",
-					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_13)",
-					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_14)",
-					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_15)",
 					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_1)",
 				);
-				FRAMEWORK_SEARCH_PATHS_QUOTED_1 = "\"$(SRCROOT)/../../../../TestFramework/build/Release\"";
-				FRAMEWORK_SEARCH_PATHS_QUOTED_10 = "\"$(SRCROOT)/Frameworks\"";
-				FRAMEWORK_SEARCH_PATHS_QUOTED_11 = "\"$(SRCROOT)/Frameworks\"";
-				FRAMEWORK_SEARCH_PATHS_QUOTED_12 = "\"$(SRCROOT)/Frameworks\"";
-				FRAMEWORK_SEARCH_PATHS_QUOTED_13 = "\"$(SRCROOT)/Frameworks\"";
-				FRAMEWORK_SEARCH_PATHS_QUOTED_14 = "\"$(SRCROOT)/Frameworks\"";
-				FRAMEWORK_SEARCH_PATHS_QUOTED_15 = "\"$(SRCROOT)/Frameworks\"";
-				FRAMEWORK_SEARCH_PATHS_QUOTED_2 = "\"$(SRCROOT)/../../../../Library/Frameworks\"";
-				FRAMEWORK_SEARCH_PATHS_QUOTED_3 = "\"$(SRCROOT)/../../../../Library/Frameworks\"";
-				FRAMEWORK_SEARCH_PATHS_QUOTED_4 = "\"$(SRCROOT)\"";
-				FRAMEWORK_SEARCH_PATHS_QUOTED_5 = "\"$(SRCROOT)/Frameworks\"";
-				FRAMEWORK_SEARCH_PATHS_QUOTED_6 = "\"$(SRCROOT)/Frameworks/KWSVCDImager/build/Release\"";
-				FRAMEWORK_SEARCH_PATHS_QUOTED_7 = "\"$(SRCROOT)/Frameworks\"";
-				FRAMEWORK_SEARCH_PATHS_QUOTED_8 = "\"$(SRCROOT)/Frameworks\"";
-				FRAMEWORK_SEARCH_PATHS_QUOTED_9 = "\"$(SRCROOT)/Frameworks\"";
-				FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_1 = "\"$(SRCROOT)/Frameworks\"";
+				FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_1 = "\"$(SRCROOT)/Frameworks/PowerPC 64-bit\"";
 				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
 				GCC_MODEL_TUNING = G5;
 				GCC_VERSION = "";
 				INFOPLIST_FILE = Info.plist;
 				INSTALL_PATH = "$(HOME)/Applications";
 				LIBRARY_SEARCH_PATHS = "";
-				LIBRARY_SEARCH_PATHS_QUOTED_1 = "\"$(SRCROOT)/Frameworks/KWSVCDImager/build/KWSVCDImager.build/Release/KWSVCDImager.build/Objects-normal/i386\"";
-				LIBRARY_SEARCH_PATHS_QUOTED_2 = "\"$(SRCROOT)/Frameworks/KWSVCDImager/build/KWSVCDImager.build/Release/KWSVCDImager.build/Objects-normal/ppc\"";
 				MACOSX_DEPLOYMENT_TARGET = 10.5;
 				OTHER_LDFLAGS = "";
 				PRODUCT_NAME = Burn;
@@ -3751,46 +3607,9 @@
 		FEA467980D97BDC60083527F /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ARCHS = "$(NATIVE_ARCH_ACTUAL)";
 				COPY_PHASE_STRIP = NO;
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_9)",
-					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_10)",
-					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_11)",
-					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_12)",
-					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_13)",
-					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_14)",
-					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_15)",
-					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_1)",
-					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_2)",
-					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_3)",
-					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_4)",
-					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_5)",
-					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_6)",
-					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_7)",
-				);
-				FRAMEWORK_SEARCH_PATHS_QUOTED_1 = "\"$(SRCROOT)/../../../../TestFramework/build/Release\"";
-				FRAMEWORK_SEARCH_PATHS_QUOTED_10 = "\"$(SRCROOT)/Frameworks\"";
-				FRAMEWORK_SEARCH_PATHS_QUOTED_11 = "\"$(SRCROOT)/Frameworks\"";
-				FRAMEWORK_SEARCH_PATHS_QUOTED_12 = "\"$(SRCROOT)/Frameworks\"";
-				FRAMEWORK_SEARCH_PATHS_QUOTED_13 = "\"$(SRCROOT)/Frameworks\"";
-				FRAMEWORK_SEARCH_PATHS_QUOTED_14 = "\"$(SRCROOT)/Frameworks\"";
-				FRAMEWORK_SEARCH_PATHS_QUOTED_15 = "\"$(SRCROOT)/Frameworks\"";
-				FRAMEWORK_SEARCH_PATHS_QUOTED_2 = "\"$(SRCROOT)/../../../../Library/Frameworks\"";
-				FRAMEWORK_SEARCH_PATHS_QUOTED_3 = "\"$(SRCROOT)/../../../../Library/Frameworks\"";
-				FRAMEWORK_SEARCH_PATHS_QUOTED_4 = "\"$(SRCROOT)\"";
-				FRAMEWORK_SEARCH_PATHS_QUOTED_5 = "\"$(SRCROOT)/Frameworks\"";
-				FRAMEWORK_SEARCH_PATHS_QUOTED_6 = "\"$(SRCROOT)/Frameworks/KWSVCDImager/build/Release\"";
-				FRAMEWORK_SEARCH_PATHS_QUOTED_7 = "\"$(SRCROOT)/Frameworks\"";
-				FRAMEWORK_SEARCH_PATHS_QUOTED_8 = "\"$(SRCROOT)/Frameworks\"";
-				FRAMEWORK_SEARCH_PATHS_QUOTED_9 = "\"$(SRCROOT)/Frameworks\"";
-				FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_1 = "\"$(SRCROOT)/Frameworks\"";
-				FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_2 = "\"$(SRCROOT)/Frameworks/Intel\"";
-				FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_3 = "\"$(SRCROOT)/Frameworks/Intel 64-bit\"";
-				FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_4 = "\"$(SRCROOT)/Frameworks/PowerPC\"";
-				FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_5 = "\"$(SRCROOT)/Frameworks/PowerPC 64-bit\"";
-				FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_6 = "\"$(SRCROOT)/Frameworks/Universal\"";
-				FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_7 = "\"$(SRCROOT)/Frameworks/Universal 64-bit\"";
+				FRAMEWORK_SEARCH_PATHS = "\"$(SRCROOT)/Frameworks/PowerPC\"";
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_ENABLE_FIX_AND_CONTINUE = YES;
 				GCC_MODEL_TUNING = G5;
@@ -3798,8 +3617,6 @@
 				INFOPLIST_FILE = Info.plist;
 				INSTALL_PATH = "$(HOME)/Applications";
 				LIBRARY_SEARCH_PATHS = "";
-				LIBRARY_SEARCH_PATHS_QUOTED_1 = "\"$(SRCROOT)/Frameworks/KWSVCDImager/build/KWSVCDImager.build/Release/KWSVCDImager.build/Objects-normal/i386\"";
-				LIBRARY_SEARCH_PATHS_QUOTED_2 = "\"$(SRCROOT)/Frameworks/KWSVCDImager/build/KWSVCDImager.build/Release/KWSVCDImager.build/Objects-normal/ppc\"";
 				PRODUCT_NAME = Burn;
 				WRAPPER_EXTENSION = app;
 				ZERO_LINK = YES;
@@ -3810,52 +3627,12 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ARCHS = ppc;
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_9)",
-					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_10)",
-					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_11)",
-					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_12)",
-					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_13)",
-					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_14)",
-					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_15)",
-					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_1)",
-					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_2)",
-					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_3)",
-					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_4)",
-					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_5)",
-					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_6)",
-					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_7)",
-				);
-				FRAMEWORK_SEARCH_PATHS_QUOTED_1 = "\"$(SRCROOT)/../../../../TestFramework/build/Release\"";
-				FRAMEWORK_SEARCH_PATHS_QUOTED_10 = "\"$(SRCROOT)/Frameworks\"";
-				FRAMEWORK_SEARCH_PATHS_QUOTED_11 = "\"$(SRCROOT)/Frameworks\"";
-				FRAMEWORK_SEARCH_PATHS_QUOTED_12 = "\"$(SRCROOT)/Frameworks\"";
-				FRAMEWORK_SEARCH_PATHS_QUOTED_13 = "\"$(SRCROOT)/Frameworks\"";
-				FRAMEWORK_SEARCH_PATHS_QUOTED_14 = "\"$(SRCROOT)/Frameworks\"";
-				FRAMEWORK_SEARCH_PATHS_QUOTED_15 = "\"$(SRCROOT)/Frameworks\"";
-				FRAMEWORK_SEARCH_PATHS_QUOTED_2 = "\"$(SRCROOT)/../../../../Library/Frameworks\"";
-				FRAMEWORK_SEARCH_PATHS_QUOTED_3 = "\"$(SRCROOT)/../../../../Library/Frameworks\"";
-				FRAMEWORK_SEARCH_PATHS_QUOTED_4 = "\"$(SRCROOT)\"";
-				FRAMEWORK_SEARCH_PATHS_QUOTED_5 = "\"$(SRCROOT)/Frameworks\"";
-				FRAMEWORK_SEARCH_PATHS_QUOTED_6 = "\"$(SRCROOT)/Frameworks/KWSVCDImager/build/Release\"";
-				FRAMEWORK_SEARCH_PATHS_QUOTED_7 = "\"$(SRCROOT)/Frameworks\"";
-				FRAMEWORK_SEARCH_PATHS_QUOTED_8 = "\"$(SRCROOT)/Frameworks\"";
-				FRAMEWORK_SEARCH_PATHS_QUOTED_9 = "\"$(SRCROOT)/Frameworks\"";
-				FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_1 = "\"$(SRCROOT)/Frameworks\"";
-				FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_2 = "\"$(SRCROOT)/Frameworks/Intel\"";
-				FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_3 = "\"$(SRCROOT)/Frameworks/Intel 64-bit\"";
-				FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_4 = "\"$(SRCROOT)/Frameworks/PowerPC\"";
-				FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_5 = "\"$(SRCROOT)/Frameworks/PowerPC 64-bit\"";
-				FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_6 = "\"$(SRCROOT)/Frameworks/Universal\"";
-				FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_7 = "\"$(SRCROOT)/Frameworks/Universal 64-bit\"";
+				FRAMEWORK_SEARCH_PATHS = "\"$(SRCROOT)/Frameworks/PowerPC\"";
 				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
-				GCC_MODEL_TUNING = G5;
+				GCC_MODEL_TUNING = G4;
 				INFOPLIST_FILE = Info.plist;
 				INSTALL_PATH = "$(HOME)/Applications";
 				LIBRARY_SEARCH_PATHS = "";
-				LIBRARY_SEARCH_PATHS_QUOTED_1 = "\"$(SRCROOT)/Frameworks/KWSVCDImager/build/KWSVCDImager.build/Release/KWSVCDImager.build/Objects-normal/i386\"";
-				LIBRARY_SEARCH_PATHS_QUOTED_2 = "\"$(SRCROOT)/Frameworks/KWSVCDImager/build/KWSVCDImager.build/Release/KWSVCDImager.build/Objects-normal/ppc\"";
 				MACOSX_DEPLOYMENT_TARGET = 10.3;
 				PRODUCT_NAME = Burn;
 				WRAPPER_EXTENSION = app;
@@ -3865,47 +3642,9 @@
 		FEA468100D97BDCD0083527F /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = i386;
+				ARCHS = "$(NATIVE_ARCH_ACTUAL)";
 				COPY_PHASE_STRIP = NO;
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_9)",
-					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_10)",
-					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_11)",
-					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_12)",
-					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_13)",
-					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_14)",
-					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_15)",
-					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_1)",
-					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_2)",
-					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_3)",
-					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_4)",
-					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_5)",
-					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_6)",
-					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_7)",
-				);
-				FRAMEWORK_SEARCH_PATHS_QUOTED_1 = "\"$(SRCROOT)/../../../../TestFramework/build/Release\"";
-				FRAMEWORK_SEARCH_PATHS_QUOTED_10 = "\"$(SRCROOT)/Frameworks\"";
-				FRAMEWORK_SEARCH_PATHS_QUOTED_11 = "\"$(SRCROOT)/Frameworks\"";
-				FRAMEWORK_SEARCH_PATHS_QUOTED_12 = "\"$(SRCROOT)/Frameworks\"";
-				FRAMEWORK_SEARCH_PATHS_QUOTED_13 = "\"$(SRCROOT)/Frameworks\"";
-				FRAMEWORK_SEARCH_PATHS_QUOTED_14 = "\"$(SRCROOT)/Frameworks\"";
-				FRAMEWORK_SEARCH_PATHS_QUOTED_15 = "\"$(SRCROOT)/Frameworks\"";
-				FRAMEWORK_SEARCH_PATHS_QUOTED_2 = "\"$(SRCROOT)/../../../../Library/Frameworks\"";
-				FRAMEWORK_SEARCH_PATHS_QUOTED_3 = "\"$(SRCROOT)/../../../../Library/Frameworks\"";
-				FRAMEWORK_SEARCH_PATHS_QUOTED_4 = "\"$(SRCROOT)\"";
-				FRAMEWORK_SEARCH_PATHS_QUOTED_5 = "\"$(SRCROOT)/Frameworks\"";
-				FRAMEWORK_SEARCH_PATHS_QUOTED_6 = "\"$(SRCROOT)/Frameworks/KWSVCDImager/build/Release\"";
-				FRAMEWORK_SEARCH_PATHS_QUOTED_7 = "\"$(SRCROOT)/Frameworks\"";
-				FRAMEWORK_SEARCH_PATHS_QUOTED_8 = "\"$(SRCROOT)/Frameworks\"";
-				FRAMEWORK_SEARCH_PATHS_QUOTED_9 = "\"$(SRCROOT)/Frameworks\"";
-				FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_1 = "\"$(SRCROOT)/Frameworks\"";
-				FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_2 = "\"$(SRCROOT)/Frameworks/Intel\"";
-				FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_3 = "\"$(SRCROOT)/Frameworks/Intel 64-bit\"";
-				FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_4 = "\"$(SRCROOT)/Frameworks/PowerPC\"";
-				FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_5 = "\"$(SRCROOT)/Frameworks/PowerPC 64-bit\"";
-				FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_6 = "\"$(SRCROOT)/Frameworks/Universal\"";
-				FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_7 = "\"$(SRCROOT)/Frameworks/Universal 64-bit\"";
+				FRAMEWORK_SEARCH_PATHS = "\"$(SRCROOT)/Frameworks/Intel\"";
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_ENABLE_FIX_AND_CONTINUE = YES;
 				GCC_MODEL_TUNING = G5;
@@ -3913,8 +3652,6 @@
 				INFOPLIST_FILE = Info.plist;
 				INSTALL_PATH = "$(HOME)/Applications";
 				LIBRARY_SEARCH_PATHS = "";
-				LIBRARY_SEARCH_PATHS_QUOTED_1 = "\"$(SRCROOT)/Frameworks/KWSVCDImager/build/KWSVCDImager.build/Release/KWSVCDImager.build/Objects-normal/i386\"";
-				LIBRARY_SEARCH_PATHS_QUOTED_2 = "\"$(SRCROOT)/Frameworks/KWSVCDImager/build/KWSVCDImager.build/Release/KWSVCDImager.build/Objects-normal/ppc\"";
 				PRODUCT_NAME = Burn;
 				WRAPPER_EXTENSION = app;
 				ZERO_LINK = YES;
@@ -3925,52 +3662,12 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ARCHS = i386;
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_9)",
-					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_10)",
-					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_11)",
-					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_12)",
-					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_13)",
-					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_14)",
-					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_15)",
-					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_1)",
-					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_2)",
-					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_3)",
-					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_4)",
-					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_5)",
-					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_6)",
-					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_7)",
-				);
-				FRAMEWORK_SEARCH_PATHS_QUOTED_1 = "\"$(SRCROOT)/../../../../TestFramework/build/Release\"";
-				FRAMEWORK_SEARCH_PATHS_QUOTED_10 = "\"$(SRCROOT)/Frameworks\"";
-				FRAMEWORK_SEARCH_PATHS_QUOTED_11 = "\"$(SRCROOT)/Frameworks\"";
-				FRAMEWORK_SEARCH_PATHS_QUOTED_12 = "\"$(SRCROOT)/Frameworks\"";
-				FRAMEWORK_SEARCH_PATHS_QUOTED_13 = "\"$(SRCROOT)/Frameworks\"";
-				FRAMEWORK_SEARCH_PATHS_QUOTED_14 = "\"$(SRCROOT)/Frameworks\"";
-				FRAMEWORK_SEARCH_PATHS_QUOTED_15 = "\"$(SRCROOT)/Frameworks\"";
-				FRAMEWORK_SEARCH_PATHS_QUOTED_2 = "\"$(SRCROOT)/../../../../Library/Frameworks\"";
-				FRAMEWORK_SEARCH_PATHS_QUOTED_3 = "\"$(SRCROOT)/../../../../Library/Frameworks\"";
-				FRAMEWORK_SEARCH_PATHS_QUOTED_4 = "\"$(SRCROOT)\"";
-				FRAMEWORK_SEARCH_PATHS_QUOTED_5 = "\"$(SRCROOT)/Frameworks\"";
-				FRAMEWORK_SEARCH_PATHS_QUOTED_6 = "\"$(SRCROOT)/Frameworks/KWSVCDImager/build/Release\"";
-				FRAMEWORK_SEARCH_PATHS_QUOTED_7 = "\"$(SRCROOT)/Frameworks\"";
-				FRAMEWORK_SEARCH_PATHS_QUOTED_8 = "\"$(SRCROOT)/Frameworks\"";
-				FRAMEWORK_SEARCH_PATHS_QUOTED_9 = "\"$(SRCROOT)/Frameworks\"";
-				FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_1 = "\"$(SRCROOT)/Frameworks\"";
-				FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_2 = "\"$(SRCROOT)/Frameworks/Intel\"";
-				FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_3 = "\"$(SRCROOT)/Frameworks/Intel 64-bit\"";
-				FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_4 = "\"$(SRCROOT)/Frameworks/PowerPC\"";
-				FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_5 = "\"$(SRCROOT)/Frameworks/PowerPC 64-bit\"";
-				FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_6 = "\"$(SRCROOT)/Frameworks/Universal\"";
-				FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_7 = "\"$(SRCROOT)/Frameworks/Universal 64-bit\"";
+				FRAMEWORK_SEARCH_PATHS = "\"$(SRCROOT)/Frameworks/Intel\"";
 				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
 				GCC_MODEL_TUNING = G5;
 				INFOPLIST_FILE = Info.plist;
 				INSTALL_PATH = "$(HOME)/Applications";
 				LIBRARY_SEARCH_PATHS = "";
-				LIBRARY_SEARCH_PATHS_QUOTED_1 = "\"$(SRCROOT)/Frameworks/KWSVCDImager/build/KWSVCDImager.build/Release/KWSVCDImager.build/Objects-normal/i386\"";
-				LIBRARY_SEARCH_PATHS_QUOTED_2 = "\"$(SRCROOT)/Frameworks/KWSVCDImager/build/KWSVCDImager.build/Release/KWSVCDImager.build/Objects-normal/ppc\"";
 				MACOSX_DEPLOYMENT_TARGET = 10.4;
 				PRODUCT_NAME = Burn;
 				WRAPPER_EXTENSION = app;
@@ -3980,47 +3677,9 @@
 		FEDBF5A30F80782A00DABA72 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = ppc;
+				ARCHS = "$(NATIVE_ARCH_ACTUAL)";
 				COPY_PHASE_STRIP = NO;
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_9)",
-					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_10)",
-					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_11)",
-					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_12)",
-					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_13)",
-					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_14)",
-					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_15)",
-					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_1)",
-					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_2)",
-					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_3)",
-					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_4)",
-					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_5)",
-					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_6)",
-					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_7)",
-				);
-				FRAMEWORK_SEARCH_PATHS_QUOTED_1 = "\"$(SRCROOT)/../../../../TestFramework/build/Release\"";
-				FRAMEWORK_SEARCH_PATHS_QUOTED_10 = "\"$(SRCROOT)/Frameworks\"";
-				FRAMEWORK_SEARCH_PATHS_QUOTED_11 = "\"$(SRCROOT)/Frameworks\"";
-				FRAMEWORK_SEARCH_PATHS_QUOTED_12 = "\"$(SRCROOT)/Frameworks\"";
-				FRAMEWORK_SEARCH_PATHS_QUOTED_13 = "\"$(SRCROOT)/Frameworks\"";
-				FRAMEWORK_SEARCH_PATHS_QUOTED_14 = "\"$(SRCROOT)/Frameworks\"";
-				FRAMEWORK_SEARCH_PATHS_QUOTED_15 = "\"$(SRCROOT)/Frameworks\"";
-				FRAMEWORK_SEARCH_PATHS_QUOTED_2 = "\"$(SRCROOT)/../../../../Library/Frameworks\"";
-				FRAMEWORK_SEARCH_PATHS_QUOTED_3 = "\"$(SRCROOT)/../../../../Library/Frameworks\"";
-				FRAMEWORK_SEARCH_PATHS_QUOTED_4 = "\"$(SRCROOT)\"";
-				FRAMEWORK_SEARCH_PATHS_QUOTED_5 = "\"$(SRCROOT)/Frameworks\"";
-				FRAMEWORK_SEARCH_PATHS_QUOTED_6 = "\"$(SRCROOT)/Frameworks/KWSVCDImager/build/Release\"";
-				FRAMEWORK_SEARCH_PATHS_QUOTED_7 = "\"$(SRCROOT)/Frameworks\"";
-				FRAMEWORK_SEARCH_PATHS_QUOTED_8 = "\"$(SRCROOT)/Frameworks\"";
-				FRAMEWORK_SEARCH_PATHS_QUOTED_9 = "\"$(SRCROOT)/Frameworks\"";
-				FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_1 = "\"$(SRCROOT)/Frameworks\"";
-				FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_2 = "\"$(SRCROOT)/Frameworks/Intel\"";
-				FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_3 = "\"$(SRCROOT)/Frameworks/Intel 64-bit\"";
-				FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_4 = "\"$(SRCROOT)/Frameworks/PowerPC\"";
-				FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_5 = "\"$(SRCROOT)/Frameworks/PowerPC 64-bit\"";
-				FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_6 = "\"$(SRCROOT)/Frameworks/Universal\"";
-				FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_7 = "\"$(SRCROOT)/Frameworks/Universal 64-bit\"";
+				FRAMEWORK_SEARCH_PATHS = "\"$(SRCROOT)/Frameworks/PowerPC\"";
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_ENABLE_FIX_AND_CONTINUE = YES;
 				GCC_MODEL_TUNING = G3;
@@ -4028,8 +3687,6 @@
 				INFOPLIST_FILE = Info.plist;
 				INSTALL_PATH = "$(HOME)/Applications";
 				LIBRARY_SEARCH_PATHS = "";
-				LIBRARY_SEARCH_PATHS_QUOTED_1 = "\"$(SRCROOT)/Frameworks/KWSVCDImager/build/KWSVCDImager.build/Release/KWSVCDImager.build/Objects-normal/i386\"";
-				LIBRARY_SEARCH_PATHS_QUOTED_2 = "\"$(SRCROOT)/Frameworks/KWSVCDImager/build/KWSVCDImager.build/Release/KWSVCDImager.build/Objects-normal/ppc\"";
 				PRODUCT_NAME = Burn;
 				WRAPPER_EXTENSION = app;
 				ZERO_LINK = YES;
@@ -4040,52 +3697,12 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ARCHS = ppc;
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_9)",
-					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_10)",
-					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_11)",
-					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_12)",
-					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_13)",
-					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_14)",
-					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_15)",
-					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_1)",
-					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_2)",
-					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_3)",
-					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_4)",
-					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_5)",
-					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_6)",
-					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_7)",
-				);
-				FRAMEWORK_SEARCH_PATHS_QUOTED_1 = "\"$(SRCROOT)/../../../../TestFramework/build/Release\"";
-				FRAMEWORK_SEARCH_PATHS_QUOTED_10 = "\"$(SRCROOT)/Frameworks\"";
-				FRAMEWORK_SEARCH_PATHS_QUOTED_11 = "\"$(SRCROOT)/Frameworks\"";
-				FRAMEWORK_SEARCH_PATHS_QUOTED_12 = "\"$(SRCROOT)/Frameworks\"";
-				FRAMEWORK_SEARCH_PATHS_QUOTED_13 = "\"$(SRCROOT)/Frameworks\"";
-				FRAMEWORK_SEARCH_PATHS_QUOTED_14 = "\"$(SRCROOT)/Frameworks\"";
-				FRAMEWORK_SEARCH_PATHS_QUOTED_15 = "\"$(SRCROOT)/Frameworks\"";
-				FRAMEWORK_SEARCH_PATHS_QUOTED_2 = "\"$(SRCROOT)/../../../../Library/Frameworks\"";
-				FRAMEWORK_SEARCH_PATHS_QUOTED_3 = "\"$(SRCROOT)/../../../../Library/Frameworks\"";
-				FRAMEWORK_SEARCH_PATHS_QUOTED_4 = "\"$(SRCROOT)\"";
-				FRAMEWORK_SEARCH_PATHS_QUOTED_5 = "\"$(SRCROOT)/Frameworks\"";
-				FRAMEWORK_SEARCH_PATHS_QUOTED_6 = "\"$(SRCROOT)/Frameworks/KWSVCDImager/build/Release\"";
-				FRAMEWORK_SEARCH_PATHS_QUOTED_7 = "\"$(SRCROOT)/Frameworks\"";
-				FRAMEWORK_SEARCH_PATHS_QUOTED_8 = "\"$(SRCROOT)/Frameworks\"";
-				FRAMEWORK_SEARCH_PATHS_QUOTED_9 = "\"$(SRCROOT)/Frameworks\"";
-				FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_1 = "\"$(SRCROOT)/Frameworks\"";
-				FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_2 = "\"$(SRCROOT)/Frameworks/Intel\"";
-				FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_3 = "\"$(SRCROOT)/Frameworks/Intel 64-bit\"";
-				FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_4 = "\"$(SRCROOT)/Frameworks/PowerPC\"";
-				FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_5 = "\"$(SRCROOT)/Frameworks/PowerPC 64-bit\"";
-				FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_6 = "\"$(SRCROOT)/Frameworks/Universal\"";
-				FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_7 = "\"$(SRCROOT)/Frameworks/Universal 64-bit\"";
+				FRAMEWORK_SEARCH_PATHS = "\"$(SRCROOT)/Frameworks/PowerPC\"";
 				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
 				GCC_MODEL_TUNING = G3;
 				INFOPLIST_FILE = Info.plist;
 				INSTALL_PATH = "$(HOME)/Applications";
 				LIBRARY_SEARCH_PATHS = "";
-				LIBRARY_SEARCH_PATHS_QUOTED_1 = "\"$(SRCROOT)/Frameworks/KWSVCDImager/build/KWSVCDImager.build/Release/KWSVCDImager.build/Objects-normal/i386\"";
-				LIBRARY_SEARCH_PATHS_QUOTED_2 = "\"$(SRCROOT)/Frameworks/KWSVCDImager/build/KWSVCDImager.build/Release/KWSVCDImager.build/Objects-normal/ppc\"";
 				MACOSX_DEPLOYMENT_TARGET = 10.3;
 				PRODUCT_NAME = Burn;
 				WRAPPER_EXTENSION = app;
@@ -4095,36 +3712,12 @@
 		FEF8A88112D9D2BF00FE302C /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD_64_BIT_PRE_XCODE_3_1)";
-				ARCHS_STANDARD_64_BIT_PRE_XCODE_3_1 = x86_64;
+				ARCHS = "$(NATIVE_ARCH_ACTUAL)";
 				COPY_PHASE_STRIP = NO;
 				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_9)",
-					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_10)",
-					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_11)",
-					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_12)",
-					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_13)",
-					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_14)",
-					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_15)",
 					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_1)",
 				);
-				FRAMEWORK_SEARCH_PATHS_QUOTED_1 = "\"$(SRCROOT)/../../../../TestFramework/build/Release\"";
-				FRAMEWORK_SEARCH_PATHS_QUOTED_10 = "\"$(SRCROOT)/Frameworks\"";
-				FRAMEWORK_SEARCH_PATHS_QUOTED_11 = "\"$(SRCROOT)/Frameworks\"";
-				FRAMEWORK_SEARCH_PATHS_QUOTED_12 = "\"$(SRCROOT)/Frameworks\"";
-				FRAMEWORK_SEARCH_PATHS_QUOTED_13 = "\"$(SRCROOT)/Frameworks\"";
-				FRAMEWORK_SEARCH_PATHS_QUOTED_14 = "\"$(SRCROOT)/Frameworks\"";
-				FRAMEWORK_SEARCH_PATHS_QUOTED_15 = "\"$(SRCROOT)/Frameworks\"";
-				FRAMEWORK_SEARCH_PATHS_QUOTED_2 = "\"$(SRCROOT)/../../../../Library/Frameworks\"";
-				FRAMEWORK_SEARCH_PATHS_QUOTED_3 = "\"$(SRCROOT)/../../../../Library/Frameworks\"";
-				FRAMEWORK_SEARCH_PATHS_QUOTED_4 = "\"$(SRCROOT)\"";
-				FRAMEWORK_SEARCH_PATHS_QUOTED_5 = "\"$(SRCROOT)/Frameworks\"";
-				FRAMEWORK_SEARCH_PATHS_QUOTED_6 = "\"$(SRCROOT)/Frameworks/KWSVCDImager/build/Release\"";
-				FRAMEWORK_SEARCH_PATHS_QUOTED_7 = "\"$(SRCROOT)/Frameworks\"";
-				FRAMEWORK_SEARCH_PATHS_QUOTED_8 = "\"$(SRCROOT)/Frameworks\"";
-				FRAMEWORK_SEARCH_PATHS_QUOTED_9 = "\"$(SRCROOT)/Frameworks\"";
-				FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_1 = "\"$(SRCROOT)/Frameworks\"";
+				FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_1 = "\"$(SRCROOT)/Frameworks/Intel 64-bit\"";
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_ENABLE_FIX_AND_CONTINUE = YES;
 				GCC_MODEL_TUNING = G5;
@@ -4133,8 +3726,6 @@
 				INFOPLIST_FILE = Info.plist;
 				INSTALL_PATH = "$(HOME)/Applications";
 				LIBRARY_SEARCH_PATHS = "";
-				LIBRARY_SEARCH_PATHS_QUOTED_1 = "\"$(SRCROOT)/Frameworks/KWSVCDImager/build/KWSVCDImager.build/Release/KWSVCDImager.build/Objects-normal/i386\"";
-				LIBRARY_SEARCH_PATHS_QUOTED_2 = "\"$(SRCROOT)/Frameworks/KWSVCDImager/build/KWSVCDImager.build/Release/KWSVCDImager.build/Objects-normal/ppc\"";
 				MACOSX_DEPLOYMENT_TARGET = 10.5;
 				OTHER_LDFLAGS = "";
 				PRODUCT_NAME = Burn;
@@ -4150,40 +3741,15 @@
 				ARCHS = "$(ARCHS_STANDARD_64_BIT_PRE_XCODE_3_1)";
 				ARCHS_STANDARD_64_BIT_PRE_XCODE_3_1 = x86_64;
 				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_9)",
-					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_10)",
-					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_11)",
-					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_12)",
-					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_13)",
-					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_14)",
-					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_15)",
 					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_1)",
 				);
-				FRAMEWORK_SEARCH_PATHS_QUOTED_1 = "\"$(SRCROOT)/../../../../TestFramework/build/Release\"";
-				FRAMEWORK_SEARCH_PATHS_QUOTED_10 = "\"$(SRCROOT)/Frameworks\"";
-				FRAMEWORK_SEARCH_PATHS_QUOTED_11 = "\"$(SRCROOT)/Frameworks\"";
-				FRAMEWORK_SEARCH_PATHS_QUOTED_12 = "\"$(SRCROOT)/Frameworks\"";
-				FRAMEWORK_SEARCH_PATHS_QUOTED_13 = "\"$(SRCROOT)/Frameworks\"";
-				FRAMEWORK_SEARCH_PATHS_QUOTED_14 = "\"$(SRCROOT)/Frameworks\"";
-				FRAMEWORK_SEARCH_PATHS_QUOTED_15 = "\"$(SRCROOT)/Frameworks\"";
-				FRAMEWORK_SEARCH_PATHS_QUOTED_2 = "\"$(SRCROOT)/../../../../Library/Frameworks\"";
-				FRAMEWORK_SEARCH_PATHS_QUOTED_3 = "\"$(SRCROOT)/../../../../Library/Frameworks\"";
-				FRAMEWORK_SEARCH_PATHS_QUOTED_4 = "\"$(SRCROOT)\"";
-				FRAMEWORK_SEARCH_PATHS_QUOTED_5 = "\"$(SRCROOT)/Frameworks\"";
-				FRAMEWORK_SEARCH_PATHS_QUOTED_6 = "\"$(SRCROOT)/Frameworks/KWSVCDImager/build/Release\"";
-				FRAMEWORK_SEARCH_PATHS_QUOTED_7 = "\"$(SRCROOT)/Frameworks\"";
-				FRAMEWORK_SEARCH_PATHS_QUOTED_8 = "\"$(SRCROOT)/Frameworks\"";
-				FRAMEWORK_SEARCH_PATHS_QUOTED_9 = "\"$(SRCROOT)/Frameworks\"";
-				FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_1 = "\"$(SRCROOT)/Frameworks\"";
+				FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_1 = "\"$(SRCROOT)/Frameworks/Intel 64-bit\"";
 				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
 				GCC_MODEL_TUNING = G5;
 				GCC_VERSION = "";
 				INFOPLIST_FILE = Info.plist;
 				INSTALL_PATH = "$(HOME)/Applications";
 				LIBRARY_SEARCH_PATHS = "";
-				LIBRARY_SEARCH_PATHS_QUOTED_1 = "\"$(SRCROOT)/Frameworks/KWSVCDImager/build/KWSVCDImager.build/Release/KWSVCDImager.build/Objects-normal/i386\"";
-				LIBRARY_SEARCH_PATHS_QUOTED_2 = "\"$(SRCROOT)/Frameworks/KWSVCDImager/build/KWSVCDImager.build/Release/KWSVCDImager.build/Objects-normal/ppc\"";
 				MACOSX_DEPLOYMENT_TARGET = 10.5;
 				OTHER_LDFLAGS = "";
 				PRODUCT_NAME = Burn;
