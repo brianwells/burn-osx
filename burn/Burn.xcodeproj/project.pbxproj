@@ -15,8 +15,6 @@
 		FE0343770BA816AB00622112 /* KWDiscInfo.nib in Resources */ = {isa = PBXBuildFile; fileRef = FE0343750BA816AB00622112 /* KWDiscInfo.nib */; };
 		FE03437E0BA816CE00622112 /* KWDiscInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = FE03437C0BA816CE00622112 /* KWDiscInfo.m */; };
 		FE0361300BAFD9A900F7FA73 /* KWGrowlController.m in Sources */ = {isa = PBXBuildFile; fileRef = FE03612E0BAFD9A900F7FA73 /* KWGrowlController.m */; };
-		FE03614B0BAFDA2D00F7FA73 /* Growl.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FE03614A0BAFDA2D00F7FA73 /* Growl.framework */; };
-		FE03615E0BAFDA3500F7FA73 /* Growl.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = FE03614A0BAFDA2D00F7FA73 /* Growl.framework */; };
 		FE0543020BAC7DCE003F1377 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FE3CA4F50BAC7D53001FB922 /* Cocoa.framework */; };
 		FE1884040EC5559D00410BA6 /* Empty.png in Resources */ = {isa = PBXBuildFile; fileRef = FE1883FD0EC5559D00410BA6 /* Empty.png */; };
 		FE18840B0EC5559D00410BA6 /* Empty.png in Resources */ = {isa = PBXBuildFile; fileRef = FE1883FD0EC5559D00410BA6 /* Empty.png */; };
@@ -34,10 +32,6 @@
 		FE24916B0ECEDB6F0028E955 /* KWDiscCreator.m in Sources */ = {isa = PBXBuildFile; fileRef = FE2491690ECEDB6F0028E955 /* KWDiscCreator.m */; };
 		FE24916D0ECEDB6F0028E955 /* KWDiscCreator.m in Sources */ = {isa = PBXBuildFile; fileRef = FE2491690ECEDB6F0028E955 /* KWDiscCreator.m */; };
 		FE24916F0ECEDB6F0028E955 /* KWDiscCreator.m in Sources */ = {isa = PBXBuildFile; fileRef = FE2491690ECEDB6F0028E955 /* KWDiscCreator.m */; };
-		FE2C00C50E0643C30094FD7D /* ID3.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FE2C00C40E0643C30094FD7D /* ID3.framework */; };
-		FE2C00C60E0643C30094FD7D /* ID3.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FE2C00C40E0643C30094FD7D /* ID3.framework */; };
-		FE2C00C70E0643C30094FD7D /* ID3.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FE2C00C40E0643C30094FD7D /* ID3.framework */; };
-		FE2C00D50E0643E30094FD7D /* ID3.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = FE2C00C40E0643C30094FD7D /* ID3.framework */; };
 		FE2C01520E0653CF0094FD7D /* KWPantherCompatibleButton.m in Sources */ = {isa = PBXBuildFile; fileRef = FE2C01500E0653CF0094FD7D /* KWPantherCompatibleButton.m */; };
 		FE2C01540E0653CF0094FD7D /* KWPantherCompatibleButton.m in Sources */ = {isa = PBXBuildFile; fileRef = FE2C01500E0653CF0094FD7D /* KWPantherCompatibleButton.m */; };
 		FE2C01560E0653CF0094FD7D /* KWPantherCompatibleButton.m in Sources */ = {isa = PBXBuildFile; fileRef = FE2C01500E0653CF0094FD7D /* KWPantherCompatibleButton.m */; };
@@ -191,10 +185,6 @@
 		FE5461D212DA2E2E00461081 /* DiscRecording.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FEEF6FFB0B92EC8800ED64A9 /* DiscRecording.framework */; };
 		FE5461D312DA2E2E00461081 /* QTKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FEEF72090B92F47700ED64A9 /* QTKit.framework */; };
 		FE5461D412DA2E2E00461081 /* Carbon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FE3CA4E00BAC7D0E001FB922 /* Carbon.framework */; };
-		FE5461D512DA2E2E00461081 /* Growl.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FE03614A0BAFDA2D00F7FA73 /* Growl.framework */; };
-		FE5461D612DA2E2E00461081 /* ID3.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FE2C00C40E0643C30094FD7D /* ID3.framework */; };
-		FE5461D812DA2E2E00461081 /* ID3.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = FE2C00C40E0643C30094FD7D /* ID3.framework */; };
-		FE5461D912DA2E2E00461081 /* Growl.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = FE03614A0BAFDA2D00F7FA73 /* Growl.framework */; };
 		FE5E5B600D2A7FE300D65049 /* Themes in Resources */ = {isa = PBXBuildFile; fileRef = FE5E5B4C0D2A7FE300D65049 /* Themes */; };
 		FE6134CE1101FF2800C086EA /* KWTabViewItem.m in Sources */ = {isa = PBXBuildFile; fileRef = FE6134C91101FF2800C086EA /* KWTabViewItem.m */; };
 		FE6134CF1101FF2800C086EA /* KWWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = FE6134CB1101FF2800C086EA /* KWWindow.m */; };
@@ -332,14 +322,46 @@
 		FE8AFA9812DA1BDC004A83B9 /* DiscRecording.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FEEF6FFB0B92EC8800ED64A9 /* DiscRecording.framework */; };
 		FE8AFA9912DA1BDC004A83B9 /* QTKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FEEF72090B92F47700ED64A9 /* QTKit.framework */; };
 		FE8AFA9A12DA1BDC004A83B9 /* Carbon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FE3CA4E00BAC7D0E001FB922 /* Carbon.framework */; };
-		FE8AFA9B12DA1BDC004A83B9 /* Growl.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FE03614A0BAFDA2D00F7FA73 /* Growl.framework */; };
-		FE8AFA9C12DA1BDC004A83B9 /* ID3.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FE2C00C40E0643C30094FD7D /* ID3.framework */; };
-		FE8AFA9E12DA1BDC004A83B9 /* ID3.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = FE2C00C40E0643C30094FD7D /* ID3.framework */; };
-		FE8AFA9F12DA1BDC004A83B9 /* Growl.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = FE03614A0BAFDA2D00F7FA73 /* Growl.framework */; };
 		FE9DB851110338EB0086F62C /* iso8859-1 in Resources */ = {isa = PBXBuildFile; fileRef = FE9DB850110338EB0086F62C /* iso8859-1 */; };
 		FE9DB852110338EB0086F62C /* iso8859-1 in Resources */ = {isa = PBXBuildFile; fileRef = FE9DB850110338EB0086F62C /* iso8859-1 */; };
 		FE9DB853110338EB0086F62C /* iso8859-1 in Resources */ = {isa = PBXBuildFile; fileRef = FE9DB850110338EB0086F62C /* iso8859-1 */; };
 		FE9DB854110338EB0086F62C /* iso8859-1 in Resources */ = {isa = PBXBuildFile; fileRef = FE9DB850110338EB0086F62C /* iso8859-1 */; };
+		FEA1528A12DAECB20073FA9B /* Growl.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FEA1527E12DAECB20073FA9B /* Growl.framework */; };
+		FEA1528B12DAECB20073FA9B /* Growl.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FEA1528012DAECB20073FA9B /* Growl.framework */; };
+		FEA1528C12DAECB20073FA9B /* Growl.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FEA1528212DAECB20073FA9B /* Growl.framework */; };
+		FEA1528D12DAECB30073FA9B /* Growl.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FEA1528412DAECB20073FA9B /* Growl.framework */; };
+		FEA1528E12DAECB30073FA9B /* Growl.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FEA1528612DAECB20073FA9B /* Growl.framework */; };
+		FEA1528F12DAECB30073FA9B /* ID3.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FEA1528712DAECB20073FA9B /* ID3.framework */; };
+		FEA1529012DAECB30073FA9B /* Growl.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FEA1528912DAECB20073FA9B /* Growl.framework */; };
+		FEA1529112DAECB30073FA9B /* Growl.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FEA1527E12DAECB20073FA9B /* Growl.framework */; };
+		FEA1529212DAECB30073FA9B /* Growl.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FEA1528012DAECB20073FA9B /* Growl.framework */; };
+		FEA1529312DAECB30073FA9B /* Growl.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FEA1528212DAECB20073FA9B /* Growl.framework */; };
+		FEA1529412DAECB30073FA9B /* Growl.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FEA1528412DAECB20073FA9B /* Growl.framework */; };
+		FEA1529512DAECB30073FA9B /* Growl.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FEA1528612DAECB20073FA9B /* Growl.framework */; };
+		FEA1529612DAECB30073FA9B /* ID3.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FEA1528712DAECB20073FA9B /* ID3.framework */; };
+		FEA1529712DAECB30073FA9B /* Growl.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FEA1528912DAECB20073FA9B /* Growl.framework */; };
+		FEA1529812DAECB30073FA9B /* Growl.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FEA1527E12DAECB20073FA9B /* Growl.framework */; };
+		FEA1529912DAECB30073FA9B /* Growl.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FEA1528012DAECB20073FA9B /* Growl.framework */; };
+		FEA1529A12DAECB30073FA9B /* Growl.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FEA1528212DAECB20073FA9B /* Growl.framework */; };
+		FEA1529B12DAECB30073FA9B /* Growl.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FEA1528412DAECB20073FA9B /* Growl.framework */; };
+		FEA1529C12DAECB30073FA9B /* Growl.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FEA1528612DAECB20073FA9B /* Growl.framework */; };
+		FEA1529D12DAECB30073FA9B /* ID3.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FEA1528712DAECB20073FA9B /* ID3.framework */; };
+		FEA1529E12DAECB30073FA9B /* Growl.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FEA1528912DAECB20073FA9B /* Growl.framework */; };
+		FEA1529F12DAECB30073FA9B /* Growl.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FEA1527E12DAECB20073FA9B /* Growl.framework */; };
+		FEA152A012DAECB40073FA9B /* Growl.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FEA1528012DAECB20073FA9B /* Growl.framework */; };
+		FEA152A112DAECB40073FA9B /* Growl.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FEA1528212DAECB20073FA9B /* Growl.framework */; };
+		FEA152A212DAECB40073FA9B /* Growl.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FEA1528412DAECB20073FA9B /* Growl.framework */; };
+		FEA152A312DAECB40073FA9B /* Growl.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FEA1528612DAECB20073FA9B /* Growl.framework */; };
+		FEA152A412DAECB40073FA9B /* ID3.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FEA1528712DAECB20073FA9B /* ID3.framework */; };
+		FEA152A512DAECB40073FA9B /* Growl.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FEA1528912DAECB20073FA9B /* Growl.framework */; };
+		FEA152C312DAECC60073FA9B /* Growl.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = FEA1528612DAECB20073FA9B /* Growl.framework */; };
+		FEA152C412DAECC60073FA9B /* ID3.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = FEA1528712DAECB20073FA9B /* ID3.framework */; };
+		FEA152C512DAED030073FA9B /* Growl.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = FEA1528212DAECB20073FA9B /* Growl.framework */; };
+		FEA152D112DAED1F0073FA9B /* Growl.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = FEA1528912DAECB20073FA9B /* Growl.framework */; };
+		FEA152D712DAED280073FA9B /* Growl.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = FEA1528212DAECB20073FA9B /* Growl.framework */; };
+		FEA152D812DAED2F0073FA9B /* Growl.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = FEA1527E12DAECB20073FA9B /* Growl.framework */; };
+		FEA152DE12DAED3B0073FA9B /* Growl.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = FEA1528412DAECB20073FA9B /* Growl.framework */; };
+		FEA152DF12DAED470073FA9B /* Growl.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = FEA1528012DAECB20073FA9B /* Growl.framework */; };
 		FEA467270D97BDC60083527F /* MainMenu.nib in Resources */ = {isa = PBXBuildFile; fileRef = 2A37F4B6FDCFA73011CA2CEA /* MainMenu.nib */; };
 		FEA467290D97BDC60083527F /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 089C165FFE840EACC02AAC07 /* InfoPlist.strings */; };
 		FEA4672A0D97BDC60083527F /* Advanced.tiff in Resources */ = {isa = PBXBuildFile; fileRef = FEEF6F140B92E8BB00ED64A9 /* Advanced.tiff */; };
@@ -418,8 +440,6 @@
 		FEA4678D0D97BDC60083527F /* QTKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FEEF72090B92F47700ED64A9 /* QTKit.framework */; };
 		FEA4678E0D97BDC60083527F /* QuickTime.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FEEF720A0B92F47700ED64A9 /* QuickTime.framework */; };
 		FEA4678F0D97BDC60083527F /* Carbon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FE3CA4E00BAC7D0E001FB922 /* Carbon.framework */; };
-		FEA467900D97BDC60083527F /* Growl.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FE03614A0BAFDA2D00F7FA73 /* Growl.framework */; };
-		FEA467960D97BDC60083527F /* Growl.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = FE03614A0BAFDA2D00F7FA73 /* Growl.framework */; };
 		FEA4679F0D97BDCD0083527F /* MainMenu.nib in Resources */ = {isa = PBXBuildFile; fileRef = 2A37F4B6FDCFA73011CA2CEA /* MainMenu.nib */; };
 		FEA467A10D97BDCD0083527F /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 089C165FFE840EACC02AAC07 /* InfoPlist.strings */; };
 		FEA467A20D97BDCD0083527F /* Advanced.tiff in Resources */ = {isa = PBXBuildFile; fileRef = FEEF6F140B92E8BB00ED64A9 /* Advanced.tiff */; };
@@ -498,8 +518,6 @@
 		FEA468050D97BDCD0083527F /* QTKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FEEF72090B92F47700ED64A9 /* QTKit.framework */; };
 		FEA468060D97BDCD0083527F /* QuickTime.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FEEF720A0B92F47700ED64A9 /* QuickTime.framework */; };
 		FEA468070D97BDCD0083527F /* Carbon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FE3CA4E00BAC7D0E001FB922 /* Carbon.framework */; };
-		FEA468080D97BDCD0083527F /* Growl.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FE03614A0BAFDA2D00F7FA73 /* Growl.framework */; };
-		FEA4680E0D97BDCD0083527F /* Growl.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = FE03614A0BAFDA2D00F7FA73 /* Growl.framework */; };
 		FEA469300D97E6DD0083527F /* dvda-author in Resources */ = {isa = PBXBuildFile; fileRef = FEA469260D97E6DD0083527F /* dvda-author */; };
 		FEA469310D97E6DD0083527F /* dvdauthor in Resources */ = {isa = PBXBuildFile; fileRef = FEA469270D97E6DD0083527F /* dvdauthor */; };
 		FEA469320D97E6DD0083527F /* ffmpeg in Resources */ = {isa = PBXBuildFile; fileRef = FEA469280D97E6DD0083527F /* ffmpeg */; };
@@ -531,8 +549,6 @@
 		FEC66B500F2CCD8A00086E2C /* BurnHelp in Resources */ = {isa = PBXBuildFile; fileRef = FEC66B170F2CCD8A00086E2C /* BurnHelp */; };
 		FEC66B510F2CCD8A00086E2C /* BurnHelp in Resources */ = {isa = PBXBuildFile; fileRef = FEC66B170F2CCD8A00086E2C /* BurnHelp */; };
 		FEC66B520F2CCD8A00086E2C /* BurnHelp in Resources */ = {isa = PBXBuildFile; fileRef = FEC66B170F2CCD8A00086E2C /* BurnHelp */; };
-		FED690E30F119A9200713D1C /* ID3.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = FE2C00C40E0643C30094FD7D /* ID3.framework */; };
-		FED690EE0F119A9800713D1C /* ID3.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = FE2C00C40E0643C30094FD7D /* ID3.framework */; };
 		FEDBF52E0F80782A00DABA72 /* MainMenu.nib in Resources */ = {isa = PBXBuildFile; fileRef = 2A37F4B6FDCFA73011CA2CEA /* MainMenu.nib */; };
 		FEDBF5300F80782A00DABA72 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 089C165FFE840EACC02AAC07 /* InfoPlist.strings */; };
 		FEDBF5310F80782A00DABA72 /* Advanced.tiff in Resources */ = {isa = PBXBuildFile; fileRef = FEEF6F140B92E8BB00ED64A9 /* Advanced.tiff */; };
@@ -638,10 +654,6 @@
 		FEDBF59A0F80782A00DABA72 /* QTKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FEEF72090B92F47700ED64A9 /* QTKit.framework */; };
 		FEDBF59B0F80782A00DABA72 /* QuickTime.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FEEF720A0B92F47700ED64A9 /* QuickTime.framework */; };
 		FEDBF59C0F80782A00DABA72 /* Carbon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FE3CA4E00BAC7D0E001FB922 /* Carbon.framework */; };
-		FEDBF59D0F80782A00DABA72 /* Growl.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FE03614A0BAFDA2D00F7FA73 /* Growl.framework */; };
-		FEDBF59E0F80782A00DABA72 /* ID3.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FE2C00C40E0643C30094FD7D /* ID3.framework */; };
-		FEDBF5A00F80782A00DABA72 /* ID3.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = FE2C00C40E0643C30094FD7D /* ID3.framework */; };
-		FEDBF5A10F80782A00DABA72 /* Growl.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = FE03614A0BAFDA2D00F7FA73 /* Growl.framework */; };
 		FEDC29010E4D91D200F2FEED /* KWToolbarKiller.m in Sources */ = {isa = PBXBuildFile; fileRef = FEDC28FF0E4D91D200F2FEED /* KWToolbarKiller.m */; };
 		FEDC29030E4D91D200F2FEED /* KWToolbarKiller.m in Sources */ = {isa = PBXBuildFile; fileRef = FEDC28FF0E4D91D200F2FEED /* KWToolbarKiller.m */; };
 		FEDC29050E4D91D200F2FEED /* KWToolbarKiller.m in Sources */ = {isa = PBXBuildFile; fileRef = FEDC28FF0E4D91D200F2FEED /* KWToolbarKiller.m */; };
@@ -796,10 +808,6 @@
 		FEF8A87712D9D2BF00FE302C /* DiscRecording.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FEEF6FFB0B92EC8800ED64A9 /* DiscRecording.framework */; };
 		FEF8A87812D9D2BF00FE302C /* QTKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FEEF72090B92F47700ED64A9 /* QTKit.framework */; };
 		FEF8A87A12D9D2BF00FE302C /* Carbon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FE3CA4E00BAC7D0E001FB922 /* Carbon.framework */; };
-		FEF8A87B12D9D2BF00FE302C /* Growl.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FE03614A0BAFDA2D00F7FA73 /* Growl.framework */; };
-		FEF8A87C12D9D2BF00FE302C /* ID3.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FE2C00C40E0643C30094FD7D /* ID3.framework */; };
-		FEF8A87E12D9D2BF00FE302C /* ID3.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = FE2C00C40E0643C30094FD7D /* ID3.framework */; };
-		FEF8A87F12D9D2BF00FE302C /* Growl.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = FE03614A0BAFDA2D00F7FA73 /* Growl.framework */; };
 		FEF9877F0D97A83400BF78E3 /* KWBurner.m in Sources */ = {isa = PBXBuildFile; fileRef = FEF987770D97A83400BF78E3 /* KWBurner.m */; };
 		FEF987830D97A83400BF78E3 /* NSScanner-Extra.mm in Sources */ = {isa = PBXBuildFile; fileRef = FEF9877B0D97A83400BF78E3 /* NSScanner-Extra.mm */; };
 		FEF987870D97A86300BF78E3 /* KWEraser.m in Sources */ = {isa = PBXBuildFile; fileRef = FEF987850D97A86300BF78E3 /* KWEraser.m */; };
@@ -830,7 +838,7 @@
 			isa = PBXContainerItemProxy;
 			containerPortal = 2A37F4A9FDCFA73011CA2CEA /* Project object */;
 			proxyType = 1;
-			remoteGlobalIDString = FE54616112DA2E2E00461081 /* Burn (Intel 64-bit) copy */;
+			remoteGlobalIDString = FE54616112DA2E2E00461081;
 			remoteInfo = "Burn (Intel 64-bit) copy";
 		};
 /* End PBXContainerItemProxy section */
@@ -842,8 +850,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				FE5461D812DA2E2E00461081 /* ID3.framework in Copy Frameworks */,
-				FE5461D912DA2E2E00461081 /* Growl.framework in Copy Frameworks */,
+				FEA152D112DAED1F0073FA9B /* Growl.framework in Copy Frameworks */,
 			);
 			name = "Copy Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -854,8 +861,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				FE8AFA9E12DA1BDC004A83B9 /* ID3.framework in Copy Frameworks */,
-				FE8AFA9F12DA1BDC004A83B9 /* Growl.framework in Copy Frameworks */,
+				FEA152DE12DAED3B0073FA9B /* Growl.framework in Copy Frameworks */,
 			);
 			name = "Copy Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -866,8 +872,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				FED690E30F119A9200713D1C /* ID3.framework in Copy Frameworks */,
-				FEA467960D97BDC60083527F /* Growl.framework in Copy Frameworks */,
+				FEA152D712DAED280073FA9B /* Growl.framework in Copy Frameworks */,
 			);
 			name = "Copy Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -878,8 +883,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				FED690EE0F119A9800713D1C /* ID3.framework in Copy Frameworks */,
-				FEA4680E0D97BDCD0083527F /* Growl.framework in Copy Frameworks */,
+				FEA152D812DAED2F0073FA9B /* Growl.framework in Copy Frameworks */,
 			);
 			name = "Copy Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -890,8 +894,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				FEDBF5A00F80782A00DABA72 /* ID3.framework in Copy Frameworks */,
-				FEDBF5A10F80782A00DABA72 /* Growl.framework in Copy Frameworks */,
+				FEA152C512DAED030073FA9B /* Growl.framework in Copy Frameworks */,
 			);
 			name = "Copy Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -902,8 +905,8 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				FE2C00D50E0643E30094FD7D /* ID3.framework in Copy Frameworks */,
-				FE03615E0BAFDA3500F7FA73 /* Growl.framework in Copy Frameworks */,
+				FEA152C312DAECC60073FA9B /* Growl.framework in Copy Frameworks */,
+				FEA152C412DAECC60073FA9B /* ID3.framework in Copy Frameworks */,
 			);
 			name = "Copy Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -914,8 +917,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				FEF8A87E12D9D2BF00FE302C /* ID3.framework in Copy Frameworks */,
-				FEF8A87F12D9D2BF00FE302C /* Growl.framework in Copy Frameworks */,
+				FEA152DF12DAED470073FA9B /* Growl.framework in Copy Frameworks */,
 			);
 			name = "Copy Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -938,7 +940,6 @@
 		FE03437D0BA816CE00622112 /* KWDiscInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = KWDiscInfo.h; path = Source/KWDiscInfo.h; sourceTree = "<group>"; };
 		FE03612D0BAFD9A900F7FA73 /* KWGrowlController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = KWGrowlController.h; path = Source/KWGrowlController.h; sourceTree = "<group>"; };
 		FE03612E0BAFD9A900F7FA73 /* KWGrowlController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = KWGrowlController.m; path = Source/KWGrowlController.m; sourceTree = "<group>"; };
-		FE03614A0BAFDA2D00F7FA73 /* Growl.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Growl.framework; path = Frameworks/Growl.framework; sourceTree = "<group>"; };
 		FE04130B0E62D3D3007FD22B /* cs */ = {isa = PBXFileReference; lastKnownFileType = image.icns; name = cs; path = "cs.lproj/Copy document.icns"; sourceTree = "<group>"; };
 		FE04130C0E62D3D3007FD22B /* cs */ = {isa = PBXFileReference; lastKnownFileType = image.icns; name = cs; path = "cs.lproj/Theme document.icns"; sourceTree = "<group>"; };
 		FE04130D0E62D3E2007FD22B /* German */ = {isa = PBXFileReference; lastKnownFileType = image.icns; name = German; path = "German.lproj/Copy document.icns"; sourceTree = "<group>"; };
@@ -1003,7 +1004,6 @@
 		FE25B66511772BDA004F3B3D /* Italian */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = Italian; path = Italian.lproj/MainMenu.nib; sourceTree = "<group>"; };
 		FE25B66811772C08004F3B3D /* Italian */ = {isa = PBXFileReference; lastKnownFileType = image.icns; name = Italian; path = "Italian.lproj/Copy document.icns"; sourceTree = "<group>"; };
 		FE25B66911772C08004F3B3D /* Italian */ = {isa = PBXFileReference; lastKnownFileType = image.icns; name = Italian; path = "Italian.lproj/Theme document.icns"; sourceTree = "<group>"; };
-		FE2C00C40E0643C30094FD7D /* ID3.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ID3.framework; path = Frameworks/ID3.framework; sourceTree = "<group>"; };
 		FE2C01500E0653CF0094FD7D /* KWPantherCompatibleButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = KWPantherCompatibleButton.m; path = Source/KWPantherCompatibleButton.m; sourceTree = "<group>"; };
 		FE2C01510E0653CF0094FD7D /* KWPantherCompatibleButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = KWPantherCompatibleButton.h; path = Source/KWPantherCompatibleButton.h; sourceTree = "<group>"; };
 		FE2C34FB0BA2ED740029BA99 /* Burn.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; name = Burn.icns; path = Images/Burn.icns; sourceTree = "<group>"; };
@@ -1124,6 +1124,13 @@
 		FE9F92140D312811002A7BDC /* pt_BR */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = pt_BR; path = pt_BR.lproj/KWRecorderInfo.nib; sourceTree = "<group>"; };
 		FE9F92150D312811002A7BDC /* pt_BR */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = pt_BR; path = pt_BR.lproj/Localizable.strings; sourceTree = "<group>"; };
 		FE9F92160D312811002A7BDC /* pt_BR */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = pt_BR; path = pt_BR.lproj/MainMenu.nib; sourceTree = "<group>"; };
+		FEA1527E12DAECB20073FA9B /* Growl.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Growl.framework; sourceTree = "<group>"; };
+		FEA1528012DAECB20073FA9B /* Growl.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Growl.framework; sourceTree = "<group>"; };
+		FEA1528212DAECB20073FA9B /* Growl.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Growl.framework; sourceTree = "<group>"; };
+		FEA1528412DAECB20073FA9B /* Growl.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Growl.framework; sourceTree = "<group>"; };
+		FEA1528612DAECB20073FA9B /* Growl.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Growl.framework; sourceTree = "<group>"; };
+		FEA1528712DAECB20073FA9B /* ID3.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = ID3.framework; sourceTree = "<group>"; };
+		FEA1528912DAECB20073FA9B /* Growl.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Growl.framework; sourceTree = "<group>"; };
 		FEA4679A0D97BDC60083527F /* Burn.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Burn.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		FEA468120D97BDCD0083527F /* Burn.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Burn.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		FEA469260D97E6DD0083527F /* dvda-author */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.executable"; name = "dvda-author"; path = "Binaries/Universal/dvda-author"; sourceTree = "<group>"; };
@@ -1308,13 +1315,18 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				FE2C00C70E0643C30094FD7D /* ID3.framework in Frameworks */,
 				FE0543020BAC7DCE003F1377 /* Cocoa.framework in Frameworks */,
 				FEEF6FFD0B92EC8800ED64A9 /* DiscRecording.framework in Frameworks */,
 				FEEF720B0B92F47700ED64A9 /* QTKit.framework in Frameworks */,
 				FEEF720C0B92F47700ED64A9 /* QuickTime.framework in Frameworks */,
 				FE3CA4E10BAC7D0E001FB922 /* Carbon.framework in Frameworks */,
-				FE03614B0BAFDA2D00F7FA73 /* Growl.framework in Frameworks */,
+				FEA1528A12DAECB20073FA9B /* Growl.framework in Frameworks */,
+				FEA1528B12DAECB20073FA9B /* Growl.framework in Frameworks */,
+				FEA1528C12DAECB20073FA9B /* Growl.framework in Frameworks */,
+				FEA1528D12DAECB30073FA9B /* Growl.framework in Frameworks */,
+				FEA1528E12DAECB30073FA9B /* Growl.framework in Frameworks */,
+				FEA1528F12DAECB30073FA9B /* ID3.framework in Frameworks */,
+				FEA1529012DAECB30073FA9B /* Growl.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1326,8 +1338,6 @@
 				FE5461D212DA2E2E00461081 /* DiscRecording.framework in Frameworks */,
 				FE5461D312DA2E2E00461081 /* QTKit.framework in Frameworks */,
 				FE5461D412DA2E2E00461081 /* Carbon.framework in Frameworks */,
-				FE5461D512DA2E2E00461081 /* Growl.framework in Frameworks */,
-				FE5461D612DA2E2E00461081 /* ID3.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1339,8 +1349,6 @@
 				FE8AFA9812DA1BDC004A83B9 /* DiscRecording.framework in Frameworks */,
 				FE8AFA9912DA1BDC004A83B9 /* QTKit.framework in Frameworks */,
 				FE8AFA9A12DA1BDC004A83B9 /* Carbon.framework in Frameworks */,
-				FE8AFA9B12DA1BDC004A83B9 /* Growl.framework in Frameworks */,
-				FE8AFA9C12DA1BDC004A83B9 /* ID3.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1353,8 +1361,13 @@
 				FEA4678D0D97BDC60083527F /* QTKit.framework in Frameworks */,
 				FEA4678E0D97BDC60083527F /* QuickTime.framework in Frameworks */,
 				FEA4678F0D97BDC60083527F /* Carbon.framework in Frameworks */,
-				FEA467900D97BDC60083527F /* Growl.framework in Frameworks */,
-				FE2C00C60E0643C30094FD7D /* ID3.framework in Frameworks */,
+				FEA1529812DAECB30073FA9B /* Growl.framework in Frameworks */,
+				FEA1529912DAECB30073FA9B /* Growl.framework in Frameworks */,
+				FEA1529A12DAECB30073FA9B /* Growl.framework in Frameworks */,
+				FEA1529B12DAECB30073FA9B /* Growl.framework in Frameworks */,
+				FEA1529C12DAECB30073FA9B /* Growl.framework in Frameworks */,
+				FEA1529D12DAECB30073FA9B /* ID3.framework in Frameworks */,
+				FEA1529E12DAECB30073FA9B /* Growl.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1367,8 +1380,13 @@
 				FEA468050D97BDCD0083527F /* QTKit.framework in Frameworks */,
 				FEA468060D97BDCD0083527F /* QuickTime.framework in Frameworks */,
 				FEA468070D97BDCD0083527F /* Carbon.framework in Frameworks */,
-				FEA468080D97BDCD0083527F /* Growl.framework in Frameworks */,
-				FE2C00C50E0643C30094FD7D /* ID3.framework in Frameworks */,
+				FEA1529F12DAECB30073FA9B /* Growl.framework in Frameworks */,
+				FEA152A012DAECB40073FA9B /* Growl.framework in Frameworks */,
+				FEA152A112DAECB40073FA9B /* Growl.framework in Frameworks */,
+				FEA152A212DAECB40073FA9B /* Growl.framework in Frameworks */,
+				FEA152A312DAECB40073FA9B /* Growl.framework in Frameworks */,
+				FEA152A412DAECB40073FA9B /* ID3.framework in Frameworks */,
+				FEA152A512DAECB40073FA9B /* Growl.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1381,8 +1399,13 @@
 				FEDBF59A0F80782A00DABA72 /* QTKit.framework in Frameworks */,
 				FEDBF59B0F80782A00DABA72 /* QuickTime.framework in Frameworks */,
 				FEDBF59C0F80782A00DABA72 /* Carbon.framework in Frameworks */,
-				FEDBF59D0F80782A00DABA72 /* Growl.framework in Frameworks */,
-				FEDBF59E0F80782A00DABA72 /* ID3.framework in Frameworks */,
+				FEA1529112DAECB30073FA9B /* Growl.framework in Frameworks */,
+				FEA1529212DAECB30073FA9B /* Growl.framework in Frameworks */,
+				FEA1529312DAECB30073FA9B /* Growl.framework in Frameworks */,
+				FEA1529412DAECB30073FA9B /* Growl.framework in Frameworks */,
+				FEA1529512DAECB30073FA9B /* Growl.framework in Frameworks */,
+				FEA1529612DAECB30073FA9B /* ID3.framework in Frameworks */,
+				FEA1529712DAECB30073FA9B /* Growl.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1394,8 +1417,6 @@
 				FEF8A87712D9D2BF00FE302C /* DiscRecording.framework in Frameworks */,
 				FEF8A87812D9D2BF00FE302C /* QTKit.framework in Frameworks */,
 				FEF8A87A12D9D2BF00FE302C /* Carbon.framework in Frameworks */,
-				FEF8A87B12D9D2BF00FE302C /* Growl.framework in Frameworks */,
-				FEF8A87C12D9D2BF00FE302C /* ID3.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1416,8 +1437,6 @@
 		1058C7A8FEA54F5311CA2CBB /* Other Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				FE2C00C40E0643C30094FD7D /* ID3.framework */,
-				FE03614A0BAFDA2D00F7FA73 /* Growl.framework */,
 				FE3CA4F50BAC7D53001FB922 /* Cocoa.framework */,
 				2A37F4C4FDCFA73011CA2CEA /* AppKit.framework */,
 				2A37F4C5FDCFA73011CA2CEA /* Foundation.framework */,
@@ -1478,6 +1497,7 @@
 			children = (
 				1058C7A6FEA54F5311CA2CBB /* Linked Frameworks */,
 				1058C7A8FEA54F5311CA2CBB /* Other Frameworks */,
+				FEA1527012DAEC910073FA9B /* Included Frameworks */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -1629,6 +1649,74 @@
 				FE9DB850110338EB0086F62C /* iso8859-1 */,
 			);
 			name = "Support Files";
+			sourceTree = "<group>";
+		};
+		FEA1527012DAEC910073FA9B /* Included Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				FEA1527D12DAECB20073FA9B /* Intel */,
+				FEA1527F12DAECB20073FA9B /* Intel 64-bit */,
+				FEA1528112DAECB20073FA9B /* PowerPC */,
+				FEA1528312DAECB20073FA9B /* PowerPC 64-bit */,
+				FEA1528512DAECB20073FA9B /* Universal */,
+				FEA1528812DAECB20073FA9B /* Universal 64-bit */,
+			);
+			name = "Included Frameworks";
+			sourceTree = "<group>";
+		};
+		FEA1527D12DAECB20073FA9B /* Intel */ = {
+			isa = PBXGroup;
+			children = (
+				FEA1527E12DAECB20073FA9B /* Growl.framework */,
+			);
+			name = Intel;
+			path = Frameworks/Intel;
+			sourceTree = "<group>";
+		};
+		FEA1527F12DAECB20073FA9B /* Intel 64-bit */ = {
+			isa = PBXGroup;
+			children = (
+				FEA1528012DAECB20073FA9B /* Growl.framework */,
+			);
+			name = "Intel 64-bit";
+			path = "Frameworks/Intel 64-bit";
+			sourceTree = "<group>";
+		};
+		FEA1528112DAECB20073FA9B /* PowerPC */ = {
+			isa = PBXGroup;
+			children = (
+				FEA1528212DAECB20073FA9B /* Growl.framework */,
+			);
+			name = PowerPC;
+			path = Frameworks/PowerPC;
+			sourceTree = "<group>";
+		};
+		FEA1528312DAECB20073FA9B /* PowerPC 64-bit */ = {
+			isa = PBXGroup;
+			children = (
+				FEA1528412DAECB20073FA9B /* Growl.framework */,
+			);
+			name = "PowerPC 64-bit";
+			path = "Frameworks/PowerPC 64-bit";
+			sourceTree = "<group>";
+		};
+		FEA1528512DAECB20073FA9B /* Universal */ = {
+			isa = PBXGroup;
+			children = (
+				FEA1528612DAECB20073FA9B /* Growl.framework */,
+				FEA1528712DAECB20073FA9B /* ID3.framework */,
+			);
+			name = Universal;
+			path = Frameworks/Universal;
+			sourceTree = "<group>";
+		};
+		FEA1528812DAECB20073FA9B /* Universal 64-bit */ = {
+			isa = PBXGroup;
+			children = (
+				FEA1528912DAECB20073FA9B /* Growl.framework */,
+			);
+			name = "Universal 64-bit";
+			path = "Frameworks/Universal 64-bit";
 			sourceTree = "<group>";
 		};
 		FEA468150D97BDF60083527F /* Universal */ = {
@@ -2156,11 +2244,11 @@
 			targets = (
 				8D15AC270486D014006FF6A4 /* Burn (Universal) */,
 				FEDBF52C0F80782A00DABA72 /* Burn (G3) */,
+				FE54616112DA2E2E00461081 /* Burn (Universal 64-bit) */,
 				FEA467250D97BDC60083527F /* Burn (PowerPC) */,
 				FEA4679D0D97BDCD0083527F /* Burn (Intel) */,
-				FE54616112DA2E2E00461081 /* Burn (Universal 64-bit) */,
-				FEF8A80612D9D2BF00FE302C /* Burn (Intel 64-bit) */,
 				FE8AFA2712DA1BDC004A83B9 /* Burn (PowerPC 64-bit) */,
+				FEF8A80612D9D2BF00FE302C /* Burn (Intel 64-bit) */,
 			);
 		};
 /* End PBXProject section */
@@ -3363,8 +3451,20 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_1)",
+					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_2)",
+					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_3)",
+					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_4)",
+					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_5)",
+					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_6)",
+					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_7)",
 				);
 				FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_1 = "\"$(SRCROOT)/Frameworks\"";
+				FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_2 = "\"$(SRCROOT)/Frameworks/Intel\"";
+				FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_3 = "\"$(SRCROOT)/Frameworks/Intel 64-bit\"";
+				FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_4 = "\"$(SRCROOT)/Frameworks/PowerPC\"";
+				FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_5 = "\"$(SRCROOT)/Frameworks/PowerPC 64-bit\"";
+				FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_6 = "\"$(SRCROOT)/Frameworks/Universal\"";
+				FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_7 = "\"$(SRCROOT)/Frameworks/Universal 64-bit\"";
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_ENABLE_FIX_AND_CONTINUE = YES;
 				GCC_MODEL_TUNING = G5;
@@ -3392,8 +3492,20 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_1)",
+					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_2)",
+					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_3)",
+					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_4)",
+					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_5)",
+					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_6)",
+					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_7)",
 				);
 				FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_1 = "\"$(SRCROOT)/Frameworks\"";
+				FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_2 = "\"$(SRCROOT)/Frameworks/Intel\"";
+				FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_3 = "\"$(SRCROOT)/Frameworks/Intel 64-bit\"";
+				FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_4 = "\"$(SRCROOT)/Frameworks/PowerPC\"";
+				FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_5 = "\"$(SRCROOT)/Frameworks/PowerPC 64-bit\"";
+				FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_6 = "\"$(SRCROOT)/Frameworks/Universal\"";
+				FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_7 = "\"$(SRCROOT)/Frameworks/Universal 64-bit\"";
 				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
 				GCC_MODEL_TUNING = G5;
 				INFOPLIST_FILE = Info.plist;
@@ -3666,6 +3778,12 @@
 					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_14)",
 					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_15)",
 					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_1)",
+					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_2)",
+					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_3)",
+					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_4)",
+					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_5)",
+					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_6)",
+					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_7)",
 				);
 				FRAMEWORK_SEARCH_PATHS_QUOTED_1 = "\"$(SRCROOT)/../../../../TestFramework/build/Release\"";
 				FRAMEWORK_SEARCH_PATHS_QUOTED_10 = "\"$(SRCROOT)/Frameworks\"";
@@ -3683,6 +3801,12 @@
 				FRAMEWORK_SEARCH_PATHS_QUOTED_8 = "\"$(SRCROOT)/Frameworks\"";
 				FRAMEWORK_SEARCH_PATHS_QUOTED_9 = "\"$(SRCROOT)/Frameworks\"";
 				FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_1 = "\"$(SRCROOT)/Frameworks\"";
+				FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_2 = "\"$(SRCROOT)/Frameworks/Intel\"";
+				FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_3 = "\"$(SRCROOT)/Frameworks/Intel 64-bit\"";
+				FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_4 = "\"$(SRCROOT)/Frameworks/PowerPC\"";
+				FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_5 = "\"$(SRCROOT)/Frameworks/PowerPC 64-bit\"";
+				FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_6 = "\"$(SRCROOT)/Frameworks/Universal\"";
+				FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_7 = "\"$(SRCROOT)/Frameworks/Universal 64-bit\"";
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_ENABLE_FIX_AND_CONTINUE = YES;
 				GCC_MODEL_TUNING = G5;
@@ -3712,6 +3836,12 @@
 					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_14)",
 					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_15)",
 					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_1)",
+					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_2)",
+					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_3)",
+					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_4)",
+					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_5)",
+					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_6)",
+					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_7)",
 				);
 				FRAMEWORK_SEARCH_PATHS_QUOTED_1 = "\"$(SRCROOT)/../../../../TestFramework/build/Release\"";
 				FRAMEWORK_SEARCH_PATHS_QUOTED_10 = "\"$(SRCROOT)/Frameworks\"";
@@ -3729,6 +3859,12 @@
 				FRAMEWORK_SEARCH_PATHS_QUOTED_8 = "\"$(SRCROOT)/Frameworks\"";
 				FRAMEWORK_SEARCH_PATHS_QUOTED_9 = "\"$(SRCROOT)/Frameworks\"";
 				FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_1 = "\"$(SRCROOT)/Frameworks\"";
+				FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_2 = "\"$(SRCROOT)/Frameworks/Intel\"";
+				FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_3 = "\"$(SRCROOT)/Frameworks/Intel 64-bit\"";
+				FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_4 = "\"$(SRCROOT)/Frameworks/PowerPC\"";
+				FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_5 = "\"$(SRCROOT)/Frameworks/PowerPC 64-bit\"";
+				FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_6 = "\"$(SRCROOT)/Frameworks/Universal\"";
+				FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_7 = "\"$(SRCROOT)/Frameworks/Universal 64-bit\"";
 				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
 				GCC_MODEL_TUNING = G5;
 				INFOPLIST_FILE = Info.plist;
@@ -3757,6 +3893,12 @@
 					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_14)",
 					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_15)",
 					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_1)",
+					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_2)",
+					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_3)",
+					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_4)",
+					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_5)",
+					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_6)",
+					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_7)",
 				);
 				FRAMEWORK_SEARCH_PATHS_QUOTED_1 = "\"$(SRCROOT)/../../../../TestFramework/build/Release\"";
 				FRAMEWORK_SEARCH_PATHS_QUOTED_10 = "\"$(SRCROOT)/Frameworks\"";
@@ -3774,6 +3916,12 @@
 				FRAMEWORK_SEARCH_PATHS_QUOTED_8 = "\"$(SRCROOT)/Frameworks\"";
 				FRAMEWORK_SEARCH_PATHS_QUOTED_9 = "\"$(SRCROOT)/Frameworks\"";
 				FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_1 = "\"$(SRCROOT)/Frameworks\"";
+				FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_2 = "\"$(SRCROOT)/Frameworks/Intel\"";
+				FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_3 = "\"$(SRCROOT)/Frameworks/Intel 64-bit\"";
+				FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_4 = "\"$(SRCROOT)/Frameworks/PowerPC\"";
+				FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_5 = "\"$(SRCROOT)/Frameworks/PowerPC 64-bit\"";
+				FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_6 = "\"$(SRCROOT)/Frameworks/Universal\"";
+				FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_7 = "\"$(SRCROOT)/Frameworks/Universal 64-bit\"";
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_ENABLE_FIX_AND_CONTINUE = YES;
 				GCC_MODEL_TUNING = G5;
@@ -3803,6 +3951,12 @@
 					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_14)",
 					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_15)",
 					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_1)",
+					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_2)",
+					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_3)",
+					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_4)",
+					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_5)",
+					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_6)",
+					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_7)",
 				);
 				FRAMEWORK_SEARCH_PATHS_QUOTED_1 = "\"$(SRCROOT)/../../../../TestFramework/build/Release\"";
 				FRAMEWORK_SEARCH_PATHS_QUOTED_10 = "\"$(SRCROOT)/Frameworks\"";
@@ -3820,6 +3974,12 @@
 				FRAMEWORK_SEARCH_PATHS_QUOTED_8 = "\"$(SRCROOT)/Frameworks\"";
 				FRAMEWORK_SEARCH_PATHS_QUOTED_9 = "\"$(SRCROOT)/Frameworks\"";
 				FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_1 = "\"$(SRCROOT)/Frameworks\"";
+				FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_2 = "\"$(SRCROOT)/Frameworks/Intel\"";
+				FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_3 = "\"$(SRCROOT)/Frameworks/Intel 64-bit\"";
+				FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_4 = "\"$(SRCROOT)/Frameworks/PowerPC\"";
+				FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_5 = "\"$(SRCROOT)/Frameworks/PowerPC 64-bit\"";
+				FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_6 = "\"$(SRCROOT)/Frameworks/Universal\"";
+				FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_7 = "\"$(SRCROOT)/Frameworks/Universal 64-bit\"";
 				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
 				GCC_MODEL_TUNING = G5;
 				INFOPLIST_FILE = Info.plist;
@@ -3848,6 +4008,12 @@
 					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_14)",
 					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_15)",
 					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_1)",
+					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_2)",
+					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_3)",
+					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_4)",
+					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_5)",
+					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_6)",
+					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_7)",
 				);
 				FRAMEWORK_SEARCH_PATHS_QUOTED_1 = "\"$(SRCROOT)/../../../../TestFramework/build/Release\"";
 				FRAMEWORK_SEARCH_PATHS_QUOTED_10 = "\"$(SRCROOT)/Frameworks\"";
@@ -3865,6 +4031,12 @@
 				FRAMEWORK_SEARCH_PATHS_QUOTED_8 = "\"$(SRCROOT)/Frameworks\"";
 				FRAMEWORK_SEARCH_PATHS_QUOTED_9 = "\"$(SRCROOT)/Frameworks\"";
 				FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_1 = "\"$(SRCROOT)/Frameworks\"";
+				FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_2 = "\"$(SRCROOT)/Frameworks/Intel\"";
+				FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_3 = "\"$(SRCROOT)/Frameworks/Intel 64-bit\"";
+				FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_4 = "\"$(SRCROOT)/Frameworks/PowerPC\"";
+				FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_5 = "\"$(SRCROOT)/Frameworks/PowerPC 64-bit\"";
+				FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_6 = "\"$(SRCROOT)/Frameworks/Universal\"";
+				FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_7 = "\"$(SRCROOT)/Frameworks/Universal 64-bit\"";
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_ENABLE_FIX_AND_CONTINUE = YES;
 				GCC_MODEL_TUNING = G3;
@@ -3894,6 +4066,12 @@
 					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_14)",
 					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_15)",
 					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_1)",
+					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_2)",
+					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_3)",
+					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_4)",
+					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_5)",
+					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_6)",
+					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_7)",
 				);
 				FRAMEWORK_SEARCH_PATHS_QUOTED_1 = "\"$(SRCROOT)/../../../../TestFramework/build/Release\"";
 				FRAMEWORK_SEARCH_PATHS_QUOTED_10 = "\"$(SRCROOT)/Frameworks\"";
@@ -3911,6 +4089,12 @@
 				FRAMEWORK_SEARCH_PATHS_QUOTED_8 = "\"$(SRCROOT)/Frameworks\"";
 				FRAMEWORK_SEARCH_PATHS_QUOTED_9 = "\"$(SRCROOT)/Frameworks\"";
 				FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_1 = "\"$(SRCROOT)/Frameworks\"";
+				FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_2 = "\"$(SRCROOT)/Frameworks/Intel\"";
+				FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_3 = "\"$(SRCROOT)/Frameworks/Intel 64-bit\"";
+				FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_4 = "\"$(SRCROOT)/Frameworks/PowerPC\"";
+				FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_5 = "\"$(SRCROOT)/Frameworks/PowerPC 64-bit\"";
+				FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_6 = "\"$(SRCROOT)/Frameworks/Universal\"";
+				FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_7 = "\"$(SRCROOT)/Frameworks/Universal 64-bit\"";
 				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
 				GCC_MODEL_TUNING = G3;
 				INFOPLIST_FILE = Info.plist;
