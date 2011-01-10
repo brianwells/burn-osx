@@ -29,10 +29,14 @@
 */
 
 #import <Foundation/Foundation.h>
+#import "KWCommonMethods.h"
 
 @interface NSScanner (Extra)
 
 - (BOOL)skipPastString:(NSString *)skipString;
 - (BOOL)scanToEndIntoString:(NSString **)result;
+#if MAC_OS_X_VERSION_MAX_ALLOWED < MAC_OS_X_VERSION_10_5
+- (BOOL)scanInteger:(NSInteger *)value;
+#endif
 
 @end

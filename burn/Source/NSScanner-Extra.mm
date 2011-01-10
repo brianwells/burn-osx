@@ -61,4 +61,11 @@
 	return [result[0] length] > 0;
 }
 
+#if MAC_OS_X_VERSION_MAX_ALLOWED < MAC_OS_X_VERSION_10_5
+- (BOOL)scanInteger:(NSInteger *)value
+{
+	return [self scanInt:value];
+}
+#endif
+
 @end
