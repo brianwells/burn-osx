@@ -326,13 +326,8 @@
 		FE9DB852110338EB0086F62C /* iso8859-1 in Resources */ = {isa = PBXBuildFile; fileRef = FE9DB850110338EB0086F62C /* iso8859-1 */; };
 		FE9DB853110338EB0086F62C /* iso8859-1 in Resources */ = {isa = PBXBuildFile; fileRef = FE9DB850110338EB0086F62C /* iso8859-1 */; };
 		FE9DB854110338EB0086F62C /* iso8859-1 in Resources */ = {isa = PBXBuildFile; fileRef = FE9DB850110338EB0086F62C /* iso8859-1 */; };
-		FEA1528A12DAECB20073FA9B /* Growl.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FEA1527E12DAECB20073FA9B /* Growl.framework */; };
-		FEA1528B12DAECB20073FA9B /* Growl.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FEA1528012DAECB20073FA9B /* Growl.framework */; };
-		FEA1528C12DAECB20073FA9B /* Growl.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FEA1528212DAECB20073FA9B /* Growl.framework */; };
-		FEA1528D12DAECB30073FA9B /* Growl.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FEA1528412DAECB20073FA9B /* Growl.framework */; };
 		FEA1528E12DAECB30073FA9B /* Growl.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FEA1528612DAECB20073FA9B /* Growl.framework */; };
 		FEA1528F12DAECB30073FA9B /* ID3.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FEA1528712DAECB20073FA9B /* ID3.framework */; };
-		FEA1529012DAECB30073FA9B /* Growl.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FEA1528912DAECB20073FA9B /* Growl.framework */; };
 		FEA1529112DAECB30073FA9B /* Growl.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FEA1527E12DAECB20073FA9B /* Growl.framework */; };
 		FEA1529212DAECB30073FA9B /* Growl.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FEA1528012DAECB20073FA9B /* Growl.framework */; };
 		FEA1529312DAECB30073FA9B /* Growl.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FEA1528212DAECB20073FA9B /* Growl.framework */; };
@@ -1320,13 +1315,8 @@
 				FEEF720B0B92F47700ED64A9 /* QTKit.framework in Frameworks */,
 				FEEF720C0B92F47700ED64A9 /* QuickTime.framework in Frameworks */,
 				FE3CA4E10BAC7D0E001FB922 /* Carbon.framework in Frameworks */,
-				FEA1528A12DAECB20073FA9B /* Growl.framework in Frameworks */,
-				FEA1528B12DAECB20073FA9B /* Growl.framework in Frameworks */,
-				FEA1528C12DAECB20073FA9B /* Growl.framework in Frameworks */,
-				FEA1528D12DAECB30073FA9B /* Growl.framework in Frameworks */,
 				FEA1528E12DAECB30073FA9B /* Growl.framework in Frameworks */,
 				FEA1528F12DAECB30073FA9B /* ID3.framework in Frameworks */,
-				FEA1529012DAECB30073FA9B /* Growl.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3499,13 +3489,7 @@
 					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_6)",
 					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_7)",
 				);
-				FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_1 = "\"$(SRCROOT)/Frameworks\"";
-				FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_2 = "\"$(SRCROOT)/Frameworks/Intel\"";
-				FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_3 = "\"$(SRCROOT)/Frameworks/Intel 64-bit\"";
-				FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_4 = "\"$(SRCROOT)/Frameworks/PowerPC\"";
-				FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_5 = "\"$(SRCROOT)/Frameworks/PowerPC 64-bit\"";
-				FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_6 = "\"$(SRCROOT)/Frameworks/Universal\"";
-				FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_7 = "\"$(SRCROOT)/Frameworks/Universal 64-bit\"";
+				FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_1 = "\"$(SRCROOT)/Frameworks/Universal\"";
 				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
 				GCC_MODEL_TUNING = G5;
 				INFOPLIST_FILE = Info.plist;
