@@ -1,7 +1,6 @@
 /* KWAudioMP3Inspector */
 
 #import <Cocoa/Cocoa.h>
-#import "ID3/TagAPI.h"
 #import "KWCommonMethods.h"
 
 @interface KWAudioMP3Inspector : NSObject
@@ -17,7 +16,6 @@
 	IBOutlet id myView;
 
 	//Variables
-	TagAPI *Tag;
 	NSTableView *currentTableView;
 	NSArray *methodMappings;
 	NSInteger currentIndex;

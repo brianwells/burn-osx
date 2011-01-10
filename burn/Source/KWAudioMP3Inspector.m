@@ -1,5 +1,6 @@
 #import "KWAudioMP3Inspector.h"
 #import "KWAudioController.h"
+#import "MultiTag/MultiTag.h"
 
 @implementation KWAudioMP3Inspector
 
@@ -8,24 +9,22 @@
 	if (self = [super init])
 	{
 		methodMappings = [[NSArray alloc] initWithObjects:	//NSStrings
-															@"Title",				//1
-															@"Artist",				//2
-															@"Composer",			//3
-															@"Album",				//4
-															@"Comments",			//5
+															@"TagTitle",				//1
+															@"TagArtist",				//2
+															@"TagComposer",				//3
+															@"TagAlbum",				//4
+															@"TagComments",				//5
 															//ints
-															@"Year",				//6
-															@"Track",				//7
-															@"TotalNumberTracks",	//8
-															@"Disk",				//9
-															@"TotalNumberDisks",	//10
+															@"TagYear",					//6
+															@"TagTrack",				//7
+															@"TagTotalNumberTracks",	//8
+															@"TagDisk",					//9
+															@"TagTotalNumberDisks",		//10
 															//NSArray
-															@"GenreNames",			//11
+															@"TagGenreNames",			//11
 		nil];
 		
 		currentIndex = 0;
-		
-		Tag = [[TagAPI alloc] initWithGenreList:nil];
 	}
 
 	return self;
@@ -34,7 +33,6 @@
 - (void)dealloc
 {
 	[methodMappings release];
-	[Tag release];
 	
 	[super dealloc];
 }
@@ -102,9 +100,12 @@
 
 - (id)getObjectWithSelector:(SEL)selector fromObjects:(NSArray *)objects
 {
-	[Tag examineFile:[[objects objectAtIndex:0] objectForKey:@"Path"]];
+	NSString *path = [[objects objectAtIndex:0] objectForKey:@"Path"];
+	MultiTag *soundTag = [[MultiTag alloc] initWithFile:path];
 	
-	id baseValue = [Tag performSelector:selector];
+	id baseValue = [soundTag performSelector:selector];
+	
+	[soundTag release];
 
 	if ([objects count] == 1)
 	{
@@ -120,8 +121,10 @@
 		NSInteger i;
 		for (i=0;i<[objects count];i++)
 		{
-			[Tag examineFile:[[objects objectAtIndex:i] objectForKey:@"Path"]];
-			id currentValue = [Tag performSelector:selector];
+			path = [[objects objectAtIndex:i] objectForKey:@"Path"];
+			soundTag = [[MultiTag alloc] initWithFile:path];
+			
+			id currentValue = [soundTag performSelector:selector];
 			
 				if (![currentValue isEqualTo:baseValue])
 				{
@@ -137,6 +140,8 @@
 			return @"";
 		else
 			return baseValue;
+			
+	[soundTag release];
 }
 
 - (void)setObjectWithSelector:(SEL)selector forObjects:(NSArray *)objects withObject:(id)object
@@ -147,13 +152,14 @@
 		id finalObject = object;
 		NSString *method = NSStringFromSelector(selector);
 		
-		if ([method isEqualTo:@"setGenreNames:"])
+		if ([method isEqualTo:@"setTagGenreNames:"])
 			finalObject = [object componentsSeparatedByString:@", "];
 	
 		NSString *path = [[objects objectAtIndex:i] objectForKey:@"Path"];
-		[Tag examineFile:path];
-		[Tag performSelector:selector withObject:finalObject];
-		[Tag updateFile];
+		MultiTag *soundTag = [[MultiTag alloc] initWithFile:path];
+		[soundTag performSelector:selector withObject:finalObject];
+		[soundTag updateFile];
+		[soundTag release];
 	}
 }
 
@@ -171,7 +177,7 @@
 	NSArray *tableData = [controller myDataSource];
 	NSArray *currentObjects = [KWCommonMethods allSelectedItemsInTableView:currentTableView fromArray:tableData];
 
-	NSArray *images = [self getObjectWithSelector:@selector(getImage) fromObjects:currentObjects];
+	NSArray *images = [self getObjectWithSelector:@selector(getTagImage) fromObjects:currentObjects];
 	
 	if (currentIndex > [images count] - 1)
 		currentIndex = 0;
@@ -215,7 +221,7 @@
 		NSArray *tableData = [controller myDataSource];
 		NSArray *currentObjects = [KWCommonMethods allSelectedItemsInTableView:currentTableView fromArray:tableData];
 	
-		NSMutableArray *pictures = [self getObjectWithSelector:@selector(getImage) fromObjects:currentObjects];
+		NSMutableArray *pictures = [self getObjectWithSelector:@selector(getTagImage) fromObjects:currentObjects];
 	
 		if ([pictures count] == 0)
 			pictures = [[NSMutableArray alloc] init];
@@ -243,7 +249,7 @@
 			}
 		}
 	
-		[self setObjectWithSelector:@selector(setImages:) forObjects:currentObjects withObject:pictures];
+		[self setObjectWithSelector:@selector(setTagImages:) forObjects:currentObjects withObject:pictures];
 		
 		[self updateArtWork];
 	}
@@ -281,12 +287,12 @@
 	NSArray *tableData = [controller myDataSource];
 	NSArray *currentObjects = [KWCommonMethods allSelectedItemsInTableView:currentTableView fromArray:tableData];
 
-	NSMutableArray *images = [self getObjectWithSelector:@selector(getImage) fromObjects:currentObjects];
+	NSMutableArray *images = [self getObjectWithSelector:@selector(getTagImage) fromObjects:currentObjects];
 	
 	if ([images count] > 1)
 	{
 		[images removeObjectAtIndex:currentIndex];
-		[self setObjectWithSelector:@selector(setImages:) forObjects:currentObjects withObject:images];
+		[self setObjectWithSelector:@selector(setTagImages:) forObjects:currentObjects withObject:images];
 		
 		currentIndex = currentIndex - 1;
 		[self updateArtWork];
