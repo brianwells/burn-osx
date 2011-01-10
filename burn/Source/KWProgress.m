@@ -1,4 +1,5 @@
 #import "KWProgress.h"
+#import "KWCommonMethods.h"
 
 @implementation KWProgress
 

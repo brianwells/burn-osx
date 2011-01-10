@@ -8,6 +8,7 @@
 
 #import <DiscRecording/DiscRecording.h>
 #import <Cocoa/Cocoa.h>
+#import "KWCommonMethods.h"
 
 @interface KWDRFolder : DRFolder
 {

@@ -1,4 +1,5 @@
 #import "KWGrowlController.h"
+#import "KWCommonMethods.h"
 
 @implementation KWGrowlController
 

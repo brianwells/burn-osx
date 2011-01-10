@@ -48,6 +48,7 @@
 */
 
 #import <Foundation/Foundation.h>
+#import "KWCommonMethods.h"
 
 @interface NSArray (MyExtensions)
 - (BOOL)containsObjectIdenticalTo: (id)object;

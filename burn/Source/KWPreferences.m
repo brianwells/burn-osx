@@ -1,6 +1,5 @@
 #import "KWPreferences.h"
 #import <DiscRecording/DiscRecording.h>
-#import "KWCommonMethods.h"
 #import "KWDVDAuthorizer.h"
 
 @implementation KWPreferences

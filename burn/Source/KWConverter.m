@@ -1,5 +1,4 @@
 #import "KWConverter.h"
-#import "KWCommonMethods.h"
 #if MAC_OS_X_VERSION_MAX_ALLOWED < MAC_OS_X_VERSION_10_4
 #import <QuickTime/QuickTime.h>
 #endif

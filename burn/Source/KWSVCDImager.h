@@ -7,7 +7,7 @@
 //
 
 #import <Cocoa/Cocoa.h>
-
+#import "KWCommonMethods.h"
 
 @interface KWSVCDImager : NSObject 
 {

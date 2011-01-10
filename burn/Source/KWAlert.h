@@ -7,6 +7,7 @@
 //
 
 #import <Cocoa/Cocoa.h>
+#import "KWCommonMethods.h"
 
 
 @interface KWAlert : NSAlert {

@@ -2,6 +2,7 @@
 
 #import <Cocoa/Cocoa.h>
 #import "ID3/TagAPI.h"
+#import "KWCommonMethods.h"
 
 @interface KWAudioMP3Inspector : NSObject
 {

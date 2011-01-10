@@ -1,5 +1,4 @@
 #import "KWEraser.h"
-#import "KWCommonMethods.h"
 
 @implementation KWEraser
 

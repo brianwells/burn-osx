@@ -60,6 +60,7 @@
 
 #import <Foundation/Foundation.h>
 #import <AppKit/AppKit.h>
+#import "KWCommonMethods.h"
 
 @interface TreeNodeData : NSObject 
 

@@ -2,6 +2,7 @@
 
 #import <Cocoa/Cocoa.h>
 #import <DiscRecording/DiscRecording.h>
+#import "KWCommonMethods.h"
 
 @interface KWPreferences : NSWindowController
 {

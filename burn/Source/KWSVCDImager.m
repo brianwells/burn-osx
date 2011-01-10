@@ -7,7 +7,6 @@
 //
 
 #import "KWSVCDImager.h"
-#import "KWCommonMethods.h"
 
 @implementation KWSVCDImager
 

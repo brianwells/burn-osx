@@ -7,7 +7,6 @@
 //
 
 #import "KWDVDAuthorizer.h"
-#import "KWCommonMethods.h"
 #import "KWConverter.h"
 
 @implementation KWDVDAuthorizer
