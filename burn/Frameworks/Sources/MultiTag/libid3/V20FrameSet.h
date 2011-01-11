@@ -41,6 +41,7 @@
     
     //valid frames
     NSDictionary *validFrames;
+	NSCharacterSet *validChars;
 }
 
 // information 

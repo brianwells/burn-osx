@@ -62,12 +62,17 @@
     fileSize = 0;
     
     frameSetDictionary = [Dictionary copy];
+	iTunesCommentFields = [Dictionary objectForKey:@"iTunes_comment"];
 	
     //error variables
     errorNo = 0 ;
     errorDescription = NULL;
     
     return self;
+}
+
+-(void)setITunesCompatability:(BOOL)Value {
+	iTunesV24CompatabilityMode = Value;  // if set v2.4 frames are written out in iTunes compatability mode.
 }
 
 -(BOOL)openPath:(NSString *)Path
@@ -125,11 +130,7 @@
 
     if (file == NULL)
     {
-		#if MAC_OS_X_VERSION_MAX_ALLOWED < MAC_OS_X_VERSION_10_4
         NSLog(@"Can not open file :%s",[path cString]);
-		#else
-		NSLog(@"Can not open file :%s",[path cStringUsingEncoding:NSUTF8StringEncoding]);
-		#endif
         return NO;
     }
 
@@ -220,7 +221,7 @@
                           }
                 case 4	: {
                                 frameSet = [[NSMutableDictionary alloc] initWithCapacity:10];
-                                V24FrameSet *tempFrameSet = [[V24FrameSet alloc] init:v2Tag version:minorVersion  validFrameSet:NULL frameSet:frameSet offset:offset];
+                                V24FrameSet *tempFrameSet = [[V24FrameSet alloc] init:v2Tag version:minorVersion  validFrameSet:NULL frameSet:frameSet offset:offset iTunes:iTunesV24CompatabilityMode];
                                 frameSetLength = [tempFrameSet getFrameSetLength];
                                 [tempFrameSet release];
                                 break;
@@ -427,11 +428,7 @@
     fileAttributes = [fileManager fileSystemAttributesAtPath:writePath];
     if (![fileManager isWritableFileAtPath:writePath])
     {
-		#if MAC_OS_X_VERSION_MAX_ALLOWED < MAC_OS_X_VERSION_10_4
         NSLog(@"File : %s is not writable",[path lossyCString]);
-		#else
-		NSLog(@"File : %s is not writable",[path cStringUsingEncoding:NSUTF8StringEncoding]);
-		#endif
         return NO;
     }
     
@@ -445,11 +442,7 @@
     {
         if (![fileManager isDeletableFileAtPath:writePath])
         {
-			#if MAC_OS_X_VERSION_MAX_ALLOWED < MAC_OS_X_VERSION_10_4
             NSLog(@"Can't repad: File %s is not deleteable", [path lossyCString]);
-			#else
-			NSLog(@"Can't repad: File %s is not deleteable", [path cStringUsingEncoding:NSUTF8StringEncoding]);
-			#endif
             return NO;
         }
         //open unique file based on file name with .temp extention added
@@ -465,21 +458,53 @@
 	if (extendedHeaderPresent) [file writeData:[self renderExtendedHeader]];
     //write the frame set
     
-    NSEnumerator *enumerator = [frameSet objectEnumerator];
+    NSString *tempString = @"";
+	switch (majorVersion) {
+        case 0	 	: tempString = @"COM";
+                        break;
+        case 1	 	: tempString = @"COM";
+                        break;
+        case 2	 	: tempString = @"COM";
+                        break;
+        case 3	 	: tempString = @"COMM";
+                        break;
+        case 4	 	: tempString = @"COMM";
+                        break;
+        default	: return NO;
+	}
+	NSEnumerator *enumerator = [frameSet objectEnumerator];
     id value;
+	NSMutableArray * sortArray = [NSMutableArray arrayWithCapacity:10];  // 10 is a just a guess at the number of frames
         
     while ((value = [enumerator nextObject])) 
     {
-	int maxCount = [value count];
-	int count;
+		int maxCount = [value count];
+		int count;
+		int divider = 0;
 	
-	for (count = 0; count < maxCount; count ++)
-	    [file writeData:[[value objectAtIndex:count] getCompleteRawFrame]];
-    }
+		if ([[[value objectAtIndex:0] getFrameID] isEqualTo:tempString]) {
+			for (count = maxCount - 1; count >= 0; count --) {
+				[sortArray insertObject:[[value objectAtIndex:count] getCompleteRawFrame] atIndex:divider];
+			}
+		} else {
+			for (count = 0; count < maxCount; count ++) {
+				if ([[value objectAtIndex:count] length] > 127) {
+					[sortArray addObject:[[value objectAtIndex:count] getCompleteRawFrame]];
+				} else {
+					[sortArray insertObject:[[value objectAtIndex:count] getCompleteRawFrame] atIndex:divider];
+					divider++;
+				}
+			}
+		}
+	}
+	
+	int i;
+	for (i = 0; i < [sortArray count]; i++)
+		[file writeData:[sortArray objectAtIndex:i]];
         
-    //clear the padding space
-    NSData *paddingData = [NSMutableData dataWithLength:paddingLength];
-    [file writeData:paddingData];
+	//clear the padding space
+	NSData *paddingData = [NSMutableData dataWithLength:paddingLength];
+	[file writeData:paddingData];
 
     if (repad) 
     {
@@ -491,9 +516,7 @@
         int i = 0;
         while (i <  fileSize)
         {
-            NSAutoreleasePool *pool = [NSAutoreleasePool new];
             [file writeData:[sourceFile readDataOfLength: 4096*100]];
-            [pool drain];
             i +=4096*100;
         }
         fileSize = [file seekToEndOfFile]; 
@@ -522,7 +545,7 @@
 			int count = [anObject count];
 			int i;
 			for (i=0; i < count;i ++) {
-				frameSetLength -= [(id3V2Frame *)[anObject objectAtIndex:i] length];
+				frameSetLength -= [[anObject objectAtIndex:i] length];
 			}
 	    // then delete the old frame
 	    [frameSet removeObjectForKey:Name];
@@ -534,7 +557,7 @@
     if (anObject == NULL) return YES;    
     int count = [anObject count];
     if (count < index) index = count;
-    frameSetLength -= [(id3V2Frame *)[anObject objectAtIndex:index] length];
+    frameSetLength -= [[anObject objectAtIndex:index] length];
     [anObject removeObjectAtIndex:index];
 	if ([anObject count] <= 0) [frameSet removeObjectForKey:Name];
     return YES;
@@ -547,7 +570,7 @@
     id anObject = [frameSet objectForKey:[Frame getFrameID]];
     if (anObject == NULL) return YES;
 	int index = [anObject indexOfObject:Frame];
-    frameSetLength -= [(id3V2Frame *)[anObject objectAtIndex:index] length];
+    frameSetLength -= [[anObject objectAtIndex:index] length];
     [anObject removeObjectAtIndex:index];
 	if ([anObject count] <= 0) [frameSet removeObjectForKey:[Frame getFrameID]];
     return YES;
@@ -600,7 +623,7 @@
 		int i;
 		int count = [anObject count];
 		for (i=0; i < count ;i ++) {
-			frameSetLength += [(id3V2Frame *)[anObject objectAtIndex:i] length];
+			frameSetLength += [[anObject objectAtIndex:i] length];
 		}
     }
 	tagChanged = YES;
@@ -933,7 +956,6 @@
     BOOL results = YES;
     NSString * comments = NULL;
     int i;
-    int index = -1;
 	NSString *tempString = @"";
 	switch (majorVersion) {
         case 0	 	: tempString = @"COM";
@@ -953,29 +975,33 @@
         
 	// need to check for iTunes equalisation comment frames 
 	NSMutableArray *tempArray = [self getFramesTitled:tempString];
-	if (tempArray)
-	for (i = 0; i < [tempArray count]; i++)
-	{
-	    BOOL Flag = NO;
-	    comments = [[tempArray objectAtIndex:i] getShortCommentFromFrame];
-	    NSRange range = [comments rangeOfString:@"iTunNORM"];
-	    if ((range.location == 0) && (range.length == 8)) Flag = YES;
-	    if (!Flag)
-	    {
-			comments = [[tempArray objectAtIndex:i] getShortCommentFromFrame];
-			range = [comments rangeOfString:@"iTunes_CDDB_IDs"];
-			if ((range.location == 0) && (range.length == 15)) Flag = YES;
+	NSMutableArray *deleteArray = [NSMutableArray arrayWithCapacity:2]; // Just chose 2 as randomly
+	
+	if (tempArray) {
+		NSEnumerator * arrayEnumerator = [tempArray objectEnumerator];
+		id testObject = NULL;
+		while (testObject = [arrayEnumerator nextObject]) {
+			BOOL Flag = NO;
+			comments = [testObject getShortCommentFromFrame];
+			NSEnumerator * enumerator = [iTunesCommentFields objectEnumerator];
+			id object = NULL;
+					
+			while ((object = [enumerator nextObject]) && !Flag) {
+				NSRange range = [comments rangeOfString:object];
+				if ((range.location != NSNotFound) && (range.location == 0)) Flag = YES;
+			}
+			if (!Flag) {
+				// remove frame
+				[deleteArray addObject:testObject];
+			}
 		}
-		if (!Flag) {
-			index = i;
-			i = [tempArray count];
+		
+		for (i = 0; i < [deleteArray count]; i ++) {
+			frameSetLength -= [[deleteArray objectAtIndex:i] length];
+			[tempArray removeObject:[deleteArray objectAtIndex:i]];
 		}
 	}
-	if (index == -1) // found only iTunes eq comments frames hence add new comment field
-	    results = [self addUpdateFrame: frame replace:NO frame:[tempArray count]+1];
-	    // found first user readable comment field
-	else results = [self addUpdateFrame: frame replace:YES frame:index]; 
-        [frame release];
+	results = [self addUpdateFrame: frame replace:NO frame:[tempArray count]+1];
 	return results;
 }
 
@@ -1013,6 +1039,27 @@
 	}
 }
 
+-(BOOL)setEncodedBy:(NSString *)Text {
+    BOOL results = YES;
+    if (Text == NULL) return NO;
+	NSString *tempString;
+	switch (majorVersion) {
+	    case 0      : tempString = @"TSS";
+                        break;
+	    case 1      : tempString = @"TSS";
+                        break;
+	    case 2      : tempString = @"TSS";
+                        break;
+	    case 3      : tempString = @"TSSE";
+                        break;
+	    case 4      : tempString = @"TSSE";
+                        break;
+        default	:       return NO;
+	}
+	results = [self addUpdateFrame:[[[id3V2Frame alloc] initTextFrame:tempString firstflag:0 secondFlag:0 text:Text withEncoding:([Text canBeConvertedToEncoding:NSASCIIStringEncoding]?0:1) version:majorVersion]autorelease] replace:YES frame:0];
+    return results;
+}
+
 -(BOOL)setComposer:(NSString *)Text {
     BOOL results = YES;
     if (Text == NULL) return NO;
@@ -1032,6 +1079,41 @@
 	}
 	results = [self addUpdateFrame:[[[id3V2Frame alloc] initTextFrame:tempString firstflag:0 secondFlag:0 text:Text withEncoding:([Text canBeConvertedToEncoding:NSASCIIStringEncoding]?0:1) version:majorVersion]autorelease] replace:YES frame:0];
     return results;
+}
+
+- (NSArray *) getContentForFrameID:(NSString *)ID {
+	NSMutableArray * resultArray = NULL;
+	NSString * IDName = NULL;
+	NSDictionary * frameRecord = NULL;
+	
+	resultArray = [NSMutableArray arrayWithCapacity:1];  // 1 is as good a number as any number
+	[self getActualFrameID:&IDName andRecord:&frameRecord forID:ID];
+	if (IDName == NULL) {
+		NSLog(@"Method getContentForFrameID: Could not resolve correct frame ID for :%@", ID);
+		return NULL;
+	}
+	
+	if (frameRecord == NULL) {
+		NSLog(@"Method getContentForFrameID: Could not resolve correct frame ID library record for :%@", IDName);
+		return NULL;
+	}
+	id anObject = [self getFramesTitled:IDName];
+    if (anObject == NULL) {
+		NSLog(@"no objectsFound");
+		return NULL;
+	}
+    
+	if (![anObject isKindOfClass:[NSMutableArray class]])
+		anObject = [NSMutableArray arrayWithObject:anObject];
+	
+	int i;
+	if ([[frameRecord objectForKey:@"text"] boolValue] == YES) {
+		for (i = 0; i < [anObject count]; i ++) [resultArray addObject:[[anObject objectAtIndex:i] getTextFromFrame]];
+	} else {
+		for (i = 0; i < [anObject count]; i ++) [resultArray addObject:[[anObject objectAtIndex:i] getRawFrameData]];
+	}
+	
+    return resultArray;
 }
 
 // get standard properties from Tag.
@@ -1133,7 +1215,6 @@
                 NSString * yearString = [anObject getTextFromFrame];
                 NSArray *listItems = [yearString componentsSeparatedByString:@"-"];
                 yearString = [listItems objectAtIndex:0];
-                [listItems release];
                 return [yearString intValue];
             }
         }
@@ -1325,20 +1406,58 @@
             tempArray = [self getFramesTitled:@"COMM"];
         }
 	
-		if (tempArray)
-		for (i = 0; i < [tempArray count]; i++) {
-			BOOL Flag = NO;
-			comments = [[tempArray objectAtIndex:i] getShortCommentFromFrame];
-			NSRange range = [comments rangeOfString:@"iTunNORM"];
-			if ((range.location == 0) && (range.length = 8)) Flag = YES;
-			if (!Flag) {
-				range = [comments rangeOfString:@"iTunes_CDDB_IDs"];
-				if ((range.location == 0) && (range.length = 15)) Flag = YES;
-				if (!Flag) return [[tempArray objectAtIndex:i] getCommentFromFrame];
+		if (tempArray) {
+			id noShort = NULL;
+			id withShort = NULL;
+			id shortComment = NULL;
+			BOOL last = TRUE;
+			
+			for (i = 0; i < [tempArray count]; i++) {
+				BOOL Flag = NO;
+				comments = [[tempArray objectAtIndex:i] getShortCommentFromFrame];
+				NSEnumerator * enumerator = [iTunesCommentFields objectEnumerator];
+				id object = NULL;
+			
+				while ((object = [enumerator nextObject]) && !Flag) {
+					NSRange range = [comments rangeOfString:object];
+					if ((range.location != NSNotFound) && (range.location == 0)) Flag = YES;
+				}
+				
+				if (!Flag) {
+					if ((comments == NULL) || [comments isEqualToString:@""]) {
+						id temp = [[[tempArray objectAtIndex:i] getCommentFromFrame] retain];
+						if ((temp != NULL) && (![temp isEqualToString:@""])) {
+							[noShort release];
+							noShort = temp;
+							last = TRUE;
+						}
+					}
+					else {
+						id temp = [[[tempArray objectAtIndex:i] getCommentFromFrame] retain];
+						if ((temp != NULL) && (![temp isEqualToString:@""])) {
+							[shortComment release];
+							shortComment = [comments retain];
+							[withShort release];
+							withShort = temp;
+							last = FALSE;
+						}
+					}
+				}
+			}
+			
+			if (last) {
+				[withShort release];
+				[shortComment release];
+				return [noShort autorelease];
+			} else {
+				[shortComment autorelease];
+				[withShort autorelease];
+				[noShort release];
+				return [NSString stringWithFormat:@"%@ %@", shortComment, withShort];
 			}
 		}
     }
-    return NULL;
+    return @"";
 }
 
 -(NSMutableArray *)getImage
@@ -1352,15 +1471,9 @@
     
     if (!present) return NULL;
     
-	#if MAC_OS_X_VERSION_MAX_ALLOWED < MAC_OS_X_VERSION_10_4
     if (majorVersion < 3) tempString = [NSString stringWithCString:"PIC"];
     if (majorVersion == 3) tempString = [NSString stringWithCString:"APIC"];
     if (majorVersion == 4) tempString = [NSString stringWithCString:"APIC"];
-	#else
-	if (majorVersion < 3) tempString = [NSString stringWithCString:"PIC" encoding:NSUTF8StringEncoding];
-    if (majorVersion == 3) tempString = [NSString stringWithCString:"APIC" encoding:NSUTF8StringEncoding];
-    if (majorVersion == 4) tempString = [NSString stringWithCString:"APIC" encoding:NSUTF8StringEncoding];
-	#endif
     
     anObject = [frameSet objectForKey:tempString];
     
@@ -1376,6 +1489,29 @@
     }
     if ([tempArray count] < 1) return NULL;
     return tempArray;
+}
+
+-(NSString *)getEncodedBy
+{
+    NSString * album = @"";
+    id anObject;
+    
+    if (present==YES)
+    {
+        if(majorVersion < 3)
+        {
+            if (anObject = [self getFirstFrameNamed:@"TSS"]) album = [anObject getTextFromFrame];
+        } else
+        if (majorVersion == 3)
+        {	
+            if (anObject = [self getFirstFrameNamed:@"TSSE"]) album = [anObject getTextFromFrame];
+        } else
+        if (majorVersion == 4)
+        {	
+            if (anObject = [self getFirstFrameNamed:@"TSSE"]) album = [anObject getTextFromFrame];
+        }
+    }    
+    return album;
 }
 
 -(NSString *)getComposer
@@ -1401,6 +1537,12 @@
     return album;
 }
 
+-(NSArray *)frameList
+{
+    return [frameSet allKeys];
+}
+
+// Helper functions
 -(NSMutableDictionary *)getImageFrom2Frame:(id3V2Frame *)frame
 {
 /*   Text encoding      $xx
@@ -1411,7 +1553,6 @@
 */
     NSMutableDictionary * tempDictionary = [NSMutableDictionary dictionaryWithCapacity:3];
     NSBitmapImageRep * tempImage;
-    NSData * tempImageData;
     NSString * Type;
     NSString * pictureType;
     NSString * Description;
@@ -1420,40 +1561,33 @@
     char textCoding = *charPtr;  // the first byte is the text coding for the description
     int i;
     
-	#if MAC_OS_X_VERSION_MAX_ALLOWED < MAC_OS_X_VERSION_10_4
-    Type = [NSString stringWithCString:charPtr+1 length:3];  //FIX: Convert to real MIME type
-	#else
-	Type = [NSString stringWithCString:charPtr+1 encoding:NSUTF8StringEncoding];  //FIX: Convert to real MIME type
-	#endif
+    pictureType = [NSString stringWithCString:charPtr+1 length:3];
             
     // get the picture type byte and convert into a information string;
-    pictureType = [self decodeImageType:charPtr[4]];
+    Type = [self decodeImageType:charPtr[4]];
     // scan for the end of the description
 
     for (i = 5; i < [data length] - 2; i++)  // find the end of the Description text 
     {
-        if (charPtr[i] == '\0')
-            if( textCoding==0 )
-                break;
-            else if( (i&1)==1 && charPtr[i+1] == '\0' )     // 1st byte of zero Unicode char
-                break;
+        if ((charPtr[i] == '\0')&&((textCoding > 0 ? charPtr[i+1]: 1))) break;
     }
     
     // create the description text string
-    Description = [[[NSString alloc] initWithData:[NSData dataWithBytesNoCopy:(void *)charPtr+5 length: i-5 freeWhenDone:NO] encoding:(textCoding ?NSUnicodeStringEncoding :NSISOLatin1StringEncoding)] autorelease];
-    
-    // skip null byte(s)
     i++;
-    if( textCoding )
+    if (textCoding == 0)
+    {
+        Description = [NSString stringWithCString:charPtr+5 length:i-5];
+    }
+    else 
+    {
         i++;
-
-    // get the image 
+        Description = [[[NSString alloc] initWithData:[NSData dataWithBytesNoCopy:(void *)charPtr+5 length: i-5 freeWhenDone:NO] encoding:NSUTF8StringEncoding] autorelease];  //this is not the right encoding I will fix later
+    }
+        // get the image 
     if (charPtr[i]=='\0') i++;
-    tempImageData = [NSData dataWithBytes:(void *)charPtr+i length: [data length]-i];
-    tempImage = [NSBitmapImageRep imageRepWithData:tempImageData];
+    tempImage = [NSBitmapImageRep imageRepWithData:[NSData dataWithBytesNoCopy:(void *)charPtr+i length: [data length]-i freeWhenDone:NO]];
     if (tempImage == NULL ) return NULL;
     [tempDictionary setObject:tempImage forKey:@"Image"];
-    [tempDictionary setObject:tempImageData forKey:@"Image Data"];
     [tempDictionary setObject:pictureType forKey:@"Picture Type"];
     [tempDictionary setObject:Type forKey:@"Mime Type"];
     [tempDictionary setObject:Description forKey:@"Description"];
@@ -1470,7 +1604,6 @@
 */    
     NSMutableDictionary * tempDictionary = [NSMutableDictionary dictionaryWithCapacity:3];
     NSBitmapImageRep * tempImage;
-    NSData * tempImageData;
     NSString * pictureType;
     NSString * Type;
     NSString * Description;
@@ -1484,11 +1617,7 @@
         if (charPtr[i] == '\0') break;
     }
     
-	#if MAC_OS_X_VERSION_MAX_ALLOWED < MAC_OS_X_VERSION_10_4
     Type = [NSString stringWithCString:charPtr+1 length:i];
-	#else
-	Type = [NSString stringWithCString:charPtr+1 encoding:NSUTF8StringEncoding];
-	#endif
     
     i++;
     // get the picture type byte and convert into a information string;
@@ -1505,11 +1634,7 @@
     i++;
     if (textCoding == 0)
     {
-		#if MAC_OS_X_VERSION_MAX_ALLOWED < MAC_OS_X_VERSION_10_4
         Description = [NSString stringWithCString:(void *)charPtr length:i-y];
-		#else
-		Description = [NSString stringWithCString:(void *)charPtr encoding:NSUTF8StringEncoding];
-		#endif
     }
     else 
     {
@@ -1519,11 +1644,9 @@
     }
     
     if (charPtr[i]=='\0') i++;
-    tempImageData = [NSData dataWithBytes:(void *)charPtr+i length: [data length]-i];
-    tempImage = [NSBitmapImageRep imageRepWithData:tempImageData];
+    tempImage = [NSBitmapImageRep imageRepWithData:[NSData dataWithBytesNoCopy:(void *)charPtr+i length: [data length]-i freeWhenDone:NO]];
     if (tempImage == NULL ) return NULL;
     [tempDictionary setObject:tempImage forKey:@"Image"];
-    [tempDictionary setObject:tempImageData forKey:@"Image Data"];
     [tempDictionary setObject:pictureType forKey:@"Picture Type"];
     [tempDictionary setObject:Type forKey:@"Mime Type"];
     [tempDictionary setObject:Description forKey:@"Description"];

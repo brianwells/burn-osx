@@ -34,6 +34,7 @@
     framesEndAt = frameOffset;
     padding = 0;
     if (([Frames length] < 10)||(Frames == NULL)) return self;
+	validChars = [[NSCharacterSet characterSetWithCharactersInString:@"ABCDEFGHIJKLMNOPQRSTUVWXYZ 1234567890"] retain];
     
     if (![self nextFrame:YES]) return self;
     do {
@@ -130,15 +131,9 @@
         {
             switch (x)
             {
-			#if MAC_OS_X_VERSION_MAX_ALLOWED < MAC_OS_X_VERSION_10_4
             case Z_MEM_ERROR: NSLog(@"Decompressing frame %s not enough memory\n", [[self getFrameID] cString]); 
             case Z_BUF_ERROR: NSLog(@"Decompressing frame %s not enough room in the output buffer\n", [[self getFrameID] cString]); 
             case Z_DATA_ERROR: NSLog(@"Decompressing frame %s input data was corrupted\n",[[self getFrameID] cString]);
-			#else
-			case Z_MEM_ERROR: NSLog(@"Decompressing frame %s not enough memory\n", [[self getFrameID] cStringUsingEncoding:NSUTF8StringEncoding]); 
-            case Z_BUF_ERROR: NSLog(@"Decompressing frame %s not enough room in the output buffer\n", [[self getFrameID] cStringUsingEncoding:NSUTF8StringEncoding]); 
-            case Z_DATA_ERROR: NSLog(@"Decompressing frame %s input data was corrupted\n",[[self getFrameID] cStringUsingEncoding:NSUTF8StringEncoding]);
-			#endif
             }
             return NULL;
         }
@@ -153,11 +148,10 @@
 {
 	if (validFrames == NULL)
     {
-        if ((Buffer[currentFramePosition] < 'A')||(Buffer[currentFramePosition] > 'Z')||
-		(Buffer[currentFramePosition+1] < 'A')||(Buffer[currentFramePosition+1] > 'Z')||
-        (Buffer[currentFramePosition+2] < 'A')||(Buffer[currentFramePosition+2] > 'Z')||
-        (!(((Buffer[currentFramePosition+3] >= 'A')&&(Buffer[currentFramePosition+3] <= 'Z'))||
-        ((Buffer[currentFramePosition+3] >= '0')||(Buffer[currentFramePosition+3] <= '9')))))
+        if (![validChars characterIsMember:(unichar) Buffer[currentFramePosition]] || 				
+			![validChars characterIsMember:(unichar) Buffer[currentFramePosition+1]] ||
+			![validChars characterIsMember:(unichar) Buffer[currentFramePosition+2]] ||
+			![validChars characterIsMember:(unichar) Buffer[currentFramePosition+3]])
         {
 			framesEndAt = currentFramePosition;
             return NO;
@@ -181,16 +175,13 @@
 -(NSString *)getFrameID
 {
     if (Buffer == NULL) return NULL;
-	#if MAC_OS_X_VERSION_MAX_ALLOWED < MAC_OS_X_VERSION_10_4
     return [NSString stringWithCString: (char *)(Buffer + currentFramePosition) length:4];
-	#else
-	return [NSString stringWithCString: (char *)(Buffer + currentFramePosition) encoding:NSUTF8StringEncoding];
-	#endif
 }
 
 -(void)dealloc
 {
     [errorDescription release];
+	[validChars release];
     [super dealloc];
 }
 

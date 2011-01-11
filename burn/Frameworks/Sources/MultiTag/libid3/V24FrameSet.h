@@ -30,6 +30,8 @@
     int currentFrameLength;
     int framesEndAt;
     int padding;
+	
+	BOOL iTunesFlag;
     
     //storage for tag
     NSMutableData *v2Tag;
@@ -41,20 +43,23 @@
     
      //valid frames
     NSDictionary *validFrames;
+	NSCharacterSet *validChars;
 }
 // information 
--(id)init:(NSMutableData *)Frames version:(int)Minor validFrameSet:(NSDictionary *)FrameSet frameSet:(NSMutableDictionary *)frameSet offset:(int)Offset;
+-(id)init:(NSMutableData *)Frames version:(int)Minor validFrameSet:(NSDictionary *)FrameSet frameSet:(NSMutableDictionary *)frameSet offset:(int)Offset iTunes:(BOOL)ITunes;
 -(NSString *)getFrameID;
 -(int)frameLength;
 -(int)getFrameSetLength;
 
 // read ID3 v2 header information
 -(int)readPackedLengthFrom:(int)Offset;
+- (int)readLargeByteLengthFrom:(int)Offset;
 
 // id3V2 tag processing
 -(id3V2Frame *)getFrame;
 -(BOOL)nextFrame:(BOOL)atStart;
 -(BOOL)atValidFrame;
+-(BOOL)validFrameAt:(int)Offset;
 
 -(void)dealloc;
 

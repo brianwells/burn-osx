@@ -41,13 +41,15 @@
 
     NSString *path;
 }
-// ********** initialise and examine files *********************
+
+// ********** Initialise and examine files *********************
 - (id)initWithGenreList:(NSMutableDictionary *)Dictionary;
 - (void)dealloc;
+- (void)releaseAttributes;
 - (BOOL)examineFile:(NSString *)Path;
 - (int)updateFile;
 
-// *********  methods to get tag data ************************** 
+// *********  Methods to get tag data ************************** 
 - (NSString *)getTagTitle;
 - (NSString *)getTagArtist;
 - (NSString *)getTagAlbum;
@@ -61,7 +63,7 @@
 - (NSMutableArray *)getTagImage;
 - (NSString *)getTagComposer;
 
-// ****** set tag data ***************************************
+// ****** Methods to set tag data ***************************************
 - (BOOL)setTagTitle:(NSString *)Title;
 - (BOOL)setTagArtist:(NSString *)Artist;
 - (BOOL)setTagAlbum:(NSString *)Album;
@@ -69,15 +71,15 @@
 - (BOOL)setTagTrack:(int)Track totalTracks:(int)Total;
 - (BOOL)setTagDisk:(int)Disk totalDisks:(int)Total;
 - (BOOL)setTagTrack:(NSNumber *)Track;
-- (BOOL)setTagTotalNumberDisks:(NSNumber *)Total;
-- (BOOL)setTagDisk:(NSNumber *)Disk;
 - (BOOL)setTagTotalNumberTracks:(NSNumber *)Total;
+- (BOOL)setTagDisk:(NSNumber *)Disk;
+- (BOOL)setTagTotalNumberDisks:(NSNumber *)Total;
 - (BOOL)setTagGenreNames:(NSArray *)GenreNames;
 - (BOOL)setTagComments:(NSString *)Comment;
 - (BOOL)setTagImages:(NSMutableArray *)Images;
 - (BOOL)setTagComposer:(NSString *)Text;
 
-// ***** create new, copy data between and drop tags *********************
+// ***** Create new, copy data between and drop tags *********************
 - (BOOL)copyV2TagToV1Tag;
 - (BOOL)copyV1TagToV2Tag;
 
@@ -85,6 +87,8 @@
 - (BOOL)v2TagPresent; //
 
 - (NSMutableArray *)processGenreArray:(NSArray *)Array;
-- (void)releaseAttributes;
+
+// ***** Other ************************************************************
+- (NSNumber *)returnNumber:(int)number;
 
 @end

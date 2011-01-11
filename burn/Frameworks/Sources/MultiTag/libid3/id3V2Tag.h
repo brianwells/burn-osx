@@ -41,6 +41,8 @@
     
     //Parsing properties
     BOOL exhastiveSearch;
+	
+	BOOL iTunesV24CompatabilityMode;
     
     //storage for tag
     NSMutableDictionary *frameSet;  // stores the frame set
@@ -59,10 +61,15 @@
     
     //frame dictionary 
     NSDictionary *frameSetDictionary;
+	
+	//iTunes Comment headers
+	NSArray * iTunesCommentFields;
 }
 
 -(id)initWithFrameDictionary:(NSDictionary *)Dictionary;
 -(BOOL)openPath:(NSString *)Path;
+
+-(void)setITunesCompatability:(BOOL)Value;
 
 // information
 -(int)tagVersion;
@@ -115,6 +122,7 @@
 -(BOOL)setGenreName:(NSArray *)GenreName;
 -(BOOL)setComments:(NSString *)Comment;
 -(BOOL)setImages:(NSMutableArray *)Images;
+-(BOOL)setEncodedBy:(NSString *)Text;
 -(BOOL)setComposer:(NSString *)Text;
 -(BOOL)setContent:(NSArray *)Content  forFrame:(NSString *)IDAlias replace:(BOOL)Replace;
 
@@ -130,7 +138,10 @@
 -(NSArray *)getGenreNames;
 -(NSString *)getComments;
 -(NSMutableArray *)getImage;
+-(NSArray *)frameList;
+-(NSString *)getEncodedBy;
 -(NSString *)getComposer;
+- (NSArray *) getContentForFrameID:(NSString *)ID;
 
 // these are private functions do not use
 - (void) getActualFrameID:(NSString **)Name andRecord:(NSDictionary **)Record forID:(NSString *)ID;

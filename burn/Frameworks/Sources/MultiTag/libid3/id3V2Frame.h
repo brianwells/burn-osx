@@ -25,6 +25,8 @@
     NSString *frameID;
     char flagByte1;
     char flagByte2;
+	
+	BOOL iTunesV24Compat;
     
     NSMutableData *frame;
     int majorVersion;
@@ -44,6 +46,8 @@
 -(NSStringEncoding)convertTextCodingByte:(char)coding;
 -(NSData *)getTextCodingByte:(char)encoding;
 -(int)length;
+
+-(void)iTunesV24Compat;
 
 -(NSData *)getRawFrameData;
 -(NSData *)getCompleteRawFrame;
@@ -71,6 +75,8 @@
 
 -(NSString *)genreStringFromArray:(NSArray *)Array;
 -(NSMutableArray *)genreArrayFromFrame;
+
+-(NSMutableString *)cleanString:(NSString *)String;
 
 -(void)dealloc;
 @end

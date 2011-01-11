@@ -18,7 +18,7 @@
 #endif
 
 @implementation V24FrameSet
--(id)init:(NSMutableData *)Frames version:(int)Minor validFrameSet:(NSDictionary *)FrameSet  frameSet:(NSMutableDictionary *)frameSet offset:(int)Offset
+-(id)init:(NSMutableData *)Frames version:(int)Minor validFrameSet:(NSDictionary *)FrameSet  frameSet:(NSMutableDictionary *)frameSet offset:(int)Offset  iTunes:(BOOL)ITunes
 {
     if (!(self = [super init])) return self;
     validFrames = FrameSet;
@@ -31,24 +31,28 @@
     currentFrameLength = 0;
     framesEndAt = frameOffset;
     padding = 0;
+	iTunesFlag = NO;
+	validChars = [[NSCharacterSet characterSetWithCharactersInString:@"ABCDEFGHIJKLMNOPQRSTUVWXYZ 1234567890"] retain];
     
     if (([Frames length] < 10)||(Frames == NULL)) return self;
-    
+	
     if (![self nextFrame:YES]) return self;
     do
     {
-	id3V2Frame * newFrame = [self getFrame]; 
+		id3V2Frame * newFrame = [self getFrame]; 
+		if (iTunesFlag && ITunes) [newFrame iTunesV24Compat];
+
         if (newFrame != NULL) 
         {
             id anObject = [frameSet objectForKey:[newFrame getFrameID]];
             if (anObject == NULL) 
-	    {
-		NSMutableArray *tempArray = [NSMutableArray arrayWithCapacity:2];
-                [tempArray addObject:newFrame];
-                [frameSet setObject:tempArray forKey:[newFrame getFrameID]];
-	    }
+			{
+				NSMutableArray *tempArray = [NSMutableArray arrayWithCapacity:2];
+				[tempArray addObject:newFrame];
+				[frameSet setObject:tempArray forKey:[newFrame getFrameID]];
+			}
             else [anObject addObject:newFrame];
-	}
+		}
     } while ([self nextFrame:NO]);
     
     return self;
@@ -60,12 +64,35 @@
     int i;
     const int MAXVAL = 268435456; //2^28
     // For each byte of the first 4 bytes in the string...
+	
+	if (Buffer[currentFramePosition + Offset] & 0x80 || Buffer[currentFramePosition + 1 + Offset] & 0x80 || 
+	    Buffer[currentFramePosition + 2 + Offset] & 0x80 || Buffer[currentFramePosition + 3 + Offset] & 0x80) iTunesFlag = YES;
+	if (iTunesFlag) return [self readLargeByteLengthFrom:Offset];
     
     for (i = 0; i < 4; ++i)
     {// ...append the last 7 bits to the end of the temp integer...
         val = val * 128;
         val += Buffer[currentFramePosition + i + Offset];
     }
+    if (val > MAXVAL) val = MAXVAL;
+	if (val > tagLength - frameOffset - currentFramePosition) {
+		NSLog(@"Problem encountered parsing v2 frame:  frame length value longer than tag length, guessing correct frame length");
+		val = tagLength - frameOffset - currentFramePosition;
+	}
+	if (val > MAXUNCOMPRESSEDFRAMESIZE) {
+			val = MAXUNCOMPRESSEDFRAMESIZE;
+			NSLog(@"Warning frame size > maximum allowable frame size, clipping frame to %i bytes.",MAXUNCOMPRESSEDFRAMESIZE);
+	}
+    return val;
+}
+
+- (int)readLargeByteLengthFrom:(int)Offset
+{
+    int val = 0;
+    const int MAXVAL = 268435456; //2^28
+    // For each byte of the first 4 bytes in the string...
+    
+	val = Buffer[currentFramePosition + Offset]*256*256*256 +  Buffer[currentFramePosition + 1 + Offset]*256*256 +  Buffer[currentFramePosition + 2 + Offset]*256 + Buffer[currentFramePosition + 3 + Offset];
     if (val > MAXVAL) val = MAXVAL;
 	if (val > tagLength - frameOffset - currentFramePosition) {
 		NSLog(@"Problem encountered parsing v2 frame:  frame length value longer than tag length, guessing correct frame length");
@@ -86,6 +113,15 @@
         currentFramePosition = frameOffset;
         if (![self atValidFrame]) return NO;
         currentFrameLength = [self frameLength];
+		if (iTunesFlag) return YES;
+		if ((currentFrameLength > 127) && (tagLength - 10 > currentFrameLength)) {
+			if (![self validFrameAt:currentFrameLength]) {
+				int possibleLength = [self readLargeByteLengthFrom:4];
+				if ([self validFrameAt:possibleLength]) {
+					currentFrameLength = possibleLength;
+				}
+			}
+		}
         return YES;
     }
     
@@ -95,16 +131,33 @@
         return NO;
     }
     // move position in tag
-    currentFramePosition += currentFrameLength + 10;
-       
-    //check that there is still a valid frameheader.  this will also reject the footer as a valid header
-    if (![self atValidFrame])
-    {
-        framesEndAt = currentFramePosition;
-        return NO;
-    }
-     
-        // get frame length
+	currentFramePosition += currentFrameLength;
+	
+    if (currentFrameLength <= 127) // iTunes writes incorrect framelengths for frames longer than 127 bytes need to do additional testing
+	{
+		//check that there is still a valid frameheader.  this will also reject the footer as a valid header
+		if (![self atValidFrame])
+		{
+			framesEndAt = currentFramePosition;
+			return NO;
+		}
+	} else {
+		if (![self atValidFrame])
+		{
+			currentFramePosition -= currentFrameLength;
+			int possibleLength = [self readLargeByteLengthFrom:4];
+			currentFramePosition +=  possibleLength;
+			if (![self atValidFrame])
+			{
+				framesEndAt = currentFramePosition - possibleLength + currentFrameLength;
+				return NO;
+			} else {
+				iTunesFlag = YES;
+				currentFrameLength = possibleLength;
+			}
+		}
+    } 
+	// get frame length
     currentFrameLength = [self frameLength];
     
     if (![self atValidFrame]) return NO;
@@ -114,7 +167,9 @@
 
 -(id3V2Frame *)getFrame
 {
-    int frameLength = [self readPackedLengthFrom:4];
+    int frameLength;
+	if (iTunesFlag) frameLength = [self readLargeByteLengthFrom:4];
+	else frameLength = [self readPackedLengthFrom:4];
     unsigned char frameFlag2 = Buffer[9+currentFramePosition];
     unsigned char frameFlag1 = Buffer[8+currentFramePosition];
     NSMutableData *tempBuffer;
@@ -153,15 +208,9 @@
         {
             switch (x)
             {
-			#if MAC_OS_X_VERSION_MAX_ALLOWED < MAC_OS_X_VERSION_10_4
             case Z_MEM_ERROR: NSLog(@"Decompressing frame %s not enough memory\n", [[self getFrameID] cString]); 
             case Z_BUF_ERROR: NSLog(@"Decompressing frame %s not enough room in the output buffer\n", [[self getFrameID] cString]); 
             case Z_DATA_ERROR: NSLog(@"Decompressing frame %s input data was corrupted\n",[[self getFrameID] cString]);
-			#else
-			case Z_MEM_ERROR: NSLog(@"Decompressing frame %s not enough memory\n", [[self getFrameID] cStringUsingEncoding:NSUTF8StringEncoding]); 
-            case Z_BUF_ERROR: NSLog(@"Decompressing frame %s not enough room in the output buffer\n", [[self getFrameID] cStringUsingEncoding:NSUTF8StringEncoding]); 
-            case Z_DATA_ERROR: NSLog(@"Decompressing frame %s input data was corrupted\n",[[self getFrameID] cStringUsingEncoding:NSUTF8StringEncoding]);
-			#endif
             }
             return NULL;
         }
@@ -173,12 +222,34 @@
 
 -(BOOL)atValidFrame
 {
-if (validFrames == NULL)
+	if (validFrames == NULL)
     {
-        if ((Buffer[currentFramePosition] < 'A')||(Buffer[currentFramePosition] > 'Z')|| 				(Buffer[currentFramePosition+1] < 'A')||(Buffer[currentFramePosition+1] > 'Z')||
-        (Buffer[currentFramePosition+2] < 'A')||(Buffer[currentFramePosition+2] > 'Z')||
-        (((Buffer[currentFramePosition+3] < 'A')||(Buffer[currentFramePosition+3] > 'Z'))&&
-        ((Buffer[currentFramePosition+3] < '0')||(Buffer[currentFramePosition+3] > '9'))))
+        if (![validChars characterIsMember:(unichar) Buffer[currentFramePosition]] || 				
+			![validChars characterIsMember:(unichar) Buffer[currentFramePosition+1]] ||
+			![validChars characterIsMember:(unichar) Buffer[currentFramePosition+2]] ||
+			![validChars characterIsMember:(unichar) Buffer[currentFramePosition+3]])
+        {
+            framesEndAt = currentFramePosition;
+            return NO;
+        }
+        return YES;
+    } else    
+    if ([validFrames objectForKey:[self getFrameID]] != NULL)
+    {
+        framesEndAt = currentFramePosition;
+        return NO;
+    }
+    return YES;
+}
+
+-(BOOL)validFrameAt:(int)Offset
+{
+	if (validFrames == NULL)
+    {
+        if (![validChars characterIsMember:(unichar) Buffer[currentFramePosition + Offset]] || 				
+			![validChars characterIsMember:(unichar) Buffer[currentFramePosition + 1 + Offset]] ||
+			![validChars characterIsMember:(unichar) Buffer[currentFramePosition + 2 + Offset]] ||
+			![validChars characterIsMember:(unichar) Buffer[currentFramePosition + 3 + Offset]])
         {
             framesEndAt = currentFramePosition;
             return NO;
@@ -205,16 +276,13 @@ if (validFrames == NULL)
 
 -(NSString *)getFrameID
 {
-	#if MAC_OS_X_VERSION_MAX_ALLOWED < MAC_OS_X_VERSION_10_4
     return [NSString stringWithCString: (char *)(Buffer + currentFramePosition) length:4];
-	#else
-	return [NSString stringWithCString: (char *)(Buffer + currentFramePosition) encoding:NSUTF8StringEncoding];
-	#endif
 }
 
 -(void)dealloc
 {
     [errorDescription release];
+	[validChars release];
     [super dealloc];
 }
 

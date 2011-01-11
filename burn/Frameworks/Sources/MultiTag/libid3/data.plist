@@ -2092,6 +2092,12 @@
 				<false/>
 			</dict>
 		</dict>
+		<key>iTunes_comment</key>
+		<array>
+			<string>iTunes_CDDB_</string>
+			<string>iTunNORM</string>
+			<string>iTunSMPB</string>
+		</array>
 	</dict>
 	<key>genreIndexes</key>
 	<dict>
@@ -2623,6 +2629,8 @@
 		<false/>
 		<key>Write V2 Always</key>
 		<true/>
+		<key>iTunes v2.4 compatability mode</key>
+		<false/>
 	</dict>
 </dict>
 </plist>

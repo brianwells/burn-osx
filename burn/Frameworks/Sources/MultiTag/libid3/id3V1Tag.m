@@ -7,6 +7,7 @@
 //
 
 #ifdef __APPPLE__
+#import <Foundation/Foundation.h>
 #import "id3V1Tag.h"
 #else
 #include "id3V1Tag.h"
@@ -20,8 +21,8 @@
 #endif
 
 // Constants for defining size and location of id3v1 tags with in a file
-#define id3TagLength	128
-#define HeaderLength    3			
+#define id3TagLength 128
+#define HeaderLength 3			
 #define TitleLength     30
 #define ArtistLength    30
 #define AlbumLength     30
@@ -100,11 +101,7 @@
     char * pointer = (char *) [tag bytes];
     
     if ((present == NO)||(tag==NULL)) return 0;
-	#if MAC_OS_X_VERSION_MAX_ALLOWED < MAC_OS_X_VERSION_10_4
     return [[NSMutableString stringWithCString: pointer + 93 length:4] intValue];
-	#else
-	 return [[NSMutableString stringWithCString: pointer + 93 encoding:NSUTF8StringEncoding] intValue];
-	#endif
 }
 
 -(NSString *)getComment;
@@ -135,12 +132,7 @@
             if (pointer[i+Position] == 0) break; // if null end string
         } else j=i;
     }
-	
-	#if MAC_OS_X_VERSION_MAX_ALLOWED < MAC_OS_X_VERSION_10_4
     return [[NSString stringWithCString: pointer + Position length:j+1] stringByTrimmingCharactersInSet:[NSCharacterSet characterSetWithCharactersInString:[NSString stringWithFormat:kTrimSetStr]]];
-	#else
-	return [[NSString stringWithCString: pointer + Position encoding:NSUTF8StringEncoding] stringByTrimmingCharactersInSet:[NSCharacterSet characterSetWithCharactersInString:[NSString stringWithFormat:kTrimSetStr]]];
-	#endif
 }
 
 -(int)getGenre
@@ -156,12 +148,7 @@
     NSFileHandle *file = [NSFileHandle fileHandleForReadingAtPath: path];
     if (file == NULL) 
     {
-		#if MAC_OS_X_VERSION_MAX_ALLOWED < MAC_OS_X_VERSION_10_4
         NSLog(@"Could not open file handle for file:%s",[path cString]);
-		#else
-		NSLog(@"Could not open file handle for file:%s",[path cStringUsingEncoding:NSUTF8StringEncoding]);
-		#endif
-		
         [self newTag];
         return NO;
     }
@@ -307,11 +294,7 @@
     
     for (i = id3TagLength - Offset; i < Length; i++) Buffer[i] = 0;
     if ([String length] > Length) [self setError:1 reason:@"setFieldWithString: Data in field to long"];
-	#if MAC_OS_X_VERSION_MAX_ALLOWED < MAC_OS_X_VERSION_10_4
     char *cString = (char *) [String lossyCString];
-	#else
-	char *cString = (char *) [String cStringUsingEncoding:NSUTF8StringEncoding];
-	#endif
     Buffer += (id3TagLength - Offset);
     for (i = 0; i < Length; i++) Buffer[i] = cString[i];
     changed = YES;
@@ -325,11 +308,7 @@
     int i;
     
     for (i = id3TagLength - Offset; i < Length; i++) Buffer[i] = 0;
-	#if MAC_OS_X_VERSION_MAX_ALLOWED < MAC_OS_X_VERSION_10_4
     [[[NSNumber numberWithInt:Number] stringValue] getCString:Buffer + id3TagLength - Offset maxLength: Length];
-	#else
-	[[[NSNumber numberWithInt:Number] stringValue] getCString:Buffer + id3TagLength - Offset maxLength: Length encoding:NSUTF8StringEncoding];
-	#endif
     changed = YES;
     return YES;
 }

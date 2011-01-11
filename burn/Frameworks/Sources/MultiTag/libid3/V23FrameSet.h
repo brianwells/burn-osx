@@ -42,6 +42,7 @@
     
      //valid frames
     NSDictionary *validFrames;
+	NSCharacterSet *validChars;
 }
 // information 
 -(id)init:(NSMutableData *)Frames version:(int)Minor validFrameSet:(NSDictionary *)FrameSet frameSet:(NSMutableDictionary *)frameSet offset:(int)Offset;

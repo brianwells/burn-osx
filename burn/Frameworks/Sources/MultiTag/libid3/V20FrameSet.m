@@ -30,7 +30,7 @@
     currentFrameLength = 0;
     framesEndAt = frameOffset;
     padding = 0;
-
+	validChars = [[NSCharacterSet characterSetWithCharactersInString:@"ABCDEFGHIJKLMNOPQRSTUVWXYZ 1234567890"] retain];
     
     if (([Frames length] < 6)||(Frames == NULL)) return self;
     
@@ -101,11 +101,10 @@
 {
     if (validFrames == NULL)
     {
-        if ((Buffer[currentFramePosition] < 'A')||(Buffer[currentFramePosition] > 'Z')||
-            (Buffer[currentFramePosition+1] < 'A')||(Buffer[currentFramePosition+1] > 'Z') ||
-            (((Buffer[currentFramePosition+2] < 'A')||(Buffer[currentFramePosition+2] > 'Z'))&&
-            ((Buffer[currentFramePosition+2] < '0')||(Buffer[currentFramePosition+2] > '9'))))
-            {
+        if (![validChars characterIsMember:(unichar) Buffer[currentFramePosition]] || 				
+			![validChars characterIsMember:(unichar) Buffer[currentFramePosition+1]] ||
+			![validChars characterIsMember:(unichar) Buffer[currentFramePosition+2]])
+			{
                 framesEndAt = currentFramePosition;
                 return NO;
             }
@@ -137,11 +136,7 @@
 -(NSString *)getFrameID
 {
     if (Buffer == NULL) return NULL;
-	#if MAC_OS_X_VERSION_MAX_ALLOWED < MAC_OS_X_VERSION_10_4
     return [NSString stringWithCString: (char *)(Buffer + currentFramePosition) length:3];
-	#else
-	return [NSString stringWithCString: (char *)(Buffer + currentFramePosition) encoding:NSUTF8StringEncoding];
-	#endif
 }
 
 //  ?? need to clean up this section I don't have a good calculator handy
@@ -154,6 +149,7 @@
 -(void)dealloc
 {
     [errorDescription release];
+	[validChars release];
     [super dealloc];
 }
 

@@ -22,47 +22,47 @@
 
 @implementation TagAPI
 
-//////////////////
-// Main actions //
-//////////////////
+//////////////////////////////////
+// Initialise and examine files //
+//////////////////////////////////
 
 #pragma mark -
-#pragma mark ¥¥ÊMain actions
+#pragma mark ¥¥ÊInitialise and examine files
 
 - (id)initWithGenreList:(NSMutableDictionary *)Dictionary
 {
     if (!(self = [super init])) return self;
-    NSLog(@"1");
+    
     dataDictionary = NULL;
-NSLog(@"2");
+
     modify = NO;
-    NSLog(@"3");
+    
     genreDictionary = NULL;
     externalDictionary = NO;
-    NSLog(@"4");
+    
     parsedV1 = NO;
 	parse = 0;
     v2Tag = NULL;
     v1Tag = NULL;
+    //mp3Header = NULL;
     path = NULL;
-	
-	NSString *resourcePath = [[NSBundle bundleForClass:[self class]] pathForResource:@"data" ofType:@"plist"];
-	dataDictionary =  [[NSMutableDictionary alloc] initWithContentsOfFile:resourcePath];
-	
+    //frameList = NULL;
+    //fileSize = 0;
+    
+    //loads data dictionary containing frame and genre information
+	NSString *dataPath = [[NSBundle bundleForClass:[self class]] pathForResource:@"data" ofType:@"plist"];
+	dataDictionary =  [[NSMutableDictionary alloc] initWithContentsOfFile:dataPath];
+    
     if (dataDictionary == NULL) 
     {
-		#if MAC_OS_X_VERSION_MAX_ALLOWED < MAC_OS_X_VERSION_10_4
-        NSLog(@"Failed to open resource dictionary, can not find file:%s",[resourcePath cString]);
-		#else
-		NSLog(@"Failed to open resource dictionary, can not find file:%s",[resourcePath cStringUsingEncoding:NSUTF8StringEncoding]);
-		#endif
+        NSLog(@"Failed to open resource dictionary, can not find file:%s",[dataPath cString]);
         [self autorelease];
         return NULL;
     }
-	    NSLog(@"7");
+	    
     // loads a genre look up table into a dictionary
     if (Dictionary == NULL)
-    {NSLog(@"8");
+    {
         genreDictionary = [dataDictionary objectForKey:@"genres"];
         if (genreDictionary == NULL) 
         {
@@ -73,7 +73,7 @@ NSLog(@"2");
         externalDictionary = NO;
     }
     else
-    {NSLog(@"9");
+    {
         genreDictionary = Dictionary;
         externalDictionary = YES;
     }
@@ -98,6 +98,20 @@ NSLog(@"2");
     [super dealloc];
 }
 
+- (void)releaseAttributes
+{
+    if (v2Tag != NULL) [v2Tag release];
+    v2Tag = NULL;
+    if (v1Tag != NULL) [v1Tag release];
+    v1Tag = NULL;
+    if (path != NULL) [path release];
+    path = NULL;
+    //if (frameList != NULL) [frameList release];
+    //frameList = NULL;
+    //if (mp3Header != NULL) [mp3Header release];
+    //mp3Header = NULL;
+}
+
 - (BOOL)examineFile:(NSString *)Path
 {
     [self releaseAttributes];
@@ -117,6 +131,8 @@ NSLog(@"2");
         [pool release];
         return NO;
     }
+	if ([[preferences objectForKey:@"iTunes v2.4 compatability mode"] boolValue]) [v2Tag setITunesCompatability:YES];
+	
     [v2Tag openPath:path];
 	// position indicate
     position = [v2Tag tagPositionInFile] + [v2Tag tagLength];
@@ -150,6 +166,18 @@ NSLog(@"2");
         else [v2Tag newTag:[[preferences objectForKey:@"Default V2 tag - Major number"] intValue] minor:[[preferences objectForKey:@"Default V2 tag - Minor number"] intValue]];
     }
   
+    // get mpeg header information
+    //mp3Header = [[MP3Header alloc] init];
+    //if (mp3Header == NULL)
+    //{
+       // NSLog(@"Failed to create MP3 Header Object");
+        //[pool release];
+       // return NO;
+    //}
+    
+    //[mp3Header openFile:path withTag:position];
+    //fileSize = [mp3Header fileSize];
+//	[self convertTagToV2:0];
     [pool release];
     return YES;
 }
@@ -178,12 +206,12 @@ NSLog(@"2");
     return returnValue;
 }
 
-/////////////////
-// Get actions //
-/////////////////
+/////////////////////////////
+// Methods to get tag data //
+/////////////////////////////
 
 #pragma mark -
-#pragma mark ¥¥ÊGet actions
+#pragma mark ¥¥ÊMethods to get tag data
 
 // get standard properties from Tag.
 - (NSString *)getTagTitle
@@ -257,15 +285,17 @@ NSLog(@"2");
             if ([v2Tag tagPresent]==YES) 
             {
                 year = [v2Tag getYear];
-				if (year > -1)  return [NSNumber numberWithInt:year];
+				return [self returnNumber:year];
             }
-            if ((parse == 2)||(![[preferences objectForKey:@"V1 auto - fallback"] boolValue])) return [NSNumber numberWithInt:0];
+            if ((parse == 2)||(![[preferences objectForKey:@"V1 auto - fallback"] boolValue])) return nil;
     }
+
+    if (!parsedV1) if (![v1Tag openPath:path]) return nil;
+    parsedV1 = YES;
+	
+    if ([v1Tag tagPresent]==YES) return [self returnNumber:[v1Tag getYear]];
     
-    if (!parsedV1) if (![v1Tag openPath:path]) return [NSNumber numberWithInt:0];
-    parsedV1 = YES;         
-    if ([v1Tag tagPresent]==YES) return [NSNumber numberWithInt:[v1Tag getYear]];
-    return [NSNumber numberWithInt:0];
+	return nil;
 }
 
 - (NSNumber *)getTagTrack
@@ -277,15 +307,15 @@ NSLog(@"2");
             if ([v2Tag tagPresent]==YES) 
             {
                 track = [v2Tag getTrack];
-				if (track > -1) return [NSNumber numberWithInt:track];
+				return [self returnNumber:track];
             }
-            if ((parse == 2)||(![[preferences objectForKey:@"V1 auto - fallback"] boolValue])) return [NSNumber numberWithInt:0];
+            if ((parse == 2)||(![[preferences objectForKey:@"V1 auto - fallback"] boolValue])) return nil;
     }
     
-    if (!parsedV1) if (![v1Tag openPath:path]) return [NSNumber numberWithInt:0];
+    if (!parsedV1) if (![v1Tag openPath:path]) return nil;
     parsedV1 = YES;         
-    if ([v1Tag tagPresent]==YES) return [NSNumber numberWithInt:[v1Tag getTrack]];
-    return [NSNumber numberWithInt:0];
+    if ([v1Tag tagPresent]==YES) return [self returnNumber:[v1Tag getTrack]];
+    return nil;
 }
 
 - (NSNumber *)getTagTotalNumberTracks
@@ -296,10 +326,10 @@ NSLog(@"2");
     {
             if ([v2Tag tagPresent]==YES) 
             {
-                return [NSNumber numberWithInt:[v2Tag getTotalNumberTracks]];
+                return [self returnNumber:[v2Tag getTotalNumberTracks]];
             }
     }
-    return [NSNumber numberWithInt:track];
+    return [self returnNumber:track];
 }
 
 - (NSNumber *)getTagDisk
@@ -310,11 +340,11 @@ NSLog(@"2");
     {
             if ([v2Tag tagPresent]==YES) 
             {
-                return [NSNumber numberWithInt:[v2Tag getDisk]];
+                return [self returnNumber:[v2Tag getDisk]];
             }
     }
     
-    return [NSNumber numberWithInt:track];
+    return [self returnNumber:track];
 }
 
 - (NSNumber *)getTagTotalNumberDisks
@@ -325,10 +355,10 @@ NSLog(@"2");
     {
             if ([v2Tag tagPresent]==YES) 
             {
-                return [NSNumber numberWithInt:[v2Tag getTotalNumberDisks]];
+                return [self returnNumber:[v2Tag getTotalNumberDisks]];
             }
     }
-    return [NSNumber numberWithInt:track];
+    return [self returnNumber:track];
 }
 
 - (NSArray *)getTagGenreNames
@@ -391,12 +421,12 @@ NSLog(@"2");
     return [v2Tag getComposer];
 }
 
-/////////////////
-// Set actions //
-/////////////////
+/////////////////////////////
+// Methods to set tag data //
+/////////////////////////////
 
 #pragma mark -
-#pragma mark ¥¥ÊSet actions
+#pragma mark ¥¥ÊMethods to set tag data
 
 //Sets information in V1 and V2 tag
 
@@ -439,7 +469,7 @@ NSLog(@"2");
     return result;
 }
 
-- (BOOL)setTagYear:(NSNumber *)Year {
+- (BOOL)setTagYear:(NSNumber*)Year {
     BOOL result = YES;
     if (v2Tag != NULL) result = [v2Tag setYear:[Year intValue]];
     if (v1Tag != NULL) {
@@ -449,6 +479,25 @@ NSLog(@"2");
 		else modify = YES;
     }    
     return result;
+}
+
+- (BOOL)setTagTrack:(int)Track totalTracks:(int)Total {
+    BOOL result = YES;
+    if (v2Tag != NULL) if (result = [v2Tag setTrack:Track totalTracks:Total]) modify = YES;
+    if (v1Tag != NULL) {
+        if (!parsedV1) if (![v1Tag openPath:path]) return NO;
+        parsedV1 = YES;
+        if (![v1Tag setTrack:Track]) return NO;
+		else modify = YES;
+    }    
+    return result;
+}
+
+- (BOOL)setTagDisk:(int)Disk totalDisks:(int)Total {
+    if (v2Tag != NULL) 
+		if ([v2Tag setDisk:Disk totalDisks:Total]) modify = YES;
+		else return NO;
+	return YES;
 }
 
 - (BOOL)setTagTrack:(NSNumber *)Track
@@ -471,38 +520,19 @@ NSLog(@"2");
 	return [self setTagDisk:[[self getTagDisk] intValue] totalDisks:[Total intValue]];
 }
 
-- (BOOL)setTagTrack:(int)Track totalTracks:(int)Total {
-    BOOL result = YES;
-    if (v2Tag != NULL) if (result = [v2Tag setTrack:Track totalTracks:Total]) modify = YES;
-    if (v1Tag != NULL) {
-        if (!parsedV1) if (![v1Tag openPath:path]) return NO;
-        parsedV1 = YES;
-        if (![v1Tag setTrack:Track]) return NO;
-		else modify = YES;
-    }    
-    return result;
-}
-
-- (BOOL)setTagDisk:(int)Disk totalDisks:(int)Total {
-    if (v2Tag != NULL) 
-		if ([v2Tag setDisk:Disk totalDisks:Total]) modify = YES;
-		else return NO;
-	return YES;
-}
-
-- (BOOL)setTagGenreNames:(NSArray *)GenreName {
+- (BOOL)setTagGenreNames:(NSArray *)GenreNames {
     BOOL result = YES;
     
-    if ([GenreName count] < 1) return NO;
+    if ([GenreNames count] < 1) return NO;
     
     int sequenceNumber = [[[dataDictionary objectForKey:@"genreIndexes"] objectForKey:@"-1"] intValue];
     
     // check the genre names to ensure that they are in the dictionary
     if (externalDictionary) // only change it if you have an external genre dictionary
     {
-		int i = [GenreName count];
+		int i = [GenreNames count];
 		for (i --; i >= 0 ; i--) {
-			NSString * tempString = [GenreName objectAtIndex:i];
+			NSString * tempString = [GenreNames objectAtIndex:i];
 			id anObject = [genreDictionary objectForKey:tempString];
             if (anObject == NULL)  {//If the genre does not exist in the dictionary and the Dictionary is not the static one provided with the library then add the new genre.
                 sequenceNumber++;
@@ -512,11 +542,11 @@ NSLog(@"2");
 		}
     }
     
-    if (v2Tag != NULL) if (result = [v2Tag setGenreName:GenreName]) modify = YES;
+    if (v2Tag != NULL) if (result = [v2Tag setGenreName:GenreNames]) modify = YES;
 	if (v1Tag != NULL) {
         if (!parsedV1) if (![v1Tag openPath:path]) return NO;
         parsedV1 = YES;
-        id tempNumber = [genreDictionary objectForKey:[GenreName objectAtIndex:0]];
+        id tempNumber = [genreDictionary objectForKey:[GenreNames objectAtIndex:0]];
         
         if ([tempNumber isMemberOfClass:[NSNumber class]])
         {
@@ -556,12 +586,12 @@ NSLog(@"2");
     return results;
 }
 
-///////////////////
-// Other actions //
-///////////////////
+/////////////////////////////////////////////////
+// Create new, copy data between and drop tags //
+/////////////////////////////////////////////////
 
 #pragma mark -
-#pragma mark ¥¥ÊOther actions
+#pragma mark ¥¥ÊCreate new, copy data between and drop tags
 
 - (BOOL)copyV2TagToV1Tag
 {
@@ -585,11 +615,7 @@ NSLog(@"2");
         }
         if (![v1Tag openPath:path])
         {
-			#if MAC_OS_X_VERSION_MAX_ALLOWED < MAC_OS_X_VERSION_10_4
             NSLog(@"Failed open file: %s when parsing for V1.1 tag object",[path cString]);
-			#else
-			NSLog(@"Failed open file: %s when parsing for V1.1 tag object",[path cStringUsingEncoding:NSUTF8StringEncoding]);
-			#endif
             return NO;
         }
     }
@@ -654,14 +680,14 @@ NSLog(@"2");
     return result;
 }
 
-- (BOOL)v1TagPresent
+-(BOOL)v1TagPresent
 {
     if (!parsedV1) if (![v1Tag openPath:path]) return NO;
     parsedV1 = YES;
     return [v1Tag tagPresent];
 }
 
-- (BOOL)v2TagPresent
+-(BOOL)v2TagPresent
 {
     return [v2Tag tagPresent];
 }
@@ -722,14 +748,19 @@ NSLog(@"2");
     return processedArray;
 }
 
-- (void)releaseAttributes
+///////////
+// Other //
+///////////
+
+#pragma mark -
+#pragma mark ¥¥ÊOther
+
+- (NSNumber *)returnNumber:(int)number
 {
-    if (v2Tag != NULL) [v2Tag release];
-    v2Tag = NULL;
-    if (v1Tag != NULL) [v1Tag release];
-    v1Tag = NULL;
-    if (path != NULL) [path release];
-    path = NULL;
+	if (number > 0)
+		return [NSNumber numberWithInt:number];
+	else
+		return nil;
 }
 
 @end
