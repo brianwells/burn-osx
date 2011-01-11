@@ -62,7 +62,7 @@
 {
 	if (![[[DRDevice devices] objectAtIndex:[popupButton indexOfSelectedItem]] ejectMedia])
 	{
-		[KWCommonMethods standardAlertWithMessageText:NSLocalizedString(@"Failed to eject", Localized) withInformationText:NSLocalizedString(@"Could not eject media from the drive", Localized)withParentWindow:nil];
+		[KWCommonMethods standardAlertWithMessageText:NSLocalizedString(@"Failed to eject", Localized) withInformationText:NSLocalizedString(@"Could not eject media from the drive", Localized) withParentWindow:nil];
 	}
 
 	[NSApp endSheet:[self window]];
