@@ -1,7 +1,10 @@
-"NSHumanReadableCopyright" = "Kiwi Fruitware 2010";
-"CFBundleName" = "Burn";
-"CFBundleDisplayName" = "Burn";
-"CFBundleHelpBookName" = "Burn Help";
+/* Basic info */
+NSHumanReadableCopyright = "Kiwi Fruitware 2011";
+CFBundleName = "Burn";
+CFBundleDisplayName = "Burn";
+CFBundleHelpBookName = "Burn Help";
+
+/* File types */
 "Image document" = "Έγγραφο Εικόνας";
 "Burn document" = "Έγγραφο Burn";
 "Theme document" = "Έγγραφο Θέματος";

@@ -1,6 +1,8 @@
 /* Basic info */
-NSHumanReadableCopyright = "Kiwi Fruitware 2010";
-"CFBundleHelpBookName" = "Burn 輔助說明";
+NSHumanReadableCopyright = "Kiwi Fruitware 2011";
+CFBundleName = "Burn";
+CFBundleDisplayName = "Burn";
+CFBundleHelpBookName = "Burn 輔助說明";
 
 /* File types */
 "Image document" = "影像檔文件";
