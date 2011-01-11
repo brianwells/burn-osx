@@ -21,9 +21,6 @@
 {
 	if (imagePath)
 		[imagePath release];
-		
-	if (properties)
-		[properties release];
 
 	[super dealloc];
 }
@@ -668,7 +665,7 @@
 				errorString = [[status objectForKey:DRErrorStatusKey] objectForKey:@"DRErrorStatusErrorInfoStringKey"];
 			else
 				errorString = [[status objectForKey:DRErrorStatusKey] objectForKey:DRErrorStatusErrorStringKey];
-		NSLog(@"%@", errorString);
+
 			[defaultCenter postNotificationName:@"KWBurnFinished" object:self userInfo:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"KWFailure", errorString,nil] forKeys:[NSArray arrayWithObjects:@"ReturnCode",@"Error",nil]]];
 		}
 		
