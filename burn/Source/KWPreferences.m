@@ -75,8 +75,11 @@ return self;
 {
 	[[NSNotificationCenter defaultCenter] removeObserver:self];
 	[[DRNotificationCenter currentRunLoopCenter] removeObserver:self name:DRDeviceStatusChangedNotification object:nil];
+	
 	[itemsList release];
 	[savedAudioItem release];
+	[themePaths release];
+	[toolbar release];
 
 	[super dealloc];
 }

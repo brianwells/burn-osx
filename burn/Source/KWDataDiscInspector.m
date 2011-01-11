@@ -120,6 +120,8 @@ static NSArray* filesystemNameTagMappings = nil;
 - (void) dealloc
 {
 	[fsProperties release];
+	[propertyTagMappings release];
+	[filesystemNameTagMappings release];
 	
 	[super dealloc];
 }
@@ -522,7 +524,7 @@ static NSArray* filesystemNameTagMappings = nil;
 		[icon setExplicitFilesystemMask:DRFilesystemInclusionMaskHFSPlus];
 		[filesystemRoot addChild:icon];
 		[filesystemRoot setProperty:[NSNumber numberWithUnsignedShort:1024] forKey:DRMacFinderFlags inFilesystem:DRHFSPlus];
-		[iconView setImage:[[NSImage alloc] initWithContentsOfFile:[panel filename]]];
+		[iconView setImage:[[[NSImage alloc] initWithContentsOfFile:[panel filename]] autorelease]];
 	}
 }
 

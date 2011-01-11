@@ -20,10 +20,10 @@
 - (void)dealloc
 {
 	if (imagePath)
-	{
 		[imagePath release];
-		imagePath = nil;
-	}
+		
+	if (properties)
+		[properties release];
 
 	[super dealloc];
 }
@@ -319,9 +319,11 @@
 
 - (NSInteger)getImageSizeAtPath:(NSString *)path
 {
+	NSFileManager *defaultManager = [NSFileManager defaultManager];
+
 	if ([[path pathExtension] isEqualTo:@"cue"])
 	{
-		return (NSInteger)[[[[NSFileManager defaultManager] fileAttributesAtPath:[[path stringByDeletingPathExtension] stringByAppendingPathExtension:@"bin"] traverseLink:YES] objectForKey:NSFileSize] floatValue] / 1024;
+		return (NSInteger)[[[defaultManager fileAttributesAtPath:[[path stringByDeletingPathExtension] stringByAppendingPathExtension:@"bin"] traverseLink:YES] objectForKey:NSFileSize] floatValue] / 1024;
 	}
 	else if ([[path pathExtension] isEqualTo:@"toc"])
 	{
@@ -341,14 +343,14 @@
 			if ([[filePath stringByDeletingLastPathComponent] isEqualTo:@""])
 				filePath = [[path stringByDeletingLastPathComponent] stringByAppendingPathComponent:filePath];
 				
-			appendSize = appendSize + [[[[NSFileManager defaultManager] fileAttributesAtPath:filePath traverseLink:YES] objectForKey:NSFileSize] floatValue];
+			appendSize = appendSize + [[[defaultManager fileAttributesAtPath:filePath traverseLink:YES] objectForKey:NSFileSize] floatValue];
 		}
 			
 		return (NSInteger)appendSize / 1024;
 	}
 	else
 	{
-		return (NSInteger)[[[[NSFileManager defaultManager] fileAttributesAtPath:path traverseLink:YES] objectForKey:NSFileSize] floatValue] / 1024;
+		return (NSInteger)[[[defaultManager fileAttributesAtPath:path traverseLink:YES] objectForKey:NSFileSize] floatValue] / 1024;
 	}
 }
 
@@ -934,7 +936,7 @@ return [[[[savedDevice status] objectForKey:DRDeviceMediaInfoKey] objectForKey:D
 		if ([videoSession state] == NSOnState)
 			[types addObject:[NSNumber numberWithInt:2]];
 		
-		return [types copy];
+		return types;
 	}
 	else
 	{

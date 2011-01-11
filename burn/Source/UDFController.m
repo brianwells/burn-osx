@@ -26,6 +26,13 @@
 	return self;
 }
 
+- (void)dealloc
+{
+	[propertyMappings release];
+	
+	[super dealloc];
+}
+
 - (NSString*) filesystem
 {
 	// We're the controller for the UDF filesystem, so return the correct value.

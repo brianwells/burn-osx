@@ -84,6 +84,13 @@
 	return self;
 }
 
+- (void)dealloc
+{
+	[propertyMappings release];
+	
+	[super dealloc];
+}
+
 - (NSString*) filesystem
 {
 	// We're the controller for the HFS+ filesystem, so return the correct value.
@@ -285,9 +292,9 @@
 		}
 	
 		if ([[self getPropertyForKey:DRInvisible] boolValue])
-		[[finderFlags cellWithTag:16384] setState:NSOnState];
+			[[finderFlags cellWithTag:16384] setState:NSOnState];
 		else
-		[[finderFlags cellWithTag:16384] setState:NSOffState];
+			[[finderFlags cellWithTag:16384] setState:NSOffState];
 }
 
 - (IBAction) setIconPositionProperty:(id)sender

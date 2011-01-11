@@ -402,7 +402,7 @@
 			else
 				size = [leadout intValue] - [[currentTrack objectForKey:@"Start Block"] intValue];
 		
-			DRTrack *track = [[DRTrack alloc] initWithProducer:self];
+			DRTrack *track = [[[DRTrack alloc] initWithProducer:self] autorelease];
 			NSMutableDictionary *dict = [NSMutableDictionary dictionary];
 			
 			[dict setObject:[NSNumber numberWithBool:YES] forKey:@"KWFirstTrack"];
@@ -442,7 +442,7 @@
 	type = 6;
 
 	//Create our audio track
-	DRTrack *track = [[DRTrack alloc] initWithProducer:self];
+	DRTrack *track = [[[DRTrack alloc] initWithProducer:self] autorelease];
 	NSMutableDictionary *properties = [NSMutableDictionary dictionary];
 		
 	[properties setObject:[NSNumber numberWithFloat:[self audioTrackSizeAtPath:path]] forKey:DRTrackLengthKey];

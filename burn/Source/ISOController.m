@@ -78,6 +78,13 @@
 	return self;
 }
 
+- (void)dealloc
+{
+	[propertyMappings release];
+	
+	[super dealloc];
+}
+
 - (void)updateSpecific
 {
 	[versionNumber setObjectValue:[self getPropertyForKey:DRISO9660VersionNumber]];
