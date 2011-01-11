@@ -518,10 +518,10 @@
 	NSInteger selrow = [tableViewPopup indexOfSelectedItem];
 
 	NSNotificationCenter *defaultCenter = [NSNotificationCenter defaultCenter];
-
+	
 	if (selrow == 0 && [KWCommonMethods OSVersion] >= 0x1040)
 	{
-		if (selrow == -1)
+		if ([tableView selectedRow] == -1)
 			[defaultCenter postNotificationName:@"KWChangeInspector" object:tableView userInfo:[NSDictionary dictionaryWithObjectsAndKeys:@"KWAudioDisc",@"Type",nil]];
 		else
 			[defaultCenter postNotificationName:@"KWChangeInspector" object:tableView userInfo:[NSDictionary dictionaryWithObjectsAndKeys:@"KWAudio",@"Type",nil]];
