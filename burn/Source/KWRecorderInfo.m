@@ -37,6 +37,8 @@
 
 - (void)dealloc
 {
+	[discTypes release];
+
 	[[DRNotificationCenter currentRunLoopCenter] removeObserver:self name:DRDeviceStatusChangedNotification object:nil];
 	[[NSNotificationCenter defaultCenter] removeObserver:self];
 
