@@ -7,7 +7,7 @@
 //
 
 #import "KWAudioController.h"
-#if MAC_OS_X_VERSION_MAX_ALLOWED < MAC_OS_X_VERSION_10_4
+#if MAC_OS_X_VERSION_MAX_ALLOWED < 1050
 #import <QuickTime/QuickTime.h>
 #endif
 #import <MultiTag/MultiTag.h>
@@ -57,28 +57,31 @@
 	}
 	
 	#if MAC_OS_X_VERSION_MAX_ALLOWED >= MAC_OS_X_VERSION_10_4
-	//Map track options to cue strings
-	NSArray *cueStrings = [NSArray arrayWithObjects:			@"TITLE",
-																@"PERFORMER",
-																@"COMPOSER",
-																@"SONGWRITER",
-																@"ARRANGER",
-																@"MESSAGE",
-																@"REM GENRE",
-																@"REM PRIVATE",
-																nil];
+	if ([KWCommonMethods OSVersion] >= 0x1040)
+	{
+		//Map track options to cue strings
+		NSArray *cueStrings = [NSArray arrayWithObjects:			@"TITLE",
+																	@"PERFORMER",
+																	@"COMPOSER",
+																	@"SONGWRITER",
+																	@"ARRANGER",
+																	@"MESSAGE",
+																	@"REM GENRE",
+																	@"REM PRIVATE",
+																	nil];
 																
-	NSArray *trackStrings = [NSArray arrayWithObjects:			DRCDTextTitleKey,
-																DRCDTextPerformerKey,
-																DRCDTextComposerKey,
-																DRCDTextSongwriterKey,
-																DRCDTextArrangerKey,
-																DRCDTextSpecialMessageKey,
-																DRCDTextGenreKey,
-																DRCDTextClosedKey,
-																nil];
+		NSArray *trackStrings = [NSArray arrayWithObjects:			DRCDTextTitleKey,
+																	DRCDTextPerformerKey,
+																	DRCDTextComposerKey,
+																	DRCDTextSongwriterKey,
+																	DRCDTextArrangerKey,
+																	DRCDTextSpecialMessageKey,
+																	DRCDTextGenreKey,
+																	DRCDTextClosedKey,
+																	nil];
 	
-	cueMappings = [[NSDictionary alloc] initWithObjects:cueStrings forKeys:trackStrings];
+		cueMappings = [[NSDictionary alloc] initWithObjects:cueStrings forKeys:trackStrings];
+	}
 	#endif
 	
 	return self;
@@ -106,9 +109,12 @@
 	[allowedFileTypes release];
 	
 	#if MAC_OS_X_VERSION_MAX_ALLOWED >= MAC_OS_X_VERSION_10_4
-	//We might have retained it, so release it
-	if (cdtext)
-		[cdtext release];
+	if ([KWCommonMethods OSVersion] >= 0x1040)
+	{
+		//We might have retained it, so release it
+		if (cdtext)
+			[cdtext release];
+	}
 	#endif
 
 	[super dealloc];
@@ -134,7 +140,7 @@
 	}
 	else
 	{
-		#if MAC_OS_X_VERSION_MAX_ALLOWED < MAC_OS_X_VERSION_10_4
+		#if MAC_OS_X_VERSION_MAX_ALLOWED < 1050
 		//EnterMovies for QuickTime 6 functions later to be used
 		EnterMovies();
 	
@@ -180,14 +186,17 @@
 
 		//Remove rows
 		#if MAC_OS_X_VERSION_MAX_ALLOWED >= MAC_OS_X_VERSION_10_4
-		NSMutableArray *trackDictionaries = [NSMutableArray arrayWithArray:[cdtext trackDictionaries]];
-		NSDictionary *discDictionary = [NSDictionary dictionaryWithDictionary:[trackDictionaries objectAtIndex:0]];
-		[trackDictionaries removeObjectAtIndex:0];
+		if ([KWCommonMethods OSVersion] >= 0x1040)
+		{
+			NSMutableArray *trackDictionaries = [NSMutableArray arrayWithArray:[cdtext trackDictionaries]];
+			NSDictionary *discDictionary = [NSDictionary dictionaryWithDictionary:[trackDictionaries objectAtIndex:0]];
+			[trackDictionaries removeObjectAtIndex:0];
 		
-		NSArray *selectedDictionaries = [KWCommonMethods allSelectedItemsInTableView:tableView fromArray:trackDictionaries];
-		[trackDictionaries removeObjectsInArray:selectedDictionaries];
-		[trackDictionaries insertObject:discDictionary atIndex:0];
-		[cdtext setTrackDictionaries:trackDictionaries];
+			NSArray *selectedDictionaries = [KWCommonMethods allSelectedItemsInTableView:tableView fromArray:trackDictionaries];
+			[trackDictionaries removeObjectsInArray:selectedDictionaries];
+			[trackDictionaries insertObject:discDictionary atIndex:0];
+			[cdtext setTrackDictionaries:trackDictionaries];
+		}
 		#endif
 		
 		NSArray *selectedObjects = [KWCommonMethods allSelectedItemsInTableView:tableView fromArray:tracks];
@@ -278,10 +287,9 @@
 			[track setProperties:trackProperties];
 			[tracks addObject:track];
 			
+			#if MAC_OS_X_VERSION_MAX_ALLOWED >= MAC_OS_X_VERSION_10_4
 			if ([KWCommonMethods OSVersion] >= 0x1040 && [[[path pathExtension] lowercaseString] isEqualTo:@"mp3"] | [[[path pathExtension] lowercaseString] isEqualTo:@"m4a"])
 			{
-				#if MAC_OS_X_VERSION_MAX_ALLOWED >= MAC_OS_X_VERSION_10_4
-				
 				MultiTag *soundTag = [[MultiTag alloc] initWithFile:path];
 				
 				NSString *album = [soundTag getTagAlbum];
@@ -329,9 +337,16 @@
 				[cdtext setObject:[soundTag getTagComments] forKey:DRCDTextSpecialMessageKey ofTrack:lastTrack];
 				
 				[soundTag release];
-				
-				#endif
 			}
+			else if ([KWCommonMethods OSVersion] >= 0x1040)
+			{
+				if (!cdtext)
+				{
+					cdtext = [[DRCDTextBlock cdTextBlockWithLanguage:@"" encoding:DRCDTextEncodingISOLatin1Modified] retain];
+					[cdtext setObject:NSLocalizedString(@"Untitled", nil) forKey:DRCDTextTitleKey ofTrack:0];
+				}
+			}
+			#endif
 		}
 			
 		if (currentDropRow > -1)
@@ -355,11 +370,12 @@
 - (IBAction)changeDiscName:(id)sender
 {
 	#if MAC_OS_X_VERSION_MAX_ALLOWED >= MAC_OS_X_VERSION_10_4
-	NSInteger selrow = [tableViewPopup indexOfSelectedItem];
-	
-	if	(selrow == 0)
+	if ([KWCommonMethods OSVersion] >= 0x1040)
 	{
-		[cdtext setObject:[discName stringValue] forKey:DRCDTextTitleKey ofTrack:0];
+		NSInteger selrow = [tableViewPopup indexOfSelectedItem];
+	
+		if	(selrow == 0)
+			[cdtext setObject:[discName stringValue] forKey:DRCDTextTitleKey ofTrack:0];
 	}
 	#endif
 }
@@ -452,27 +468,24 @@
 	else
 	{
 		#if MAC_OS_X_VERSION_MAX_ALLOWED >= MAC_OS_X_VERSION_10_4
-		if ([[NSUserDefaults standardUserDefaults] boolForKey:@"KWUseCDText"] == YES && cdtext)
+		if ([KWCommonMethods OSVersion] >= 0x1040)
 		{
-			NSMutableDictionary *burnProperties = [NSMutableDictionary dictionary];
+			if ([[NSUserDefaults standardUserDefaults] boolForKey:@"KWUseCDText"] == YES && cdtext)
+			{
+				NSMutableDictionary *burnProperties = [NSMutableDictionary dictionary];
 			
-			[burnProperties setObject:cdtext forKey:DRCDTextKey];
+				[burnProperties setObject:cdtext forKey:DRCDTextKey];
 			
-			id mcn = [cdtext objectForKey:DRCDTextMCNISRCKey ofTrack:0];
-			if (mcn)
-				[burnProperties setObject:mcn forKey:DRMediaCatalogNumberKey];
+				id mcn = [cdtext objectForKey:DRCDTextMCNISRCKey ofTrack:0];
+				if (mcn)
+					[burnProperties setObject:mcn forKey:DRMediaCatalogNumberKey];
 			
-			[burner addBurnProperties:burnProperties];
-			
-			return tracks;
+				[burner addBurnProperties:burnProperties];
+			}
 		}
-		else
-		{
-			return tracks;
-		}
-		#else
-		return tracks;
 		#endif
+		
+		return tracks;
 	}
 
 	return nil;
@@ -975,53 +988,56 @@
 - (BOOL)tableView:(NSTableView*)tv acceptDrop:(id <NSDraggingInfo>)info row:(NSInteger)row dropOperation:(NSTableViewDropOperation)op
 {
 	#if MAC_OS_X_VERSION_MAX_ALLOWED >= MAC_OS_X_VERSION_10_4
-	NSInteger selrow = [tableViewPopup indexOfSelectedItem];
-
-	if (selrow == 0)
+	if ([KWCommonMethods OSVersion] >= 0x1040)
 	{
-		NSPasteboard *pboard = [info draggingPasteboard];
-	
-		if ([[pboard types] containsObject:@"NSGeneralPboardType"])
+		NSInteger selrow = [tableViewPopup indexOfSelectedItem];
+
+		if (selrow == 0)
 		{
-			NSMutableArray *trackDictionaries = [NSMutableArray arrayWithArray:[cdtext trackDictionaries]];
-			NSDictionary *discDictionary = [NSDictionary dictionaryWithDictionary:[trackDictionaries objectAtIndex:0]];
-			[trackDictionaries removeObjectAtIndex:0];
-			
-			NSArray *draggedRows = [pboard propertyListForType:@"KWDraggedRows"];
-			NSMutableArray *draggedObjects = [NSMutableArray array];
-		
-			NSInteger i;
-			for (i = 0; i < [draggedRows count]; i ++)
-			{
-				NSInteger currentRow = [[draggedRows objectAtIndex:i] intValue];
-				[draggedObjects addObject:[trackDictionaries objectAtIndex:currentRow]];
-			}
-		
-			NSInteger numberOfRows = [trackDictionaries count];
-			[trackDictionaries removeObjectsInArray:draggedObjects];
-			
-			for (i = 0; i < [draggedObjects count]; i ++)
-			{
-				id object = [draggedObjects objectAtIndex:i];
-				NSInteger destinationRow = row + i;
-			
-				if (row > numberOfRows)
-				{
-					[trackDictionaries addObject:object];
-			
-					destinationRow = [tableData count] - 1;
-				}
-				else
-				{
-					if ([[draggedRows objectAtIndex:i] intValue] < destinationRow)
-						destinationRow = destinationRow - [draggedRows count];
-				
-					[trackDictionaries insertObject:object atIndex:destinationRow];
-				}
-			}
+			NSPasteboard *pboard = [info draggingPasteboard];
 	
-			[trackDictionaries insertObject:discDictionary atIndex:0];
-			[cdtext setTrackDictionaries:trackDictionaries];
+			if ([[pboard types] containsObject:@"NSGeneralPboardType"])
+			{
+				NSMutableArray *trackDictionaries = [NSMutableArray arrayWithArray:[cdtext trackDictionaries]];
+				NSDictionary *discDictionary = [NSDictionary dictionaryWithDictionary:[trackDictionaries objectAtIndex:0]];
+				[trackDictionaries removeObjectAtIndex:0];
+			
+				NSArray *draggedRows = [pboard propertyListForType:@"KWDraggedRows"];
+				NSMutableArray *draggedObjects = [NSMutableArray array];
+		
+				NSInteger i;
+				for (i = 0; i < [draggedRows count]; i ++)
+				{
+					NSInteger currentRow = [[draggedRows objectAtIndex:i] intValue];
+					[draggedObjects addObject:[trackDictionaries objectAtIndex:currentRow]];
+				}
+		
+				NSInteger numberOfRows = [trackDictionaries count];
+				[trackDictionaries removeObjectsInArray:draggedObjects];
+			
+				for (i = 0; i < [draggedObjects count]; i ++)
+				{
+					id object = [draggedObjects objectAtIndex:i];
+					NSInteger destinationRow = row + i;
+			
+					if (row > numberOfRows)
+					{
+						[trackDictionaries addObject:object];
+			
+						destinationRow = [tableData count] - 1;
+					}
+					else
+					{
+						if ([[draggedRows objectAtIndex:i] intValue] < destinationRow)
+							destinationRow = destinationRow - [draggedRows count];
+				
+						[trackDictionaries insertObject:object atIndex:destinationRow];
+					}
+				}
+	
+				[trackDictionaries insertObject:discDictionary atIndex:0];
+				[cdtext setTrackDictionaries:trackDictionaries];
+			}
 		}
 	}
 	#endif
@@ -1077,20 +1093,27 @@
 - (NSInteger)getMovieDuration:(NSString *)path
 {
 	NSInteger duration;
-	
-	#if MAC_OS_X_VERSION_MAX_ALLOWED < MAC_OS_X_VERSION_10_4
-	NSMovie *theMovie = [[NSMovie alloc] initWithURL:[NSURL fileURLWithPath:path] byReference:NO];
 
-	if (theMovie)
+	if ([KWCommonMethods isQuickTimeSevenInstalled])
 	{
-		duration = GetMovieDuration([theMovie QTMovie]) / GetMovieTimeScale([theMovie QTMovie]);
-		[theMovie release];
+		#ifdef USE_QTKIT
+		QTMovie *qtMovie = [QTMovie movieWithFile:path error:nil];
+		QTTime movieDuration = [qtMovie duration];
+		duration = (NSInteger)movieDuration.timeValue / (NSInteger)movieDuration.timeScale;
+		#endif
 	}
-	#else
-	QTMovie *qtMovie = [QTMovie movieWithFile:path error:nil];
-	QTTime movieDuration = [qtMovie duration];
-	duration = (NSInteger)movieDuration.timeValue / (NSInteger)movieDuration.timeScale;
-	#endif
+	else
+	{
+		#if MAC_OS_X_VERSION_MAX_ALLOWED < 1050
+		NSMovie *theMovie = [[NSMovie alloc] initWithURL:[NSURL fileURLWithPath:path] byReference:NO];
+
+		if (theMovie)
+		{
+			duration = GetMovieDuration([theMovie QTMovie]) / GetMovieTimeScale([theMovie QTMovie]);
+			[theMovie release];
+		}
+		#endif
+	}
 
 	return duration;
 }
@@ -1132,7 +1155,7 @@
 	NSUserDefaults *standardDefaults = [NSUserDefaults standardUserDefaults];
 	
 	#if MAC_OS_X_VERSION_MAX_ALLOWED >= MAC_OS_X_VERSION_10_4
-	if ([standardDefaults objectForKey:@"KWUseCDText"])
+	if ([KWCommonMethods OSVersion] >= 0x1040 && [standardDefaults objectForKey:@"KWUseCDText"])
 	{
 		NSArray *keys = [cueMappings allKeys];
 	
@@ -1172,7 +1195,7 @@
 		cueFile = [NSString stringWithFormat:@"%@\n  TRACK %2i AUDIO", cueFile, trackNumber];
 		
 		#if MAC_OS_X_VERSION_MAX_ALLOWED >= MAC_OS_X_VERSION_10_4
-		if ([standardDefaults objectForKey:@"KWUseCDText"])
+		if ([KWCommonMethods OSVersion] >= 0x1040 && [standardDefaults objectForKey:@"KWUseCDText"])
 		{
 			NSArray *keys = [cueMappings allKeys];
 		
