@@ -663,19 +663,49 @@
 
 - (BOOL)tableView:(NSTableView*)tv acceptDrop:(id <NSDraggingInfo>)info row:(NSInteger)row dropOperation:(NSTableViewDropOperation)op
 {
-NSPasteboard *pboard = [info draggingPasteboard];
+	NSPasteboard *pboard = [info draggingPasteboard];
 
 	if ([[pboard types] containsObject:@"NSGeneralPboardType"] && canBeReorderd)
 	{
-		NSData *data = [pboard dataForType:@"NSGeneralPboardType"];
-		id object = [NSUnarchiver unarchiveObjectWithData:data];
-		[tableData insertObject:object atIndex:row];
+		NSArray *draggedRows = [pboard propertyListForType:@"KWDraggedRows"];
+		NSMutableArray *draggedObjects = [NSMutableArray array];
 		
-		NSInteger removeRow = [[pboard stringForType:@"KWRemoveRowPboardType"] intValue];
-		if (removeRow > row)
-			[tableData removeObjectAtIndex:removeRow+1];
-		else
-			[tableData removeObjectAtIndex:removeRow];
+		NSInteger i;
+		for (i = 0; i < [draggedRows count]; i ++)
+		{
+			NSInteger currentRow = [[draggedRows objectAtIndex:i] intValue];
+			[draggedObjects addObject:[tableData objectAtIndex:currentRow]];
+		}
+		
+		NSInteger numberOfRows = [tableData count];
+		[tableData removeObjectsInArray:draggedObjects];
+		
+		BOOL shouldSelectRow = ([draggedRows count] > 1 | [tableView isRowSelected:[[draggedRows objectAtIndex:0] intValue]]);
+		
+		[tableView deselectAll:nil];
+		
+		for (i = 0; i < [draggedObjects count]; i ++)
+		{
+			id object = [draggedObjects objectAtIndex:i];
+			NSInteger destinationRow = row + i;
+			
+			if (row > numberOfRows)
+			{
+				[tableData addObject:object];
+			
+				destinationRow = [tableData count] - 1;
+			}
+			else
+			{
+				if ([[draggedRows objectAtIndex:i] intValue] < destinationRow)
+					destinationRow = destinationRow - [draggedRows count];
+				
+				[tableData insertObject:object atIndex:destinationRow];
+			}
+			
+			if (shouldSelectRow)
+				[tableView selectRowIndexes:[NSIndexSet indexSetWithIndex:destinationRow] byExtendingSelection:YES];
+		}
 	
 		[tableView reloadData];
 	}
@@ -736,9 +766,10 @@ return YES;
 		id object = [tableData objectAtIndex:[[rows lastObject] intValue]];
 		NSData *data = [NSArchiver archivedDataWithRootObject:object];
 
-		[pboard declareTypes: [NSArray arrayWithObjects:@"NSGeneralPboardType",@"KWRemoveRowPboardType",nil] owner:nil];
+		[pboard declareTypes: [NSArray arrayWithObjects:@"NSGeneralPboardType",@"KWRemoveRowPboardType",@"KWDraggedRows",nil] owner:nil];
 		[pboard setData:data forType:@"NSGeneralPboardType"];
 		[pboard setString:[[rows lastObject] stringValue] forType:@"KWRemoveRowPboardType"];
+		[pboard setPropertyList:rows forType:@"KWDraggedRows"];
    
 		return YES;
 	}
