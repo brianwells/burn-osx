@@ -1,5 +1,5 @@
 #import "KWConverter.h"
-#if MAC_OS_X_VERSION_MAX_ALLOWED < MAC_OS_X_VERSION_10_4
+#if MAC_OS_X_VERSION_MAX_ALLOWED < 1050
 #import <QuickTime/QuickTime.h>
 #endif
 
@@ -911,11 +911,7 @@
 			
 				if ([[NSFileManager defaultManager] fileExistsAtPath:projectSettings])
 				{
-					#if MAC_OS_X_VERSION_MAX_ALLOWED >= MAC_OS_X_VERSION_10_4
-					if ([[NSString stringWithContentsOfFile:projectSettings usedEncoding:nil error:nil] rangeOfString:@"WIDE"].length > 0)
-					#else
-					if ([[NSString stringWithContentsOfFile:projectSettings] rangeOfString:@"WIDE"].length > 0)
-					#endif
+					if ([[KWCommonMethods stringWithContentsOfFile:projectSettings] rangeOfString:@"WIDE"].length > 0)
 					{
 						inputWidth = 1024;
 						inputAspect = (float)16 / (float)9;

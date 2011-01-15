@@ -35,7 +35,7 @@
 
 - (BOOL)skipPastString:(NSString *)skipString;
 - (BOOL)scanToEndIntoString:(NSString **)result;
-#if MAC_OS_X_VERSION_MAX_ALLOWED < MAC_OS_X_VERSION_10_5
+#if MAC_OS_X_VERSION_MAX_ALLOWED < 1050
 - (BOOL)scanInteger:(NSInteger *)value;
 #endif
 

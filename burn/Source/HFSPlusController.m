@@ -212,21 +212,13 @@
 
 		data = [self getPropertyForKey:DRMacFileCreator];
 		if (data)
-			#if MAC_OS_X_VERSION_MAX_ALLOWED >= MAC_OS_X_VERSION_10_4
-			[creator setStringValue:[NSString stringWithCString:[data bytes] encoding:NSASCIIStringEncoding]];
-			#else
-			[creator setStringValue:[NSString stringWithCString:[data bytes] length:4]];
-			#endif
+			[creator setStringValue:[KWCommonMethods stringWithCString:[data bytes] length:4]];
 		else
 			[creator setStringValue:@""];
 		
 		data = [self getPropertyForKey:DRMacFileType];
 		if (data)
-			#if MAC_OS_X_VERSION_MAX_ALLOWED >= MAC_OS_X_VERSION_10_4
-			[type setStringValue:[NSString stringWithCString:[data bytes] encoding:NSASCIIStringEncoding]];
-			#else
-			[type setStringValue:[NSString stringWithCString:[data bytes] length:4]];
-			#endif
+			[type setStringValue:[KWCommonMethods stringWithCString:[data bytes] length:4]];
 		else
 			[type setStringValue:@""];
 	

@@ -9,7 +9,7 @@
 #import "KWCommonMethods.h"
 #import "KWDRFolder.h"
 #import "KWWindowController.h"
-#if MAC_OS_X_VERSION_MAX_ALLOWED < MAC_OS_X_VERSION_10_4
+#if MAC_OS_X_VERSION_MAX_ALLOWED < 1050
 #import <QuickTime/QuickTime.h>
 #endif
 #ifdef USE_QTKIT
@@ -52,9 +52,10 @@
 
 + (BOOL)isQuickTimeSevenInstalled
 {
+	if ([KWCommonMethods OSVersion] >= 0x1040)
+		return YES;
+		
 	#if MAC_OS_X_VERSION_MAX_ALLOWED >= MAC_OS_X_VERSION_10_4
-	return YES;
-	#else
 	#ifdef USE_QTKIT
 	long version;
 	OSErr result;
@@ -408,11 +409,7 @@
 		else 
 		{
 			// check if file is in .hidden
-			#if MAC_OS_X_VERSION_MAX_ALLOWED >= MAC_OS_X_VERSION_10_4
-			NSString *hiddenFile = [NSString stringWithContentsOfFile:@"/.hidden" usedEncoding:nil error:nil];
-			#else
-			NSString *hiddenFile = [NSString stringWithContentsOfFile:@"/.hidden"];
-			#endif
+			NSString *hiddenFile = [KWCommonMethods stringWithContentsOfFile:@"/.hidden"];
 			NSArray *dotHiddens = [hiddenFile componentsSeparatedByString:@"\n"];
 		
 			if ([dotHiddens containsObject:[path lastPathComponent]])
@@ -712,7 +709,7 @@
 	}
 	else
 	{
-		#if MAC_OS_X_VERSION_MAX_ALLOWED < MAC_OS_X_VERSION_10_4
+		#if MAC_OS_X_VERSION_MAX_ALLOWED < 1050
 		succes = [string writeToFile:path atomically:YES];
 		NSFileManager *defaultManager = [NSFileManager defaultManager];
 		NSString *file = [defaultManager displayNameAtPath:path];
@@ -751,21 +748,24 @@
 	BOOL succes;
 	NSString *details;
 	
+	#if MAC_OS_X_VERSION_MAX_ALLOWED >= MAC_OS_X_VERSION_10_4
 	if ([KWCommonMethods OSVersion] >= 0x1040)
 	{
-		#if MAC_OS_X_VERSION_MAX_ALLOWED >= MAC_OS_X_VERSION_10_4
+		
 		NSError *writeError;
 		succes = [imageData writeToFile:path options:NSAtomicWrite error:&writeError];
 			
 		if (!succes)
 			details = [writeError localizedDescription];
-		#endif
 	}
 	else
 	{
+	#endif
 		succes = [imageData writeToFile:path atomically:YES];
 		details = [NSString stringWithFormat:@"Failed to save image to Path: %@", path];
+	#if MAC_OS_X_VERSION_MAX_ALLOWED >= MAC_OS_X_VERSION_10_4
 	}
+	#endif
 	
 	if (!succes)
 		*error = details;
@@ -785,6 +785,35 @@
 			*error = [NSString stringWithFormat:NSLocalizedString(@"Can't create '%@' in '%@'", nil), [defaultManager displayNameAtPath:path], [defaultManager displayNameAtPath:[path stringByDeletingLastPathComponent]]];
 	
 	return succes;
+}
+
+////////////////////////
+// Compatible actions //
+////////////////////////
+
+#pragma mark -
+#pragma mark •• Compatible actions
+
++ (id)stringWithContentsOfFile:(NSString *)path
+{
+	#if MAC_OS_X_VERSION_MAX_ALLOWED >= MAC_OS_X_VERSION_10_4
+	if ([KWCommonMethods OSVersion] >= 0x1040)
+		return [NSString stringWithContentsOfFile:path usedEncoding:nil error:nil];
+	else
+	#endif
+		return [NSString stringWithContentsOfFile:path];
+	
+}
+
++ (id)stringWithCString:(const char *)cString length:(NSUInteger)length
+{
+	#if MAC_OS_X_VERSION_MAX_ALLOWED >= MAC_OS_X_VERSION_10_4
+	if ([KWCommonMethods OSVersion] >= 0x1040)
+		return [NSString stringWithCString:cString encoding:NSASCIIStringEncoding];
+	else
+	#endif
+		return [NSString stringWithCString:cString length:length];
+	
 }
 
 ///////////////////
@@ -1096,7 +1125,7 @@
 	}
 	else
 	{
-		#if MAC_OS_X_VERSION_MAX_ALLOWED < MAC_OS_X_VERSION_10_4
+		#if MAC_OS_X_VERSION_MAX_ALLOWED < 1050
 		NSMutableArray *qtTypes = [NSMutableArray array];
 		ComponentDescription findCD = {0, 0, 0, 0, 0};
 		ComponentDescription infoCD = {0, 0, 0, 0, 0};
@@ -1140,84 +1169,93 @@
 + (NSInteger)createDVDFolderAtPath:(NSString *)path ofType:(NSInteger)type fromTableData:(id)tableData errorString:(NSString **)error
 {
 	#if MAC_OS_X_VERSION_MAX_ALLOWED >= MAC_OS_X_VERSION_10_4
-	NSInteger succes;
-	NSInteger x, z = 0;
-	NSArray *files;
-	NSPredicate *trackPredicate;
+	if ([KWCommonMethods OSVersion] >= 0x1040)
+	{
+		NSInteger succes;
+		NSInteger x, z = 0;
+		NSArray *files;
+		NSPredicate *trackPredicate;
 
-	if (type == 0)
-	{
-		files = [NSArray arrayWithObjects:@"AUDIO_TS.IFO", @"AUDIO_TS.VOB", @"AUDIO_TS.BUP", @"AUDIO_PP.IFO",
-													@"AUDIO_SV.IFO", @"AUDIO_SV.VOB", @"AUDIO_SV.BUP", nil];
-		trackPredicate = [NSPredicate predicateWithFormat:@"SELF MATCHES 'ATS_\\\\d\\\\d_\\\\d\\\\.(?:IFO|AOB|BUP)'"];
-	}
-	else
-	{
-		files = [NSArray arrayWithObjects:@"VIDEO_TS.IFO", @"VIDEO_TS.VOB", @"VIDEO_TS.BUP", @"VTS.IFO", @"VTS.BUP", nil];
-		trackPredicate = [NSPredicate predicateWithFormat:@"SELF MATCHES 'VTS_\\\\d\\\\d_\\\\d\\\\.(?:IFO|VOB|BUP)'"];
-	}
-
-	NSDictionary *currentData = [tableData objectAtIndex:0];
-	
-	NSFileManager *defaultManager = [NSFileManager defaultManager];
-	
-	if (![KWCommonMethods createDirectoryAtPath:path errorString:&*error])
-		return 1;
-		
-	// create DVD folder
-	if (![KWCommonMethods createDirectoryAtPath:[path stringByAppendingPathComponent:@"AUDIO_TS"] errorString:&*error])
-		return 1;
-	if (![KWCommonMethods createDirectoryAtPath:[path stringByAppendingPathComponent:@"VIDEO_TS"] errorString:&*error])
-		return 1;
-	
-	// folderName should be AUDIO_TS or VIDEO_TS depending on the type
-	NSString *folderPath = [currentData objectForKey:@"Path"];
-	NSString *folderName = [currentData objectForKey:@"Name"];
-		
-	// copy or link contents that conform to standard
-	succes = 0;
-	NSArray *folderContents = [defaultManager directoryContentsAtPath:folderPath];
-		
-	for (x = 0; x < [folderContents count]; x++) 
-	{
-		NSString *fileName = [[folderContents objectAtIndex:x] uppercaseString];
-		NSString *filePath = [folderPath stringByAppendingPathComponent:[folderContents objectAtIndex:x]];
-		BOOL isDir;
-			
-		if ([defaultManager fileExistsAtPath:filePath isDirectory:&isDir] && !isDir) 
+		if (type == 0)
 		{
-				// normal file... check name
-			if ([files containsObject:fileName] || [trackPredicate evaluateWithObject:fileName]) 
+			files = [NSArray arrayWithObjects:@"AUDIO_TS.IFO", @"AUDIO_TS.VOB", @"AUDIO_TS.BUP", @"AUDIO_PP.IFO",
+													@"AUDIO_SV.IFO", @"AUDIO_SV.VOB", @"AUDIO_SV.BUP", nil];
+			trackPredicate = [NSPredicate predicateWithFormat:@"SELF MATCHES 'ATS_\\\\d\\\\d_\\\\d\\\\.(?:IFO|AOB|BUP)'"];
+		}
+		else
+		{
+			files = [NSArray arrayWithObjects:@"VIDEO_TS.IFO", @"VIDEO_TS.VOB", @"VIDEO_TS.BUP", @"VTS.IFO", @"VTS.BUP", nil];
+			trackPredicate = [NSPredicate predicateWithFormat:@"SELF MATCHES 'VTS_\\\\d\\\\d_\\\\d\\\\.(?:IFO|VOB|BUP)'"];
+		}
+
+		NSDictionary *currentData = [tableData objectAtIndex:0];
+	
+		NSFileManager *defaultManager = [NSFileManager defaultManager];
+	
+		if (![KWCommonMethods createDirectoryAtPath:path errorString:&*error])
+			return 1;
+		
+		// create DVD folder
+		if (![KWCommonMethods createDirectoryAtPath:[path stringByAppendingPathComponent:@"AUDIO_TS"] errorString:&*error])
+			return 1;
+		if (![KWCommonMethods createDirectoryAtPath:[path stringByAppendingPathComponent:@"VIDEO_TS"] errorString:&*error])
+			return 1;
+	
+		// folderName should be AUDIO_TS or VIDEO_TS depending on the type
+		NSString *folderPath = [currentData objectForKey:@"Path"];
+		NSString *folderName = [currentData objectForKey:@"Name"];
+		
+		// copy or link contents that conform to standard
+		succes = 0;
+		NSArray *folderContents = [defaultManager directoryContentsAtPath:folderPath];
+		
+		for (x = 0; x < [folderContents count]; x++) 
+		{
+			NSString *fileName = [[folderContents objectAtIndex:x] uppercaseString];
+			NSString *filePath = [folderPath stringByAppendingPathComponent:[folderContents objectAtIndex:x]];
+			BOOL isDir;
+			
+			if ([defaultManager fileExistsAtPath:filePath isDirectory:&isDir] && !isDir) 
 			{
+				// normal file... check name
+				if ([files containsObject:fileName] || [trackPredicate evaluateWithObject:fileName]) 
+				{
 					// proper name... link or copy
-				NSString *dstPath = [[path stringByAppendingPathComponent:folderName] stringByAppendingPathComponent:fileName];
-				BOOL result = [KWCommonMethods createSymbolicLinkAtPath:dstPath withDestinationPath:filePath errorString:&*error];
+					NSString *dstPath = [[path stringByAppendingPathComponent:folderName] stringByAppendingPathComponent:fileName];
+					BOOL result = [KWCommonMethods createSymbolicLinkAtPath:dstPath withDestinationPath:filePath errorString:&*error];
 					
-				if (result == NO)
-					succes = 1;
-				if (succes == 1)
-					break; 
-				z++;
+					if (result == NO)
+						succes = 1;
+					if (succes == 1)
+						break; 
+					z++;
+				}
 			}
 		}
-	}
 		
-	if (z == 0)
-	{
-		*error = @"Missing files in the VIDEO_TS Folder";
-		succes = 1;
-	}
+		if (z == 0)
+		{
+			*error = @"Missing files in the VIDEO_TS Folder";
+			succes = 1;
+		}
 		
-	return succes;
-	#else
-	NSDictionary *currentData = [tableData objectAtIndex:0];
-	NSString *inPath = [currentData objectForKey:@"Path"];
-	NSString *outPath = [path stringByAppendingPathComponent:[currentData objectForKey:@"Name"]];
-	
-	if ([KWCommonMethods createSymbolicLinkAtPath:outPath withDestinationPath:inPath errorString:&*error])
-		return 0;
+		return succes;
+	}
 	else
-		return 1;
+	{
+	#endif
+		
+		NSDictionary *currentData = [tableData objectAtIndex:0];
+		NSString *inPath = [currentData objectForKey:@"Path"];
+		NSString *outPath = [path stringByAppendingPathComponent:[currentData objectForKey:@"Name"]];
+	
+		if ([KWCommonMethods createSymbolicLinkAtPath:outPath withDestinationPath:inPath errorString:&*error])
+			return 0;
+		else
+			return 1;
+			
+	#if MAC_OS_X_VERSION_MAX_ALLOWED >= MAC_OS_X_VERSION_10_4		
+	}
 	#endif
 }
 

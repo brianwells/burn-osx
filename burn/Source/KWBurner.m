@@ -174,25 +174,24 @@
 		burn = [[DRBurn alloc] initWithDevice:savedDevice];
 		[burn setProperties:properties];
 		[[DRNotificationCenter currentRunLoopCenter] addObserver:self selector:@selector(burnNotification:) name:DRBurnStatusChangedNotification object:burn];
-	
+		
+		#if MAC_OS_X_VERSION_MAX_ALLOWED >= MAC_OS_X_VERSION_10_4
 		if ([KWCommonMethods OSVersion] >= 0x1040)
 		{
-			#if MAC_OS_X_VERSION_MAX_ALLOWED >= MAC_OS_X_VERSION_10_4
+			
 			id layout = [DRBurn layoutForImageFile:path];
 		
 			if (layout != nil)
 				[burn writeLayout:layout];
 			else
 				[[NSNotificationCenter defaultCenter] postNotificationName:@"KWBurnFinished" object:self userInfo:[NSDictionary dictionaryWithObject:@"KWFailure" forKey:@"ReturnCode"]];
-			#endif
 		}
 		else
-		{
+		#endif
 			if ([[path pathExtension] isEqualTo:@"cue"])
 				[burn writeLayout:[[KWTrackProducer alloc] getTracksOfCueFile:path]];
 			else
 				[burn writeLayout:[[KWTrackProducer alloc] getTrackForImage:path withSize:0]];
-		}
 	}
 	else
 	{
@@ -325,11 +324,7 @@
 	else if ([[path pathExtension] isEqualTo:@"toc"])
 	{
 		float appendSize = 0;
-		#if MAC_OS_X_VERSION_MAX_ALLOWED >= MAC_OS_X_VERSION_10_4
-		NSArray *paths = [[NSString stringWithContentsOfFile:path usedEncoding:nil error:nil] componentsSeparatedByString:@"FILE \""];
-		#else
-		NSArray *paths = [[NSString stringWithContentsOfFile:path] componentsSeparatedByString:@"FILE \""];
-		#endif
+		NSArray *paths = [[KWCommonMethods stringWithContentsOfFile:path] componentsSeparatedByString:@"FILE \""];
 		NSString  *filePath;
 			
 		NSInteger z;

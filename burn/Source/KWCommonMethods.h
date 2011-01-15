@@ -9,7 +9,7 @@
 #import <Cocoa/Cocoa.h>
 #import <DiscRecording/DiscRecording.h>
 
-#if MAC_OS_X_VERSION_MAX_ALLOWED < MAC_OS_X_VERSION_10_5
+#if MAC_OS_X_VERSION_MAX_ALLOWED < 1050
 typedef int NSInteger;
 typedef unsigned int NSUInteger;
 #endif
@@ -70,6 +70,10 @@ typedef unsigned int NSUInteger;
 + (BOOL)writeDictionary:(NSDictionary *)dictionary toFile:(NSString *)path errorString:(NSString **)error;
 + (BOOL)saveImage:(NSImage *)image toPath:(NSString *)path errorString:(NSString **)error;
 + (BOOL)createFileAtPath:(NSString *)path attributes:(NSDictionary *)attributes errorString:(NSString **)error;
+
+//Mac OS X 10.3.9 compatible methods
++ (id)stringWithContentsOfFile:(NSString *)path;
++ (id)stringWithCString:(const char *)cString length:(NSUInteger)length;
 
 //Other actions
 //Take all real folders and calculate the total size 

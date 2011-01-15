@@ -234,18 +234,10 @@
 		{
 			//Check if there is a mode2, if so it's not supported by
 			//Apple's Disc burning framework, so show a allert
-			#if MAC_OS_X_VERSION_MAX_ALLOWED >= MAC_OS_X_VERSION_10_4
-			if (![[NSString stringWithContentsOfFile:workingPath usedEncoding:nil error:nil] rangeOfString:@"MODE2"].length > 0)
-			#else
-			if (![[NSString stringWithContentsOfFile:workingPath] rangeOfString:@"MODE2"].length > 0)
-			#endif
+			if (![[KWCommonMethods stringWithContentsOfFile:workingPath] rangeOfString:@"MODE2"].length > 0)
 			{
 				NSDictionary *attrib;
-				#if MAC_OS_X_VERSION_MAX_ALLOWED >= MAC_OS_X_VERSION_10_4
-				NSArray *paths = [[NSString stringWithContentsOfFile:workingPath usedEncoding:nil error:nil] componentsSeparatedByString:@"FILE \""];
-				#else
-				NSArray *paths = [[NSString stringWithContentsOfFile:workingPath] componentsSeparatedByString:@"FILE \""];
-				#endif
+				NSArray *paths = [[KWCommonMethods stringWithContentsOfFile:workingPath] componentsSeparatedByString:@"FILE \""];
 				NSString *filePath;
 				NSString *previousPath;
 				BOOL fileAreCorrect = YES;
@@ -662,12 +654,12 @@
 		{
 			return [[KWTrackProducer alloc] getTrackForImage:outputFile withSize:blocks];
 		}
+		#if MAC_OS_X_VERSION_MAX_ALLOWED >= MAC_OS_X_VERSION_10_4
 		else
-		{NSLog(@"4");
-			#if MAC_OS_X_VERSION_MAX_ALLOWED >= MAC_OS_X_VERSION_10_4
+		{
 			return [DRBurn layoutForImageFile:outputFile];
-			#endif
 		}
+		#endif
 	}
 	
 	return [NSNumber numberWithInt:0];
@@ -862,11 +854,7 @@
 
 - (NSString *)getIsoForDvdFileAtPath:(NSString *)path
 {
-	#if MAC_OS_X_VERSION_MAX_ALLOWED >= MAC_OS_X_VERSION_10_4
-	NSString *info = [NSString stringWithContentsOfFile:path usedEncoding:nil error:nil];
-	#else
-	NSString *info = [NSString stringWithContentsOfFile:path];
-	#endif
+	NSString *info = [KWCommonMethods stringWithContentsOfFile:path];
 	NSArray *arrayOfLines = [info componentsSeparatedByString:@"\n"];
 	NSMutableString *iso = [NSMutableString stringWithString:[arrayOfLines objectAtIndex:1]];
 	[iso replaceOccurrencesOfString:@"\r" withString:@"" options:NSCaseInsensitiveSearch range:NSMakeRange(0, [iso length])];
@@ -877,11 +865,7 @@
 
 - (NSNumber *)getLayerBreakForDvdFileAtPath:(NSString *)path
 {
-	#if MAC_OS_X_VERSION_MAX_ALLOWED >= MAC_OS_X_VERSION_10_4
-	NSString *info = [NSString stringWithContentsOfFile:path usedEncoding:nil error:nil];
-	#else
-	NSString *info = [NSString stringWithContentsOfFile:path];
-	#endif
+	NSString *info = [KWCommonMethods stringWithContentsOfFile:path];
 	NSArray *arrayOfLines = [info componentsSeparatedByString:@"\n"];
 	NSMutableString *lbreak = [NSMutableString stringWithString:[arrayOfLines objectAtIndex:0]];
 	[lbreak replaceOccurrencesOfString:@"\r" withString:@"" options:NSCaseInsensitiveSearch range:NSMakeRange(0, [lbreak length])];

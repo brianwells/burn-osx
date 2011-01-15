@@ -108,11 +108,7 @@
 	NSString *binPath= [[path stringByDeletingPathExtension] stringByAppendingPathExtension:@"bin"];
 	file = fopen([binPath fileSystemRepresentation], "r");
 	
-	#if MAC_OS_X_VERSION_MAX_ALLOWED >= MAC_OS_X_VERSION_10_4
-	return [self getTracksOfLayout:[NSString stringWithContentsOfFile:path usedEncoding:nil error:nil] withTotalSize:[[[NSFileManager defaultManager] fileAttributesAtPath:binPath traverseLink:YES] fileSize]];
-	#else
-	return [self getTracksOfLayout:[NSString stringWithContentsOfFile:path] withTotalSize:[[[NSFileManager defaultManager] fileAttributesAtPath:binPath traverseLink:YES] fileSize]];
-	#endif
+	return [self getTracksOfLayout:[KWCommonMethods stringWithContentsOfFile:path] withTotalSize:[[[NSFileManager defaultManager] fileAttributesAtPath:binPath traverseLink:YES] fileSize]];
 }
 
 - (DRTrack *)getTrackForImage:(NSString *)path withSize:(NSInteger)size

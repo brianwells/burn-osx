@@ -23,7 +23,9 @@
 		//Create details button
 		NSButton *button = [[[NSButton alloc] initWithFrame:frame] autorelease];
 		[button setBezelStyle:NSRoundedBezelStyle];
-		[[button cell] setFont:[NSFont fontWithName:@"Lucida Grande" size:13]];
+		NSFont *detailsButtonFont = [NSFont fontWithName:@"Lucida Grande" size:13];
+		if (detailsButtonFont)
+			[[button cell] setFont:detailsButtonFont];
 		[button setTitle:@"Details"];
 		[button setAction:@selector(showDetails)];
 	
@@ -34,7 +36,8 @@
 		[scrollView setBorderType:NSBezelBorder];
 		frame = NSMakeRect(0, 0, 364, 0);
 		NSTextView *textView = [[[NSTextView alloc] initWithFrame:frame] autorelease];
-		[textView setFont:[NSFont fontWithName:@"Andale Mono" size:12]];
+		if ([KWCommonMethods OSVersion] >= 0x1040)
+			[textView setFont:[NSFont fontWithName:@"Andale Mono" size:12]];
 		[scrollView setDocumentView:textView];
 		[scrollView setHasVerticalScroller:YES];
 	

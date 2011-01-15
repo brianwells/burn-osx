@@ -308,9 +308,9 @@
 
 - (void)setupToolbar
 {
+	#if MAC_OS_X_VERSION_MAX_ALLOWED >= MAC_OS_X_VERSION_10_4
 	if ([KWCommonMethods OSVersion] >= 0x1040)
 	{
-		#if MAC_OS_X_VERSION_MAX_ALLOWED >= MAC_OS_X_VERSION_10_4
 		//First setup accessibility support since it can't be done from interface builder
 		id segmentElement = NSAccessibilityUnignoredDescendant(newTabView);
 		NSArray *segments = [segmentElement accessibilityAttributeValue:NSAccessibilityChildrenAttribute];
@@ -327,15 +327,15 @@
 			[segment accessibilitySetOverrideValue:[descriptions objectAtIndex:i] forAttribute:NSAccessibilityHelpAttribute];
 			i = i + 1;
 		}
-		#endif
 	}
+	#endif
 
 	mainItem = [[[NSToolbarItem alloc] initWithItemIdentifier:@"Main"] autorelease];
     [mainItem setView:newTabView];
 	[mainItem setMinSize:NSMakeSize([newTabView frame].size.width,28)];
 	
 	//Some things don't work in Panther, so doing a trick to hide the toolbarbutton
-	#if MAC_OS_X_VERSION_MAX_ALLOWED < MAC_OS_X_VERSION_10_4
+	#if MAC_OS_X_VERSION_MAX_ALLOWED < 1050
 	if ([KWCommonMethods OSVersion] < 0x1040)
 		[KWToolbarKiller poseAsClass:NSClassFromString(@"_NSThemeWidget")];
 	#endif
