@@ -55,17 +55,15 @@
 	if ([KWCommonMethods OSVersion] >= 0x1040)
 		return YES;
 		
-	#if MAC_OS_X_VERSION_MAX_ALLOWED >= MAC_OS_X_VERSION_10_4
-	#ifdef USE_QTKIT
+	#if MAC_OS_X_VERSION_MAX_ALLOWED < 1050
 	long version;
 	OSErr result;
 
 	result = Gestalt(gestaltQuickTime,&version);
 	return ((result == noErr) && (version >= 0x07000000));
-	#else
+	#endif
+	
 	return NO;
-	#endif
-	#endif
 }
 
 ///////////////////////////
@@ -796,23 +794,22 @@
 
 + (id)stringWithContentsOfFile:(NSString *)path
 {
-	#if MAC_OS_X_VERSION_MAX_ALLOWED >= MAC_OS_X_VERSION_10_4
-	if ([KWCommonMethods OSVersion] >= 0x1040)
-		return [NSString stringWithContentsOfFile:path usedEncoding:nil error:nil];
+	#if MAC_OS_X_VERSION_MAX_ALLOWED < 1050
+	if ([KWCommonMethods OSVersion] < 0x1040)
+		return [NSString stringWithContentsOfFile:path];
 	else
 	#endif
-		return [NSString stringWithContentsOfFile:path];
-	
+		return [NSString stringWithContentsOfFile:path usedEncoding:nil error:nil];
 }
 
 + (id)stringWithCString:(const char *)cString length:(NSUInteger)length
 {
-	#if MAC_OS_X_VERSION_MAX_ALLOWED >= MAC_OS_X_VERSION_10_4
-	if ([KWCommonMethods OSVersion] >= 0x1040)
-		return [NSString stringWithCString:cString encoding:NSASCIIStringEncoding];
+	#if MAC_OS_X_VERSION_MAX_ALLOWED < 1050
+	if ([KWCommonMethods OSVersion] < 0x1040)
+		return [NSString stringWithCString:cString length:length];
 	else
 	#endif
-		return [NSString stringWithCString:cString length:length];
+		return [NSString stringWithCString:cString encoding:NSASCIIStringEncoding];
 	
 }
 
