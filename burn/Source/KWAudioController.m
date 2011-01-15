@@ -179,6 +179,17 @@
 			[self stop:sender];
 
 		//Remove rows
+		#if MAC_OS_X_VERSION_MAX_ALLOWED >= MAC_OS_X_VERSION_10_4
+		NSMutableArray *trackDictionaries = [NSMutableArray arrayWithArray:[cdtext trackDictionaries]];
+		NSDictionary *discDictionary = [NSDictionary dictionaryWithDictionary:[trackDictionaries objectAtIndex:0]];
+		[trackDictionaries removeObjectAtIndex:0];
+		
+		NSArray *selectedDictionaries = [KWCommonMethods allSelectedItemsInTableView:tableView fromArray:trackDictionaries];
+		[trackDictionaries removeObjectsInArray:selectedDictionaries];
+		[trackDictionaries insertObject:discDictionary atIndex:0];
+		[cdtext setTrackDictionaries:trackDictionaries];
+		#endif
+		
 		NSArray *selectedObjects = [KWCommonMethods allSelectedItemsInTableView:tableView fromArray:tracks];
 		[tracks removeObjectsInArray:selectedObjects];
 	}
@@ -952,6 +963,70 @@
 		display = 0;
 		[self setTotal];
 	}
+}
+
+///////////////////////
+// TableView actions //
+///////////////////////
+
+#pragma mark -
+#pragma mark •• TableView actions
+
+- (BOOL)tableView:(NSTableView*)tv acceptDrop:(id <NSDraggingInfo>)info row:(NSInteger)row dropOperation:(NSTableViewDropOperation)op
+{
+	#if MAC_OS_X_VERSION_MAX_ALLOWED >= MAC_OS_X_VERSION_10_4
+	NSInteger selrow = [tableViewPopup indexOfSelectedItem];
+
+	if (selrow == 0)
+	{
+		NSPasteboard *pboard = [info draggingPasteboard];
+	
+		if ([[pboard types] containsObject:@"NSGeneralPboardType"])
+		{
+			NSMutableArray *trackDictionaries = [NSMutableArray arrayWithArray:[cdtext trackDictionaries]];
+			NSDictionary *discDictionary = [NSDictionary dictionaryWithDictionary:[trackDictionaries objectAtIndex:0]];
+			[trackDictionaries removeObjectAtIndex:0];
+			
+			NSArray *draggedRows = [pboard propertyListForType:@"KWDraggedRows"];
+			NSMutableArray *draggedObjects = [NSMutableArray array];
+		
+			NSInteger i;
+			for (i = 0; i < [draggedRows count]; i ++)
+			{
+				NSInteger currentRow = [[draggedRows objectAtIndex:i] intValue];
+				[draggedObjects addObject:[trackDictionaries objectAtIndex:currentRow]];
+			}
+		
+			NSInteger numberOfRows = [trackDictionaries count];
+			[trackDictionaries removeObjectsInArray:draggedObjects];
+			
+			for (i = 0; i < [draggedObjects count]; i ++)
+			{
+				id object = [draggedObjects objectAtIndex:i];
+				NSInteger destinationRow = row + i;
+			
+				if (row > numberOfRows)
+				{
+					[trackDictionaries addObject:object];
+			
+					destinationRow = [tableData count] - 1;
+				}
+				else
+				{
+					if ([[draggedRows objectAtIndex:i] intValue] < destinationRow)
+						destinationRow = destinationRow - [draggedRows count];
+				
+					[trackDictionaries insertObject:object atIndex:destinationRow];
+				}
+			}
+	
+			[trackDictionaries insertObject:discDictionary atIndex:0];
+			[cdtext setTrackDictionaries:trackDictionaries];
+		}
+	}
+	#endif
+	
+	return [super tableView:tv acceptDrop:info row:row dropOperation:op];
 }
 
 ///////////////////
