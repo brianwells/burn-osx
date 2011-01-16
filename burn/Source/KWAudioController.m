@@ -186,7 +186,7 @@
 
 		//Remove rows
 		#if MAC_OS_X_VERSION_MAX_ALLOWED >= MAC_OS_X_VERSION_10_4
-		if ([KWCommonMethods OSVersion] >= 0x1040)
+		if (cdtext && [KWCommonMethods OSVersion] >= 0x1040)
 		{
 			NSMutableArray *trackDictionaries = [NSMutableArray arrayWithArray:[cdtext trackDictionaries]];
 			NSDictionary *discDictionary = [NSDictionary dictionaryWithDictionary:[trackDictionaries objectAtIndex:0]];
@@ -338,14 +338,6 @@
 				
 				[soundTag release];
 			}
-			else if ([KWCommonMethods OSVersion] >= 0x1040)
-			{
-				if (!cdtext)
-				{
-					cdtext = [[DRCDTextBlock cdTextBlockWithLanguage:@"" encoding:DRCDTextEncodingISOLatin1Modified] retain];
-					[cdtext setObject:NSLocalizedString(@"Untitled", nil) forKey:DRCDTextTitleKey ofTrack:0];
-				}
-			}
 			#endif
 		}
 			
@@ -374,7 +366,7 @@
 	{
 		NSInteger selrow = [tableViewPopup indexOfSelectedItem];
 	
-		if	(selrow == 0)
+		if	(cdtext && selrow == 0)
 			[cdtext setObject:[discName stringValue] forKey:DRCDTextTitleKey ofTrack:0];
 	}
 	#endif
@@ -988,7 +980,7 @@
 - (BOOL)tableView:(NSTableView*)tv acceptDrop:(id <NSDraggingInfo>)info row:(NSInteger)row dropOperation:(NSTableViewDropOperation)op
 {
 	#if MAC_OS_X_VERSION_MAX_ALLOWED >= MAC_OS_X_VERSION_10_4
-	if ([KWCommonMethods OSVersion] >= 0x1040)
+	if (cdtext && [KWCommonMethods OSVersion] >= 0x1040)
 	{
 		NSInteger selrow = [tableViewPopup indexOfSelectedItem];
 
@@ -1260,8 +1252,19 @@
 #pragma mark •• External actions
 
 #if MAC_OS_X_VERSION_MAX_ALLOWED >= MAC_OS_X_VERSION_10_4
+- (BOOL)hasCDText
+{
+	return (cdtext != nil);
+}
+
 - (DRCDTextBlock *)myTextBlock
 {
+	if (!cdtext)
+	{
+		cdtext = [[DRCDTextBlock cdTextBlockWithLanguage:@"" encoding:DRCDTextEncodingISOLatin1Modified] retain];
+		[cdtext setObject:NSLocalizedString(@"Untitled", nil) forKey:DRCDTextTitleKey ofTrack:0];
+	}
+
 	return cdtext;
 }
 #endif

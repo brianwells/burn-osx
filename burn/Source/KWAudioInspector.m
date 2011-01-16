@@ -62,7 +62,11 @@
 	
 	NSEnumerator *iter = [[myView subviews] objectEnumerator];
 	NSArray *selectedRows = [KWCommonMethods selectedRowsAtRowIndexes:[currentTableView selectedRowIndexes]];
-	DRCDTextBlock *currentCDTextBlock = [controller myTextBlock];
+	DRCDTextBlock *currentCDTextBlock;
+	
+	 if ([controller hasCDText])
+		currentCDTextBlock  = [controller myTextBlock];
+		
 	NSMutableArray *currentTracks = [controller myTracks];
 	id cntl;
 	
@@ -75,7 +79,7 @@
 		{	
 			id currentKey = [tagMappings objectAtIndex:index];
 			
-				if (index < 8)
+				if ([controller hasCDText] && index < 8)
 				{
 					property = [self getObjectForKey:currentKey inObject:currentCDTextBlock atIndexes:selectedRows];
 

@@ -40,40 +40,49 @@
 	#if MAC_OS_X_VERSION_MAX_ALLOWED >= MAC_OS_X_VERSION_10_4
 	currentTableView = object;
 	KWAudioController *controller = [currentTableView delegate];
-	DRCDTextBlock *currentCDTextBlock = [controller myTextBlock];
+	DRCDTextBlock *currentCDTextBlock;
 	
 	[timeField setStringValue:[controller totalTime]];
 	
-	NSEnumerator *iter = [[myView subviews] objectEnumerator];
-	id cntl;
-	
-	while ((cntl = [iter nextObject]) != NULL)
+	if ([controller hasCDText])
 	{
-		NSInteger index = [cntl tag] - 1;
+		currentCDTextBlock = [controller myTextBlock];
+	
+		NSEnumerator *iter = [[myView subviews] objectEnumerator];
+		id cntl;
+	
+		while ((cntl = [iter nextObject]) != NULL)
+		{
+			NSInteger index = [cntl tag] - 1;
 		
-		if (index > -1 && index < 11)
-		{	
-			NSString *currentKey = [tagMappings objectAtIndex:index];
-			id property = [currentCDTextBlock objectForKey:currentKey ofTrack:0];
+			if (index > -1 && index < 11)
+			{	
+				NSString *currentKey = [tagMappings objectAtIndex:index];
+				id property = [currentCDTextBlock objectForKey:currentKey ofTrack:0];
 			
-			if ([currentKey isEqualTo:DRCDTextGenreCodeKey])
-			{
-				if (property)
-					[genreCode selectItemAtIndex:[property intValue]];
-			}
-			else if ([currentKey isEqualTo:DRCDTextMCNISRCKey])
-			{
-				NSString *string = [[[NSString alloc] initWithData:property encoding:NSASCIIStringEncoding] autorelease];
+				if ([currentKey isEqualTo:DRCDTextGenreCodeKey])
+				{
+					if (property)
+						[genreCode selectItemAtIndex:[property intValue]];
+				}
+				else if ([currentKey isEqualTo:DRCDTextMCNISRCKey])
+				{
+					NSString *string = [[[NSString alloc] initWithData:property encoding:NSASCIIStringEncoding] autorelease];
 			
-				if (string)
-					[cntl setObjectValue:string];
-			}
-			else
-			{
-				if (property)
-					[cntl setObjectValue:property];
+					if (string)
+						[cntl setObjectValue:string];
+				}
+				else
+				{
+					if (property)
+						[cntl setObjectValue:property];
+				}
 			}
 		}
+	}
+	else
+	{
+		[[myView viewWithTag:1] setStringValue:NSLocalizedString(@"Untitled", nil)];
 	}
 	#endif
 }
