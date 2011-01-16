@@ -338,6 +338,15 @@
 				
 				[soundTag release];
 			}
+			else
+			{
+				if (cdtext)
+				{
+					NSMutableArray *trackDictionaries = [NSMutableArray arrayWithArray:[cdtext trackDictionaries]];
+					[trackDictionaries addObject:[NSMutableDictionary dictionary]];
+					[cdtext setTrackDictionaries:trackDictionaries];
+				}
+			}
 			#endif
 		}
 			
@@ -1263,6 +1272,16 @@
 	{
 		cdtext = [[DRCDTextBlock cdTextBlockWithLanguage:@"" encoding:DRCDTextEncodingISOLatin1Modified] retain];
 		[cdtext setObject:NSLocalizedString(@"Untitled", nil) forKey:DRCDTextTitleKey ofTrack:0];
+		
+		NSMutableArray *trackDictionaries = [NSMutableArray arrayWithArray:[cdtext trackDictionaries]];
+		NSInteger i;
+		
+		for (i = 0; i < [tracks count]; i ++)
+		{
+			[trackDictionaries addObject:[NSMutableDictionary dictionary]];
+		}
+		
+		[cdtext setTrackDictionaries:trackDictionaries];
 	}
 
 	return cdtext;
