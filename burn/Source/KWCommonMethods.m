@@ -52,6 +52,7 @@
 
 + (BOOL)isQuickTimeSevenInstalled
 {
+	#ifdef USE_QTKIT
 	if ([KWCommonMethods OSVersion] >= 0x1040)
 		return YES;
 		
@@ -61,6 +62,7 @@
 
 	result = Gestalt(gestaltQuickTime,&version);
 	return ((result == noErr) && (version >= 0x07000000));
+	#endif
 	#endif
 	
 	return NO;
@@ -1145,6 +1147,8 @@
 		}
 	
 		[filetypes addObjectsFromArray:qtTypes];
+		#else
+		[filetypes addObjectsFromArray:[NSArray arrayWithObjects:@"mp2", @"'dvc!'", @"adts", @"mp3", @"ogg", @"m2p", @"scc", @"spx", @"'.WAV'", @"mp4", @"m1s", @"qhtm", @"'WAVE'", @"m2s", @"vro", @"mpa", @"m4p", @"qtz", @"gsm", @"'mxfd'", @"aiff", @"axv", @"m1v", @"wmv", @"gvi", @"'rtsp'", @"qt", @"'MooV'", @"aif", @"ogm", @"m2v", @"'Sd2f'", @"m3u", @"midi", @"'MPG3'", @"'sdp '", @"'GSM '", @"'qhtm'", @"'ac-3'", @"mpg", @"m4v", @"amc", @"'ASF_'", @"'MkvF'", @"mpeg", @"qtpf", @"'MP3 '", @"cel", @"'SwaT'", @"'ULAW'", @"'AVI_'", @"flac", @"3gp", @"'M1A '", @"'sdv '", @"dif", @"QT", @"dat", @"ogv", @"sdp", @"3gpp", @"mpm", @"'grip'", @"rtsp", @"mkv", @"'M2S '", @"'caff'", @"ogx", @"'cdda'", @"'GIFf'", @"MOV", @"'MPGv'", @"'MPG '", @"au", @"snd", @"fla", @"'M2V '", @"smf", @"qht", @"'AIFF'", @"'amc '", @"sdv", @"'PDF '", @"'fLaC'", @"wvx", @"'MPGa'", @"flc", @"MQV", @"'attr'", @"asf", @"mov", @"gif", @"dv", @"pls", @"smi", @"'MPG2'", @"'SMIL'", @"skin", @"mpv", @"amr", @"m15", @"cdda", @"'3gp2'", @"3gp2", @"axa", @"mqv", @"m1a", @"sml", @"wma", @"'AIFC'", @"wav", @"'FLI '", @"m2a", @"fli", @"vob", @"vp6", @"xfl", @"'OggS'", @"'MPGx'", @"wax", @"tta", @"ac3", @"avi", @"'mpg4'", @"m4a", @"'MPGV'", @"swa", @"'.SMI'", @"bwf", @"aac", @"anx", @"kar", @"m4b", @"'MPEG'", @"'MPGA'", @"vfw", @"dvd", @"'3gpp'", @"divx", @"m75", @"nuv", @"3g2", @"smil", @"'VfW '", @"'Mp3 '", @"'adts'", @"atr", @"oga", @"'embd'", @"'M1V '", @"mid", @"mka", @"'amr '", @"sd2", @"pdf", @"'Midi'", @"'CLCP'", @"asx", @"caf", @"flv", @"aifc", @"ulw", @"'PLAY'", @"'WMV '", nil]];
 		#endif
 	}
 
@@ -1349,7 +1353,8 @@
 + (NSMutableArray *)quicktimeChaptersFromFile:(NSString *)path
 {
 	NSMutableArray *chapters = [NSMutableArray array];
-			
+	
+	#ifdef USE_QTKIT
 	if ([KWCommonMethods isQuickTimeSevenInstalled] && [KWCommonMethods OSVersion] >= 0x1050)
 	{
 		if ([QTMovie canInitWithFile:path])
@@ -1381,6 +1386,7 @@
 			}
 		}
 	}
+	#endif
 	
 	return chapters;
 }

@@ -143,6 +143,7 @@
 		#if MAC_OS_X_VERSION_MAX_ALLOWED < 1050
 		//EnterMovies for QuickTime 6 functions later to be used
 		EnterMovies();
+		#endif
 	
 		//Make it look like we we're never able to play songs :-)
 		[totalText setFrameOrigin:NSMakePoint([totalText frame].origin.x+63,[totalText frame].origin.y)]; 
@@ -156,7 +157,6 @@
 		[playButton setEnabled:YES];
 		[nextButton setEnabled:YES];
 		[stopButton setEnabled:YES];
-		#endif
 	}
 	
 	//Set save popup title
@@ -1112,6 +1112,8 @@
 			duration = GetMovieDuration([theMovie QTMovie]) / GetMovieTimeScale([theMovie QTMovie]);
 			[theMovie release];
 		}
+		#else
+		duration = [[KWConverter alloc] totalTimeInSeconds:path];
 		#endif
 	}
 
