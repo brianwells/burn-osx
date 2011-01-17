@@ -1005,16 +1005,15 @@
 			
 				NSArray *draggedRows = [pboard propertyListForType:@"KWDraggedRows"];
 				NSMutableArray *draggedObjects = [NSMutableArray array];
+				NSInteger numberOfRows = [trackDictionaries count];
 		
 				NSInteger i;
 				for (i = 0; i < [draggedRows count]; i ++)
 				{
 					NSInteger currentRow = [[draggedRows objectAtIndex:i] intValue];
 					[draggedObjects addObject:[trackDictionaries objectAtIndex:currentRow]];
+					[trackDictionaries removeObjectAtIndex:currentRow];
 				}
-		
-				NSInteger numberOfRows = [trackDictionaries count];
-				[trackDictionaries removeObjectsInArray:draggedObjects];
 			
 				for (i = 0; i < [draggedObjects count]; i ++)
 				{

@@ -669,16 +669,15 @@
 	{
 		NSArray *draggedRows = [pboard propertyListForType:@"KWDraggedRows"];
 		NSMutableArray *draggedObjects = [NSMutableArray array];
+		NSInteger numberOfRows = [tableData count];
 		
 		NSInteger i;
 		for (i = 0; i < [draggedRows count]; i ++)
 		{
 			NSInteger currentRow = [[draggedRows objectAtIndex:i] intValue];
 			[draggedObjects addObject:[tableData objectAtIndex:currentRow]];
+			[tableData removeObjectAtIndex:currentRow];
 		}
-		
-		NSInteger numberOfRows = [tableData count];
-		[tableData removeObjectsInArray:draggedObjects];
 		
 		BOOL shouldSelectRow = ([draggedRows count] > 1 | [tableView isRowSelected:[[draggedRows objectAtIndex:0] intValue]]);
 		
