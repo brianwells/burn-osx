@@ -591,7 +591,6 @@
 		[alert setMessageText:NSLocalizedString(@"Burning failed",nil)];
 		[alert setInformativeText:[[notif userInfo] objectForKey:@"Error"]];
 		[alert setAlertStyle:NSWarningAlertStyle];
-		[alert setDetails:errorString];
 	
 		[alert beginSheetModalForWindow:mainWindow modalDelegate:self didEndSelector:nil contextInfo:nil];
 	}
