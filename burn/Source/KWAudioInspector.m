@@ -32,10 +32,27 @@
 - (void)dealloc
 {
 	[tagMappings release];
+	[[NSNotificationCenter defaultCenter] removeObserver:self];
 	
 	[super dealloc];
 }
 #endif
+
+- (void)awakeFromNib
+{
+	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(setCurrentField:) name:NSWindowDidBecomeKeyNotification object:nil];
+}
+
+- (void)setCurrentField:(NSNotification *)notif
+{
+	if (![[notif object] isEqualTo:[myView window]])
+	{
+		id selectedView = [[myView window] firstResponder];
+
+		if ([selectedView isKindOfClass:[NSTextView class]])
+			[self optionsChanged:[selectedView delegate]];
+	}
+}
 
 - (void)updateView:(id)object
 {
