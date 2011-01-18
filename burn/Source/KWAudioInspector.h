@@ -17,7 +17,8 @@
 }
 
 - (void)updateView:(id)object;
-- (id)getObjectForKey:(NSString *)key inObject:(id)object atIndexes:(NSArray *)indexes;
+- (id)getCDTextObjectForKey:(NSString *)key inCDTextObject:(id)object atIndexes:(NSArray *)indexes;
+- (id)getTrackObjectForKey:(NSString *)key inTrackObjects:(NSArray *)objects;
 - (IBAction)optionsChanged:(id)sender;
 - (IBAction)ISRCChanged:(id)sender;
 - (BOOL)isValidISRC:(NSString*)isrc;

@@ -78,13 +78,6 @@
 	}
 	
 	NSEnumerator *iter = [[myView subviews] objectEnumerator];
-	NSArray *selectedRows = [KWCommonMethods selectedRowsAtRowIndexes:[currentTableView selectedRowIndexes]];
-	DRCDTextBlock *currentCDTextBlock;
-	
-	 if ([controller hasCDText])
-		currentCDTextBlock  = [controller myTextBlock];
-		
-	NSMutableArray *currentTracks = [controller myTracks];
 	id cntl;
 	
 	while ((cntl = [iter nextObject]) != NULL)
@@ -98,17 +91,20 @@
 			
 				if ([controller hasCDText] && index < 8)
 				{
-					property = [self getObjectForKey:currentKey inObject:currentCDTextBlock atIndexes:selectedRows];
+					DRCDTextBlock *currentCDTextBlock = [controller myTextBlock];
+					NSArray *selectedRows = [KWCommonMethods selectedRowsAtRowIndexes:[currentTableView selectedRowIndexes]];
+					property = [self getCDTextObjectForKey:currentKey inCDTextObject:currentCDTextBlock atIndexes:selectedRows];
 
 					if ([currentKey isEqualTo:DRCDTextMCNISRCKey])
 						property = [NSNumber numberWithBool:(property != nil)];
 				}
 				else
 				{
-					property = [self getObjectForKey:currentKey inObject:currentTracks atIndexes:selectedRows];
-				
+					NSArray *selectedTracks = [KWCommonMethods allSelectedItemsInTableView:currentTableView fromArray:[controller myTracks]];
+					property = [self getTrackObjectForKey:currentKey inTrackObjects:selectedTracks];
+
 					if ([currentKey isEqualTo:DRPreGapLengthKey])
-						property = [NSString stringWithFormat:@"%ld",(long)[property floatValue] / 75];
+						property = [NSNumber numberWithInt:(int)[property floatValue] / 75];
 					else if ([currentKey isEqualTo:DRIndexPointsKey])
 						property = [NSNumber numberWithBool:(property != nil)];
 				}
@@ -130,22 +126,12 @@
 	#endif
 }
 
-- (id)getObjectForKey:(NSString *)key inObject:(id)object atIndexes:(NSArray *)indexes
+- (id)getCDTextObjectForKey:(NSString *)key inCDTextObject:(id)object atIndexes:(NSArray *)indexes
 {
 	#if MAC_OS_X_VERSION_MAX_ALLOWED >= MAC_OS_X_VERSION_10_4
 	id baseValue;
-	BOOL cdText = [object isKindOfClass:[DRCDTextBlock class]];
-
-	if (cdText)
-	{
-		baseValue = [(DRCDTextBlock *)object objectForKey:key ofTrack:[[indexes objectAtIndex:0] intValue] + 1];
-	}
-	else
-	{
-		DRTrack *firstSelectedTrack = [object objectAtIndex:0];
-		NSDictionary *trackProperties = [firstSelectedTrack properties];
-		baseValue = [trackProperties objectForKey:key];
-	}
+	
+	baseValue = [(DRCDTextBlock *)object objectForKey:key ofTrack:[[indexes objectAtIndex:0] intValue] + 1];
 
 
 	if ([indexes count] == 1)
@@ -157,25 +143,45 @@
 		NSInteger i;
 		for (i=1;i<[indexes count];i++)
 		{
-			id currentValue;
-				
-			if (cdText)
-			{
-				currentValue = [object objectForKey:key ofTrack:[[indexes objectAtIndex:i] intValue] + 1];
-			}
-			else
-			{
-				DRTrack *selectedTrack = [object objectAtIndex:[[indexes objectAtIndex:i] intValue]];
-				NSDictionary *trackProperties = [selectedTrack properties];
-				currentValue = [trackProperties objectForKey:key];
-			}
+			id currentValue = [object objectForKey:key ofTrack:[[indexes objectAtIndex:i] intValue] + 1];
+
+			if (![baseValue isEqualTo:currentValue])
+				return nil;
+		}
+	}
+
+	return baseValue;
+	#else
+	return nil;
+	#endif
+}
+
+- (id)getTrackObjectForKey:(NSString *)key inTrackObjects:(NSArray *)objects
+{
+	#if MAC_OS_X_VERSION_MAX_ALLOWED >= MAC_OS_X_VERSION_10_4
+	DRTrack *firstSelectedTrack = [objects objectAtIndex:0];
+	NSDictionary *trackProperties = [firstSelectedTrack properties];
+	id baseValue = [trackProperties objectForKey:key];
+
+
+	if ([objects count] == 1)
+	{
+		return baseValue;
+	}
+	else
+	{
+		NSInteger i;
+		id currentValue;
+		for (i = 1; i < [objects count]; i ++)
+		{
+			DRTrack *selectedTrack = [objects objectAtIndex:i];
+			NSDictionary *trackProperties = [selectedTrack properties];
+			currentValue = [trackProperties objectForKey:key];
+		}
 
 		
-			if (![baseValue isEqualTo:currentValue])
-			{
-				return nil;
-			}
-		}
+		if (![baseValue isEqualTo:currentValue])
+			return nil;
 	}
 
 	return baseValue;
@@ -191,7 +197,7 @@
 	NSString *currentKey = [tagMappings objectAtIndex:index];
 	KWAudioController *controller = [currentTableView delegate];
 	NSArray *selectedRows = [KWCommonMethods selectedRowsAtRowIndexes:[currentTableView selectedRowIndexes]];
-	
+
 	if (index < 8)
 	{
 		DRCDTextBlock *currentCDTextBlock = [controller myTextBlock];
@@ -200,12 +206,12 @@
 		NSInteger i;
 		for (i=0;i<[selectedRows count];i++)
 		{
-			NSInteger selectedTrack = [[selectedRows objectAtIndex:i] intValue] + 1;
+			NSInteger selectedTrack = [[selectedRows objectAtIndex:i] intValue];
 			id value;
 			
 				if ([currentKey isEqualTo:DRCDTextMCNISRCKey])
 				{
-					DRTrack *currentTrack = [currentTracks objectAtIndex:i];
+					DRTrack *currentTrack = [currentTracks objectAtIndex:selectedTrack];
 					NSDictionary *trackProperties = [currentTrack properties];
 					value = [trackProperties objectForKey:DRTrackISRCKey];
 				}
@@ -215,15 +221,16 @@
 				}
 
 				if (value)
-					[currentCDTextBlock setObject:value forKey:currentKey ofTrack:selectedTrack];
+					[currentCDTextBlock setObject:value forKey:currentKey ofTrack:selectedTrack + 1];
 		}
 	}
 	else
 	{
-		NSMutableArray *currentTracks = [controller myTracks];
+		KWAudioController *controller = [currentTableView delegate];
+		NSArray *selectedTracks = [KWCommonMethods allSelectedItemsInTableView:currentTableView fromArray:[controller myTracks]];
 		
 		NSInteger i;
-		for (i=0;i<[selectedRows count];i++)
+		for (i = 0; i < [selectedTracks count]; i ++)
 		{
 			id value;
 			
@@ -234,7 +241,10 @@
 			}
 			else if ([currentKey isEqualTo:DRIndexPointsKey])
 			{
-				value = [NSMutableArray arrayWithCapacity:98];
+				if ([[sender objectValue] boolValue])
+					value = [NSMutableArray arrayWithCapacity:98];
+				else
+					value = nil;
 			}
 			else
 			{
@@ -243,9 +253,16 @@
 		
 			if (value)
 			{
-				DRTrack *currentTrack = [currentTracks objectAtIndex:i];
+				DRTrack *currentTrack = [selectedTracks objectAtIndex:i];
 				NSMutableDictionary *trackProperties = [NSMutableDictionary dictionaryWithDictionary:[currentTrack properties]];
 				[trackProperties setObject:value forKey:currentKey];
+				[currentTrack setProperties:trackProperties];
+			}
+			else
+			{
+				DRTrack *currentTrack = [selectedTracks objectAtIndex:i];
+				NSMutableDictionary *trackProperties = [NSMutableDictionary dictionaryWithDictionary:[currentTrack properties]];
+				[trackProperties removeObjectForKey:currentKey];
 				[currentTrack setProperties:trackProperties];
 			}
 		}
