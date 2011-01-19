@@ -776,12 +776,16 @@
 + (BOOL)createFileAtPath:(NSString *)path attributes:(NSDictionary *)attributes errorString:(NSString **)error
 {
 	NSFileManager *defaultManager = [NSFileManager defaultManager];
-	BOOL fileExists = [defaultManager fileExistsAtPath:path];
+	
+	if ([defaultManager fileExistsAtPath:path])
+	{
+		*error = [NSString stringWithFormat:NSLocalizedString(@"Can't overwrite '%@' in '%@'", nil), [defaultManager displayNameAtPath:path], [defaultManager displayNameAtPath:[path stringByDeletingLastPathComponent]]];
+		return NO;
+	}
+	
 	BOOL succes = [defaultManager createFileAtPath:path contents:[NSData data] attributes:attributes];
 		
-		if (!succes && fileExists)
-			*error = [NSString stringWithFormat:NSLocalizedString(@"Can't overwrite '%@' in '%@'", nil), [defaultManager displayNameAtPath:path], [defaultManager displayNameAtPath:[path stringByDeletingLastPathComponent]]];
-		else
+		if (!succes)
 			*error = [NSString stringWithFormat:NSLocalizedString(@"Can't create '%@' in '%@'", nil), [defaultManager displayNameAtPath:path], [defaultManager displayNameAtPath:[path stringByDeletingLastPathComponent]]];
 	
 	return succes;
