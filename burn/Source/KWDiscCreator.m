@@ -230,15 +230,17 @@
 		[alert setAlertStyle:NSWarningAlertStyle];
 		
 		if (burner)
-			[alert setInformativeText:[[object userInfo] objectForKey:@"Error"]];
+			[alert setInformativeText:[[object userInfo] objectForKey:@"KWError"]];
 		else
 			[alert setInformativeText:NSLocalizedString(@"There was a problem creating the image",nil)];
 	
-		
-		if ([errorString rangeOfString:@"KWConsole:"].length > 0)
-			[alert setDetails:errorString];
-		else
-			[alert setInformativeText:errorString];
+		if (errorString != nil)
+		{
+			if ([errorString rangeOfString:@"KWConsole:"].length > 0)
+				[alert setDetails:errorString];
+			else
+				[alert setInformativeText:errorString];
+		}
 		
 		[alert beginSheetModalForWindow:mainWindow modalDelegate:self didEndSelector:nil contextInfo:nil];
 	}
@@ -589,7 +591,7 @@
 		KWAlert *alert = [[[KWAlert alloc] init] autorelease];
 		[alert addButtonWithTitle:NSLocalizedString(@"OK",nil)];
 		[alert setMessageText:NSLocalizedString(@"Burning failed",nil)];
-		[alert setInformativeText:[[notif userInfo] objectForKey:@"Error"]];
+		[alert setInformativeText:[[notif userInfo] objectForKey:@"KWError"]];
 		[alert setAlertStyle:NSWarningAlertStyle];
 	
 		[alert beginSheetModalForWindow:mainWindow modalDelegate:self didEndSelector:nil contextInfo:nil];
