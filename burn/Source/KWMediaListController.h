@@ -96,8 +96,12 @@
 //Save actions
 //Open .burn document
 - (void)openBurnDocument:(NSString *)path;
+//Set extra information to save(like CD-Text)
+- (void)setExtraInformation:(NSDictionary *)information;
 //Save .burn document
 - (void)saveDocument:(id)sender;
+//Get extra information to save(like CD-Text)
+- (NSDictionary *)extraInformation;
 
 //Tableview actions
 //Bogusmethod used in subclass

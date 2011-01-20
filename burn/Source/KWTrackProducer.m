@@ -456,6 +456,14 @@
 	return track;
 }
 
+- (DRTrack *)getTrackWithTrackProperties:(NSDictionary *)trackProperties
+{
+	DRTrack *track = [[[DRTrack alloc] initWithProducer:self] autorelease];
+	[track setProperties:trackProperties];
+	
+	return track;
+}
+
 ////////////////////
 // Stream actions //
 ////////////////////

@@ -531,6 +531,62 @@
 	return succes;
 }
 
+//////////////////
+// Save actions //
+//////////////////
+
+#pragma mark -
+#pragma mark •• Save actions
+
+- (void)setExtraInformation:(NSDictionary *)information
+{
+	NSArray *trackProperties = [information objectForKey:@"KWTrackProperties"];
+	
+	if (trackProperties)
+	{
+		NSInteger i;
+		for (i = 0; i < [trackProperties count]; i ++)
+		{
+			NSDictionary *properties = [trackProperties objectAtIndex:i];
+			DRTrack	*track = [[KWTrackProducer alloc] getTrackWithTrackProperties:properties];
+			[tracks addObject:track];
+		}
+	}
+	
+	NSArray *cdTextDictionaries = [information objectForKey:@"KWCDTextDictionaries"];
+	
+	if (cdTextDictionaries)
+	{
+		cdtext = [[DRCDTextBlock cdTextBlockWithLanguage:@"" encoding:DRCDTextEncodingISOLatin1Modified] retain];
+		[cdtext setTrackDictionaries:cdTextDictionaries];
+	}
+}
+
+- (NSDictionary *)extraInformation
+{
+	if ([tracks count] > 0)
+	{
+		NSMutableDictionary *information = [NSMutableDictionary dictionary];
+		NSMutableArray *trackProperties = [NSMutableArray array];
+		
+		NSInteger i;
+		for (i = 0; i < [tracks count]; i ++)
+		{
+			DRTrack *currentTrack = [tracks objectAtIndex:i];
+			[trackProperties addObject:[currentTrack properties]];
+		}
+		
+		[information setObject:trackProperties forKey:@"KWTrackProperties"];
+		
+		if (cdtext)
+			[information setObject:[cdtext trackDictionaries] forKey:@"KWCDTextDictionaries"];
+			
+		return information;
+	}
+	
+	return nil;
+}
+
 ///////////////////////
 // Tableview actions //
 ///////////////////////

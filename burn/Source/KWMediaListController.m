@@ -566,8 +566,15 @@
 
 	[discName setStringValue:[savedDictionary objectForKey:@"Name"]];
 	
+	NSDictionary *extraInformation = [burnDocument objectForKey:@"KWExtraInformation"];
+	
+	if (extraInformation)
+		[self setExtraInformation:extraInformation];
+	
 	[self sortIfNeeded];
 }
+
+- (void)setExtraInformation:(NSDictionary *)information{}
 
 //Save .burn document
 - (void)saveDocument:(id)sender
@@ -604,7 +611,13 @@
 			if (currentType == 4)
 			type = 2;
 		
-		NSDictionary *burnFile = [NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:[NSNumber numberWithInt:type],[NSNumber numberWithInt:[tableViewPopup indexOfSelectedItem]],burnFileProperties,nil] forKeys:[NSArray arrayWithObjects:@"KWType",@"KWSubType",@"KWProperties",nil]];
+		NSMutableDictionary *burnFile = [NSMutableDictionary dictionaryWithObjects:[NSArray arrayWithObjects:[NSNumber numberWithInt:type],[NSNumber numberWithInt:[tableViewPopup indexOfSelectedItem]],burnFileProperties,nil] forKeys:[NSArray arrayWithObjects:@"KWType",@"KWSubType",@"KWProperties",nil]];
+		
+		NSDictionary *extraInformation = [self extraInformation];
+		
+		if (extraInformation)
+			[burnFile setObject:extraInformation forKey:@"KWExtraInformation"];
+		
 		NSString *errorString;
 		
 		if ([KWCommonMethods writeDictionary:burnFile toFile:[sheet filename] errorString:&errorString])
@@ -617,6 +630,11 @@
 			[KWCommonMethods standardAlertWithMessageText:NSLocalizedString(@"Failed to save Burn file",nil) withInformationText:errorString withParentWindow:mainWindow];
 		}
 	}
+}
+
+- (NSDictionary *)extraInformation
+{
+	return nil;
 }
 
 ///////////////////////

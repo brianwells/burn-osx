@@ -41,6 +41,7 @@
 - (NSArray *)getTracksOfVcd;
 - (NSArray *)getTracksOfAudioCD:(NSString *)path withToc:(NSDictionary *)toc;
 - (DRTrack *)getAudioTrackForPath:(NSString *)path;
+- (DRTrack *)getTrackWithTrackProperties:(NSDictionary *)trackProperties;
 
 //Stream actions
 - (void)createImage;
