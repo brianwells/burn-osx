@@ -540,6 +540,14 @@
 
 - (void)setExtraInformation:(NSDictionary *)information
 {
+	if (cdtext)
+	{
+		[cdtext release];
+		cdtext = nil;
+	}
+
+	[tracks removeAllObjects];
+
 	NSArray *trackProperties = [information objectForKey:@"KWTrackProperties"];
 	
 	if (trackProperties)
