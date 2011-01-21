@@ -716,7 +716,7 @@
 	NSUserDefaults *standardDefaults = [NSUserDefaults standardUserDefaults];
 	if ([standardDefaults boolForKey:@"KWRememberPopups"] == YES)
 	{
-		[standardDefaults setObject:[tableViewPopup objectValue] forKey:@"KWDefaultAudioType"];
+		[self saveTableViewPopup:self];
 	}
 	
 	if (tableView == [mainWindow firstResponder])
@@ -734,6 +734,11 @@
 		else if (selrow == 1)
 			[defaultCenter postNotificationName:@"KWChangeInspector" object:nil userInfo:[NSDictionary dictionaryWithObjectsAndKeys:@"KWEmpty",@"Type",nil]];
 	}
+}
+
+- (void)saveTableViewPopup:(id)sender
+{
+	[[NSUserDefaults standardUserDefaults] setObject:[tableViewPopup objectValue] forKey:@"KWDefaultAudioType"];
 }
 
 - (void)sortIfNeeded

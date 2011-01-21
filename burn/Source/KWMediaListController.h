@@ -106,6 +106,8 @@
 //Tableview actions
 //Bogusmethod used in subclass
 - (IBAction)tableViewPopup:(id)sender;
+//Bogusmethod used in subclass
+- (void)saveTableViewPopup:(id)sender;
 //Method used in subclass to sort if needed
 - (void)sortIfNeeded;
 

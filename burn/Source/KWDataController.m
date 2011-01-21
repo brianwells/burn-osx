@@ -116,7 +116,7 @@ static NSString*	EDBCurrentSelection							= @"EDBCurrentSelection";
 	//Reload the outlineview if need, like when a change has been made in the preferences
 	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reloadOutlineView) name:@"KWReloadRequested" object:nil];
 	//Used to save the popups when the user selects this option in the preferences
-	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(dataPopupChanged:) name:@"KWTogglePopups" object:nil];
+	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(saveDataPopup:) name:@"KWTogglePopups" object:nil];
 	//Prevent files to be dropped when for example a sheet is open
 	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(setOutlineViewState:) name:@"KWSetDropState" object:nil];
 	//Updates the Inspector window with the new item selected in the list
@@ -398,7 +398,7 @@ static NSString*	EDBCurrentSelection							= @"EDBCurrentSelection";
 		[self reloadOutlineView];
 	
 		if ([[NSUserDefaults standardUserDefaults] boolForKey:@"KWRememberPopups"] == YES)
-			[[NSUserDefaults standardUserDefaults] setObject:[fileSystemPopup objectValue] forKey:@"KWDefaultDataType"];
+			[self saveDataPopup:self];
 	
 		[totalSizeText setHidden:![[NSUserDefaults standardUserDefaults] boolForKey:@"KWCalculateTotalSize"]];
 
@@ -1163,6 +1163,11 @@ static NSString*	EDBCurrentSelection							= @"EDBCurrentSelection";
 
 	if (![[[discName stringValue] lowercaseString] isEqualTo:[oldName lowercaseString]])
 		NSBeep();
+}
+
+- (void)saveDataPopup:(id)sender
+{
+	[[NSUserDefaults standardUserDefaults] setObject:[fileSystemPopup objectValue] forKey:@"KWDefaultDataType"];
 }
 
 ///////////////////////

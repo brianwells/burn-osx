@@ -49,7 +49,7 @@
 {
 	//Notifications
 	//Used to save the popups when the user selects this option in the preferences
-	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(tableViewPopup:) name:@"KWTogglePopups" object:nil];
+	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(saveTableViewPopup:) name:@"KWTogglePopups" object:nil];
 	//Prevent files to be dropped when for example a sheet is open
 	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(setTableViewState:) name:@"KWSetDropState" object:nil];
 	//Updates the Inspector window with the new item selected in the list
@@ -646,6 +646,8 @@
 
 //Popup clicked
 - (IBAction)tableViewPopup:(id)sender{}
+
+- (void)saveTableViewPopup:(id)sender{}
 
 - (void)sortIfNeeded{}
 
