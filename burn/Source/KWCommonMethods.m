@@ -106,7 +106,7 @@
 	if (size < blockSize)
 	{
 		if (size > 0)
-			return [NSString localizedStringWithFormat: NSLocalizedString(@"%.0f KB", nil), 4];
+			return [NSString localizedStringWithFormat: NSLocalizedString(@"%.0f KB", nil), 4.0];
 		else
 			return [NSString localizedStringWithFormat: NSLocalizedString(@"%.0f KB", nil), size];
 	}
