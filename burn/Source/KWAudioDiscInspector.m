@@ -64,7 +64,7 @@
 				if ([currentKey isEqualTo:DRCDTextGenreCodeKey])
 				{
 					if (property)
-						[genreCode selectItemAtIndex:[property intValue]];
+						[genreCode selectItemAtIndex:[property integerValue]];
 				}
 				else if ([currentKey isEqualTo:DRCDTextMCNISRCKey])
 				{

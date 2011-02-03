@@ -268,7 +268,7 @@ static NSArray* filesystemNameTagMappings = nil;
 	// for ISO.
 	if (index == 1)
 	{
-		NSInteger isoLevelInt = [[fsProperties objectForKey:DRISOLevel] intValue];
+		NSInteger isoLevelInt = [[fsProperties objectForKey:DRISOLevel] integerValue];
 		index = index + (isoLevelInt ? isoLevelInt : 1);
 	}
 
@@ -365,7 +365,7 @@ static NSArray* filesystemNameTagMappings = nil;
 		[self setOptionsForViews:[[allOptions contentView] subviews] setEnabled:YES];
 		
 		//Set ISO level
-		NSInteger isoLevelNumber = [[fsProperties objectForKey:DRISOLevel] intValue] - 1;
+		NSInteger isoLevelNumber = [[fsProperties objectForKey:DRISOLevel] integerValue] - 1;
 		[isoLevel selectItemAtIndex:isoLevelNumber];
 	}
 	
@@ -374,7 +374,7 @@ static NSArray* filesystemNameTagMappings = nil;
 	if ([KWCommonMethods OSVersion] >= 0x1040)
 	{
 		//Set UDF version
-		NSInteger udfVersionNumber = [[NSNumber numberWithBool:[[[filesystemRoot propertiesForFilesystem:@"DRUDF" mergeWithOtherFilesystems:NO] objectForKey:@"DRUDFWriteVersion"] isEqualTo:@"DRUDFVersion150"]] intValue] + 1;
+		NSInteger udfVersionNumber = [[NSNumber numberWithBool:[[[filesystemRoot propertiesForFilesystem:@"DRUDF" mergeWithOtherFilesystems:NO] objectForKey:@"DRUDFWriteVersion"] isEqualTo:@"DRUDFVersion150"]] integerValue] + 1;
 		[udfVersion selectItemAtIndex:udfVersionNumber];
 	}
 	
@@ -404,7 +404,7 @@ static NSArray* filesystemNameTagMappings = nil;
 		if ([KWCommonMethods OSVersion] >= 0x1040)
 			[udfName setStringValue:[filesystemRoot specificNameForFilesystem:@"DRUDF"]];
 	
-	if ([[fsProperties objectForKey:DRISOLevel] intValue] == 1)
+	if ([[fsProperties objectForKey:DRISOLevel] integerValue] == 1)
 		[isoName setStringValue:[filesystemRoot specificNameForFilesystem:DRISO9660LevelOne]];
 	else
 		[isoName setStringValue:[filesystemRoot specificNameForFilesystem:DRISO9660LevelTwo]];
@@ -488,21 +488,21 @@ static NSArray* filesystemNameTagMappings = nil;
 {
 	unsigned short mode = 0;
 
-	mode |= [[sender cellWithTag:2] intValue] << 6;
-	mode |= [[sender cellWithTag:1] intValue] << 7;
-	mode |= [[sender cellWithTag:0] intValue] << 8;
+	mode |= [[sender cellWithTag:2] integerValue] << 6;
+	mode |= [[sender cellWithTag:1] integerValue] << 7;
+	mode |= [[sender cellWithTag:0] integerValue] << 8;
 
-	mode |= [[sender cellWithTag:5] intValue] << 3;	
-	mode |= [[sender cellWithTag:4] intValue] << 4;
-	mode |= [[sender cellWithTag:3] intValue] << 5;
+	mode |= [[sender cellWithTag:5] integerValue] << 3;	
+	mode |= [[sender cellWithTag:4] integerValue] << 4;
+	mode |= [[sender cellWithTag:3] integerValue] << 5;
 	
-	mode |= [[sender cellWithTag:8] intValue] << 0;
-	mode |= [[sender cellWithTag:7] intValue] << 1;
-	mode |= [[sender cellWithTag:6] intValue] << 2;
+	mode |= [[sender cellWithTag:8] integerValue] << 0;
+	mode |= [[sender cellWithTag:7] integerValue] << 1;
+	mode |= [[sender cellWithTag:6] integerValue] << 2;
 
-	mode |= [[sender cellWithTag:11] intValue] << 9;
-	mode |= [[sender cellWithTag:10] intValue] << 10;
-	mode |= [[sender cellWithTag:9] intValue] << 11;
+	mode |= [[sender cellWithTag:11] integerValue] << 9;
+	mode |= [[sender cellWithTag:10] integerValue] << 10;
+	mode |= [[sender cellWithTag:9] integerValue] << 11;
 
 	[filesystemRoot setProperty:[NSNumber numberWithUnsignedShort:mode] forKey:[propertyTagMappings objectAtIndex:[sender tag] -1] inFilesystem:DRAllFilesystems];
 }
@@ -560,10 +560,10 @@ static NSArray* filesystemNameTagMappings = nil;
 	NSData *boundsData;
 	Rect	windowBounds;
 	
-	windowBounds.top = [hfsBoundsT intValue];
-	windowBounds.left = [hfsBoundsL intValue];
-	windowBounds.bottom = [hfsBoundsB intValue];
-	windowBounds.right = [hfsBoundsR intValue];
+	windowBounds.top = [hfsBoundsT integerValue];
+	windowBounds.left = [hfsBoundsL integerValue];
+	windowBounds.bottom = [hfsBoundsB integerValue];
+	windowBounds.right = [hfsBoundsR integerValue];
 	
 	boundsData = [NSData dataWithBytes:&windowBounds length:sizeof(windowBounds)];
 
@@ -575,8 +575,8 @@ static NSArray* filesystemNameTagMappings = nil;
 	NSData *positionData;
 	Point scrollPosition;
 	
-	scrollPosition.h = [hfsScrollX intValue];
-	scrollPosition.v = [hfsScrollY intValue];
+	scrollPosition.h = [hfsScrollX integerValue];
+	scrollPosition.v = [hfsScrollY integerValue];
 	
 	positionData = [NSData dataWithBytes:&scrollPosition length:sizeof(scrollPosition)];
 

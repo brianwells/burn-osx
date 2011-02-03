@@ -38,7 +38,7 @@
 		NSInteger i;
 		for (i=0;i<[files count];i++)
 		{
-			totalSize = totalSize + [[[defaultManager fileAttributesAtPath:[files objectAtIndex:i] traverseLink:YES] objectForKey:NSFileSize] floatValue] / 2048;
+			totalSize = totalSize + [[[defaultManager fileAttributesAtPath:[files objectAtIndex:i] traverseLink:YES] objectForKey:NSFileSize] cgfloatValue] / 2048;
 		}
 		
 	[defaultCenter postNotificationName:@"KWMaximumValueChanged" object:[NSNumber numberWithCGFloat:totalSize]];
@@ -147,7 +147,7 @@
 {
 	NSNotificationCenter *defaultCenter = [NSNotificationCenter defaultCenter];
 
-	CGFloat currentSize = [[[[NSFileManager defaultManager] fileAttributesAtPath:[theTimer userInfo] traverseLink:YES] objectForKey:NSFileSize] floatValue] / 2048;
+	CGFloat currentSize = [[[[NSFileManager defaultManager] fileAttributesAtPath:[theTimer userInfo] traverseLink:YES] objectForKey:NSFileSize] cgfloatValue] / 2048;
 	CGFloat percent = currentSize / totalSize * 100;
 		
 		if (percent < 101)

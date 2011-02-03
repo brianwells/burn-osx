@@ -47,8 +47,8 @@
 	//Set the options
 	convertDestination = [options objectForKey:@"KWConvertDestination"];
 	convertExtension = [options objectForKey:@"KWConvertExtension"];
-	convertRegion = [[options objectForKey:@"KWConvertRegion"] intValue];
-	convertKind = [[options objectForKey:@"KWConvertKind"] intValue];
+	convertRegion = [[options objectForKey:@"KWConvertRegion"] integerValue];
+	convertKind = [[options objectForKey:@"KWConvertKind"] integerValue];
 
 	NSInteger i;
 	for (i=0;i<[files count];i++)
@@ -148,8 +148,8 @@
 	// To keep the aspect ratio ffmpeg needs to pad the movie
 	NSArray *padOptions = [NSArray array];
 	NSSize aspectSize = NSMakeSize(4, 3);
-	//NSInteger dvdAspectMode = [[defaults objectForKey:@"KWDVDAspectMode"] intValue];
-	NSInteger dvdAspectMode = [[defaults objectForKey:@"KWDVDForce43"] intValue];
+	//NSInteger dvdAspectMode = [[defaults objectForKey:@"KWDVDAspectMode"] integerValue];
+	NSInteger dvdAspectMode = [[defaults objectForKey:@"KWDVDForce43"] integerValue];
 	NSInteger calculateSize;
 	BOOL topBars;
 	
@@ -308,7 +308,7 @@
 	{
 		[args addObjectsFromArray:[NSArray arrayWithObjects:@"-vtag", @"DIVX", @"-acodec", nil]];
 				
-		if ([[defaults objectForKey:@"KWDefaultDivXSoundType"] intValue] == 0)
+		if ([[defaults objectForKey:@"KWDefaultDivXSoundType"] integerValue] == 0)
 		{
 			[args addObject:@"libmp3lame"];
 			[args addObject:@"-ac"];
@@ -322,13 +322,13 @@
 		if ([defaults boolForKey:@"KWCustomDivXVideoBitrate"])
 		{
 			[args addObject:@"-b"];
-			[args addObject:[NSString stringWithFormat:@"%i", [[defaults objectForKey:@"KWDefaultDivXVideoBitrate"] intValue] * 1000]];
+			[args addObject:[NSString stringWithFormat:@"%i", [[defaults objectForKey:@"KWDefaultDivXVideoBitrate"] integerValue] * 1000]];
 		}
 					
 		if ([defaults boolForKey:@"KWCustomDivXSoundBitrate"])
 		{
 			[args addObject:@"-ab"];
-			[args addObject:[NSString stringWithFormat:@"%i", [[defaults objectForKey:@"KWDefaultDivxSoundBitrate"] intValue] * 1000]];
+			[args addObject:[NSString stringWithFormat:@"%i", [[defaults objectForKey:@"KWDefaultDivxSoundBitrate"] integerValue] * 1000]];
 		}
 					
 		if ([defaults boolForKey:@"KWCustomDivXSize"])
@@ -362,7 +362,7 @@
 		
 		if (copyAudio == NO)
 		{
-			if ([[defaults objectForKey:@"KWDefaultDVDSoundType"] intValue] == 0)
+			if ([[defaults objectForKey:@"KWDefaultDVDSoundType"] integerValue] == 0)
 				[args addObject:@"mp2"];
 			else
 				[args addObject:@"ac3"];
@@ -370,9 +370,9 @@
 			if ([defaults boolForKey:@"KWCustomDVDSoundBitrate"])
 			{
 				[args addObject:@"-ab"];
-				[args addObject:[NSString stringWithFormat:@"%i", [[defaults objectForKey:@"KWDefaultDVDSoundBitrate"] intValue] * 1000]];
+				[args addObject:[NSString stringWithFormat:@"%i", [[defaults objectForKey:@"KWDefaultDVDSoundBitrate"] integerValue] * 1000]];
 			}
-			else if ([[defaults objectForKey:@"KWDefaultDVDSoundType"] intValue] == 0)
+			else if ([[defaults objectForKey:@"KWDefaultDVDSoundType"] integerValue] == 0)
 			{
 				[args addObject:@"-ab"];
 				[args addObject:@"224000"];
@@ -386,7 +386,7 @@
 		if ([defaults boolForKey:@"KWCustomDVDVideoBitrate"])
 		{
 			[args addObject:@"-b"];
-			[args addObject:[NSString stringWithFormat:@"%i", [[defaults objectForKey:@"KWDefaultDVDVideoBitrate"] intValue] * 1000]];
+			[args addObject:[NSString stringWithFormat:@"%i", [[defaults objectForKey:@"KWDefaultDVDVideoBitrate"] integerValue] * 1000]];
 		}
 					
 		
@@ -394,7 +394,7 @@
 	else if (convertKind == 5)
 	{
 		[args addObject:@"-ab"];
-		[args addObject:[NSString stringWithFormat:@"%i", [[defaults objectForKey:@"KWDefaultMP3Bitrate"] intValue] * 1000]];
+		[args addObject:[NSString stringWithFormat:@"%i", [[defaults objectForKey:@"KWDefaultMP3Bitrate"] integerValue] * 1000]];
 		[args addObject:@"-ac"];
 		[args addObject:[[defaults objectForKey:@"KWDefaultMP3Mode"] stringValue]];
 		[args addObject:@"-ar"];
@@ -426,8 +426,8 @@
 	if ([defaults boolForKey:@"KWSaveBorders"] == YES)
 	{
 		NSNumber *borderSize = [[NSUserDefaults standardUserDefaults] objectForKey:@"KWSaveBorderSize"];
-		NSInteger heightBorder = [borderSize intValue];
-		NSInteger widthBorder = [self convertToEven:[[NSNumber numberWithCGFloat:inputWidth / (inputHeight / [borderSize floatValue])] stringValue]];
+		NSInteger heightBorder = [borderSize integerValue];
+		NSInteger widthBorder = [self convertToEven:[[NSNumber numberWithCGFloat:inputWidth / (inputHeight / [borderSize cgfloatValue])] stringValue]];
 		
 		if ([padOptions count] > 0 && [[padOptions objectAtIndex:0] isEqualTo:@"-padtop"])
 		{
@@ -478,7 +478,7 @@
 		if ([string rangeOfString:@"time="].length > 0)
 		{
 			NSString *currentTimeString = [[[[string componentsSeparatedByString:@"time="] objectAtIndex:1] componentsSeparatedByString:@" "] objectAtIndex:0];
-			CGFloat percent = [currentTimeString floatValue] / inputTotalTime * 100;
+			CGFloat percent = [currentTimeString cgfloatValue] / inputTotalTime * 100;
 		
 			if (inputTotalTime > 0)
 			{
@@ -660,7 +660,7 @@
 
 	while (keepGoing == YES)
 	{
-		NSMutableArray *arguments = [NSMutableArray arrayWithObjects:@"-t",@"0.1",@"-threads",[[NSNumber numberWithInteger:[[[NSUserDefaults standardUserDefaults] objectForKey:@"KWEncodingThreads"] intValue]] stringValue],@"-i",path,@"-target",@"pal-vcd", nil];
+		NSMutableArray *arguments = [NSMutableArray arrayWithObjects:@"-t",@"0.1",@"-threads",[[NSNumber numberWithInteger:[[[NSUserDefaults standardUserDefaults] objectForKey:@"KWEncodingThreads"] integerValue]] stringValue],@"-i",path,@"-target",@"pal-vcd", nil];
 			
 		if (videoWorks == NO)
 			[arguments addObject:@"-vn"];
@@ -882,9 +882,9 @@
 		NSArray *beforeX = [[resolutionArray objectAtIndex:0] componentsSeparatedByString:@" "];
 		NSArray *afterX = [[resolutionArray objectAtIndex:1] componentsSeparatedByString:@" "];
 		
-		inputWidth = [[beforeX objectAtIndex:[beforeX count] - 1] intValue];
-		inputHeight = [[afterX objectAtIndex:0] intValue];
-		inputFps = [[fpsArray objectAtIndex:[fpsArray count] - 1] intValue];
+		inputWidth = [[beforeX objectAtIndex:[beforeX count] - 1] integerValue];
+		inputHeight = [[afterX objectAtIndex:0] integerValue];
+		inputFps = [[fpsArray objectAtIndex:[fpsArray count] - 1] integerValue];
 	
 		if (inputFps == 25 && [inputString rangeOfString:@"Video: dvvideo"].length > 0)
 		{
@@ -1108,15 +1108,15 @@
 
 - (NSInteger)convertToEven:(NSString *)numberAsString
 {
-	NSString *convertedNumber = [[NSNumber numberWithInteger:[numberAsString intValue]] stringValue];
+	NSString *convertedNumber = [[NSNumber numberWithInteger:[numberAsString integerValue]] stringValue];
 
 	unichar ch = [convertedNumber characterAtIndex:[convertedNumber length] -1];
 	NSString *lastCharacter = [NSString stringWithFormat:@"%C", ch];
 
 	if ([lastCharacter isEqualTo:@"1"] | [lastCharacter isEqualTo:@"3"] | [lastCharacter isEqualTo:@"5"] | [lastCharacter isEqualTo:@"7"] | [lastCharacter isEqualTo:@"9"])
-		return [[NSNumber numberWithInteger:[convertedNumber intValue] + 1] intValue];
+		return [[NSNumber numberWithInteger:[convertedNumber integerValue] + 1] integerValue];
 	else
-		return [convertedNumber intValue];
+		return [convertedNumber integerValue];
 }
 
 - (NSInteger)getPadSize:(CGFloat)size withAspect:(NSSize)aspect withTopBars:(BOOL)topBars
@@ -1128,7 +1128,7 @@
 
 	if ([standardDefaults boolForKey:@"KWSaveBorders"] == YES)
 	{
-		heightBorder = [[standardDefaults objectForKey:@"KWSaveBorderSize"] floatValue];
+		heightBorder = [[standardDefaults objectForKey:@"KWSaveBorderSize"] cgfloatValue];
 		widthBorder = aspect.width / (aspect.height / size);
 	}
 	
@@ -1141,7 +1141,7 @@
 - (BOOL)remuxMPEG2File:(NSString *)path outPath:(NSString *)outFile
 {
 	status = 2;
-	NSArray *arguments = [NSArray arrayWithObjects:@"-threads",[[NSNumber numberWithInteger:[[[NSUserDefaults standardUserDefaults] objectForKey:@"KWEncodingThreads"] intValue]] stringValue],@"-i",path,@"-y",@"-acodec",@"copy",@"-vcodec",@"copy",@"-target",@"dvd",outFile,nil];
+	NSArray *arguments = [NSArray arrayWithObjects:@"-threads",[[NSNumber numberWithInteger:[[[NSUserDefaults standardUserDefaults] objectForKey:@"KWEncodingThreads"] integerValue]] stringValue],@"-i",path,@"-y",@"-acodec",@"copy",@"-vcodec",@"copy",@"-target",@"dvd",outFile,nil];
 	//Not used yet
 	NSString *errorsString;
 	BOOL result = [KWCommonMethods launchNSTaskAtPath:[KWCommonMethods ffmpegPath] withArguments:arguments outputError:YES outputString:YES output:&errorsString];
@@ -1183,7 +1183,7 @@
 	if (audioFile)
 	{
 		status = 2;
-		NSArray *arguments = [NSArray arrayWithObjects:@"-threads",[[NSNumber numberWithInteger:[[[NSUserDefaults standardUserDefaults] objectForKey:@"KWEncodingThreads"] intValue]] stringValue],@"-i",path,@"-threads",[[NSNumber numberWithInteger:[[[NSUserDefaults standardUserDefaults] objectForKey:@"KWEncodingThreads"] intValue]] stringValue],@"-i",audioFile,@"-y",@"-acodec",@"copy",@"-vcodec",@"copy",@"-target",@"dvd",outputPath,nil];
+		NSArray *arguments = [NSArray arrayWithObjects:@"-threads",[[NSNumber numberWithInteger:[[[NSUserDefaults standardUserDefaults] objectForKey:@"KWEncodingThreads"] integerValue]] stringValue],@"-i",path,@"-threads",[[NSNumber numberWithInteger:[[[NSUserDefaults standardUserDefaults] objectForKey:@"KWEncodingThreads"] integerValue]] stringValue],@"-i",audioFile,@"-y",@"-acodec",@"copy",@"-vcodec",@"copy",@"-target",@"dvd",outputPath,nil];
 		//Not used yet
 		NSString *errorsString;
 		BOOL result = [KWCommonMethods launchNSTaskAtPath:[KWCommonMethods ffmpegPath] withArguments:arguments outputError:YES outputString:YES output:&errorsString];
@@ -1210,9 +1210,9 @@
 	NSString *string = [self ffmpegOutputForPath:path];
 	NSString *durationsString = [[[[string componentsSeparatedByString:@"Duration: "] objectAtIndex:1] componentsSeparatedByString:@"."] objectAtIndex:0];
 
-	NSInteger hours = [[[durationsString componentsSeparatedByString:@":"] objectAtIndex:0] intValue];
-	NSInteger minutes = [[[durationsString componentsSeparatedByString:@":"] objectAtIndex:1] intValue];
-	NSInteger seconds = [[[durationsString componentsSeparatedByString:@":"] objectAtIndex:2] intValue];
+	NSInteger hours = [[[durationsString componentsSeparatedByString:@":"] objectAtIndex:0] integerValue];
+	NSInteger minutes = [[[durationsString componentsSeparatedByString:@":"] objectAtIndex:1] integerValue];
+	NSInteger seconds = [[[durationsString componentsSeparatedByString:@":"] objectAtIndex:2] integerValue];
 
 	return seconds + (minutes * 60) + (hours * 60 * 60);
 }

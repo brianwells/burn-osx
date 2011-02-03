@@ -123,7 +123,7 @@ return self;
 	[[cells objectAtIndex:0] setObjectValue:[NSNumber numberWithBool:!mount]];
 	[[cells objectAtIndex:1] setObjectValue:[NSNumber numberWithBool:mount]];
 	
-	NSInteger selectedCDItem = [[standardDefaults objectForKey:@"KWDefaultCDMedia"] intValue];
+	NSInteger selectedCDItem = [[standardDefaults objectForKey:@"KWDefaultCDMedia"] integerValue];
 	if (selectedCDItem == 0 | selectedCDItem == 3)
 		[standardDefaults setObject:[NSNumber numberWithInteger:6] forKey:@"KWDefaultCDMedia"];
 	
@@ -131,7 +131,7 @@ return self;
 	[(NSMenuItem *)[cdPopup itemAtIndex:0] setEnabled:NO];
 	[(NSMenuItem *)[cdPopup itemAtIndex:3] setEnabled:NO];
 	
-	NSInteger selectedDVDItem = [[standardDefaults objectForKey:@"KWDefaultDVDMedia"] intValue];
+	NSInteger selectedDVDItem = [[standardDefaults objectForKey:@"KWDefaultDVDMedia"] integerValue];
 	if (selectedDVDItem == 0 | selectedDVDItem == 3)
 		[standardDefaults setObject:[NSNumber numberWithInteger:4] forKey:@"KWDefaultDVDMedia"];
 	
@@ -145,7 +145,7 @@ return self;
 	NSBundle *mainBundle = [NSBundle mainBundle];
 	NSString *defaultThemePath = [[mainBundle pathForResource:@"Themes" ofType:nil] stringByAppendingPathComponent:@"Default.burnTheme"];
 	NSBundle *themeBundle = [NSBundle bundleWithPath:defaultThemePath];
-	NSDictionary *theme = [[NSArray arrayWithContentsOfFile:[themeBundle pathForResource:@"Theme" ofType:@"plist"]] objectAtIndex:[[standardDefaults objectForKey:@"KWDVDThemeFormat"] intValue]];
+	NSDictionary *theme = [[NSArray arrayWithContentsOfFile:[themeBundle pathForResource:@"Theme" ofType:@"plist"]] objectAtIndex:[[standardDefaults objectForKey:@"KWDVDThemeFormat"] unsignedIntegerValue]];
 	
 	themePaths = [[NSMutableArray alloc] init];
 	[themePaths addObject:defaultThemePath];
@@ -179,7 +179,7 @@ return self;
 					themePath = userThemefolder;
 
 				NSBundle *themeBundle = [NSBundle bundleWithPath:[themePath stringByAppendingPathComponent:currentFile]];
-				NSDictionary *theme = [[NSArray arrayWithContentsOfFile:[themeBundle pathForResource:@"Theme" ofType:@"plist"]] objectAtIndex:[[standardDefaults objectForKey:@"KWDVDThemeFormat"] intValue]];
+				NSDictionary *theme = [[NSArray arrayWithContentsOfFile:[themeBundle pathForResource:@"Theme" ofType:@"plist"]] objectAtIndex:[[standardDefaults objectForKey:@"KWDVDThemeFormat"] unsignedIntegerValue]];
 			
 				[themePaths addObject:[themePath stringByAppendingPathComponent:currentFile]];
 				[themePopup addItemWithTitle:[theme objectForKey:@"KWThemeTitle"]];
@@ -192,7 +192,7 @@ return self;
 		}
 	}
 	
-	[themePopup selectItemAtIndex:[[standardDefaults objectForKey:@"KWDVDTheme"] intValue]];
+	[themePopup selectItemAtIndex:[[standardDefaults objectForKey:@"KWDVDTheme"] integerValue]];
 	
 	//Load the options for our views
 	[self setViewOptions:[NSArray arrayWithObjects:generalView, burnerView, dataView, audioView, videoView, advancedView, nil]];
@@ -317,7 +317,7 @@ return self;
 	}
 	else
 	{
-		[temporaryFolderPopup selectItemAtIndex:[[standardDefaults objectForKey:@"KWTemporaryLocationPopup"] intValue]];
+		[temporaryFolderPopup selectItemAtIndex:[[standardDefaults objectForKey:@"KWTemporaryLocationPopup"] integerValue]];
 	}
 }
 
@@ -439,7 +439,7 @@ return self;
 	if (themePath)
 	{
 		NSBundle *themeBundle = [NSBundle bundleWithPath:themePath];
-		NSDictionary *theme = [[NSArray arrayWithContentsOfFile:[themeBundle pathForResource:@"Theme" ofType:@"plist"]] objectAtIndex:[[[NSUserDefaults standardUserDefaults] objectForKey:@"KWDVDThemeFormat"] intValue]];
+		NSDictionary *theme = [[NSArray arrayWithContentsOfFile:[themeBundle pathForResource:@"Theme" ofType:@"plist"]] objectAtIndex:[[[NSUserDefaults standardUserDefaults] objectForKey:@"KWDVDThemeFormat"] unsignedIntegerValue]];
 	
 		[previewImageView setImage:[[KWDVDAuthorizer alloc] getPreviewImageFromTheme:theme ofType:[previewImagePopup indexOfSelectedItem]]];
 	}
@@ -619,7 +619,7 @@ return self;
 				}
 			
 				NSBundle *themeBundle = [NSBundle bundleWithPath:newFile];
-				NSDictionary *theme = [[NSArray arrayWithContentsOfFile:[themeBundle pathForResource:@"Theme" ofType:@"plist"]] objectAtIndex:[[[NSUserDefaults standardUserDefaults] objectForKey:@"KWDVDThemeFormat"] intValue]];
+				NSDictionary *theme = [[NSArray arrayWithContentsOfFile:[themeBundle pathForResource:@"Theme" ofType:@"plist"]] objectAtIndex:[[[NSUserDefaults standardUserDefaults] objectForKey:@"KWDVDThemeFormat"] unsignedIntegerValue]];
 	
 				[themePaths addObject:newFile];
 				[themePopup addItemWithTitle:[theme objectForKey:@"KWThemeTitle"]];
@@ -760,7 +760,7 @@ return self;
 	}
 	
 	if (tag == 4)
-		[[generalView viewWithTag:5] setEnabled:([[button objectValue] intValue] != 2)];
+		[[generalView viewWithTag:5] setEnabled:([[button objectValue] integerValue] != 2)];
 	
 	if (tag == 7 | tag == 8 | tag == 9 | tag == 10)
 		[defaultCenter postNotificationName:@"KWMediaChanged" object:nil];

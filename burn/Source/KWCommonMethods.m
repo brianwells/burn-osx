@@ -194,7 +194,7 @@
 {
 	NSUserDefaults *standardDefaults = [NSUserDefaults standardUserDefaults];
 
-	if ([[standardDefaults objectForKey:@"KWTemporaryLocationPopup"] intValue] == 2)
+	if ([[standardDefaults objectForKey:@"KWTemporaryLocationPopup"] integerValue] == 2)
 	{
 		NSSavePanel *sheet = [NSSavePanel savePanel];
 		[sheet setMessage:description];
@@ -211,7 +211,7 @@
 		NSString *temporaryFile =  [KWCommonMethods uniquePathNameFromPath:[[standardDefaults objectForKey:@"KWTemporaryLocation"] stringByAppendingPathComponent:file]];
 		
 		//Save the temporary files, when they should be deleted
-		if ([[standardDefaults objectForKey:@"KWCleanTemporaryFolderAction"] intValue] == 1 && [[standardDefaults objectForKey:@"KWTemporaryLocationPopup"] intValue] != 2)
+		if ([[standardDefaults objectForKey:@"KWCleanTemporaryFolderAction"] integerValue] == 1 && [[standardDefaults objectForKey:@"KWTemporaryLocationPopup"] integerValue] != 2)
 		{
 			NSMutableArray *temporaryFiles = [NSMutableArray arrayWithArray:[standardDefaults objectForKey:@"KWTemporaryFiles"]];
 			[temporaryFiles addObject:temporaryFile];
@@ -924,7 +924,7 @@
 	[du release];
 	du = nil;
 
-	CGFloat size = [[[string componentsSeparatedByString:@" "] objectAtIndex:0] floatValue] / 4;
+	CGFloat size = [[[string componentsSeparatedByString:@" "] objectAtIndex:0] cgfloatValue] / 4;
 	
 	[string release];
 	string = nil;
@@ -953,7 +953,7 @@
 			if ([defaultManager fileExistsAtPath:sourcePath isDirectory:&isDir] && isDir)
 				size = size + [KWCommonMethods calculateRealFolderSize:sourcePath];
 			else
-				size = size + [[[defaultManager fileAttributesAtPath:sourcePath traverseLink:YES] objectForKey:NSFileSize] floatValue] / 2048;
+				size = size + [[[defaultManager fileAttributesAtPath:sourcePath traverseLink:YES] objectForKey:NSFileSize] cgfloatValue] / 2048;
 		}
 		else
 		{
@@ -1067,7 +1067,7 @@
 		NSString *object = [objects objectAtIndex:i];
 	
 		if (![object isEqualTo:@""])
-			size = [object intValue];
+			size = [object integerValue];
 		
 		i = i + 1;
 	}
@@ -1101,7 +1101,7 @@
 	else
 		sizes = [NSArray arrayWithObjects:@"", @"712891", @"1298828", @"", @"2295104", @"4171712", nil];
 
-	return [[sizes objectAtIndex:[[[NSUserDefaults standardUserDefaults] objectForKey:media] intValue]] floatValue];
+	return [[sizes objectAtIndex:[[[NSUserDefaults standardUserDefaults] objectForKey:media] integerValue]] cgfloatValue];
 }
 
 + (NSImage *)getImageForName:(NSString *)name

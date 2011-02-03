@@ -184,7 +184,7 @@
 	}
 	
 	//Set save popup title
-	[tableViewPopup selectItemAtIndex:[[[NSUserDefaults standardUserDefaults] objectForKey:@"KWDefaultAudioType"] intValue]];
+	[tableViewPopup selectItemAtIndex:[[[NSUserDefaults standardUserDefaults] objectForKey:@"KWDefaultAudioType"] integerValue]];
 	[self tableViewPopup:self];
 
 	//Set the Inspector window to empty
@@ -291,7 +291,7 @@
 		if (selrow == 0)
 			sizeObject = [KWCommonMethods formatTime:time withFrames:NO];
 		else
-			sizeObject = [KWCommonMethods makeSizeFromFloat:[[[defaultManager fileAttributesAtPath:path traverseLink:YES] objectForKey:NSFileSize] floatValue]];
+			sizeObject = [KWCommonMethods makeSizeFromFloat:[[[defaultManager fileAttributesAtPath:path traverseLink:YES] objectForKey:NSFileSize] cgfloatValue]];
 		
 		[rowData setObject:sizeObject forKey:@"Size"];
 		[rowData setObject:[[NSNumber numberWithInteger:time] stringValue] forKey:@"RealTime"];
@@ -322,7 +322,7 @@
 		{
 			DRTrack	*track = [[KWTrackProducer alloc] getAudioTrackForPath:path];
 			NSNumber *pregap = [[NSUserDefaults standardUserDefaults] objectForKey:@"KWDefaultPregap"];
-			unsigned preGapLengthInFrames = (unsigned)([pregap floatValue] * 75.0);
+			unsigned preGapLengthInFrames = (unsigned)([pregap cgfloatValue] * 75.0);
 			
 			NSMutableDictionary	*trackProperties = [NSMutableDictionary dictionaryWithDictionary:[track properties]];
 			[trackProperties setObject:[NSNumber numberWithUnsignedInt:preGapLengthInFrames] forKey:DRPreGapLengthKey];
@@ -560,7 +560,7 @@
 	}
 	else
 	{
-		CGFloat maximumSize = [[self totalSize] floatValue];
+		CGFloat maximumSize = [[self totalSize] cgfloatValue];
 		
 		#if MAC_OS_X_VERSION_MAX_ALLOWED < 1050
 		if ([KWCommonMethods OSVersion] < 0x1040)
@@ -1163,7 +1163,7 @@
 				NSInteger i;
 				for (i = 0; i < [draggedRows count]; i ++)
 				{
-					NSInteger currentRow = [[draggedRows objectAtIndex:i] intValue];
+					NSInteger currentRow = [[draggedRows objectAtIndex:i] integerValue];
 					[draggedObjects addObject:[trackDictionaries objectAtIndex:currentRow]];
 					[trackDictionaries removeObjectAtIndex:currentRow];
 				}
@@ -1181,7 +1181,7 @@
 					}
 					else
 					{
-						if ([[draggedRows objectAtIndex:i] intValue] < destinationRow)
+						if ([[draggedRows objectAtIndex:i] integerValue] < destinationRow)
 							destinationRow = destinationRow - [draggedRows count];
 				
 						[trackDictionaries insertObject:object atIndex:destinationRow];
@@ -1228,8 +1228,8 @@
 		{
 			DRTrack *currentTrack = [tracks objectAtIndex:i];
 			NSDictionary *properties = [currentTrack properties];
-			size = size + [[properties objectForKey:DRTrackLengthKey] intValue];
-			size = size + [[properties objectForKey:DRPreGapLengthKey] intValue];
+			size = size + [[properties objectForKey:DRTrackLengthKey] integerValue];
+			size = size + [[properties objectForKey:DRPreGapLengthKey] integerValue];
 		}
 		
 		return [NSNumber numberWithInteger:size];
@@ -1239,7 +1239,7 @@
 //Calculate and return total time as string
 - (NSString *)totalTime
 {
-	return [KWCommonMethods formatTime:[[self totalSize] floatValue] / 75 withFrames:NO];
+	return [KWCommonMethods formatTime:[[self totalSize] cgfloatValue] / 75 withFrames:NO];
 }
 
 //Get movie duration using NSMovie so it works in Panther too
@@ -1405,7 +1405,7 @@
 		
 		DRTrack *currentTrack = [tracks objectAtIndex:x];
 		NSDictionary *trackProperties = [currentTrack properties];
-		NSInteger pregap = [[trackProperties objectForKey:DRPreGapLengthKey] intValue];
+		NSInteger pregap = [[trackProperties objectForKey:DRPreGapLengthKey] integerValue];
 			
 		if (pregap > 0)
 		{
@@ -1414,7 +1414,7 @@
 			size = size + pregap;
 		}
 		
-		NSInteger trackSize = [[trackProperties objectForKey:DRTrackLengthKey] intValue];
+		NSInteger trackSize = [[trackProperties objectForKey:DRTrackLengthKey] integerValue];
 		NSString *time = [[DRMSF msfWithFrames:size] description];
 		cueFile = [NSString stringWithFormat:@"%@\n    INDEX 01 %@", cueFile, time];
 		size = size + trackSize;

@@ -233,7 +233,7 @@
 
 - (NSString *)kind
 {
-	return [KWCommonMethods makeSizeFromFloat:[[[[NSFileManager defaultManager] fileAttributesAtPath:[fsObj sourcePath] traverseLink:YES] objectForKey:NSFileSize] floatValue]];
+	return [KWCommonMethods makeSizeFromFloat:[[[[NSFileManager defaultManager] fileAttributesAtPath:[fsObj sourcePath] traverseLink:YES] objectForKey:NSFileSize] cgfloatValue]];
 }
 
 @end

@@ -293,21 +293,21 @@
 	unsigned short mode = 0;
 	
 	// combine all of the checkbox states into bit values for the POSIX mode.
-	mode |= [[sender cellWithTag:2] intValue] << 6;
-	mode |= [[sender cellWithTag:1] intValue] << 7;
-	mode |= [[sender cellWithTag:0] intValue] << 8;
+	mode |= [[sender cellWithTag:2] integerValue] << 6;
+	mode |= [[sender cellWithTag:1] integerValue] << 7;
+	mode |= [[sender cellWithTag:0] integerValue] << 8;
 
-	mode |= [[sender cellWithTag:5] intValue] << 3;	
-	mode |= [[sender cellWithTag:4] intValue] << 4;
-	mode |= [[sender cellWithTag:3] intValue] << 5;
+	mode |= [[sender cellWithTag:5] integerValue] << 3;	
+	mode |= [[sender cellWithTag:4] integerValue] << 4;
+	mode |= [[sender cellWithTag:3] integerValue] << 5;
 	
-	mode |= [[sender cellWithTag:8] intValue] << 0;
-	mode |= [[sender cellWithTag:7] intValue] << 1;
-	mode |= [[sender cellWithTag:6] intValue] << 2;
+	mode |= [[sender cellWithTag:8] integerValue] << 0;
+	mode |= [[sender cellWithTag:7] integerValue] << 1;
+	mode |= [[sender cellWithTag:6] integerValue] << 2;
 
-	mode |= [[sender cellWithTag:11] intValue] << 9;
-	mode |= [[sender cellWithTag:10] intValue] << 10;
-	mode |= [[sender cellWithTag:9] intValue] << 11;
+	mode |= [[sender cellWithTag:11] integerValue] << 9;
+	mode |= [[sender cellWithTag:10] integerValue] << 10;
+	mode |= [[sender cellWithTag:9] integerValue] << 11;
 	
 	// Each subclass sets up an array of property keys. Tags of the object in the view 
 	// hierarchy are set to the index of the tag that corresponds to the particular item

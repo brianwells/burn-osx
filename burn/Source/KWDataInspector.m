@@ -64,7 +64,7 @@
 		else
 		{
 			NSString *sourcePath = [firstObject sourcePath];
-			CGFloat size = [[[[NSFileManager defaultManager] fileAttributesAtPath:sourcePath traverseLink:YES] objectForKey:NSFileSize] floatValue];
+			CGFloat size = [[[[NSFileManager defaultManager] fileAttributesAtPath:sourcePath traverseLink:YES] objectForKey:NSFileSize] cgfloatValue];
 			[sizeField setStringValue:[KWCommonMethods makeSizeFromFloat:size]];
 			
 		}

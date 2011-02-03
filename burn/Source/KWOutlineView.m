@@ -28,7 +28,7 @@
 {
 	NSDictionary *userInfo = [notification userInfo];
 
-	NSInteger textMovement = [[userInfo valueForKey:@"NSTextMovement"] intValue];
+	NSInteger textMovement = [[userInfo valueForKey:@"NSTextMovement"] integerValue];
 
 	if (textMovement == NSReturnTextMovement || textMovement == NSTabTextMovement || textMovement == NSBacktabTextMovement)
 	{

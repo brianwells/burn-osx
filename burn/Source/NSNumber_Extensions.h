@@ -7,13 +7,7 @@
 //
 
 #import <Cocoa/Cocoa.h>
-
-
-#if MAC_OS_X_VERSION_MAX_ALLOWED < 1050
-typedef int NSInteger;
-typedef unsigned int NSUInteger;
-typedef float CGFloat;
-#endif
+#import "KWDefines.h"
 
 @interface NSNumber (MyExtensions)
 #if MAC_OS_X_VERSION_MAX_ALLOWED < 1050

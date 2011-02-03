@@ -9,11 +9,13 @@
 #import <Cocoa/Cocoa.h>
 #import <DiscRecording/DiscRecording.h>
 #import "NSNumber_Extensions.h"
+#import "NSControl_Extensions.h"
+#import "NSString_Extensions.h"
 
 @interface KWCommonMethods : NSObject {}
 
 //OS actions
-//Check for Snow Leopard (used to show new sizes divided by 1000 instead of 1024)
+//Check for Snow Leopard (used to show new sizes divided by 1000 instead of 1024 and a lot more ;-)
 + (NSInteger)OSVersion;
 //Check is QuickTime 7 is installed (QTKit)
 + (BOOL)isQuickTimeSevenInstalled;

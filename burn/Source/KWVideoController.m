@@ -78,7 +78,7 @@
 	[super awakeFromNib];
 	
 	//Set save popup title
-	[tableViewPopup selectItemAtIndex:[[[NSUserDefaults standardUserDefaults] objectForKey:@"KWDefaultVideoType"] intValue]];
+	[tableViewPopup selectItemAtIndex:[[[NSUserDefaults standardUserDefaults] objectForKey:@"KWDefaultVideoType"] integerValue]];
 	[self tableViewPopup:self];
 }
 
@@ -226,7 +226,7 @@
 					[rowData setObject:chapters forKey:@"Chapters"];
 				}
 				
-				CGFloat displaySize = [[attrib objectForKey:NSFileSize] floatValue];
+				CGFloat displaySize = [[attrib objectForKey:NSFileSize] cgfloatValue];
 				
 					if (selrow < 2)
 					{
@@ -375,7 +375,7 @@
 	}
 	else
 	{
-		NSInteger totalSize = [[self totalSize] floatValue];
+		NSInteger totalSize = [[self totalSize] cgfloatValue];
 		NSNotificationCenter *defaultCenter = [NSNotificationCenter defaultCenter];
 		
 		[defaultCenter postNotificationName:@"KWMaximumValueChanged" object:[NSNumber numberWithCGFloat:totalSize]];
@@ -387,7 +387,7 @@
 		if ([standardDefaults boolForKey:@"KWUseTheme"] == YES)
 		{
 			NSBundle *themeBundle = [NSBundle bundleWithPath:[standardDefaults objectForKey:@"KWDVDThemePath"]];
-			NSDictionary *theme = [[NSArray arrayWithContentsOfFile:[themeBundle pathForResource:@"Theme" ofType:@"plist"]] objectAtIndex:[[standardDefaults objectForKey:@"KWDVDThemeFormat"] intValue]];
+			NSDictionary *theme = [[NSArray arrayWithContentsOfFile:[themeBundle pathForResource:@"Theme" ofType:@"plist"]] objectAtIndex:[[standardDefaults objectForKey:@"KWDVDThemeFormat"] integerValue]];
 			
 			succes = [DVDAuthorizer createDVDMenuFiles:path withTheme:theme withFileArray:tableData withSize:[NSNumber numberWithInteger:totalSize / 2] withName:[discName stringValue] errorString:&*error];
 		}
@@ -560,7 +560,7 @@
 	{
 		NSString *path = [[tableData objectAtIndex:i] objectForKey:@"Path"];
 		NSDictionary *attrib = [defaultManager fileAttributesAtPath:path traverseLink:YES];
-		CGFloat fileSize = [[attrib objectForKey:NSFileSize] floatValue] + 862288;
+		CGFloat fileSize = [[attrib objectForKey:NSFileSize] cgfloatValue] + 862288;
 		size = size + fileSize;
 	}
 

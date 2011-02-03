@@ -409,9 +409,9 @@
 			NSInteger size;
 		
 			if (x + 1 < [tracks count])
-				size = [[[tracks objectAtIndex:x + 1] objectForKey:@"Start Block"] intValue] - [[currentTrack objectForKey:@"Start Block"] intValue];
+				size = [[[tracks objectAtIndex:x + 1] objectForKey:@"Start Block"] integerValue] - [[currentTrack objectForKey:@"Start Block"] integerValue];
 			else
-				size = [leadout intValue] - [[currentTrack objectForKey:@"Start Block"] intValue];
+				size = [leadout integerValue] - [[currentTrack objectForKey:@"Start Block"] integerValue];
 		
 			DRTrack *track = [[[DRTrack alloc] initWithProducer:self] autorelease];
 			NSMutableDictionary *dict = [NSMutableDictionary dictionary];
@@ -684,7 +684,7 @@
 
 	NSData *data = [handle readDataToEndOfFile];
 	NSString *string = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
-	CGFloat size = [string intValue];
+	CGFloat size = [string cgfloatValue];
 	[string release];
 	string = nil;
 

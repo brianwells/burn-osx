@@ -304,7 +304,7 @@
 	NSInteger i;
 	for (i = 0; i < [optionsPopup numberOfItems] - 1; i ++)
 	{
-		[[optionsPopup itemAtIndex:i + 1] setState:[[[NSUserDefaults standardUserDefaults] objectForKey:[optionsMappings objectAtIndex:i]] intValue]];
+		[[optionsPopup itemAtIndex:i + 1] setState:[[[NSUserDefaults standardUserDefaults] objectForKey:[optionsMappings objectAtIndex:i]] integerValue]];
 	}
 
 	[optionsPopup performClick:self];
@@ -459,7 +459,7 @@
 		
 			if (useRegion)
 			{
-				[regionPopup selectItemAtIndex:[[[NSUserDefaults standardUserDefaults] objectForKey:@"KWDefaultRegion"] intValue]];
+				[regionPopup selectItemAtIndex:[[[NSUserDefaults standardUserDefaults] objectForKey:@"KWDefaultRegion"] integerValue]];
 				[sheet setAccessoryView:saveView];
 			}
 		
@@ -711,12 +711,12 @@
 		NSInteger i;
 		for (i = 0; i < [draggedRows count]; i ++)
 		{
-			NSInteger currentRow = [[draggedRows objectAtIndex:i] intValue];
+			NSInteger currentRow = [[draggedRows objectAtIndex:i] integerValue];
 			[draggedObjects addObject:[tableData objectAtIndex:currentRow]];
 			[tableData removeObjectAtIndex:currentRow];
 		}
 		
-		BOOL shouldSelectRow = ([draggedRows count] > 1 | [tableView isRowSelected:[[draggedRows objectAtIndex:0] intValue]]);
+		BOOL shouldSelectRow = ([draggedRows count] > 1 | [tableView isRowSelected:[[draggedRows objectAtIndex:0] integerValue]]);
 		
 		[tableView deselectAll:nil];
 		
@@ -733,7 +733,7 @@
 			}
 			else
 			{
-				if ([[draggedRows objectAtIndex:i] intValue] < destinationRow)
+				if ([[draggedRows objectAtIndex:i] integerValue] < destinationRow)
 					destinationRow = destinationRow - [draggedRows count];
 				
 				[tableData insertObject:object atIndex:destinationRow];
@@ -801,7 +801,7 @@
 {
 	if (canBeReorderd)
 	{
-		id object = [tableData objectAtIndex:[[rows lastObject] intValue]];
+		id object = [tableData objectAtIndex:[[rows lastObject] integerValue]];
 		NSData *data = [NSArchiver archivedDataWithRootObject:object];
 
 		[pboard declareTypes:[NSArray arrayWithObjects:@"NSGeneralPboardType", @"KWRemoveRowPboardType", @"KWDraggedRows", nil] owner:nil];
@@ -831,7 +831,7 @@
 //Set total size
 - (void)setTotal
 {
-	[totalText setStringValue:[NSString stringWithFormat:NSLocalizedString(@"Total size: %@", nil), [KWCommonMethods makeSizeFromFloat:[[self totalSize] floatValue] * 2048]]];
+	[totalText setStringValue:[NSString stringWithFormat:NSLocalizedString(@"Total size: %@", nil), [KWCommonMethods makeSizeFromFloat:[[self totalSize] cgfloatValue] * 2048]]];
 }
 
 //Calculate and return total size as CGFloat

@@ -373,7 +373,7 @@
 			}
 			else if ([audioTracks isKindOfClass:[NSNumber class]])
 			{
-				result = [audioTracks intValue];
+				result = [audioTracks integerValue];
 			}
 			else if ([audioTracks isKindOfClass:[NSArray class]])
 			{
@@ -419,7 +419,7 @@
 			}
 			else if ([videoTracks isKindOfClass:[NSNumber class]])
 			{
-				result = [videoTracks intValue];
+				result = [videoTracks integerValue];
 			}
 			else if ([videoTracks isKindOfClass:[NSArray class]])
 			{
@@ -477,7 +477,7 @@
 		}
 		else if ([dataTracks isKindOfClass:[NSNumber class]])
 		{
-			result = [dataTracks intValue];
+			result = [dataTracks integerValue];
 		}
 		else if ([dataTracks isKindOfClass:[NSArray class]])
 		{
@@ -494,7 +494,7 @@
 		id copyTracks = [copyControllerOutlet myTrackWithErrorString:&errorString andLayerBreak:&layerBreak];
 	
 		if ([copyTracks isKindOfClass:[NSNumber class]])
-			result = [copyTracks intValue];
+			result = [copyTracks integerValue];
 		else if ([copyTracks isKindOfClass:[NSArray class]])
 			[tracks addObjectsFromArray:copyTracks];
 		else
@@ -770,7 +770,7 @@
 - (void)deleteTemporaryFiles
 {
 	NSArray *controllers = [NSArray arrayWithObjects:dataControllerOutlet, audioControllerOutlet, videoControllerOutlet, copyControllerOutlet, nil];
-	NSNumber *boolNumber = [NSNumber numberWithBool:([[[NSUserDefaults standardUserDefaults] objectForKey:@"KWCleanTemporaryFolderAction"] intValue] == 2)];
+	NSNumber *boolNumber = [NSNumber numberWithBool:([[[NSUserDefaults standardUserDefaults] objectForKey:@"KWCleanTemporaryFolderAction"] integerValue] == 2)];
 	[controllers makeObjectsPerformSelector:@selector(deleteTemporayFiles:) withObject:boolNumber];
 }
 

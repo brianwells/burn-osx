@@ -327,7 +327,7 @@
 
 	if ([[path pathExtension] isEqualTo:@"cue"])
 	{
-		return (NSInteger)[[[defaultManager fileAttributesAtPath:[[path stringByDeletingPathExtension] stringByAppendingPathExtension:@"bin"] traverseLink:YES] objectForKey:NSFileSize] floatValue] / 1024;
+		return (NSInteger)[[[defaultManager fileAttributesAtPath:[[path stringByDeletingPathExtension] stringByAppendingPathExtension:@"bin"] traverseLink:YES] objectForKey:NSFileSize] cgfloatValue] / 1024;
 	}
 	else if ([[path pathExtension] isEqualTo:@"toc"])
 	{
@@ -343,14 +343,14 @@
 			if ([[filePath stringByDeletingLastPathComponent] isEqualTo:@""])
 				filePath = [[path stringByDeletingLastPathComponent] stringByAppendingPathComponent:filePath];
 				
-			appendSize = appendSize + [[[defaultManager fileAttributesAtPath:filePath traverseLink:YES] objectForKey:NSFileSize] floatValue];
+			appendSize = appendSize + [[[defaultManager fileAttributesAtPath:filePath traverseLink:YES] objectForKey:NSFileSize] cgfloatValue];
 		}
 			
 		return (NSInteger)appendSize / 1024;
 	}
 	else
 	{
-		return (NSInteger)[[[defaultManager fileAttributesAtPath:path traverseLink:YES] objectForKey:NSFileSize] floatValue] / 1024;
+		return (NSInteger)[[[defaultManager fileAttributesAtPath:path traverseLink:YES] objectForKey:NSFileSize] cgfloatValue] / 1024;
 	}
 }
 
@@ -578,18 +578,18 @@
 	if ([[NSUserDefaults standardUserDefaults] boolForKey:@"KWDebug"])
 		NSLog(@"%@", [status description]);
 	
-	if ([[status objectForKey:DRStatusPercentCompleteKey] floatValue] > 0)
+	if ([[status objectForKey:DRStatusPercentCompleteKey] cgfloatValue] > 0)
 	{
 		if (![currentStatusString isEqualTo:DRStatusStateTrackOpen])
 		{
 			NSNumber *percent = [status objectForKey:DRStatusPercentCompleteKey];
-			CGFloat currentPercent = [percent floatValue];
+			CGFloat currentPercent = [percent cgfloatValue];
 			[defaultCenter postNotificationName:@"KWMaximumValueChanged" object:[NSNumber numberWithCGFloat:1.0]];
 			[defaultCenter postNotificationName:@"KWValueChanged" object:percent];
 			
 			if (!imagePath)
 			{
-				CGFloat currentSpeed = [[status objectForKey:DRStatusCurrentSpeedKey] floatValue];
+				CGFloat currentSpeed = [[status objectForKey:DRStatusCurrentSpeedKey] cgfloatValue];
 				time = [KWCommonMethods formatTime:(CGFloat)(size / currentSpeed - (size / currentSpeed * currentPercent)) withFrames:NO];
 			}
 			else
@@ -609,7 +609,7 @@
 	}
 	else if ([currentStatusString isEqualTo:DRStatusStateTrackOpen])
 	{
-		if ([[status objectForKey:DRStatusTotalTracksKey] intValue] > 1)
+		if ([[status objectForKey:DRStatusTotalTracksKey] integerValue] > 1)
 			statusString = [NSString stringWithFormat:NSLocalizedString(@"Opening track %ld", nil),[[status objectForKey:DRStatusCurrentTrackKey] longValue]];
 		else
 			statusString = NSLocalizedString(@"Opening track", Localized);
@@ -618,7 +618,7 @@
 	{
 		if (time)
 		{
-			if ([[status objectForKey:DRStatusTotalTracksKey] intValue] > 1)
+			if ([[status objectForKey:DRStatusTotalTracksKey] integerValue] > 1)
 				statusString = [NSString stringWithFormat:NSLocalizedString(@"Writing track %ld of %ld (%@)", nil), [[status objectForKey:DRStatusCurrentTrackKey] longValue], [[status objectForKey:DRStatusTotalTracksKey] longValue], time];
 			else
 				statusString = [NSString stringWithFormat:NSLocalizedString(@"Writing track (%@)", nil), time];
@@ -626,7 +626,7 @@
 	}
 	else if ([currentStatusString isEqualTo:DRStatusStateTrackClose])
 	{
-		if ([[status objectForKey:DRStatusTotalTracksKey] intValue] > 1)
+		if ([[status objectForKey:DRStatusTotalTracksKey] integerValue] > 1)
 			statusString = [NSString stringWithFormat:NSLocalizedString(@"Closing track %ld of %ld (%@)", nil), [[status objectForKey:DRStatusCurrentTrackKey] longValue], [[status objectForKey:DRStatusTotalTracksKey] longValue], time];
 		else
 			statusString = [NSString stringWithFormat:NSLocalizedString(@"Closing track (%@)", nil), time];
@@ -791,7 +791,7 @@
 		NSInteger i;
 		for (i = 0; i < [speeds count]; i ++)
 		{
-			speed = [[speeds objectAtIndex:i] floatValue];
+			speed = [[speeds objectAtIndex:i] cgfloatValue];
 		
 			if ([[mediaInfo objectForKey:DRDeviceMediaClassKey] isEqualTo:DRDeviceMediaClassCD])
 				speed = speed / DRDeviceBurnSpeedCD1x;
@@ -845,11 +845,11 @@
 
 	if ([[mediaInfo objectForKey:DRDeviceMediaIsBlankKey] boolValue])
 	{
-		space = [[mediaInfo objectForKey:DRDeviceMediaFreeSpaceKey] floatValue];
+		space = [[mediaInfo objectForKey:DRDeviceMediaFreeSpaceKey] cgfloatValue];
 	}
 	else if ([[mediaInfo objectForKey:DRDeviceMediaClassKey] isEqualTo:DRDeviceMediaClassDVD])
 	{
-		space = [[mediaInfo objectForKey:DRDeviceMediaOverwritableSpaceKey] floatValue];
+		space = [[mediaInfo objectForKey:DRDeviceMediaOverwritableSpaceKey] cgfloatValue];
 	}
 	else
 	{

@@ -113,8 +113,8 @@
 	if ([objects count] == 1)
 	{
 		if (selector == @selector(getYear))
-			return [NSNumber numberWithInteger:[baseValue intValue]];
-		else if ([baseValue isKindOfClass:[NSNumber class]] && [baseValue intValue] == -1)
+			return [NSNumber numberWithInteger:[baseValue integerValue]];
+		else if ([baseValue isKindOfClass:[NSNumber class]] && [baseValue integerValue] == -1)
 			return @"";
 		else
 			return baseValue;
@@ -147,7 +147,7 @@
 		}
 	}
 	
-		if ([baseValue isKindOfClass:[NSNumber class]] && [baseValue intValue] == -1)
+		if ([baseValue isKindOfClass:[NSNumber class]] && [baseValue integerValue] == -1)
 			return @"";
 		else
 			return baseValue;

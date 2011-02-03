@@ -109,7 +109,7 @@
 					property = [self getTrackObjectForKey:currentKey inTrackObjects:selectedTracks];
 
 					if ([currentKey isEqualTo:DRPreGapLengthKey])
-						property = [NSNumber numberWithInteger:(int)[property floatValue] / 75];
+						property = [NSNumber numberWithInteger:(int)[property cgfloatValue] / 75];
 					else if ([currentKey isEqualTo:DRIndexPointsKey])
 						property = [NSNumber numberWithBool:(property != nil)];
 				}
@@ -136,7 +136,7 @@
 	#if MAC_OS_X_VERSION_MAX_ALLOWED >= MAC_OS_X_VERSION_10_4
 	id baseValue;
 	
-	baseValue = [(DRCDTextBlock *)object objectForKey:key ofTrack:[[indexes objectAtIndex:0] intValue] + 1];
+	baseValue = [(DRCDTextBlock *)object objectForKey:key ofTrack:[[indexes objectAtIndex:0] integerValue] + 1];
 
 
 	if ([indexes count] == 1)
@@ -148,7 +148,7 @@
 		NSInteger i;
 		for (i=1;i<[indexes count];i++)
 		{
-			id currentValue = [object objectForKey:key ofTrack:[[indexes objectAtIndex:i] intValue] + 1];
+			id currentValue = [object objectForKey:key ofTrack:[[indexes objectAtIndex:i] integerValue] + 1];
 
 			if (![baseValue isEqualTo:currentValue])
 				return nil;
@@ -211,7 +211,7 @@
 		NSInteger i;
 		for (i = 0; i < [selectedRows count]; i ++)
 		{
-			NSInteger selectedTrack = [[selectedRows objectAtIndex:i] intValue];
+			NSInteger selectedTrack = [[selectedRows objectAtIndex:i] integerValue];
 			id value;
 			
 				if ([currentKey isEqualTo:DRCDTextMCNISRCKey])
@@ -241,7 +241,7 @@
 			
 			if ([currentKey isEqualTo:DRPreGapLengthKey])
 			{
-				unsigned preGapLengthInFrames = (unsigned)([[sender objectValue] floatValue] * 75.0);
+				unsigned preGapLengthInFrames = (unsigned)([[sender objectValue] cgfloatValue] * 75.0);
 				value = [NSNumber numberWithUnsignedInt:preGapLengthInFrames];
 			}
 			else if ([currentKey isEqualTo:DRIndexPointsKey])

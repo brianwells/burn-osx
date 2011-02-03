@@ -266,7 +266,7 @@
 
 - (IBAction)returnToDefaultSizeWindow:(id)sender
 {
-	[mainWindow setFrame:NSMakeRect([mainWindow frame].origin.x , [mainWindow frame].origin.y - ([[[NSUserDefaults standardUserDefaults] objectForKey:@"KWDefaultWindowHeight"] intValue] - [mainWindow frame].size.height), [[[NSUserDefaults standardUserDefaults] objectForKey:@"KWDefaultWindowWidth"] intValue], [[[NSUserDefaults standardUserDefaults] objectForKey:@"KWDefaultWindowHeight"] intValue]) display:YES];
+	[mainWindow setFrame:NSMakeRect([mainWindow frame].origin.x , [mainWindow frame].origin.y - ([[[NSUserDefaults standardUserDefaults] objectForKey:@"KWDefaultWindowHeight"] integerValue] - [mainWindow frame].size.height), [[[NSUserDefaults standardUserDefaults] objectForKey:@"KWDefaultWindowWidth"] integerValue], [[[NSUserDefaults standardUserDefaults] objectForKey:@"KWDefaultWindowHeight"] integerValue]) display:YES];
 }
 
 //////////////////////////
@@ -396,15 +396,15 @@
 		if ([mediaState isEqualTo:DRDeviceMediaStateMediaPresent])
 		{
 			if ([[mediaInfo objectForKey:DRDeviceMediaIsBlankKey] boolValue] | [standardDefaults boolForKey:@"KWShowOverwritableSpace"] == NO)
-				space = [[mediaInfo objectForKey:DRDeviceMediaFreeSpaceKey] floatValue] * 2048 / 1024 / 2;
+				space = [[mediaInfo objectForKey:DRDeviceMediaFreeSpaceKey] cgfloatValue] * 2048 / 1024 / 2;
 			else if ([[mediaInfo objectForKey:DRDeviceMediaClassKey] isEqualTo:DRDeviceMediaClassDVD])
-				space = [[mediaInfo objectForKey:DRDeviceMediaOverwritableSpaceKey] floatValue] * 2048 / 1024 / 2;
+				space = [[mediaInfo objectForKey:DRDeviceMediaOverwritableSpaceKey] cgfloatValue] * 2048 / 1024 / 2;
 			else
 				space = [KWCommonMethods defaultSizeForMedia:@"KWDefaultCDMedia"];
 		}
 		else
 		{
-			NSInteger media = [[standardDefaults objectForKey:@"KWDefaultMedia"] intValue];
+			NSInteger media = [[standardDefaults objectForKey:@"KWDefaultMedia"] integerValue];
 		
 			if (media == 1)
 				space = [KWCommonMethods defaultSizeForMedia:@"KWDefaultCDMedia"];
@@ -424,7 +424,7 @@
 			NSString *percent;
 			KWTabViewItem *tabViewItem = (KWTabViewItem *)[mainTabView selectedTabViewItem];
 			id controller = [tabViewItem myController];
-			CGFloat totalSize = [[controller performSelector:@selector(totalSize)] floatValue];
+			CGFloat totalSize = [[controller performSelector:@selector(totalSize)] cgfloatValue];
 
 			if (space > 0)
 				percent = [NSString stringWithFormat: @"(%.0f%@)", totalSize / space * 100, @"%"];
@@ -466,7 +466,7 @@
 		
 		if (burnFile)
 		{
-			[mainTabView selectTabViewItemAtIndex:[[burnFile objectForKey:@"KWType"] intValue]];
+			[mainTabView selectTabViewItemAtIndex:[[burnFile objectForKey:@"KWType"] integerValue]];
 
 			aSelector = @selector(openBurnDocument:);
 			object = pathname;
@@ -521,7 +521,7 @@
 {
 	NSUserDefaults *standardDefaults = [NSUserDefaults standardUserDefaults];
 
-	if ([[standardDefaults objectForKey:@"KWCleanTemporaryFolderAction"] intValue] == 1 && [[standardDefaults objectForKey:@"KWTemporaryLocationPopup"] intValue] != 2)
+	if ([[standardDefaults objectForKey:@"KWCleanTemporaryFolderAction"] integerValue] == 1 && [[standardDefaults objectForKey:@"KWTemporaryLocationPopup"] integerValue] != 2)
 	{
 		NSArray *files = [standardDefaults objectForKey:@"KWTemporaryFiles"];
 	

@@ -296,8 +296,8 @@
 	NSData*	positionData;
 	Point	iconPosition;
 	
-	iconPosition.h = [iconPosX intValue];
-	iconPosition.v = [iconPosY intValue];
+	iconPosition.h = [iconPosX integerValue];
+	iconPosition.v = [iconPosY integerValue];
 	
 	positionData = [NSData dataWithBytes:&iconPosition length:sizeof(iconPosition)];
 	
@@ -347,10 +347,10 @@
 		NSData*	boundsData;
 		Rect	windowBounds;
 	
-		windowBounds.top = [boundsTop intValue];
-		windowBounds.left = [boundsLeft intValue];
-		windowBounds.bottom = [boundsBottom intValue];
-		windowBounds.right = [boundsRight intValue];
+		windowBounds.top = [boundsTop integerValue];
+		windowBounds.left = [boundsLeft integerValue];
+		windowBounds.bottom = [boundsBottom integerValue];
+		windowBounds.right = [boundsRight integerValue];
 	
 		boundsData = [NSData dataWithBytes:&windowBounds length:sizeof(windowBounds)];
 	
@@ -370,8 +370,8 @@
 		NSData*	positionData;
 		Point	scrollPosition;
 	
-		scrollPosition.h = [scrollPosX intValue];
-		scrollPosition.v = [scrollPosY intValue];
+		scrollPosition.h = [scrollPosX integerValue];
+		scrollPosition.v = [scrollPosY integerValue];
 	
 		positionData = [NSData dataWithBytes:&scrollPosition length:sizeof(scrollPosition)];
 	

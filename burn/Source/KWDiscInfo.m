@@ -125,8 +125,8 @@
 	if (kind)
 	{
 		[kindDisk setStringValue:kind];
-		[freeSpaceDisk setStringValue:[KWCommonMethods makeSizeFromFloat:[[mediaInfo objectForKey:DRDeviceMediaFreeSpaceKey] floatValue] * 2048]];
-		[usedSpaceDisk setStringValue:[KWCommonMethods makeSizeFromFloat:[[mediaInfo objectForKey:DRDeviceMediaUsedSpaceKey] floatValue] * 2048]];
+		[freeSpaceDisk setStringValue:[KWCommonMethods makeSizeFromFloat:[[mediaInfo objectForKey:DRDeviceMediaFreeSpaceKey] cgfloatValue] * 2048]];
+		[usedSpaceDisk setStringValue:[KWCommonMethods makeSizeFromFloat:[[mediaInfo objectForKey:DRDeviceMediaUsedSpaceKey] cgfloatValue] * 2048]];
 
 		if ([[[mediaInfo objectForKey:DRDeviceMediaBlocksOverwritableKey] stringValue] isEqualTo:@"0"])
 			[writableDisk setStringValue:NSLocalizedString(@"No",nil)];

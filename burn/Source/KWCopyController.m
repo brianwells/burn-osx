@@ -185,7 +185,7 @@
 			{
 				NSDictionary *session = [sessions objectAtIndex:i];
 				
-				size = size + [[session objectForKey:@"Leadout Block"] intValue];
+				size = size + [[session objectForKey:@"Leadout Block"] integerValue];
 			}
 			
 			size = size * 2352;
@@ -218,7 +218,7 @@
 						if (![filePath isEqualTo:previousPath])
 						{
 							attrib = [defaultManager fileAttributesAtPath:filePath traverseLink:YES];
-							size = size + [[attrib objectForKey:NSFileSize] intValue];
+							size = size + [[attrib objectForKey:NSFileSize] integerValue];
 						}
 					}
 					else
@@ -544,7 +544,7 @@
 			[defaultCenter addObserver:self selector:@selector(stopImageing) name:@"KWStopImaging" object:nil];
 			[defaultCenter postNotificationName:@"KWCancelNotificationChanged" object:@"KWStopImaging"];
 			[defaultCenter postNotificationName:@"KWStatusChanged" object:NSLocalizedString(@"Copying disc", Localized)];
-			[defaultCenter postNotificationName:@"KWMaximumValueChanged" object:[NSNumber numberWithCGFloat:[[self totalSize] floatValue]]];
+			[defaultCenter postNotificationName:@"KWMaximumValueChanged" object:[NSNumber numberWithCGFloat:[[self totalSize] cgfloatValue]]];
 		
 			[self performSelectorOnMainThread:@selector(startTimer:) withObject:outputFile waitUntilDone:NO];
 			
@@ -600,7 +600,7 @@
 		}
 		else if ([KWCommonMethods OSVersion] < 0x1040)
 		{
-			float blocks = [[currentInformation objectForKey:@"Blocks"] floatValue];
+			float blocks = [[currentInformation objectForKey:@"Blocks"] cgfloatValue];
 			return [[KWTrackProducer alloc] getTrackForImage:outputFile withSize:blocks];
 		}
 		#if MAC_OS_X_VERSION_MAX_ALLOWED >= MAC_OS_X_VERSION_10_4
@@ -623,8 +623,8 @@
 {
 	NSNotificationCenter *defaultCenter = [NSNotificationCenter defaultCenter];
 
-	CGFloat currentSize = [[[[NSFileManager defaultManager] fileAttributesAtPath:[theTimer userInfo] traverseLink:YES] objectForKey:NSFileSize] floatValue] / 2048;
-	CGFloat percent = currentSize / [[self totalSize] floatValue] * 100;
+	CGFloat currentSize = [[[[NSFileManager defaultManager] fileAttributesAtPath:[theTimer userInfo] traverseLink:YES] objectForKey:NSFileSize] cgfloatValue] / 2048;
+	CGFloat percent = currentSize / [[self totalSize] cgfloatValue] * 100;
 		
 		if (percent < 101)
 		[defaultCenter postNotificationName:@"KWStatusByAddingPercentChanged" object:[NSString stringWithFormat:@" (%.0f%@)", percent, @"%"]];

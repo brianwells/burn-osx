@@ -147,7 +147,7 @@ static NSString*	EDBCurrentSelection							= @"EDBCurrentSelection";
 	[self setupAdvancedSheet];
 	
 	//Set preferences
-	[fileSystemPopup selectItemAtIndex:[[[NSUserDefaults standardUserDefaults] objectForKey:@"KWDefaultDataType"] intValue]];
+	[fileSystemPopup selectItemAtIndex:[[[NSUserDefaults standardUserDefaults] objectForKey:@"KWDefaultDataType"] integerValue]];
 	lastSelectedItem = [[fileSystemPopup title] retain];
 	[self updateFileSystem];
 	
@@ -334,7 +334,7 @@ static NSString*	EDBCurrentSelection							= @"EDBCurrentSelection";
 
 	if (![totalSizeText isHidden] && loadingBurnFile == NO)
 	{
-		string = [NSString stringWithFormat:NSLocalizedString(@"Total size: %@", nil), [KWCommonMethods makeSizeFromFloat:[[self totalSize] floatValue] * 2048]];
+		string = [NSString stringWithFormat:NSLocalizedString(@"Total size: %@", nil), [KWCommonMethods makeSizeFromFloat:[[self totalSize] cgfloatValue] * 2048]];
 		[totalSizeText setStringValue:[[string copy] autorelease]];
 	}
 }
@@ -538,7 +538,7 @@ static NSString*	EDBCurrentSelection							= @"EDBCurrentSelection";
 	NSInteger i;
 	for (i = 0; i < [optionsPopup numberOfItems] - 1; i ++)
 	{
-		[[optionsPopup itemAtIndex:i + 1] setState:[[[NSUserDefaults standardUserDefaults] objectForKey:[optionsMappings objectAtIndex:i]] intValue]];
+		[[optionsPopup itemAtIndex:i + 1] setState:[[[NSUserDefaults standardUserDefaults] objectForKey:[optionsMappings objectAtIndex:i]] integerValue]];
 	}
 
 	[optionsPopup performClick:self];

@@ -251,16 +251,16 @@
 		NSLog(@"%@", [status description]);
 	
 	NSNumber *percent = [status objectForKey:DRStatusPercentCompleteKey];
-	if ([percent floatValue] > 0)
+	if ([percent cgfloatValue] > 0)
 	{
 		[defaultCenter postNotificationName:@"KWMaximumValueChanged" object:[NSNumber numberWithCGFloat:1.0]];
 		[defaultCenter postNotificationName:@"KWValueChanged" object:percent];
 		
 		NSString *progressString;
 		if ([KWCommonMethods OSVersion] == 0x1039)
-			progressString = [NSString stringWithFormat:@"%.0f%@", [percent floatValue] * 100, @"%"];
+			progressString = [NSString stringWithFormat:@"%.0f%@", [percent cgfloatValue] * 100, @"%"];
 		else
-			progressString = [KWCommonMethods formatTime:[[[status objectForKey:@"DRStatusProgressInfoKey"] objectForKey:@"DRStatusProgressRemainingTime"] floatValue] withFrames:NO];
+			progressString = [KWCommonMethods formatTime:[[[status objectForKey:@"DRStatusProgressInfoKey"] objectForKey:@"DRStatusProgressRemainingTime"] cgfloatValue] withFrames:NO];
 		
 		time = [NSString stringWithFormat:@" (%@)", progressString];
 	}
