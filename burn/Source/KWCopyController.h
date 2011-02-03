@@ -31,17 +31,12 @@
 	NSTask *cp;
 	BOOL userCanceled;
 	BOOL shouldBurn;
-	BOOL awakeFromNib;
 	NSTimer *timer;
-	//Strings
-	NSString *currentPath;
-	NSString *mountedPath;
-	NSString *imageMountedPath;
-	NSString *savedPath;
-	NSString *audioDiscPath;
+	//Current Information
+	NSMutableDictionary *currentInformation;
 	//Out little helpers
 	KWProgress *progressPanel;
-	KWDiscScanner* scanner;
+	KWDiscScanner *scanner;
 	KWBurner *burner;
 	
 	NSMutableArray *temporaryFiles;
@@ -54,7 +49,7 @@
 - (IBAction)scanDisks:(id)sender;
 - (IBAction)clearDisk:(id)sender;
 - (BOOL)checkImage:(NSString *)path;
-- (BOOL)isImageMounted:(NSString *)path;
+- (BOOL)isImageMounted:(NSString *)path showAlert:(BOOL)alert;
 
 //Disc creation actions
 - (void)burn:(id)sender;

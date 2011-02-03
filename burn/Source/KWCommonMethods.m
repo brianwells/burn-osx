@@ -1040,7 +1040,7 @@
 	[df setLaunchPath:@"/bin/df"];
 	[df setArguments:[NSArray arrayWithObject:mountPoint]];
 	[df setStandardOutput:pipe];
-	handle=[pipe fileHandleForReading];
+	handle = [pipe fileHandleForReading];
 	[KWCommonMethods logCommandIfNeeded:df];
 	[df launch];
 
