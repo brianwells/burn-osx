@@ -85,6 +85,8 @@
     {
         if ([desiredType isEqualToString:NSFilenamesPboardType])
         {
+			NSFileManager *defaultManager = [NSFileManager defaultManager];
+		
             //we have a list of file names in an NSData object
             NSArray *fileArray = [paste propertyListForType:@"NSFilenamesPboardType"];
                 //be caseful since this method returns id.  
@@ -93,22 +95,21 @@
                 //assume that we can ignore all but the first path in the list
             
 			BOOL isDir;
-			if ([[NSFileManager defaultManager] fileExistsAtPath:path isDirectory:&isDir])
+			if ([defaultManager fileExistsAtPath:path isDirectory:&isDir])
 			{
 				if (isDir == YES)
 				{
 					[myController setDiskName:[path lastPathComponent]];
 				
-					NSArray *files = [[NSFileManager defaultManager] directoryContentsAtPath:path];
-					NSMutableArray *fulPaths = [[NSMutableArray alloc] init];
-					NSInteger i = 0;
-					for (i=0;i<[files count];i++)
+					NSArray *files = [defaultManager directoryContentsAtPath:path];
+					NSMutableArray *fulPaths = [NSMutableArray array];
+					NSInteger i;
+					for (i = 0; i < [files count]; i ++)
 					{
 						[fulPaths addObject:[path stringByAppendingPathComponent:[files objectAtIndex:i]]];
 					}
 					
 					[myController addFiles:fulPaths removeFiles:YES];
-					[fulPaths release];
 				}
 			}
         }

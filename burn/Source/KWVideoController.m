@@ -49,15 +49,26 @@
 {
 	//Release our previously explained files
 	[dvdOptionsMappings release];
+	dvdOptionsMappings = nil;
+	
 	[divxOptionsMappings release];
+	divxOptionsMappings = nil;
 
 	[VCDTableData release];
+	VCDTableData = nil;
+	
 	[SVCDTableData release];
+	SVCDTableData = nil;
+	
 	[DVDTableData release];
+	DVDTableData = nil;
+	
 	[DIVXTableData release];
+	DIVXTableData = nil;
 
 	//Release the filetypes stored, using a retain
 	[allowedFileTypes release];
+	allowedFileTypes = nil;
 
 	[super dealloc];
 }
@@ -80,6 +91,9 @@
 
 - (void)addFile:(id)file isSelfEncoded:(BOOL)selfEncoded
 {
+	if (!incompatibleFiles)
+		incompatibleFiles = [[NSMutableArray alloc] init];
+
 	NSString *path;
 	NSMutableArray *chapters = [NSMutableArray array];
 	
@@ -147,13 +161,13 @@
 			//Remux MPEG2 files that are encoded by another app
 			if (selfEncoded == NO && selrow == 2 && [standardDefaults boolForKey:@"KWRemuxMPEG2Streams"] == YES && ![[path pathExtension] isEqualTo:@"m2v"] && ![fileType isEqualTo:@"'MPG2'"])
 			{
-				NSString *outputFile = [KWCommonMethods temporaryLocation:[[[path lastPathComponent] stringByDeletingPathExtension] stringByAppendingPathExtension:@"mpg"] saveDescription:NSLocalizedString(@"Choose a location to save the re-muxed files",nil)];
+				NSString *outputFile = [KWCommonMethods temporaryLocation:[[[path lastPathComponent] stringByDeletingPathExtension] stringByAppendingPathExtension:@"mpg"] saveDescription:NSLocalizedString(@"Choose a location to save the re-muxed files", nil)];
 				
 				if (outputFile)
 				{
 					[temporaryFiles addObject:outputFile];
 					converter = [[KWConverter alloc] init];
-					[progressPanel setStatus:[NSLocalizedString(@"Remuxing: ",nil) stringByAppendingString:[defaultManager displayNameAtPath:outputFile]]];
+					[progressPanel setStatus:[NSLocalizedString(@"Remuxing: ", nil) stringByAppendingString:[defaultManager displayNameAtPath:outputFile]]];
 
 					if ([converter remuxMPEG2File:path outPath:outputFile] == YES)
 						filePath = outputFile;
@@ -161,16 +175,17 @@
 						filePath = @"";
 					
 					[converter release];
+					converter = nil;
 						
-					[progressPanel setStatus:NSLocalizedString(@"Scanning for files and folders",nil)];
+					[progressPanel setStatus:NSLocalizedString(@"Scanning for files and folders", nil)];
 					[progressPanel setCancelNotification:@"videoCancelAdding"];
 				}
 			}
 			
 			//If we have seperate m2v and mp3/ac2 files mux them, if setted in the preferences
-			if (([[path pathExtension] isEqualTo:@"m2v"] | [fileType isEqualTo:@"'MPG2'"]) && [[tableViewPopup title] isEqualTo:NSLocalizedString(@"DVD-Video",nil)] && [standardDefaults boolForKey:@"KWMuxSeperateStreams"] == YES)
+			if (([[path pathExtension] isEqualTo:@"m2v"] | [fileType isEqualTo:@"'MPG2'"]) && [[tableViewPopup title] isEqualTo:NSLocalizedString(@"DVD-Video", nil)] && [standardDefaults boolForKey:@"KWMuxSeperateStreams"] == YES)
 			{
-				NSString *outputFile = [KWCommonMethods temporaryLocation:[[[path lastPathComponent] stringByDeletingPathExtension] stringByAppendingPathExtension:@"mpg"] saveDescription:NSLocalizedString(@"Choose a location to save the muxed file",nil)];
+				NSString *outputFile = [KWCommonMethods temporaryLocation:[[[path lastPathComponent] stringByDeletingPathExtension] stringByAppendingPathExtension:@"mpg"] saveDescription:NSLocalizedString(@"Choose a location to save the muxed file", nil)];
 				
 				if (outputFile)
 				{
@@ -180,18 +195,19 @@
 			
 					if ([converter canCombineStreams:path])
 					{
-						[progressPanel setStatus:[NSLocalizedString(@"Creating: ",nil) stringByAppendingString:[[[defaultManager displayNameAtPath:path] stringByDeletingPathExtension] stringByAppendingPathExtension:@"mpg"]]];
+						[progressPanel setStatus:[NSLocalizedString(@"Creating: ", nil) stringByAppendingString:[[[defaultManager displayNameAtPath:path] stringByDeletingPathExtension] stringByAppendingPathExtension:@"mpg"]]];
 
 						if ([converter combineStreams:path atOutputPath:outputFile] == YES)
 							filePath = [[path stringByDeletingPathExtension] stringByAppendingPathExtension:@"mpg"];
 						else
 							filePath = @"";
-					
-						[converter release];
 				
-						[progressPanel setStatus:NSLocalizedString(@"Scanning for files and folders",nil)];
+						[progressPanel setStatus:NSLocalizedString(@"Scanning for files and folders", nil)];
 						[progressPanel setCancelNotification:@"videoCancelAdding"];
 					}
+					
+					[converter release];
+					converter = nil;
 				}
 			}
 		
@@ -210,7 +226,7 @@
 					[rowData setObject:chapters forKey:@"Chapters"];
 				}
 				
-				float displaySize = [[attrib objectForKey:NSFileSize] floatValue];
+				CGFloat displaySize = [[attrib objectForKey:NSFileSize] floatValue];
 				
 					if (selrow < 2)
 					{
@@ -278,10 +294,11 @@
 - (id)myTrackWithBurner:(KWBurner *)burner errorString:(NSString **)error
 {
 	NSInteger selrow = [tableViewPopup indexOfSelectedItem];
+	NSString *discTitle = [discName stringValue];
 
 	if (selrow == 2)
 	{
-		NSString *outputFolder = [KWCommonMethods temporaryLocation:[discName stringValue] saveDescription:NSLocalizedString(@"Choose a location to save a temporary folder",nil)];
+		NSString *outputFolder = [KWCommonMethods temporaryLocation:discTitle saveDescription:NSLocalizedString(@"Choose a location to save a temporary folder", nil)];
 		NSInteger succes;
 	
 		if (outputFolder)
@@ -292,37 +309,37 @@
 		}
 		else
 		{
-			return [NSNumber numberWithInt:2];
+			return [NSNumber numberWithInteger:2];
 		}
 	
 		if (succes == 0)
 		{
-			[[NSNotificationCenter defaultCenter] postNotificationName:@"KWMaximumValueChanged" object:[NSNumber numberWithFloat:0]];
+			[[NSNotificationCenter defaultCenter] postNotificationName:@"KWMaximumValueChanged" object:[NSNumber numberWithCGFloat:0]];
 			[[NSNotificationCenter defaultCenter] postNotificationName:@"KWStatusChanged" object:NSLocalizedString(@"Preparing...", Localized)];
 			
-			return [[KWTrackProducer alloc] getTrackForFolder:outputFolder ofType:3 withDiscName:[discName stringValue]];
+			return [[KWTrackProducer alloc] getTrackForFolder:outputFolder ofType:3 withDiscName:discTitle];
 		}
 		else
 		{
-			return [NSNumber numberWithInt:succes];
+			return [NSNumber numberWithInteger:succes];
 		}
 	}
 	else if (selrow == 0)
 	{
-		return [[KWTrackProducer alloc] getTrackForVCDMPEGFiles:[self files] withDiscName:[discName stringValue] ofType:4];
+		return [[KWTrackProducer alloc] getTrackForVCDMPEGFiles:[self files] withDiscName:discTitle ofType:4];
 	}
 	else if (selrow == 1)
 	{
-		return [[KWTrackProducer alloc] getTrackForVCDMPEGFiles:[self files] withDiscName:[discName stringValue] ofType:5];
+		return [[KWTrackProducer alloc] getTrackForVCDMPEGFiles:[self files] withDiscName:discTitle ofType:5];
 	}
 
 	if (selrow == 3)
 	{
-		DRFolder *rootFolder = [DRFolder virtualFolderWithName:[discName stringValue]];
+		DRFolder *rootFolder = [DRFolder virtualFolderWithName:discTitle];
 		
 		NSInteger i;
 		DRFSObject *fsObj;
-		for (i=0;i<[tableData count];i++)
+		for (i = 0; i < [tableData count]; i ++)
 		{
 			fsObj = [DRFile fileWithPath:[[tableData objectAtIndex:i] valueForKey:@"Path"]];
 			[rootFolder addChild:fsObj];
@@ -341,7 +358,7 @@
 			[rootFolder setSpecificName:volumeName forFilesystem:DRJoliet];
 		}
 			
-		return [rootFolder retain];
+		return rootFolder;
 	}
 
 	return nil;
@@ -361,9 +378,9 @@
 		NSInteger totalSize = [[self totalSize] floatValue];
 		NSNotificationCenter *defaultCenter = [NSNotificationCenter defaultCenter];
 		
-		[defaultCenter postNotificationName:@"KWMaximumValueChanged" object:[NSNumber numberWithFloat:totalSize]];
-		[defaultCenter postNotificationName:@"KWTaskChanged" object:NSLocalizedString(@"Authoring DVD...",nil)];
-		[defaultCenter postNotificationName:@"KWStatusChanged" object:NSLocalizedString(@"Processing: ",nil)];
+		[defaultCenter postNotificationName:@"KWMaximumValueChanged" object:[NSNumber numberWithCGFloat:totalSize]];
+		[defaultCenter postNotificationName:@"KWTaskChanged" object:NSLocalizedString(@"Authoring DVD...", nil)];
+		[defaultCenter postNotificationName:@"KWStatusChanged" object:NSLocalizedString(@"Processing: ", nil)];
 	
 		DVDAuthorizer = [[KWDVDAuthorizer alloc] init];
 		NSUserDefaults *standardDefaults = [NSUserDefaults standardUserDefaults];
@@ -372,14 +389,15 @@
 			NSBundle *themeBundle = [NSBundle bundleWithPath:[standardDefaults objectForKey:@"KWDVDThemePath"]];
 			NSDictionary *theme = [[NSArray arrayWithContentsOfFile:[themeBundle pathForResource:@"Theme" ofType:@"plist"]] objectAtIndex:[[standardDefaults objectForKey:@"KWDVDThemeFormat"] intValue]];
 			
-			succes = [DVDAuthorizer createDVDMenuFiles:path withTheme:theme withFileArray:tableData withSize:[NSNumber numberWithInt:totalSize / 2] withName:[discName stringValue] errorString:&*error];
+			succes = [DVDAuthorizer createDVDMenuFiles:path withTheme:theme withFileArray:tableData withSize:[NSNumber numberWithInteger:totalSize / 2] withName:[discName stringValue] errorString:&*error];
 		}
 		else
 		{
-			succes = [DVDAuthorizer createStandardDVDFolderAtPath:path withFileArray:tableData withSize:[NSNumber numberWithInt:totalSize / 2] errorString:&*error];
+			succes = [DVDAuthorizer createStandardDVDFolderAtPath:path withFileArray:tableData withSize:[NSNumber numberWithInteger:totalSize / 2] errorString:&*error];
 		}
 	
 		[DVDAuthorizer release];
+		DVDAuthorizer = nil;
 	}
 
 	return succes;
@@ -397,15 +415,19 @@
 	NSInteger selrow = [tableViewPopup indexOfSelectedItem];
 	NSNotificationCenter *defaultCenter = [NSNotificationCenter defaultCenter];
 	
+	NSString *kind = @"KWEmpty";
+	id object = nil;
+	
 	if (selrow == 2 && [tableView selectedRow] > -1)
 	{
 		if (![[[[tableData objectAtIndex:0] objectForKey:@"Name"] lowercaseString] isEqualTo:@"video_ts"])
-		[defaultCenter postNotificationName:@"KWChangeInspector" object:tableView userInfo:[NSDictionary dictionaryWithObjectsAndKeys:@"KWDVD",@"Type",nil]];
+		{
+			object = tableView;
+			kind = @"KWDVD";
+		}
 	}
-	else
-	{
-		[defaultCenter postNotificationName:@"KWChangeInspector" object:nil userInfo:[NSDictionary dictionaryWithObjectsAndKeys:@"KWEmpty",@"Type",nil]];
-	}
+
+	[defaultCenter postNotificationName:@"KWChangeInspector" object:object userInfo:[NSDictionary dictionaryWithObjectsAndKeys:kind, @"Type", nil]];
 }
 
 //Set the current tableview and tabledata to the selected popup item
@@ -459,11 +481,14 @@
 - (IBAction)tableViewPopup:(id)sender
 {
 	NSInteger selrow = [tableViewPopup indexOfSelectedItem];
-
+	
+	NSImage *iconImage;
 	if (selrow == 2)
-		[popupIcon setImage:[NSImage imageNamed:@"DVD"]];
+		iconImage = [NSImage imageNamed:@"DVD"];
 	else
-		[popupIcon setImage:[[NSWorkspace sharedWorkspace] iconForFileType:NSFileTypeForHFSTypeCode(kGenericCDROMIcon)]];
+		iconImage = [[NSWorkspace sharedWorkspace] iconForFileType:NSFileTypeForHFSTypeCode(kGenericCDROMIcon)];
+		
+	[popupIcon setImage:iconImage];
 	
 	[accessOptions setEnabled:(selrow == 2 | selrow == 3)];
 	
@@ -493,7 +518,7 @@
 	if ([tableViewPopup indexOfSelectedItem] > 1)
 		return [super totalSize];
 	else
-		return [NSNumber numberWithFloat:[self totalSVCDSize] / 2048];
+		return [NSNumber numberWithCGFloat:[self totalSVCDSize] / 2048];
 }
 
 - (NSArray *)files
@@ -501,7 +526,7 @@
 	NSMutableArray *files = [NSMutableArray array];
 
 	NSInteger i;
-	for (i=0;i<[tableData count];i++)
+	for (i = 0; i < [tableData count]; i ++)
 	{
 		[files addObject:[[tableData objectAtIndex:i] objectForKey:@"Path"]];
 	}
@@ -517,10 +542,10 @@
 
 - (void)volumeLabelSelected:(NSNotification *)notif
 {
-	[[NSNotificationCenter defaultCenter] postNotificationName:@"KWChangeInspector" object:nil userInfo:[NSDictionary dictionaryWithObjectsAndKeys:@"KWEmpty",@"Type",nil]];
+	[[NSNotificationCenter defaultCenter] postNotificationName:@"KWChangeInspector" object:nil userInfo:[NSDictionary dictionaryWithObjectsAndKeys:@"KWEmpty", @"Type", nil]];
 }
 
-- (float)totalSVCDSize
+- (CGFloat)totalSVCDSize
 {
 	NSInteger numberOfFiles = [tableData count];
 
@@ -528,14 +553,14 @@
 		return 0;
 	
 	NSFileManager *defaultManager = [NSFileManager defaultManager];
-	float size = 1058400;
+	CGFloat size = 1058400;
 	
 	NSInteger i;
-	for (i=0;i<[tableData count];i++)
+	for (i = 0; i < [tableData count]; i ++)
 	{
 		NSString *path = [[tableData objectAtIndex:i] objectForKey:@"Path"];
 		NSDictionary *attrib = [defaultManager fileAttributesAtPath:path traverseLink:YES];
-		float fileSize = [[attrib objectForKey:NSFileSize] floatValue] + 862288;
+		CGFloat fileSize = [[attrib objectForKey:NSFileSize] floatValue] + 862288;
 		size = size + fileSize;
 	}
 

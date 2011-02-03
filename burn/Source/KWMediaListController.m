@@ -15,15 +15,10 @@
 - (id)init
 {
 	self = [super init];
-
-	//Storage room for files
-	incompatibleFiles = [[NSMutableArray alloc] init];
-	protectedFiles =  [[NSMutableArray alloc] init];
 	
 	//Known protected files can't be converted
-	knownProtectedFiles = [[NSArray alloc] initWithObjects:@"m4p",@"m4b",NSFileTypeForHFSTypeCode('M4P '),NSFileTypeForHFSTypeCode('M4B '),nil];
+	knownProtectedFiles = [[NSArray alloc] initWithObjects:@"m4p", @"m4b", NSFileTypeForHFSTypeCode('M4P '), NSFileTypeForHFSTypeCode('M4B '), nil];
 	
-	//Here we store our temporary files which will be deleting acording to the prefences set for deletion
 	temporaryFiles = [[NSMutableArray alloc] init];
 	
 	//Set a starting row for dropping files in the list
@@ -36,11 +31,12 @@
 {
 	//Stop listening to notifications from the default notification center
 	[[NSNotificationCenter defaultCenter] removeObserver:self];
-
-	//Release our stuff
-	[incompatibleFiles release];
-	[protectedFiles release];
+	
 	[knownProtectedFiles release];
+	knownProtectedFiles = nil;
+	
+	[temporaryFiles release];
+	temporaryFiles = nil;
 
 	[super dealloc];
 }
@@ -48,20 +44,21 @@
 - (void)awakeFromNib
 {
 	//Notifications
+	NSNotificationCenter *defaultCenter = [NSNotificationCenter defaultCenter];
 	//Used to save the popups when the user selects this option in the preferences
-	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(saveTableViewPopup:) name:@"KWTogglePopups" object:nil];
+	[defaultCenter addObserver:self selector:@selector(saveTableViewPopup:) name:@"KWTogglePopups" object:nil];
 	//Prevent files to be dropped when for example a sheet is open
-	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(setTableViewState:) name:@"KWSetDropState" object:nil];
+	[defaultCenter addObserver:self selector:@selector(setTableViewState:) name:@"KWSetDropState" object:nil];
 	//Updates the Inspector window with the new item selected in the list
-	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(tableViewSelectionDidChange:) name:@"KWListSelected" object:tableView];
+	[defaultCenter addObserver:self selector:@selector(tableViewSelectionDidChange:) name:@"KWListSelected" object:tableView];
 	//Updates the Inspector window to show the information about the disc
-	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(volumeLabelSelected:) name:@"KWDiscNameSelected" object:discName];
+	[defaultCenter addObserver:self selector:@selector(volumeLabelSelected:) name:@"KWDiscNameSelected" object:discName];
 
 	//How should our tableview update its sizes when adding and modifying files
 	[tableView setAutoresizingMask:(NSViewWidthSizable | NSViewHeightSizable)];
 
 	//The user can drag files into the tableview (including iMovie files)
-	[tableView registerForDraggedTypes:[NSArray arrayWithObjects:NSFilenamesPboardType,@"NSGeneralPboardType",@"CorePasteboardFlavorType 0x6974756E",nil]];
+	[tableView registerForDraggedTypes:[NSArray arrayWithObjects:NSFilenamesPboardType, @"NSGeneralPboardType", @"CorePasteboardFlavorType 0x6974756E", nil]];
 }
 
 //////////////////
@@ -158,26 +155,31 @@
 - (void)checkFilesInThread:(NSArray *)paths
 {
 	//Needed because we're in a new thread
-	NSAutoreleasePool *pool=[[NSAutoreleasePool alloc] init];
-
-	if ([paths count] == 1 && [[[[paths objectAtIndex:0] lastPathComponent] lowercaseString] isEqualTo:[dvdFolderName lowercaseString]] && isDVD)
+	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
+	
+	NSFileManager *defaultManager = [NSFileManager defaultManager];
+	NSString *firstFile = [paths objectAtIndex:0];
+	NSInteger numberOfPaths = [paths count];
+	
+	protectedFiles = [[NSMutableArray alloc] init];
+	
+	if (numberOfPaths == 1 && [[[firstFile lastPathComponent] lowercaseString] isEqualTo:[dvdFolderName lowercaseString]] && isDVD)
 	{
-		[self addDVDFolder:[paths objectAtIndex:0]];
+		[self addDVDFolder:firstFile];
 	}
-	else if ([paths count] == 1 && [[NSFileManager defaultManager] fileExistsAtPath:[[paths objectAtIndex:0] stringByAppendingPathComponent:dvdFolderName]] && isDVD)
+	else if ([paths count] == 1 && [defaultManager fileExistsAtPath:[firstFile stringByAppendingPathComponent:dvdFolderName]] && isDVD)
 	{
-		[self addDVDFolder:[[paths objectAtIndex:0] stringByAppendingPathComponent:dvdFolderName]];
-		[discName setStringValue:[[paths objectAtIndex:0] lastPathComponent]];
+		[self addDVDFolder:[firstFile stringByAppendingPathComponent:dvdFolderName]];
+		[discName setStringValue:[firstFile lastPathComponent]];
 	}
 	else
 	{
-		NSFileManager *defaultManager = [NSFileManager defaultManager];
 		NSMutableArray *files = [NSMutableArray array];
 		//Needed for 10.5 and lower (the Finder messes up orders)
 		NSArray *sortedPaths = [paths sortedArrayUsingSelector:@selector(localizedCaseInsensitiveCompare:)];
 	
-		NSInteger x = 0;
-		for (x=0;x<[sortedPaths count];x++)
+		NSInteger i;
+		for (i = 0; i < [sortedPaths count]; i ++)
 		{
 			NSAutoreleasePool *subPool = [[NSAutoreleasePool alloc] init];
 			
@@ -186,7 +188,7 @@
 			
 			NSDirectoryEnumerator *enumer;
 			NSString* pathName;
-			NSString *realPath = [self getRealPath:[sortedPaths objectAtIndex:x]];
+			NSString *realPath = [self getRealPath:[sortedPaths objectAtIndex:i]];
 			BOOL fileIsFolder = NO;
 			
 			[defaultManager fileExistsAtPath:realPath isDirectory:&fileIsFolder];
@@ -211,6 +213,10 @@
 							[files addObject:realPathName];
 							//[self performSelectorOnMainThread:@selector(addFile:isSelfEncoded:) withObject:realPathName waitUntilDone:YES];
 					}
+					else
+					{
+						[protectedFiles addObject:realPathName];
+					}
 				
 					[subPool release];
 				}
@@ -228,19 +234,23 @@
 						[files addObject:realPath];
 						//[self performSelectorOnMainThread:@selector(addFile:isSelfEncoded:) withObject:realPath waitUntilDone:YES];
 				}
+				else
+				{
+					[protectedFiles addObject:realPath];
+				}
 			}
 	
 			[subPool release];
+			subPool = nil;
 		}
 		
 		NSInteger numberOfFiles = [files count];
 		BOOL audioCD = [currentFileSystem isEqualTo:@"-audio-cd"];
 			
 		if (audioCD)
-			[progressPanel setMaximumValue:[NSNumber numberWithInt:numberOfFiles]];
+			[progressPanel setMaximumValue:[NSNumber numberWithInteger:numberOfFiles]];
 			
-		NSInteger i = 0;
-		for (i=0;i<[files count];i++)
+		for (i = 0; i < [files count]; i ++)
 		{
 			if (cancelAddingFiles == YES)
 				break;
@@ -258,19 +268,19 @@
 			[self addFile:file isSelfEncoded:NO];
 				
 			if (audioCD)
-				[progressPanel setValue:[NSNumber numberWithInt:i + 1]];
+				[progressPanel setValue:[NSNumber numberWithInteger:i + 1]];
 				
 			[subpool release];
+			subpool = nil;
 		}
 	}
-	
-	
 	
 	cancelAddingFiles = NO;
 	currentDropRow = -1;
 
 	[progressPanel endSheet];
 	[progressPanel release];
+	progressPanel = nil;
 
 	//Stop being the observer
 	[[NSNotificationCenter defaultCenter] removeObserver:self name:@"cancelAdding" object:nil];
@@ -291,10 +301,10 @@
 - (IBAction)accessOptions:(id)sender
 {	
 	//Setup options menus
-	NSInteger i = 0;
-	for (i=0;i<[optionsPopup numberOfItems]-1;i++)
+	NSInteger i;
+	for (i = 0; i < [optionsPopup numberOfItems] - 1; i ++)
 	{
-		[[optionsPopup itemAtIndex:i+1] setState:[[[NSUserDefaults standardUserDefaults] objectForKey:[optionsMappings objectAtIndex:i]] intValue]];
+		[[optionsPopup itemAtIndex:i + 1] setState:[[[NSUserDefaults standardUserDefaults] objectForKey:[optionsMappings objectAtIndex:i]] intValue]];
 	}
 
 	[optionsPopup performClick:self];
@@ -303,8 +313,9 @@
 //Set option in the preferences
 - (IBAction)setOption:(id)sender
 {
-	[[NSUserDefaults standardUserDefaults] setBool:([sender state] == NSOffState) forKey:[optionsMappings objectAtIndex:[optionsPopup indexOfItem:sender] - 1]];
-	[[NSUserDefaults standardUserDefaults] synchronize];
+	NSUserDefaults *standardDefaults = [NSUserDefaults standardUserDefaults];
+	[standardDefaults setBool:([sender state] == NSOffState) forKey:[optionsMappings objectAtIndex:[optionsPopup indexOfItem:sender] - 1]];
+	[standardDefaults synchronize];
 }
 
 /////////////////////
@@ -319,19 +330,20 @@
 {
 	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
 
-	NSMutableArray *filePaths = [[NSMutableArray alloc] init];
+	NSMutableArray *filePaths = [NSMutableArray array];
 
-	NSInteger x;
-	for (x=0;x<[incompatibleFiles count];x++)
+	NSInteger i;
+	for (i = 0; i < [incompatibleFiles count]; i ++)
 	{
-		[filePaths addObject:[[incompatibleFiles objectAtIndex:x] objectForKey:@"Path"]];
+		[filePaths addObject:[[incompatibleFiles objectAtIndex:i] objectForKey:@"Path"]];
 	}
 
-	[incompatibleFiles removeAllObjects];
+	[incompatibleFiles release];
+	incompatibleFiles = nil;
 
 	converter = [[KWConverter alloc] init];
 	
-	NSDictionary *options = [NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:path, convertExtension, [[NSUserDefaults standardUserDefaults] objectForKey:@"KWDefaultRegion"], [NSNumber numberWithInt:convertKind], nil]  forKeys:[NSArray arrayWithObjects:@"KWConvertDestination", @"KWConvertExtension", @"KWConvertRegion", @"KWConvertKind", nil]];
+	NSDictionary *options = [NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:path, convertExtension, [[NSUserDefaults standardUserDefaults] objectForKey:@"KWDefaultRegion"], [NSNumber numberWithInteger:convertKind], nil]  forKeys:[NSArray arrayWithObjects:@"KWConvertDestination", @"KWConvertExtension", @"KWConvertRegion", @"KWConvertKind", nil]];
 	NSString *errorString;
 	
 	NSInteger result = [converter batchConvert:filePaths withOptions:options errorString:&errorString];
@@ -340,21 +352,21 @@
 	
 	[converter release];
 
-	NSInteger y;
-	for (y=0;y<[succeededFiles count];y++)
+	for (i = 0; i < [succeededFiles count]; i ++)
 	{
-		[self addFile:[succeededFiles objectAtIndex:y] isSelfEncoded:YES];
+		[self addFile:[succeededFiles objectAtIndex:i] isSelfEncoded:YES];
 	}
 
 	[progressPanel endSheet];
 	[progressPanel release];
+	progressPanel = nil;
 
 	if (result == 0)
 	{
 		NSString *finishMessage;
 	
 		if ([filePaths count] > 1)
-			finishMessage = [NSString stringWithFormat:NSLocalizedString(@"Finished converting %ld files", nil),(long)[filePaths count]];
+			finishMessage = [NSString stringWithFormat:NSLocalizedString(@"Finished converting %ld files", nil), (long)[filePaths count]];
 		else
 			finishMessage = NSLocalizedString(@"Finished converting 1 file", nil);
 		
@@ -366,6 +378,7 @@
 	}
 
 	[pool release];
+	pool = nil;
 }
 
 //Show an alert if needed (protected or no default files
@@ -422,7 +435,9 @@
 			information = NSLocalizedString(@"This file can't be converted", nil);
 		}
 		
-		[protectedFiles removeAllObjects];
+		[protectedFiles release];
+		protectedFiles = nil;
+		
 		[KWCommonMethods standardAlertWithMessageText:message withInformationText:information withParentWindow:mainWindow];
 	}
 }
@@ -452,7 +467,8 @@
 	}
 	else
 	{
-		[incompatibleFiles removeAllObjects];
+		[incompatibleFiles release];
+		incompatibleFiles = nil;
 	}
 }
 
@@ -470,14 +486,15 @@
 		[progressPanel setTask:NSLocalizedString(@"Preparing to encode", nil)];
 		[progressPanel setStatus:NSLocalizedString(@"Checking file...", nil)];
 		[progressPanel setIcon:[[NSWorkspace sharedWorkspace] iconForFileType:convertExtension]];
-		[progressPanel setMaximumValue:[NSNumber numberWithInt:100 * [incompatibleFiles count]]];
+		[progressPanel setMaximumValue:[NSNumber numberWithInteger:100 * [incompatibleFiles count]]];
 		[progressPanel beginSheetForWindow:mainWindow];
 	
 		[NSThread detachNewThreadSelector:@selector(convertFiles:) toTarget:self withObject:[sheet filename]];
 	}
 	else
 	{
-		[incompatibleFiles removeAllObjects];
+		[incompatibleFiles release];
+		incompatibleFiles = nil;
 	}
 }
 
@@ -546,7 +563,7 @@
 	[tableData removeAllObjects];
 
 		NSInteger i;
-		for (i=0;i<[savedArray count];i++)
+		for (i = 0; i < [savedArray count]; i ++)
 		{
 			NSDictionary *currentDictionary = [savedArray objectAtIndex:i];
 			NSString *path = [currentDictionary objectForKey:@"Path"];
@@ -555,7 +572,7 @@
 			{
 				[rowData addEntriesFromDictionary:currentDictionary];
 				[rowData setObject:[[NSWorkspace sharedWorkspace] iconForFile:path] forKey:@"Icon"];
-				[tableData addObject:[[rowData mutableCopy] autorelease]];
+				[tableData addObject:[NSDictionary dictionaryWithDictionary:rowData]];
 				[rowData removeAllObjects];
 			}
 		}
@@ -596,7 +613,7 @@
 		NSMutableDictionary *tempDict;
 	
 		NSInteger i;
-		for (i=0;i<[tempArray count];i++)
+		for (i = 0; i < [tempArray count]; i ++)
 		{
 			NSMutableDictionary *currentDict = [tempArray objectAtIndex:i];
 			tempDict = [NSMutableDictionary dictionaryWithDictionary:currentDict];
@@ -604,14 +621,14 @@
 			[tempArray replaceObjectAtIndex:i withObject:tempDict];
 		}
 	
-		NSDictionary *burnFileProperties = [NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:tempArray,[discName stringValue],nil] forKeys:[NSArray arrayWithObjects:@"Files",@"Name",nil]];
+		NSDictionary *burnFileProperties = [NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:tempArray, [discName stringValue], nil] forKeys:[NSArray arrayWithObjects:@"Files", @"Name", nil]];
 		
 		NSInteger type = currentType;
 		
 			if (currentType == 4)
 			type = 2;
 		
-		NSMutableDictionary *burnFile = [NSMutableDictionary dictionaryWithObjects:[NSArray arrayWithObjects:[NSNumber numberWithInt:type],[NSNumber numberWithInt:[tableViewPopup indexOfSelectedItem]],burnFileProperties,nil] forKeys:[NSArray arrayWithObjects:@"KWType",@"KWSubType",@"KWProperties",nil]];
+		NSMutableDictionary *burnFile = [NSMutableDictionary dictionaryWithObjects:[NSArray arrayWithObjects:[NSNumber numberWithInteger:type], [NSNumber numberWithInteger:[tableViewPopup indexOfSelectedItem]], burnFileProperties, nil] forKeys:[NSArray arrayWithObjects:@"KWType", @"KWSubType", @"KWProperties", nil]];
 		
 		NSDictionary *extraInformation = [self extraInformation];
 		
@@ -654,7 +671,7 @@
 - (void)setTableViewState:(NSNotification *)notif
 {
 	if ([[notif object] boolValue] == YES)
-		[tableView registerForDraggedTypes:[NSArray arrayWithObjects:NSFilenamesPboardType,@"NSGeneralPboardType",@"CorePasteboardFlavorType 0x6974756E",nil]];
+		[tableView registerForDraggedTypes:[NSArray arrayWithObjects:NSFilenamesPboardType, @"NSGeneralPboardType", @"CorePasteboardFlavorType 0x6974756E", nil]];
 	else
 		[tableView unregisterDraggedTypes];
 }
@@ -734,11 +751,12 @@
 		NSMutableArray *fileList = [NSMutableArray array];
 	
 		NSInteger i;
-		for (i=0;i<[keys count];i++)
+		for (i = 0; i < [keys count]; i ++)
 		{
 			NSURL *url = [[NSURL alloc] initWithString:[[[[pboard propertyListForType:@"CorePasteboardFlavorType 0x6974756E"] objectForKey:@"Tracks"] objectForKey:[keys objectAtIndex:i]] objectForKey:@"Location"]];
 			[fileList addObject:[url path]];
 			[url release];
+			url = nil;
 		}
 		
 		[self checkFiles:fileList];
@@ -751,7 +769,7 @@
 		[self checkFiles:[pboard propertyListForType:NSFilenamesPboardType]];
 	}
 
-return YES;
+	return YES;
 }
 
 - (NSInteger) numberOfRowsInTableView:(NSTableView *)tableView
@@ -764,6 +782,7 @@ return YES;
 	if ([tableData count] > 0)
 	{
 		NSDictionary *rowData = [tableData objectAtIndex:row];
+		
 		return [rowData objectForKey:[tableColumn identifier]];
 	}
 	else
@@ -785,17 +804,15 @@ return YES;
 		id object = [tableData objectAtIndex:[[rows lastObject] intValue]];
 		NSData *data = [NSArchiver archivedDataWithRootObject:object];
 
-		[pboard declareTypes: [NSArray arrayWithObjects:@"NSGeneralPboardType",@"KWRemoveRowPboardType",@"KWDraggedRows",nil] owner:nil];
+		[pboard declareTypes:[NSArray arrayWithObjects:@"NSGeneralPboardType", @"KWRemoveRowPboardType", @"KWDraggedRows", nil] owner:nil];
 		[pboard setData:data forType:@"NSGeneralPboardType"];
 		[pboard setString:[[rows lastObject] stringValue] forType:@"KWRemoveRowPboardType"];
 		[pboard setPropertyList:rows forType:@"KWDraggedRows"];
    
 		return YES;
 	}
-	else
-	{
-		return NO;
-	}
+
+	return NO;
 }
 
 ///////////////////
@@ -817,12 +834,18 @@ return YES;
 	[totalText setStringValue:[NSString stringWithFormat:NSLocalizedString(@"Total size: %@", nil), [KWCommonMethods makeSizeFromFloat:[[self totalSize] floatValue] * 2048]]];
 }
 
-//Calculate and return total size as float
+//Calculate and return total size as CGFloat
 - (NSNumber *)totalSize
 {
-	if ([tableData count] > 0 && [[[[tableData objectAtIndex:0] objectForKey:@"Name"] lowercaseString] isEqualTo:[dvdFolderName lowercaseString]] && isDVD)
+	NSInteger numberOfRows = [tableData count];
+	id firstObject;
+	
+	if (numberOfRows > 0)
+		firstObject  = [tableData objectAtIndex:0];
+	
+	if (numberOfRows > 0 && [[[firstObject objectForKey:@"Name"] lowercaseString] isEqualTo:[dvdFolderName lowercaseString]] && isDVD)
 	{
-		return [NSNumber numberWithFloat:[KWCommonMethods calculateRealFolderSize:[[tableData objectAtIndex:0] objectForKey:@"Path"]]];
+		return [NSNumber numberWithCGFloat:[KWCommonMethods calculateRealFolderSize:[firstObject objectForKey:@"Path"]]];
 	}
 	else
 	{
@@ -830,7 +853,7 @@ return YES;
 	
 		NSInteger i;
 		DRFSObject *fsObj;
-		for (i=0;i<[tableData count];i++)
+		for (i = 0; i < numberOfRows; i ++)
 		{
 			fsObj = [DRFile fileWithPath:[[tableData objectAtIndex:i] valueForKey: @"Path"]];
 			[discRoot addChild:fsObj];
@@ -839,14 +862,14 @@ return YES;
 		if ([KWCommonMethods OSVersion] < 0x1040 | !isDVD)
 		{
 			//Just a filesystem since UDF isn't supported in Panther (not it will ever come here :-)
-			[discRoot setExplicitFilesystemMask: (DRFilesystemInclusionMaskJoliet)];
+			[discRoot setExplicitFilesystemMask:(DRFilesystemInclusionMaskJoliet)];
 		}
 		else
 		{
-			[discRoot setExplicitFilesystemMask: (1<<2)];
+			[discRoot setExplicitFilesystemMask:(1<<2)];
 		}
 
-		return [NSNumber numberWithFloat:[[DRTrack trackForRootFolder:discRoot] estimateLength]];
+		return [NSNumber numberWithCGFloat:[[DRTrack trackForRootFolder:discRoot] estimateLength]];
 	}
 }
 
@@ -854,7 +877,7 @@ return YES;
 - (DRFolder *)checkArray:(NSArray *)array forFolderWithName:(NSString *)name
 {
 	NSInteger i;
-	for (i=0;i<[array count];i++)
+	for (i = 0; i < [array count]; i ++)
 	{
 		DRFolder *currentFolder = [array objectAtIndex:i];
 	
@@ -874,12 +897,12 @@ return YES;
 }
 
 //Delete the temporary files used
-- (void)deleteTemporayFiles:(BOOL)needed
+- (void)deleteTemporayFiles:(NSNumber *)needed
 {
-	if (needed)
+	if ([needed boolValue])
 	{
 		NSInteger i;
-		for (i=0;i<[temporaryFiles count];i++)
+		for (i = 0; i < [temporaryFiles count]; i ++)
 		{
 			[KWCommonMethods removeItemAtPath:[temporaryFiles objectAtIndex:i]];
 		}
@@ -896,25 +919,27 @@ return YES;
 	
 	if (url != NULL) 
 	{
-	FSRef fsRef;
+		FSRef fsRef;
 		
 		if (CFURLGetFSRef(url, &fsRef)) 
 		{
-		Boolean targetIsFolder, wasAliased;
+			Boolean targetIsFolder, wasAliased;
 			
 			if (FSResolveAliasFile (&fsRef, true, &targetIsFolder, &wasAliased) == noErr && wasAliased) 
 			{
-			CFURLRef resolvedurl = CFURLCreateFromFSRef(NULL, &fsRef);
+				CFURLRef resolvedurl = CFURLCreateFromFSRef(NULL, &fsRef);
 				
 				if (resolvedurl != NULL) 
 				{
-				resolvedPath = CFURLCopyFileSystemPath(resolvedurl, kCFURLPOSIXPathStyle);
-				CFRelease(resolvedurl);
+					resolvedPath = CFURLCopyFileSystemPath(resolvedurl, kCFURLPOSIXPathStyle);
+					CFRelease(resolvedurl);
+					resolvedurl = NULL;
 				}
 			}
 		}
 	
-	CFRelease(url);
+		CFRelease(url);
+		url = NULL;
 	}
 	
 	if ((NSString *)resolvedPath)

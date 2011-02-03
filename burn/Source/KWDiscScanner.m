@@ -44,11 +44,11 @@
 //Check for removable disks, also check their bsd name and if they're read only
 - (void)scanDisks
 {
-	NSString *rootName = @"";
+	//NSMutableString *rootName = [[NSMutableString alloc] init];
 	NSArray *mountedRemovableMedia = [[NSWorkspace sharedWorkspace] mountedRemovableMedia];
 	
 	NSInteger i;
-	for( i=0; i<[mountedRemovableMedia count]; i++ )
+	for(i = 0; i < [mountedRemovableMedia count]; i ++)
 	{
 		NSString *path = [mountedRemovableMedia objectAtIndex:i];
 		
@@ -62,7 +62,8 @@
 		
 		if (information)
 		{
-			rootName = [@"/dev/rdisk" stringByAppendingString:[[[information objectForKey:@"Device Node"] componentsSeparatedByString:@"/dev/disk"] objectAtIndex:1]];
+			//NSString *partitionNumber = [[[information objectForKey:@"Device Node"] componentsSeparatedByString:@"/dev/disk"] objectAtIndex:1];
+			//[rootName appendString:[NSString stringWithFormat:@"/dev/rdisk%@", partitionNumber]];
 		
 			if ([[information objectForKey:@"Read Only"] boolValue] == YES | [[information objectForKey:@"Read-Only Media"] boolValue] == YES )
 			{ 
@@ -82,17 +83,15 @@
 
 		[cancelScan setEnabled:YES];
 		[progressScan setHidden:YES];
+		
+		BOOL rows = ([tableData count] > 0);
+		
+		[chooseScan setEnabled:rows];
 	
-		if (![rootName isEqualTo:@""])
-		{
+		if (rows)
 			[progressTextScan setHidden:YES];
-			[chooseScan setEnabled:YES];
-		}
 		else
-		{
 			[progressTextScan setStringValue:NSLocalizedString(@"No discs, try inserting a cd/dvd.", Localized)];
-			[chooseScan setEnabled:NO];
-		}
 	}
 	
 	if ([mountedRemovableMedia count] == 0)

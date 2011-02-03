@@ -73,7 +73,7 @@
 - (void)changeMountState:(BOOL)state forDevicePath:(NSString *)path;
 - (void)deviceUnmounted:(NSNotification *)notif;
 - (void)deviceMounted:(NSNotification *)notif;
-- (void)deleteTemporayFiles:(BOOL)needed;
+- (void)deleteTemporayFiles:(NSNumber *)needed;
 - (BOOL)isCueFile;
 - (BOOL)isAudioCD;
 - (NSInteger)cueImageSizeAtPath:(NSString *)path;

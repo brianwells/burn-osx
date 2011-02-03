@@ -50,7 +50,10 @@
 - (void)dealloc
 {
 	[notifications release];
+	notifications = nil;
+	
 	[notificationNames release];
+	notificationNames = nil;
 
 	[super dealloc];
 }
@@ -73,10 +76,13 @@
 	
 		if ([[NSUserDefaults standardUserDefaults] boolForKey:@"KWUseSoundEffects"])
 		{
+			NSString *soundName;
 			if (index > 3)
-				[[NSSound soundNamed:@"Basso"] play];
+				soundName = @"Basso";
 			else
-				[[NSSound soundNamed:@"complete"] play];
+				soundName = @"complete";
+			
+			[[NSSound soundNamed:soundName] play];
 		}
 	
 	NSString *notificationName = [notifications objectAtIndex:index];

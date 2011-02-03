@@ -73,10 +73,10 @@
 	IBOutlet id	gid;
 	IBOutlet id	perms;
 	
-	NSArray* propertyMappings;
+	NSArray *propertyMappings;
 }
 
-- (NSString*)filesystem;
+- (NSString *)filesystem;
 - (DRFilesystemInclusionMask)mask;
 
 - (void)inspect:(NSArray *)items;

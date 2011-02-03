@@ -22,6 +22,7 @@
 	NSString *originalName;
 
 	NSInteger myNumber;
+	BOOL calculating;
 }
 
 - (void)setFolderIcon:(NSImage *)image;

@@ -28,6 +28,7 @@
 - (void)dealloc
 {
 	[tableData release];
+	tableData = nil;
 
 	[super dealloc];
 }
@@ -45,11 +46,13 @@
 	[timeSlider setMaxValue:(double)[converter totalTimeInSeconds:[currentObject objectForKey:@"Path"]]];
 	[timeSlider setDoubleValue:0];
 	[converter release];
+	converter = nil;
 
 	[tableData removeAllObjects];
 	
-	if ([currentObject objectForKey:@"Chapters"])
-		[tableData addObjectsFromArray:[currentObject objectForKey:@"Chapters"]];
+	NSArray *chapters = [currentObject objectForKey:@"Chapters"];
+	if (chapters)
+		[tableData addObjectsFromArray:chapters];
 
 	[tableView reloadData];
 
@@ -72,7 +75,7 @@
 {
 	NSMutableDictionary *rowData = [NSMutableDictionary dictionary];
 
-	[rowData setObject:[KWCommonMethods formatTime:(NSInteger)[timeSlider doubleValue]] forKey:@"Time"];
+	[rowData setObject:[KWCommonMethods formatTime:(CGFloat)[timeSlider doubleValue] withFrames:NO] forKey:@"Time"];
 	[rowData setObject:[titleField stringValue] forKey:@"Title"];
 	[rowData setObject:[NSNumber numberWithDouble:[timeSlider doubleValue]] forKey:@"RealTime"];
 	[rowData setObject:[[previewView image] TIFFRepresentationUsingCompression:NSTIFFCompressionLZW factor:0] forKey:@"Image"];
@@ -120,7 +123,7 @@
 {
 	[previewView setImage:[[KWConverter alloc] getImageAtPath:[currentObject objectForKey:@"Path"] atTime:(NSInteger)[timeSlider doubleValue] isWideScreen:[[currentObject objectForKey:@"WideScreen"] boolValue]]];
 
-	[currentTimeField setStringValue:[KWCommonMethods formatTime:(NSInteger)[timeSlider doubleValue]]];
+	[currentTimeField setStringValue:[KWCommonMethods formatTime:(CGFloat)[timeSlider doubleValue] withFrames:NO]];
 }
 
 ///////////////////////
@@ -131,25 +134,22 @@
 #pragma mark •• Tableview actions
 
 - (BOOL)tableView:(NSTableView *)tableView shouldEditTableColumn:(NSTableColumn *)tableColumn row:(NSInteger)row
-{    return NO; }
+{
+    return NO;
+}
 
-- (NSInteger) numberOfRowsInTableView:(NSTableView *)tableView
+- (NSInteger)numberOfRowsInTableView:(NSTableView *)tableView
 {
 	return [tableData count];
 }
 
-- (id) tableView:(NSTableView *)tableView
-    objectValueForTableColumn:(NSTableColumn *)tableColumn
-    row:(NSInteger)row
+- (id)tableView:(NSTableView *)tableView objectValueForTableColumn:(NSTableColumn *)tableColumn row:(NSInteger)row
 {
     NSDictionary *rowData = [tableData objectAtIndex:row];
     return [rowData objectForKey:[tableColumn identifier]];
 }
 
-- (void)tableView:(NSTableView *)tableView
-    setObjectValue:(id)anObject
-    forTableColumn:(NSTableColumn *)tableColumn
-    row:(NSInteger)row
+- (void)tableView:(NSTableView *)tableView setObjectValue:(id)anObject forTableColumn:(NSTableColumn *)tableColumn row:(NSInteger)row
 {
 	NSMutableDictionary *rowData = [tableData objectAtIndex:row];
 	[rowData setObject:anObject forKey:[tableColumn identifier]];

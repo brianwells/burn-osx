@@ -77,15 +77,15 @@
 
 - (void)selectItems:(NSArray*)items byExtendingSelection:(BOOL)extend 
 {
-    NSInteger i;
-    if (extend==NO) 
+    if (extend == NO) 
 		[self deselectAll:nil];
-   
-	for (i=0;i<[items count];i++) 
+	
+	NSInteger i;
+	for (i = 0; i < [items count]; i ++) 
 	{
         NSInteger row = [self rowForItem:[items objectAtIndex:i]];
 		
-        if(row>=0) 
+        if(row >= 0) 
 			[self selectRowIndexes:[NSIndexSet indexSetWithIndex:row] byExtendingSelection:YES];
     }
 }

@@ -12,6 +12,7 @@
 	userCanceled = NO;
 	ignoreMode = NO;
 	layerBreak = nil;
+	
 	[NSBundle loadNibNamed:@"KWBurner" owner:self];
 
 	return self;
@@ -20,7 +21,10 @@
 - (void)dealloc
 {
 	if (imagePath)
+	{
 		[imagePath release];
+		imagePath = nil;
+	}
 
 	[super dealloc];
 }
@@ -39,12 +43,12 @@
 
 - (void)beginBurnSetupSheetForWindow:(NSWindow *)window modalDelegate:(id)delegate didEndSelector:(SEL)selector contextInfo:(void *)contextInfo
 {
-	NSWindow *myWindow = [self window];
+	NSWindow *sheetWindow = [self window];
 
 	[burnerPopup removeAllItems];
 
 	NSInteger i;
-	for (i=0;i< [[DRDevice devices] count];i++)
+	for (i = 0; i < [[DRDevice devices] count]; i ++)
 	{
 		NSString *displayName = [[[DRDevice devices] objectAtIndex:i] displayName];
 		[burnerPopup addItemWithTitle:displayName];
@@ -52,13 +56,13 @@
 	
 	NSString *displayName = [[self savedDevice] displayName];
 	if ([burnerPopup indexOfItemWithTitle:displayName] > -1)
-		[burnerPopup selectItemAtIndex:[burnerPopup indexOfItemWithTitle:displayName]];
+		[burnerPopup selectItemWithTitle:displayName];
 	
 	[self updateDevice:[self currentDevice]];
 
 	NSInteger height = 205;
 
-	if (currentType < 3 && [combinableTypes count] > 1 && [combinableTypes containsObject:[NSNumber numberWithInt:currentType]])
+	if (currentType < 3 && [combinableTypes count] > 1 && [combinableTypes containsObject:[NSNumber numberWithInteger:currentType]])
 	{
 		[self prepareTypes];
 		[combineCheckBox setHidden:NO];
@@ -69,13 +73,13 @@
 		[combineCheckBox setHidden:YES];
 	}
 	
-	[myWindow setContentSize:NSMakeSize([myWindow frame].size.width,height)];
+	[sheetWindow setContentSize:NSMakeSize([sheetWindow frame].size.width, height)];
 	
 	DRNotificationCenter *currentCenter = [DRNotificationCenter currentRunLoopCenter];
 	[currentCenter addObserver:self selector:@selector(statusChanged:) name:DRDeviceStatusChangedNotification object:nil];
 	[currentCenter addObserver:self selector:@selector(mediaChanged:) name:DRDeviceDisappearedNotification object:nil];
 	[currentCenter addObserver:self selector:@selector(mediaChanged:) name:DRDeviceAppearedNotification object:nil];
-	[NSApp beginSheet:myWindow modalForWindow:window modalDelegate:self didEndSelector:@selector(sheetDidEnd:returnCode:contextInfo:) contextInfo:[[NSArray arrayWithObjects:delegate,NSStringFromSelector(selector), contextInfo,nil] retain]];
+	[NSApp beginSheet:sheetWindow modalForWindow:window modalDelegate:self didEndSelector:@selector(sheetDidEnd:returnCode:contextInfo:) contextInfo:[[NSArray arrayWithObjects:delegate, NSStringFromSelector(selector), contextInfo, nil] retain]];
 }
 
 - (void)sheetDidEnd:(NSWindow *)sheet returnCode:(NSInteger)returnCode contextInfo:(void *)contextInfo
@@ -94,19 +98,19 @@
 		DRDevice *currentDevice = [self currentDevice];
 		NSUserDefaults *standardDefaults = [NSUserDefaults standardUserDefaults];
 		
-			if (ignoreMode == NO)
+		if (!ignoreMode)
 			speeds = [[[currentDevice status] objectForKey:DRDeviceMediaInfoKey] objectForKey:DRDeviceBurnSpeedsKey];
 		
 		NSNumber *speed;
 
-		if ([speedPopup indexOfSelectedItem] == 0 | ignoreMode == YES)
-			speed = [NSNumber numberWithFloat:65535];
+		if ([speedPopup indexOfSelectedItem] == 0 | ignoreMode)
+			speed = [NSNumber numberWithCGFloat:65535];
 		else
 			speed = [speeds objectAtIndex:[speedPopup indexOfSelectedItem] - 2];
 
 		[standardDefaults setObject:speed forKey:@"DRBurnOptionsBurnSpeed"];
 
-		NSMutableDictionary *burnDict = [[NSMutableDictionary alloc] init];
+		NSMutableDictionary *burnDict = [NSMutableDictionary dictionary];
 		NSDictionary *deviceInfo = [currentDevice info];
 
 		[burnDict setObject:[deviceInfo objectForKey:@"DRDeviceProductNameKey"] forKey:@"Product"];
@@ -116,8 +120,6 @@
 		[standardDefaults setObject:burnDict forKey:@"KWDefaultDeviceIdentifier"];
 
 		[[NSNotificationCenter defaultCenter] postNotificationName:@"KWMediaChanged" object:nil];
-
-		[burnDict release];
 
 		//We're gonna store our setup values for later :-)
 		savedDevice = currentDevice;
@@ -163,10 +165,13 @@
 	[anInvocation invokeWithTarget:[(NSArray *)contextInfo objectAtIndex:0]];
 	
 	[(NSArray *)contextInfo release];
+	contextInfo = nil;
 }
 
 - (void)burnDiskImageAtPath:(NSString *)path
 {
+	NSNotificationCenter *defaultCenter = [NSNotificationCenter defaultCenter];
+
 	size = [self getImageSizeAtPath:path];
 
 	if ([self canBurn])
@@ -178,13 +183,12 @@
 		#if MAC_OS_X_VERSION_MAX_ALLOWED >= MAC_OS_X_VERSION_10_4
 		if ([KWCommonMethods OSVersion] >= 0x1040)
 		{
-			
 			id layout = [DRBurn layoutForImageFile:path];
 		
 			if (layout != nil)
 				[burn writeLayout:layout];
 			else
-				[[NSNotificationCenter defaultCenter] postNotificationName:@"KWBurnFinished" object:self userInfo:[NSDictionary dictionaryWithObject:@"KWFailure" forKey:@"ReturnCode"]];
+				[defaultCenter postNotificationName:@"KWBurnFinished" object:self userInfo:[NSDictionary dictionaryWithObject:@"KWFailure" forKey:@"ReturnCode"]];
 		}
 		else
 		#endif
@@ -195,12 +199,14 @@
 	}
 	else
 	{
-		[[NSNotificationCenter defaultCenter] postNotificationName:@"KWBurnFinished" object:self userInfo:[NSDictionary dictionaryWithObject:@"KWCanceled" forKey:@"ReturnCode"]];
+		[defaultCenter postNotificationName:@"KWBurnFinished" object:self userInfo:[NSDictionary dictionaryWithObject:@"KWCanceled" forKey:@"ReturnCode"]];
 	}
 }
 
 - (void)writeTrack:(id)track
 {
+	NSNotificationCenter *defaultCenter = [NSNotificationCenter defaultCenter];
+	
 	BOOL hasTracks = YES;
 	id burnTrack = track;
 	
@@ -215,7 +221,7 @@
 		if (numberOfTracks > 0)
 		{
 			NSInteger i;
-			for (i=0;i<numberOfTracks;i++)
+			for (i = 0; i < numberOfTracks; i ++)
 			{
 				id newTrack = [(NSArray *)track objectAtIndex:i];
 			
@@ -248,22 +254,24 @@
 	if (hasTracks == NO)
 	{
 		[burn release];
+		burn = nil;
 	
-		[[NSNotificationCenter defaultCenter] postNotificationName:@"KWBurnFinished" object:self userInfo:[NSDictionary dictionaryWithObject:@"KWFailure" forKey:@"ReturnCode"]];
+		[defaultCenter postNotificationName:@"KWBurnFinished" object:self userInfo:[NSDictionary dictionaryWithObject:@"KWFailure" forKey:@"ReturnCode"]];
 	}
 	else if ([self canBurn])
 	{
 		[burn writeLayout:burnTrack];
 		
 		[[DRNotificationCenter currentRunLoopCenter] addObserver:self selector:@selector(burnNotification:) name:DRBurnStatusChangedNotification object:burn];
-		[[NSNotificationCenter defaultCenter] postNotificationName:@"KWCancelNotificationChanged" object:@"KWStopBurning"];
-		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(stopBurning:) name:@"KWStopBurning" object:nil];
+		[defaultCenter postNotificationName:@"KWCancelNotificationChanged" object:@"KWStopBurning"];
+		[defaultCenter addObserver:self selector:@selector(stopBurning:) name:@"KWStopBurning" object:nil];
 	}
 	else
 	{
 		[burn release];
+		burn = nil;
 	
-		[[NSNotificationCenter defaultCenter] postNotificationName:@"KWBurnFinished" object:self userInfo:[NSDictionary dictionaryWithObject:@"KWCanceled" forKey:@"ReturnCode"]];
+		[defaultCenter postNotificationName:@"KWBurnFinished" object:self userInfo:[NSDictionary dictionaryWithObject:@"KWCanceled" forKey:@"ReturnCode"]];
 	}
 }
 
@@ -284,7 +292,7 @@
 	[burnProperties setObject:[[NSUserDefaults standardUserDefaults] objectForKey:@"KWSimulateBurn"] forKey:DRBurnTestingKey];
 	
 	if(layerBreak == nil)
-		layerBreak = [NSNumber numberWithInt:0.5];
+		layerBreak = [NSNumber numberWithInteger:0.5];
 	[burnProperties setObject:layerBreak forKey:@"DRBurnDoubleLayerL0DataZoneBlocksKey"];
 	
 	[burn setProperties:burnProperties];
@@ -323,14 +331,14 @@
 	}
 	else if ([[path pathExtension] isEqualTo:@"toc"])
 	{
-		float appendSize = 0;
+		CGFloat appendSize = 0;
 		NSArray *paths = [[KWCommonMethods stringWithContentsOfFile:path] componentsSeparatedByString:@"FILE \""];
-		NSString  *filePath;
+		NSString *filePath;
 			
-		NSInteger z;
-		for (z=1;z<[paths count];z++)
+		NSInteger i;
+		for (i = 1; i < [paths count]; i ++)
 		{
-			filePath = [[[paths objectAtIndex:z] componentsSeparatedByString:@"\""] objectAtIndex:0];
+			filePath = [[[paths objectAtIndex:i] componentsSeparatedByString:@"\""] objectAtIndex:0];
 			
 			if ([[filePath stringByDeletingLastPathComponent] isEqualTo:@""])
 				filePath = [[path stringByDeletingLastPathComponent] stringByAppendingPathComponent:filePath];
@@ -348,6 +356,12 @@
 
 - (void)updateDevice:(DRDevice *)device
 {
+	NSDictionary *deviceStatus = [device status];
+	NSDictionary *mediaInfo = [deviceStatus objectForKey:DRDeviceMediaInfoKey];
+	NSDictionary *mediaState = [deviceStatus objectForKey:DRDeviceMediaStateKey];
+	BOOL appendable = [[mediaInfo objectForKey:DRDeviceMediaIsAppendableKey] boolValue];
+	BOOL blank = [[mediaInfo objectForKey:DRDeviceMediaIsBlankKey] boolValue];
+
 	if (ignoreMode == YES)
 	{
 		[eraseCheckBox setEnabled:YES];
@@ -357,17 +371,14 @@
 		[statusText setStringValue:NSLocalizedString(@"Ready to copy", Localized)];
 		[burnButton setEnabled:YES];
 	}
-	else if ([[[device status] objectForKey:DRDeviceMediaStateKey] isEqualTo:DRDeviceMediaStateMediaPresent])
+	else if ([mediaState isEqualTo:DRDeviceMediaStateMediaPresent])
 	{
-		if ([[[[device status] objectForKey:DRDeviceMediaInfoKey] objectForKey:DRDeviceMediaIsBlankKey] boolValue] | [[[[device status] objectForKey:DRDeviceMediaInfoKey] objectForKey:DRDeviceMediaIsAppendableKey] boolValue] | [[[[device status] objectForKey:DRDeviceMediaInfoKey] objectForKey:DRDeviceMediaIsOverwritableKey] boolValue])
+		if (blank | appendable | [[mediaInfo objectForKey:DRDeviceMediaIsOverwritableKey] boolValue])
 		{
 			[self populateSpeeds:device];
 			[speedPopup setEnabled:YES];
 		
-			NSDictionary *mediaInfo = [[device status] objectForKey:DRDeviceMediaInfoKey];
 			BOOL erasable = [[mediaInfo objectForKey:DRDeviceMediaIsErasableKey] boolValue];
-			BOOL appendable = [[mediaInfo objectForKey:DRDeviceMediaIsAppendableKey] boolValue];
-			BOOL blank = [[mediaInfo objectForKey:DRDeviceMediaIsBlankKey] boolValue];
 			BOOL isCD = [[mediaInfo objectForKey:DRDeviceMediaClassKey] isEqualTo:DRDeviceMediaClassCD];
 			
 			[eraseCheckBox setEnabled:(erasable && appendable && !blank)];
@@ -386,7 +397,7 @@
 			[device ejectMedia];
 		}
 	}
-	else if ([[[device status] objectForKey:DRDeviceMediaStateKey] isEqualTo:DRDeviceMediaStateInTransition])
+	else if ([mediaState isEqualTo:DRDeviceMediaStateInTransition])
 	{
 		[speedPopup setEnabled:NO];
 		[eraseCheckBox setEnabled:NO];
@@ -396,7 +407,7 @@
 		[statusText setStringValue:NSLocalizedString(@"Waiting for the drive...", Localized)];
 		[burnButton setEnabled:NO];
 	}
-	else if ([[[device status] objectForKey:DRDeviceMediaStateKey] isEqualTo:DRDeviceMediaStateNone])
+	else if ([mediaState isEqualTo:DRDeviceMediaStateNone])
 	{
 		[self populateSpeeds:device];
 		[speedPopup setEnabled:NO];
@@ -407,11 +418,14 @@
 		if ([[[device info] objectForKey:DRDeviceLoadingMechanismCanOpenKey] boolValue])
 		{
 			[closeButton setEnabled:YES];
-		
-			if ([[[device status] objectForKey:DRDeviceIsTrayOpenKey] boolValue])
-				[closeButton setTitle:NSLocalizedString(@"Close", Localized)];
+			
+			NSString *closeTitle;
+			if ([[deviceStatus objectForKey:DRDeviceIsTrayOpenKey] boolValue])
+				closeTitle = NSLocalizedString(@"Close", Localized);
 			else
-				[closeButton setTitle:NSLocalizedString(@"Open", Localized)];
+				closeTitle = NSLocalizedString(@"Open", Localized);
+				
+			[closeButton setTitle:closeTitle];
 		}
 		else
 		{
@@ -446,11 +460,11 @@
 	
 	NSArray *devices = [DRDevice devices];
 	
-	NSInteger z;
-	for (z=0;z<[devices count];z++)
+	NSInteger i;
+	for (i = 0; i < [devices count]; i ++)
 	{
-		DRDevice *device = [devices objectAtIndex:z];
-		if ([[[device info] objectForKey:DRDeviceLoadingMechanismCanOpenKey] boolValue] && [[[device status] objectForKey:DRDeviceIsTrayOpenKey] boolValue] && !z == [burnerPopup indexOfSelectedItem])
+		DRDevice *device = [devices objectAtIndex:i];
+		if ([[[device info] objectForKey:DRDeviceLoadingMechanismCanOpenKey] boolValue] && [[[device status] objectForKey:DRDeviceIsTrayOpenKey] boolValue] && !i == [burnerPopup indexOfSelectedItem])
 			[device closeTray];
 	}
 
@@ -538,7 +552,7 @@
 	NSArray *devices = [DRDevice devices];
 
 	NSInteger i;
-	for (i=0;i< [devices count];i++)
+	for (i = 0; i < [devices count]; i ++)
 	{
 		[burnerPopup addItemWithTitle:[[devices objectAtIndex:i] displayName]];
 	}
@@ -547,7 +561,7 @@
 	
 	if ([burnerPopup indexOfItemWithTitle:saveDeviceName] > -1)
 	{
-		[burnerPopup selectItemAtIndex:[burnerPopup indexOfItemWithTitle:saveDeviceName]];
+		[burnerPopup selectItemWithTitle:saveDeviceName];
 	}
 	
 	[self updateDevice:[self currentDevice]];
@@ -569,14 +583,14 @@
 		if (![currentStatusString isEqualTo:DRStatusStateTrackOpen])
 		{
 			NSNumber *percent = [status objectForKey:DRStatusPercentCompleteKey];
-			float currentPercent = [percent floatValue];
-			[defaultCenter postNotificationName:@"KWMaximumValueChanged" object:[NSNumber numberWithFloat:1.0]];
+			CGFloat currentPercent = [percent floatValue];
+			[defaultCenter postNotificationName:@"KWMaximumValueChanged" object:[NSNumber numberWithCGFloat:1.0]];
 			[defaultCenter postNotificationName:@"KWValueChanged" object:percent];
 			
 			if (!imagePath)
 			{
-				float currentSpeed = [[status objectForKey:DRStatusCurrentSpeedKey] floatValue];
-				time = [KWCommonMethods formatTime:size / currentSpeed - (size / currentSpeed * currentPercent)];
+				CGFloat currentSpeed = [[status objectForKey:DRStatusCurrentSpeedKey] floatValue];
+				time = [KWCommonMethods formatTime:(CGFloat)(size / currentSpeed - (size / currentSpeed * currentPercent)) withFrames:NO];
 			}
 			else
 			{
@@ -586,7 +600,7 @@
 	}
 	else
 	{
-		[defaultCenter postNotificationName:@"KWMaximumValueChanged" object:[NSNumber numberWithFloat:0]];
+		[defaultCenter postNotificationName:@"KWMaximumValueChanged" object:[NSNumber numberWithCGFloat:0]];
 	}
 	
 	if ([currentStatusString isEqualTo:DRStatusStatePreparing])
@@ -636,8 +650,11 @@
 		[[DRNotificationCenter currentRunLoopCenter] removeObserver:self name:DRBurnStatusChangedNotification object:[notification object]];
 		
 		[burn release];
+		burn = nil;
 	
 		[properties release];
+		properties = nil;
+		
 		[[NSNotificationCenter defaultCenter] postNotificationName:@"KWBurnFinished" object:self userInfo:[NSDictionary dictionaryWithObject:@"KWSucces" forKey:@"ReturnCode"]];
 	}
 	else if ([currentStatusString isEqualTo:DRStatusStateFailed])
@@ -647,6 +664,7 @@
 		[[DRNotificationCenter currentRunLoopCenter] removeObserver:self name:DRBurnStatusChangedNotification object:[notification object]];
 		
 		[burn release];
+		burn = nil;
 		
 		if (userCanceled)
 		{
@@ -665,6 +683,7 @@
 		}
 		
 		[properties release];
+		properties = nil;
 	}
 	
 	if (statusString)
@@ -735,16 +754,17 @@
 {
 	
 	NSInteger i;
-	for (i=0;i< 3;i++)
+	for (i = 0; i < 3; i ++)
 	{
 		[[sessions cellWithTag:i] setState:NSOffState];
 		
-		if (![combinableTypes containsObject:[NSNumber numberWithInt:i]])
+		if (![combinableTypes containsObject:[NSNumber numberWithInteger:i]])
 			[[sessions cellWithTag:i] setEnabled:NO];
 	}
 	
-	[[sessions cellWithTag:currentType] setEnabled:NO];
-	[[sessions cellWithTag:currentType] setState:NSOnState];
+	id cell = [sessions cellWithTag:currentType];
+	[cell setEnabled:NO];
+	[cell setState:NSOnState];
 }
 
 - (void)setCombineBox:(id)box
@@ -766,12 +786,12 @@
 
 	if ([speeds count] > 0)
 	{
-		float speed;
+		CGFloat speed;
 	
-		NSInteger z;
-		for (z=0;z<[speeds count];z++)
+		NSInteger i;
+		for (i = 0; i < [speeds count]; i ++)
 		{
-			speed = [[speeds objectAtIndex:z] floatValue];
+			speed = [[speeds objectAtIndex:i] floatValue];
 		
 			if ([[mediaInfo objectForKey:DRDeviceMediaClassKey] isEqualTo:DRDeviceMediaClassCD])
 				speed = speed / DRDeviceBurnSpeedCD1x;
@@ -787,21 +807,11 @@
 
 		NSNumber *burnSpeed = [[NSUserDefaults standardUserDefaults] objectForKey:@"DRBurnOptionsBurnSpeed"];
 		
-		if (!burnSpeed)
-		{
-			if ([speeds containsObject:burnSpeed])
-			{
-				[speedPopup selectItemAtIndex:[speeds indexOfObject:burnSpeed] + 2];
-			}
-			else
-			{
-				[speedPopup selectItemAtIndex:0];
-			}
-		}
-		else
-		{
-			[speedPopup selectItemAtIndex:0];
-		}
+		NSInteger selectIndex = 0;
+		if (!burnSpeed && [speeds containsObject:burnSpeed])
+			[speedPopup selectItemAtIndex:[speeds indexOfObject:burnSpeed] + 2];
+
+		[speedPopup selectItemAtIndex:selectIndex];
 	}
 	else
 	{
@@ -814,14 +824,12 @@
 	NSArray *devices = [DRDevice devices];
 	
 	NSInteger i;
-	for (i=0;i< [devices count];i++)
+	for (i = 0; i < [devices count]; i ++)
 	{
 		DRDevice *device = [devices objectAtIndex:i];
 	
 		if ([[[device info] objectForKey:@"DRDeviceProductNameKey"] isEqualTo:[[[NSUserDefaults standardUserDefaults] dictionaryForKey:@"KWDefaultDeviceIdentifier"] objectForKey:@"Product"]])
-		{
 			return device;
-		}
 	}
 	
 	return [devices objectAtIndex:0];
@@ -895,7 +903,7 @@
 
 - (BOOL)isCD
 {
-return [[[[savedDevice status] objectForKey:DRDeviceMediaInfoKey] objectForKey:DRDeviceMediaClassKey] isEqualTo:DRDeviceMediaClassCD];
+	return [[[[savedDevice status] objectForKey:DRDeviceMediaInfoKey] objectForKey:DRDeviceMediaClassKey] isEqualTo:DRDeviceMediaClassCD];
 }
 
 - (void)setType:(NSInteger)type
@@ -920,19 +928,19 @@ return [[[[savedDevice status] objectForKey:DRDeviceMediaInfoKey] objectForKey:D
 		NSMutableArray *types = [NSMutableArray array];
 		
 		if ([dataSession state] == NSOnState)
-			[types addObject:[NSNumber numberWithInt:0]];
+			[types addObject:[NSNumber numberWithInteger:0]];
 		
 		if ([audioSession state] == NSOnState)
-			[types addObject:[NSNumber numberWithInt:1]];
+			[types addObject:[NSNumber numberWithInteger:1]];
 		
 		if ([videoSession state] == NSOnState)
-			[types addObject:[NSNumber numberWithInt:2]];
+			[types addObject:[NSNumber numberWithInteger:2]];
 		
 		return types;
 	}
 	else
 	{
-		return [NSArray arrayWithObject:[NSNumber numberWithInt:currentType]];
+		return [NSArray arrayWithObject:[NSNumber numberWithInteger:currentType]];
 	}
 }
 

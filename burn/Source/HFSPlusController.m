@@ -87,17 +87,18 @@
 - (void)dealloc
 {
 	[propertyMappings release];
+	propertyMappings = nil;
 	
 	[super dealloc];
 }
 
-- (NSString*) filesystem
+- (NSString *)filesystem
 {
 	// We're the controller for the HFS+ filesystem, so return the correct value.
 	return DRHFSPlus;
 }
 
-- (DRFilesystemInclusionMask) mask
+- (DRFilesystemInclusionMask)mask
 {
 	// We're the controller for the HFS+ filesystem, so return the correct value.
 	return DRFilesystemInclusionMaskHFSPlus;
@@ -106,10 +107,11 @@
 - (void)updateNames
 {
 	DRFSObject *firstObject = [inspectedItems objectAtIndex:0];
+	NSString *fileSystem = [self filesystem];
 	
-	[specificName setStringValue:[firstObject specificNameForFilesystem:[self filesystem]]];
+	[specificName setStringValue:[firstObject specificNameForFilesystem:fileSystem]];
 
-	NSString *tempMangledName = [firstObject mangledNameForFilesystem:[self filesystem]];
+	NSString *tempMangledName = [firstObject mangledNameForFilesystem:fileSystem];
 	
 	if ([self extensionHiddenOfFSObject:firstObject])
 		[mangledName setStringValue:[tempMangledName stringByDeletingPathExtension]];
@@ -289,7 +291,7 @@
 			[[finderFlags cellWithTag:16384] setState:NSOffState];
 }
 
-- (IBAction) setIconPositionProperty:(id)sender
+- (IBAction)setIconPositionProperty:(id)sender
 {
 	NSData*	positionData;
 	Point	iconPosition;
@@ -300,14 +302,16 @@
 	positionData = [NSData dataWithBytes:&iconPosition length:sizeof(iconPosition)];
 	
 	NSInteger x;
-	for (x=0;x<[inspectedItems count];x++)
+	for (x = 0; x < [inspectedItems count]; x ++)
 	{
 		[[inspectedItems objectAtIndex:x] setProperty:positionData forKey:DRMacIconLocation inFilesystem:[self filesystem]];
 	}
 }
 
-- (IBAction) setFlagsProperty:(id)sender
+- (IBAction)setFlagsProperty:(id)sender
 {
+	NSString *fileSystem = [self filesystem];
+
 	unsigned short	fndrFlags = 0;
 	NSEnumerator*	iter = [[sender cells] objectEnumerator];
 	NSCell*			cell;
@@ -323,12 +327,12 @@
 	}
 	
 	NSInteger x;
-	for (x=0;x<[inspectedItems count];x++)
+	for ( x = 0; x < [inspectedItems count]; x ++)
 	{
 		id currentItem = [inspectedItems objectAtIndex:x];
 		
-		[currentItem setProperty:[NSNumber numberWithBool:invisible] forKey:DRInvisible inFilesystem:[self filesystem]];
-		[currentItem setProperty:[NSNumber numberWithUnsignedShort:fndrFlags] forKey:[propertyMappings objectAtIndex:[sender tag]] inFilesystem:[self filesystem]];
+		[currentItem setProperty:[NSNumber numberWithBool:invisible] forKey:DRInvisible inFilesystem:fileSystem];
+		[currentItem setProperty:[NSNumber numberWithUnsignedShort:fndrFlags] forKey:[propertyMappings objectAtIndex:[sender tag]] inFilesystem:fileSystem];
 	}
 	
 	[self setHiddenExtension:self];
@@ -336,7 +340,7 @@
 	[[NSNotificationCenter defaultCenter] postNotificationName:@"KWReloadRequested" object:nil];
 }
 
-- (IBAction) setFolderBoundsProperty:(id)sender
+- (IBAction)setFolderBoundsProperty:(id)sender
 {
 	if ([boundsTop objectValue] && [boundsLeft objectValue] && [boundsBottom objectValue] && [boundsRight objectValue])
 	{
@@ -351,7 +355,7 @@
 		boundsData = [NSData dataWithBytes:&windowBounds length:sizeof(windowBounds)];
 	
 		NSInteger x;
-		for (x=0;x<[inspectedItems count];x++)
+		for (x = 0; x < [inspectedItems count]; x ++)
 		{
 			[[inspectedItems objectAtIndex:x] setProperty:boundsData forKey:DRMacWindowBounds inFilesystem:[self filesystem]];
 		}
@@ -359,7 +363,7 @@
 
 }
 
-- (IBAction) setFolderScrollPositionProperty:(id)sender
+- (IBAction)setFolderScrollPositionProperty:(id)sender
 {
 	if ([scrollPosX objectValue] && [scrollPosY objectValue])
 	{
@@ -372,7 +376,7 @@
 		positionData = [NSData dataWithBytes:&scrollPosition length:sizeof(scrollPosition)];
 	
 		NSInteger x;
-		for (x=0;x<[inspectedItems count];x++)
+		for (x = 0; x < [inspectedItems count]; x ++)
 		{
 			[[inspectedItems objectAtIndex:x] setProperty:positionData forKey:DRMacScrollPosition inFilesystem:[self filesystem]];
 		}
@@ -386,7 +390,7 @@
 	data = [NSData dataWithBytes:[data bytes] length:4];
 	
 	NSInteger x;
-	for (x=0;x<[inspectedItems count];x++)
+	for (x = 0; x < [inspectedItems count]; x ++)
 	{
 		[[inspectedItems objectAtIndex:x] setProperty:data forKey:[propertyMappings objectAtIndex:[sender tag]] inFilesystem:[self filesystem]];
 	}
@@ -394,18 +398,20 @@
 
 - (IBAction)setHiddenExtension:(id)sender
 {
+	NSString *fileSystem = [self filesystem];
+
 	NSInteger x;
-	for (x=0;x<[inspectedItems count];x++)
+	for (x = 0; x < [inspectedItems count]; x ++)
 	{
 		DRFSObject *currentItem = [inspectedItems objectAtIndex:x];
 	
-		NSNumber *fFlags = [currentItem propertyForKey:DRMacFinderFlags inFilesystem:[self filesystem] mergeWithOtherFilesystems:NO];
+		NSNumber *fFlags = [currentItem propertyForKey:DRMacFinderFlags inFilesystem:fileSystem mergeWithOtherFilesystems:NO];
 		unsigned short flags = [fFlags unsignedShortValue];
 
 		if ([setHiddenExtension state] == NSOnState)
 		{
 			if ([inspectedItems count] == 1)
-				[mangledName setStringValue:[[currentItem mangledNameForFilesystem:[self filesystem]] stringByDeletingPathExtension]];
+				[mangledName setStringValue:[[currentItem mangledNameForFilesystem:fileSystem] stringByDeletingPathExtension]];
 		
 			flags = (flags | 0x0010);
 		}
@@ -413,18 +419,19 @@
 		{
 			if ([inspectedItems count] == 1)
 				if ([KWCommonMethods isDRFolderIsLocalized:(DRFolder *)currentItem])
-					[mangledName setStringValue:[[currentItem mangledNameForFilesystem:[self filesystem]] stringByDeletingPathExtension]];
+					[mangledName setStringValue:[[currentItem mangledNameForFilesystem:fileSystem] stringByDeletingPathExtension]];
 				else
-					[mangledName setStringValue:[currentItem mangledNameForFilesystem:[self filesystem]]];
+					[mangledName setStringValue:[currentItem mangledNameForFilesystem:fileSystem]];
 		
 			flags -= 0x0010;
 		}
 
-		[currentItem setProperty:[NSNumber numberWithUnsignedShort:flags] forKey:DRMacFinderFlags inFilesystem:[self filesystem]];
+		[currentItem setProperty:[NSNumber numberWithUnsignedShort:flags] forKey:DRMacFinderFlags inFilesystem:fileSystem];
 	}
-
-	[[NSNotificationCenter defaultCenter] postNotificationName:@"KWLeaveTab" object:nil];
-	[[NSNotificationCenter defaultCenter] postNotificationName:@"KWReloadRequested" object:nil];
+	
+	NSNotificationCenter *defaultCenter = [NSNotificationCenter defaultCenter];
+	[defaultCenter postNotificationName:@"KWLeaveTab" object:nil];
+	[defaultCenter postNotificationName:@"KWReloadRequested" object:nil];
 }
 
 @end

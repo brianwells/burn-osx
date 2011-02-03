@@ -4,10 +4,9 @@
 @implementation KWOutlineView
 
 - (void)reloadData
-{	
-	[super reloadData];
+{
+	[super reloadData];		
 	[[NSNotificationCenter defaultCenter] postNotificationName:@"KWChangeBurnStatus" object:[NSNumber numberWithBool:([self numberOfRows] > 0)]];
-	[[self delegate] performSelector:@selector(setTotalSize)];
 }
 
 - (BOOL)becomeFirstResponder 
@@ -36,9 +35,9 @@
 		NSMutableDictionary *newInfo;
 		newInfo = [NSMutableDictionary dictionaryWithDictionary:userInfo];
 
-		[newInfo setObject: [NSNumber numberWithInt: NSIllegalTextMovement] forKey: @"NSTextMovement"];
+		[newInfo setObject: [NSNumber numberWithInteger:NSIllegalTextMovement] forKey: @"NSTextMovement"];
 
-		notification = [NSNotification notificationWithName: [notification name] object: [notification object] userInfo: newInfo];
+		notification = [NSNotification notificationWithName:[notification name] object:[notification object] userInfo:newInfo];
     }
 
 	[super textDidEndEditing: notification];

@@ -52,13 +52,13 @@
 
 @implementation JolietController
 
-- (NSString*) filesystem
+- (NSString *)filesystem
 {
 	// We're the controller for the Joliet filesystem, so return the correct value.
 	return DRJoliet;
 }
 
-- (DRFilesystemInclusionMask) mask
+- (DRFilesystemInclusionMask)mask
 {
 	// We're the controller for the Joliet filesystem, so return the correct value.
 	return DRFilesystemInclusionMaskJoliet;

@@ -29,16 +29,26 @@
 	[[NSNotificationCenter defaultCenter] removeObserver:self];
 
 	[temporaryFiles release];
+	temporaryFiles = nil;
 
 	//Release our strings if needed
 	if (currentPath)
+	{
 		[currentPath release];
+		currentPath = nil;
+	}
 	
 	if (mountedPath)
+	{
 		[mountedPath release];
+		mountedPath = nil;
+	}
 	
 	if (imageMountedPath)
+	{
 		[imageMountedPath release];
+		imageMountedPath = nil;
+	}
 
 	[super dealloc];
 }
@@ -89,10 +99,10 @@
 //Mount a image using hdiutil
 - (IBAction)mountDisc:(id)sender
 {
-	if (![currentPath isEqualTo:@""] && [[mountButton title] isEqualTo:NSLocalizedString(@"Mount",nil)])
+	if (![currentPath isEqualTo:@""] && [[mountButton title] isEqualTo:NSLocalizedString(@"Mount", nil)])
 	{
 		progressPanel = [[KWProgress alloc] init];
-		[progressPanel setTask:NSLocalizedString(@"Mounting disk image",nil)];
+		[progressPanel setTask:NSLocalizedString(@"Mounting disk image", nil)];
 		[progressPanel setStatus:[NSString stringWithFormat:NSLocalizedString(@"Mounting: %@", nil), [nameField stringValue]]];
 		[progressPanel setIcon:[[NSWorkspace sharedWorkspace] iconForFileType:@"iso"]];
 		[progressPanel setMaximumValue:[NSNumber numberWithDouble:0]];
@@ -124,6 +134,7 @@
 
 	[progressPanel endSheet];
 	[progressPanel release];
+	progressPanel = nil;
 
 	if (!status | [string rangeOfString:@"<key>mount-point</key>"].length == 0)
 	{
@@ -557,7 +568,7 @@
 			if (outputFile)
 				[temporaryFiles addObject:outputFile];
 			else
-				return [NSNumber numberWithInt:2];
+				return [NSNumber numberWithInteger:2];
 		}
 		
 		if ([[NSFileManager defaultManager] fileExistsAtPath:[mountedPath stringByAppendingPathComponent:@".TOC.plist"]])
@@ -571,7 +582,7 @@
 			if (!status)
 			{
 				*error = [NSString stringWithFormat:@"KWConsole:\nTask: hdiutil\n%@", errorString];
-				return [NSNumber numberWithInt:0];
+				return [NSNumber numberWithInteger:0];
 			}
 		}
 		else
@@ -596,7 +607,7 @@
 			[defaultCenter addObserver:self selector:@selector(stopImageing) name:@"KWStopImaging" object:nil];
 			[defaultCenter postNotificationName:@"KWCancelNotificationChanged" object:@"KWStopImaging"];
 			[defaultCenter postNotificationName:@"KWStatusChanged" object:NSLocalizedString(@"Copying disc", Localized)];
-			[defaultCenter postNotificationName:@"KWMaximumValueChanged" object:[NSNumber numberWithFloat:[[self totalSize] floatValue]]];
+			[defaultCenter postNotificationName:@"KWMaximumValueChanged" object:[NSNumber numberWithCGFloat:[[self totalSize] floatValue]]];
 		
 			[self performSelectorOnMainThread:@selector(startTimer:) withObject:outputFile waitUntilDone:NO];
 			
@@ -620,30 +631,30 @@
 				[KWCommonMethods removeItemAtPath:outputFile];
 				[self remount:disc];
 				
-				return [NSNumber numberWithInt:1];
+				return [NSNumber numberWithInteger:1];
 			}
 			else if (!status == 0 && userCanceled == YES)
 			{
 				[KWCommonMethods removeItemAtPath:outputFile];
 				[self remount:disc];
 				
-				return [NSNumber numberWithInt:2];
+				return [NSNumber numberWithInteger:2];
 			}
 			
 			if (![[KWCommonMethods savedDevice] ejectMedia])
-				return [NSNumber numberWithInt:1];
+				return [NSNumber numberWithInteger:1];
 		}
 		
 		if (tocFile)
-		{NSLog(@"1");
+		{
 			if (![path isEqualTo:deviceMediaPath] | shouldBurn == NO)
-			{NSLog(@"2");
+			{
 				[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(remount:) name:@"KWDoneBurning" object:nil];
 			
 				return [[KWTrackProducer alloc] getTracksOfAudioCD:path withToc:tocFile];
 			}
 			else
-			{NSLog(@"3");
+			{
 				NSString *infoFile = [[outputFile stringByDeletingPathExtension] stringByAppendingPathExtension:@"isoInfo"];
 				[tocFile writeToFile:infoFile atomically:YES];
 			
@@ -662,7 +673,7 @@
 		#endif
 	}
 	
-	return [NSNumber numberWithInt:0];
+	return [NSNumber numberWithInteger:0];
 }
 
 - (void)startTimer:(NSArray *)object
@@ -674,13 +685,13 @@
 {
 	NSNotificationCenter *defaultCenter = [NSNotificationCenter defaultCenter];
 
-	float currentSize = [[[[NSFileManager defaultManager] fileAttributesAtPath:[theTimer userInfo] traverseLink:YES] objectForKey:NSFileSize] floatValue] / 2048;
-	float percent = currentSize / [[self totalSize] floatValue] * 100;
+	CGFloat currentSize = [[[[NSFileManager defaultManager] fileAttributesAtPath:[theTimer userInfo] traverseLink:YES] objectForKey:NSFileSize] floatValue] / 2048;
+	CGFloat percent = currentSize / [[self totalSize] floatValue] * 100;
 		
 		if (percent < 101)
 		[defaultCenter postNotificationName:@"KWStatusByAddingPercentChanged" object:[NSString stringWithFormat:@" (%.0f%@)", percent, @"%"]];
 
-	[defaultCenter postNotificationName:@"KWValueChanged" object:[NSNumber numberWithFloat:currentSize]];
+	[defaultCenter postNotificationName:@"KWValueChanged" object:[NSNumber numberWithCGFloat:currentSize]];
 }
 
 - (void)stopImageing
@@ -704,7 +715,7 @@
 	{
 		path = audioDiscPath;
 	}
-	NSLog(@"Path: %@", path);
+
 	NSArray *arguments = [NSArray arrayWithObjects:@"mount",path,nil];
 	
 	NSString *errorsString;
@@ -729,7 +740,7 @@
 
 - (NSNumber *)totalSize
 {
-	return [NSNumber numberWithFloat:blocks];
+	return [NSNumber numberWithCGFloat:blocks];
 }
 
 - (BOOL)respondsToSelector:(SEL)aSelector
@@ -832,9 +843,9 @@
 	[self changeMountState:YES forDevicePath:[[notif userInfo] objectForKey:@"NSDevicePath"]];
 }
 
-- (void)deleteTemporayFiles:(BOOL)needed
+- (void)deleteTemporayFiles:(NSNumber *)needed
 {
-	if (needed)
+	if ([needed boolValue])
 	{
 		NSInteger i;
 		for (i=0;i<[temporaryFiles count];i++)

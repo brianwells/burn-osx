@@ -44,6 +44,6 @@
 //Set an empty info
 - (void)volumeLabelSelected:(NSNotification *)notif;
 //Calculate VCD size (bit different from the rest)
-- (float)totalSVCDSize;
+- (CGFloat)totalSVCDSize;
 
 @end

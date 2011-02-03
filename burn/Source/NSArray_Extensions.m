@@ -52,9 +52,9 @@
 
 @implementation NSArray (MyExtensions)
 
-- (BOOL) containsObjectIdenticalTo: (id)obj 
+- (BOOL)containsObjectIdenticalTo:(id)obj 
 { 
-    return [self indexOfObjectIdenticalTo: obj]!=NSNotFound; 
+    return [self indexOfObjectIdenticalTo:obj] != NSNotFound; 
 }
 
 @end

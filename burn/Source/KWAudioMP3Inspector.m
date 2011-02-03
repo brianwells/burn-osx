@@ -33,6 +33,7 @@
 - (void)dealloc
 {
 	[methodMappings release];
+	methodMappings = nil;
 	
 	[super dealloc];
 }
@@ -47,16 +48,17 @@
 
 	if ([currentObjects count] == 1)
 	{
-		[iconView setImage:[[currentObjects objectAtIndex:0] objectForKey:@"Icon"]];
-		[nameField setStringValue:[[currentObjects objectAtIndex:0] objectForKey:@"Name"]];
-		[sizeField setStringValue:[[currentObjects objectAtIndex:0] objectForKey:@"Size"]];
+		id firstObject = [currentObjects objectAtIndex:0];
+		[iconView setImage:[firstObject objectForKey:@"Icon"]];
+		[nameField setStringValue:[firstObject objectForKey:@"Name"]];
+		[sizeField setStringValue:[firstObject objectForKey:@"Size"]];
 		
 	}
 	else
 	{
 		[iconView setImage:[NSImage imageNamed:@"Multiple"]];
 		[nameField setStringValue:@"Multiple Selection"];
-		[sizeField setStringValue:[NSString localizedStringWithFormat:@"%ld files",[currentObjects count]]];
+		[sizeField setStringValue:[NSString localizedStringWithFormat:@"%ld files", [currentObjects count]]];
 	}
 
 	NSView *firstTabViewItem = [[tabView tabViewItemAtIndex:0] view];
@@ -79,7 +81,7 @@
 				NSString *genreList = [property objectAtIndex:0];
 			
 				NSInteger i;
-				for (i=1;i<[property count];i++)
+				for (i = 1; i < [property count]; i ++)
 				{
 					NSString *newGenre = [property objectAtIndex:i];
 					genreList = [NSString stringWithFormat:@"%@, %@", genreList, newGenre];
@@ -106,11 +108,12 @@
 	id baseValue = [soundTag performSelector:selector];
 	
 	[soundTag release];
+	soundTag = nil;
 
 	if ([objects count] == 1)
 	{
 		if (selector == @selector(getYear))
-			return [NSNumber numberWithInt:[baseValue intValue]];
+			return [NSNumber numberWithInteger:[baseValue intValue]];
 		else if ([baseValue isKindOfClass:[NSNumber class]] && [baseValue intValue] == -1)
 			return @"";
 		else
@@ -119,8 +122,10 @@
 	else 
 	{
 		NSInteger i;
-		for (i=0;i<[objects count];i++)
+		for (i = 0; i < [objects count]; i ++)
 		{
+			NSAutoreleasePool *pool = [NSAutoreleasePool alloc];
+		
 			path = [[objects objectAtIndex:i] objectForKey:@"Path"];
 			soundTag = [[MultiTag alloc] initWithFile:path];
 			
@@ -133,6 +138,12 @@
 					else
 						return nil;
 				}
+				
+			[soundTag release];
+			soundTag = nil;
+			
+			[pool release];
+			pool = nil;
 		}
 	}
 	
@@ -147,8 +158,10 @@
 - (void)setObjectWithSelector:(SEL)selector forObjects:(NSArray *)objects withObject:(id)object
 {
 	NSInteger i;
-	for (i=0;i<[objects count];i++)
+	for (i = 0; i < [objects count]; i ++)
 	{
+		NSAutoreleasePool *pool = [NSAutoreleasePool alloc];
+	
 		id finalObject = object;
 		NSString *method = NSStringFromSelector(selector);
 		
@@ -160,15 +173,17 @@
 		[soundTag performSelector:selector withObject:finalObject];
 		[soundTag updateFile];
 		[soundTag release];
+		soundTag = nil;
+		
+		[pool release];
+		pool = nil;
 	}
 }
 
 - (void)tabView:(NSTabView *)tabView willSelectTabViewItem:(NSTabViewItem *)tabViewItem
 {
 	if ([[tabViewItem label] isEqualTo:@"Artwork"])
-	{
 		[self updateArtWork];
-	}
 }
 
 - (void)updateArtWork
@@ -186,7 +201,7 @@
 	{
 		NSImage *Image1 = [[NSImage alloc] init];
 		[Image1 addRepresentation:[[images objectAtIndex:currentIndex] objectForKey:@"Image"]];
-		[imageView setImage:Image1];
+		[imageView setImage:[Image1 autorelease]];
 		
 		NSString *countString = [NSString stringWithFormat:@"%ld of %ld", currentIndex + 1, [images count]];
 		[imageString setStringValue:countString];
@@ -229,7 +244,7 @@
 		NSArray *files = [panel filenames];
 		
 		NSInteger i;
-		for (i=0;i<[files count];i++)
+		for (i = 0; i < [files count]; i ++)
 		{
 			NSMutableDictionary *image = [NSMutableDictionary dictionaryWithCapacity:4];
 	    
@@ -250,8 +265,10 @@
 		}
 	
 		[self setObjectWithSelector:@selector(setTagImages:) forObjects:currentObjects withObject:pictures];
-		
 		[self updateArtWork];
+		
+		[pictures release];
+		pictures = nil;
 	}
 }
 

@@ -37,7 +37,12 @@
 		frame = NSMakeRect(0, 0, 364, 0);
 		NSTextView *textView = [[[NSTextView alloc] initWithFrame:frame] autorelease];
 		if ([KWCommonMethods OSVersion] >= 0x1040)
-			[textView setFont:[NSFont fontWithName:@"Andale Mono" size:12]];
+		{
+			NSFont *consoleFont = [NSFont fontWithName:@"Andale Mono" size:12];
+			
+			if (consoleFont)
+				[textView setFont:consoleFont];
+		}
 		[scrollView setDocumentView:textView];
 		[scrollView setHasVerticalScroller:YES];
 	

@@ -32,6 +32,8 @@
 - (void)dealloc
 {
 	[tagMappings release];
+	tagMappings = nil;
+	
 	[[NSNotificationCenter defaultCenter] removeObserver:self];
 	
 	[super dealloc];
@@ -40,14 +42,17 @@
 
 - (void)awakeFromNib
 {
-	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(setCurrentField:) name:NSWindowDidBecomeKeyNotification object:nil];
+	//New method
+	//[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(setCurrentField:) name:NSWindowDidBecomeKeyNotification object:nil];
 }
 
 - (void)setCurrentField:(NSNotification *)notif
 {
-	if (![[notif object] isEqualTo:[myView window]])
+	NSWindow *window;
+
+	if (![[notif object] isEqualTo:window] && [[[notif object] contentView] isEqualTo:myView])
 	{
-		id selectedView = [[myView window] firstResponder];
+		id selectedView = [window firstResponder];
 
 		if ([selectedView isKindOfClass:[NSTextView class]])
 			[self optionsChanged:[selectedView delegate]];
@@ -104,7 +109,7 @@
 					property = [self getTrackObjectForKey:currentKey inTrackObjects:selectedTracks];
 
 					if ([currentKey isEqualTo:DRPreGapLengthKey])
-						property = [NSNumber numberWithInt:(int)[property floatValue] / 75];
+						property = [NSNumber numberWithInteger:(int)[property floatValue] / 75];
 					else if ([currentKey isEqualTo:DRIndexPointsKey])
 						property = [NSNumber numberWithBool:(property != nil)];
 				}
@@ -204,7 +209,7 @@
 		NSMutableArray *currentTracks = [controller myTracks];
 		
 		NSInteger i;
-		for (i=0;i<[selectedRows count];i++)
+		for (i = 0; i < [selectedRows count]; i ++)
 		{
 			NSInteger selectedTrack = [[selectedRows objectAtIndex:i] intValue];
 			id value;
@@ -304,17 +309,28 @@
 	// Make sure the characters are within the right ranges.
 	const char *byte = (char*)[data bytes];
 	unsigned i;
-	for (i=0; i<length; ++i)
+	for (i = 0; i < length; ++ i)
 	{
-		char	c = byte[i];
-		BOOL	alpha = (c >= 'A' && c <= 'Z');
-		BOOL	num = (c >= '0' && c <= '9');
-		if (i<2) {			// first two chars are A-Z
-			if (!alpha) return NO;
-		} else if (i<5) {	// next three chars are 0-9 A-Z
-			if (!alpha && !num) return NO;
-		} else	{			// remaining chars are 0-9
-			if (!num) return NO;
+		char c = byte[i];
+		BOOL alpha = (c >= 'A' && c <= 'Z');
+		BOOL num = (c >= '0' && c <= '9');
+		if (i<2)
+		{	
+			// first two chars are A-Z
+			if (!alpha)
+				return NO;
+		}
+		else if (i<5) 
+		{
+			// next three chars are 0-9 A-Z
+			if (!alpha && !num)
+				return NO;
+		}
+		else
+		{
+			// remaining chars are 0-9
+			if (!num) 
+				return NO;
 		}
 	}
 	

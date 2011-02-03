@@ -295,11 +295,11 @@
 		NSMutableDictionary *dict  = [NSMutableDictionary dictionary];
 		[dict setObject:[DRMSF msfWithFrames:length] forKey:DRTrackLengthKey];
 		[dict setObject:[DRMSF msfWithFrames:pregap] forKey:DRPreGapLengthKey];
-		[dict setObject:[NSNumber numberWithInt:blockSize] forKey:DRBlockSizeKey];
-		[dict setObject:[NSNumber numberWithInt:blockType] forKey:DRBlockTypeKey];
-		[dict setObject:[NSNumber numberWithInt:dataForm] forKey:DRDataFormKey];
-		[dict setObject:[NSNumber numberWithInt:sessionFormat] forKey:DRSessionFormatKey];
-		[dict setObject:[NSNumber numberWithInt:trackMode] forKey:DRTrackModeKey];
+		[dict setObject:[NSNumber numberWithInteger:blockSize] forKey:DRBlockSizeKey];
+		[dict setObject:[NSNumber numberWithInteger:blockType] forKey:DRBlockTypeKey];
+		[dict setObject:[NSNumber numberWithInteger:dataForm] forKey:DRDataFormKey];
+		[dict setObject:[NSNumber numberWithInteger:sessionFormat] forKey:DRSessionFormatKey];
+		[dict setObject:[NSNumber numberWithInteger:trackMode] forKey:DRTrackModeKey];
 		[dict setObject:DRSCMSCopyrightFree forKey:DRSerialCopyManagementStateKey];
 		[dict setObject:DRVerificationTypeNone forKey:DRVerificationTypeKey];	// verify not supported for CUE files ?
 		//[dict setObject:DRVerificationTypeProduceAgain forKey:DRVerificationTypeKey];
@@ -366,13 +366,18 @@
 		innerPool = [[NSAutoreleasePool alloc] init];
 	}
 
-	NSString *string=[[NSString alloc] initWithData:[handle2 readDataToEndOfFile] encoding:NSUTF8StringEncoding];
+	NSString *string = [[NSString alloc] initWithData:[handle2 readDataToEndOfFile] encoding:NSUTF8StringEncoding];
 
 	[vcdimager waitUntilExit];
 
 	[pipe release];
+	pipe = nil;
+	
 	[pipe2 release];
+	pipe2 = nil;
+	
 	[vcdimager release];
+	vcdimager = nil;
 
 	return [self getTracksOfLayout:string withTotalSize:size];
 }
@@ -385,7 +390,7 @@
 	NSMutableArray *myTracks = [NSMutableArray array];
 
 	NSInteger i = 0;
-	for (i=0;i<[sessions count];i++)
+	for (i = 0; i < [sessions count]; i ++)
 	{
 		NSAutoreleasePool *innerPool = [[NSAutoreleasePool alloc] init];
 		
@@ -395,7 +400,7 @@
 		NSArray *tracks = [session objectForKey:@"Track Array"];
 	
 		NSInteger x = 0;
-		for (x=0;x<[tracks count];x++)
+		for (x = 0; x < [tracks count]; x ++)
 		{
 			NSAutoreleasePool *innerPool = [[NSAutoreleasePool alloc] init];
 			
@@ -419,11 +424,11 @@
 				[dict setObject:[DRMSF msfWithFrames:0] forKey:DRPreGapLengthKey];
 		
 			[dict setObject:[DRMSF msfWithFrames:size] forKey:DRTrackLengthKey];
-			[dict setObject:[NSNumber numberWithInt:2352] forKey:DRBlockSizeKey];
-			[dict setObject:[NSNumber numberWithInt:0] forKey:DRBlockTypeKey];
-			[dict setObject:[NSNumber numberWithInt:0] forKey:DRDataFormKey];
-			[dict setObject:[NSNumber numberWithInt:0] forKey:DRSessionFormatKey];
-			[dict setObject:[NSNumber numberWithInt:0] forKey:DRTrackModeKey];
+			[dict setObject:[NSNumber numberWithInteger:2352] forKey:DRBlockSizeKey];
+			[dict setObject:[NSNumber numberWithInteger:0] forKey:DRBlockTypeKey];
+			[dict setObject:[NSNumber numberWithInteger:0] forKey:DRDataFormKey];
+			[dict setObject:[NSNumber numberWithInteger:0] forKey:DRSessionFormatKey];
+			[dict setObject:[NSNumber numberWithInteger:0] forKey:DRTrackModeKey];
 			[dict setObject:[currentTrack objectForKey:@"Pre-Emphasis Enabled"] forKey:DRAudioPreEmphasisKey];
 			[dict setObject:DRVerificationTypeNone forKey:DRVerificationTypeKey];	// verify not supported for Audio CDs
 			//[dict setObject:DRVerificationTypeProduceAgain forKey:DRVerificationTypeKey];
@@ -452,15 +457,15 @@
 	DRTrack *track = [[[DRTrack alloc] initWithProducer:self] autorelease];
 	NSMutableDictionary *properties = [NSMutableDictionary dictionary];
 		
-	[properties setObject:[NSNumber numberWithFloat:[self audioTrackSizeAtPath:path]] forKey:DRTrackLengthKey];
-	[properties setObject:[NSNumber numberWithInt:2352] forKey:DRBlockSizeKey];
-	[properties setObject:[NSNumber numberWithInt:0] forKey:DRBlockTypeKey];
-	[properties setObject:[NSNumber numberWithInt:0] forKey:DRDataFormKey];
-	[properties setObject:[NSNumber numberWithInt:0] forKey:DRSessionFormatKey];
-	[properties setObject:[NSNumber numberWithInt:0] forKey:DRTrackModeKey];
+	[properties setObject:[NSNumber numberWithCGFloat:[self audioTrackSizeAtPath:path]] forKey:DRTrackLengthKey];
+	[properties setObject:[NSNumber numberWithInteger:2352] forKey:DRBlockSizeKey];
+	[properties setObject:[NSNumber numberWithInteger:0] forKey:DRBlockTypeKey];
+	[properties setObject:[NSNumber numberWithInteger:0] forKey:DRDataFormKey];
+	[properties setObject:[NSNumber numberWithInteger:0] forKey:DRSessionFormatKey];
+	[properties setObject:[NSNumber numberWithInteger:0] forKey:DRTrackModeKey];
 	[properties setObject:path forKey:@"KWAudioPath"];
 	[properties setObject:[NSNumber numberWithBool:YES] forKey:@"KWFirstTrack"];
-	//[properties setObject:DRVerificationTypeNone forKey:DRVerificationTypeKey];	// verify not supported for Audio CDs
+	[properties setObject:DRVerificationTypeNone forKey:DRVerificationTypeKey];	// verify not supported for Audio CDs
 	//[properties setObject:DRVerificationTypeProduceAgain forKey:DRVerificationTypeKey];
 		
 	[track setProperties:properties];
@@ -485,16 +490,18 @@
 
 - (void)createImage
 {
+	NSBundle *mainBundle = [NSBundle mainBundle];
+
 	trackCreator = [[NSTask alloc] init];
-	trackPipe=[[NSPipe alloc] init];
+	trackPipe = [[NSPipe alloc] init];
 	NSFileHandle *handle2 = [NSFileHandle fileHandleWithNullDevice];
 	[trackCreator setStandardError:handle2];
-	[trackCreator setLaunchPath:[[NSBundle mainBundle] pathForResource:@"mkisofs" ofType:@""]];
+	[trackCreator setLaunchPath:[mainBundle pathForResource:@"mkisofs" ofType:@""]];
 	
 	NSMutableArray *options = [NSMutableArray arrayWithObjects:@"-V", discName, @"-f", nil];
 	
 	if (type == 1)
-		[options addObjectsFromArray:[NSArray arrayWithObjects:@"-hfs", @"--osx-hfs", @"-r", @"-joliet", @"-input-hfs-charset", [[NSBundle mainBundle] pathForResource:@"iso8859-1" ofType:@""],nil]];
+		[options addObjectsFromArray:[NSArray arrayWithObjects:@"-hfs", @"--osx-hfs", @"-r", @"-joliet", @"-input-hfs-charset", [mainBundle pathForResource:@"iso8859-1" ofType:@""], nil]];
 	else if (type == 2)
 		[options addObject:@"-udf"];
 	else if (type == 3)
@@ -528,7 +535,7 @@
 	[arguments addObjectsFromArray:[NSArray arrayWithObjects:@"--update-scan-offsets", @"-l", discName, [@"--cue-file=" stringByAppendingString:@"/dev/fd/1"], [@"--bin-file=" stringByAppendingString:@"/dev/fd/2"], nil]];
 
 	NSInteger i;
-	for (i=0;i<[mpegFiles count];i++)
+	for (i = 0; i < [mpegFiles count]; i ++)
 	{
 		[arguments addObject:[mpegFiles objectAtIndex:i]];
 	}
@@ -540,7 +547,7 @@
 	NSFileHandle *handle2 = [NSFileHandle fileHandleWithNullDevice];
 	[trackCreator setStandardError:trackPipe];
 	[trackCreator setStandardOutput:handle2];
-	readHandle=[trackPipe fileHandleForReading];
+	readHandle = [trackPipe fileHandleForReading];
 	file = fdopen([readHandle fileDescriptor], "r");
 
 	[NSThread detachNewThreadSelector:@selector(startCreating) toTarget:self withObject:nil];
@@ -556,8 +563,12 @@
 	[trackCreator waitUntilExit];
 	[readHandle closeFile];
 	readHandle = nil;
+	
 	[trackPipe release];
+	trackPipe = nil;
+	
 	[trackCreator release];
+	trackCreator = nil;
 
 	[pool release];
 }
@@ -620,9 +631,16 @@
 	[trackCreator waitUntilExit];
 
 	[writeHandle closeFile];
+	writeHandle = nil;
+	
 	[calcPipe release];
+	calcPipe = nil;
+	
 	[trackPipe release];
+	trackPipe = nil;
+	
 	[trackCreator release];
+	trackCreator = nil;
 
 	[pool release];
 }
@@ -634,17 +652,18 @@
 #pragma mark -
 #pragma mark •• Other actions
 
-- (float)imageSize
+- (CGFloat)imageSize
 {
+	NSBundle *mainBundle = [NSBundle mainBundle];
 	NSTask *mkisofs = [[NSTask alloc] init];
 	NSPipe *pipe=[[NSPipe alloc] init];
 	NSFileHandle *handle;
-	[mkisofs setLaunchPath:[[NSBundle mainBundle] pathForResource:@"mkisofs" ofType:@""]];
+	[mkisofs setLaunchPath:[mainBundle pathForResource:@"mkisofs" ofType:@""]];
 	
 	NSMutableArray *options = [NSMutableArray arrayWithObjects:@"-print-size", @"-V", discName, @"-f", nil];
 	
 	if (type == 1)
-		[options addObjectsFromArray:[NSArray arrayWithObjects:@"-hfs", @"--osx-hfs", @"-r", @"-joliet", @"-input-hfs-charset", [[NSBundle mainBundle] pathForResource:@"iso8859-1" ofType:@""],nil]];
+		[options addObjectsFromArray:[NSArray arrayWithObjects:@"-hfs", @"--osx-hfs", @"-r", @"-joliet", @"-input-hfs-charset", [mainBundle pathForResource:@"iso8859-1" ofType:@""], nil]];
 	else if (type == 2)
 		[options addObject:@"-udf"];
 	else if (type == 3)
@@ -665,12 +684,17 @@
 
 	NSData *data = [handle readDataToEndOfFile];
 	NSString *string = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
-	float size = [string intValue];
+	CGFloat size = [string intValue];
 	[string release];
+	string = nil;
 
 	[mkisofs waitUntilExit];
+	
 	[pipe release];
+	pipe = nil;
+	
 	[mkisofs release];
+	mkisofs = nil;
 
 	return size;
 }
@@ -681,11 +705,11 @@
 	NSMutableDictionary *dict = [NSMutableDictionary dictionary];
 		
 	[dict setObject:[DRMSF msfWithFrames:size] forKey:DRTrackLengthKey];
-	[dict setObject:[NSNumber numberWithInt:kDRBlockSizeMode1Data] forKey:DRBlockSizeKey];
-	[dict setObject:[NSNumber numberWithInt:kDRBlockTypeMode1Data] forKey:DRBlockTypeKey];
-	[dict setObject:[NSNumber numberWithInt:kDRDataFormMode1Data] forKey:DRDataFormKey];
-	[dict setObject:[NSNumber numberWithInt:kDRSessionFormatMode1Data] forKey:DRSessionFormatKey];
-	[dict setObject:[NSNumber numberWithInt:kDRTrackMode1Data] forKey:DRTrackModeKey];
+	[dict setObject:[NSNumber numberWithInteger:kDRBlockSizeMode1Data] forKey:DRBlockSizeKey];
+	[dict setObject:[NSNumber numberWithInteger:kDRBlockTypeMode1Data] forKey:DRBlockTypeKey];
+	[dict setObject:[NSNumber numberWithInteger:kDRDataFormMode1Data] forKey:DRDataFormKey];
+	[dict setObject:[NSNumber numberWithInteger:kDRSessionFormatMode1Data] forKey:DRSessionFormatKey];
+	[dict setObject:[NSNumber numberWithInteger:kDRTrackMode1Data] forKey:DRTrackModeKey];
 	[dict setObject:[NSNumber numberWithBool:YES] forKey:@"KWFirstTrack"];
 	//[dict setObject:DRVerificationTypeProduceAgain forKey:DRVerificationTypeKey];
 	
@@ -699,7 +723,7 @@
 	return track;
 }
 
-- (float)audioTrackSizeAtPath:(NSString *)path
+- (CGFloat)audioTrackSizeAtPath:(NSString *)path
 {
 	NSTask *ffmpeg = [[NSTask alloc] init];
 	NSPipe *outPipe = [[NSPipe alloc] init];
@@ -721,7 +745,7 @@
 	
 	[KWCommonMethods logCommandIfNeeded:ffmpeg];
 	[ffmpeg launch];
-	float size = 0;
+	CGFloat size = 0;
 	
 	NSData *data;
 	NSAutoreleasePool *innerPool = [[NSAutoreleasePool alloc] init];
@@ -731,13 +755,20 @@
 		size = size + [data length];
 		
 		[innerPool release];
+		innerPool = nil;
+		
 		innerPool = [[NSAutoreleasePool alloc] init];
 	}
 	
 	[innerPool release];
+	innerPool = nil;
+	
 	[ffmpeg waitUntilExit];
 	[ffmpeg release];
+	ffmpeg = nil;
+	
 	[outPipe release];
+	outPipe = nil;
 
 	return size /  2352;
 }

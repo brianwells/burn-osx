@@ -61,5 +61,7 @@
 - (DRFSObject *)newDRFSObject:(DRFSObject *)object;
 - (BOOL)waitForMediaIfNeeded;
 - (void)stopWaiting;
+- (void)restoreHiddenExtensions;
+- (void)deleteTemporaryFiles;
 
 @end

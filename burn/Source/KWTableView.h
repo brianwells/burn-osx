@@ -2,7 +2,5 @@
 
 #import <Cocoa/Cocoa.h>
 
-@interface KWTableView : NSTableView
-{
-}
+@interface KWTableView : NSTableView{}
 @end

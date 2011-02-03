@@ -17,7 +17,7 @@
      Version:    Technology: Mac OS X
                  Release:    Mac OS X
  
-     Copyright:  (c) 2002 by Apple Computer, Inc., all rights reserved
+     Copyright:  (c)2002 by Apple Computer, Inc., all rights reserved
  
      Bugs?:      For bug reports, consult the following page on
                  the World Wide Web:
@@ -26,7 +26,7 @@
 */
 
 /*
- IMPORTANT:  This Apple software is supplied to you by Apple Computer, Inc. ("Apple") in
+ IMPORTANT:  This Apple software is supplied to you by Apple Computer, Inc. ("Apple")in
  consideration of your agreement to the following terms, and your use, installation, 
  modification or redistribution of this Apple software constitutes acceptance of these 
  terms.  If you do not agree with these terms, please do not use, install, modify or 
@@ -52,7 +52,7 @@
  
  IN NO EVENT SHALL APPLE BE LIABLE FOR ANY SPECIAL, INDIRECT, INCIDENTAL OR CONSEQUENTIAL 
  DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS 
- OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) ARISING IN ANY WAY OUT OF THE USE, 
+ OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION)ARISING IN ANY WAY OUT OF THE USE, 
  REPRODUCTION, MODIFICATION AND/OR DISTRIBUTION OF THE APPLE SOFTWARE, HOWEVER CAUSED AND 
  WHETHER UNDER THEORY OF CONTRACT, TORT (INCLUDING NEGLIGENCE), STRICT LIABILITY OR 
  OTHERWISE, EVEN IF APPLE HAS BEEN ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
@@ -64,12 +64,12 @@
 
 @interface TreeNodeData : NSObject 
 
-- (NSComparisonResult)compare:(TreeNodeData*)other;
-- (void)setName:(NSString*)name;
-- (NSString*) name;
-- (NSImage*) icon;
-- (NSString*) kind;
-- (BOOL) isExpandable;
+- (NSComparisonResult)compare:(TreeNodeData *)other;
+- (void)setName:(NSString *)name;
+- (NSString *)name;
+- (NSImage *)icon;
+- (NSString *)kind;
+- (BOOL)isExpandable;
 
 @end
 
@@ -87,36 +87,36 @@ typedef enum _TNSortOrder
 	TNSortOrder		sortOrder;
 }
 
-+ (id) treeNodeWithData:(TreeNodeData*)data;
-- (id) initWithData:(TreeNodeData*)data parent:(TreeNode*)parent;
++ (id)treeNodeWithData:(TreeNodeData *)data;
+- (id)initWithData:(TreeNodeData *)data parent:(TreeNode *)parent;
 
-- (void)setNodeData:(TreeNodeData*)data;
-- (TreeNodeData*) nodeData;
+- (void)setNodeData:(TreeNodeData *)data;
+- (TreeNodeData *)nodeData;
 
-- (TreeNode*) nodeParent;
+- (TreeNode *)nodeParent;
 
-- (void)addChild:(TreeNode*)child;
-- (void)addChildren:(NSArray*)children;
-- (void)removeChild:(TreeNode*)child;
+- (void)addChild:(TreeNode *)child;
+- (void)addChildren:(NSArray *)children;
+- (void)removeChild:(TreeNode *)child;
 - (void)removeFromParent;
 
-- (NSInteger) indexOfChild:(TreeNode*)child;
-- (NSInteger) indexOfChildIdenticalTo:(TreeNode*)child;
+- (NSInteger)indexOfChild:(TreeNode *)child;
+- (NSInteger)indexOfChildIdenticalTo:(TreeNode *)child;
 
-- (NSInteger) numberOfChildren;
-- (NSArray*) children;
-- (TreeNode*) firstChild;
-- (TreeNode*) lastChild;
-- (TreeNode*) childAtIndex:(NSInteger)index;
+- (NSInteger)numberOfChildren;
+- (NSArray *)children;
+- (TreeNode *)firstChild;
+- (TreeNode *)lastChild;
+- (TreeNode *)childAtIndex:(NSInteger)index;
 
-- (BOOL) isDescendantOfNode:(TreeNode*)node;
+- (BOOL)isDescendantOfNode:(TreeNode *)node;
     // returns YES if 'node' is an ancestor.
 
-- (BOOL) isDescendantOfNodeInArray:(NSArray*)nodes;
+- (BOOL)isDescendantOfNodeInArray:(NSArray *)nodes;
     // returns YES if any 'node' in the array 'nodes' is an ancestor of ours.
 
 - (void)setSortOrder:(TNSortOrder)order;
-- (TNSortOrder) sortOrder;
+- (TNSortOrder)sortOrder;
 
 - (void)recursiveSortChildren;
     // sort children using the compare: method in TreeNodeData
@@ -124,6 +124,6 @@ typedef enum _TNSortOrder
 // Returns the minimum nodes from 'allNodes' required to cover the nodes in 'allNodes'.
 // This methods returns an array containing nodes from 'allNodes' such that no node in
 // the returned array has an ancestor in the returned array.
-+ (NSArray *) minimumNodeCoverFromNodesInArray:(NSArray *)allNodes;
++ (NSArray *)minimumNodeCoverFromNodesInArray:(NSArray *)allNodes;
 
 @end

@@ -25,9 +25,9 @@
 	//Input file values
 	NSInteger inputWidth;
 	NSInteger inputHeight;
-	float inputFps;
+	CGFloat inputFps;
 	NSInteger inputTotalTime;
-	float inputAspect;
+	CGFloat inputAspect;
 	//inputFormat: 0 = normal; 1 = dv; 2 = mpeg2
 	NSInteger inputFormat;
 
@@ -84,7 +84,7 @@
 
 //Other actions
 - (NSInteger)convertToEven:(NSString *)number;
-- (NSInteger)getPadSize:(float)size withAspect:(NSSize)aspect withTopBars:(BOOL)topBars;
+- (NSInteger)getPadSize:(CGFloat)size withAspect:(NSSize)aspect withTopBars:(BOOL)topBars;
 - (BOOL)remuxMPEG2File:(NSString *)path outPath:(NSString *)outFile;
 - (BOOL)canCombineStreams:(NSString *)path;
 - (BOOL)combineStreams:(NSString *)path atOutputPath:(NSString *)outputPath;

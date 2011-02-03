@@ -14,7 +14,7 @@
 	BOOL userCanceled;
 	NSTask *vcdimager;
 	NSTimer *timer;
-	float totalSize;
+	CGFloat totalSize;
 }
 
 - (NSInteger)createSVCDImage:(NSString *)path withFiles:(NSArray *)files withLabel:(NSString *)label createVCD:(BOOL)VCD hideExtension:(NSNumber *)hide errorString:(NSString **)error;

@@ -10,9 +10,7 @@
 #import "KWTextField.h"
 
 @interface KWDataController (Private)
-
 - (void)_addNewDataToSelection:(TreeNode *)newChild shouldSelect:(BOOL)boolean;
-
 @end
 
 // ================================================================
@@ -68,7 +66,7 @@ static NSString*	EDBCurrentSelection							= @"EDBCurrentSelection";
 		//Root folder of the disc
 		KWDRFolder*	folderObj = [[[KWDRFolder alloc] initWithName:NSLocalizedString(@"Untitled", Localized)] autorelease];
 		//Put our rootfolder in de noteData from our outlineview
-		FSNodeData*	nodeData = [[[FSFolderNodeData alloc] initWithFSObject:folderObj] autorelease];;
+		FSNodeData*	nodeData = [[[FSFolderNodeData alloc] initWithFSObject:folderObj] autorelease];
 		
 		// Set the eplicit mask for the root object. This make sure that all items added to it
 		// get the correct filesystem mask inherited from the root. If we didn't set this here
@@ -95,14 +93,32 @@ static NSString*	EDBCurrentSelection							= @"EDBCurrentSelection";
 
 	//Release our stuff
 	[treeData release];
+	treeData = nil;
+	
 	[temporaryFiles release];
+	temporaryFiles = nil;
+	
 	[lastSelectedItem release];
+	lastSelectedItem = nil;
+	
 	[optionsMappings release];
+	optionsMappings = nil;
+	
 	[mainFilesystems release];
+	mainFilesystems = nil;
 
 	//Release disc properties if needed
 	if (discProperties)
+	{
 		[discProperties release];
+		discProperties = nil;
+	}
+	
+	if (selectedItems)
+	{
+		[selectedItems release];
+		selectedItems = nil;
+	}
 
 	[super dealloc];
 }
@@ -113,18 +129,19 @@ static NSString*	EDBCurrentSelection							= @"EDBCurrentSelection";
 	[iconView setImage:[[NSWorkspace sharedWorkspace] iconForFileType:NSFileTypeForHFSTypeCode(kGenericCDROMIcon)]];
 
 	//Notifications
+	NSNotificationCenter *defaultCenter = [NSNotificationCenter defaultCenter];
 	//Reload the outlineview if need, like when a change has been made in the preferences
-	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reloadOutlineView) name:@"KWReloadRequested" object:nil];
+	[defaultCenter addObserver:outlineView selector:@selector(reloadData) name:@"KWReloadRequested" object:nil];
 	//Used to save the popups when the user selects this option in the preferences
-	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(saveDataPopup:) name:@"KWTogglePopups" object:nil];
+	[defaultCenter addObserver:self selector:@selector(saveDataPopup:) name:@"KWTogglePopups" object:nil];
 	//Prevent files to be dropped when for example a sheet is open
-	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(setOutlineViewState:) name:@"KWSetDropState" object:nil];
+	[defaultCenter addObserver:self selector:@selector(setOutlineViewState:) name:@"KWSetDropState" object:nil];
 	//Updates the Inspector window with the new item selected in the list
-	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(outlineViewSelectionDidChange:) name:@"KWDataListSelected" object:outlineView];
+	[defaultCenter addObserver:self selector:@selector(outlineViewSelectionDidChange:) name:@"KWDataListSelected" object:outlineView];
 	//Updates the Inspector window to show the information about the disc
-	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(volumeLabelSelected:) name:@"KWDiscNameSelected" object:discName];
+	[defaultCenter addObserver:self selector:@selector(volumeLabelSelected:) name:@"KWDiscNameSelected" object:discName];
 	//Change properties variable when disc properties are changed
-	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(discPropertiesChanged:) name:@"KWDiscPropertiesChanged" object:nil];
+	[defaultCenter addObserver:self selector:@selector(discPropertiesChanged:) name:@"KWDiscPropertiesChanged" object:nil];
 
 	//Set advanced sheet file systems
 	[self setupAdvancedSheet];
@@ -138,8 +155,8 @@ static NSString*	EDBCurrentSelection							= @"EDBCurrentSelection";
 		[totalSizeText setHidden:YES];
 
 	//Outline
-	NSTableColumn*		tableColumn = nil;
-	ImageAndTextCell*	imageAndTextCell = nil;
+	NSTableColumn *tableColumn = nil;
+	ImageAndTextCell *imageAndTextCell = nil;
 
 	// Insert custom cell types into the table view, the standard one does text only.
 	// We want one column to have text and images
@@ -149,17 +166,19 @@ static NSString*	EDBCurrentSelection							= @"EDBCurrentSelection";
 	[tableColumn setDataCell:imageAndTextCell];
     	
 	// Register to get our custom type, strings, and filenames.... try dragging each into the view!
-	[outlineView registerForDraggedTypes:[NSArray arrayWithObjects:EDBFileTreeDragPboardType, NSFilenamesPboardType,@"CorePasteboardFlavorType 0x6974756E", nil]];
+	[outlineView registerForDraggedTypes:[NSArray arrayWithObjects:EDBFileTreeDragPboardType, NSFilenamesPboardType, @"CorePasteboardFlavorType 0x6974756E", nil]];
 
 	[outlineView setAllowsColumnReordering:NO];
-
+	
+	#if MAC_OS_X_VERSION_MAX_ALLOWED < 1050
 	if ([KWCommonMethods OSVersion] < 0x1040)
 	{
 		[fileSystemPopup removeItemAtIndex:3];
-		[[advancedCheckboxes cellAtRow:3 column:0] setTitle:NSLocalizedString(@"UDF / ISO9660 (only)",nil)];
+		[[advancedCheckboxes cellAtRow:3 column:0] setTitle:NSLocalizedString(@"UDF / ISO9660 (only)", nil)];
 	}
+	#endif
 
-	[self setTotalSize];
+	[self reloadOutlineView];
 }
 
 //////////////////
@@ -206,8 +225,8 @@ static NSString*	EDBCurrentSelection							= @"EDBCurrentSelection";
 				NSArray *files = [defaultManager directoryContentsAtPath:path];
 				NSMutableArray *fulPaths = [NSMutableArray array];
 				
-				NSInteger i = 0;
-				for (i=0;i<[files count];i++)
+				NSInteger i;
+				for (i = 0; i < [files count]; i ++)
 				{
 					[fulPaths addObject:[path stringByAppendingPathComponent:[files objectAtIndex:i]]];
 				}
@@ -228,11 +247,13 @@ static NSString*	EDBCurrentSelection							= @"EDBCurrentSelection";
 
 - (void)addFiles:(NSArray *)paths removeFiles:(BOOL)remove
 {
+	NSFileManager *defaultManager = [NSFileManager defaultManager];
+
 	if (remove == YES)
 	{
 		[outlineView selectAll:self];
 		[self deleteFiles:self];
-		[[(FSNodeData*)[treeData nodeData] fsObject] setBaseName:[[NSFileManager defaultManager] displayNameAtPath:[[paths objectAtIndex:0] stringByDeletingLastPathComponent]]];
+		[[(FSNodeData*)[treeData nodeData] fsObject] setBaseName:[defaultManager displayNameAtPath:[[paths objectAtIndex:0] stringByDeletingLastPathComponent]]];
 		[self changeBaseName:discName];
 	}
 
@@ -248,9 +269,9 @@ static NSString*	EDBCurrentSelection							= @"EDBCurrentSelection";
 		// create the appropriate KWDRFolder or DRFile object for each path
 		// and put it into a FSNodeData obejct so that the disc hierarchy
 		// outline table can manage it.
-		if ([[NSFileManager defaultManager] fileExistsAtPath:path isDirectory:&isDir])
+		if ([defaultManager fileExistsAtPath:path isDirectory:&isDir])
 		{
-			if ([[NSFileManager defaultManager] fileExistsAtPath:path isDirectory:&isDir] && isDir)
+			if ([defaultManager fileExistsAtPath:path isDirectory:&isDir] && isDir)
 			{
 				KWDRFolder*	folderObj = [[[KWDRFolder alloc] initWithPath:path] autorelease];
 				nodeData = [[FSFolderNodeData alloc] initWithFSObject:folderObj];
@@ -267,10 +288,11 @@ static NSString*	EDBCurrentSelection							= @"EDBCurrentSelection";
 			FSTreeNode*	newNode = [FSTreeNode treeNodeWithData:nodeData];
 			[self _addNewDataToSelection:newNode  shouldSelect:NO];
 			[nodeData release];
+			nodeData = nil;
 		}
 	}
 	
-	[outlineView reloadData];
+	[self reloadOutlineView];
 }
 
 - (IBAction)deleteFiles:(id)sender
@@ -280,11 +302,12 @@ static NSString*	EDBCurrentSelection							= @"EDBCurrentSelection";
 	
 	[outlineView abortEditing];
   
-	NSInteger x;
-	for (x=0;x<[selection count];x++)
+	NSInteger i;
+	for (i = 0; i < [selection count]; i ++)
 	{
 		NSAutoreleasePool *subPool = [[NSAutoreleasePool alloc] init];
-		TreeNode *selectedItem = [selection objectAtIndex:x];
+		
+		TreeNode *selectedItem = [selection objectAtIndex:i];
 	
 		if ([[[NODE_DATA(selectedItem) fsObject] baseName] isEqualTo:@"Icon\r"])
 			[icons addObject:selectedItem];
@@ -292,16 +315,17 @@ static NSString*	EDBCurrentSelection							= @"EDBCurrentSelection";
 			[selectedItem removeFromParent];
 		
 		[subPool release];
+		subPool = nil;
 	}
 	
-	for (x=0;x<[icons count];x++)
+	for (i = 0; i < [icons count]; i ++)
 	{
-		[[icons objectAtIndex:x] removeFromParent];
+		[[icons objectAtIndex:i] removeFromParent];
 	}
 	
 	[selection makeObjectsPerformSelector: @selector(removeFromParent)];
 	[outlineView deselectAll:nil];
-	[outlineView reloadData];
+	[self reloadOutlineView];
 }
 
 - (void)setTotalSize
@@ -315,12 +339,35 @@ static NSString*	EDBCurrentSelection							= @"EDBCurrentSelection";
 	}
 }
 
+- (void)calculateTotalSize
+{
+	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
+
+	if (![totalSizeText isHidden])
+	{
+		KWDRFolder *rootFolder = (KWDRFolder*)[(FSNodeData*)[treeData nodeData] fsObject];
+		DRTrack *track = [DRTrack trackForRootFolder:rootFolder];
+		
+		totalSize = [track estimateLength];
+	
+		[self performSelectorOnMainThread:@selector(setTotalSize) withObject:nil waitUntilDone:NO];
+	}
+	else
+	{
+		totalSize = 0;
+	}
+	
+	[pool release];
+}
+
 - (NSNumber *)totalSize
 {
-	KWDRFolder *rootFolder = (KWDRFolder*)[(FSNodeData*)[treeData nodeData] fsObject];
-	DRTrack *track = [DRTrack trackForRootFolder:rootFolder];
+	return [NSNumber numberWithCGFloat:(CGFloat)totalSize];
 
-	return [NSNumber numberWithFloat:[track estimateLength]];
+	//KWDRFolder *rootFolder = (KWDRFolder*)[(FSNodeData*)[treeData nodeData] fsObject];
+	//DRTrack *track = [DRTrack trackForRootFolder:rootFolder];
+
+	//return [NSNumber numberWithCGFloat:[track estimateLength]];
 }
 
 - (void)updateFileSystem
@@ -351,7 +398,7 @@ static NSString*	EDBCurrentSelection							= @"EDBCurrentSelection";
 		else
 		{
 			NSInteger i;
-			for (i=0;i<[advancedCheckboxes numberOfRows] - 1;i++)
+			for (i = 0; i < [advancedCheckboxes numberOfRows] - 1; i ++)
 			{
 				NSNumber *filesystemMask = [advancedFilesystems objectAtIndex:i];
 				id control = [advancedCheckboxes cellAtRow:i column:0];
@@ -389,6 +436,8 @@ static NSString*	EDBCurrentSelection							= @"EDBCurrentSelection";
 	}
 	else
 	{
+		NSNotificationCenter *defaultCenter = [NSNotificationCenter defaultCenter];
+		NSUserDefaults *standardDefaults = [NSUserDefaults standardUserDefaults];
 		KWDRFolder *rootFolder = (KWDRFolder*)[(FSNodeData*)[treeData nodeData] fsObject];
 		
 		if (![[discName stringValue] isEqualTo:[rootFolder baseName]])
@@ -397,10 +446,10 @@ static NSString*	EDBCurrentSelection							= @"EDBCurrentSelection";
 		[self updateFileSystem];
 		[self reloadOutlineView];
 	
-		if ([[NSUserDefaults standardUserDefaults] boolForKey:@"KWRememberPopups"] == YES)
+		if ([standardDefaults boolForKey:@"KWRememberPopups"] == YES)
 			[self saveDataPopup:self];
 	
-		[totalSizeText setHidden:![[NSUserDefaults standardUserDefaults] boolForKey:@"KWCalculateTotalSize"]];
+		[totalSizeText setHidden:![standardDefaults boolForKey:@"KWCalculateTotalSize"]];
 
 		if (outlineView == [mainWindow firstResponder])
 		{
@@ -409,9 +458,9 @@ static NSString*	EDBCurrentSelection							= @"EDBCurrentSelection";
 		else
 		{
 			if ([self isCompatible])
-				[[NSNotificationCenter defaultCenter] postNotificationName:@"KWChangeInspector" object:[(FSNodeData*)[treeData nodeData] fsObject] userInfo:[NSDictionary dictionaryWithObjectsAndKeys:@"KWDataDisc",@"Type",nil]];
+				[defaultCenter postNotificationName:@"KWChangeInspector" object:[(FSNodeData*)[treeData nodeData] fsObject] userInfo:[NSDictionary dictionaryWithObjectsAndKeys:@"KWDataDisc", @"Type", nil]];
 			else
-				[[NSNotificationCenter defaultCenter] postNotificationName:@"KWChangeInspector" object:nil userInfo:[NSDictionary dictionaryWithObjectsAndKeys:@"KWEmpty",@"Type",nil]];
+				[defaultCenter postNotificationName:@"KWChangeInspector" object:nil userInfo:[NSDictionary dictionaryWithObjectsAndKeys:@"KWEmpty", @"Type", nil]];
 		}
 	
 		lastSelectedItem = [[fileSystemPopup title] retain];
@@ -427,7 +476,7 @@ static NSString*	EDBCurrentSelection							= @"EDBCurrentSelection";
 		NSMutableArray *saveFilesystems = [NSMutableArray array];
 	
 		NSInteger i;
-		for (i=0;i<[advancedCheckboxes numberOfRows];i++)
+		for (i = 0; i < [advancedCheckboxes numberOfRows]; i ++)
 		{
 			NSNumber *filesystemMask = [advancedFilesystems objectAtIndex:i];
 			id control = [advancedCheckboxes cellAtRow:i column:0];
@@ -449,26 +498,30 @@ static NSString*	EDBCurrentSelection							= @"EDBCurrentSelection";
 
 - (IBAction)changeBaseName:(id)sender
 {
+	NSNotificationCenter *defaultCenter = [NSNotificationCenter defaultCenter];
+	
 	KWDRFolder *rootFolder = (KWDRFolder*)[(FSNodeData*)[treeData nodeData] fsObject];
+	NSString *stringValue = [sender stringValue];
+	NSString *baseName = [rootFolder baseName];
 
 	if ([rootFolder explicitFilesystemMask] == DRFilesystemInclusionMaskISO9660)
 	{
-		if (![[[sender stringValue] lowercaseString] isEqualTo:[[rootFolder baseName] lowercaseString]])
+		if (![[stringValue lowercaseString] isEqualTo:[baseName lowercaseString]])
 		{
-			[rootFolder setBaseName:[sender stringValue]];
+			[rootFolder setBaseName:stringValue];
 			[sender setStringValue:[rootFolder mangledNameForFilesystem:DRISO9660LevelTwo]];
 		}
 	}
 	else
 	{
-		if (![[sender stringValue] isEqualTo:[rootFolder baseName]])
-			[rootFolder setBaseName:[sender stringValue]];
+		if (![stringValue isEqualTo:baseName])
+			[rootFolder setBaseName:stringValue];
 	}
-	
+
 	if ([self isCompatible])
-		[[NSNotificationCenter defaultCenter] postNotificationName:@"KWChangeInspector" object:[(FSNodeData*)[treeData nodeData] fsObject] userInfo:[NSDictionary dictionaryWithObjectsAndKeys:@"KWDataDisc",@"Type",nil]];
+		[defaultCenter postNotificationName:@"KWChangeInspector" object:[(FSNodeData*)[treeData nodeData] fsObject] userInfo:[NSDictionary dictionaryWithObjectsAndKeys:@"KWDataDisc",@"Type",nil]];
 	else
-		[[NSNotificationCenter defaultCenter] postNotificationName:@"KWChangeInspector" object:nil userInfo:[NSDictionary dictionaryWithObjectsAndKeys:@"KWEmpty",@"Type",nil]];
+		[defaultCenter postNotificationName:@"KWChangeInspector" object:nil userInfo:[NSDictionary dictionaryWithObjectsAndKeys:@"KWEmpty",@"Type",nil]];
 }
 
 /////////////////////////
@@ -482,10 +535,10 @@ static NSString*	EDBCurrentSelection							= @"EDBCurrentSelection";
 - (IBAction)accessOptions:(id)sender
 {
 	//Setup options menu
-	NSInteger i = 0;
-	for (i=0;i<[optionsPopup numberOfItems]-1;i++)
+	NSInteger i;
+	for (i = 0; i < [optionsPopup numberOfItems] - 1; i ++)
 	{
-		[[optionsPopup itemAtIndex:i+1] setState:[[[NSUserDefaults standardUserDefaults] objectForKey:[optionsMappings objectAtIndex:i]] intValue]];
+		[[optionsPopup itemAtIndex:i + 1] setState:[[[NSUserDefaults standardUserDefaults] objectForKey:[optionsMappings objectAtIndex:i]] intValue]];
 	}
 
 	[optionsPopup performClick:self];
@@ -493,12 +546,15 @@ static NSString*	EDBCurrentSelection							= @"EDBCurrentSelection";
 
 - (IBAction)setOption:(id)sender
 {
-	[[NSUserDefaults standardUserDefaults] setBool:([sender state] == NSOffState) forKey:[optionsMappings objectAtIndex:[optionsPopup indexOfItem:sender] - 1]];
+	NSInteger index = [optionsPopup indexOfItem:sender];
+	NSInteger state = [sender state];
 
-	if ([optionsPopup indexOfItem:sender] == 4)
-		[totalSizeText setHidden:([sender state] == NSOnState)];
-	else
-		[self reloadOutlineView];
+	[[NSUserDefaults standardUserDefaults] setBool:(state == NSOffState) forKey:[optionsMappings objectAtIndex:index - 1]];
+
+	if (index == 4)
+		[totalSizeText setHidden:(state == NSOnState)];
+
+	[self reloadOutlineView];
 }
 
 //////////////////////////////
@@ -510,7 +566,7 @@ static NSString*	EDBCurrentSelection							= @"EDBCurrentSelection";
 
 - (IBAction)newVirtualFolder:(id)sender 
 {	
-	KWDRFolder*	folderObj = [[[KWDRFolder alloc] initWithName:NSLocalizedString(@"Untitled Folder",nil)] autorelease];
+	KWDRFolder*	folderObj = [[[KWDRFolder alloc] initWithName:NSLocalizedString(@"Untitled Folder", nil)] autorelease];
 	[folderObj setFolderSize:[NSString localizedStringWithFormat:NSLocalizedString(@"%.0f KB", nil), 0]];
 	
 	id nodeData = [[FSFolderNodeData alloc] initWithFSObject:folderObj];
@@ -531,7 +587,8 @@ static NSString*	EDBCurrentSelection							= @"EDBCurrentSelection";
 		FSTreeNode*	newNode = [FSTreeNode treeNodeWithData:nodeData];
 		[self _addNewDataToSelection:newNode shouldSelect:YES];
 		[nodeData release];
-			
+		nodeData = nil;
+		
 		[outlineView collapseItem:[outlineView itemAtRow:[outlineView selectedRow]]];
 		[outlineView editColumn:0 row:[outlineView selectedRow] withEvent:nil select:YES];
 	}
@@ -551,8 +608,8 @@ static NSString*	EDBCurrentSelection							= @"EDBCurrentSelection";
 	BOOL jolietLong = [[advancedCheckboxes cellAtRow:5 column:0] state] == NSOnState;
 	BOOL oneSelected = NO;
 	
-	NSInteger i = 0;
-	for (i=0;i<[advancedCheckboxes numberOfRows];i++)
+	NSInteger i;
+	for (i = 0; i < [advancedCheckboxes numberOfRows]; i ++)
 	{
 		id control = [advancedCheckboxes cellAtRow:i column:0];
 		
@@ -584,8 +641,8 @@ static NSString*	EDBCurrentSelection							= @"EDBCurrentSelection";
 	//Set advanced sheet file systems
 	NSArray *sheetFilesystems = [[NSUserDefaults standardUserDefaults] objectForKey:@"KWAdvancedFilesystems"];
 	
-	NSInteger i = 0;
-	for (i=0;i<[advancedCheckboxes numberOfRows];i++)
+	NSInteger i;
+	for (i = 0; i < [advancedCheckboxes numberOfRows]; i ++)
 	{
 		id control = [advancedCheckboxes cellAtRow:i column:0];
 		NSNumber *filesystemMask = [advancedFilesystems objectAtIndex:i];
@@ -629,10 +686,10 @@ static NSString*	EDBCurrentSelection							= @"EDBCurrentSelection";
 			[temporaryFiles addObject:outputFolder];
 			
 			if (![KWCommonMethods createDirectoryAtPath:outputFolder errorString:&*error])
-				return [NSNumber numberWithInt:1];
+				return [NSNumber numberWithInteger:1];
 			
 			if (![self createVirtualFolder:[SAFENODE(treeData) children] atPath:outputFolder errorString:&*error])
-				return [NSNumber numberWithInt:1];
+				return [NSNumber numberWithInteger:1];
 			
 			NSInteger type = 2;
 			
@@ -646,7 +703,7 @@ static NSString*	EDBCurrentSelection							= @"EDBCurrentSelection";
 		}
 		else
 		{
-			return [NSNumber numberWithInt:2];
+			return [NSNumber numberWithInteger:2];
 		}
 	}
 
@@ -717,8 +774,10 @@ static NSString*	EDBCurrentSelection							= @"EDBCurrentSelection";
 						#if MAC_OS_X_VERSION_MAX_ALLOWED >= MAC_OS_X_VERSION_10_4
 						if ([[[file stringByAppendingPathComponent:pathName] lastPathComponent] isEqualTo:@"Icon\r"])
 						{
+							#if MAC_OS_X_VERSION_MAX_ALLOWED < 1050
 							if ([KWCommonMethods OSVersion] >= 0x1040)
-								[[NSWorkspace sharedWorkspace] setIcon:[[NSWorkspace sharedWorkspace] iconForFile:[[file stringByAppendingPathComponent:pathName] stringByDeletingLastPathComponent]] forFile:[[path stringByAppendingPathComponent:[[file lastPathComponent] stringByAppendingPathComponent:pathName]] stringByDeletingLastPathComponent] options:1 << 2];
+							#endif
+							[[NSWorkspace sharedWorkspace] setIcon:[[NSWorkspace sharedWorkspace] iconForFile:[[file stringByAppendingPathComponent:pathName] stringByDeletingLastPathComponent]] forFile:[[path stringByAppendingPathComponent:[[file lastPathComponent] stringByAppendingPathComponent:pathName]] stringByDeletingLastPathComponent] options:1 << 2];
 						}
 						#endif
 					}
@@ -764,7 +823,7 @@ static NSString*	EDBCurrentSelection							= @"EDBCurrentSelection";
 	NSArray *rowSelection = [outlineView allSelectedItems];
 	[rowSelection makeObjectsPerformSelector: @selector(removeFromParent)];
 	[outlineView deselectAll:nil];
-	[outlineView reloadData];
+	[self reloadOutlineView];
 
 	NSDictionary *properties = [[savedDictionary objectForKey:@"Properties"] objectForKey:@"Disc Properties"];
 	if (properties)
@@ -781,39 +840,46 @@ static NSString*	EDBCurrentSelection							= @"EDBCurrentSelection";
 	
 	loadingBurnFile = NO;
 	
-	[self setTotalSize];
+	[self reloadOutlineView];
 }
 
 - (void)loadOutlineItems:(NSArray *)ar originalArray:(NSArray *)orAr
 {
 	loadingBurnFile = YES;
 	
+	NSFileManager *defaultManager = [NSFileManager defaultManager];
+	
 	NSMutableArray *subFolders = [[NSMutableArray alloc] init];
 	NSMutableArray *virtualFolders = [[NSMutableArray alloc] init];
 	NSIndexSet *selectedItem;
 
-	NSInteger i = 0;
-	for (i=0;i<[ar count];i++)
+	NSInteger i;
+	for (i = 0; i < [ar count]; i ++)
 	{
-		if ([[[ar objectAtIndex:i] objectForKey:@"Path"] isEqualTo:@"isVirtual"])
+		NSAutoreleasePool *subpool = [[NSAutoreleasePool alloc] init];
+		
+		NSDictionary *object = [ar objectAtIndex:i];
+		NSString *path = [object objectForKey:@"Path"];
+	
+		if ([path isEqualTo:@"isVirtual"])
 		{
-			[virtualFolders addObject:[ar objectAtIndex:i]];
+			[virtualFolders addObject:object];
 		}
-		else if ([[NSFileManager defaultManager] fileExistsAtPath:[[ar objectAtIndex:i] objectForKey:@"Path"]])
+		else if ([defaultManager fileExistsAtPath:path])
 		{
 			BOOL isDir;
 			id newData = nil;
 		
-			if ([[NSFileManager defaultManager] fileExistsAtPath:[[ar objectAtIndex:i] objectForKey:@"Path"] isDirectory:&isDir] && isDir)
+			if ([defaultManager fileExistsAtPath:path isDirectory:&isDir] && isDir)
 			{
-				KWDRFolder*	realFolder = [[[KWDRFolder alloc] initWithPath:[[ar objectAtIndex:i] objectForKey:@"Path"]] autorelease];
-				[self setPropertiesFor:realFolder fromDictionary:[ar objectAtIndex:i]];
+				KWDRFolder*	realFolder = [[[KWDRFolder alloc] initWithPath:path] autorelease];
+				[self setPropertiesFor:realFolder fromDictionary:object];
 				newData = [[FSFolderNodeData alloc] initWithFSObject:realFolder];
 			}
 			else
 			{
-				DRFile*	fileObj = [DRFile fileWithPath:[[ar objectAtIndex:i] objectForKey:@"Path"]];
-				[self setPropertiesFor:fileObj fromDictionary:[ar objectAtIndex:i]];
+				DRFile*	fileObj = [DRFile fileWithPath:path];
+				[self setPropertiesFor:fileObj fromDictionary:object];
 				[(FSNodeData*)[treeData nodeData] fsObject];
 
 				if ([[fileObj baseName] isEqualTo:@".VolumeIcon.icns"])
@@ -830,15 +896,24 @@ static NSString*	EDBCurrentSelection							= @"EDBCurrentSelection";
 				newData = nil;
 			}
 		}
+		
+		[subpool release];
+		subpool = nil;
 	}
 	
 	selectedItem = [NSIndexSet indexSetWithIndex:[outlineView selectedRow]];
-	for (i=0;i<[virtualFolders count];i++)
+	for (i = 0; i < [virtualFolders count]; i ++)
 	{
+		NSAutoreleasePool *subpool = [[NSAutoreleasePool alloc] init];
+		
+		NSDictionary *object = [virtualFolders objectAtIndex:i];
+		NSArray *entries = [object objectForKey:@"Entries"];
+		NSString *path = [object objectForKey:@"Path"];
+	
 		[outlineView selectRowIndexes:selectedItem byExtendingSelection:NO];
 		[subFolders removeAllObjects];
 
-		KWDRFolder*	folderObj = [[[KWDRFolder alloc] initWithName:[[virtualFolders objectAtIndex:i] objectForKey:@"Group"]] autorelease];
+		KWDRFolder*	folderObj = [[[KWDRFolder alloc] initWithName:[object objectForKey:@"Group"]] autorelease];
 	
 		id nodeData = [[FSFolderNodeData alloc] initWithFSObject:[folderObj retain]];
 		
@@ -849,31 +924,32 @@ static NSString*	EDBCurrentSelection							= @"EDBCurrentSelection";
 			[self _addNewDataToSelection:newNode shouldSelect:YES];
 			[nodeData release];
 
-			[self setPropertiesFor:folderObj fromDictionary:[virtualFolders objectAtIndex:i]];
+			[self setPropertiesFor:folderObj fromDictionary:object];
 		}
 				
-		if ([[virtualFolders objectAtIndex:i] objectForKey:@"Entries"])
+		if (entries)
 		{
 			NSInteger x;
-			NSArray *entries = [[virtualFolders objectAtIndex:i] objectForKey:@"Entries"];
-			for (x=0;x<[entries count];x++)
+			for (x = 0; x < [entries count]; x ++)
 			{
-				if (![[[entries objectAtIndex:x] objectForKey:@"Path"] isEqualTo:@"isVirtual"])
+				NSAutoreleasePool *subsubpool = [[NSAutoreleasePool alloc] init];
+			
+				if (![path isEqualTo:@"isVirtual"])
 				{
 					BOOL isDir;
 					id newData = nil;
-					if ([[NSFileManager defaultManager] fileExistsAtPath:[[entries objectAtIndex:x] objectForKey:@"Path"] isDirectory:&isDir])
+					if ([defaultManager fileExistsAtPath:path isDirectory:&isDir])
 					{
-						if ([[NSFileManager defaultManager] fileExistsAtPath:[[entries objectAtIndex:x] objectForKey:@"Path"] isDirectory:&isDir] && isDir)
+						if ([defaultManager fileExistsAtPath:path isDirectory:&isDir] && isDir)
 						{
-							KWDRFolder*	realFolder = [[[KWDRFolder alloc] initWithPath:[[entries objectAtIndex:x] objectForKey:@"Path"]] autorelease];
-							[self setPropertiesFor:realFolder fromDictionary:[entries objectAtIndex:x]];
+							KWDRFolder*	realFolder = [[[KWDRFolder alloc] initWithPath:path] autorelease];
+							[self setPropertiesFor:realFolder fromDictionary:object];
 							newData = [[FSFolderNodeData alloc] initWithFSObject:realFolder];
 						}
 						else
 						{
-							DRFile*	fileObj = [DRFile fileWithPath:[[entries objectAtIndex:x] objectForKey:@"Path"]];
-							[self setPropertiesFor:fileObj fromDictionary:[entries objectAtIndex:x]];
+							DRFile*	fileObj = [DRFile fileWithPath:path];
+							[self setPropertiesFor:fileObj fromDictionary:object];
 							newData = [[FSFileNodeData alloc] initWithFSObject:fileObj];
 						}
 						
@@ -881,6 +957,7 @@ static NSString*	EDBCurrentSelection							= @"EDBCurrentSelection";
 						{
 							FSTreeNode*	newNode = [FSTreeNode treeNodeWithData:newData];
 							[self _addNewDataToSelection:newNode shouldSelect:NO];
+							
 							[newData release];
 							newData = nil;
 						}
@@ -888,9 +965,15 @@ static NSString*	EDBCurrentSelection							= @"EDBCurrentSelection";
 				}
 				else
 				{
-					[subFolders addObject:[entries objectAtIndex:x]];
+					[subFolders addObject:object];
 				}
+				
+				[subsubpool release];
+				subsubpool = nil;
 			}
+			
+			[subpool release];
+			subpool = nil;
 		}
 		
 		if ([subFolders count] > 0)
@@ -899,11 +982,11 @@ static NSString*	EDBCurrentSelection							= @"EDBCurrentSelection";
 		}
 		else
 		{
-			NSInteger y;
-			for (y=0;y<[outlineView numberOfRows];y++)
+			for (i = 0; i < [outlineView numberOfRows]; i ++)
 			{
-				if ([[NODE_DATA([outlineView itemAtRow:y]) fsObject] isVirtual] && [(KWDRFolder *)[NODE_DATA([outlineView itemAtRow:y]) fsObject] isExpanded])
-					[outlineView collapseItem:[outlineView itemAtRow:y] collapseChildren:YES];
+				id item = [outlineView itemAtRow:i];
+				if ([[NODE_DATA(item) fsObject] isVirtual] && [(KWDRFolder *)[NODE_DATA(item) fsObject] isExpanded])
+					[outlineView collapseItem:item collapseChildren:YES];
 			}
 			
 			[outlineView deselectAll:self];
@@ -911,7 +994,10 @@ static NSString*	EDBCurrentSelection							= @"EDBCurrentSelection";
 	}
 
 	[subFolders release];
+	subFolders = nil;
+	
 	[virtualFolders release];
+	virtualFolders = nil;
 }
 
 - (void)saveDocument:(id)sender
@@ -932,15 +1018,16 @@ static NSString*	EDBCurrentSelection							= @"EDBCurrentSelection";
 	{
 		NSDictionary *burnFile = [self getSaveDictionary];
 		NSString *errorString;
+		NSString *filename = [sheet filename];
 		
-		if ([KWCommonMethods writeDictionary:burnFile toFile:[sheet filename] errorString:&errorString])
+		if ([KWCommonMethods writeDictionary:burnFile toFile:filename errorString:&errorString])
 		{	
 			if ([sheet isExtensionHidden])
-				[[NSFileManager defaultManager] changeFileAttributes:[NSDictionary dictionaryWithObject:[NSNumber numberWithBool:YES] forKey:@"NSFileExtensionHidden"] atPath:[sheet filename]];
+				[[NSFileManager defaultManager] changeFileAttributes:[NSDictionary dictionaryWithObject:[NSNumber numberWithBool:YES] forKey:@"NSFileExtensionHidden"] atPath:filename];
 		}
 		else
 		{
-			[KWCommonMethods standardAlertWithMessageText:NSLocalizedString(@"Failed to save Burn file",nil) withInformationText:errorString withParentWindow:mainWindow];
+			[KWCommonMethods standardAlertWithMessageText:NSLocalizedString(@"Failed to save Burn file", nil) withInformationText:errorString withParentWindow:mainWindow];
 		}
 	}
 }
@@ -969,10 +1056,10 @@ static NSString*	EDBCurrentSelection							= @"EDBCurrentSelection";
 		[newProperties setObject:tempDict forKey:@"Disc Properties"];
 	}
 
-	NSDictionary *burnFileProperties = [NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:[discName stringValue],[NSDictionary dictionaryWithDictionary:newProperties],[self getFileArray:[(DRFolder *)[(FSNodeData*)[treeData nodeData] fsObject] children]],nil] forKeys:[NSArray arrayWithObjects:@"Name",@"Properties",@"Files",nil]];
+	NSDictionary *burnFileProperties = [NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:[discName stringValue], [NSDictionary dictionaryWithDictionary:newProperties], [self getFileArray:[(DRFolder *)[(FSNodeData*)[treeData nodeData] fsObject] children]], nil] forKeys:[NSArray arrayWithObjects:@"Name", @"Properties", @"Files", nil]];
 	NSArray *sheetFilesystems = [[NSUserDefaults standardUserDefaults] objectForKey:@"KWAdvancedFilesystems"];
 	
-	return [NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:[NSNumber numberWithInt:0],[fileSystemPopup objectValue],sheetFilesystems,burnFileProperties,nil] forKeys:[NSArray arrayWithObjects:@"KWType",@"KWSubType",@"KWDataTypes",@"KWProperties",nil]];
+	return [NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:[NSNumber numberWithInteger:0], [fileSystemPopup objectValue], sheetFilesystems, burnFileProperties, nil] forKeys:[NSArray arrayWithObjects:@"KWType", @"KWSubType", @"KWDataTypes", @"KWProperties", nil]];
 }
 
 //Make a array with the files
@@ -984,15 +1071,19 @@ static NSString*	EDBCurrentSelection							= @"EDBCurrentSelection";
 	
 	while (item = [itemEnum nextObject]) 
 	{
-		NSMutableDictionary *subDict = [[NSMutableDictionary alloc] init];
-		[subDict setObject:[item baseName] forKey:@"Base Name"];
+		NSAutoreleasePool *subpool = [[NSAutoreleasePool alloc] init];
+	
+		NSMutableDictionary *subDict = [NSMutableDictionary dictionary];
+		NSString *baseName =[item baseName];
+		
+		[subDict setObject:baseName forKey:@"Base Name"];
 	
        if ([item isVirtual]) 
 	   {
 			NSArray *children = [item children];
 			NSArray *subArray = [NSArray arrayWithArray:[self getFileArray:children]];
 		
-			[subDict setObject:[item baseName] forKey:@"Group"];
+			[subDict setObject:baseName forKey:@"Group"];
 			[subDict setObject:@"isVirtual" forKey:@"Path"];
 			[subDict setObject:subArray forKey:@"Entries"];
 			[subDict setObject:[NSNumber numberWithBool:[(KWDRFolder *)item isExpanded]] forKey:@"Expanded"];
@@ -1004,7 +1095,9 @@ static NSString*	EDBCurrentSelection							= @"EDBCurrentSelection";
 		
 		[subDict addEntriesFromDictionary:[self saveDictionaryForObject:item]];
 		[itemsArray addObject:subDict];
-		[subDict release];
+		
+		[subpool release];
+		subpool = nil;
 	}
 
 	return [itemsArray autorelease];
@@ -1013,7 +1106,7 @@ static NSString*	EDBCurrentSelection							= @"EDBCurrentSelection";
 - (NSDictionary *)saveDictionaryForObject:(DRFSObject *)object
 {
 	NSMutableDictionary *subDict = [NSMutableDictionary dictionary];
-
+	
 	[subDict setObject:[object propertiesForFilesystem:DRHFSPlus mergeWithOtherFilesystems:NO] forKey:@"HFSProperties"];
 	[subDict setObject:[object propertiesForFilesystem:DRISO9660 mergeWithOtherFilesystems:NO] forKey:@"ISOProperties"];
 	[subDict setObject:[object propertiesForFilesystem:DRJoliet mergeWithOtherFilesystems:NO] forKey:@"JolietProperties"];
@@ -1028,12 +1121,14 @@ static NSString*	EDBCurrentSelection							= @"EDBCurrentSelection";
 	[subDict setObject:[NSNumber numberWithBool:([object effectiveFilesystemMask] & DRFilesystemInclusionMaskISO9660)] forKey:@"ISOEnabled"];
 	[subDict setObject:[NSNumber numberWithBool:([object effectiveFilesystemMask] & DRFilesystemInclusionMaskJoliet)] forKey:@"JolietEnabled"];	
 	
-	NSString *fileSystem;
+	#if MAC_OS_X_VERSION_MAX_ALLOWED < 1050
+	NSString *fileSystem = DRJoliet;
 	
 	if ([KWCommonMethods OSVersion] >= 0x1040)
 		fileSystem = @"DRUDF";
-	else
-		fileSystem = DRJoliet;
+	#else
+		fileSystem = DRUDF;
+	#endif
 	
 	[subDict setObject:[object propertiesForFilesystem:fileSystem mergeWithOtherFilesystems:NO] forKey:@"UDFProperties"];
 	[subDict setObject:[object specificNameForFilesystem:fileSystem] forKey:@"UDFSpecificName"];
@@ -1112,9 +1207,14 @@ static NSString*	EDBCurrentSelection							= @"EDBCurrentSelection";
 - (BOOL)isCompatible
 {
 	KWDRFolder *rootFolder = (KWDRFolder*)[(FSNodeData*)[treeData nodeData] fsObject];
-
+	
+	#if MAC_OS_X_VERSION_MAX_ALLOWED < 1050
 	if (([rootFolder explicitFilesystemMask] == 1<<2 && [KWCommonMethods OSVersion] < 0x1040) | [rootFolder explicitFilesystemMask] == 1<<4 | [rootFolder explicitFilesystemMask] == 1<<5)
 		return NO;
+	#else
+	if ([rootFolder explicitFilesystemMask] == 1<<4 | [rootFolder explicitFilesystemMask] == 1<<5)
+		return NO;
+	#endif
 	
 	return YES;
 }
@@ -1131,12 +1231,12 @@ static NSString*	EDBCurrentSelection							= @"EDBCurrentSelection";
 	return ([rootFolder explicitFilesystemMask] == DRFilesystemInclusionMaskHFSPlus);
 }
 
-- (void)deleteTemporayFiles:(BOOL)needed
+- (void)deleteTemporayFiles:(NSNumber *)needed
 {
-	if (needed)
+	if ([needed boolValue])
 	{
 		NSInteger i;
-		for (i=0;i<[temporaryFiles count];i++)
+		for (i = 0; i < [temporaryFiles count]; i ++)
 		{
 			[KWCommonMethods removeItemAtPath:[temporaryFiles objectAtIndex:i]];
 		}
@@ -1161,7 +1261,7 @@ static NSString*	EDBCurrentSelection							= @"EDBCurrentSelection";
 			[discName setStringValue:[nameString substringWithRange:NSMakeRange(0, maxCharacters)]];
 	}
 
-	if (![[[discName stringValue] lowercaseString] isEqualTo:[oldName lowercaseString]])
+	if (![[nameString lowercaseString] isEqualTo:[oldName lowercaseString]])
 		NSBeep();
 }
 
@@ -1179,44 +1279,63 @@ static NSString*	EDBCurrentSelection							= @"EDBCurrentSelection";
 
 - (void)volumeLabelSelected:(NSNotification *)notif
 {
-	[self updateFileSystem];
+	NSNotificationCenter *defaultCenter = [NSNotificationCenter defaultCenter];
 
+	[self updateFileSystem];
+	
 	if ([self isCompatible])
-		[[NSNotificationCenter defaultCenter] postNotificationName:@"KWChangeInspector" object:[(FSNodeData*)[treeData nodeData] fsObject] userInfo:[NSDictionary dictionaryWithObjectsAndKeys:@"KWDataDisc",@"Type",nil]];
+		[defaultCenter postNotificationName:@"KWChangeInspector" object:[(FSNodeData*)[treeData nodeData] fsObject] userInfo:[NSDictionary dictionaryWithObjectsAndKeys:@"KWDataDisc",@"Type",nil]];
 	else
-		[[NSNotificationCenter defaultCenter] postNotificationName:@"KWChangeInspector" object:nil userInfo:[NSDictionary dictionaryWithObjectsAndKeys:@"KWEmpty",@"Type",nil]];
+		[defaultCenter postNotificationName:@"KWChangeInspector" object:nil userInfo:[NSDictionary dictionaryWithObjectsAndKeys:@"KWEmpty",@"Type",nil]];
 }
 
 - (void)outlineViewSelectionDidChange:(NSNotification *)notification
 {
+	NSNotificationCenter *defaultCenter = [NSNotificationCenter defaultCenter];
+
 	NSArray* selectedNodes = [outlineView allSelectedItems];
 	TreeNode* selectedNode = ([selectedNodes count] ? [selectedNodes objectAtIndex:0] : treeData);
+	
+	NSString *kind = @"KWEmpty";
+	id object = nil;
 
 	if ([self isCompatible])
 	{
 		if (selectedNode == treeData)
-			[[NSNotificationCenter defaultCenter] postNotificationName:@"KWChangeInspector" object:[(FSNodeData*)[treeData nodeData] fsObject] userInfo:[NSDictionary dictionaryWithObjectsAndKeys:@"KWDataDisc",@"Type",nil]];
+		{
+			kind = @"KWDataDisc";
+			object = [(FSNodeData*)[treeData nodeData] fsObject];
+		}
 		else
-			[[NSNotificationCenter defaultCenter] postNotificationName:@"KWChangeInspector" object:[[self selectedDRFSObjects] retain] userInfo:[NSDictionary dictionaryWithObjectsAndKeys:@"KWData" ,@"Type",nil]];
+		{
+			if (selectedItems)
+			{
+				[selectedItems release];
+				selectedItems = nil;
+			}
+			
+			selectedItems = [[self selectedDRFSObjects] retain];
+		
+			kind = @"KWData";
+			object = selectedItems;
+		}
 	}
-	else
-	{
-		[[NSNotificationCenter defaultCenter] postNotificationName:@"KWChangeInspector" object:nil userInfo:[NSDictionary dictionaryWithObjectsAndKeys:@"KWEmpty",@"Type",nil]];
-	}
+
+	[defaultCenter postNotificationName:@"KWChangeInspector" object:object userInfo:[NSDictionary dictionaryWithObjectsAndKeys:kind, @"Type", nil]];
 }
 
 - (NSArray *)selectedDRFSObjects
 {
 	NSArray* selectedNodes = [outlineView allSelectedItems];
-	NSMutableArray *objects = [NSMutableArray array];
+	NSMutableArray *objects = [[NSMutableArray alloc] init];
 
-	NSInteger x;
-	for (x=0;x<[selectedNodes count];x++)
+	NSInteger i;
+	for (i = 0; i < [selectedNodes count]; i ++)
 	{
-		[objects addObject:[NODE_DATA((TreeNode *)[selectedNodes objectAtIndex:x]) fsObject]];
+		[objects addObject:[NODE_DATA((TreeNode *)[selectedNodes objectAtIndex:i]) fsObject]];
 	}
 
-	return objects;
+	return [objects autorelease];
 }
 
 /////////////////////
@@ -1229,12 +1348,14 @@ static NSString*	EDBCurrentSelection							= @"EDBCurrentSelection";
 - (void)reloadOutlineView
 {
 	[outlineView performSelectorOnMainThread:@selector(reloadData) withObject:nil waitUntilDone:YES];
+	
+	[NSThread detachNewThreadSelector:@selector(calculateTotalSize) toTarget:self withObject:nil];
 }
 
 - (void)setOutlineViewState:(NSNotification *)notif
 {
 	if ([[notif object] boolValue] == YES)
-		[outlineView registerForDraggedTypes:[NSArray arrayWithObjects:EDBFileTreeDragPboardType, NSFilenamesPboardType,@"CorePasteboardFlavorType 0x6974756E", nil]];
+		[outlineView registerForDraggedTypes:[NSArray arrayWithObjects:EDBFileTreeDragPboardType, NSFilenamesPboardType, @"CorePasteboardFlavorType 0x6974756E", nil]];
 	else
 		[outlineView unregisterDraggedTypes];
 }
@@ -1288,7 +1409,7 @@ static NSString*	EDBCurrentSelection							= @"EDBCurrentSelection";
 // it's about to be expanded.
 - (void)outlineViewItemWillExpand:(NSNotification *)notification;
 {
-	id	item = SAFENODE([[notification userInfo] objectForKey:@"NSObject"]);
+	id item = SAFENODE([[notification userInfo] objectForKey:@"NSObject"]);
 	[item children];
 	[(KWDRFolder *)[NODE_DATA(item) fsObject] setExpanded:YES];
 }
@@ -1315,7 +1436,7 @@ static NSString*	EDBCurrentSelection							= @"EDBCurrentSelection";
 	[pboard setData:[NSData data] forType:EDBFileTreeDragPboardType]; 
 
 	// Put string data on the pboard... notice you can drag into TextEdit!
-	[pboard setString:[draggedNodes description] forType: NSStringPboardType];
+	[pboard setString:[draggedNodes description] forType:NSStringPboardType];
 
 	return YES;
 }
@@ -1355,14 +1476,14 @@ static NSString*	EDBCurrentSelection							= @"EDBCurrentSelection";
 - (void)_performDropOperation:(id <NSDraggingInfo>)info ontoItem:(TreeNode*)parent 
 {
     // Helper method to insert dropped data into the model. 
-    NSPasteboard*	pboard = [info draggingPasteboard];
-    NSMutableArray*	itemsToSelect = nil;
+    NSPasteboard *pboard = [info draggingPasteboard];
+    NSMutableArray *itemsToSelect = nil;
     
     // Do the appropriate thing depending on whether the data is EDBFileTreeDragPboardType or NSStringPboardType.
     if ([pboard availableTypeFromArray:[NSArray arrayWithObjects:EDBFileTreeDragPboardType, nil]] != nil) 
 	{
         KWDataController *dragDataSource = [[info draggingSource] dataSource];
-        NSArray *_draggedNodes = [TreeNode minimumNodeCoverFromNodesInArray: [dragDataSource draggedNodes]];
+        NSArray *_draggedNodes = [TreeNode minimumNodeCoverFromNodesInArray:[dragDataSource draggedNodes]];
         NSEnumerator *iter = [_draggedNodes objectEnumerator];
         TreeNode *_draggedNode = nil;
         
@@ -1374,7 +1495,7 @@ static NSString*	EDBCurrentSelection							= @"EDBCurrentSelection";
 		
 			NSInteger x;
 			BOOL nameExists = NO;
-			for (x=0;x<[[parent children] count];x++)
+			for (x = 0; x < [[parent children] count]; x ++)
 			{
 				NSAutoreleasePool *subPool = [[NSAutoreleasePool alloc] init];
 			
@@ -1382,6 +1503,7 @@ static NSString*	EDBCurrentSelection							= @"EDBCurrentSelection";
 					nameExists = YES;
 				
 				[subPool release];
+				subPool = nil;
 			}
 		
 			if (nameExists == NO)
@@ -1391,14 +1513,38 @@ static NSString*	EDBCurrentSelection							= @"EDBCurrentSelection";
 			}
         
 			[subPool release];
+			subPool = nil;
 		}
     }
-	else if ([pboard availableTypeFromArray:[NSArray arrayWithObjects:NSFilenamesPboardType, nil]] != nil) 
+	else
 	{
-		//Needed for 10.5 and lower (the Finder messes up orders)
-		NSArray *paths = [[pboard propertyListForType:NSFilenamesPboardType] sortedArrayUsingSelector:@selector(localizedCaseInsensitiveCompare:)];
-		NSEnumerator*	iter = [paths objectEnumerator];
-		NSString*		path;
+		NSMutableArray *paths;
+		if ([pboard availableTypeFromArray:[NSArray arrayWithObjects:NSFilenamesPboardType, nil]] != nil) 
+		{
+			//Needed for 10.5 and lower (the Finder messes up orders)
+			paths = [NSMutableArray arrayWithArray:[[pboard propertyListForType:NSFilenamesPboardType] sortedArrayUsingSelector:@selector(localizedCaseInsensitiveCompare:)]];
+		}
+		else if ([[pboard types] containsObject:@"CorePasteboardFlavorType 0x6974756E"])
+		{
+			NSArray *keys = [[[pboard propertyListForType:@"CorePasteboardFlavorType 0x6974756E"] objectForKey:@"Tracks"] allKeys];
+	
+			NSInteger i;
+			for (i = 0; i < [keys count]; i ++)
+			{
+				NSAutoreleasePool *subPool = [[NSAutoreleasePool alloc] init];
+		
+				NSURL *url = [[NSURL alloc] initWithString:[[[[pboard propertyListForType:@"CorePasteboardFlavorType 0x6974756E"] objectForKey:@"Tracks"] objectForKey:[keys objectAtIndex:i]] objectForKey:@"Location"]];
+				[paths addObject:[url path]];
+				[url release];
+				url = nil;
+			
+				[subPool release];
+				subPool = nil;
+			}
+		}
+		
+		NSEnumerator *iter = [paths objectEnumerator];
+		NSString *path;
 		
 		itemsToSelect = [NSMutableArray arrayWithArray:[outlineView allSelectedItems]];
 
@@ -1411,7 +1557,7 @@ static NSString*	EDBCurrentSelection							= @"EDBCurrentSelection";
 		
 			NSInteger x;
 			BOOL nameExists = NO;
-			for (x=0;x<[[parent children] count];x++)
+			for (x = 0; x < [[parent children] count]; x ++)
 			{
 				NSAutoreleasePool *subPool = [[NSAutoreleasePool alloc] init];
 			
@@ -1419,6 +1565,7 @@ static NSString*	EDBCurrentSelection							= @"EDBCurrentSelection";
 					nameExists = YES;
 			
 				[subPool release];
+				subPool = nil;
 			}
 		
 			if (nodeData)
@@ -1430,54 +1577,18 @@ static NSString*	EDBCurrentSelection							= @"EDBCurrentSelection";
 			}
 		
 			[subPool release];
-		}
-	}
-	else if ([[pboard types] containsObject:@"CorePasteboardFlavorType 0x6974756E"])
-	{
-		NSArray *keys = [[[pboard propertyListForType:@"CorePasteboardFlavorType 0x6974756E"] objectForKey:@"Tracks"] allKeys];
-		NSMutableArray *fileList = [NSMutableArray array];
-	
-		NSInteger i;
-		for (i=0;i<[keys count];i++)
-		{
-			NSURL *url = [[NSURL alloc] initWithString:[[[[pboard propertyListForType:@"CorePasteboardFlavorType 0x6974756E"] objectForKey:@"Tracks"] objectForKey:[keys objectAtIndex:i]] objectForKey:@"Location"]];
-			[fileList addObject:[url path]];
-			[url release];
-		}
-		
-		NSEnumerator*	iter = [fileList objectEnumerator];
-		NSString*		path;
-		
-	itemsToSelect = [NSMutableArray arrayWithArray:[outlineView allSelectedItems]];
-
-		while ((path = [iter nextObject]) != NULL)
-		{
-			id nodeData = [FSNodeData nodeDataWithPath:path];
-			FSTreeNode*	newNode = [FSTreeNode treeNodeWithData:nodeData];
-			
-			NSInteger x;
-			BOOL nameExists = NO;
-			for (x=0;x<[[parent children] count];x++)
-			{
-				if ([[[(FSNodeData *)[[[parent children] objectAtIndex:x] nodeData] fsObject] baseName] isEqualTo:[path lastPathComponent]])
-				nameExists = YES;
-			}
-			
-			if (nodeData && nameExists == NO)
-			{
-				[parent addChild:newNode];
-			}
+			subPool = nil;
 		}
 	}
 
-    [outlineView reloadData];
+    [self reloadOutlineView];
 	
-    [outlineView selectItems: itemsToSelect byExtendingSelection: NO];
+    [outlineView selectItems:itemsToSelect byExtendingSelection:NO];
 }
 
 - (BOOL)outlineView:(NSOutlineView*)olv acceptDrop:(id <NSDraggingInfo>)info item:(id)targetItem childIndex:(NSInteger)childIndex 
 {
-    TreeNode* 		dropParent = nil;
+    TreeNode *dropParent = nil;
     
     // Determine the parent to insert into and the child index to insert at.
     if ([NODE_DATA(targetItem) isExpandable] == NO) 
@@ -1500,10 +1611,10 @@ static NSString*	EDBCurrentSelection							= @"EDBCurrentSelection";
 
 - (void)_addNewDataToSelection:(TreeNode *)newChild shouldSelect:(BOOL)select
 {
-	NSInteger			newRow = 0;
-	NSArray*	selectedNodes = [outlineView allSelectedItems];
-	TreeNode*	selectedNode = ([selectedNodes count] ? [selectedNodes objectAtIndex:0] : treeData);
-	TreeNode*	parentNode = nil;
+	NSInteger newRow = 0;
+	NSArray *selectedNodes = [outlineView allSelectedItems];
+	TreeNode *selectedNode = ([selectedNodes count] ? [selectedNodes objectAtIndex:0] : treeData);
+	TreeNode *parentNode = nil;
 		
 	if ([NODE_DATA(selectedNode) isExpandable]) 
 	{ 
@@ -1517,7 +1628,7 @@ static NSString*	EDBCurrentSelection							= @"EDBCurrentSelection";
     }
  
 	[parentNode addChild:newChild];
-	[outlineView reloadData];
+	[self reloadOutlineView];
 	
 	newRow = [outlineView rowForItem:newChild];
 

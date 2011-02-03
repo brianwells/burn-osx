@@ -57,7 +57,7 @@
 	NSUserDefaults *standardUserDefaults = [NSUserDefaults standardUserDefaults];
 	
 	if ([standardUserDefaults boolForKey:@"KWRememberLastTab"])
-	[mainTabView selectTabViewItemWithIdentifier:[standardUserDefaults objectForKey:@"KWLastTab"]];
+		[mainTabView selectTabViewItemWithIdentifier:[standardUserDefaults objectForKey:@"KWLastTab"]];
 
 	[self setupToolbar];
 
@@ -84,13 +84,13 @@
 		NSInteger x = 0;
 
 		NSInteger i;
-		for (i=0;i< [devices count];i++)
+		for (i = 0; i < [devices count]; i ++)
 		{
 			if ([[[devices objectAtIndex:i] displayName] isEqualTo:[[[defaultBurner stringValue] componentsSeparatedByString:@"\n"] objectAtIndex:0]])
 				x = i + 1;
 		}
 			
-		if (x > [devices count]-1)
+		if (x > [devices count] - 1)
 			x = 0;
 
 		NSMutableDictionary *burnDict = [NSMutableDictionary dictionary];
@@ -211,11 +211,14 @@
 	else
 	{
 		[eraser release];
+		eraser = nil;
 	}
 }
 
 - (void)eraseFinished:(NSNotification *)notif
 {
+	NSNotificationCenter *defaultCenter = [NSNotificationCenter defaultCenter];
+	
 	NSString *returnCode = [[notif userInfo] objectForKey:@"ReturnCode"];
 
 	[progressPanel endSheet];
@@ -225,7 +228,7 @@
 
 	if ([returnCode isEqualTo:@"KWFailure"])
 	{
-		[[NSNotificationCenter defaultCenter] postNotificationName:@"growlFailedErasing" object:NSLocalizedString(@"There was a problem erasing the disc",nil)];
+		[defaultCenter postNotificationName:@"growlFailedErasing" object:NSLocalizedString(@"There was a problem erasing the disc",nil)];
 	
 		NSAlert *alert = [[[NSAlert alloc] init] autorelease];
 		[alert addButtonWithTitle:NSLocalizedString(@"OK",nil)];
@@ -237,7 +240,7 @@
 	}
 	else
 	{
-		[[NSNotificationCenter defaultCenter] postNotificationName:@"growlFinishedErasing" object:NSLocalizedString(@"The disc has been succesfully erased",nil)];
+		[defaultCenter postNotificationName:@"growlFinishedErasing" object:NSLocalizedString(@"The disc has been succesfully erased",nil)];
 	}
 }
 
@@ -384,13 +387,15 @@
 {
 	if (device)
 	{
-		float space;
+		NSUserDefaults *standardDefaults = [NSUserDefaults standardUserDefaults];
+		NSDictionary *deviceStatus = [device status];
+		NSDictionary *mediaInfo = [deviceStatus objectForKey:DRDeviceMediaInfoKey];
+		NSDictionary *mediaState = [deviceStatus objectForKey:DRDeviceMediaStateKey];
+		CGFloat space;
 	
-		if ([[[device status] objectForKey:DRDeviceMediaStateKey] isEqualTo:DRDeviceMediaStateMediaPresent])
+		if ([mediaState isEqualTo:DRDeviceMediaStateMediaPresent])
 		{
-			NSDictionary *mediaInfo = [[device status] objectForKey:DRDeviceMediaInfoKey];
-		
-			if ([[mediaInfo objectForKey:DRDeviceMediaIsBlankKey] boolValue] | [[NSUserDefaults standardUserDefaults] boolForKey:@"KWShowOverwritableSpace"] == NO)
+			if ([[mediaInfo objectForKey:DRDeviceMediaIsBlankKey] boolValue] | [standardDefaults boolForKey:@"KWShowOverwritableSpace"] == NO)
 				space = [[mediaInfo objectForKey:DRDeviceMediaFreeSpaceKey] floatValue] * 2048 / 1024 / 2;
 			else if ([[mediaInfo objectForKey:DRDeviceMediaClassKey] isEqualTo:DRDeviceMediaClassDVD])
 				space = [[mediaInfo objectForKey:DRDeviceMediaOverwritableSpaceKey] floatValue] * 2048 / 1024 / 2;
@@ -399,7 +404,7 @@
 		}
 		else
 		{
-			NSInteger media = [[[NSUserDefaults standardUserDefaults] objectForKey:@"KWDefaultMedia"] intValue];
+			NSInteger media = [[standardDefaults objectForKey:@"KWDefaultMedia"] intValue];
 		
 			if (media == 1)
 				space = [KWCommonMethods defaultSizeForMedia:@"KWDefaultCDMedia"];
@@ -409,23 +414,24 @@
 				space = -1;
 		}
 		
-		if ([[[device status] objectForKey:DRDeviceMediaStateKey] isEqualTo:DRDeviceMediaStateInTransition] | space == -1)
+		NSString *displayName = [device displayName];
+		if ([mediaState isEqualTo:DRDeviceMediaStateInTransition] | space == -1)
 		{
-			return [NSString stringWithFormat:@"%@\n%@", [device displayName], NSLocalizedString(@"No disc",nil)];
+			return [NSString stringWithFormat:@"%@\n%@", displayName, NSLocalizedString(@"No disc",nil)];
 		}
 		else
 		{
 			NSString *percent;
 			KWTabViewItem *tabViewItem = (KWTabViewItem *)[mainTabView selectedTabViewItem];
 			id controller = [tabViewItem myController];
-			float totalSize = [[controller performSelector:@selector(totalSize)] floatValue];
-		
+			CGFloat totalSize = [[controller performSelector:@selector(totalSize)] floatValue];
+
 			if (space > 0)
 				percent = [NSString stringWithFormat: @"(%.0f%@)", totalSize / space * 100, @"%"];
 			else
 				percent = @"";
 				
-			return [NSString stringWithFormat:@"%@\n%@ %@", [device displayName], [NSString stringWithFormat:NSLocalizedString(@"%@ free", nil), [KWCommonMethods makeSizeFromFloat:space * 2048]], percent];
+			return [NSString stringWithFormat:@"%@\n%@ %@", displayName, [NSString stringWithFormat:NSLocalizedString(@"%@ free", nil), [KWCommonMethods makeSizeFromFloat:space * 2048]], percent];
 		}
 	}
 	else
@@ -443,17 +449,18 @@
 
 - (void)open:(NSString *)pathname
 {
+	NSString *extension = [[pathname pathExtension] lowercaseString];
 	SEL aSelector;
 	id object = nil;
 
-	if ([[KWCommonMethods diskImageTypes] containsObject:[[pathname pathExtension] lowercaseString]] | [[[NSWorkspace sharedWorkspace] mountedLocalVolumePaths] containsObject:pathname])
+	if ([[KWCommonMethods diskImageTypes] containsObject:extension] | [[[NSWorkspace sharedWorkspace] mountedLocalVolumePaths] containsObject:pathname])
 	{
 		[mainTabView selectTabViewItemWithIdentifier:@"Copy"];
 		
 		aSelector = @selector(checkImage:);
 		object = pathname;
 	}
-	else if ([[[pathname pathExtension] lowercaseString] isEqualTo:@"burn"])
+	else if ([extension isEqualTo:@"burn"])
 	{
 		NSDictionary *burnFile = [NSDictionary dictionaryWithContentsOfFile:pathname];
 		
@@ -469,7 +476,7 @@
 			[KWCommonMethods standardAlertWithMessageText:NSLocalizedString(@"Invalid Burn file", nil) withInformationText:NSLocalizedString(@"The Burn file is corrupt or a wrong filetype", nil) withParentWindow:mainWindow];
 		}
 	}
-	else if ([[[pathname pathExtension] lowercaseString] isEqualTo:@"burntheme"])
+	else if ([extension isEqualTo:@"burntheme"])
 	{
 		[[NSNotificationCenter defaultCenter] postNotificationName:@"KWDVDThemeOpened" object:[NSArray arrayWithObjects:pathname,nil]];
 	}
@@ -486,7 +493,7 @@
 		KWTabViewItem *tabViewItem = (KWTabViewItem *)[mainTabView selectedTabViewItem];
 		id controller = [tabViewItem myController];
 		
-		[controller performSelector:aSelector withObject:[object copy]];
+		[controller performSelector:aSelector withObject:object];
 	}
 }
 

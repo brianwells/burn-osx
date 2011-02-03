@@ -2,7 +2,5 @@
 
 #import <Cocoa/Cocoa.h>
 
-@interface KWOutlineView : NSOutlineView
-{
-}
+@interface KWOutlineView : NSOutlineView{}
 @end

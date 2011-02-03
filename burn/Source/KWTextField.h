@@ -2,7 +2,5 @@
 
 #import <Cocoa/Cocoa.h>
 
-@interface KWTextField : NSTextField
-{
-}
+@interface KWTextField : NSTextField{}
 @end

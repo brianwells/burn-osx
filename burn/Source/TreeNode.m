@@ -63,31 +63,31 @@
 
 @implementation TreeNodeData 
 
-- (NSComparisonResult) compare:(TreeNodeData *)other
+- (NSComparisonResult)compare:(TreeNodeData *)other
 {
     // Return anything, it is expected this will be overridden by subclasses.
     // For instance, FSTreeData compares names!
     return NSOrderedAscending;
 }
 
-- (void)setName:(NSString*)name{}
+- (void)setName:(NSString *)name{}
 
-- (NSString*) name
+- (NSString *)name
 {
 	return @"Huh?";
 }
 
-- (NSString*) kind
+- (NSString *)kind
 {
 	return @"Wha?";
 }
 
-- (BOOL) isExpandable
+- (BOOL)isExpandable
 {
 	return NO;
 }
 
-- (NSImage*) icon
+- (NSImage *)icon
 {
 	return nil;
 }
@@ -96,7 +96,7 @@
 
 @implementation TreeNode
 
-+ (id) treeNodeWithData:(TreeNodeData*)data
++ (id)treeNodeWithData:(TreeNodeData*)data
 {
     return [[[self alloc] initWithData: data  parent:nil] autorelease]; 
 }
@@ -120,6 +120,7 @@
 	
 	[nodeChildren release];
     nodeChildren = nil;
+	
     [super dealloc];
 }
 
@@ -127,31 +128,33 @@
 // Methods used to manage a node and its children.
 // ================================================================
 
-- (void)setNodeData:(TreeNodeData*)data
+- (void)setNodeData:(TreeNodeData *)data
 { 
 	if (nodeData != data)
 	{
-		[nodeData release]; 
+		[nodeData release];
+		nodeData = nil;
+		
 		nodeData = [data retain]; 
 	}
 }
 
-- (TreeNodeData*) nodeData
+- (TreeNodeData *)nodeData
 { 
     return [[nodeData retain] autorelease];; 
 }
 
-- (void)setNodeParent:(TreeNode*)parent
+- (void)setNodeParent:(TreeNode *)parent
 {
 	nodeParent = parent;
 }
 
-- (TreeNode*) nodeParent
+- (TreeNode *) nodeParent
 { 
     return nodeParent; 
 }
 
-- (void)addChild:(TreeNode*)child
+- (void)addChild:(TreeNode *)child
 {
 	switch (sortOrder)
 	{
@@ -168,12 +171,12 @@
 	[child setNodeParent:self];
 }
 
-- (void)addChildren:(NSArray*)children
+- (void)addChildren:(NSArray *)children
 {
 	[children makeObjectsPerformSelector:@selector(addChild:) withObject:self];
 }
 
-- (void)removeChild:(TreeNode*)child
+- (void)removeChild:(TreeNode *)child
 {
     NSInteger index = [self indexOfChild: child];
     if (index != NSNotFound)
@@ -187,42 +190,42 @@
     [[self nodeParent] removeChild:self];
 }
 
-- (NSInteger)indexOfChild:(TreeNode*)child
+- (NSInteger)indexOfChild:(TreeNode *)child
 {
     return [nodeChildren indexOfObject:child];
 }
 
-- (NSInteger) indexOfChildIdenticalTo:(TreeNode*)child
+- (NSInteger)indexOfChildIdenticalTo:(TreeNode *)child
 {
     return [nodeChildren indexOfObjectIdenticalTo:child];
 }
 
-- (NSInteger) numberOfChildren
+- (NSInteger)numberOfChildren
 {
     return [[self children] count];
 }
 
-- (NSArray*) children
+- (NSArray *)children
 {
     return [NSArray arrayWithArray: nodeChildren];
 }
 
-- (TreeNode*) firstChild
+- (TreeNode *)firstChild
 {
     return [[self children] objectAtIndex:0];
 }
 
-- (TreeNode*) lastChild
+- (TreeNode *)lastChild
 {
     return [[self children] lastObject];
 }
 
-- (TreeNode*) childAtIndex:(NSInteger)index
+- (TreeNode *)childAtIndex:(NSInteger)index
 {
     return [[self children] objectAtIndex:index];
 }
 
-- (BOOL) isDescendantOfNode:(TreeNode*)node
+- (BOOL)isDescendantOfNode:(TreeNode *)node
 {
     // returns YES if 'node' is an ancestor.
     // Walk up the tree, to see if any of our ancestors is 'node'.
@@ -236,7 +239,7 @@
     return NO;
 }
 
-- (BOOL) isDescendantOfNodeInArray:(NSArray*)nodes
+- (BOOL)isDescendantOfNodeInArray:(NSArray *)nodes
 {
     // returns YES if any 'node' in the array 'nodes' is an ancestor of ours.
     // For each node in nodes, if node is an ancestor return YES.  If none is an
@@ -256,7 +259,7 @@
 	sortOrder = order;
 }
 
-- (TNSortOrder) sortOrder
+- (TNSortOrder)sortOrder
 {
 	return sortOrder;
 }
@@ -277,7 +280,7 @@
     [nodeChildren makeObjectsPerformSelector: @selector(recursiveSortChildren)];
 }
 
-- (NSString*) description
+- (NSString *)description
 {
     // Return something that will be useful for debugging.
     return [NSString stringWithFormat: @"{%@}", nodeData];
@@ -288,7 +291,7 @@
 // the returned array has an ancestor in the returned array.
 
 // There are better ways to compute this, but this implementation should be efficient for our app.
-+ (NSArray *) minimumNodeCoverFromNodesInArray: (NSArray *)allNodes
++ (NSArray *)minimumNodeCoverFromNodesInArray:(NSArray *)allNodes
 {
     NSMutableArray*	minimumCover = [NSMutableArray array];
     NSMutableArray*	nodeQueue = [NSMutableArray arrayWithArray:allNodes];
@@ -300,25 +303,25 @@
         [nodeQueue removeObjectAtIndex:0];
         while ([node nodeParent] && [nodeQueue containsObjectIdenticalTo:[node nodeParent]])
 		{
-            [nodeQueue removeObjectIdenticalTo: node];
+            [nodeQueue removeObjectIdenticalTo:node];
             node = [node nodeParent];
         }
-        if ([node isDescendantOfNodeInArray: minimumCover] == NO)
-			[minimumCover addObject: node];
+        if ([node isDescendantOfNodeInArray:minimumCover] == NO)
+			[minimumCover addObject:node];
 			
-        [nodeQueue removeObjectIdenticalTo: node];
+        [nodeQueue removeObjectIdenticalTo:node];
     }
 	
     return minimumCover;
 }
 
-- (NSComparisonResult) compare:(TreeNode*)node
+- (NSComparisonResult)compare:(TreeNode *)node
 {
     // Compare nodes to each other by comparing the data part.
     return [nodeData compare:[node nodeData]];
 }
 
-- (NSComparisonResult) reverseCompare:(TreeNode*)node 
+- (NSComparisonResult)reverseCompare:(TreeNode *)node 
 {
     // Compare nodes to each other by comparing the data part.
     return [[node nodeData] compare:nodeData];

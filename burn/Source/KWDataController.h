@@ -45,6 +45,9 @@
 	NSMutableArray *temporaryFiles;
 	NSArray *mainFilesystems;
 	NSArray *advancedFilesystems;
+	uint64_t totalSize;
+	
+	NSArray *selectedItems;
 }
 
 //Main actions
@@ -90,7 +93,7 @@
 - (BOOL)isCombinable;
 - (BOOL)isCompatible;
 - (BOOL)isOnlyHFSPlus;
-- (void)deleteTemporayFiles:(BOOL)needed;
+- (void)deleteTemporayFiles:(NSNumber *)needed;
 - (void)saveDataPopup:(id)sender;
 
 //Inspector actions

@@ -41,7 +41,7 @@
 			totalSize = totalSize + [[[defaultManager fileAttributesAtPath:[files objectAtIndex:i] traverseLink:YES] objectForKey:NSFileSize] floatValue] / 2048;
 		}
 		
-	[defaultCenter postNotificationName:@"KWMaximumValueChanged" object:[NSNumber numberWithFloat:totalSize]];
+	[defaultCenter postNotificationName:@"KWMaximumValueChanged" object:[NSNumber numberWithCGFloat:totalSize]];
 
 	if ([defaultManager fileExistsAtPath:cueFile])
 	{
@@ -56,61 +56,52 @@
 		status = NSLocalizedString(@"Writing track", Localized);
 	
 	[defaultCenter postNotificationName:@"KWStatusChanged" object:status];
-
-	NSMutableArray *arguments = [NSMutableArray array];
-
-	[arguments addObject:@"-t"];
 	
+	NSString *kind = @"svcd";
 	if (VCD)
-		[arguments addObject:@"vcd2"];
-	else
-		[arguments addObject:@"svcd"];
+		kind = @"vcd2";
 		
-	[arguments addObject:@"--update-scan-offsets"];
-	[arguments addObject:@"-l"];
-	[arguments addObject:label];
-	[arguments addObject:[@"--cue-file=" stringByAppendingString:cueFile]];
-	[arguments addObject:[@"--bin-file=" stringByAppendingString:binFile]];
+	NSMutableArray *arguments = [NSMutableArray arrayWithObjects:@"-t", kind, @"--update-scan-offsets", @"-l", label, [@"--cue-file=" stringByAppendingString:cueFile], [@"--bin-file=" stringByAppendingString:binFile], nil];
 	[arguments addObjectsFromArray:files];
 
 	vcdimager = [[NSTask alloc] init];
 	[vcdimager setLaunchPath:[[NSBundle bundleForClass:[self class]] pathForResource:@"vcdimager" ofType:@""]];
 	[vcdimager setArguments:arguments];
-	NSPipe *pipe=[[NSPipe alloc] init];
-	NSPipe *errorPipe=[[NSPipe alloc] init];
+	NSPipe *pipe = [[NSPipe alloc] init];
+	NSPipe *errorPipe = [[NSPipe alloc] init];
 	[vcdimager setCurrentDirectoryPath:[path stringByDeletingLastPathComponent]];
 	[vcdimager setStandardOutput:pipe];
 	[vcdimager setStandardError:errorPipe];
-	NSFileHandle *handle=[pipe fileHandleForReading];
-	NSFileHandle *errorHandle=[errorPipe fileHandleForReading];
+	NSFileHandle *handle = [pipe fileHandleForReading];
+	NSFileHandle *errorHandle = [errorPipe fileHandleForReading];
 	[KWCommonMethods logCommandIfNeeded:vcdimager];
 	[vcdimager launch];
 	
 	[defaultCenter postNotificationName:@"KWCancelNotificationChanged" object:@"KWStopVcdimager"];
 	[self performSelectorOnMainThread:@selector(startTimer:) withObject:binFile waitUntilDone:NO];
-	
-	NSAutoreleasePool *innerPool = [[NSAutoreleasePool alloc] init];
 
 	NSData *data;
 	NSString *string;
 
-	while([data=[handle availableData] length])
+	while([data = [handle availableData] length])
 	{
+		NSAutoreleasePool *subpool = [[NSAutoreleasePool alloc] init];
 		if ([defaultManager fileExistsAtPath:cueFile])
 			[defaultManager changeFileAttributes:[NSDictionary dictionaryWithObjectsAndKeys:hide, NSFileExtensionHidden,nil] atPath:cueFile];
 		
 		if ([defaultManager fileExistsAtPath:binFile])
 			[defaultManager changeFileAttributes:[NSDictionary dictionaryWithObjectsAndKeys:hide, NSFileExtensionHidden,nil] atPath:binFile];
 
-		string=[[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
+		string = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
 	
 		if ([[NSUserDefaults standardUserDefaults] boolForKey:@"Debug"])
 			NSLog(@"%@", string);
 			
 		[string release];
+		string = nil;
 		
-		[innerPool release];
-		innerPool = [[NSAutoreleasePool alloc] init];
+		[subpool release];
+		subpool = nil;
 	}
 	
 	[vcdimager waitUntilExit];
@@ -123,8 +114,11 @@
 
 	NSInteger taskStatus = [vcdimager terminationStatus];
 	
-		[vcdimager release];
-		[pipe release];
+	[vcdimager release];
+	vcdimager = nil;
+	
+	[pipe release];
+	pipe = nil;
 	   
 	if (taskStatus == 0)
 	{
@@ -153,13 +147,13 @@
 {
 	NSNotificationCenter *defaultCenter = [NSNotificationCenter defaultCenter];
 
-	float currentSize = [[[[NSFileManager defaultManager] fileAttributesAtPath:[theTimer userInfo] traverseLink:YES] objectForKey:NSFileSize] floatValue] / 2048;
-	float percent = currentSize / totalSize * 100;
+	CGFloat currentSize = [[[[NSFileManager defaultManager] fileAttributesAtPath:[theTimer userInfo] traverseLink:YES] objectForKey:NSFileSize] floatValue] / 2048;
+	CGFloat percent = currentSize / totalSize * 100;
 		
 		if (percent < 101)
 		[defaultCenter postNotificationName:@"KWStatusByAddingPercentChanged" object:[NSString stringWithFormat:@" (%.0f%@)", percent, @"%"]];
 
-	[defaultCenter postNotificationName:@"KWValueChanged" object:[NSNumber numberWithFloat:currentSize]];
+	[defaultCenter postNotificationName:@"KWValueChanged" object:[NSNumber numberWithCGFloat:currentSize]];
 }
 
 - (void)stopVcdimager

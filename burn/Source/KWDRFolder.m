@@ -10,12 +10,15 @@
 
 @implementation KWDRFolder
 
-- (id) init
+- (id)init
 {
-	self = [super init];
-	expanded = NO;
-	filePackage = NO;
-	hfsStandard = NO;
+	if (self = [super init])
+	{
+		expanded = NO;
+		filePackage = NO;
+		hfsStandard = NO;
+		calculating = NO;
+	}
 
 	return self;
 }
@@ -23,22 +26,40 @@
 - (void)dealloc 
 {
 	if (folderIcon)
+	{
 		[folderIcon release];
+		folderIcon = nil;
+	}
 	
 	if (properties)
+	{
 		[properties release];
+		properties = nil;
+	}
 	
 	if (properties)
+	{
 		[properties release];
+		properties = nil;
+	}
 	
 	if (folderSize)
+	{
 		[folderSize release];
+		folderSize = nil;
+	}
 	
 	if (displayName)
+	{
 		[displayName release];
+		displayName = nil;
+	}
 	
 	if (originalName)
+	{
 		[originalName release];
+		originalName = nil;
+	}
 
 	[super dealloc];
 }
@@ -155,6 +176,37 @@
 - (BOOL)hfsStandard
 {
 	return hfsStandard;
+}
+
+- (void)addChild:(DRFSObject *)child
+{
+	[super addChild:child];
+
+	if ([child isKindOfClass:[KWDRFolder class]] && [[NSUserDefaults standardUserDefaults] boolForKey:@"KWCalculateFolderSizes"] == YES)
+		[NSThread detachNewThreadSelector:@selector(setFolderSizeOnThread:) toTarget:self withObject:child];
+}
+
+- (void)setFolderSizeOnThread:(KWDRFolder *)fsObj
+{
+	NSAutoreleasePool *pool=[[NSAutoreleasePool alloc] init];
+
+	while (calculating == YES)
+		usleep(1000000);
+
+	calculating = YES;
+
+	if (![fsObj isVirtual])
+		[fsObj setFolderSize:[KWCommonMethods makeSizeFromFloat:[KWCommonMethods calculateRealFolderSize:[fsObj sourcePath]] * 2048]];
+	else
+		[fsObj setFolderSize:[KWCommonMethods makeSizeFromFloat:[KWCommonMethods calculateVirtualFolderSize:fsObj] * 2048]];
+
+	if (![fsObj isVirtual] | ([fsObj isVirtual] && [[fsObj children] count] > 0))
+		[[NSNotificationCenter defaultCenter] performSelectorOnMainThread:@selector(postNotificationName:object:) withObject:@"KWReloadRequested" waitUntilDone:YES];
+		//[[NSNotificationCenter defaultCenter] postNotificationName:@"KWReloadRequested" object:nil];
+	
+	calculating = NO;
+
+	[pool release];
 }
 
 @end

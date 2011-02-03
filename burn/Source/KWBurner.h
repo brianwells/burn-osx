@@ -84,9 +84,7 @@
 
 @end
 
-@interface DRCallbackDevice : DRDevice {
-
-}
+@interface DRCallbackDevice : DRDevice {}
 - (void)initWithConsumer:(id)consumer;
 
 @end

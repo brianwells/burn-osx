@@ -54,10 +54,12 @@
 
 @implementation ImageAndTextCell
 
-- (void)dealloc {
-	image = nil;
+- (void)dealloc
+{
     [image release];
-    [super dealloc];
+    image = nil;
+	
+	[super dealloc];
 }
 
 - copyWithZone:(NSZone *)zone 
@@ -112,22 +114,29 @@
     NSRect textFrame, imageFrame;
     NSDivideRect (aRect, &imageFrame, &textFrame, 3 + 16, NSMinXEdge);
 	
-
-	KWDRFolder *folder = [[(KWDataController *)[anObject delegate] selectedDRFSObjects] objectAtIndex:0];	
+	KWDRFolder *folder = [[(KWDataController *)[anObject delegate] selectedDRFSObjects] objectAtIndex:0];
+	NSString *folderPath;
 	
 	BOOL isDir;
 	if (![folder isVirtual])
-		[[NSFileManager defaultManager] fileExistsAtPath:[folder sourcePath] isDirectory:&isDir];
+	{
+		folderPath = [folder sourcePath];
+		[[NSFileManager defaultManager] fileExistsAtPath:folderPath isDirectory:&isDir];
+	}
 
 	NSInteger newSelLength;
+	NSString *stringValue = [self stringValue];
+	NSString *pathExtension = [stringValue pathExtension];
+	NSInteger fullLength = [stringValue length];
+	
 	if ([folder isVirtual] && ![folder isFilePackage])
-		newSelLength = ([[self stringValue] length]);
-	else if (![folder isVirtual] && isDir && ![[NSWorkspace sharedWorkspace] isFilePackageAtPath:[folder sourcePath]])
-		newSelLength = ([[self stringValue] length]);
-	else if (![[[self stringValue] pathExtension] isEqualTo:@""])
-		newSelLength = ([[self stringValue] length]) - ([[[self stringValue] pathExtension] length] + 1);
+		newSelLength = (fullLength);
+	else if (![folder isVirtual] && isDir && ![[NSWorkspace sharedWorkspace] isFilePackageAtPath:folderPath])
+		newSelLength = (fullLength);
+	else if (![pathExtension isEqualTo:@""])
+		newSelLength = (fullLength) - ([pathExtension length] + 1);
 	else
-		newSelLength = ([[self stringValue] length]);
+		newSelLength = (fullLength);
 
     [super selectWithFrame:textFrame inView:controlView editor:textObj delegate:anObject start:selStart length:newSelLength];
 }
@@ -136,8 +145,8 @@
 {
 	if (image != nil) 
 	{
-		NSSize	imageSize;
-		NSRect	imageFrame;
+		NSSize imageSize;
+		NSRect imageFrame;
 	
 		NSSize originalSize = [image size];
 		[image setScalesWhenResized:YES];

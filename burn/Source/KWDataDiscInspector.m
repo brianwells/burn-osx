@@ -56,7 +56,7 @@ static NSArray* filesystemNameTagMappings = nil;
 
 @implementation KWDataDiscInspector
 
-+ (void) initialize
++ (void)initialize
 {
 	// Through clever arrangement of the tags of objects in the info panel,
 	// we use these tags to index into an array of the filesystem properties.
@@ -107,7 +107,7 @@ static NSArray* filesystemNameTagMappings = nil;
 																	nil];
 }
 
-- (id) init
+- (id)init
 {
 	if (self = [super init])
 	{
@@ -117,11 +117,16 @@ static NSArray* filesystemNameTagMappings = nil;
 	return self;
 }
 
-- (void) dealloc
+- (void)dealloc
 {
 	[fsProperties release];
+	fsProperties = nil;
+	
 	[propertyTagMappings release];
+	propertyTagMappings = nil;
+	
 	[filesystemNameTagMappings release];
+	filesystemNameTagMappings = nil;
 	
 	[super dealloc];
 }
@@ -152,17 +157,18 @@ static NSArray* filesystemNameTagMappings = nil;
 
 - (IBAction)setVolumeProperty:(id)sender
 {
-	NSInteger currentIndex = [sender tag] - 1;
-	NSString *propertyTag = [propertyTagMappings objectAtIndex:[sender tag] - 1];
+	NSInteger tag = [sender tag];
+	NSInteger currentIndex = tag - 1;
+	NSString *propertyTag = [propertyTagMappings objectAtIndex:tag - 1];
 	id objectValue = [sender objectValue];
 
 	if ([DRISOLevel isEqualTo:propertyTag])
 	{
 		// The ISO level needs special handling since the objectValue of a popup menu is the index of the
 		// menu item, which starts at zero. We need it to start at 1.
-		if ([NSNumber numberWithInt:[sender indexOfSelectedItem] + 1])
+		if ([NSNumber numberWithInteger:[sender indexOfSelectedItem] + 1])
 		{
-			[fsProperties setObject:[NSNumber numberWithInt:[sender indexOfSelectedItem] + 1] forKey:DRISOLevel];
+			[fsProperties setObject:[NSNumber numberWithInteger:[sender indexOfSelectedItem] + 1] forKey:DRISOLevel];
 			[[NSNotificationCenter defaultCenter] postNotificationName:@"KWDiscPropertiesChanged" object:[fsProperties retain]];
 		}
 	}
@@ -185,7 +191,7 @@ static NSArray* filesystemNameTagMappings = nil;
 
 - (IBAction)selectRootDirFile:(id)sender
 {
-	NSInteger	returnCode;
+	NSInteger returnCode;
 	
 	// Get the current list of root files from the mail app controller. This will be the 
 	// list of files that you can choose from. For any of the special ISO root files 
@@ -196,7 +202,7 @@ static NSArray* filesystemNameTagMappings = nil;
 	NSMutableArray*	mutableRootFiles = [NSMutableArray arrayWithCapacity:1];
 	
 	NSInteger i;
-	for (i=0;i<[rootChildren count];i++)
+	for (i = 0; i < [rootChildren count]; i ++)
 	{
 		id currentObject = [rootChildren objectAtIndex:i];
 	
@@ -204,10 +210,12 @@ static NSArray* filesystemNameTagMappings = nil;
 		// If not, it's a file.
 		if ([currentObject isKindOfClass:[DRFile class]])
 		{
-			if (![[currentObject baseName] isEqualTo:@".VolumeIcon.icns"])
+			NSString *baseName = [currentObject baseName];
+			
+			if (![baseName isEqualTo:@".VolumeIcon.icns"])
 			{
 				NSMutableDictionary *rowData = [NSMutableDictionary dictionary];
-				[rowData setObject:[currentObject baseName] forKey:@"name"];
+				[rowData setObject:baseName forKey:@"name"];
 				[rowData setObject:currentObject forKey:@"drfsobject"];
 				[mutableRootFiles addObject:rowData];
 			}
@@ -219,7 +227,7 @@ static NSArray* filesystemNameTagMappings = nil;
 	
 	// setup and run the modal dialog.
 	[okButton setEnabled:NO];
-	[fileList selectRowIndexes:[NSIndexSet indexSetWithIndex:-1] byExtendingSelection:NO];
+	[fileList selectRowIndexes:[NSIndexSet indexSetWithIndex: -1] byExtendingSelection:NO];
 	returnCode = [NSApp runModalForWindow:fileChooser];
 	[fileChooser orderOut:self];
 
@@ -246,9 +254,9 @@ static NSArray* filesystemNameTagMappings = nil;
 - (IBAction)setVolumeName:(id)sender
 {
 	// The correct filesystem is encoded in the tag of the object.
-	NSString*	filesystem;
-	NSString*	volumeName;
-	NSInteger			index = [sender tag] - 31;
+	NSString *filesystem;
+	NSString *volumeName;
+	NSInteger index = [sender tag] - 31;
 	
 	// If it's index 1 (that's ISO), we need to look at the ISO level popup.
 	// For the filesystem names, we need to get specific since while we're 
@@ -300,18 +308,25 @@ static NSArray* filesystemNameTagMappings = nil;
 
 - (IBAction)setUDFVersion:(id)sender
 {
+	NSString *version;
+
 	if ([sender indexOfSelectedItem] == 0)
-		[filesystemRoot setProperty:@"DRUDFVersion102" forKey:@"DRUDFWriteVersion" inFilesystem:@"DRUDF"];
+		version = @"DRUDFVersion102";
 	else
-		[filesystemRoot setProperty:@"DRUDFVersion150" forKey:@"DRUDFWriteVersion" inFilesystem:@"DRUDF"];
+		version = @"DRUDFVersion150";
+		
+	[filesystemRoot setProperty:version forKey:@"DRUDFWriteVersion" inFilesystem:@"DRUDF"];
 }
 
 - (void)updateView:(KWDRFolder *)object
 {
+	filesystemRoot = (DRFolder *)object;
+
 	NSDictionary *properties = [object discProperties];
-	BOOL containsHFS = ([filesystemRoot effectiveFilesystemMask] & DRFilesystemInclusionMaskHFSPlus);
-	BOOL containsISO = ([filesystemRoot effectiveFilesystemMask] & DRFilesystemInclusionMaskISO9660);
-	BOOL containsJoliet = ([filesystemRoot effectiveFilesystemMask] & DRFilesystemInclusionMaskJoliet);
+	DRFilesystemInclusionMask mask = [filesystemRoot effectiveFilesystemMask];
+	BOOL containsHFS = (mask & DRFilesystemInclusionMaskHFSPlus);
+	BOOL containsISO = (mask & DRFilesystemInclusionMaskISO9660);
+	BOOL containsJoliet = (mask & DRFilesystemInclusionMaskJoliet);
 	BOOL containsUDF = NO;
 		
 	if (properties)
@@ -322,7 +337,7 @@ static NSArray* filesystemNameTagMappings = nil;
 		NSArray *fileKeys = [NSArray arrayWithObjects:DRCopyrightFile, DRBibliographicFile, DRAbstractFile,nil];
 		
 		NSInteger x;
-		for (x=0;x<[fileKeys count];x++)
+		for (x = 0; x < [fileKeys count]; x ++)
 		{
 			NSString *currentKey = [fileKeys objectAtIndex:x];
 			NSString *currentFile = [properties objectForKey:currentKey];
@@ -362,19 +377,20 @@ static NSArray* filesystemNameTagMappings = nil;
 		NSInteger udfVersionNumber = [[NSNumber numberWithBool:[[[filesystemRoot propertiesForFilesystem:@"DRUDF" mergeWithOtherFilesystems:NO] objectForKey:@"DRUDFWriteVersion"] isEqualTo:@"DRUDFVersion150"]] intValue] + 1;
 		[udfVersion selectItemAtIndex:udfVersionNumber];
 	}
-
-	if (containsHFS)
-		[tabView selectTabViewItemWithIdentifier:@"HFS+"];
-	else if (containsISO)
-		[tabView selectTabViewItemWithIdentifier:@"ISO"];
-	else if (containsJoliet)
-		[tabView selectTabViewItemWithIdentifier:@"Joliet"];
-	else if (containsUDF)
-		[tabView selectTabViewItemWithIdentifier:@"UDF"];
-
-	NSString*	volumeName;
 	
-	filesystemRoot = (DRFolder*)object;
+	NSString *identifier;
+	if (containsHFS)
+		identifier = @"HFS+";
+	else if (containsISO)
+		identifier = @"ISO";
+	else if (containsJoliet)
+		identifier = @"Joliet";
+	else if (containsUDF)
+		identifier = @"UDF";
+		
+	[tabView selectTabViewItemWithIdentifier:identifier];
+
+	NSString *volumeName;
 	
 	[nameField setStringValue:[filesystemRoot baseName]];
 	
@@ -389,13 +405,9 @@ static NSArray* filesystemNameTagMappings = nil;
 			[udfName setStringValue:[filesystemRoot specificNameForFilesystem:@"DRUDF"]];
 	
 	if ([[fsProperties objectForKey:DRISOLevel] intValue] == 1)
-	{
 		[isoName setStringValue:[filesystemRoot specificNameForFilesystem:DRISO9660LevelOne]];
-	}
 	else
-	{
 		[isoName setStringValue:[filesystemRoot specificNameForFilesystem:DRISO9660LevelTwo]];
-	}
 	
 	volumeName = [filesystemRoot specificNameForFilesystem:DRJoliet];
 	if ([volumeName length] > 16)
@@ -545,7 +557,7 @@ static NSArray* filesystemNameTagMappings = nil;
 
 - (IBAction)setHFSBounds:(id)sender
 {
-	NSData*	boundsData;
+	NSData *boundsData;
 	Rect	windowBounds;
 	
 	windowBounds.top = [hfsBoundsT intValue];
@@ -560,8 +572,8 @@ static NSArray* filesystemNameTagMappings = nil;
 
 - (IBAction)setHFSScroll:(id)sender
 {
-	NSData*	positionData;
-	Point	scrollPosition;
+	NSData *positionData;
+	Point scrollPosition;
 	
 	scrollPosition.h = [hfsScrollX intValue];
 	scrollPosition.v = [hfsScrollY intValue];
@@ -605,7 +617,7 @@ static NSArray* filesystemNameTagMappings = nil;
 #pragma mark •• Table delegate methods
 - (void)tableViewSelectionDidChange:(NSNotification *)aNotification
 {
-	NSTableView*	tv = [aNotification object];
+	NSTableView *tv = [aNotification object];
 	BOOL rowSelected = ([tv selectedRow] != -1); 
 	
 	if (rowSelected)
@@ -634,7 +646,7 @@ static NSArray* filesystemNameTagMappings = nil;
 			NSArray *views = [tabView subviews];
 			
 			NSInteger x;
-			for (x=0;x<[views count];x++)
+			for (x = 0; x < [views count]; x ++)
 			{
 				id currentView = [views objectAtIndex:x];
 				[self setOptionsForViews:[currentView subviews] setEnabled:enabled];

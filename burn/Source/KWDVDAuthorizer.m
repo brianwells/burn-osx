@@ -84,7 +84,7 @@
 	//Create TOC (Table Of Contents)
 	if (succes == 0)
 	{
-		NSArray *arguments = [NSArray arrayWithObjects:@"-T",@"-o",path,nil];
+		NSArray *arguments = [NSArray arrayWithObjects:@"-T", @"-o", path, nil];
 		BOOL status = [KWCommonMethods launchNSTaskAtPath:[[NSBundle mainBundle] pathForResource:@"dvdauthor" ofType:@""] withArguments:arguments outputError:YES outputString:YES output:&*error];
 
 		if (!status)
@@ -111,7 +111,7 @@
 	NSString *xmlFile = [NSString stringWithFormat:@"<dvdauthor dest=\"%@\">\n<titleset>\n<titles>", path];
 	
 	NSInteger x;
-	for (x=0;x<[fileArray count];x++)
+	for (x = 0; x < [fileArray count]; x ++)
 	{
 		NSDictionary *fileDictionary = [fileArray objectAtIndex:x];
 		NSString *path = [fileDictionary objectForKey:@"Path"];
@@ -124,10 +124,10 @@
 			xmlFile = [NSString stringWithFormat:@"%@ chapters=\"00:00:00,", xmlFile];
 		
 			NSInteger i;
-			for (i=0;i<[chapters count];i++)
+			for (i = 0; i < [chapters count]; i ++)
 			{
 				NSDictionary *chapterDictionary = [chapters objectAtIndex:i];
-				float time = [[chapterDictionary objectForKey:@"RealTime"] floatValue];
+				CGFloat time = [[chapterDictionary objectForKey:@"RealTime"] floatValue];
 				
 				if (time > 0)
 				{
@@ -137,7 +137,7 @@
 					else
 						endString = @"\"";
 					
-					xmlFile = [NSString stringWithFormat:@"%@%@%@", xmlFile, [KWCommonMethods formatTimeForChapter:time], endString];
+					xmlFile = [NSString stringWithFormat:@"%@%@%@", xmlFile, [KWCommonMethods formatTime:time withFrames:YES], endString];
 				}
 			}
 		}
@@ -172,12 +172,12 @@
 	fileSize = 0;
 	
 		NSInteger i;
-		for (i=0;i<[files count];i++)
+		for (i = 0; i < [files count]; i ++)
 		{
 			fileSize = fileSize + [[[defaultManager fileAttributesAtPath:[files objectAtIndex:i] traverseLink:YES] objectForKey:NSFileSize] floatValue] / 2048;
 		}
 		
-	[[NSNotificationCenter defaultCenter] postNotificationName:@"KWMaximumValueChanged" object:[NSNumber numberWithFloat:fileSize]];
+	[[NSNotificationCenter defaultCenter] postNotificationName:@"KWMaximumValueChanged" object:[NSNumber numberWithCGFloat:fileSize]];
 	
 	NSPipe *pipe =[ [NSPipe alloc] init];
 	NSFileHandle *handle;
@@ -206,7 +206,12 @@
 	[timer invalidate];
 
 	NSInteger taskStatus = [dvdauthor terminationStatus];
+	
+	[pipe release];
+	pipe = nil;
+	
 	[dvdauthor release];
+	dvdauthor = nil;
 
 	if (taskStatus == 0)
 	{
@@ -239,13 +244,13 @@
 {
 	NSNotificationCenter *defaultCenter = [NSNotificationCenter defaultCenter];
 
-	float currentSize = [[[[NSFileManager defaultManager] fileAttributesAtPath:[theTimer userInfo] traverseLink:YES] objectForKey:NSFileSize] floatValue] / 2048;
-	float percent = currentSize / fileSize * 100;
+	CGFloat currentSize = [[[[NSFileManager defaultManager] fileAttributesAtPath:[theTimer userInfo] traverseLink:YES] objectForKey:NSFileSize] floatValue] / 2048;
+	CGFloat percent = currentSize / fileSize * 100;
 		
 		if (percent < 101)
 		[defaultCenter postNotificationName:@"KWStatusByAddingPercentChanged" object:[NSString stringWithFormat:@" (%.0f%@)", percent, @"%"]];
 
-	[defaultCenter postNotificationName:@"KWValueChanged" object:[NSNumber numberWithFloat:currentSize]];
+	[defaultCenter postNotificationName:@"KWValueChanged" object:[NSNumber numberWithCGFloat:currentSize]];
 }
 
 /////////////////////////
@@ -307,10 +312,13 @@
 			succes = [self createSelectionMenus:fileArray withChapters:YES atPath:themeFolderPath errorString:&*error];
 	}
 	
+	NSLog(@"Variables: %@", *error);
+	
 	//Create dvdauthor XML file
 	if (succes)
 		succes = [self createDVDXMLAtPath:dvdXMLPath withFileArray:fileArray atFolderPath:path errorString:&*error];
 	
+	NSLog(@"Variables: %@", *error);
 	//Author DVD
 	if (succes)
 		succes = [self authorDVDWithXMLFile:dvdXMLPath withFileArray:fileArray atPath:path errorString:&*error];
@@ -370,12 +378,14 @@
 	if (chapters)
 	{
 		NSInteger i;
-		for (i=0;i<[fileArray count];i++)
+		for (i = 0; i < [fileArray count]; i ++)
 		{
-			if ([[[fileArray objectAtIndex:i] objectForKey:@"Chapters"] count] > 0)
+			NSArray *chapters = [[fileArray objectAtIndex:i] objectForKey:@"Chapters"];
+			
+			if ([chapters count] > 0)
 			{
-				[titlesWithChapters addObject:[[fileArray objectAtIndex:i] objectForKey:@"Chapters"]];
-				[indexes addObject:[NSNumber numberWithInt:i]];
+				[titlesWithChapters addObject:chapters];
+				[indexes addObject:[NSNumber numberWithInteger:i]];
 			}
 		}
 
@@ -384,7 +394,7 @@
 	}
 
 	NSInteger x;
-	for (x=0;x<menuSeries;x++)
+	for (x = 0; x < menuSeries; x ++)
 	{
 		NSAutoreleasePool *innerPool = [[NSAutoreleasePool alloc] init];
 
@@ -394,9 +404,11 @@
 		NSMutableArray *images = [[NSMutableArray alloc] init];
 
 		NSInteger i;
-		for (i=0;i<[objects count];i++)
+		for (i = 0; i < [objects count]; i ++)
 		{
 			NSDictionary *currentObject = [objects objectAtIndex:i];
+			NSString *currentPath = [currentObject objectForKey:@"Path"];
+			BOOL widescreen = [[currentObject objectForKey:@"WideScreen"] boolValue];
 			NSImage *image;
 
 			if (chapters)
@@ -405,11 +417,11 @@
 			}
 			else
 			{
-				image = [[KWConverter alloc] getImageAtPath:[currentObject objectForKey:@"Path"] atTime:[[theme objectForKey:@"KWScreenshotAtTime"] intValue] isWideScreen:[[currentObject objectForKey:@"WideScreen"] boolValue]];
+				image = [[KWConverter alloc] getImageAtPath:currentPath atTime:[[theme objectForKey:@"KWScreenshotAtTime"] intValue] isWideScreen:widescreen];
 				
 				//Too short movie
 				if (!image)
-					image = [[KWConverter alloc] getImageAtPath:[currentObject objectForKey:@"Path"] atTime:0 isWideScreen:[[currentObject objectForKey:@"WideScreen"] boolValue]];
+					image = [[KWConverter alloc] getImageAtPath:currentPath atTime:0 isWideScreen:widescreen];
 			}
 			
 			[images addObject:image];
@@ -443,33 +455,36 @@
 			firstRange = NSMakeRange(0,number);
 
 			NSInteger i;
-			for (i=1;i<pages - 1;i++)
+			for (i = 1; i < pages - 1; i ++)
 			{
 				if (succes)
 				{
 					NSAutoreleasePool *innerPool = [[NSAutoreleasePool alloc] init];
 
 					NSRange range = NSMakeRange(number * i,number);
-					image = [self selectionMenuWithTitles:(!chapters) withObjects:[objects subarrayWithRange:range] withImages:[images subarrayWithRange:range] addNext:YES addPrevious:YES];
-					mask = [self selectionMaskWithTitles:(!chapters) withObjects:[objects subarrayWithRange:range] addNext:YES addPrevious:YES];
+					NSArray *objectSubArray = [objects subarrayWithRange:range];
+					image = [self selectionMenuWithTitles:(!chapters) withObjects:objectSubArray withImages:[images subarrayWithRange:range] addNext:YES addPrevious:YES];
+					mask = [self selectionMaskWithTitles:(!chapters) withObjects:objectSubArray addNext:YES addPrevious:YES];
 					succes = [KWCommonMethods saveImage:mask toPath:[path stringByAppendingPathComponent:@"Mask.png"] errorString:&*error];
 				
 					if (succes)
-						succes = [self createDVDMenuFile:[[[path stringByAppendingPathComponent:outputName] stringByAppendingString:[[NSNumber numberWithInt:i + 1 + numberOfpages] stringValue]] stringByAppendingString:@".mpg"] withImage:image withMaskFile:[path stringByAppendingPathComponent:@"Mask.png"] errorString:&*error];
+						succes = [self createDVDMenuFile:[[[path stringByAppendingPathComponent:outputName] stringByAppendingString:[[NSNumber numberWithInteger:i + 1 + numberOfpages] stringValue]] stringByAppendingString:@".mpg"] withImage:image withMaskFile:[path stringByAppendingPathComponent:@"Mask.png"] errorString:&*error];
 				
 					[innerPool release];
+					innerPool = nil;
 				}
 			}
 
 			if (succes)
 			{
 				NSRange range = NSMakeRange((pages - 1) * number,[objects count] - (pages - 1) * number);
-				image = [self selectionMenuWithTitles:(!chapters) withObjects:[objects subarrayWithRange:range] withImages:[images subarrayWithRange:range] addNext:NO addPrevious:YES];
-				mask = [self selectionMaskWithTitles:(!chapters) withObjects:[objects subarrayWithRange:range] addNext:NO addPrevious:YES];
+				NSArray *objectSubArray = [objects subarrayWithRange:range];
+				image = [self selectionMenuWithTitles:(!chapters) withObjects:objectSubArray withImages:[images subarrayWithRange:range] addNext:NO addPrevious:YES];
+				mask = [self selectionMaskWithTitles:(!chapters) withObjects:objectSubArray addNext:NO addPrevious:YES];
 				succes = [KWCommonMethods saveImage:mask toPath:[path stringByAppendingPathComponent:@"Mask.png"] errorString:&*error];
 			
 				if (succes)
-					succes = [self createDVDMenuFile:[[[path stringByAppendingPathComponent:outputName] stringByAppendingString:[[NSNumber numberWithInt:pages + numberOfpages] stringValue]] stringByAppendingString:@".mpg"] withImage:image withMaskFile:[path stringByAppendingPathComponent:@"Mask.png"] errorString:&*error];
+					succes = [self createDVDMenuFile:[[[path stringByAppendingPathComponent:outputName] stringByAppendingString:[[NSNumber numberWithInteger:pages + numberOfpages] stringValue]] stringByAppendingString:@".mpg"] withImage:image withMaskFile:[path stringByAppendingPathComponent:@"Mask.png"] errorString:&*error];
 			}
 		}
 		else
@@ -479,15 +494,17 @@
 
 		if (succes)
 		{
-			image = [self selectionMenuWithTitles:(!chapters) withObjects:[objects subarrayWithRange:firstRange] withImages:[images subarrayWithRange:firstRange] addNext:([objects count] > number) addPrevious:NO];
-			mask = [self selectionMaskWithTitles:(!chapters) withObjects:[objects subarrayWithRange:firstRange] addNext:([objects count] > number) addPrevious:NO];
+			NSArray *objectSubArray = [objects subarrayWithRange:firstRange];
+			image = [self selectionMenuWithTitles:(!chapters) withObjects:objectSubArray withImages:[images subarrayWithRange:firstRange] addNext:([objects count] > number) addPrevious:NO];
+			mask = [self selectionMaskWithTitles:(!chapters) withObjects:objectSubArray addNext:([objects count] > number) addPrevious:NO];
 			succes = [KWCommonMethods saveImage:mask toPath:[path stringByAppendingPathComponent:@"Mask.png"] errorString:&*error];
 		
 			if (succes)
-				succes = [self createDVDMenuFile:[path stringByAppendingPathComponent:[[outputName stringByAppendingString:[[NSNumber numberWithInt:1 + numberOfpages] stringValue]] stringByAppendingString:@".mpg"]] withImage:image withMaskFile:[path stringByAppendingPathComponent:@"Mask.png"] errorString:&*error];
+				succes = [self createDVDMenuFile:[path stringByAppendingPathComponent:[[outputName stringByAppendingString:[[NSNumber numberWithInteger:1 + numberOfpages] stringValue]] stringByAppendingString:@".mpg"]] withImage:image withMaskFile:[path stringByAppendingPathComponent:@"Mask.png"] errorString:&*error];
 		}
 
 		numberOfpages = numberOfpages + pages;
+		
 		[images release];
 		images = nil;
 	
@@ -495,7 +512,10 @@
 	}
 	
 	[titlesWithChapters release];
+	titlesWithChapters = nil;
+	
 	[indexes release];
+	indexes = nil;
 	
 	if (!succes && !*error)
 		*error = @"Failed to create selection menus";
@@ -510,13 +530,15 @@
 
 	//Check if there are any chapters
 	NSInteger i;
-	for (i=0;i<[fileArray count];i++)
+	for (i = 0; i < [fileArray count]; i ++)
 	{
-		if ([[[fileArray objectAtIndex:i] objectForKey:@"Chapters"] count] > 0)
+		NSDictionary *fileDictionary = [fileArray objectAtIndex:i];
+	
+		if ([[fileDictionary objectForKey:@"Chapters"] count] > 0)
 		{
 			NSAutoreleasePool *innerPool = [[NSAutoreleasePool alloc] init];
 		
-			NSString *name = [[[[fileArray objectAtIndex:i] objectForKey:@"Path"] lastPathComponent] stringByDeletingPathExtension];
+			NSString *name = [[[fileDictionary objectForKey:@"Path"] lastPathComponent] stringByDeletingPathExtension];
 
 			//Create Images
 			NSImage *image = [self rootMenuWithTitles:NO withName:name withSecondButton:YES];
@@ -554,25 +576,27 @@
 	if (succes)
 	{
 		NSUserDefaults *standardUserDefaults = [NSUserDefaults standardUserDefaults];
-		NSPipe *pipe=[[NSPipe alloc] init];
-		NSPipe *pipe2=[[NSPipe alloc] init];
+		NSPipe *pipe = [[NSPipe alloc] init];
+		NSPipe *pipe2 = [[NSPipe alloc] init];
 		NSFileHandle *myHandle = [pipe fileHandleForWriting];
 		NSFileHandle *myHandle2 = [pipe2 fileHandleForReading];
 		ffmpeg = [[NSTask alloc] init];
 		NSString *format;
 	
 		if ([[standardUserDefaults objectForKey:@"KWDefaultRegion"] intValue] == 0)
-		format = @"pal-dvd";
+			format = @"pal-dvd";
 		else
-		format = @"ntsc-dvd";
+			format = @"ntsc-dvd";
 
 		[ffmpeg setLaunchPath:[KWCommonMethods ffmpegPath]];
 		
+		NSString *threads = [[standardUserDefaults objectForKey:@"KWEncodingThreads"] stringValue];
+		
 		NSArray *arguments;
 		if ([[standardUserDefaults objectForKey:@"KWDVDThemeFormat"] intValue] == 0)
-			arguments = [NSArray arrayWithObjects: @"-shortest", @"-f",@"image2pipe",@"-threads",[[NSNumber numberWithInt:[[[NSUserDefaults standardUserDefaults] objectForKey:@"KWEncodingThreads"] intValue]] stringValue], @"-i",@"pipe:.jpg",@"-f", @"s16le", @"-ac", @"2", @"-i", @"/dev/zero",@"-target",format,@"-",@"-an",nil];
+			arguments = [NSArray arrayWithObjects:@"-shortest", @"-f", @"image2pipe", @"-threads", threads, @"-i", @"pipe:.jpg", @"-f", @"s16le", @"-ac", @"2", @"-i", @"/dev/zero", @"-target", format, @"-", @"-an", nil];
 		else
-			arguments = [NSArray arrayWithObjects: @"-shortest", @"-f",@"image2pipe",@"-threads",[[NSNumber numberWithInt:[[[NSUserDefaults standardUserDefaults] objectForKey:@"KWEncodingThreads"] intValue]] stringValue], @"-i",@"pipe:.jpg",@"-f", @"s16le", @"-ac", @"2", @"-i", @"/dev/zero", @"-target",format,@"-",@"-an",@"-aspect",@"16:9",nil];
+			arguments = [NSArray arrayWithObjects:@"-shortest", @"-f", @"image2pipe", @"-threads", threads, @"-i", @"pipe:.jpg", @"-f", @"s16le", @"-ac", @"2", @"-i", @"/dev/zero", @"-target", format, @"-", @"-an", @"-aspect", @"16:9", nil];
 	
 		[ffmpeg setArguments:arguments];
 		[ffmpeg setStandardInput:pipe];
@@ -589,10 +613,10 @@
 		[spumux setLaunchPath:[[NSBundle mainBundle] pathForResource:@"spumux" ofType:@""]];
 		[spumux setCurrentDirectoryPath:[path stringByDeletingLastPathComponent]];
 		[spumux setArguments:[NSArray arrayWithObject:[[path stringByDeletingPathExtension] stringByAppendingPathExtension:@"xml"]]];
-		NSPipe *errorPipe=[[NSPipe alloc] init];
+		NSPipe *errorPipe = [[NSPipe alloc] init];
 		NSFileHandle *handle;
 		[spumux setStandardError:errorPipe];
-		handle=[errorPipe fileHandleForReading];
+		handle = [errorPipe fileHandleForReading];
 		[KWCommonMethods logCommandIfNeeded:spumux];
 		[spumux launch];
 		[KWCommonMethods logCommandIfNeeded:ffmpeg];
@@ -601,7 +625,7 @@
 		NSData *tiffData = [image TIFFRepresentation];
 		NSBitmapImageRep *bitmap = [NSBitmapImageRep imageRepWithData:tiffData];
 		
-		NSData *jpgData = [bitmap representationUsingType:NSJPEGFileType properties:[NSDictionary dictionaryWithObject:[NSNumber numberWithFloat:1.0] forKey:NSImageCompressionFactor]];
+		NSData *jpgData = [bitmap representationUsingType:NSJPEGFileType properties:[NSDictionary dictionaryWithObject:[NSNumber numberWithCGFloat:1.0] forKey:NSImageCompressionFactor]];
 		
 		NSInteger q = 0;
 		while (q < 25)
@@ -617,7 +641,10 @@
 		ffmpeg = nil;
 	
 		[pipe release];
+		pipe = nil;
+		
 		[pipe2 release];
+		pipe2 = nil;
 
 		NSString *string = [[[NSString alloc] initWithData:[handle readDataToEndOfFile] encoding:NSUTF8StringEncoding] autorelease];
 	
@@ -630,7 +657,9 @@
 
 		[spumux release];
 		spumux = nil;
+		
 		[errorPipe release];
+		errorPipe = nil;
 		
 		if (!succes)
 		{
@@ -647,7 +676,8 @@
 
 //Create a xml file for dvdauthor
 -(BOOL)createDVDXMLAtPath:(NSString *)path withFileArray:(NSArray *)fileArray atFolderPath:(NSString *)folderPath errorString:(NSString **)error
-{		
+{	
+	NSInteger numberOfFiles = [fileArray count];
 	NSString *xmlContent;
 
 	NSString *aspect1 = @"";
@@ -661,7 +691,7 @@
 		
 	NSString *titleset = @"";
 		
-	if ([fileArray count] > 1 | [[[fileArray objectAtIndex:0] objectForKey:@"Chapters"] count] > 0)
+	if (numberOfFiles > 1 | [[[fileArray objectAtIndex:0] objectForKey:@"Chapters"] count] > 0)
 		titleset = @"<button>jump titleset 1 menu entry root;</button>\n";
 		
 	xmlContent = [NSString stringWithFormat:@"<dvdauthor dest=\"../\" jumppad=\"1\">\n<vmgm>\n<menus>\n<video %@></video>\n<pgc entry=\"title\">\n<vob file=\"Title Menu.mpg\"></vob>\n<button>jump titleset 1 title 1;</button>\n%@</pgc>\n</menus>\n</vmgm>\n<titleset>\n<menus>\n%@", aspect1, titleset, aspect2];
@@ -674,33 +704,33 @@
 
 	NSInteger numberOfMenus = [fileArray count] / number;
 
-	if ([fileArray count] - (numberOfMenus * number) > 0)
+	if (numberOfFiles - (numberOfMenus * number) > 0)
 		numberOfMenus = numberOfMenus + 1;
 
 	NSInteger chapterMenu = numberOfMenus + 1;
 	NSInteger menuItem = 0;
 
-	if ([fileArray count] == 1)
+	if (numberOfFiles == 1)
 	{
 		numberOfMenus = 0;
 		chapterMenu = 1;
 	}
 
 	NSInteger i;
-	for (i=0;i<numberOfMenus;i++)
+	for (i = 0; i < numberOfMenus; i ++)
 	{
 		menuItem = menuItem + 1;
-		xmlContent = [NSString stringWithFormat:@"%@<pgc>\n<vob file=\"Title Selection %i.mpg\"></vob>\n",xmlContent, i + 1];
+		xmlContent = [NSString stringWithFormat:@"%@<pgc>\n<vob file=\"Title Selection %i.mpg\"></vob>\n", xmlContent, i + 1];
 		
 		NSInteger o;
-		for (o=0;o<number;o++)
+		for (o = 0; o < number; o ++)
 		{
-			if ([fileArray count] > i * number + o)
+			if (numberOfFiles > i * number + o)
 			{
-				NSInteger jumpNumber = o+1+i*number;
+				NSInteger jumpNumber = o + 1 + i * number;
 				NSString *jumpKind;
 				
-				NSArray *chapters = [[fileArray objectAtIndex:jumpNumber-1] objectForKey:@"Chapters"];
+				NSArray *chapters = [[fileArray objectAtIndex:jumpNumber - 1] objectForKey:@"Chapters"];
 				if ([chapters count] > 0)
 				{
 					jumpKind = @"menu";
@@ -733,20 +763,20 @@
 
 	NSMutableArray *titlesWithChapters = [[NSMutableArray alloc] init];
 	NSMutableArray *titlesWithChaptersNames = [[NSMutableArray alloc] init];
-	for (i=0;i<[fileArray count];i++)
+	for (i = 0; i < [fileArray count]; i ++)
 	{
 		NSDictionary *fileDictionary = [fileArray objectAtIndex:i];
 		NSArray *chapters = [fileDictionary objectForKey:@"Chapters"];
 	
 		if ([chapters count] > 0)
 		{
-			[titlesWithChapters addObject:[NSNumber numberWithInt:i]];
+			[titlesWithChapters addObject:[NSNumber numberWithInteger:i]];
 			[titlesWithChaptersNames addObject:[[[fileDictionary objectForKey:@"Path"] lastPathComponent] stringByDeletingPathExtension]];
 		}
 	}
 
 	NSInteger chapterSelection = 1;
-	for (i=0;i<[titlesWithChapters count];i++)
+	for (i = 0; i < [titlesWithChapters count]; i ++)
 	{
 		NSArray *chapters = [[fileArray objectAtIndex:[[titlesWithChapters objectAtIndex:i] intValue]] objectForKey:@"Chapters"];
 		NSInteger numberOfChapters = [chapters count];
@@ -756,7 +786,7 @@
 			numberOfMenus = numberOfMenus + 1;
 
 		NSInteger y;
-		for (y=0;y<numberOfMenus;y++)
+		for (y = 0; y < numberOfMenus; y ++)
 		{
 			menuItem = menuItem + 1;
 			
@@ -765,7 +795,7 @@
 			chapterSelection = chapterSelection + 1;
 		
 			NSInteger o;
-			for (o=0;o<number;o++)
+			for (o = 0; o < number; o ++)
 			{
 				NSInteger addNumber;
 				if ([[[chapters objectAtIndex:0] objectForKey:@"RealTime"] intValue] == 0)
@@ -793,7 +823,7 @@
 		
 		xmlContent = [NSString stringWithFormat:@"%@</menus>\n<titles>\n", xmlContent];
 	
-	for (i=0;i<[fileArray count];i++)
+	for (i = 0; i < [fileArray count]; i ++)
 	{
 		NSDictionary *fileDictionary = [fileArray objectAtIndex:i];
 		NSArray *chapters = [[fileArray objectAtIndex:i] objectForKey:@"Chapters"];
@@ -805,10 +835,10 @@
 			xmlContent = [NSString stringWithFormat:@"%@ chapters=\"00:00:00,", xmlContent];
 			
 			NSInteger x;
-			for (x=0;x<[chapters count];x++)
+			for (x = 0; x < [chapters count]; x ++)
 			{
 				NSDictionary *currentChapter = [chapters objectAtIndex:x];
-				float time = [[currentChapter objectForKey:@"RealTime"] floatValue];
+				CGFloat time = [[currentChapter objectForKey:@"RealTime"] floatValue];
 				
 				if (time > 0)
 				{
@@ -818,7 +848,7 @@
 					else
 						endString = @"\"";
 					
-					xmlContent = [NSString stringWithFormat:@"%@%@%@", xmlContent, [KWCommonMethods formatTimeForChapter:time], endString];
+					xmlContent = [NSString stringWithFormat:@"%@%@%@", xmlContent, [KWCommonMethods formatTime:time withFrames:YES], endString];
 				}
 			}
 		}
@@ -846,7 +876,10 @@
 	xmlContent = [NSString stringWithFormat:@"%@</titles>\n</titleset>\n</dvdauthor>", xmlContent];
 
 	[titlesWithChapters release];
+	titlesWithChapters = nil;
+	
 	[titlesWithChaptersNames release];
+	titlesWithChaptersNames = nil;
 
 	return [KWCommonMethods writeString:xmlContent toFile:path errorString:&*error];
 }
@@ -859,7 +892,7 @@
 
 	dvdauthor=[[NSTask alloc] init];
 	NSPipe *pipe2 = [[NSPipe alloc] init];
-	NSPipe *pipe=[[NSPipe alloc] init];
+	NSPipe *pipe = [[NSPipe alloc] init];
 	NSFileHandle *handle;
 	NSFileHandle *handle2;
 	NSData *data;
@@ -871,10 +904,10 @@
 	[dvdauthor setStandardError:pipe];
 	[dvdauthor setStandardOutput:pipe2];
 	
-	handle=[pipe fileHandleForReading];
-	handle2=[pipe2 fileHandleForReading];
+	handle = [pipe fileHandleForReading];
+	handle2 = [pipe2 fileHandleForReading];
 
-	float totalSize = 0;
+	CGFloat totalSize = 0;
 
 	if ([defaultManager fileExistsAtPath:[path stringByAppendingPathComponent:@"THEME_TS"]])
 	{
@@ -882,7 +915,7 @@
 	}
 
 	NSInteger i;
-	for (i=0;i<[fileArray count];i++)
+	for (i = 0; i < [fileArray count]; i ++)
 	{
 		NSDictionary *attrib = [defaultManager fileAttributesAtPath:[[fileArray objectAtIndex:i] objectForKey:@"Path"] traverseLink:YES];
 		totalSize = totalSize + ([[attrib objectForKey:NSFileSize] floatValue]);
@@ -895,26 +928,27 @@
 	[dvdauthor launch];
 
 	totalSize = totalSize / 1024 / 1024;
-	
-	NSString *errorString = @"";
-	NSAutoreleasePool *innerPool = [[NSAutoreleasePool alloc] init];
-	NSString *string = nil;
 
-	while([data=[handle availableData] length])
+	NSMutableString *errorString = [[NSMutableString alloc] initWithString:@""];
+	NSString *string = [[NSString alloc] init];
+
+	while([data = [handle availableData] length])
 	{
+		NSAutoreleasePool *subpool = [[NSAutoreleasePool alloc] init];
+
 		if (string)
 		{
 			[string release];
 			string = nil;
 		}
 	
-		string=[[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
+		string = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
 
 		if ([[NSUserDefaults standardUserDefaults] boolForKey:@"KWDebug"])
 			NSLog(@"%@", string);
-		
+
 		if (string)	
-			errorString = [errorString stringByAppendingString:string];
+			[errorString appendString:string];
 
 		if ([string rangeOfString:@"Processing /"].length > 0)
 		{
@@ -926,18 +960,18 @@
 		
 		if ([string rangeOfString:@"Generating VTS with the following video attributes"].length > 0)
 		{
-			[[NSNotificationCenter defaultCenter] postNotificationName:@"KWStatusChanged" object:NSLocalizedString(@"Generating DVD folder", Localized)];
+			[defaultCenter postNotificationName:@"KWStatusChanged" object:NSLocalizedString(@"Generating DVD folder", Localized)];
 			currentProcces = 2;
 		}
 
 		if ([string rangeOfString:@"MB"].length > 0 && [string rangeOfString:@"at "].length > 0)
 		{
-			float progressValue;
+			CGFloat progressValue;
 
 			if (currentProcces == 1)
 			{
 				progressValue = [[[[[string componentsSeparatedByString:@"MB"] objectAtIndex:0] componentsSeparatedByString:@"at "] objectAtIndex:1] floatValue] / totalSize * 100;
-				[[NSNotificationCenter defaultCenter] postNotificationName:@"KWValueChanged" object:[NSNumber numberWithInt:(([progressSize floatValue] / 100) * progressValue)]];
+				[defaultCenter postNotificationName:@"KWValueChanged" object:[NSNumber numberWithInteger:(([progressSize floatValue] / 100) * progressValue)]];
 			}
 			else
 			{
@@ -945,31 +979,36 @@
 
 				if (progressValue > 0 && progressValue < 101)
 				{
-					[[NSNotificationCenter defaultCenter] postNotificationName:@"KWValueChanged" object:[NSNumber numberWithInt:([progressSize floatValue])+(([progressSize floatValue] / 100) * progressValue)]];
-					[[NSNotificationCenter defaultCenter] postNotificationName:@"KWStatusChanged" object:[NSString stringWithFormat:NSLocalizedString(@"Generating DVD folder: (%.0f%@)", nil), progressValue, @"%"]];
+					[defaultCenter postNotificationName:@"KWValueChanged" object:[NSNumber numberWithInteger:([progressSize floatValue])+(([progressSize floatValue] / 100) * progressValue)]];
+					[defaultCenter postNotificationName:@"KWStatusChanged" object:[NSString stringWithFormat:NSLocalizedString(@"Generating DVD folder: (%.0f%@)", nil), progressValue, @"%"]];
 				}
 			}
 		}
 		
-		errorString = [errorString retain];
 		data = nil;
-		[innerPool release];
-		innerPool = [[NSAutoreleasePool alloc] init];
+		[subpool release];
+		subpool = nil;
 	}
 
-	[innerPool release];
 	[dvdauthor waitUntilExit];
 	
 	returnCode = ([dvdauthor terminationStatus] == 0 && userCanceled == NO);
 	
+	[errorString appendString:[[[NSString alloc] initWithData:[handle2 readDataToEndOfFile] encoding:NSUTF8StringEncoding] autorelease]];
 	errorString = [errorString autorelease];
-	errorString = [errorString stringByAppendingString:[[[NSString alloc] initWithData:[handle2 readDataToEndOfFile] encoding:NSUTF8StringEncoding] autorelease]];
 	
 	if (!returnCode)
 		*error = [NSString stringWithFormat:@"KWConsole:\nTask: dvdauthor\n%@", errorString];
 	
 	[string release];
+	string = nil;
+	
 	[pipe release];
+	pipe = nil;
+	
+	[pipe2 release];
+	pipe2 = nil;
+	
 	[dvdauthor release];
 	dvdauthor = nil;
 
@@ -987,7 +1026,7 @@
 - (NSImage *)rootMenuWithTitles:(BOOL)titles withName:(NSString *)name withSecondButton:(BOOL)secondButton
 {
 	NSImage *newImage = nil;
-
+	
 	if (titles)
 		newImage = [[[NSImage alloc] initWithData:[theme objectForKey:@"KWAltRootImage"]] autorelease];
 	else
@@ -1067,7 +1106,7 @@
 {
 	NSImage *newImage = [[[NSImage alloc] initWithSize: NSMakeSize(720,576)] autorelease]; 
 	
-	float factor;
+	CGFloat factor;
 	if ([[[NSUserDefaults standardUserDefaults] objectForKey:@"KWDVDThemeFormat"] intValue] == 0)
 		factor = 1;
 	else
@@ -1164,8 +1203,8 @@
 		if ([[theme objectForKey:@"KWSelectionMode"] intValue] != 2)
 		{
 			NSImage *previewImage = [images objectAtIndex:i];
-			float width;
-			float height;
+			CGFloat width;
+			CGFloat height;
 	
 			if ([previewImage size].width / [previewImage size].height < 1)
 			{
@@ -1315,7 +1354,7 @@
 	//else
 	//newImage = [[[NSImage alloc] initWithSize: NSMakeSize(720,384)] autorelease];
 	
-	float factor;
+	CGFloat factor;
 	if ([[[NSUserDefaults standardUserDefaults] objectForKey:@"KWDVDThemeFormat"] intValue] == 0)
 		factor = 1;
 	else
@@ -1510,7 +1549,7 @@
 	NSFont *labelFont = [NSFont fontWithName:fontName size:size];
 	NSMutableParagraphStyle *centeredStyle = [[NSParagraphStyle defaultParagraphStyle] mutableCopy];
 	[centeredStyle setAlignment:alignment];
-	NSDictionary *attsDict = [NSDictionary dictionaryWithObjectsAndKeys:centeredStyle, NSParagraphStyleAttributeName,color, NSForegroundColorAttributeName, labelFont, NSFontAttributeName, [NSNumber numberWithInt:NSNoUnderlineStyle], NSUnderlineStyleAttributeName, nil];
+	NSDictionary *attsDict = [NSDictionary dictionaryWithObjectsAndKeys:centeredStyle, NSParagraphStyleAttributeName,color, NSForegroundColorAttributeName, labelFont, NSFontAttributeName, [NSNumber numberWithInteger:NSNoUnderlineStyle], NSUnderlineStyleAttributeName, nil];
 	[centeredStyle release];
 	centeredStyle = nil;
 		

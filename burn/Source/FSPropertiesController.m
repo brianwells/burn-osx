@@ -54,15 +54,15 @@
 
 @interface NSView (EnablingHelper)
 
-- (void) setEnabled:(BOOL)enabledFlag deep:(BOOL)goDeep;
+- (void)setEnabled:(BOOL)enabledFlag deep:(BOOL)goDeep;
 
 @end
 
 @implementation NSView (EnablingHelper)
 
-- (void) setEnabled:(BOOL)enabledFlag deep:(BOOL)goDeep
+- (void)setEnabled:(BOOL)enabledFlag deep:(BOOL)goDeep
 {
-	// Dis/Enable ourselves first.
+	// Dis/Enable ourselfs first.
 	if ([self respondsToSelector:@selector(setEnabled:)])
 		[(id)self setEnabled:enabledFlag];
 	
@@ -116,7 +116,7 @@
 - (BOOL)checkForFileSystemMasksInObjects:(NSArray *)objects
 {
 	NSInteger x;
-	for (x=0;x<[objects count];x++)
+	for (x = 0; x < [objects count]; x ++)
 	{
 		if ([[objects objectAtIndex:x] explicitFilesystemMask] & [self mask])
 			return YES;
@@ -128,7 +128,7 @@
 - (BOOL)checkForFileSystemMasksInParentsOfObjects:(NSArray *)objects
 {
 	NSInteger x;
-	for (x=0;x<[objects count];x++)
+	for (x = 0; x < [objects count]; x ++)
 	{
 		if ([[(DRFSObject *)[objects objectAtIndex:x] parent] effectiveFilesystemMask] & [self mask])
 			return YES;
@@ -142,7 +142,7 @@
 	id object = [[inspectedItems objectAtIndex:0] propertyForKey:key inFilesystem:[self filesystem] mergeWithOtherFilesystems:NO];
 
 	NSInteger x;
-	for (x=0;x<[inspectedItems count];x++)
+	for ( x = 0; x < [inspectedItems count]; x ++)
 	{
 		if (![object isEqualTo:[[inspectedItems objectAtIndex:x] propertyForKey:key inFilesystem:[self filesystem] mergeWithOtherFilesystems:NO]])
 			return nil;
@@ -154,7 +154,7 @@
 - (IBAction)setIncludedBit:(id)sender
 {
 	NSInteger x;
-	for (x=0;x<[inspectedItems count];x++)
+	for (x = 0; x < [inspectedItems count]; x ++)
 	{
 		id currentItem = [inspectedItems objectAtIndex:x];
 	
@@ -170,8 +170,9 @@
 	
 	[contentView setEnabled:([sender state]) deep:YES];
 
-	[[NSNotificationCenter defaultCenter] postNotificationName:@"KWLeaveTab" object:nil];
-	[[NSNotificationCenter defaultCenter] postNotificationName:@"KWReloadRequested" object:nil];
+	NSNotificationCenter *defaultCenter = [NSNotificationCenter defaultCenter];
+	[defaultCenter postNotificationName:@"KWLeaveTab" object:nil];
+	[defaultCenter postNotificationName:@"KWReloadRequested" object:nil];
 }
 
 - (void)clearForMultipleSelection
@@ -186,8 +187,10 @@
 	DRFSObject *firstItem = [inspectedItems objectAtIndex:0];
 	
 	[baseName setStringValue:[firstItem baseName]];
-	[specificName setStringValue:[firstItem specificNameForFilesystem:[self filesystem]]];
-	[mangledName setStringValue:[firstItem mangledNameForFilesystem:[self filesystem]]];
+	
+	NSString *fileSystem = [self filesystem];
+	[specificName setStringValue:[firstItem specificNameForFilesystem:fileSystem]];
+	[mangledName setStringValue:[firstItem mangledNameForFilesystem:fileSystem]];
 }
 
 - (void)updateDates
@@ -271,7 +274,7 @@
 	if (objValue)
 	{
 		NSInteger x;
-		for (x=0;x<[inspectedItems count];x++)
+		for (x = 0; x < [inspectedItems count]; x ++)
 		{
 			[[inspectedItems objectAtIndex:x] setProperty:objValue forKey:[propertyMappings objectAtIndex:[sender tag]] inFilesystem:[self filesystem]];
 		}
@@ -279,8 +282,9 @@
 	
 	if ([[propertyMappings objectAtIndex:[sender tag]] isEqualTo:DRInvisible])
 	{
-		[[NSNotificationCenter defaultCenter] postNotificationName:@"KWLeaveTab" object:nil];
-		[[NSNotificationCenter defaultCenter] postNotificationName:@"KWReloadRequested" object:nil];
+		NSNotificationCenter *defaultCenter = [NSNotificationCenter defaultCenter];
+		[defaultCenter postNotificationName:@"KWLeaveTab" object:nil];
+		[defaultCenter postNotificationName:@"KWReloadRequested" object:nil];
 	}
 }
 
@@ -312,7 +316,7 @@
 	// [propertyMappings objectAtIndex:[sender tag]]
 
 	NSInteger x;
-	for (x=0;x<[inspectedItems count];x++)
+	for (x = 0; x < [inspectedItems count]; x ++)
 	{
 		[[inspectedItems objectAtIndex:x] setProperty:[NSNumber numberWithUnsignedShort:mode] forKey:[propertyMappings objectAtIndex:[sender tag]] inFilesystem:[self filesystem]];
 	}

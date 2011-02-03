@@ -76,10 +76,20 @@ return self;
 	[[NSNotificationCenter defaultCenter] removeObserver:self];
 	[[DRNotificationCenter currentRunLoopCenter] removeObserver:self name:DRDeviceStatusChangedNotification object:nil];
 	
+	[preferenceMappings release];
+	preferenceMappings = nil;
+	
 	[itemsList release];
+	itemsList = nil;
+	
 	[savedAudioItem release];
+	savedAudioItem = nil;
+	
 	[themePaths release];
+	themePaths = nil;
+	
 	[toolbar release];
+	toolbar = nil;
 
 	[super dealloc];
 }
@@ -115,7 +125,7 @@ return self;
 	
 	NSInteger selectedCDItem = [[standardDefaults objectForKey:@"KWDefaultCDMedia"] intValue];
 	if (selectedCDItem == 0 | selectedCDItem == 3)
-		[standardDefaults setObject:[NSNumber numberWithInt:6] forKey:@"KWDefaultCDMedia"];
+		[standardDefaults setObject:[NSNumber numberWithInteger:6] forKey:@"KWDefaultCDMedia"];
 	
 	[cdPopup setAutoenablesItems:NO];
 	[(NSMenuItem *)[cdPopup itemAtIndex:0] setEnabled:NO];
@@ -123,7 +133,7 @@ return self;
 	
 	NSInteger selectedDVDItem = [[standardDefaults objectForKey:@"KWDefaultDVDMedia"] intValue];
 	if (selectedDVDItem == 0 | selectedDVDItem == 3)
-		[standardDefaults setObject:[NSNumber numberWithInt:4] forKey:@"KWDefaultDVDMedia"];
+		[standardDefaults setObject:[NSNumber numberWithInteger:4] forKey:@"KWDefaultDVDMedia"];
 	
 	[dvdPopup setAutoenablesItems:NO];
 	[(NSMenuItem *)[dvdPopup itemAtIndex:0] setEnabled:NO];
@@ -288,21 +298,22 @@ return self;
 	[sheet orderOut:self];
 	
 	NSUserDefaults *standardDefaults = [NSUserDefaults standardUserDefaults];
+	NSFileManager *defaultManager = [NSFileManager defaultManager];
 
 	if (returnCode == NSOKButton)
 	{
 		[temporaryFolderPopup removeItemAtIndex:0];
 		NSString *temporaryFolder = [sheet filename];
-		[temporaryFolderPopup insertItemWithTitle:[[NSFileManager defaultManager] displayNameAtPath:temporaryFolder] atIndex:0];
+		[temporaryFolderPopup insertItemWithTitle:[defaultManager displayNameAtPath:temporaryFolder] atIndex:0];
 		NSImage *folderImage = [[NSWorkspace sharedWorkspace] iconForFile:temporaryFolder];
 		[folderImage setSize:NSMakeSize(16,16)];
 		NSMenuItem *item = [temporaryFolderPopup itemAtIndex:0];
 		[item setImage:folderImage];
-		[item setToolTip:[[temporaryFolder stringByDeletingLastPathComponent] stringByAppendingPathComponent:[[NSFileManager defaultManager] displayNameAtPath:temporaryFolder]]];
+		[item setToolTip:[[temporaryFolder stringByDeletingLastPathComponent] stringByAppendingPathComponent:[defaultManager displayNameAtPath:temporaryFolder]]];
 		[temporaryFolderPopup selectItemAtIndex:0];
 	
 		[standardDefaults setObject:[sheet filename] forKey:@"KWTemporaryLocation"];
-		[standardDefaults setObject:[NSNumber numberWithInt:0] forKey:@"KWTemporaryLocationPopup"];
+		[standardDefaults setObject:[NSNumber numberWithInteger:0] forKey:@"KWTemporaryLocationPopup"];
 	}
 	else
 	{
@@ -454,8 +465,9 @@ return self;
 
 	if (returnCode == NSOKButton)
 	{
-		[[advancedView viewWithTag:53] setStringValue:[sheet filename]];
-		[[NSUserDefaults standardUserDefaults] setObject:[sheet filename] forKey:@"KWCustomFFMPEG"];
+		NSString *path = [sheet filename];
+		[[advancedView viewWithTag:53] setStringValue:path];
+		[[NSUserDefaults standardUserDefaults] setObject:path forKey:@"KWCustomFFMPEG"];
 	}
 }
 
@@ -468,8 +480,7 @@ return self;
 
 - (NSToolbarItem *)createToolbarItemWithName:(NSString *)name
 {
-	NSToolbarItem *toolbarItem = [[NSToolbarItem alloc] initWithItemIdentifier:name];
-	[toolbarItem autorelease];
+	NSToolbarItem *toolbarItem = [[[NSToolbarItem alloc] initWithItemIdentifier:name] autorelease];
 	[toolbarItem setLabel:NSLocalizedString(name, Localized)];
 	[toolbarItem setPaletteLabel:[toolbarItem label]];
 	[toolbarItem setImage:[KWCommonMethods getImageForName:name]];
@@ -482,8 +493,7 @@ return self;
 
 - (void)setupToolbar
 {
-	toolbar = [[NSToolbar alloc] initWithIdentifier:@"mainToolbar"];
-	[toolbar autorelease];
+	toolbar = [[[NSToolbar alloc] initWithIdentifier:@"mainToolbar"] autorelease];
 	[toolbar setDelegate:self];
 	[toolbar setAllowsUserCustomization:NO];
 	[toolbar setAutosavesConfiguration:NO];
@@ -500,9 +510,10 @@ return self;
 		itemIdentifier = object;
 	
 	id view = [self myViewWithIdentifier:itemIdentifier];
-
-	[[self window] setContentView:[[[NSView alloc] initWithFrame:[view frame]] autorelease]];
-	[self resizeWindowOnSpotWithRect:[view frame]];
+	
+	NSRect frame = [view frame];
+	[[self window] setContentView:[[[NSView alloc] initWithFrame:frame] autorelease]];
+	[self resizeWindowOnSpotWithRect:frame];
 	[[self window] setContentView:view];
 	[[self window] setTitle:NSLocalizedString(itemIdentifier, Localized)];
 
@@ -556,10 +567,8 @@ return self;
 
 - (void)resizeWindowOnSpotWithRect:(NSRect)aRect
 {
-    NSRect r = NSMakeRect([[self window] frame].origin.x - 
-        (aRect.size.width - [[self window] frame].size.width), [[self window] frame].origin.y - 
-        (aRect.size.height+78 - [[self window] frame].size.height), aRect.size.width, aRect.size.height+78);
-    [[self window] setFrame:r display:YES animate:YES];
+    NSRect frame = NSMakeRect([[self window] frame].origin.x - (aRect.size.width - [[self window] frame].size.width), [[self window] frame].origin.y - (aRect.size.height + 78 - [[self window] frame].size.height), aRect.size.width, aRect.size.height + 78);
+    [[self window] setFrame:frame display:YES animate:YES];
 }
 
 /* -----------------------------------------------------------------------------
@@ -568,16 +577,14 @@ return self;
 		automagically select the appropriate item when it is clicked.
    -------------------------------------------------------------------------- */
 
-#if MAC_OS_X_VERSION_MAX_ALLOWED >= MAC_OS_X_VERSION_10_3
 -(NSArray*) toolbarSelectableItemIdentifiers: (NSToolbar*)toolbar
 {
 	return [itemsList allKeys];
 }
-#endif
 
 - (void)settingsChangedByOptionsMenuInMainWindow
 {
-	[self setViewOptions:[NSArray arrayWithObjects:dataView,audioView,videoView,nil]];
+	[self setViewOptions:[NSArray arrayWithObjects:dataView, audioView, videoView, nil]];
 }
 
 - (void)addThemeAndShow:(NSArray *)files

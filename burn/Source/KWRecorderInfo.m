@@ -129,7 +129,7 @@
 	BOOL canWriteDVD = [[writeCapabilities objectForKey:DRDeviceCanWriteDVDKey] boolValue];
 	
 	if (cdUnderrunProtect && !canWriteDVD)
-		[recorderBuffer setStringValue:NSLocalizedString(@"Yes",nil)];
+		[recorderBuffer setStringValue:NSLocalizedString(@"Yes", nil)];
 	
 	if (canWriteDVD)
 	{
@@ -138,14 +138,14 @@
 		NSString *dvdUnderrun;
 		
 		if (cdUnderrunProtect)
-			cdUnderrun = NSLocalizedString(@"Yes",nil);
+			cdUnderrun = NSLocalizedString(@"Yes", nil);
 		else
-			cdUnderrun = NSLocalizedString(@"No",nil);
+			cdUnderrun = NSLocalizedString(@"No", nil);
 			
 		if (dvdUnderrunProtect)
-			dvdUnderrun = NSLocalizedString(@"Yes",nil);
+			dvdUnderrun = NSLocalizedString(@"Yes", nil);
 		else
-			dvdUnderrun = NSLocalizedString(@"No",nil);
+			dvdUnderrun = NSLocalizedString(@"No", nil);
 			
 		[recorderBuffer setStringValue:[NSString stringWithFormat:@"CD: %@ DVD: %@", cdUnderrun, dvdUnderrun]];
 	}

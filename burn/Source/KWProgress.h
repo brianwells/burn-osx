@@ -1,6 +1,7 @@
 /* KWProgress */
 
 #import <Cocoa/Cocoa.h>
+#import "NSNumber_Extensions.h"
 
 @interface KWProgress : NSWindowController
 {
@@ -12,6 +13,8 @@
 	IBOutlet id cancelProgress;
 	
 	//Variables
+	NSArray *notificationNames;
+	
 	NSString *cancelNotification;
 	id notifObject;
 	NSImage *application;

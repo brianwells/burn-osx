@@ -60,7 +60,7 @@
 	long version;
 	OSErr result;
 
-	result = Gestalt(gestaltQuickTime,&version);
+	result = Gestalt(gestaltQuickTime, &version);
 	return ((result == noErr) && (version >= 0x07000000));
 	#endif
 	#endif
@@ -75,28 +75,26 @@
 #pragma mark -
 #pragma mark •• String format actions
 
-+ (NSString *)formatTime:(NSInteger)time
-{
-	float hours = time / 60 / 60;
-	float minutes = time / 60 - (hours * 60);
-	float seconds = time - (minutes * 60) - (hours * 60 * 60);
-
-	return [NSString stringWithFormat:@"%02.0f:%02.0f:%02.0f", hours, minutes, seconds];
-}
-
-+ (NSString *)formatTimeForChapter:(float)time
++ (NSString *)formatTime:(CGFloat)time withFrames:(BOOL)frames
 {
 	NSInteger hours = (NSInteger)time / 60 / 60;
 	NSInteger minutes = (NSInteger)time / 60 - (hours * 60);
-	NSInteger seconds = (NSInteger)time - ((NSInteger)minutes * 60) - ((NSInteger)hours * 60 * 60);
-	float frames = (time - (NSInteger)time) * 100;	
+	NSInteger seconds = (NSInteger)time - (minutes * 60.0) - (hours * 60 * 60);
 
-	return [NSString stringWithFormat:@"%02.0f:%02.0f:%02.0f.%02.0f", (float)hours, (float)minutes, (float)seconds, frames];
+	if (frames)
+	{
+		CGFloat frames = (time - (NSInteger)time) * 100.0;
+		return [NSString stringWithFormat:@"%02.0f:%02.0f:%02.0f.%02.0f", (CGFloat)hours, (CGFloat)minutes, (CGFloat)seconds, (CGFloat)frames];
+	}
+	else
+	{
+		return [NSString stringWithFormat:@"%02.0f:%02.0f:%02.0f", (CGFloat)hours, (CGFloat)minutes, (CGFloat)seconds];
+	}
 }
 
-+ (NSString *)makeSizeFromFloat:(float)size
++ (NSString *)makeSizeFromFloat:(CGFloat)size
 {
-	float blockSize;
+	CGFloat blockSize;
 	
 	if ([KWCommonMethods OSVersion] >= 4192)
 		blockSize = 1000;
@@ -106,9 +104,9 @@
 	if (size < blockSize)
 	{
 		if (size > 0)
-			return [NSString localizedStringWithFormat: NSLocalizedString(@"%.0f KB", nil), 4.0];
+			return [NSString localizedStringWithFormat:NSLocalizedString(@"%.0f KB", nil), 4.0];
 		else
-			return [NSString localizedStringWithFormat: NSLocalizedString(@"%.0f KB", nil), size];
+			return [NSString localizedStringWithFormat:NSLocalizedString(@"%.0f KB", nil), size];
 	}
 		
 	BOOL isKB = (size < blockSize * blockSize);
@@ -117,13 +115,13 @@
 	BOOL isTB = (size < blockSize * blockSize * blockSize * blockSize * blockSize);
 	
 	if (isKB)
-		return [NSString localizedStringWithFormat: NSLocalizedString(@"%.0f KB", nil), size / blockSize];
+		return [NSString localizedStringWithFormat:NSLocalizedString(@"%.0f KB", nil), size / blockSize];
 	
 	if (isMB)
 	{
 		NSString *sizeString = [NSString localizedStringWithFormat: @"%.1f", size  / blockSize / blockSize];
 		
-			if ([[sizeString substringFromIndex:[sizeString length] - 1] isEqualTo:@"0"])
+		if ([[sizeString substringFromIndex:[sizeString length] - 1] isEqualTo:@"0"])
 			sizeString = [sizeString substringWithRange:NSMakeRange(0, [sizeString length] - 2)];
 	
 		return [NSString localizedStringWithFormat:NSLocalizedString(@"%@ MB", nil), sizeString];
@@ -152,10 +150,10 @@
 			if ([[sizeString substringFromIndex:[sizeString length] - 1] isEqualTo:@"0"])
 			sizeString = [sizeString substringWithRange:NSMakeRange(0, [sizeString length] - 2)];
 	
-		return [NSString localizedStringWithFormat: NSLocalizedString(@"%@ TB", nil), sizeString];
+		return [NSString localizedStringWithFormat:NSLocalizedString(@"%@ TB", nil), sizeString];
 	}	
 
-	return [NSString localizedStringWithFormat: NSLocalizedString(@"%.0f KB", nil), 0];
+	return [NSString localizedStringWithFormat:NSLocalizedString(@"%.0f KB", nil), 0];
 }
 
 //////////////////
@@ -170,20 +168,18 @@
 	if ([[NSFileManager defaultManager] fileExistsAtPath:path])
 	{
 		NSString *newPath = [path stringByDeletingPathExtension];
-		NSString *pathExtension;
+		NSString *pathExtension = @"";
 
-		if ([[path pathExtension] isEqualTo:@""])
-			pathExtension = @"";
-		else
+		if (![[path pathExtension] isEqualTo:@""])
 			pathExtension = [@"." stringByAppendingString:[path pathExtension]];
 
-		NSInteger y = 0;
+		NSInteger i = 0;
 		while ([[NSFileManager defaultManager] fileExistsAtPath:[newPath stringByAppendingString:pathExtension]])
 		{
 			newPath = [path stringByDeletingPathExtension];
 			
-			y = y + 1;
-			newPath = [NSString stringWithFormat:@"%@ %i", newPath, y];
+			i = i + 1;
+			newPath = [NSString stringWithFormat:@"%@ %i", newPath, i];
 		}
 
 		return [newPath stringByAppendingString:pathExtension];
@@ -229,16 +225,12 @@
 + (BOOL)isBundleExtension:(NSString *)extension
 {
 	NSString *testFile = [@"/tmp/kiwiburntest" stringByAppendingPathExtension:extension];
-	BOOL isPackage;
+	BOOL isPackage = NO;
 	
 	if ([KWCommonMethods createDirectoryAtPath:testFile errorString:nil])
 	{
 		isPackage = [[NSWorkspace sharedWorkspace] isFilePackageAtPath:testFile];
 		[KWCommonMethods removeItemAtPath:testFile];
-	}
-	else
-	{
-		isPackage = NO;
 	}
 
 	return isPackage;
@@ -254,7 +246,7 @@
 + (BOOL)hasCustomIcon:(DRFSObject *)object
 {
 	if ([object isVirtual])
-	return NO;
+		return NO;
 
 	FSRef possibleCustomIcon;
 	FSCatalogInfo catalogInfo;
@@ -312,6 +304,7 @@
 		NSString *displayName = [(KWDRFolder *)fsObj displayName];
 		NSImage *folderIcon = [(KWDRFolder *)fsObj folderIcon];
 		BOOL isFilePackage = [(KWDRFolder *)fsObj isFilePackage];
+		BOOL genericFolder = (!(isFilePackage && [baseName isEqualTo:fsObjectFileName] | [[baseName stringByDeletingPathExtension] isEqualTo:fsObjectFileName] | [fsObjectFileName isEqualTo:displayName]));
 		
 		if ([fsObj isVirtual])
 		{
@@ -319,7 +312,7 @@
 			{
 				img = folderIcon;
 			}
-			else if (isFilePackage && [baseName isEqualTo:fsObjectFileName] | [[baseName stringByDeletingPathExtension] isEqualTo:fsObjectFileName] | [fsObjectFileName isEqualTo:displayName])
+			else if (!genericFolder)
 			{
 				if ([pathExtension isEqualTo:@"app"])
 					img = folderIcon;
@@ -338,7 +331,7 @@
 			{
 				img = [sharedWorkspace iconForFile:sourcePath];
 			}
-			else if (isFilePackage && [baseName isEqualTo:fsObjectFileName] | [[baseName stringByDeletingPathExtension] isEqualTo:fsObjectFileName] | [fsObjectFileName isEqualTo:displayName])
+			else if (!genericFolder)
 			{
 				img = [sharedWorkspace iconForFile:sourcePath];
 			}
@@ -352,7 +345,7 @@
 	
 	if (![KWCommonMethods isDRFSObjectVisible:fsObj])
 	{
-		NSImage* dragImage=[[[NSImage alloc] initWithSize:[img size]] autorelease];
+		NSImage *dragImage = [[[NSImage alloc] initWithSize:[img size]] autorelease];
 			
 		[dragImage lockFocus];
 		[img dissolveToPoint: NSZeroPoint fraction: .5];
@@ -363,7 +356,7 @@
 		return dragImage;
 	}
 
-	return [img retain];
+	return img;
 }
 
 ////////////////////////
@@ -542,8 +535,8 @@
 {
 	if ([folder isVirtual])
 	{
-		NSInteger i=0;
-		for (i=0;i<[[folder children] count];i++)
+		NSInteger i;
+		for (i = 0; i < [[folder children] count]; i ++)
 		{
 			if ([[[[folder children] objectAtIndex:i] baseName] isEqualTo:@".localized"])
 				return YES;
@@ -582,6 +575,15 @@
 
 + (BOOL)createDirectoryAtPath:(NSString *)path errorString:(NSString **)error
 {
+	#if MAC_OS_X_VERSION_MAX_ALLOWED >= 1050
+	NSFileManager *defaultManager = [NSFileManager defaultManager];
+	NSError *myError;
+	BOOL succes = [defaultManager createDirectoryAtPath:path withIntermediateDirectories:NO attributes:nil error:&myError];
+			
+	if (!succes)
+		*error = [myError localizedDescription];
+	#else
+	
 	BOOL succes = YES;
 	NSString *details;
 	NSFileManager *defaultManager = [NSFileManager defaultManager];
@@ -607,12 +609,25 @@
 		if (!succes)
 			*error = details;
 	}
-
+	#endif
+	
 	return succes;
 }
 
 + (BOOL)copyItemAtPath:(NSString *)inPath toPath:(NSString *)newPath errorString:(NSString **)error
 {
+	#if MAC_OS_X_VERSION_MAX_ALLOWED >= 1050
+	NSFileManager *defaultManager = [NSFileManager defaultManager];
+	BOOL succes;
+	NSError *myError;
+	succes = [defaultManager copyItemAtPath:inPath toPath:newPath error:&myError];
+			
+	if (!succes)
+		*error = [myError localizedDescription];
+	
+	return succes;
+	#else
+
 	BOOL succes = YES;
 	NSString *details = @"";
 	NSFileManager *defaultManager = [NSFileManager defaultManager];
@@ -637,13 +652,25 @@
 		details = [NSString stringWithFormat:NSLocalizedString(@"Failed to copy '%@' to '%@'. %@", nil), inFile, outFile, details];
 		*error = details;
 	}
-		
+	#endif
 
 	return succes;
 }
 
 + (BOOL)createSymbolicLinkAtPath:(NSString *)path withDestinationPath:(NSString *)dest errorString:(NSString **)error;
 {
+	#if MAC_OS_X_VERSION_MAX_ALLOWED >= 1050
+	BOOL succes;
+	NSFileManager *defaultManager = [NSFileManager defaultManager];
+	
+	NSError *tempError;
+	
+	succes = [defaultManager createSymbolicLinkAtPath:path withDestinationPath:dest error:&tempError];
+	
+	if (!succes)
+		succes = [KWCommonMethods copyItemAtPath:path toPath:dest errorString:&*error];
+	#else
+	
 	BOOL succes;
 	NSFileManager *defaultManager = [NSFileManager defaultManager];
 	
@@ -655,15 +682,35 @@
 		succes = [defaultManager createSymbolicLinkAtPath:path pathContent:dest];
 		
 	if (!succes)
-	{
 		succes = [KWCommonMethods copyItemAtPath:path toPath:dest errorString:&*error];
-	}
+	#endif
 	
 	return succes;
 }
 
 + (BOOL)removeItemAtPath:(NSString *)path
 {
+	#if MAC_OS_X_VERSION_MAX_ALLOWED >= 1050
+	NSFileManager *defaultManager = [NSFileManager defaultManager];
+	BOOL succes = YES;
+	NSString *details;
+	
+	if ([defaultManager fileExistsAtPath:path])
+	{
+		NSError *myError;
+		succes = [defaultManager removeItemAtPath:path error:&myError];
+			
+		if (!succes)
+			details = [myError localizedDescription];
+		
+		if (!succes)
+		{
+			NSString *file = [defaultManager displayNameAtPath:path];
+			[KWCommonMethods standardAlertWithMessageText:[NSString stringWithFormat:NSLocalizedString(@"Failed to delete '%@'.", nil), file ] withInformationText:details withParentWindow:nil];
+		}
+	}
+	#else
+	
 	BOOL succes = YES;
 	NSString *details;
 	NSFileManager *defaultManager = [NSFileManager defaultManager];
@@ -690,12 +737,22 @@
 			[KWCommonMethods standardAlertWithMessageText:[NSString stringWithFormat:NSLocalizedString(@"Failed to delete '%@'.", nil), file ] withInformationText:details withParentWindow:nil];
 		}
 	}
+	#endif
 
 	return succes;
 }
 
 + (BOOL)writeString:(NSString *)string toFile:(NSString *)path errorString:(NSString **)error
 {
+	#if MAC_OS_X_VERSION_MAX_ALLOWED >= 1050
+	BOOL succes;
+	NSError *myError;
+	succes = [string writeToFile:path atomically:YES encoding:NSUTF8StringEncoding error:&myError];
+			
+	if (!succes)
+		*error = [myError localizedDescription];
+	#else
+
 	BOOL succes;
 	NSString *details;
 	
@@ -709,17 +766,17 @@
 	}
 	else
 	{
-		#if MAC_OS_X_VERSION_MAX_ALLOWED < 1050
 		succes = [string writeToFile:path atomically:YES];
 		NSFileManager *defaultManager = [NSFileManager defaultManager];
 		NSString *file = [defaultManager displayNameAtPath:path];
 		NSString *parent = [defaultManager displayNameAtPath:[path stringByDeletingLastPathComponent]];
 		details = [NSString stringWithFormat:NSLocalizedString(@"Failed to write '%@' to '%@'", nil), file, parent];
-		#endif
 	}
 
 	if (!succes)
 		*error = details;
+		
+	#endif
 
 	return succes;
 }
@@ -741,6 +798,7 @@
 
 + (BOOL)saveImage:(NSImage *)image toPath:(NSString *)path errorString:(NSString **)error
 {
+	#if MAC_OS_X_VERSION_MAX_ALLOWED >= 1050
 	NSData *tiffData = [image TIFFRepresentation];
 	NSBitmapImageRep *bitmap = [NSBitmapImageRep imageRepWithData:tiffData];
 	NSData *imageData = [bitmap representationUsingType:NSPNGFileType properties:nil];
@@ -748,7 +806,20 @@
 	BOOL succes;
 	NSString *details;
 	
-	#if MAC_OS_X_VERSION_MAX_ALLOWED >= MAC_OS_X_VERSION_10_4
+	NSError *writeError;
+	succes = [imageData writeToFile:path options:NSAtomicWrite error:&writeError];
+			
+	if (!succes)
+		*error = [writeError localizedDescription];
+	#else
+	
+	NSData *tiffData = [image TIFFRepresentation];
+	NSBitmapImageRep *bitmap = [NSBitmapImageRep imageRepWithData:tiffData];
+	NSData *imageData = [bitmap representationUsingType:NSPNGFileType properties:nil];
+	
+	BOOL succes;
+	NSString *details;
+	
 	if ([KWCommonMethods OSVersion] >= 0x1040)
 	{
 		
@@ -760,15 +831,14 @@
 	}
 	else
 	{
-	#endif
 		succes = [imageData writeToFile:path atomically:YES];
 		details = [NSString stringWithFormat:@"Failed to save image to Path: %@", path];
-	#if MAC_OS_X_VERSION_MAX_ALLOWED >= MAC_OS_X_VERSION_10_4
 	}
-	#endif
 	
 	if (!succes)
 		*error = details;
+		
+	#endif
 	
 	return succes;
 }
@@ -776,17 +846,19 @@
 + (BOOL)createFileAtPath:(NSString *)path attributes:(NSDictionary *)attributes errorString:(NSString **)error
 {
 	NSFileManager *defaultManager = [NSFileManager defaultManager];
+	NSString *file = [defaultManager displayNameAtPath:path];
+	NSString *destination = [defaultManager displayNameAtPath:[path stringByDeletingLastPathComponent]];
 	
 	if ([defaultManager fileExistsAtPath:path])
 	{
-		*error = [NSString stringWithFormat:NSLocalizedString(@"Can't overwrite '%@' in '%@'", nil), [defaultManager displayNameAtPath:path], [defaultManager displayNameAtPath:[path stringByDeletingLastPathComponent]]];
+		*error = [NSString stringWithFormat:NSLocalizedString(@"Can't overwrite '%@' in '%@'", nil), file, destination];
 		return NO;
 	}
 	
 	BOOL succes = [defaultManager createFileAtPath:path contents:[NSData data] attributes:attributes];
 		
 		if (!succes)
-			*error = [NSString stringWithFormat:NSLocalizedString(@"Can't create '%@' in '%@'", nil), [defaultManager displayNameAtPath:path], [defaultManager displayNameAtPath:[path stringByDeletingLastPathComponent]]];
+			*error = [NSString stringWithFormat:NSLocalizedString(@"Can't create '%@' in '%@'", nil), file, destination];
 	
 	return succes;
 }
@@ -826,7 +898,7 @@
 #pragma mark -
 #pragma mark •• Other actions
 
-+ (float)calculateRealFolderSize:(NSString *)path
++ (CGFloat)calculateRealFolderSize:(NSString *)path
 {
 	NSTask *du = [[NSTask alloc] init];
 	NSPipe *pipe = [[NSPipe alloc] init];
@@ -836,32 +908,38 @@
 	[du setArguments:[NSArray arrayWithObjects:@"-s",path,nil]];
 	[du setStandardOutput:pipe];
 	[du setStandardError:[NSFileHandle fileHandleWithNullDevice]];
-	handle=[pipe fileHandleForReading];
+	handle = [pipe fileHandleForReading];
 	[KWCommonMethods logCommandIfNeeded:du];
 	[du launch];
-	string=[[NSString alloc] initWithData:[handle readDataToEndOfFile] encoding:NSUTF8StringEncoding];
+	string = [[NSString alloc] initWithData:[handle readDataToEndOfFile] encoding:NSUTF8StringEncoding];
 	
 	if ([[NSUserDefaults standardUserDefaults] boolForKey:@"KWDebug"])
 		NSLog(@"%@", string);
 
 	[du waitUntilExit];
+	
 	[pipe release];
+	pipe = nil;
+	
 	[du release];
+	du = nil;
 
-	float size = [[[string componentsSeparatedByString:@" "] objectAtIndex:0] floatValue] / 4;
+	CGFloat size = [[[string componentsSeparatedByString:@" "] objectAtIndex:0] floatValue] / 4;
 	
 	[string release];
+	string = nil;
 
 	return size;
 }
 
-+ (float)calculateVirtualFolderSize:(DRFSObject *)obj
++ (CGFloat)calculateVirtualFolderSize:(DRFSObject *)obj
 {
-	float size = 0;
+	NSFileManager *defaultManager = [NSFileManager defaultManager];
+	CGFloat size = 0;
 	
 	NSArray *children = [(DRFolder *)obj children];
-	NSInteger i = 0;
-	for (i=0;i<[children count];i++)
+	NSInteger i;
+	for (i = 0; i < [children count]; i ++)
 	{
 		NSAutoreleasePool *subPool = [[NSAutoreleasePool alloc] init];
 		
@@ -871,7 +949,6 @@
 		{
 			BOOL isDir;
 			NSString *sourcePath = [child sourcePath];
-			NSFileManager *defaultManager = [NSFileManager defaultManager];
 			
 			if ([defaultManager fileExistsAtPath:sourcePath isDirectory:&isDir] && isDir)
 				size = size + [KWCommonMethods calculateRealFolderSize:sourcePath];
@@ -900,7 +977,7 @@
 		if ([array objectAtIndex:current_index]) 
 			[items addObject:[array objectAtIndex:current_index]];
 			
-        current_index = [indexSet indexGreaterThanIndex: current_index];
+        current_index = [indexSet indexGreaterThanIndex:current_index];
     }
 
 	return items;
@@ -913,7 +990,7 @@
 	if ([devices count] > 0)
 	{
 		NSInteger i;
-		for (i=0;i< [devices count];i++)
+		for (i = 0; i < [devices count]; i ++)
 		{
 		DRDevice *device = [devices objectAtIndex:i];
 		
@@ -932,16 +1009,16 @@
 	NSArray *lines = [string componentsSeparatedByString:@"\n"];
 	NSMutableDictionary *dictionary = [NSMutableDictionary dictionary];
 
-	NSInteger x;
-	for (x=0;x<[lines count];x++)
+	NSInteger i;
+	for (i = 0; i < [lines count]; i ++)
 	{
-		NSArray *elements = [[lines objectAtIndex:x] componentsSeparatedByString:@":"];
+		NSArray *elements = [[lines objectAtIndex:i] componentsSeparatedByString:@":"];
 	
 		if ([elements count] > 1)
 		{
 			NSString *key = [[elements objectAtIndex:0] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
-			id value = [[elements objectAtIndex:1]stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
-	
+			id value = [[elements objectAtIndex:1] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+			
 			if ([[value lowercaseString] isEqualTo:@"yes"])
 				value = [NSNumber numberWithBool:YES];
 			else if ([[value lowercaseString] isEqualTo:@"no"])
@@ -967,31 +1044,36 @@
 	[KWCommonMethods logCommandIfNeeded:df];
 	[df launch];
 
-	string=[[NSString alloc] initWithData:[handle readDataToEndOfFile] encoding:NSUTF8StringEncoding];
+	string = [[NSString alloc] initWithData:[handle readDataToEndOfFile] encoding:NSUTF8StringEncoding];
 	
 	if ([[NSUserDefaults standardUserDefaults] boolForKey:@"KWDebug"] == YES)
 		NSLog(@"%@", string);
 
 	[df waitUntilExit];
+	
 	[pipe release];
+	pipe = nil;
+	
 	[df release];
+	df = nil;
 
 	NSArray *objects = [[[string componentsSeparatedByString:@"\n"] objectAtIndex:1] componentsSeparatedByString:@" "];
 
 	NSInteger size = 0;
-	NSInteger x = 1;
+	NSInteger i = 1;
 
 	while (size == 0)
 	{
-		NSString *object = [objects objectAtIndex:x];
+		NSString *object = [objects objectAtIndex:i];
 	
 		if (![object isEqualTo:@""])
 			size = [object intValue];
 		
-		x = x + 1;
+		i = i + 1;
 	}
 	
 	[string release];
+	string = nil;
 
 	return size;
 }
@@ -1001,7 +1083,7 @@
 	NSArray *devices = [DRDevice devices];
 	
 	NSInteger i;
-	for (i=0;i< [devices count];i++)
+	for (i = 0; i < [devices count]; i ++)
 	{
 		if ([[[[devices objectAtIndex:i] info] objectForKey:@"DRDeviceProductNameKey"] isEqualTo:[[[NSUserDefaults standardUserDefaults] dictionaryForKey:@"KWDefaultDeviceIdentifier"] objectForKey:@"Product"]])
 			return [devices objectAtIndex:i];
@@ -1010,7 +1092,7 @@
 	return [devices objectAtIndex:0];
 }
 
-+ (float)defaultSizeForMedia:(NSString *)media
++ (CGFloat)defaultSizeForMedia:(NSString *)media
 {
 	NSArray *sizes;
 
@@ -1035,49 +1117,55 @@
 		
 	NSInteger i;
 	NSArray *devices = [DRDevice devices];
-	for (i=0;i< [devices count];i++)
+	for (i = 0; i < [devices count]; i ++)
 	{
 		[popup addItemWithTitle:[[devices objectAtIndex:i] displayName]];
 	}
 		
 	if ([devices count] > 0)
 	{
-		if ([[NSUserDefaults standardUserDefaults] dictionaryForKey:@"KWDefaultDeviceIdentifier"])
+		NSUserDefaults *standardDefaults = [NSUserDefaults standardUserDefaults];
+	
+		if ([standardDefaults dictionaryForKey:@"KWDefaultDeviceIdentifier"])
 		{
 			[popup selectItemWithTitle:[[KWCommonMethods getCurrentDevice] displayName]];
 		}
 		else
 		{
-			NSMutableDictionary *burnDict = [[NSMutableDictionary alloc] init];
+			NSMutableDictionary *burnDict = [NSMutableDictionary dictionary];
+			DRDevice *firstDevce = [devices objectAtIndex:0];
+			NSDictionary *deviceInfo = [firstDevce info];
 	
-			[burnDict setObject:[[[devices objectAtIndex:0] info] objectForKey:@"DRDeviceProductNameKey"] forKey:@"Product"];
-			[burnDict setObject:[[[devices objectAtIndex:0] info] objectForKey:@"DRDeviceVendorNameKey"] forKey:@"Vendor"];
+			[burnDict setObject:[deviceInfo objectForKey:@"DRDeviceProductNameKey"] forKey:@"Product"];
+			[burnDict setObject:[deviceInfo objectForKey:@"DRDeviceVendorNameKey"] forKey:@"Vendor"];
 			[burnDict setObject:@"" forKey:@"SerialNumber"];
 
-			[[NSUserDefaults standardUserDefaults] setObject:[burnDict copy] forKey:@"KWDefaultDeviceIdentifier"];
+			[standardDefaults setObject:burnDict forKey:@"KWDefaultDeviceIdentifier"];
 		
 			[[NSNotificationCenter defaultCenter] postNotificationName:@"KWMediaChanged" object:nil];
 	
-			[popup selectItemWithTitle:[[devices objectAtIndex:0] displayName]];
-
-			[burnDict release];
+			[popup selectItemWithTitle:[firstDevce displayName]];
 		}
 	}
 }
 
 + (NSString *)ffmpegPath
 {
-	if ([[NSUserDefaults standardUserDefaults] boolForKey:@"KWUseCustomFFMPEG"] == YES && [[NSFileManager defaultManager] fileExistsAtPath:[[NSUserDefaults standardUserDefaults] objectForKey:@"KWCustomFFMPEG"]])
-		return [[NSUserDefaults standardUserDefaults] objectForKey:@"KWCustomFFMPEG"];
+	NSUserDefaults *standardDefaults = [NSUserDefaults standardUserDefaults];
+
+	if ([standardDefaults boolForKey:@"KWUseCustomFFMPEG"] == YES && [[NSFileManager defaultManager] fileExistsAtPath:[standardDefaults objectForKey:@"KWCustomFFMPEG"]])
+		return [standardDefaults objectForKey:@"KWCustomFFMPEG"];
 	else
 		return [[NSBundle mainBundle] pathForResource:@"ffmpeg" ofType:@""];
 }
 
 + (NSArray *)diskImageTypes
 {
+	#if MAC_OS_X_VERSION_MAX_ALLOWED < 1050
 	if ([KWCommonMethods OSVersion] < 0x1040)
 		return [NSArray arrayWithObjects:@"isoInfo", @"sparseimage",@"toast",@"img", @"dmg", @"iso", @"cue",@"cdr",@"dvd", nil];
 	else
+	#endif
 		return [NSArray arrayWithObjects:@"isoInfo", @"sparseimage",@"toast", @"img", @"dmg", @"iso", @"cue", @"toc",@"cdr", @"dvd", nil];
 }
 
@@ -1104,7 +1192,7 @@
 	NSArray *extraExtensions = [NSArray arrayWithObjects:@"vob",@"wma",@"wmv",@"asf",@"asx",@"ogg",@"flv",@"rm",@"rmvb",@"flac",@"mts",nil];
 		
 	NSInteger i;
-	for (i=0;i<[extraExtensions count];i++)
+	for (i = 0; i < [extraExtensions count]; i ++)
 	{
 		NSString *extension = [extraExtensions objectAtIndex:i];
 		
@@ -1173,9 +1261,10 @@
 
 + (NSInteger)createDVDFolderAtPath:(NSString *)path ofType:(NSInteger)type fromTableData:(id)tableData errorString:(NSString **)error
 {
-	#if MAC_OS_X_VERSION_MAX_ALLOWED >= MAC_OS_X_VERSION_10_4
+	#if MAC_OS_X_VERSION_MAX_ALLOWED < 1050
 	if ([KWCommonMethods OSVersion] >= 0x1040)
 	{
+	#endif
 		NSInteger succes;
 		NSInteger x, z = 0;
 		NSArray *files;
@@ -1216,6 +1305,8 @@
 		
 		for (x = 0; x < [folderContents count]; x++) 
 		{
+			NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
+		
 			NSString *fileName = [[folderContents objectAtIndex:x] uppercaseString];
 			NSString *filePath = [folderPath stringByAppendingPathComponent:[folderContents objectAtIndex:x]];
 			BOOL isDir;
@@ -1236,6 +1327,9 @@
 					z++;
 				}
 			}
+			
+			[pool release];
+			pool = nil;
 		}
 		
 		if (z == 0)
@@ -1245,11 +1339,10 @@
 		}
 		
 		return succes;
+	#if MAC_OS_X_VERSION_MAX_ALLOWED < 1050
 	}
 	else
 	{
-	#endif
-		
 		NSDictionary *currentData = [tableData objectAtIndex:0];
 		NSString *inPath = [currentData objectForKey:@"Path"];
 		NSString *outPath = [path stringByAppendingPathComponent:[currentData objectForKey:@"Name"]];
@@ -1258,8 +1351,6 @@
 			return 0;
 		else
 			return 1;
-			
-	#if MAC_OS_X_VERSION_MAX_ALLOWED >= MAC_OS_X_VERSION_10_4		
 	}
 	#endif
 }
@@ -1277,7 +1368,7 @@
 		NSString *commandString = [command launchPath];
 
 		NSInteger i;
-		for (i=0;i<[showArgs count];i++)
+		for (i = 0; i < [showArgs count]; i ++)
 		{
 			commandString = [NSString stringWithFormat:@"%@ %@", commandString, [showArgs objectAtIndex:i]];
 		}
@@ -1333,8 +1424,13 @@
 		output = errorString;
 	
 	[pipe release];
+	pipe = nil;
+	
 	[outputPipe release];
+	outputPipe = nil;
+	
 	[task release];
+	task = nil;
 
 	*data = output;
 	
@@ -1369,23 +1465,28 @@
 			if (qtChapters)
 			{
 				NSInteger i;
-				for (i=0;i<[qtChapters count];i++)
+				for (i = 0; i < [qtChapters count]; i ++)
 				{
+					NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
+				
 					NSDictionary *qtChapter = [qtChapters objectAtIndex:i];
 					NSString *title = [qtChapter objectForKey:@"QTMovieChapterName"];
 					QTTime qtTime = [[qtChapter objectForKey:@"QTMovieChapterStartTime"] QTTimeValue];
-					NSInteger seconds = (NSInteger)qtTime.timeValue/(NSInteger)qtTime.timeScale;
-					float frames = (((float)qtTime.timeValue/(float)qtTime.timeScale) - seconds) * ((float)qtTime.timeScale / 1000) / 2;
-					float time = seconds + frames;
+					CGFloat seconds = qtTime.timeValue / qtTime.timeScale;
+					CGFloat frames = ((qtTime.timeValue / qtTime.timeScale) - seconds) * (qtTime.timeScale / 1000) / 2;
+					CGFloat time = seconds + frames;
 				
 					NSMutableDictionary *rowData = [NSMutableDictionary dictionary];
 
-					[rowData setObject:[KWCommonMethods formatTime:time] forKey:@"Time"];
+					[rowData setObject:[KWCommonMethods formatTime:time withFrames:NO] forKey:@"Time"];
 					[rowData setObject:title forKey:@"Title"];
-					[rowData setObject:[NSNumber numberWithFloat:time] forKey:@"RealTime"];
+					[rowData setObject:[NSNumber numberWithCGFloat:time] forKey:@"RealTime"];
 					[rowData setObject:[[movie frameImageAtTime:qtTime] TIFFRepresentationUsingCompression:NSTIFFCompressionLZW factor:0] forKey:@"Image"];
 					
 					[chapters addObject:rowData];
+					
+					[pool release];
+					pool = nil;
 				}
 			}
 		}

@@ -49,8 +49,8 @@
 - (void)createAudioTrack:(NSString *)path;
 
 //Other
-- (float)imageSize;
+- (CGFloat)imageSize;
 - (DRTrack *)createDefaultTrackWithSize:(NSInteger)size;
-- (float)audioTrackSizeAtPath:(NSString *)path;
+- (CGFloat)audioTrackSizeAtPath:(NSString *)path;
 
 @end

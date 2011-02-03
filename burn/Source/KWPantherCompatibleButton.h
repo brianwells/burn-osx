@@ -2,7 +2,6 @@
 
 #import <Cocoa/Cocoa.h>
 
-@interface KWPantherCompatibleButton : NSButton
-{
-}
+@interface KWPantherCompatibleButton : NSButton{}
+
 @end

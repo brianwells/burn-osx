@@ -30,6 +30,7 @@
 - (void)dealloc
 {
 	[tagMappings release];
+	tagMappings = nil;
 	
 	[super dealloc];
 }
@@ -95,22 +96,16 @@
 	id property = [sender objectValue];
 	NSString *currentKey = [tagMappings objectAtIndex:[sender tag] - 1];
 	
+	id object;
 	if ([currentKey isEqualTo:DRCDTextGenreCodeKey])
-	{
-		[currentCDTextBlock setObject:[NSNumber numberWithInt:[sender indexOfSelectedItem]] forKey:currentKey ofTrack:0];
-	}
+		object = [NSNumber numberWithInteger:[sender indexOfSelectedItem]];
 	else if ([currentKey isEqualTo:DRCDTextMCNISRCKey])
-	{
-		NSData *data = [property dataUsingEncoding:NSASCIIStringEncoding];
-			
-		if (data)
-			[currentCDTextBlock setObject:data forKey:currentKey ofTrack:0];
-	}
+		object = [property dataUsingEncoding:NSASCIIStringEncoding];
 	else
-	{
-		if (property)
-			[currentCDTextBlock setObject:property forKey:currentKey ofTrack:0];
-	}
+		object = property;
+	
+	if (object)
+		[currentCDTextBlock setObject:property forKey:currentKey ofTrack:0];
 	#endif
 }
 

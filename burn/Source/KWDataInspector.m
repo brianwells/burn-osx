@@ -12,7 +12,7 @@
 
 - (id)init
 {
-	if( self = [super init] )
+	if (self = [super init])
 	{
 		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(leaveTab) name:@"KWLeaveTab" object:nil];
 
@@ -64,7 +64,7 @@
 		else
 		{
 			NSString *sourcePath = [firstObject sourcePath];
-			float size = [[[[NSFileManager defaultManager] fileAttributesAtPath:sourcePath traverseLink:YES] objectForKey:NSFileSize] floatValue];
+			CGFloat size = [[[[NSFileManager defaultManager] fileAttributesAtPath:sourcePath traverseLink:YES] objectForKey:NSFileSize] floatValue];
 			[sizeField setStringValue:[KWCommonMethods makeSizeFromFloat:size]];
 			
 		}

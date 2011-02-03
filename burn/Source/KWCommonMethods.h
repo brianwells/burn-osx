@@ -8,16 +8,9 @@
 
 #import <Cocoa/Cocoa.h>
 #import <DiscRecording/DiscRecording.h>
+#import "NSNumber_Extensions.h"
 
-#if MAC_OS_X_VERSION_MAX_ALLOWED < 1050
-typedef int NSInteger;
-typedef unsigned int NSUInteger;
-#endif
-
-@interface KWCommonMethods : NSObject 
-{
-
-}
+@interface KWCommonMethods : NSObject {}
 
 //OS actions
 //Check for Snow Leopard (used to show new sizes divided by 1000 instead of 1024)
@@ -26,12 +19,10 @@ typedef unsigned int NSUInteger;
 + (BOOL)isQuickTimeSevenInstalled;
 
 //String format actions
-//Format time (example: 90 seconds to 00:00:90)
-+ (NSString *)formatTime:(NSInteger)time;
-//Format time for chapters on DVD (exact: 90 seconds to 00:00:90.00)
-+ (NSString *)formatTimeForChapter:(float)time;
+//Format time (example: 90 seconds to 00:00:90 or 90 seconds to 00:00:90.00)
++ (NSString *)formatTime:(CGFloat)time withFrames:(BOOL)frames;
 //Make 1048576 bytes look like 1 MB
-+ (NSString *)makeSizeFromFloat:(float)size;
++ (NSString *)makeSizeFromFloat:(CGFloat)size;
 
 //File actions
 //Get a non existing file name (example Folder 1, Folder 2 etc.)
@@ -77,9 +68,9 @@ typedef unsigned int NSUInteger;
 
 //Other actions
 //Take all real folders and calculate the total size 
-+ (float)calculateRealFolderSize:(NSString *)path;
++ (CGFloat)calculateRealFolderSize:(NSString *)path;
 //Take all virtual folders and calculate the total size 
-+ (float)calculateVirtualFolderSize:(DRFSObject *)obj;
++ (CGFloat)calculateVirtualFolderSize:(DRFSObject *)obj;
 //Get the selected items in the audio tableview for inspection
 + (NSArray*)allSelectedItemsInTableView:(NSTableView *)tableView fromArray:(NSArray *)array;
 //Get the current device
@@ -91,7 +82,7 @@ typedef unsigned int NSUInteger;
 //Get the current device
 + (DRDevice *)savedDevice;
 //Get the default media size
-+ (float)defaultSizeForMedia:(NSString *)media;
++ (CGFloat)defaultSizeForMedia:(NSString *)media;
 //Get a image from our custom image database
 + (NSImage *)getImageForName:(NSString *)name;
 //Setup a burner popup

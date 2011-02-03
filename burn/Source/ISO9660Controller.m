@@ -52,19 +52,19 @@
 
 @implementation ISO9660Controller
 
-- (NSString*) filesystem
+- (NSString *) filesystem
 {
 	// We're the controller for the ISO 9660 filesystem, so return the correct value.
 	return DRISO9660;
 }
 
-- (DRFilesystemInclusionMask) mask
+- (DRFilesystemInclusionMask)mask
 {
 	// We're the controller for the ISO 9660 filesystem, so return the correct value.
 	return DRFilesystemInclusionMaskISO9660;
 }
 
-- (void) updateNames
+- (void)updateNames
 {
 	DRFSObject *firstItem = [inspectedItems objectAtIndex:0];
 
@@ -80,7 +80,7 @@
 	[level2MangledName setObjectValue:[firstItem mangledNameForFilesystem:DRISO9660LevelTwo]];
 }
 
-- (IBAction) setFileName:(id)sender
+- (IBAction)setFileName:(id)sender
 {
 	DRFSObject *firstItem = [inspectedItems objectAtIndex:0];
 

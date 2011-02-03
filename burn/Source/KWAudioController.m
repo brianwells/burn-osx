@@ -97,23 +97,45 @@
 
 	//Release our previously explained files
 	[audioOptionsMappings release];
+	audioOptionsMappings = nil;
+	
 	[mp3OptionsMappings release];
+	mp3OptionsMappings = nil;
 
 	[audioTableData release];
+	audioTableData = nil;
+	
 	[mp3TableData release];
+	mp3TableData = nil;
+	
 	[dvdTableData release];
+	dvdTableData = nil;
 	
 	[tracks release];
+	tracks = nil;
+	
+	[cueMappings release];
+	cueMappings = nil;
 
 	//Release the filetypes stored, using a retain
 	[allowedFileTypes release];
+	allowedFileTypes = nil;
 	
-	#if MAC_OS_X_VERSION_MAX_ALLOWED >= MAC_OS_X_VERSION_10_4
+	#if MAC_OS_X_VERSION_MAX_ALLOWED >= 1050
+	if (cdtext)
+	{
+		[cdtext release];
+		cdtext = nil;
+	}
+	#elif MAC_OS_X_VERSION_MAX_ALLOWED >= MAC_OS_X_VERSION_10_4
 	if ([KWCommonMethods OSVersion] >= 0x1040)
 	{
 		//We might have retained it, so release it
 		if (cdtext)
+		{
 			[cdtext release];
+			cdtext = nil;
+		}
 	}
 	#endif
 
@@ -123,6 +145,8 @@
 - (void)awakeFromNib
 {
 	[super awakeFromNib];
+	
+	NSNotificationCenter *defaultCenter = [NSNotificationCenter defaultCenter];
 
 	//Double clicking will start a song
 	if ([KWCommonMethods isQuickTimeSevenInstalled])
@@ -135,7 +159,7 @@
 	if ([KWCommonMethods isQuickTimeSevenInstalled])
 	{
 		#ifdef USE_QTKIT
-		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(movieEnded:) name:QTMovieDidEndNotification object:nil];
+		[defaultCenter addObserver:self selector:@selector(movieEnded:) name:QTMovieDidEndNotification object:nil];
 		#endif
 	}
 	else
@@ -164,7 +188,7 @@
 	[self tableViewPopup:self];
 
 	//Set the Inspector window to empty
-	[[NSNotificationCenter defaultCenter] postNotificationName:@"KWChangeInspector" object:nil userInfo:[NSDictionary dictionaryWithObjectsAndKeys:@"KWEmpty",@"Type",nil]];
+	[defaultCenter postNotificationName:@"KWChangeInspector" object:nil userInfo:[NSDictionary dictionaryWithObjectsAndKeys:@"KWEmpty",@"Type",nil]];
 }
 
 //////////////////
@@ -185,7 +209,19 @@
 			[self stop:sender];
 
 		//Remove rows
-		#if MAC_OS_X_VERSION_MAX_ALLOWED >= MAC_OS_X_VERSION_10_4
+		#if MAC_OS_X_VERSION_MAX_ALLOWED >= 1050
+		if (cdtext)
+		{
+			NSMutableArray *trackDictionaries = [NSMutableArray arrayWithArray:[cdtext trackDictionaries]];
+			NSDictionary *discDictionary = [NSDictionary dictionaryWithDictionary:[trackDictionaries objectAtIndex:0]];
+			[trackDictionaries removeObjectAtIndex:0];
+		
+			NSArray *selectedDictionaries = [KWCommonMethods allSelectedItemsInTableView:tableView fromArray:trackDictionaries];
+			[trackDictionaries removeObjectsInArray:selectedDictionaries];
+			[trackDictionaries insertObject:discDictionary atIndex:0];
+			[cdtext setTrackDictionaries:trackDictionaries];
+		}
+		#elif MAC_OS_X_VERSION_MAX_ALLOWED >= MAC_OS_X_VERSION_10_4
 		if (cdtext && [KWCommonMethods OSVersion] >= 0x1040)
 		{
 			NSMutableArray *trackDictionaries = [NSMutableArray arrayWithArray:[cdtext trackDictionaries]];
@@ -209,6 +245,11 @@
 //Add the file to the tableview
 - (void)addFile:(id)file isSelfEncoded:(BOOL)selfEncoded
 {
+	NSFileManager *defaultManager = [NSFileManager defaultManager];
+
+	if (!incompatibleFiles)
+		incompatibleFiles = [[NSMutableArray alloc] init];
+
 	NSString *path;
 	if ([file isKindOfClass:[NSString class]])
 		path = file;
@@ -216,20 +257,21 @@
 		path = [file objectForKey:@"Path"];
 
 	NSInteger selrow = [tableViewPopup indexOfSelectedItem];
+	NSString *displayName = [defaultManager displayNameAtPath:path];
+	NSString *pathExtension = [[path pathExtension] lowercaseString];
+	NSString *fileType = NSFileTypeForHFSTypeCode([[[defaultManager fileAttributesAtPath:path traverseLink:YES] objectForKey:NSFileHFSTypeCode] longValue]);
 
-	NSString *fileType = NSFileTypeForHFSTypeCode([[[[NSFileManager defaultManager] fileAttributesAtPath:path traverseLink:YES] objectForKey:NSFileHFSTypeCode] longValue]);
-
-	if (selrow == 1 && ![[[path pathExtension] lowercaseString] isEqualTo:@"mp3"] && ![fileType isEqualTo:@"'MPG3'"] && ![fileType isEqualTo:@"'Mp3 '"] && ![fileType isEqualTo:@"'MP3 '"])
+	if (selrow == 1 && ![pathExtension isEqualTo:@"mp3"] && ![fileType isEqualTo:@"'MPG3'"] && ![fileType isEqualTo:@"'Mp3 '"] && ![fileType isEqualTo:@"'MP3 '"])
 	{
 		NSMutableDictionary *rowData = [NSMutableDictionary dictionary];
-		[rowData setObject:[[NSFileManager defaultManager] displayNameAtPath:path] forKey:@"Name"];
+		[rowData setObject:displayName forKey:@"Name"];
 		[rowData setObject:path forKey:@"Path"];
 		[incompatibleFiles addObject:rowData];
 	}
-	else if (selrow == 2 && ![[[path pathExtension] lowercaseString] isEqualTo:@"wav"] && ![[[path pathExtension] lowercaseString] isEqualTo:@"flac"] && ![fileType isEqualTo:@"'WAVE'"] && ![fileType isEqualTo:@"'.WAV'"])
+	else if (selrow == 2 && ![pathExtension isEqualTo:@"wav"] && ![pathExtension isEqualTo:@"flac"] && ![fileType isEqualTo:@"'WAVE'"] && ![fileType isEqualTo:@"'.WAV'"])
 	{
 		NSMutableDictionary *rowData = [NSMutableDictionary dictionary];
-		[rowData setObject:[[NSFileManager defaultManager] displayNameAtPath:path] forKey:@"Name"];
+		[rowData setObject:displayName forKey:@"Name"];
 		[rowData setObject:path forKey:@"Path"];
 		[incompatibleFiles addObject:rowData];
 	}
@@ -240,19 +282,19 @@
 		if ([KWCommonMethods isQuickTimeSevenInstalled])
 			[self stop:self];
 
-		float time = [self getMovieDuration:path];
+		CGFloat time = [self getMovieDuration:path];
 	
-		[rowData setObject:[[NSFileManager defaultManager] displayNameAtPath:path] forKey:@"Name"];
+		[rowData setObject:displayName forKey:@"Name"];
 		[rowData setObject:path forKey:@"Path"];
 		
 		id sizeObject;
 		if (selrow == 0)
-			sizeObject = [KWCommonMethods formatTime:time];
+			sizeObject = [KWCommonMethods formatTime:time withFrames:NO];
 		else
-			sizeObject = [KWCommonMethods makeSizeFromFloat:[[[[NSFileManager defaultManager] fileAttributesAtPath:path traverseLink:YES] objectForKey:NSFileSize] floatValue]];
+			sizeObject = [KWCommonMethods makeSizeFromFloat:[[[defaultManager fileAttributesAtPath:path traverseLink:YES] objectForKey:NSFileSize] floatValue]];
 		
 		[rowData setObject:sizeObject forKey:@"Size"];
-		[rowData setObject:[[NSNumber numberWithInt:time] stringValue] forKey:@"RealTime"];
+		[rowData setObject:[[NSNumber numberWithInteger:time] stringValue] forKey:@"RealTime"];
 		[rowData setObject:[[[NSWorkspace sharedWorkspace] iconForFile:path] retain] forKey:@"Icon"];
 	
 		if ([tableData count] > 0 && [[[[tableData objectAtIndex:0] objectForKey:@"Name"] lowercaseString] isEqualTo:@"audio_ts"] && selrow == 2)
@@ -288,7 +330,11 @@
 			[tracks addObject:track];
 			
 			#if MAC_OS_X_VERSION_MAX_ALLOWED >= MAC_OS_X_VERSION_10_4
-			if ([KWCommonMethods OSVersion] >= 0x1040 && [[[path pathExtension] lowercaseString] isEqualTo:@"mp3"] | [[[path pathExtension] lowercaseString] isEqualTo:@"m4a"])
+			#if MAC_OS_X_VERSION_MAX_ALLOWED >= 1050
+			if ([pathExtension isEqualTo:@"mp3"] | [pathExtension isEqualTo:@"m4a"])
+			#else
+			if ([KWCommonMethods OSVersion] >= 0x1040 && [pathExtension isEqualTo:@"mp3"] | [pathExtension isEqualTo:@"m4a"])
+			#endif
 			{
 				MultiTag *soundTag = [[MultiTag alloc] initWithFile:path];
 				
@@ -303,7 +349,7 @@
 					NSArray *genres = [soundTag getTagGenreNames];
 					if ([genres count] > 0)
 					{
-						[cdtext setObject:[NSNumber numberWithInt:0] forKey:DRCDTextGenreCodeKey ofTrack:0];
+						[cdtext setObject:[NSNumber numberWithInteger:0] forKey:DRCDTextGenreCodeKey ofTrack:0];
 						[cdtext setObject:[genres objectAtIndex:0] forKey:DRCDTextGenreKey ofTrack:0];
 					}
 					
@@ -337,6 +383,7 @@
 				[cdtext setObject:[soundTag getTagComments] forKey:DRCDTextSpecialMessageKey ofTrack:lastTrack];
 				
 				[soundTag release];
+				soundTag = nil;
 			}
 			else
 			{
@@ -352,12 +399,12 @@
 			
 		if (currentDropRow > -1)
 		{
-			[tableData insertObject:[rowData copy] atIndex:currentDropRow];
+			[tableData insertObject:rowData atIndex:currentDropRow];
 			currentDropRow = currentDropRow + 1;
 		}
 		else
 		{
-			[tableData addObject:[rowData copy]];
+			[tableData addObject:rowData];
 		}
 		
 		[tableView reloadData];
@@ -370,7 +417,12 @@
 
 - (IBAction)changeDiscName:(id)sender
 {
-	#if MAC_OS_X_VERSION_MAX_ALLOWED >= MAC_OS_X_VERSION_10_4
+	#if MAC_OS_X_VERSION_MAX_ALLOWED >= 1050
+	NSInteger selrow = [tableViewPopup indexOfSelectedItem];
+	
+	if	(cdtext && selrow == 0)
+		[cdtext setObject:[discName stringValue] forKey:DRCDTextTitleKey ofTrack:0];
+	#elif MAC_OS_X_VERSION_MAX_ALLOWED >= MAC_OS_X_VERSION_10_4
 	if ([KWCommonMethods OSVersion] >= 0x1040)
 	{
 		NSInteger selrow = [tableViewPopup indexOfSelectedItem];
@@ -392,6 +444,8 @@
 - (id)myTrackWithBurner:(KWBurner *)burner errorString:(NSString **)error
 {
 	NSInteger selrow = [tableViewPopup indexOfSelectedItem];
+	NSString *discTitle = [discName stringValue];
+	NSUserDefaults *standardDefaults = [NSUserDefaults standardUserDefaults];
 
 	//Stop the music before burning
 	if ([KWCommonMethods isQuickTimeSevenInstalled])
@@ -399,7 +453,7 @@
 
 	if (selrow == 2)
 	{
-		NSString *outputFolder = [KWCommonMethods temporaryLocation:[discName stringValue] saveDescription:NSLocalizedString(@"Choose a location to save a temporary folder",nil)];
+		NSString *outputFolder = [KWCommonMethods temporaryLocation:discTitle saveDescription:NSLocalizedString(@"Choose a location to save a temporary folder", nil)];
 		
 		if (outputFolder)
 		{
@@ -408,48 +462,50 @@
 			NSInteger succes = [self authorizeFolderAtPathIfNeededAtPath:outputFolder errorString:&*error];
 	
 			if (succes == 0)
-				return [[KWTrackProducer alloc] getTrackForFolder:outputFolder ofType:7 withDiscName:[discName stringValue]];
+				return [[KWTrackProducer alloc] getTrackForFolder:outputFolder ofType:7 withDiscName:discTitle];
 			else
-				return [NSNumber numberWithInt:succes];
+				return [NSNumber numberWithInteger:succes];
 		}
 		else
 		{
-			return [NSNumber numberWithInt:2];
+			return [NSNumber numberWithInteger:2];
 		}
 	}
 		
 	if (selrow == 1)
 	{
-		DRFolder *discRoot = [DRFolder virtualFolderWithName:[discName stringValue]];
+		DRFolder *discRoot = [DRFolder virtualFolderWithName:discTitle];
 	
 		NSInteger i;
-		for (i=0;i<[tableData count];i++)
+		for (i = 0; i < [tableData count]; i ++)
 		{
 			DRFolder *myFolder = discRoot;
 			
-			if ([[[NSUserDefaults standardUserDefaults] objectForKey:@"KWCreateArtistFolders"] boolValue] | [[[NSUserDefaults standardUserDefaults] objectForKey:@"KWCreateAlbumFolders"] boolValue])
+			if ([[standardDefaults objectForKey:@"KWCreateArtistFolders"] boolValue] | [[standardDefaults objectForKey:@"KWCreateAlbumFolders"] boolValue])
 			{
 				NSString *path = [[tableData objectAtIndex:i] valueForKey:@"Path"];
 				MultiTag *soundTag = [[MultiTag alloc] initWithFile:path];
 			
-				if ([[[NSUserDefaults standardUserDefaults] objectForKey:@"KWCreateArtistFolders"] boolValue] && ![[soundTag getTagArtist] isEqualTo:@""])
+				if ([[standardDefaults objectForKey:@"KWCreateArtistFolders"] boolValue] && ![[soundTag getTagArtist] isEqualTo:@""])
 				{
-					DRFolder *artistFolder = [self checkArray:[myFolder children] forFolderWithName:[soundTag getTagArtist]];
+					NSString *artist = [soundTag getTagArtist];
+					DRFolder *artistFolder = [self checkArray:[myFolder children] forFolderWithName:artist];
 					
 					if (!artistFolder)
-						artistFolder = [DRFolder virtualFolderWithName:[soundTag getTagArtist]];
+						artistFolder = [DRFolder virtualFolderWithName:artist];
 					
 					[myFolder addChild:artistFolder];
 				
 					myFolder = artistFolder;
 				}
 				
-				if ([[[NSUserDefaults standardUserDefaults] objectForKey:@"KWCreateAlbumFolders"] boolValue] && ![[soundTag getTagAlbum] isEqualTo:@""])
+				if ([[standardDefaults objectForKey:@"KWCreateAlbumFolders"] boolValue] && ![[soundTag getTagAlbum] isEqualTo:@""])
 				{
-					DRFolder *albumFolder = [self checkArray:[myFolder children] forFolderWithName:[soundTag getTagAlbum]];
+					NSString *album = [soundTag getTagAlbum];
+					DRFolder *albumFolder = [self checkArray:[myFolder children] forFolderWithName:album];
 					
 					if (!albumFolder)
-						albumFolder = [DRFolder virtualFolderWithName:[soundTag getTagAlbum]];
+						albumFolder = [DRFolder virtualFolderWithName:album];
 					
 					[myFolder addChild:albumFolder];
 					
@@ -457,6 +513,7 @@
 				}
 			
 				[soundTag release];
+				soundTag = nil;
 			}
 			
 			[myFolder addChild:[DRFile fileWithPath:[[tableData objectAtIndex:i] valueForKey:@"Path"]]];
@@ -464,14 +521,14 @@
 				
 		[discRoot setExplicitFilesystemMask: (DRFilesystemInclusionMaskJoliet)];
 
-		return [discRoot retain];
+		return discRoot;
 	}
 	else
 	{
 		#if MAC_OS_X_VERSION_MAX_ALLOWED >= MAC_OS_X_VERSION_10_4
 		if ([KWCommonMethods OSVersion] >= 0x1040)
 		{
-			if ([[NSUserDefaults standardUserDefaults] boolForKey:@"KWUseCDText"] == YES && cdtext)
+			if ([standardDefaults boolForKey:@"KWUseCDText"] == YES && cdtext)
 			{
 				NSMutableDictionary *burnProperties = [NSMutableDictionary dictionary];
 			
@@ -503,19 +560,21 @@
 	}
 	else
 	{
-		float maximumSize = [[self totalSize] floatValue];
+		CGFloat maximumSize = [[self totalSize] floatValue];
 		
+		#if MAC_OS_X_VERSION_MAX_ALLOWED < 1050
 		if ([KWCommonMethods OSVersion] < 0x1040)
 			maximumSize = maximumSize * 2;
+		#endif
 			
 		NSNotificationCenter *defaultCenter = [NSNotificationCenter defaultCenter];
 	
-		[defaultCenter postNotificationName:@"KWMaximumValueChanged" object:[NSNumber numberWithFloat:maximumSize]];
+		[defaultCenter postNotificationName:@"KWMaximumValueChanged" object:[NSNumber numberWithCGFloat:maximumSize]];
 	
 		NSMutableArray *files = [NSMutableArray array];
 
 		NSInteger i;
-		for (i=0;i<[tableData count];i++)
+		for (i = 0; i < [tableData count]; i ++)
 		{
 			[files addObject:[[tableData objectAtIndex:i] objectForKey:@"Path"]];
 		}
@@ -526,6 +585,7 @@
 		DVDAuthorizer = [[KWDVDAuthorizer alloc] init];
 		succes = [DVDAuthorizer createStandardDVDAudioFolderAtPath:[path retain] withFiles:files errorString:&*error];
 		[DVDAuthorizer release];
+		DVDAuthorizer = nil;
 	}
 	
 	return succes;
@@ -605,27 +665,40 @@
 - (void)tableViewSelectionDidChange:(NSNotification *)notification
 {
 	NSInteger selrow = [tableViewPopup indexOfSelectedItem];
-
-	NSNotificationCenter *defaultCenter = [NSNotificationCenter defaultCenter];
 	
+	NSString *kind = @"KWEmpty";
+	id object = nil;
+	
+	#if MAC_OS_X_VERSION_MAX_ALLOWED < 1050
 	if (selrow == 0 && [KWCommonMethods OSVersion] >= 0x1040)
 	{
+		object = tableView;
+	
 		if ([tableView selectedRow] == -1)
-			[defaultCenter postNotificationName:@"KWChangeInspector" object:tableView userInfo:[NSDictionary dictionaryWithObjectsAndKeys:@"KWAudioDisc",@"Type",nil]];
+			kind = @"KWAudioDisc";
 		else
-			[defaultCenter postNotificationName:@"KWChangeInspector" object:tableView userInfo:[NSDictionary dictionaryWithObjectsAndKeys:@"KWAudio",@"Type",nil]];
+			kind = @"KWAudio";
 	}
+	#else
+	if (selrow == 0)
+	{
+		object = tableView;
+	
+		if ([tableView selectedRow] == -1)
+			kind = @"KWAudioDisc";
+		else
+			kind = @"KWAudio";
+	}
+	#endif
 	else if (selrow == 1)
 	{
-		if ([tableView selectedRow] == -1)
-			[defaultCenter postNotificationName:@"KWChangeInspector" object:nil userInfo:[NSDictionary dictionaryWithObjectsAndKeys:@"KWEmpty",@"Type",nil]];
-		else
-			[defaultCenter postNotificationName:@"KWChangeInspector" object:tableView userInfo:[NSDictionary dictionaryWithObjectsAndKeys:@"KWAudioMP3",@"Type",nil]];
+		object = tableView;
+	
+		if ([tableView selectedRow] != -1)
+			kind = @"KWAudioMP3";
 	}
-	else
-	{
-		[defaultCenter postNotificationName:@"KWChangeInspector" object:nil userInfo:[NSDictionary dictionaryWithObjectsAndKeys:@"KWEmpty",@"Type",nil]];
-	}
+	
+	[[NSNotificationCenter defaultCenter] postNotificationName:@"KWChangeInspector" object:object userInfo:[NSDictionary dictionaryWithObjectsAndKeys:kind, @"Type", nil]];
 }
 
 //Set the current tableview and tabledata to the selected popup item
@@ -671,7 +744,9 @@
 		[self stop:self];
 
 	[self getTableView];
-	[[[tableView tableColumnWithIdentifier:@"Size"] headerCell] setStringValue:NSLocalizedString(@"Size",nil)];
+	
+	id tableHeaderCell = [[tableView tableColumnWithIdentifier:@"Size"] headerCell];
+	[tableHeaderCell setStringValue:NSLocalizedString(@"Size", nil)];
 
 	//Set the icon, tabview and textfield
 	if (selrow == 0)
@@ -681,7 +756,7 @@
 		optionsPopup = audioOptionsPopup;
 		optionsMappings = audioOptionsMappings;
 	
-		[[[tableView tableColumnWithIdentifier:@"Size"] headerCell] setStringValue:NSLocalizedString(@"Time",nil)];
+		[tableHeaderCell setStringValue:NSLocalizedString(@"Time", nil)];
 	
 		[popupIcon setImage:[NSImage imageNamed:@"Audio CD"]];
 		
@@ -725,14 +800,21 @@
 	}
 	else
 	{
-		NSNotificationCenter *defaultCenter = [NSNotificationCenter defaultCenter];
-	
+		NSString *kind = @"KWEmpty";
+		
+		#if MAC_OS_X_VERSION_MAX_ALLOWED < 1050
 		if (selrow == 0 && [KWCommonMethods OSVersion] >= 0x1040)
-			[defaultCenter postNotificationName:@"KWChangeInspector" object:tableView userInfo:[NSDictionary dictionaryWithObjectsAndKeys:@"KWAudioDisc",@"Type",nil]];
+			kind = @"KWAudioDisc";
 		else if (selrow == 1)
-			[defaultCenter postNotificationName:@"KWChangeInspector" object:tableView userInfo:[NSDictionary dictionaryWithObjectsAndKeys:@"KWAudioMP3Disc",@"Type",nil]];
+			kind = @"KWAudioMP3Disc";
+		#else
+		if (selrow == 0)
+			kind = @"KWAudioDisc";
 		else if (selrow == 1)
-			[defaultCenter postNotificationName:@"KWChangeInspector" object:nil userInfo:[NSDictionary dictionaryWithObjectsAndKeys:@"KWEmpty",@"Type",nil]];
+			kind = @"KWAudioMP3Disc";
+		#endif
+		
+		[[NSNotificationCenter defaultCenter] postNotificationName:@"KWChangeInspector" object:nil userInfo:[NSDictionary dictionaryWithObjectsAndKeys:kind, @"Type", nil]];
 	}
 }
 
@@ -1020,12 +1102,12 @@
 		NSString *displayText;
 		NSString *timeString;
 		
-		NSInteger time = (NSInteger)[movie currentTime].timeValue/(NSInteger)[movie currentTime].timeScale;
+		CGFloat time = (CGFloat)[movie currentTime].timeValue / (CGFloat)[movie currentTime].timeScale;
 				
 		if (display == 2)
-			time = (NSInteger)[movie duration].timeValue/(NSInteger)[movie duration].timeScale - time;
+			time = (CGFloat)[movie duration].timeValue / (CGFloat)[movie duration].timeScale - time;
 			
-		timeString = [KWCommonMethods formatTime:time];
+		timeString = [KWCommonMethods formatTime:time withFrames:NO];
 				
 		NSInteger selrow = [tableViewPopup indexOfSelectedItem];
 		if (selrow == 1 | selrow == 2)
@@ -1057,7 +1139,9 @@
 
 - (BOOL)tableView:(NSTableView*)tv acceptDrop:(id <NSDraggingInfo>)info row:(NSInteger)row dropOperation:(NSTableViewDropOperation)op
 {
-	#if MAC_OS_X_VERSION_MAX_ALLOWED >= MAC_OS_X_VERSION_10_4
+	#if MAC_OS_X_VERSION_MAX_ALLOWED >= 1050
+	if (cdtext)
+	#elif MAC_OS_X_VERSION_MAX_ALLOWED >= MAC_OS_X_VERSION_10_4
 	if (cdtext && [KWCommonMethods OSVersion] >= 0x1040)
 	{
 		NSInteger selrow = [tableViewPopup indexOfSelectedItem];
@@ -1140,7 +1224,7 @@
 	{
 		NSInteger i;
 		NSInteger size = 0;
-		for (i=0;i<[tracks count];i++)
+		for (i = 0; i < [tracks count]; i ++)
 		{
 			DRTrack *currentTrack = [tracks objectAtIndex:i];
 			NSDictionary *properties = [currentTrack properties];
@@ -1148,19 +1232,22 @@
 			size = size + [[properties objectForKey:DRPreGapLengthKey] intValue];
 		}
 		
-		return [NSNumber numberWithInt:size];
+		return [NSNumber numberWithInteger:size];
 	}
 }
 
 //Calculate and return total time as string
 - (NSString *)totalTime
 {
-	return [KWCommonMethods formatTime:[[self totalSize] floatValue] / 75];
+	return [KWCommonMethods formatTime:[[self totalSize] floatValue] / 75 withFrames:NO];
 }
 
 //Get movie duration using NSMovie so it works in Panther too
 - (NSInteger)getMovieDuration:(NSString *)path
 {
+	#if MAC_OS_X_VERSION_MAX_ALLOWED >= 1050
+	return [[KWConverter alloc] totalTimeInSeconds:path];
+	#else
 	NSInteger duration;
 
 	if ([KWCommonMethods isQuickTimeSevenInstalled])
@@ -1173,7 +1260,6 @@
 	}
 	else
 	{
-		#if MAC_OS_X_VERSION_MAX_ALLOWED < 1050
 		NSMovie *theMovie = [[NSMovie alloc] initWithURL:[NSURL fileURLWithPath:path] byReference:NO];
 
 		if (theMovie)
@@ -1181,12 +1267,10 @@
 			duration = GetMovieDuration([theMovie QTMovie]) / GetMovieTimeScale([theMovie QTMovie]);
 			[theMovie release];
 		}
-		#else
-		duration = [[KWConverter alloc] totalTimeInSeconds:path];
-		#endif
 	}
 
 	return duration;
+	#endif
 }
 
 //Check if the disc can be combined
@@ -1204,11 +1288,25 @@
 - (void)volumeLabelSelected:(NSNotification *)notif
 {
 	NSNotificationCenter *defaultCenter = [NSNotificationCenter defaultCenter];
-
+	
+	id object = nil;
+	NSString *kind = @"KWEmpty";
+	
+	#if MAC_OS_X_VERSION_MAX_ALLOWED >= 1050
+	if ([tableViewPopup indexOfSelectedItem] == 0)
+	{
+		object = tableView;
+		kind = @"KWAudioDisc";
+	}
+	#else
 	if ([tableViewPopup indexOfSelectedItem] == 0 && [KWCommonMethods OSVersion] >= 0x1040)
-		[defaultCenter postNotificationName:@"KWChangeInspector" object:tableView userInfo:[NSDictionary dictionaryWithObjectsAndKeys:@"KWAudioDisc",@"Type",nil]];
-	else
-		[defaultCenter postNotificationName:@"KWChangeInspector" object:nil userInfo:[NSDictionary dictionaryWithObjectsAndKeys:@"KWEmpty",@"Type",nil]];
+	{
+		kind = @"KWAudioDisc";
+		object = tableView;
+	}
+	#endif
+
+	[defaultCenter postNotificationName:@"KWChangeInspector" object:object userInfo:[NSDictionary dictionaryWithObjectsAndKeys:kind, @"Type", nil]];
 }
 
 - (BOOL)respondsToSelector:(SEL)aSelector
@@ -1225,7 +1323,9 @@
 	NSString *cueFile = [NSString stringWithFormat:@"FILE \"%@\" BINARY", binFile];
 	NSUserDefaults *standardDefaults = [NSUserDefaults standardUserDefaults];
 	
-	#if MAC_OS_X_VERSION_MAX_ALLOWED >= MAC_OS_X_VERSION_10_4
+	#if MAC_OS_X_VERSION_MAX_ALLOWED >= 1050
+	if ([standardDefaults objectForKey:@"KWUseCDText"])
+	#elif MAC_OS_X_VERSION_MAX_ALLOWED >= MAC_OS_X_VERSION_10_4
 	if ([KWCommonMethods OSVersion] >= 0x1040 && [standardDefaults objectForKey:@"KWUseCDText"])
 	{
 		NSArray *keys = [cueMappings allKeys];

@@ -6,6 +6,7 @@
 #import "KWDiscInfo.h"
 #import "KWEjecter.h"
 #import "KWInspector.h"
+#import "KWGrowlController.h"
 
 @interface KWApplication : NSObject
 {
@@ -15,6 +16,7 @@
 	KWDiscInfo *diskInfo;
 	KWEjecter *ejecter;
 	KWInspector *inspector;
+	KWGrowlController *growlController;
 	
 	//Inspector variables
 	id currentObject;

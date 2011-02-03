@@ -162,14 +162,14 @@
 	{
 		aspect = @"4:3";
 		aspectSize = NSMakeSize(4, 3);
-		topBars = (inputAspect >= (float)4 / (float)3);
+		topBars = (inputAspect >= (CGFloat)4 / (CGFloat)3);
 	}
 	
 	if (convertKind == 1)
 	{
 		ffmpegFormat = [NSString stringWithFormat:@"%@-vcd", ffmpegFormat];
 	
-		if (inputAspect < (float)4 / (float)3)
+		if (inputAspect < (CGFloat)4 / (CGFloat)3)
 			calculateSize = 352;
 		else if (convertRegion == 0)
 			calculateSize = 288;
@@ -186,7 +186,7 @@
 	{
 		ffmpegFormat = [NSString stringWithFormat:@"%@-svcd", ffmpegFormat];
 	
-		if (convertRegion == 1 && inputAspect < (float)4 / (float)3)
+		if (convertRegion == 1 && inputAspect < (CGFloat)4 / (CGFloat)3)
 			calculateSize = 576;
 		else
 			calculateSize = 480;
@@ -201,11 +201,11 @@
 	{
 		ffmpegFormat = [NSString stringWithFormat:@"%@-dvd", ffmpegFormat];
 	
-		if ((inputAspect <= (float)4 / (float)3 && dvdAspectMode != 2) | dvdAspectMode == 1)
+		if ((inputAspect <= (CGFloat)4 / (CGFloat)3 && dvdAspectMode != 2) | dvdAspectMode == 1)
 		{
 			aspectSize = NSMakeSize(4, 3);
 			calculateSize = 720;
-			topBars = (inputAspect > (float)4 / (float)3);
+			topBars = (inputAspect > (CGFloat)4 / (CGFloat)3);
 		}
 		else
 		{
@@ -216,7 +216,7 @@
 			else
 				calculateSize = 480;
 				
-			topBars = (inputAspect > (float)16 / (float)9);
+			topBars = (inputAspect > (CGFloat)16 / (CGFloat)9);
 		}
 		
 		if (convertRegion == 0)
@@ -225,7 +225,7 @@
 			outputSize = NSMakeSize(720, 480);
 	}
 		
-	if ((convertKind == 1 | convertKind == 2 | convertKind == 3) && ((inputAspect != (float)4 / (float)3 | (inputAspect == (float)4 / (float)3 && dvdAspectMode == 2 && convertKind == 3)) && (inputAspect != (float)16 / (float)9) | (inputAspect == (float)16 / (float)9 && convertKind == 1 | convertKind == 2 | dvdAspectMode == 1)))
+	if ((convertKind == 1 | convertKind == 2 | convertKind == 3) && ((inputAspect != (CGFloat)4 / (CGFloat)3 | (inputAspect == (CGFloat)4 / (CGFloat)3 && dvdAspectMode == 2 && convertKind == 3)) && (inputAspect != (CGFloat)16 / (CGFloat)9) | (inputAspect == (CGFloat)16 / (CGFloat)9 && convertKind == 1 | convertKind == 2 | dvdAspectMode == 1)))
 	{
 		NSInteger padSize = [self getPadSize:calculateSize withAspect:aspectSize withTopBars:topBars];
 		
@@ -427,7 +427,7 @@
 	{
 		NSNumber *borderSize = [[NSUserDefaults standardUserDefaults] objectForKey:@"KWSaveBorderSize"];
 		NSInteger heightBorder = [borderSize intValue];
-		NSInteger widthBorder = [self convertToEven:[[NSNumber numberWithFloat:inputWidth / (inputHeight / [borderSize floatValue])] stringValue]];
+		NSInteger widthBorder = [self convertToEven:[[NSNumber numberWithCGFloat:inputWidth / (inputHeight / [borderSize floatValue])] stringValue]];
 		
 		if ([padOptions count] > 0 && [[padOptions objectAtIndex:0] isEqualTo:@"-padtop"])
 		{
@@ -478,7 +478,7 @@
 		if ([string rangeOfString:@"time="].length > 0)
 		{
 			NSString *currentTimeString = [[[[string componentsSeparatedByString:@"time="] objectAtIndex:1] componentsSeparatedByString:@" "] objectAtIndex:0];
-			float percent = [currentTimeString floatValue] / inputTotalTime * 100;
+			CGFloat percent = [currentTimeString floatValue] / inputTotalTime * 100;
 		
 			if (inputTotalTime > 0)
 			{
@@ -660,7 +660,7 @@
 
 	while (keepGoing == YES)
 	{
-		NSMutableArray *arguments = [NSMutableArray arrayWithObjects:@"-t",@"0.1",@"-threads",[[NSNumber numberWithInt:[[[NSUserDefaults standardUserDefaults] objectForKey:@"KWEncodingThreads"] intValue]] stringValue],@"-i",path,@"-target",@"pal-vcd", nil];
+		NSMutableArray *arguments = [NSMutableArray arrayWithObjects:@"-t",@"0.1",@"-threads",[[NSNumber numberWithInteger:[[[NSUserDefaults standardUserDefaults] objectForKey:@"KWEncodingThreads"] intValue]] stringValue],@"-i",path,@"-target",@"pal-vcd", nil];
 			
 		if (videoWorks == NO)
 			[arguments addObject:@"-vn"];
@@ -892,13 +892,13 @@
 			inputHeight = 576;
 		}
 		
-		inputAspect = (float)inputWidth / (float)inputHeight;
+		inputAspect = (CGFloat)inputWidth / (CGFloat)inputHeight;
 		
 		
 		if (inputWidth == 352 && (inputHeight == 288 | inputHeight == 240))
-			inputAspect = (float)4 / (float)3;
+			inputAspect = (CGFloat)4 / (CGFloat)3;
 		else if ((inputWidth == 480 | inputWidth == 720 | inputWidth == 784) && (inputHeight == 576 | inputHeight == 480))
-			inputAspect = (float)4 / (float)3;
+			inputAspect = (CGFloat)4 / (CGFloat)3;
 
 		//Check if the iMovie project is 4:3 or 16:9
 		if ([inputString rangeOfString:@"Video: dvvideo"].length > 0)
@@ -914,20 +914,20 @@
 					if ([[KWCommonMethods stringWithContentsOfFile:projectSettings] rangeOfString:@"WIDE"].length > 0)
 					{
 						inputWidth = 1024;
-						inputAspect = (float)16 / (float)9;
+						inputAspect = (CGFloat)16 / (CGFloat)9;
 					}
 					else
 					{
-						inputAspect = (float)4 / (float)3;
+						inputAspect = (CGFloat)4 / (CGFloat)3;
 					}
 				}
 			}
 			else 
 			{
 				if ([inputString rangeOfString:@"[PAR 59:54 DAR 295:216]"].length > 0 | [inputString rangeOfString:@"[PAR 10:11 DAR 15:11]"].length)
-					inputAspect = (float)4 / (float)3;
+					inputAspect = (CGFloat)4 / (CGFloat)3;
 				else if ([inputString rangeOfString:@"[PAR 118:81 DAR 295:162]"].length > 0 | [inputString rangeOfString:@"[PAR 40:33 DAR 20:11]"].length)
-					inputAspect = (float)16 / (float)9;
+					inputAspect = (CGFloat)16 / (CGFloat)9;
 			}
 		
 			inputFormat = 1;
@@ -935,7 +935,7 @@
 
 		if ([inputString rangeOfString:@"DAR 16:9"].length > 0)
 		{
-			inputAspect = (float)16 / (float)9;
+			inputAspect = (CGFloat)16 / (CGFloat)9;
 			
 			if ([inputString rangeOfString:@"mpeg2video"].length > 0)
 			{
@@ -949,7 +949,7 @@
 		{
 			//if ([file rangeOfString:@".iMovieProject"].length > 0)
 			//{
-				inputAspect = (float)16 / (float)9;
+				inputAspect = (CGFloat)16 / (CGFloat)9;
 				inputWidth = 1024;
 				inputHeight = 576;
 			//}
@@ -957,7 +957,7 @@
 	}
 	
 	if ([inputString rangeOfString:@"DAR 119:90"].length > 0)
-		inputAspect = (float)4 / (float)3;
+		inputAspect = (CGFloat)4 / (CGFloat)3;
 	
 	if ([inputString rangeOfString:@"Duration:"].length > 0)	
 	{
@@ -1108,23 +1108,23 @@
 
 - (NSInteger)convertToEven:(NSString *)numberAsString
 {
-	NSString *convertedNumber = [[NSNumber numberWithInt:[numberAsString intValue]] stringValue];
+	NSString *convertedNumber = [[NSNumber numberWithInteger:[numberAsString intValue]] stringValue];
 
 	unichar ch = [convertedNumber characterAtIndex:[convertedNumber length] -1];
 	NSString *lastCharacter = [NSString stringWithFormat:@"%C", ch];
 
 	if ([lastCharacter isEqualTo:@"1"] | [lastCharacter isEqualTo:@"3"] | [lastCharacter isEqualTo:@"5"] | [lastCharacter isEqualTo:@"7"] | [lastCharacter isEqualTo:@"9"])
-		return [[NSNumber numberWithInt:[convertedNumber intValue] + 1] intValue];
+		return [[NSNumber numberWithInteger:[convertedNumber intValue] + 1] intValue];
 	else
 		return [convertedNumber intValue];
 }
 
-- (NSInteger)getPadSize:(float)size withAspect:(NSSize)aspect withTopBars:(BOOL)topBars
+- (NSInteger)getPadSize:(CGFloat)size withAspect:(NSSize)aspect withTopBars:(BOOL)topBars
 {
 	NSUserDefaults *standardDefaults = [NSUserDefaults standardUserDefaults];
 
-	float heightBorder = 0;
-	float widthBorder = 0;
+	CGFloat heightBorder = 0;
+	CGFloat widthBorder = 0;
 
 	if ([standardDefaults boolForKey:@"KWSaveBorders"] == YES)
 	{
@@ -1133,15 +1133,15 @@
 	}
 	
 	if (topBars)
-		return [self convertToEven:[[NSNumber numberWithFloat:(size - (size * aspect.width / aspect.height) / ((float)inputWidth / (float)inputHeight)) / 2 + heightBorder] stringValue]];
+		return [self convertToEven:[[NSNumber numberWithCGFloat:(size - (size * aspect.width / aspect.height) / ((CGFloat)inputWidth / (CGFloat)inputHeight)) / 2 + heightBorder] stringValue]];
 	else
-		return [self convertToEven:[[NSNumber numberWithFloat:((size * aspect.width / aspect.height) / ((float)inputWidth / (float)inputHeight) - size) / 2 + widthBorder] stringValue]];
+		return [self convertToEven:[[NSNumber numberWithCGFloat:((size * aspect.width / aspect.height) / ((CGFloat)inputWidth / (CGFloat)inputHeight) - size) / 2 + widthBorder] stringValue]];
 }
 
 - (BOOL)remuxMPEG2File:(NSString *)path outPath:(NSString *)outFile
 {
 	status = 2;
-	NSArray *arguments = [NSArray arrayWithObjects:@"-threads",[[NSNumber numberWithInt:[[[NSUserDefaults standardUserDefaults] objectForKey:@"KWEncodingThreads"] intValue]] stringValue],@"-i",path,@"-y",@"-acodec",@"copy",@"-vcodec",@"copy",@"-target",@"dvd",outFile,nil];
+	NSArray *arguments = [NSArray arrayWithObjects:@"-threads",[[NSNumber numberWithInteger:[[[NSUserDefaults standardUserDefaults] objectForKey:@"KWEncodingThreads"] intValue]] stringValue],@"-i",path,@"-y",@"-acodec",@"copy",@"-vcodec",@"copy",@"-target",@"dvd",outFile,nil];
 	//Not used yet
 	NSString *errorsString;
 	BOOL result = [KWCommonMethods launchNSTaskAtPath:[KWCommonMethods ffmpegPath] withArguments:arguments outputError:YES outputString:YES output:&errorsString];
@@ -1183,7 +1183,7 @@
 	if (audioFile)
 	{
 		status = 2;
-		NSArray *arguments = [NSArray arrayWithObjects:@"-threads",[[NSNumber numberWithInt:[[[NSUserDefaults standardUserDefaults] objectForKey:@"KWEncodingThreads"] intValue]] stringValue],@"-i",path,@"-threads",[[NSNumber numberWithInt:[[[NSUserDefaults standardUserDefaults] objectForKey:@"KWEncodingThreads"] intValue]] stringValue],@"-i",audioFile,@"-y",@"-acodec",@"copy",@"-vcodec",@"copy",@"-target",@"dvd",outputPath,nil];
+		NSArray *arguments = [NSArray arrayWithObjects:@"-threads",[[NSNumber numberWithInteger:[[[NSUserDefaults standardUserDefaults] objectForKey:@"KWEncodingThreads"] intValue]] stringValue],@"-i",path,@"-threads",[[NSNumber numberWithInteger:[[[NSUserDefaults standardUserDefaults] objectForKey:@"KWEncodingThreads"] intValue]] stringValue],@"-i",audioFile,@"-y",@"-acodec",@"copy",@"-vcodec",@"copy",@"-target",@"dvd",outputPath,nil];
 		//Not used yet
 		NSString *errorsString;
 		BOOL result = [KWCommonMethods launchNSTaskAtPath:[KWCommonMethods ffmpegPath] withArguments:arguments outputError:YES outputString:YES output:&errorsString];
@@ -1225,7 +1225,7 @@
 
 - (NSImage *)getImageAtPath:(NSString *)path atTime:(NSInteger)time isWideScreen:(BOOL)wide
 {
-	NSArray *arguments = [NSArray arrayWithObjects:@"-ss",[[NSNumber numberWithInt:time] stringValue],@"-i",path,@"-vframes",@"1" ,@"-f",@"image2",@"-",nil];
+	NSArray *arguments = [NSArray arrayWithObjects:@"-ss",[[NSNumber numberWithInteger:time] stringValue],@"-i",path,@"-vframes",@"1" ,@"-f",@"image2",@"-",nil];
 	NSData *data;
 	NSImage *image;
 	BOOL result = [KWCommonMethods launchNSTaskAtPath:[KWCommonMethods ffmpegPath] withArguments:arguments outputError:NO outputString:NO output:&data];

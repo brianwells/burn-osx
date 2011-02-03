@@ -68,7 +68,7 @@
 - (NSImage*)icon;
 - (NSString*)kind;
 - (BOOL)isExpandable;
-- (DRFSObject*) fsObject;
+- (DRFSObject *)fsObject;
 
 @end
 
@@ -76,6 +76,9 @@
 @end
 
 @interface FSFolderNodeData : FSNodeData
+{
+	NSMutableArray *calculationFolders;
+}
 @end
 
 @interface FSTreeNode : TreeNode

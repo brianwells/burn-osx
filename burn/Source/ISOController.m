@@ -81,6 +81,7 @@
 - (void)dealloc
 {
 	[propertyMappings release];
+	propertyMappings = nil;
 	
 	[super dealloc];
 }

@@ -8,9 +8,7 @@
 - (id)init
 {
 	if( self = [super init] )
-	{
 		[NSBundle loadNibNamed:@"KWInspector" owner:self];
-	}
 	
 	firstRun = YES;
 	
@@ -40,26 +38,26 @@
 
 - (void)beginWindowForType:(NSString *)type withObject:(id)object
 {
-	NSWindow *myWindow = [self window];
+	NSWindow *window = [self window];
 
-	if ([myWindow isVisible])
+	if ([window isVisible])
 	{
-		[myWindow orderOut:self];
+		[window orderOut:self];
 	}
 	else
 	{
 		[self updateForType:type withObject:object];
 
 		if ([[NSUserDefaults standardUserDefaults] boolForKey:@"KWFirstRun"] == YES)
-			[myWindow setFrameOrigin:NSMakePoint(500,[[NSScreen mainScreen] frame].size.height - 548)];
+			[window setFrameOrigin:NSMakePoint(500,[[NSScreen mainScreen] frame].size.height - 548)];
 		
-		[myWindow makeKeyAndOrderFront:self];
+		[window makeKeyAndOrderFront:self];
 	}
 }
 
 - (void)updateForType:(NSString *)type withObject:(id)object
 {
-	NSWindow *myWindow = [self window];
+	NSWindow *window = [self window];
 
 	id currentController = nil;
 
@@ -81,18 +79,18 @@
 		firstRun = NO;
 		[currentController updateView:object];
 	}
-	
+
 	if (currentController)
 	{
-		NSView *myView = [currentController myView];
+		NSView *view = [currentController myView];
 	
 		[currentController updateView:object];
-		[myWindow setContentView:myView];
-		[myWindow makeFirstResponder:myView];
+		[window setContentView:view];
+		[window makeFirstResponder:view];
 	}
 	else
 	{
-		[myWindow setContentView:emptyView];
+		[window setContentView:emptyView];
 	}
 }
 
