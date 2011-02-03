@@ -600,6 +600,7 @@
 		}
 		else if ([KWCommonMethods OSVersion] < 0x1040)
 		{
+			float blocks = [[currentInformation objectForKey:@"Blocks"] floatValue];
 			return [[KWTrackProducer alloc] getTrackForImage:outputFile withSize:blocks];
 		}
 		#if MAC_OS_X_VERSION_MAX_ALLOWED >= MAC_OS_X_VERSION_10_4
@@ -677,7 +678,7 @@
 
 - (NSNumber *)totalSize
 {
-	return [NSNumber numberWithCGFloat:blocks];
+	return [currentInformation objectForKey:@"Blocks"];
 }
 
 - (BOOL)respondsToSelector:(SEL)aSelector

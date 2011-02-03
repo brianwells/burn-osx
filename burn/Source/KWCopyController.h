@@ -26,7 +26,6 @@
 	IBOutlet id myDiscCreationController;
 	
 	//Variables
-	unsigned long blocks;
 	NSTask *hdiutil;
 	NSTask *cp;
 	BOOL userCanceled;
