@@ -123,31 +123,28 @@
 	{
 	//Check if the file is allready the right file
 	BOOL checkFile;
-	converter = [[KWConverter alloc] init];
 
 		if (selrow == 0)
 		{
-			checkFile = [converter isVCD:path];
+			checkFile = [KWConverter isVCD:path];
 		}
 		else if (selrow == 1)
 		{
-			checkFile = [converter isSVCD:path];
+			checkFile = [KWConverter isSVCD:path];
 		}
 		else if (selrow == 2)
 		{
-			checkFile = (([converter isDVD:path isWideAspect:&isWide] && [standardDefaults boolForKey:@"KWForceMPEG2"] == NO) | selfEncoded == YES);
+			checkFile = (([KWConverter isDVD:path isWideAspect:&isWide] && [standardDefaults boolForKey:@"KWForceMPEG2"] == NO) | selfEncoded == YES);
 			
 			if ([[path pathExtension] isEqualTo:@"m2v"] && [standardDefaults boolForKey:@"KWMuxSeperateStreams"] == YES)
 				checkFile = YES;
 		}
 		else if (selrow == 3)
 		{
-			if ([converter isMPEG4:path] && [standardDefaults boolForKey:@"KWForceDivX"] == NO | selfEncoded == YES)
+			if ([KWConverter isMPEG4:path] && [standardDefaults boolForKey:@"KWForceDivX"] == NO | selfEncoded == YES)
 				checkFile = YES;
 			else
 				checkFile = NO;
-			
-			[converter release];
 		}
 		
 		NSFileManager *defaultManager = [NSFileManager defaultManager];
@@ -166,16 +163,12 @@
 				if (outputFile)
 				{
 					[temporaryFiles addObject:outputFile];
-					converter = [[KWConverter alloc] init];
 					[progressPanel setStatus:[NSLocalizedString(@"Remuxing: ", nil) stringByAppendingString:[defaultManager displayNameAtPath:outputFile]]];
 
-					if ([converter remuxMPEG2File:path outPath:outputFile] == YES)
+					if ([KWConverter remuxMPEG2File:path outPath:outputFile] == YES)
 						filePath = outputFile;
 					else
 						filePath = @"";
-					
-					[converter release];
-					converter = nil;
 						
 					[progressPanel setStatus:NSLocalizedString(@"Scanning for files and folders", nil)];
 					[progressPanel setCancelNotification:@"videoCancelAdding"];
@@ -190,14 +183,12 @@
 				if (outputFile)
 				{
 					[temporaryFiles addObject:outputFile];
-				
-					converter = [[KWConverter alloc] init];
 			
-					if ([converter canCombineStreams:path])
+					if ([KWConverter canCombineStreams:path])
 					{
 						[progressPanel setStatus:[NSLocalizedString(@"Creating: ", nil) stringByAppendingString:[[[defaultManager displayNameAtPath:path] stringByDeletingPathExtension] stringByAppendingPathExtension:@"mpg"]]];
 
-						if ([converter combineStreams:path atOutputPath:outputFile] == YES)
+						if ([KWConverter combineStreams:path atOutputPath:outputFile] == YES)
 							filePath = [[path stringByDeletingPathExtension] stringByAppendingPathExtension:@"mpg"];
 						else
 							filePath = @"";
@@ -205,9 +196,6 @@
 						[progressPanel setStatus:NSLocalizedString(@"Scanning for files and folders", nil)];
 						[progressPanel setCancelNotification:@"videoCancelAdding"];
 					}
-					
-					[converter release];
-					converter = nil;
 				}
 			}
 		

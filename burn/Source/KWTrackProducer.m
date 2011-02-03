@@ -588,7 +588,7 @@
 	
 	NSArray *arguments = [NSArray arrayWithObjects:@"-i", path, @"-f", @"s16le", @"-ac", @"2", @"-", nil];
 	
-	if ([[KWConverter alloc] isAudioCDFile:path])
+	if ([KWConverter isAudioCDFile:path])
 		arguments = [NSArray arrayWithObjects:@"-i", path, @"-f", @"s16le", @"-acodec", @"copy", @"-", nil];
 	
 	[trackCreator setArguments:arguments];
@@ -732,7 +732,7 @@
 	
 	NSArray *arguments = [NSArray arrayWithObjects:@"-i", path, @"-f", @"s16le", @"-ac", @"2", @"-", nil];
 	
-	if ([[KWConverter alloc] isAudioCDFile:path])
+	if ([KWConverter isAudioCDFile:path])
 		arguments = [NSArray arrayWithObjects:@"-i", path, @"-f", @"s16le", @"-acodec", @"copy", @"-", nil];
 	
 	[trackCreator setArguments:arguments];

@@ -67,7 +67,7 @@
 			useWav = (output == 2 | output == 4 | output == 8);
 			useQuickTime = (output == 2 | output == 3 | output == 6);
 			
-			copyAudio = [self containsAC3:currentPath];
+			copyAudio = [KWConverter containsAC3:currentPath];
 			
 			if (useWav)
 				output = [self encodeAudioAtPath:currentPath];
@@ -997,7 +997,7 @@
 #pragma mark -
 #pragma mark •• Compilant actions
 
-- (NSString *)ffmpegOutputForPath:(NSString *)path
++ (NSString *)ffmpegOutputForPath:(NSString *)path
 {
 	NSString *string;
 	NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
@@ -1012,9 +1012,9 @@
 }
 
 //Check if the file is a valid VCD file (return YES if it is valid)
-- (BOOL)isVCD:(NSString *)path
++ (BOOL)isVCD:(NSString *)path
 {
-	NSString *string = [self ffmpegOutputForPath:path];
+	NSString *string = [KWConverter ffmpegOutputForPath:path];
 	
 	if (string)
 		return ([string rangeOfString:@"mpeg1video"].length > 0 && [string rangeOfString:@"352x288"].length > 0 | [string rangeOfString:@"352x240"].length > 0 && [string rangeOfString:@"25.00 tb(r)"].length > 0 | [string rangeOfString:@"29.97 tb(r)"].length > 0 | [string rangeOfString:@"25 tbr"].length > 0 | [string rangeOfString:@"29.97 tbr"].length > 0);
@@ -1023,9 +1023,9 @@
 }
 
 //Check if the file is a valid SVCD file (return YES if it is valid)
-- (BOOL)isSVCD:(NSString *)path
++ (BOOL)isSVCD:(NSString *)path
 {
-	NSString *string = [self ffmpegOutputForPath:path];
+	NSString *string = [KWConverter ffmpegOutputForPath:path];
 	
 	if (string)
 		return ([string rangeOfString:@"mpeg2video"].length > 0 && [string rangeOfString:@"480x576"].length > 0 | [string rangeOfString:@"480x480"].length > 0 && [string rangeOfString:@"25.00 tb(r)"].length > 0 | [string rangeOfString:@"29.97 tb(r)"].length > 0 | [string rangeOfString:@"25 tbr"].length > 0 | [string rangeOfString:@"29.97 tbr"].length > 0);
@@ -1034,12 +1034,12 @@
 }
 
 //Check if the file is a valid DVD file (return YES if it is valid)
-- (BOOL)isDVD:(NSString *)path isWideAspect:(BOOL *)wideAspect
++ (BOOL)isDVD:(NSString *)path isWideAspect:(BOOL *)wideAspect
 {
 	if ([[path pathExtension] isEqualTo:@"m2v"])
 		return NO;
 		
-	NSString *string = [self ffmpegOutputForPath:path];
+	NSString *string = [KWConverter ffmpegOutputForPath:path];
 	
 	if (string)
 	{
@@ -1055,9 +1055,9 @@
 }
 
 //Check if the file is a valid MPEG4 file (return YES if it is valid)
-- (BOOL)isMPEG4:(NSString *)path
++ (BOOL)isMPEG4:(NSString *)path
 {
-	NSString *string = [self ffmpegOutputForPath:path];
+	NSString *string = [KWConverter ffmpegOutputForPath:path];
 	
 	if (string)
 		return ([[[path pathExtension] lowercaseString] isEqualTo:@"avi"] && ([string rangeOfString:@"Video: mpeg4"].length > 0 | ([[NSUserDefaults standardUserDefaults] boolForKey:@"KWAllowMSMPEG4"] == YES && [string rangeOfString:@"Video: msmpeg4"].length > 0)));
@@ -1066,9 +1066,9 @@
 }
 
 //Check if the file is allready an Audio-CD compatible file (2 or 5.1 channels)
-- (BOOL)isAudioCDFile:(NSString *)path
++ (BOOL)isAudioCDFile:(NSString *)path
 {
-	NSString *string = [self ffmpegOutputForPath:path];
+	NSString *string = [KWConverter ffmpegOutputForPath:path];
 	
 	if (string)
 		return ([string rangeOfString:@"pcm_s16le"].length > 0 && [string rangeOfString:@"44100"].length > 0 && [string rangeOfString:@"s16"].length > 0 && [string rangeOfString:@"1411 kb/s"].length > 0 && ([string rangeOfString:@"2 channels"].length > 0 | [string rangeOfString:@"5.1"].length > 0));
@@ -1077,9 +1077,9 @@
 }
 
 //Check for ac3 audio
-- (BOOL)containsAC3:(NSString *)path
++ (BOOL)containsAC3:(NSString *)path
 {
-	NSString *string = [self ffmpegOutputForPath:path];
+	NSString *string = [KWConverter ffmpegOutputForPath:path];
 	
 	if (string)
 		return ([string rangeOfString:@"Audio: ac3"].length > 0);
@@ -1138,14 +1138,12 @@
 		return [self convertToEven:[[NSNumber numberWithCGFloat:((size * aspect.width / aspect.height) / ((CGFloat)inputWidth / (CGFloat)inputHeight) - size) / 2 + widthBorder] stringValue]];
 }
 
-- (BOOL)remuxMPEG2File:(NSString *)path outPath:(NSString *)outFile
++ (BOOL)remuxMPEG2File:(NSString *)path outPath:(NSString *)outFile
 {
-	status = 2;
 	NSArray *arguments = [NSArray arrayWithObjects:@"-threads",[[NSNumber numberWithInteger:[[[NSUserDefaults standardUserDefaults] objectForKey:@"KWEncodingThreads"] integerValue]] stringValue],@"-i",path,@"-y",@"-acodec",@"copy",@"-vcodec",@"copy",@"-target",@"dvd",outFile,nil];
 	//Not used yet
 	NSString *errorsString;
 	BOOL result = [KWCommonMethods launchNSTaskAtPath:[KWCommonMethods ffmpegPath] withArguments:arguments outputError:YES outputString:YES output:&errorsString];
-	status = 0;
 	
 	if (result)
 	{
@@ -1158,7 +1156,7 @@
 	}
 }
 
-- (BOOL)canCombineStreams:(NSString *)path
++ (BOOL)canCombineStreams:(NSString *)path
 {
 	NSFileManager *defaultManager = [NSFileManager defaultManager];
 	NSString *pathWithOutExtension = [path stringByDeletingPathExtension];
@@ -1166,7 +1164,7 @@
 	return ([defaultManager fileExistsAtPath:[pathWithOutExtension stringByAppendingPathExtension:@"mp2"]] | [defaultManager fileExistsAtPath:[pathWithOutExtension stringByAppendingPathExtension:@"ac3"]]);
 }
 
-- (BOOL)combineStreams:(NSString *)path atOutputPath:(NSString *)outputPath
++ (BOOL)combineStreams:(NSString *)path atOutputPath:(NSString *)outputPath
 {
 	NSString *audioFile;
 	
@@ -1182,12 +1180,10 @@
 
 	if (audioFile)
 	{
-		status = 2;
 		NSArray *arguments = [NSArray arrayWithObjects:@"-threads",[[NSNumber numberWithInteger:[[[NSUserDefaults standardUserDefaults] objectForKey:@"KWEncodingThreads"] integerValue]] stringValue],@"-i",path,@"-threads",[[NSNumber numberWithInteger:[[[NSUserDefaults standardUserDefaults] objectForKey:@"KWEncodingThreads"] integerValue]] stringValue],@"-i",audioFile,@"-y",@"-acodec",@"copy",@"-vcodec",@"copy",@"-target",@"dvd",outputPath,nil];
 		//Not used yet
 		NSString *errorsString;
 		BOOL result = [KWCommonMethods launchNSTaskAtPath:[KWCommonMethods ffmpegPath] withArguments:arguments outputError:YES outputString:YES output:&errorsString];
-		status = 0;
 
 		if (result)
 		{
@@ -1205,9 +1201,9 @@
 	}
 }
 
-- (NSInteger)totalTimeInSeconds:(NSString *)path
++ (NSInteger)totalTimeInSeconds:(NSString *)path
 {
-	NSString *string = [self ffmpegOutputForPath:path];
+	NSString *string = [KWConverter ffmpegOutputForPath:path];
 	NSString *durationsString = [[[[string componentsSeparatedByString:@"Duration: "] objectAtIndex:1] componentsSeparatedByString:@"."] objectAtIndex:0];
 
 	NSInteger hours = [[[durationsString componentsSeparatedByString:@":"] objectAtIndex:0] integerValue];
@@ -1217,15 +1213,15 @@
 	return seconds + (minutes * 60) + (hours * 60 * 60);
 }
 
-- (NSString *)mediaTimeString:(NSString *)path
++ (NSString *)mediaTimeString:(NSString *)path
 {
-	NSString *string = [self ffmpegOutputForPath:path];
+	NSString *string = [KWConverter ffmpegOutputForPath:path];
 	return [[[[[[[string componentsSeparatedByString:@"Duration: "] objectAtIndex:1] componentsSeparatedByString:@","] objectAtIndex:0] componentsSeparatedByString:@":"] objectAtIndex:1] stringByAppendingString:[@":" stringByAppendingString:[[[[[[string componentsSeparatedByString:@"Duration: "] objectAtIndex:1] componentsSeparatedByString:@","] objectAtIndex:0] componentsSeparatedByString:@":"] objectAtIndex:2]]];
 }
 
-- (NSImage *)getImageAtPath:(NSString *)path atTime:(NSInteger)time isWideScreen:(BOOL)wide
++ (NSImage *)getImageAtPath:(NSString *)path atTime:(NSInteger)time isWideScreen:(BOOL)wide
 {
-	NSArray *arguments = [NSArray arrayWithObjects:@"-ss",[[NSNumber numberWithInteger:time] stringValue],@"-i",path,@"-vframes",@"1" ,@"-f",@"image2",@"-",nil];
+	NSArray *arguments = [NSArray arrayWithObjects:@"-ss", [[NSNumber numberWithInteger:time] stringValue], @"-i", path, @"-vframes", @"1" , @"-f", @"image2", @"-", nil];
 	NSData *data;
 	NSImage *image;
 	BOOL result = [KWCommonMethods launchNSTaskAtPath:[KWCommonMethods ffmpegPath] withArguments:arguments outputError:NO outputString:NO output:&data];
@@ -1237,11 +1233,11 @@
 		if (wide)
 			[image setSize:NSMakeSize(720,404)];
 			
-		return image;
+		return [image autorelease];
 	}
 	else if (result && !data && time > 1)
 	{
-		return [self getImageAtPath:path atTime:1 isWideScreen:wide];
+		return [KWConverter getImageAtPath:path atTime:1 isWideScreen:wide];
 	}
 		
 	return nil;

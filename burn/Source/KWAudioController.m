@@ -1246,7 +1246,7 @@
 - (NSInteger)getMovieDuration:(NSString *)path
 {
 	#if MAC_OS_X_VERSION_MAX_ALLOWED >= 1050
-	return [[KWConverter alloc] totalTimeInSeconds:path];
+	return [KWConverter totalTimeInSeconds:path];
 	#else
 	NSInteger duration;
 

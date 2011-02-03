@@ -417,11 +417,11 @@
 			}
 			else
 			{
-				image = [[KWConverter alloc] getImageAtPath:currentPath atTime:[[theme objectForKey:@"KWScreenshotAtTime"] integerValue] isWideScreen:widescreen];
+				image = [KWConverter getImageAtPath:currentPath atTime:[[theme objectForKey:@"KWScreenshotAtTime"] integerValue] isWideScreen:widescreen];
 				
 				//Too short movie
 				if (!image)
-					image = [[KWConverter alloc] getImageAtPath:currentPath atTime:0 isWideScreen:widescreen];
+					image = [KWConverter getImageAtPath:currentPath atTime:0 isWideScreen:widescreen];
 			}
 			
 			[images addObject:image];

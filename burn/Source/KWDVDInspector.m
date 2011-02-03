@@ -42,11 +42,8 @@
 	[timeField setStringValue:[currentObject objectForKey:@"Size"]];
 	[iconView setImage:[currentObject objectForKey:@"Icon"]];
 
-	KWConverter *converter = [[KWConverter alloc] init];
-	[timeSlider setMaxValue:(double)[converter totalTimeInSeconds:[currentObject objectForKey:@"Path"]]];
+	[timeSlider setMaxValue:(double)[KWConverter totalTimeInSeconds:[currentObject objectForKey:@"Path"]]];
 	[timeSlider setDoubleValue:0];
-	[converter release];
-	converter = nil;
 
 	[tableData removeAllObjects];
 	
@@ -61,7 +58,7 @@
 
 - (IBAction)add:(id)sender
 {
-	[previewView setImage:[[KWConverter alloc] getImageAtPath:[currentObject objectForKey:@"Path"] atTime:0 isWideScreen:[[currentObject objectForKey:@"WideScreen"] boolValue]]];	
+	[previewView setImage:[KWConverter getImageAtPath:[currentObject objectForKey:@"Path"] atTime:0 isWideScreen:[[currentObject objectForKey:@"WideScreen"] boolValue]]];	
 	[titleField setStringValue:@""];
 	[NSApp beginSheet:chapterSheet modalForWindow:[myView window] modalDelegate:self didEndSelector:@selector(endChapterSheet) contextInfo:nil];
 }
@@ -121,7 +118,7 @@
 
 - (IBAction)timeSlider:(id)sender
 {
-	[previewView setImage:[[KWConverter alloc] getImageAtPath:[currentObject objectForKey:@"Path"] atTime:(NSInteger)[timeSlider doubleValue] isWideScreen:[[currentObject objectForKey:@"WideScreen"] boolValue]]];
+	[previewView setImage:[KWConverter getImageAtPath:[currentObject objectForKey:@"Path"] atTime:(NSInteger)[timeSlider doubleValue] isWideScreen:[[currentObject objectForKey:@"WideScreen"] boolValue]]];
 
 	[currentTimeField setStringValue:[KWCommonMethods formatTime:(CGFloat)[timeSlider doubleValue] withFrames:NO]];
 }

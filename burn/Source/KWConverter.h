@@ -65,19 +65,19 @@
 
 //Compilant actions
 //Generic command to get info on the input file
-- (NSString *)ffmpegOutputForPath:(NSString *)path;
++ (NSString *)ffmpegOutputForPath:(NSString *)path;
 //Check if the file is a valid VCD file (return YES if it is valid)
-- (BOOL)isVCD:(NSString *)path;
++ (BOOL)isVCD:(NSString *)path;
 //Check if the file is a valid SVCD file (return YES if it is valid)
-- (BOOL)isSVCD:(NSString *)path;
++ (BOOL)isSVCD:(NSString *)path;
 //Check if the file is a valid DVD file (return YES if it is valid)
-- (BOOL)isDVD:(NSString *)path isWideAspect:(BOOL *)wideAspect;
++ (BOOL)isDVD:(NSString *)path isWideAspect:(BOOL *)wideAspect;
 //Check if the file is a valid MPEG4 file (return YES if it is valid)
-- (BOOL)isMPEG4:(NSString *)path;
++ (BOOL)isMPEG4:(NSString *)path;
 //Check if the file is allready an Audio-CD compatible file (2 or 5.1 channels)
-- (BOOL)isAudioCDFile:(NSString *)path;
++ (BOOL)isAudioCDFile:(NSString *)path;
 //Check for ac3 audio
-- (BOOL)containsAC3:(NSString *)path;
++ (BOOL)containsAC3:(NSString *)path;
 
 //Framework actions
 - (NSArray *)succesArray;
@@ -85,12 +85,12 @@
 //Other actions
 - (NSInteger)convertToEven:(NSString *)number;
 - (NSInteger)getPadSize:(CGFloat)size withAspect:(NSSize)aspect withTopBars:(BOOL)topBars;
-- (BOOL)remuxMPEG2File:(NSString *)path outPath:(NSString *)outFile;
-- (BOOL)canCombineStreams:(NSString *)path;
-- (BOOL)combineStreams:(NSString *)path atOutputPath:(NSString *)outputPath;
-- (NSInteger)totalTimeInSeconds:(NSString *)path;
-- (NSString *)mediaTimeString:(NSString *)path;
-- (NSImage *)getImageAtPath:(NSString *)path atTime:(NSInteger)time isWideScreen:(BOOL)wide;
++ (BOOL)remuxMPEG2File:(NSString *)path outPath:(NSString *)outFile;
++ (BOOL)canCombineStreams:(NSString *)path;
++ (BOOL)combineStreams:(NSString *)path atOutputPath:(NSString *)outputPath;
++ (NSInteger)totalTimeInSeconds:(NSString *)path;
++ (NSString *)mediaTimeString:(NSString *)path;
++ (NSImage *)getImageAtPath:(NSString *)path atTime:(NSInteger)time isWideScreen:(BOOL)wide;
 - (void)setErrorStringWithString:(NSString *)string;
 
 @end
