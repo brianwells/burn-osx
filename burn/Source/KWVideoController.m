@@ -222,7 +222,7 @@
 					}
 				
 				[rowData setObject:[KWCommonMethods makeSizeFromFloat:displaySize] forKey:@"Size"];
-				[rowData setObject:[[[NSWorkspace sharedWorkspace] iconForFile:filePath] retain] forKey:@"Icon"];
+				[rowData setObject:[[NSWorkspace sharedWorkspace] iconForFile:filePath] forKey:@"Icon"];
 			
 				//If we're dealing with a Video_TS folder remve all rows
 				if ([tableData count] > 0 && [[[[tableData objectAtIndex:0] objectForKey:@"Name"] lowercaseString] isEqualTo:@"video_ts"] && selrow == 3)
