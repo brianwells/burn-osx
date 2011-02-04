@@ -295,7 +295,7 @@
 		
 		[rowData setObject:sizeObject forKey:@"Size"];
 		[rowData setObject:[[NSNumber numberWithInteger:time] stringValue] forKey:@"RealTime"];
-		[rowData setObject:[[[NSWorkspace sharedWorkspace] iconForFile:path] retain] forKey:@"Icon"];
+		[rowData setObject:[[NSWorkspace sharedWorkspace] iconForFile:path] forKey:@"Icon"];
 	
 		if ([tableData count] > 0 && [[[[tableData objectAtIndex:0] objectForKey:@"Name"] lowercaseString] isEqualTo:@"audio_ts"] && selrow == 2)
 		{
@@ -320,7 +320,11 @@
 
 		if (selrow == 0)
 		{
-			DRTrack	*track = [[KWTrackProducer alloc] getAudioTrackForPath:path];
+			KWTrackProducer *producer = [[KWTrackProducer alloc] init];
+			DRTrack	*track = [producer getAudioTrackForPath:path];
+			[producer release];
+			producer = nil;
+			
 			NSNumber *pregap = [[NSUserDefaults standardUserDefaults] objectForKey:@"KWDefaultPregap"];
 			unsigned preGapLengthInFrames = (unsigned)([pregap cgfloatValue] * 75.0);
 			
