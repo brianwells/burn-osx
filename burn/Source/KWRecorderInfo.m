@@ -38,6 +38,7 @@
 - (void)dealloc
 {
 	[discTypes release];
+	discTypes = nil;
 
 	[[DRNotificationCenter currentRunLoopCenter] removeObserver:self name:DRDeviceStatusChangedNotification object:nil];
 	[[NSNotificationCenter defaultCenter] removeObserver:self];
@@ -178,7 +179,7 @@
 	[recorderPopup removeAllItems];
 		
 	NSInteger i;
-	for (i=0;i< [devices count];i++)
+	for (i = 0; i < [devices count]; i ++)
 	{
 		[recorderPopup addItemWithTitle:[[devices objectAtIndex:i] displayName]];
 	}
@@ -187,6 +188,7 @@
 		[recorderPopup selectItemWithTitle:title];
 		
 	[title release];
+	title = nil;
 	
 	[self recorderPopup:self];
 }

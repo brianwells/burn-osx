@@ -82,6 +82,7 @@
 	NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"Time" ascending:YES];
 	[tableData sortUsingDescriptors:[NSArray arrayWithObject:sortDescriptor]];
 	[sortDescriptor release];
+	sortDescriptor = nil;
 	
 	NSMutableDictionary *tempDict = [NSMutableDictionary dictionaryWithDictionary:currentObject];
 	NSMutableArray *controller = [(KWVideoController *)[currentTableView dataSource] myDataSource];

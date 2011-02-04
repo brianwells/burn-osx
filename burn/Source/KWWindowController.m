@@ -223,6 +223,8 @@
 
 	[progressPanel endSheet];
 	[progressPanel release];
+	progressPanel = nil;
+	
 	[eraser release];
 	eraser = nil;
 

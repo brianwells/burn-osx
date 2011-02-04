@@ -153,6 +153,7 @@
 			return baseValue;
 			
 	[soundTag release];
+	soundTag = nil;
 }
 
 - (void)setObjectWithSelector:(SEL)selector forObjects:(NSArray *)objects withObject:(id)object

@@ -355,15 +355,15 @@
 	NSData *data;
 	NSInteger size = 0;
 
-	NSAutoreleasePool *innerPool = [[NSAutoreleasePool alloc] init];
-
 	while([data=[handle availableData] length])
 	{
+		NSAutoreleasePool *innerPool = [[NSAutoreleasePool alloc] init];
+	
 		size = size + [data length];
 		data = nil;
 	
 		[innerPool release];
-		innerPool = [[NSAutoreleasePool alloc] init];
+		innerPool = nil;
 	}
 
 	NSString *string = [[NSString alloc] initWithData:[handle2 readDataToEndOfFile] encoding:NSUTF8StringEncoding];
@@ -438,11 +438,13 @@
 			[myTracks addObject:track];
 		
 			[innerPool release];
+			innerPool = nil;
 		}
 	
 		[mySessions addObject:myTracks];
 	
 		[innerPool release];
+		innerPool = nil;
 	}
 
 	return myTracks;
@@ -571,6 +573,7 @@
 	trackCreator = nil;
 
 	[pool release];
+	pool = nil;
 }
 
 - (void)createAudioTrack:(NSString *)path
@@ -618,14 +621,15 @@
 	[trackCreator launch];
 
 	NSData *data;
-	NSAutoreleasePool *innerPool = [[NSAutoreleasePool alloc] init];
 
 		while([data=[calcHandle availableData] length])
 		{
+			NSAutoreleasePool *innerPool = [[NSAutoreleasePool alloc] init];
+		
 			[writeHandle writeData:data];
 		
 			[innerPool release];
-			innerPool = [[NSAutoreleasePool alloc] init];
+			innerPool = nil;
 		}
 		
 	[trackCreator waitUntilExit];
@@ -643,6 +647,7 @@
 	trackCreator = nil;
 
 	[pool release];
+	pool = nil;
 }
 
 ///////////////////

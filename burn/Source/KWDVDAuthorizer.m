@@ -509,6 +509,7 @@
 		images = nil;
 	
 		[innerPool release];
+		innerPool = nil;
 	}
 	
 	[titlesWithChapters release];
@@ -552,6 +553,7 @@
 				succes = [self createDVDMenuFile:[path stringByAppendingPathComponent:[name stringByAppendingString:@".mpg"]] withImage:image withMaskFile:[path stringByAppendingPathComponent:@"Mask.png"] errorString:&*error];
 		
 			[innerPool release];
+			innerPool = nil;
 		}
 	}
 	

@@ -74,7 +74,12 @@
 {
     if (anImage != image) 
 	{
-		[image release];
+		if (image)
+		{
+			[image release];
+			image = nil;
+		}
+		
 		image = [anImage retain];
     }
 }

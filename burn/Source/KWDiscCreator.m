@@ -149,6 +149,7 @@
 		[self imageFinished:@"KWCanceled"];
 
 	[pool release];
+	pool = nil;
 }
 
 - (void)showAuthorFailedOfType:(NSInteger)type

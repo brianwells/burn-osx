@@ -244,6 +244,7 @@
 					NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"Name" ascending:YES];
 					[tableData sortUsingDescriptors:[NSArray arrayWithObject:sortDescriptor]];
 					[sortDescriptor release];
+					sortDescriptor = nil;
 				}
 			
 				//Reload our table view

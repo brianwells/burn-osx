@@ -23,7 +23,10 @@
 - (void)dealloc
 {
 	[[[NSWorkspace sharedWorkspace] notificationCenter] removeObserver:self];
+	
+	//Release our objects
 	[tableData release];
+	tableData = nil;
 
 	[super dealloc];
 }
@@ -124,8 +127,11 @@
 - (void)scan:(id)args
 {
     NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
+	
 	[self scanDisks];
+	
 	[pool release];
+	pool = nil;
 }
 
 ///////////////////////

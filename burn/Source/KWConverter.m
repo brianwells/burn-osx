@@ -29,8 +29,11 @@
 
 - (void)dealloc
 {
-	[convertedFiles release];
 	[[NSNotificationCenter defaultCenter] removeObserver:self];
+	
+	//Release our objects
+	[convertedFiles release];
+	convertedFiles = nil;
 
 	[super dealloc];
 }
@@ -463,13 +466,16 @@
 	NSString *string = nil;
 
 	//Here we go
-	while([data=[handle availableData] length]) 
+	while([data = [handle availableData] length]) 
 	{
 		if (string)
+		{
 			[string release];
+			string = nil
+		}
 	
 		//The string containing ffmpeg's output
-		string=[[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
+		string = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
 	
 		if ([defaults boolForKey:@"KWDebug"] == YES)
 			NSLog(@"%@", string);
@@ -508,6 +514,7 @@
 
 	//Release ffmpeg
 	[ffmpeg release];
+	ffmpeg = nil;
 	
 	//If we used a wav file, delete it
 	if (useWav == YES)
@@ -516,10 +523,14 @@
 	if (useQuickTime == YES)
 	{	
 		[movtoy4m release];
+		movtoy4m = nil;
+		
 		[pipe2 release];
+		pipe2 = nil;
 	}
 	
 	[pipe release];
+	pipe = nil;
 	
 	//Return if ffmpeg failed or not
 	if (taskStatus == 0)
@@ -544,6 +555,7 @@
 		[KWCommonMethods removeItemAtPath:outFileWithExtension];
 	
 		[string release];
+		string = nil;
 		
 		return 1;
 	}
@@ -586,7 +598,10 @@
 	[movtowav waitUntilExit];
 	taskStatus = [movtowav terminationStatus];
 	[movtowav release];
+	movtowav = nil;
+	
 	[pipe release];
+	pipe = nil;
 	
 	//Check if it all went OK if not remove the wave file and return NO
     if (!taskStatus == 0)
@@ -598,6 +613,7 @@
 		if (userCanceled == YES)
 		{
 			[string release];
+			string = nil;
 		
 			return 2;
 		}
@@ -605,12 +621,14 @@
 		{
 			//[KWCommonMethods writeLogWithFilePath:path withCommand:@"movtowav" withLog:string];
 			[string release];
+			string = nil;
 
 			return 1;
 		}
 	}
 	
 	[string release];
+	string = nil;
 
 	//if (format == 5)
 	//	[self testFile:[outputFile stringByAppendingString:@".wav"]];

@@ -40,6 +40,7 @@
 - (void)dealloc
 {
 	[discTypes release];
+	discTypes = nil;
 
 	[[DRNotificationCenter currentRunLoopCenter] removeObserver:self name:DRDeviceStatusChangedNotification object:nil];
 	[[NSNotificationCenter defaultCenter] removeObserver:self];
@@ -160,6 +161,7 @@
 		[recorderPopup selectItemWithTitle:title];
 		
 	[title release];
+	title = nil;
 	
 	[self recorderPopup:self];
 }

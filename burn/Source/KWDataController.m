@@ -358,6 +358,7 @@ static NSString*	EDBCurrentSelection							= @"EDBCurrentSelection";
 	}
 	
 	[pool release];
+	pool = nil;
 }
 
 - (NSNumber *)totalSize
@@ -923,6 +924,7 @@ static NSString*	EDBCurrentSelection							= @"EDBCurrentSelection";
 		
 			[self _addNewDataToSelection:newNode shouldSelect:YES];
 			[nodeData release];
+			nodeData = nil;
 
 			[self setPropertiesFor:folderObj fromDictionary:object];
 		}

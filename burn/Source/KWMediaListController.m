@@ -219,6 +219,7 @@
 					}
 				
 					[subPool release];
+					subPool = nil;
 				}
 			}
 			else
@@ -288,6 +289,7 @@
 	[self performSelectorOnMainThread:@selector(showAlert) withObject:nil waitUntilDone:NO];
 
 	[pool release];
+	pool = nil;
 }
 
 /////////////////////////
@@ -351,6 +353,7 @@
 	NSArray *succeededFiles = [NSArray arrayWithArray:[converter succesArray]];
 	
 	[converter release];
+	converter = nil;
 
 	for (i = 0; i < [succeededFiles count]; i ++)
 	{

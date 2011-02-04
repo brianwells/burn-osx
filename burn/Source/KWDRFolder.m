@@ -207,6 +207,7 @@
 	calculating = NO;
 
 	[pool release];
+	pool = nil;
 }
 
 @end

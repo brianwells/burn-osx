@@ -316,6 +316,7 @@
 			[rowData setObject:[soundTag getTagArtist] forKey:@"Artist"];
 			[rowData setObject:[soundTag getTagAlbum] forKey:@"Album"];
 			[soundTag release];
+			soundTag = nil;
 		}
 
 		if (selrow == 0)

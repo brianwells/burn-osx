@@ -115,6 +115,7 @@
 	[self isImageMounted:path showAlert:YES];
 
 	[pool release];
+	pool = nil;
 }
 
 //Here we will be checking if it is a valid image / if the file exists
@@ -562,6 +563,7 @@
 			NSInteger status = [cp terminationStatus];
 			
 			[cp release];
+			cp = nil;
 		
 			if (!status == 0 && userCanceled == NO)
 			{

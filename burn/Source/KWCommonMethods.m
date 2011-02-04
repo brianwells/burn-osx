@@ -961,6 +961,7 @@
 		}
 	
 		[subPool release];
+		subPool = nil;
 	}
 
 	return size;
