@@ -54,8 +54,10 @@
 	convertKind = [[options objectForKey:@"KWConvertKind"] integerValue];
 
 	NSInteger i;
-	for (i=0;i<[files count];i++)
+	for (i = 0; i < [files count]; i ++)
 	{
+		NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
+	
 		NSString *currentPath = [files objectAtIndex:i];
 	
 		if (userCanceled == NO)
@@ -118,6 +120,9 @@
 				return 2;
 			}
 		}
+		
+		[pool release];
+		pool = nil;
 	}
 	
 	if (errorString)
