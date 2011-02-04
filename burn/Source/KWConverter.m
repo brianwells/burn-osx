@@ -471,7 +471,7 @@
 		if (string)
 		{
 			[string release];
-			string = nil
+			string = nil;
 		}
 	
 		//The string containing ffmpeg's output
