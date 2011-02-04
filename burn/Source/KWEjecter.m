@@ -31,7 +31,7 @@
 	
 	NSArray *devices = [DRDevice devices];
 	NSInteger i;
-	for (i=0;i< [devices count];i++)
+	for (i = 0; i < [devices count]; i ++)
 	{
 		[popupButton addItemWithTitle:[[devices objectAtIndex:i] displayName]];
 	}

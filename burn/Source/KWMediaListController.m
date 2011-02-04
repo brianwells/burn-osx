@@ -438,11 +438,11 @@
 			information = NSLocalizedString(@"This file can't be converted", nil);
 		}
 		
-		[protectedFiles release];
-		protectedFiles = nil;
-		
 		[KWCommonMethods standardAlertWithMessageText:message withInformationText:information withParentWindow:mainWindow];
 	}
+	
+	[protectedFiles release];
+	protectedFiles = nil;
 }
 
 //Alert did end, whe don't need to do anything special, well releasing the alert we do, the user should

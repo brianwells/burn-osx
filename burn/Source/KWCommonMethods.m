@@ -1256,6 +1256,8 @@
 		[filetypes removeObjectAtIndex:[filetypes indexOfObject:@"pls"]];
 	if ([filetypes indexOfObject:@"m3u"] != NSNotFound)
 		[filetypes removeObjectAtIndex:[filetypes indexOfObject:@"m3u"]];
+	if ([filetypes indexOfObject:@"pdf"] != NSNotFound)
+		[filetypes removeObjectAtIndex:[filetypes indexOfObject:@"pdf"]];
 	
 	return filetypes;
 }
