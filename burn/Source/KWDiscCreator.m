@@ -52,8 +52,10 @@
 	NSArray *info;
 	discName = [name retain];
 	
-	if ([fileSystem isEqualTo:@"-vcd"] | [fileSystem isEqualTo:@"-svcd"] | [fileSystem isEqualTo:@"-audio-cd"])
+	if ([fileSystem isEqualTo:@"-vcd"] | [fileSystem isEqualTo:@"-svcd"])
 		extension = @"cue";
+	else if ([fileSystem isEqualTo:@"-audio-cd"] && [KWCommonMethods OSVersion] >= 0x1040)
+		extension = @"loxi";
 	else
 		extension = @"iso";
 
@@ -492,7 +494,7 @@
 	
 	if ([[burner types] containsObject:[NSNumber numberWithInteger:3]] && result == 0)
 	{
-		id copyTracks = [copyControllerOutlet myTrackWithErrorString:&errorString andLayerBreak:&layerBreak];
+		id copyTracks = [copyControllerOutlet myTrackWithBurner:burner errorString:&errorString andLayerBreak:&layerBreak];
 	
 		if ([copyTracks isKindOfClass:[NSNumber class]])
 			result = [copyTracks integerValue];

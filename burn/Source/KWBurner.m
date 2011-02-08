@@ -1,6 +1,7 @@
 #import "KWBurner.h"
 #import "KWTrackProducer.h"
 #import "KWProgress.h"
+#import "LOXI.h"
 
 @implementation KWBurner
 
@@ -24,6 +25,12 @@
 	{
 		[imagePath release];
 		imagePath = nil;
+	}
+	
+	if (currentTrack)
+	{
+		[currentTrack release];
+		currentTrack = nil;
 	}
 
 	[super dealloc];
@@ -260,6 +267,7 @@
 	}
 	else if ([self canBurn])
 	{
+		currentTrack = [burnTrack retain];
 		[burn writeLayout:burnTrack];
 		
 		[[DRNotificationCenter currentRunLoopCenter] addObserver:self selector:@selector(burnNotification:) name:DRBurnStatusChangedNotification object:burn];
@@ -316,6 +324,14 @@
 	DRCallbackDevice *device = [[DRCallbackDevice alloc] init];
 	[device initWithConsumer:self];
 	burn = [[DRBurn alloc] initWithDevice:device];
+	
+	NSMutableDictionary *burnProperties = [[[NSMutableDictionary alloc] initWithDictionary:properties copyItems:YES] autorelease];
+	
+	if (extraBurnProperties)
+		[burnProperties addEntriesFromDictionary:extraBurnProperties];
+	
+	[burn setProperties:burnProperties];
+	
 	[self writeTrack:track];
 	
 	isOverwritable = YES;
@@ -648,6 +664,22 @@
 		[defaultCenter postNotificationName:@"KWCancelNotificationChanged" object:nil];
 		[defaultCenter removeObserver:self];
 		[[DRNotificationCenter currentRunLoopCenter] removeObserver:self name:DRBurnStatusChangedNotification object:[notification object]];
+		
+		if (imagePath && [[imagePath pathExtension] isEqualTo:@"loxi"])
+		{
+			DRCDTextBlock *cdTextBlock = [[burn properties] objectForKey:DRCDTextKey];
+			NSData *loxiFooter;
+			
+			if (cdTextBlock)
+				loxiFooter = [LOXI LOXIHeaderForDRLayout:currentTrack arrayOfCDTextBlocks:[NSArray arrayWithObject:cdTextBlock]];
+			else
+				loxiFooter = [LOXI LOXIHeaderForDRLayout:currentTrack];
+				
+			NSFileHandle *handle = [NSFileHandle fileHandleForWritingAtPath:imagePath];
+			[handle seekToEndOfFile];
+			[handle writeData:loxiFooter];
+			[handle closeFile];
+		}
 		
 		[burn release];
 		burn = nil;

@@ -40,6 +40,7 @@
 - (NSArray *)getTracksOfLayout:(NSString *)layout withTotalSize:(NSInteger)size;
 - (NSArray *)getTracksOfVcd;
 - (NSArray *)getTracksOfAudioCD:(NSString *)path withToc:(NSDictionary *)toc;
+- (NSArray *)getTracksFromLoxiFile:(NSString *)loxiFile;
 - (DRTrack *)getAudioTrackForPath:(NSString *)path;
 - (DRTrack *)getTrackWithTrackProperties:(NSDictionary *)trackProperties;
 

@@ -41,6 +41,7 @@
 	BOOL ignoreMode;
 	BOOL isOverwritable;
 	NSNumber *layerBreak;
+	id currentTrack;
 }
 
 //Main actions

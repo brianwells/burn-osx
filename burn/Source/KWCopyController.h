@@ -36,10 +36,11 @@
 	//Out little helpers
 	KWProgress *progressPanel;
 	KWDiscScanner *scanner;
-	KWBurner *burner;
 	BOOL awake;
-	
 	NSMutableArray *temporaryFiles;
+	#if MAC_OS_X_VERSION_MAX_ALLOWED >= MAC_OS_X_VERSION_10_4
+	NSArray *cdTextBlocks;
+	#endif
 }
 
 //Main actions
@@ -54,7 +55,7 @@
 //Disc creation actions
 - (void)burn:(id)sender;
 - (void)saveImage:(id)sender;
-- (id)myTrackWithErrorString:(NSString **)error andLayerBreak:(NSNumber**)layerBreak;
+- (id)myTrackWithBurner:(KWBurner *)burner errorString:(NSString **)error andLayerBreak:(NSNumber **)layerBreak;
 - (void)remount:(id)object;
 
 //Other actions
@@ -75,5 +76,9 @@
 - (NSString *)getIsoForDvdFileAtPath:(NSString *)path;
 - (NSNumber *)getLayerBreakForDvdFileAtPath:(NSString *)path;
 - (NSDictionary *)isoInfo;
+
+#if MAC_OS_X_VERSION_MAX_ALLOWED >= MAC_OS_X_VERSION_10_4
+- (NSArray *)getCDTextBlocks;
+#endif
 
 @end

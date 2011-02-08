@@ -1316,10 +1316,6 @@
 
 - (BOOL)respondsToSelector:(SEL)aSelector
 {
-	//Remove to save cue / bin from an Audio-CD (note: might not work perfect yet)
-	if (aSelector == @selector(saveImage:) && [tableViewPopup indexOfSelectedItem] == 0)
-		return NO;
-
 	return [super respondsToSelector:aSelector];
 }
 

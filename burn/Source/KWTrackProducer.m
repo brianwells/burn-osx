@@ -11,6 +11,7 @@
 #import "KWTrackProducer.h"
 #import "NSScanner-Extra.h"
 #import "KWConverter.h"
+#import "LOXI.h"
 
 @interface KWTrackProducer (DiscRecording)
 
@@ -443,6 +444,71 @@
 	
 		[mySessions addObject:myTracks];
 	
+		[innerPool release];
+		innerPool = nil;
+	}
+
+	return mySessions;
+}
+
+- (NSArray *)getTracksFromLoxiFile:(NSString *)loxiFile
+{
+	file = fopen([loxiFile fileSystemRepresentation], "r");
+	
+	NSXMLElement *rootElement = [[LOXI LOXIXmlDocumentForFileAtPath:loxiFile] rootElement];
+	NSArray *tracks = [rootElement elementsForName:@"track"];
+	
+	NSMutableArray *myTracks = [NSMutableArray array];
+
+	NSInteger i = 0;
+	for (i = 0; i < [tracks count]; i ++)
+	{
+		NSAutoreleasePool *innerPool = [[NSAutoreleasePool alloc] init];
+		
+		NSXMLElement *currentTrack = [tracks objectAtIndex:i];
+		
+		DRTrack *track = [[[DRTrack alloc] initWithProducer:self] autorelease];
+		NSMutableDictionary *dict = [NSMutableDictionary dictionary];
+		
+		NSInteger bType;
+		
+		NSString *blockType = [[currentTrack attributeForName:@"type"] stringValue];
+		if ([blockType isEqualTo:@"audio"])
+			bType = 0;
+		else if ([blockType isEqualTo:@"mode2"])
+			bType = 13;
+		else
+			bType = 8;
+			
+		[dict setObject:[NSNumber numberWithBool:YES] forKey:@"KWFirstTrack"];
+		
+		NSInteger fSize = [[[currentTrack attributeForName:@"size"] objectValue] intValue];
+		NSInteger bSize = [[[currentTrack attributeForName:@"block-size"] objectValue] intValue];
+		NSInteger pSize = [[[currentTrack attributeForName:@"pregap-size"] objectValue] intValue];
+		NSInteger size = fSize / bSize;
+		NSInteger pregrapSize = pSize / bSize;
+			
+		if (i == 0)
+			[dict setObject:[DRMSF msfWithFrames:150] forKey:DRPreGapLengthKey];
+		else
+			[dict setObject:[NSNumber numberWithInteger:pregrapSize] forKey:DRPreGapLengthKey];
+		
+		[dict setObject:[NSNumber numberWithInteger:size] forKey:DRTrackLengthKey];
+		[dict setObject:[NSNumber numberWithInteger:bSize] forKey:DRBlockSizeKey];
+		[dict setObject:[NSNumber numberWithInteger:bType] forKey:DRBlockTypeKey];
+		[dict setObject:[NSNumber numberWithInteger:0] forKey:DRDataFormKey];
+		[dict setObject:[NSNumber numberWithInteger:0] forKey:DRSessionFormatKey];
+		[dict setObject:[NSNumber numberWithInteger:0] forKey:DRTrackModeKey];
+			
+		if (bType != 0 && [KWCommonMethods OSVersion] >= 0x1040)
+			[dict setObject:@"DRVerificationTypeChecksum" forKey:DRVerificationTypeKey];
+		else
+			[dict setObject:DRVerificationTypeNone forKey:DRVerificationTypeKey];
+		
+		[track setProperties:dict];
+		
+		[myTracks addObject:track];
+		
 		[innerPool release];
 		innerPool = nil;
 	}

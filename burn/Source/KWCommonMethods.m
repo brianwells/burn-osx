@@ -1164,10 +1164,10 @@
 {
 	#if MAC_OS_X_VERSION_MAX_ALLOWED < 1050
 	if ([KWCommonMethods OSVersion] < 0x1040)
-		return [NSArray arrayWithObjects:@"isoInfo", @"sparseimage",@"toast",@"img", @"dmg", @"iso", @"cue",@"cdr",@"dvd", nil];
+		return [NSArray arrayWithObjects:@"isoInfo", @"sparseimage",@"toast",@"img", @"dmg", @"iso", @"cue",@"cdr",@"dvd", @"loxi", nil];
 	else
 	#endif
-		return [NSArray arrayWithObjects:@"isoInfo", @"sparseimage",@"toast", @"img", @"dmg", @"iso", @"cue", @"toc",@"cdr", @"dvd", nil];
+		return [NSArray arrayWithObjects:@"isoInfo", @"sparseimage",@"toast", @"img", @"dmg", @"iso", @"cue", @"toc",@"cdr", @"dvd", @"loxi", nil];
 }
 
 //Create an array with indexes of selected rows in a tableview

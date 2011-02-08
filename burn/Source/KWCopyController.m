@@ -5,10 +5,11 @@
 #import "KWDiscCreator.h"
 #import "KWTrackProducer.h"
 #import "KWAlert.h"
+#import "LOXI.h"
 
 @implementation KWCopyController
 
-- (id) init
+- (id)init
 {
 	self = [super init];
 
@@ -19,6 +20,10 @@
 	userCanceled = NO;
 	
 	awake = NO;
+	
+	#if MAC_OS_X_VERSION_MAX_ALLOWED >= MAC_OS_X_VERSION_10_4
+	cdTextBlocks = nil;
+	#endif
 
 	return self;
 }
@@ -34,6 +39,14 @@
 	
 	[currentInformation release];
 	currentInformation = nil;
+	
+	#if MAC_OS_X_VERSION_MAX_ALLOWED >= MAC_OS_X_VERSION_10_4
+	if (cdTextBlocks)
+	{
+		[cdTextBlocks release];
+		cdTextBlocks = nil;
+	}
+	#endif
 
 	[super dealloc];
 }
@@ -143,6 +156,14 @@
 //Also we get the properties
 - (BOOL)checkImage:(NSString *)path
 {
+	#if MAC_OS_X_VERSION_MAX_ALLOWED >= MAC_OS_X_VERSION_10_4
+	if (cdTextBlocks)
+	{
+		[cdTextBlocks release];
+		cdTextBlocks = nil;
+	}
+	#endif
+
 	NSFileManager *defaultManager = [NSFileManager defaultManager];
 	NSWorkspace *sharedWorkspace = [NSWorkspace sharedWorkspace];
 	
@@ -193,6 +214,34 @@
 				alertInformation = [NSString stringWithFormat:NSLocalizedString(@"Some files specified in the %@ file are missing.", nil), @"cue"];
 			}
 			
+		}
+		else if ([pathExtension isEqualTo:@"loxi"])
+		{
+			fileSystem = NSLocalizedString(@"Loxi image", nil);
+		
+			NSXMLElement *rootElement = [[LOXI LOXIXmlDocumentForFileAtPath:workingPath] rootElement];
+			NSArray *textBlocks = [rootElement elementsForName:@"cdtext"];
+			
+			if (textBlocks)
+				cdTextBlocks = [[LOXI arrayOfCDTextBlocksForXMLElement:[textBlocks objectAtIndex:0]] retain];
+				
+			NSArray *tracks = [[KWTrackProducer alloc] getTracksFromLoxiFile:workingPath];
+
+			NSInteger i;
+			size = 0;
+			for (i = 0; i < [tracks count]; i ++)
+			{
+				DRTrack *track = [tracks objectAtIndex:i];
+				
+				NSInteger trackSize = [[[track properties] objectForKey:DRTrackLengthKey] integerValue];
+				NSInteger blockSize = [[[track properties] objectForKey:DRBlockSizeKey] integerValue];
+				
+				size = size + (trackSize * blockSize);
+			}
+			
+			size = size;
+			
+			canBeMounted = NO;
 		}
 		else if ([pathExtension isEqualTo:@"isoinfo"])
 		{
@@ -407,6 +456,14 @@
 
 - (IBAction)clearDisk:(id)sender
 {
+	#if MAC_OS_X_VERSION_MAX_ALLOWED >= MAC_OS_X_VERSION_10_4
+	if (cdTextBlocks)
+	{
+		[cdTextBlocks release];
+		cdTextBlocks = nil;
+	}
+	#endif
+
 	NSWorkspace *sharedWorkspace = [NSWorkspace sharedWorkspace];
 
 	[[sharedWorkspace notificationCenter] removeObserver:self];
@@ -451,15 +508,35 @@
 	[myDiscCreationController saveImageWithName:[nameField stringValue] withType:3 withFileSystem:@""];
 }
 
-- (id)myTrackWithErrorString:(NSString **)error andLayerBreak:(NSNumber **)layerBreak
+- (id)myTrackWithBurner:(KWBurner *)burner errorString:(NSString **)error andLayerBreak:(NSNumber **)layerBreak
 {
 	NSString *currentPath = [currentInformation objectForKey:@"Path"];
 	NSString *pathExtension = [currentInformation objectForKey:@"Extension"];
 	NSString *mountedPath = [currentInformation objectForKey:@"Mounted Path"];
 	
 	BOOL isPanther = ([KWCommonMethods OSVersion] < 0x1040);
-
-	if ([pathExtension isEqualTo:@"isoinfo"])
+	
+	if ([pathExtension isEqualTo:@"loxi"])
+	{
+		#if MAC_OS_X_VERSION_MAX_ALLOWED >= MAC_OS_X_VERSION_10_4
+		if ([KWCommonMethods OSVersion] >= 0x1040)
+		{
+			NSMutableDictionary *burnProperties = [NSMutableDictionary dictionary];
+			
+			[burnProperties setObject:cdTextBlocks forKey:DRCDTextKey];
+			
+			id firstBlock = [cdTextBlocks objectAtIndex:0];
+			id mcn = [firstBlock objectForKey:DRCDTextMCNISRCKey ofTrack:0];
+			if (mcn)
+				[burnProperties setObject:mcn forKey:DRMediaCatalogNumberKey];
+			
+				[burner addBurnProperties:burnProperties];
+		}
+		#endif
+	
+		return [[KWTrackProducer alloc] getTracksFromLoxiFile:currentPath];
+	}
+	else if ([pathExtension isEqualTo:@"isoinfo"])
 	{
 		NSDictionary *infoDict = [NSDictionary dictionaryWithContentsOfFile:currentPath];
 	
@@ -853,6 +930,11 @@
 		return [NSDictionary dictionaryWithContentsOfFile:[mountedPath stringByAppendingPathComponent:@".TOC.plist"]];
 		
 	return nil;
+}
+
+- (NSArray *)getCDTextBlocks
+{
+	return cdTextBlocks;
 }
 
 @end
