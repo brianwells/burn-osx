@@ -115,16 +115,21 @@
 - (void)mount:(NSString *)path
 {
 	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
+	
+	NSString *realPath = path;
+	
+	if ([[path pathExtension] isEqualTo:@"dvd"])
+		realPath = [self getIsoForDvdFileAtPath:path];
 
 	NSString *string;
-	NSArray *arguments = [NSArray arrayWithObjects:@"mount", @"-plist", @"-noverify", @"-noautofsck", path, nil];
+	NSArray *arguments = [NSArray arrayWithObjects:@"mount", @"-plist", @"-noverify", @"-noautofsck", realPath, nil];
 	BOOL status = [KWCommonMethods launchNSTaskAtPath:@"/usr/bin/hdiutil" withArguments:arguments outputError:NO outputString:YES output:&string];
 	
 	[progressPanel endSheet];
 	[progressPanel release];
 	progressPanel = nil;
 
-	if (status && [string rangeOfString:path].length > 0 && [string rangeOfString:@"mount-point"].length > 0)
+	if (status && [string rangeOfString:realPath].length > 0 && [string rangeOfString:@"mount-point"].length > 0)
 	{
 		NSString *mountPoint = [[[[[[string componentsSeparatedByString:@"<key>mount-point</key>"] objectAtIndex:1] componentsSeparatedByString:@"<string>"] objectAtIndex:1] componentsSeparatedByString:@"</string>"] objectAtIndex:0];
 		[currentInformation setObject:mountPoint forKey:@"Image Mounted Path"];
@@ -361,11 +366,16 @@
 
 - (BOOL)isImageMounted:(NSString *)path
 {
+	NSString *realPath = path;
+	
+	if ([[path pathExtension] isEqualTo:@"dvd"])
+		realPath = [self getIsoForDvdFileAtPath:path];
+
 	NSString *string;
 	NSArray *arguments = [NSArray arrayWithObjects:@"info",@"-plist", nil];
 	BOOL status = [KWCommonMethods launchNSTaskAtPath:@"/usr/bin/hdiutil" withArguments:arguments outputError:NO outputString:YES output:&string];
 
-	if (status && [string rangeOfString:path].length > 0 && [string rangeOfString:@"mount-point"].length > 0)
+	if (status && [string rangeOfString:realPath].length > 0 && [string rangeOfString:@"mount-point"].length > 0)
 	{
 		NSString *mountPoint = [[[[[[string componentsSeparatedByString:@"<key>mount-point</key>"] objectAtIndex:1] componentsSeparatedByString:@"<string>"] objectAtIndex:1] componentsSeparatedByString:@"</string>"] objectAtIndex:0];
 		[currentInformation setObject:mountPoint forKey:@"Image Mounted Path"];
