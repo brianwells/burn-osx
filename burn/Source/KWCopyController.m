@@ -17,6 +17,8 @@
 
 	//The user hasn't canceled yet :-)
 	userCanceled = NO;
+	
+	awake = NO;
 
 	return self;
 }
@@ -44,6 +46,8 @@
 - (void)awakeFromNib
 {
 	[self clearDisk:self];
+	
+	awake = YES;
 }
 
 //////////////////
@@ -111,8 +115,20 @@
 - (void)mount:(NSString *)path
 {
 	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
+
+	NSString *string;
+	NSArray *arguments = [NSArray arrayWithObjects:@"mount", @"-plist", @"-noverify", @"-noautofsck", path, nil];
+	BOOL status = [KWCommonMethods launchNSTaskAtPath:@"/usr/bin/hdiutil" withArguments:arguments outputError:NO outputString:YES output:&string];
 	
-	[self isImageMounted:path showAlert:YES];
+	[progressPanel endSheet];
+	[progressPanel release];
+	progressPanel = nil;
+
+	if (status && [string rangeOfString:path].length > 0 && [string rangeOfString:@"mount-point"].length > 0)
+	{
+		NSString *mountPoint = [[[[[[string componentsSeparatedByString:@"<key>mount-point</key>"] objectAtIndex:1] componentsSeparatedByString:@"<string>"] objectAtIndex:1] componentsSeparatedByString:@"</string>"] objectAtIndex:0];
+		[currentInformation setObject:mountPoint forKey:@"Image Mounted Path"];
+	}
 
 	[pool release];
 	pool = nil;
@@ -140,7 +156,7 @@
 
 	BOOL isPanther = ([KWCommonMethods OSVersion] < 0x1040);
 			
-	if ([KWCommonMethods OSVersion] >= 0x1060 && [self isImageMounted:path showAlert:NO])
+	if ([KWCommonMethods OSVersion] >= 0x1060 && [self isImageMounted:path])
 		workingPath = [currentInformation objectForKey:@"Image Mounted Path"];
 		
 	if ([[sharedWorkspace mountedLocalVolumePaths] containsObject:workingPath])
@@ -343,18 +359,11 @@
 	}
 }
 
-- (BOOL)isImageMounted:(NSString *)path showAlert:(BOOL)alert
+- (BOOL)isImageMounted:(NSString *)path
 {
 	NSString *string;
 	NSArray *arguments = [NSArray arrayWithObjects:@"info",@"-plist", nil];
 	BOOL status = [KWCommonMethods launchNSTaskAtPath:@"/usr/bin/hdiutil" withArguments:arguments outputError:NO outputString:YES output:&string];
-	
-	if (alert && progressPanel)
-	{
-		[progressPanel endSheet];
-		[progressPanel release];
-		progressPanel = nil;
-	}
 
 	if (status && [string rangeOfString:path].length > 0 && [string rangeOfString:@"mount-point"].length > 0)
 	{
@@ -362,15 +371,6 @@
 		[currentInformation setObject:mountPoint forKey:@"Image Mounted Path"];
 		
 		return YES;
-	}
-	else if (alert)
-	{
-		KWAlert *alert = [[[KWAlert alloc] init] autorelease];
-		[alert addButtonWithTitle:NSLocalizedString(@"OK",nil)];
-		[alert setMessageText:NSLocalizedString(@"Mounting image failed",nil)];
-		[alert setInformativeText:NSLocalizedString(@"There was a problem mounting the image",nil)];
-		[alert setDetails:string];
-		[alert beginSheetModalForWindow:mainWindow modalDelegate:self didEndSelector:nil contextInfo:nil];
 	}
 
 	return NO;
@@ -685,11 +685,14 @@
 
 - (BOOL)respondsToSelector:(SEL)aSelector
 {
-	if (aSelector == @selector(mountDisc:) && ![mountButton isEnabled])
-		return NO;
+	if (awake == YES)
+	{
+		if (aSelector == @selector(mountDisc:) && ![mountButton isEnabled])
+			return NO;
 		
-	if (aSelector == @selector(burn:) | aSelector == @selector(saveImage:) && [currentInformation objectForKey:@"Path"] == nil)
-		return NO;
+		if (aSelector == @selector(burn:) | aSelector == @selector(saveImage:) && [currentInformation objectForKey:@"Path"] == nil)
+			return NO;
+	}
 		
 	return [super respondsToSelector:aSelector];
 }
@@ -754,7 +757,7 @@
 			[mountButton setTitle:NSLocalizedString(@"Eject",nil)];
 			[mountMenu setTitle:NSLocalizedString(@"Eject Disc", nil)];
 		}
-		else if ([path isEqualTo:imageMountedPath] | [self isImageMounted:[currentInformation objectForKey:@"Path"] showAlert:NO])
+		else if ([path isEqualTo:imageMountedPath] | [self isImageMounted:[currentInformation objectForKey:@"Path"]])
 		{
 			[mountButton setTitle:NSLocalizedString(@"Unmount",nil)];
 			[mountMenu setTitle:NSLocalizedString(@"Unmount Image", nil)];

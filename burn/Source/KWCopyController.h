@@ -37,6 +37,7 @@
 	KWProgress *progressPanel;
 	KWDiscScanner *scanner;
 	KWBurner *burner;
+	BOOL awake;
 	
 	NSMutableArray *temporaryFiles;
 }
@@ -48,7 +49,7 @@
 - (IBAction)scanDisks:(id)sender;
 - (IBAction)clearDisk:(id)sender;
 - (BOOL)checkImage:(NSString *)path;
-- (BOOL)isImageMounted:(NSString *)path showAlert:(BOOL)alert;
+- (BOOL)isImageMounted:(NSString *)path;
 
 //Disc creation actions
 - (void)burn:(id)sender;
