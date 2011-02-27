@@ -683,7 +683,7 @@
 
 	while (keepGoing == YES)
 	{
-		NSMutableArray *arguments = [NSMutableArray arrayWithObjects:@"-t",@"0.1",@"-threads",[[NSNumber numberWithInteger:[[[NSUserDefaults standardUserDefaults] objectForKey:@"KWEncodingThreads"] integerValue]] stringValue],@"-i",path,@"-target",@"pal-vcd", nil];
+		NSMutableArray *arguments = [NSMutableArray arrayWithObjects:@"-vframes",@"1",@"-threads",[[NSNumber numberWithInteger:[[[NSUserDefaults standardUserDefaults] objectForKey:@"KWEncodingThreads"] integerValue]] stringValue],@"-i",path,@"-target",@"pal-vcd", nil];
 			
 		if (videoWorks == NO)
 			[arguments addObject:@"-vn"];
