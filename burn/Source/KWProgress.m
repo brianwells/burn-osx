@@ -1,3 +1,10 @@
+//
+//  KWProgress.m
+//  Media Converter
+//
+//  Copyright 2011 Kiwi Fruitware. All rights reserved.
+//
+
 #import "KWProgress.h"
 #import "KWCommonMethods.h"
 
@@ -11,6 +18,8 @@
 
 	cancelNotification = nil;
 	[NSBundle loadNibNamed:@"KWProgress" owner:self];
+	
+	session = nil;
 
 	return self;
 }
@@ -48,6 +57,8 @@
 		
 		[defaultCenter addObserver:self selector:@selector(notificationReceived:) name:notificationName object:nil];
 	}
+	
+	[cancelProgress setTitle:NSLocalizedString(@"Cancel", nil)];
 }
 
 - (void)notificationReceived:(NSNotification *)notif
@@ -73,8 +84,7 @@
 - (void)beginWindow
 {
 	NSWindow *window = [self window];
-	[NSApp runModalForWindow:window];
-	[window close];
+	session = [NSApp beginModalSessionForWindow:window];
 }
 
 - (void)sheetDidEnd:(NSWindow *)sheet returnCode:(NSInteger)returnCode contextInfo:(void *)contextInfo
@@ -91,7 +101,16 @@
 	}
 
 	[NSApp setApplicationIconImage:[NSImage imageNamed:@"Burn"]];
-	[NSApp endSheet:[self window]];
+	
+	if (session != nil)
+	{
+		[NSApp endModalSession:session];
+		[[self window] close];
+	}
+	else
+	{
+		[NSApp endSheet:[self window]];
+	}
 }
 
 - (void)setTask:(NSString *)task
@@ -208,6 +227,11 @@
 
 - (void)setCanCancel:(BOOL)cancel
 {
+	BOOL isHidden = [cancelProgress isHidden];
+	
+	if ((isHidden && !cancel) | (!isHidden && cancel))
+		return;
+
 	NSWindow *window = [self window];
 	[cancelProgress setHidden:!cancel];
 
