@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 42;
+	objectVersion = 45;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -36,6 +36,13 @@
 		FE2C01540E0653CF0094FD7D /* KWPantherCompatibleButton.m in Sources */ = {isa = PBXBuildFile; fileRef = FE2C01500E0653CF0094FD7D /* KWPantherCompatibleButton.m */; };
 		FE2C01560E0653CF0094FD7D /* KWPantherCompatibleButton.m in Sources */ = {isa = PBXBuildFile; fileRef = FE2C01500E0653CF0094FD7D /* KWPantherCompatibleButton.m */; };
 		FE2C34FC0BA2ED740029BA99 /* Burn.icns in Resources */ = {isa = PBXBuildFile; fileRef = FE2C34FB0BA2ED740029BA99 /* Burn.icns */; };
+		FE2FF26C12F2DA5E0010AD5D /* NSNumber_Extensions.m in Sources */ = {isa = PBXBuildFile; fileRef = FE2FF26B12F2DA5E0010AD5D /* NSNumber_Extensions.m */; };
+		FE2FF26D12F2DA5E0010AD5D /* NSNumber_Extensions.m in Sources */ = {isa = PBXBuildFile; fileRef = FE2FF26B12F2DA5E0010AD5D /* NSNumber_Extensions.m */; };
+		FE2FF26E12F2DA5E0010AD5D /* NSNumber_Extensions.m in Sources */ = {isa = PBXBuildFile; fileRef = FE2FF26B12F2DA5E0010AD5D /* NSNumber_Extensions.m */; };
+		FE2FF26F12F2DA5E0010AD5D /* NSNumber_Extensions.m in Sources */ = {isa = PBXBuildFile; fileRef = FE2FF26B12F2DA5E0010AD5D /* NSNumber_Extensions.m */; };
+		FE2FF27012F2DA5E0010AD5D /* NSNumber_Extensions.m in Sources */ = {isa = PBXBuildFile; fileRef = FE2FF26B12F2DA5E0010AD5D /* NSNumber_Extensions.m */; };
+		FE2FF27112F2DA5E0010AD5D /* NSNumber_Extensions.m in Sources */ = {isa = PBXBuildFile; fileRef = FE2FF26B12F2DA5E0010AD5D /* NSNumber_Extensions.m */; };
+		FE2FF27212F2DA5E0010AD5D /* NSNumber_Extensions.m in Sources */ = {isa = PBXBuildFile; fileRef = FE2FF26B12F2DA5E0010AD5D /* NSNumber_Extensions.m */; };
 		FE32F8510E51971A00C99F32 /* complete.aif in Resources */ = {isa = PBXBuildFile; fileRef = FE32F8500E51971A00C99F32 /* complete.aif */; };
 		FE32F8520E51971A00C99F32 /* complete.aif in Resources */ = {isa = PBXBuildFile; fileRef = FE32F8500E51971A00C99F32 /* complete.aif */; };
 		FE32F8530E51971A00C99F32 /* complete.aif in Resources */ = {isa = PBXBuildFile; fileRef = FE32F8500E51971A00C99F32 /* complete.aif */; };
@@ -183,7 +190,6 @@
 		FE5461CF12DA2E2E00461081 /* KWMediaListController.m in Sources */ = {isa = PBXBuildFile; fileRef = FE6134F51102016400C086EA /* KWMediaListController.m */; };
 		FE5461D112DA2E2E00461081 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FE3CA4F50BAC7D53001FB922 /* Cocoa.framework */; };
 		FE5461D212DA2E2E00461081 /* DiscRecording.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FEEF6FFB0B92EC8800ED64A9 /* DiscRecording.framework */; };
-		FE5461D312DA2E2E00461081 /* QTKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FEEF72090B92F47700ED64A9 /* QTKit.framework */; };
 		FE5461D412DA2E2E00461081 /* Carbon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FE3CA4E00BAC7D0E001FB922 /* Carbon.framework */; };
 		FE5E5B600D2A7FE300D65049 /* Themes in Resources */ = {isa = PBXBuildFile; fileRef = FE5E5B4C0D2A7FE300D65049 /* Themes */; };
 		FE6134CE1101FF2800C086EA /* KWTabViewItem.m in Sources */ = {isa = PBXBuildFile; fileRef = FE6134C91101FF2800C086EA /* KWTabViewItem.m */; };
@@ -348,7 +354,6 @@
 		FE8AFA9512DA1BDC004A83B9 /* KWMediaListController.m in Sources */ = {isa = PBXBuildFile; fileRef = FE6134F51102016400C086EA /* KWMediaListController.m */; };
 		FE8AFA9712DA1BDC004A83B9 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FE3CA4F50BAC7D53001FB922 /* Cocoa.framework */; };
 		FE8AFA9812DA1BDC004A83B9 /* DiscRecording.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FEEF6FFB0B92EC8800ED64A9 /* DiscRecording.framework */; };
-		FE8AFA9912DA1BDC004A83B9 /* QTKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FEEF72090B92F47700ED64A9 /* QTKit.framework */; };
 		FE8AFA9A12DA1BDC004A83B9 /* Carbon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FE3CA4E00BAC7D0E001FB922 /* Carbon.framework */; };
 		FE9DB851110338EB0086F62C /* iso8859-1 in Resources */ = {isa = PBXBuildFile; fileRef = FE9DB850110338EB0086F62C /* iso8859-1 */; };
 		FE9DB852110338EB0086F62C /* iso8859-1 in Resources */ = {isa = PBXBuildFile; fileRef = FE9DB850110338EB0086F62C /* iso8859-1 */; };
@@ -646,9 +651,30 @@
 		FEDBF59A0F80782A00DABA72 /* QTKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FEEF72090B92F47700ED64A9 /* QTKit.framework */; };
 		FEDBF59B0F80782A00DABA72 /* QuickTime.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FEEF720A0B92F47700ED64A9 /* QuickTime.framework */; };
 		FEDBF59C0F80782A00DABA72 /* Carbon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FE3CA4E00BAC7D0E001FB922 /* Carbon.framework */; };
+		FEDC0F4712FAB33B00919EC2 /* NSControl_Extensions.m in Sources */ = {isa = PBXBuildFile; fileRef = FEDC0F4612FAB33B00919EC2 /* NSControl_Extensions.m */; };
+		FEDC0F4812FAB33B00919EC2 /* NSControl_Extensions.m in Sources */ = {isa = PBXBuildFile; fileRef = FEDC0F4612FAB33B00919EC2 /* NSControl_Extensions.m */; };
+		FEDC0F4912FAB33B00919EC2 /* NSControl_Extensions.m in Sources */ = {isa = PBXBuildFile; fileRef = FEDC0F4612FAB33B00919EC2 /* NSControl_Extensions.m */; };
+		FEDC0F4A12FAB33B00919EC2 /* NSControl_Extensions.m in Sources */ = {isa = PBXBuildFile; fileRef = FEDC0F4612FAB33B00919EC2 /* NSControl_Extensions.m */; };
+		FEDC0F4B12FAB33B00919EC2 /* NSControl_Extensions.m in Sources */ = {isa = PBXBuildFile; fileRef = FEDC0F4612FAB33B00919EC2 /* NSControl_Extensions.m */; };
+		FEDC0F4C12FAB33B00919EC2 /* NSControl_Extensions.m in Sources */ = {isa = PBXBuildFile; fileRef = FEDC0F4612FAB33B00919EC2 /* NSControl_Extensions.m */; };
+		FEDC0F4D12FAB33B00919EC2 /* NSControl_Extensions.m in Sources */ = {isa = PBXBuildFile; fileRef = FEDC0F4612FAB33B00919EC2 /* NSControl_Extensions.m */; };
+		FEDC0F5912FAB49800919EC2 /* NSString_Extensions.m in Sources */ = {isa = PBXBuildFile; fileRef = FEDC0F5812FAB49800919EC2 /* NSString_Extensions.m */; };
+		FEDC0F5A12FAB49800919EC2 /* NSString_Extensions.m in Sources */ = {isa = PBXBuildFile; fileRef = FEDC0F5812FAB49800919EC2 /* NSString_Extensions.m */; };
+		FEDC0F5B12FAB49800919EC2 /* NSString_Extensions.m in Sources */ = {isa = PBXBuildFile; fileRef = FEDC0F5812FAB49800919EC2 /* NSString_Extensions.m */; };
+		FEDC0F5C12FAB49800919EC2 /* NSString_Extensions.m in Sources */ = {isa = PBXBuildFile; fileRef = FEDC0F5812FAB49800919EC2 /* NSString_Extensions.m */; };
+		FEDC0F5D12FAB49800919EC2 /* NSString_Extensions.m in Sources */ = {isa = PBXBuildFile; fileRef = FEDC0F5812FAB49800919EC2 /* NSString_Extensions.m */; };
+		FEDC0F5E12FAB49800919EC2 /* NSString_Extensions.m in Sources */ = {isa = PBXBuildFile; fileRef = FEDC0F5812FAB49800919EC2 /* NSString_Extensions.m */; };
+		FEDC0F5F12FAB49800919EC2 /* NSString_Extensions.m in Sources */ = {isa = PBXBuildFile; fileRef = FEDC0F5812FAB49800919EC2 /* NSString_Extensions.m */; };
 		FEDC29010E4D91D200F2FEED /* KWToolbarKiller.m in Sources */ = {isa = PBXBuildFile; fileRef = FEDC28FF0E4D91D200F2FEED /* KWToolbarKiller.m */; };
 		FEDC29030E4D91D200F2FEED /* KWToolbarKiller.m in Sources */ = {isa = PBXBuildFile; fileRef = FEDC28FF0E4D91D200F2FEED /* KWToolbarKiller.m */; };
 		FEDC29050E4D91D200F2FEED /* KWToolbarKiller.m in Sources */ = {isa = PBXBuildFile; fileRef = FEDC28FF0E4D91D200F2FEED /* KWToolbarKiller.m */; };
+		FEE05105130126EA00072366 /* LOXI.m in Sources */ = {isa = PBXBuildFile; fileRef = FEE05104130126EA00072366 /* LOXI.m */; };
+		FEE05106130126EA00072366 /* LOXI.m in Sources */ = {isa = PBXBuildFile; fileRef = FEE05104130126EA00072366 /* LOXI.m */; };
+		FEE05107130126EA00072366 /* LOXI.m in Sources */ = {isa = PBXBuildFile; fileRef = FEE05104130126EA00072366 /* LOXI.m */; };
+		FEE05108130126EA00072366 /* LOXI.m in Sources */ = {isa = PBXBuildFile; fileRef = FEE05104130126EA00072366 /* LOXI.m */; };
+		FEE05109130126EA00072366 /* LOXI.m in Sources */ = {isa = PBXBuildFile; fileRef = FEE05104130126EA00072366 /* LOXI.m */; };
+		FEE0510A130126EA00072366 /* LOXI.m in Sources */ = {isa = PBXBuildFile; fileRef = FEE05104130126EA00072366 /* LOXI.m */; };
+		FEE0510B130126EA00072366 /* LOXI.m in Sources */ = {isa = PBXBuildFile; fileRef = FEE05104130126EA00072366 /* LOXI.m */; };
 		FEE1255C0BAC1339001D474B /* KWApplication.m in Sources */ = {isa = PBXBuildFile; fileRef = FEE1255A0BAC1339001D474B /* KWApplication.m */; };
 		FEE12CD50BAC57C2001D474B /* KWEjecter.nib in Resources */ = {isa = PBXBuildFile; fileRef = FEE12CD30BAC57C2001D474B /* KWEjecter.nib */; };
 		FEE12CE00BAC583D001D474B /* KWEjecter.m in Sources */ = {isa = PBXBuildFile; fileRef = FEE12CDE0BAC583D001D474B /* KWEjecter.m */; };
@@ -995,6 +1021,8 @@
 		FE2C01500E0653CF0094FD7D /* KWPantherCompatibleButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = KWPantherCompatibleButton.m; path = Source/KWPantherCompatibleButton.m; sourceTree = "<group>"; };
 		FE2C01510E0653CF0094FD7D /* KWPantherCompatibleButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = KWPantherCompatibleButton.h; path = Source/KWPantherCompatibleButton.h; sourceTree = "<group>"; };
 		FE2C34FB0BA2ED740029BA99 /* Burn.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; name = Burn.icns; path = Images/Burn.icns; sourceTree = "<group>"; };
+		FE2FF26A12F2DA5E0010AD5D /* NSNumber_Extensions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = NSNumber_Extensions.h; path = Source/NSNumber_Extensions.h; sourceTree = "<group>"; };
+		FE2FF26B12F2DA5E0010AD5D /* NSNumber_Extensions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = NSNumber_Extensions.m; path = Source/NSNumber_Extensions.m; sourceTree = "<group>"; };
 		FE32CCDA0F2DE7F100C64ABC /* ru */ = {isa = PBXFileReference; lastKnownFileType = folder; name = ru; path = ru.lproj/BurnHelp; sourceTree = "<group>"; };
 		FE32F8500E51971A00C99F32 /* complete.aif */ = {isa = PBXFileReference; lastKnownFileType = file; name = complete.aif; path = Sounds/complete.aif; sourceTree = "<group>"; };
 		FE3CA4E00BAC7D0E001FB922 /* Carbon.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Carbon.framework; path = /System/Library/Frameworks/Carbon.framework; sourceTree = "<absolute>"; };
@@ -1186,8 +1214,15 @@
 		FED9FF960F2E0B4300947B06 /* ru */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = ru; path = ru.lproj/KWProgress.nib; sourceTree = "<group>"; };
 		FED9FF970F2E0B4D00947B06 /* cs */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = cs; path = cs.lproj/KWProgress.nib; sourceTree = "<group>"; };
 		FEDBF5A50F80782A00DABA72 /* Burn.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Burn.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		FEDC0F4512FAB33B00919EC2 /* NSControl_Extensions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = NSControl_Extensions.h; path = Source/NSControl_Extensions.h; sourceTree = "<group>"; };
+		FEDC0F4612FAB33B00919EC2 /* NSControl_Extensions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = NSControl_Extensions.m; path = Source/NSControl_Extensions.m; sourceTree = "<group>"; };
+		FEDC0F5712FAB49800919EC2 /* NSString_Extensions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = NSString_Extensions.h; path = Source/NSString_Extensions.h; sourceTree = "<group>"; };
+		FEDC0F5812FAB49800919EC2 /* NSString_Extensions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = NSString_Extensions.m; path = Source/NSString_Extensions.m; sourceTree = "<group>"; };
+		FEDC0FA912FAB8A100919EC2 /* KWDefines.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = KWDefines.h; path = Source/KWDefines.h; sourceTree = "<group>"; };
 		FEDC28FE0E4D91D200F2FEED /* KWToolbarKiller.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = KWToolbarKiller.h; path = Source/KWToolbarKiller.h; sourceTree = "<group>"; };
 		FEDC28FF0E4D91D200F2FEED /* KWToolbarKiller.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = KWToolbarKiller.m; path = Source/KWToolbarKiller.m; sourceTree = "<group>"; };
+		FEE05103130126EA00072366 /* LOXI.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LOXI.h; path = Source/LOXI.h; sourceTree = "<group>"; };
+		FEE05104130126EA00072366 /* LOXI.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LOXI.m; path = Source/LOXI.m; sourceTree = "<group>"; };
 		FEE0FF090F6D35BE009BC562 /* Greek */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = Greek; path = Greek.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		FEE0FF0A0F6D35BE009BC562 /* Greek */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = Greek; path = Greek.lproj/Localizable.strings; sourceTree = "<group>"; };
 		FEE0FF0D0F6D35DB009BC562 /* Greek */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = Greek; path = Greek.lproj/KWBurner.nib; sourceTree = "<group>"; };
@@ -1324,7 +1359,6 @@
 			files = (
 				FE5461D112DA2E2E00461081 /* Cocoa.framework in Frameworks */,
 				FE5461D212DA2E2E00461081 /* DiscRecording.framework in Frameworks */,
-				FE5461D312DA2E2E00461081 /* QTKit.framework in Frameworks */,
 				FE5461D412DA2E2E00461081 /* Carbon.framework in Frameworks */,
 				FE7C161A12DBCB1B00CFDA59 /* Growl.framework in Frameworks */,
 				FE7C161B12DBCB1B00CFDA59 /* MultiTag.framework in Frameworks */,
@@ -1337,7 +1371,6 @@
 			files = (
 				FE8AFA9712DA1BDC004A83B9 /* Cocoa.framework in Frameworks */,
 				FE8AFA9812DA1BDC004A83B9 /* DiscRecording.framework in Frameworks */,
-				FE8AFA9912DA1BDC004A83B9 /* QTKit.framework in Frameworks */,
 				FE8AFA9A12DA1BDC004A83B9 /* Carbon.framework in Frameworks */,
 				FE7C165A12DBCBBC00CFDA59 /* Growl.framework in Frameworks */,
 				FE7C165B12DBCBBC00CFDA59 /* MultiTag.framework in Frameworks */,
@@ -1836,6 +1869,8 @@
 				FEEF6FF50B92E9ED00ED64A9 /* KWCopyController.m */,
 				FEEF6FF10B92E9E200ED64A9 /* KWCopyView.h */,
 				FEEF6FF40B92E9ED00ED64A9 /* KWCopyView.m */,
+				FEE05103130126EA00072366 /* LOXI.h */,
+				FEE05104130126EA00072366 /* LOXI.m */,
 			);
 			name = Copy;
 			sourceTree = "<group>";
@@ -2011,6 +2046,13 @@
 				FEEA698B0BDBADBE00471BE3 /* KWCommonMethods.m */,
 				FE2C01510E0653CF0094FD7D /* KWPantherCompatibleButton.h */,
 				FE2C01500E0653CF0094FD7D /* KWPantherCompatibleButton.m */,
+				FEDC0FA912FAB8A100919EC2 /* KWDefines.h */,
+				FE2FF26A12F2DA5E0010AD5D /* NSNumber_Extensions.h */,
+				FE2FF26B12F2DA5E0010AD5D /* NSNumber_Extensions.m */,
+				FEDC0F4512FAB33B00919EC2 /* NSControl_Extensions.h */,
+				FEDC0F4612FAB33B00919EC2 /* NSControl_Extensions.m */,
+				FEDC0F5712FAB49800919EC2 /* NSString_Extensions.h */,
+				FEDC0F5812FAB49800919EC2 /* NSString_Extensions.m */,
 			);
 			name = Other;
 			sourceTree = "<group>";
@@ -2203,7 +2245,7 @@
 		2A37F4A9FDCFA73011CA2CEA /* Project object */ = {
 			isa = PBXProject;
 			buildConfigurationList = C05733CB08A9546B00998B17 /* Build configuration list for PBXProject "Burn" */;
-			compatibilityVersion = "Xcode 2.4";
+			compatibilityVersion = "Xcode 3.1";
 			hasScannedForEncodings = 1;
 			knownRegions = (
 				English,
@@ -2731,6 +2773,10 @@
 				FE6134D01101FF2800C086EA /* KWWindowController.m in Sources */,
 				FE6134F61102016400C086EA /* KWAlert.m in Sources */,
 				FE6134F71102016400C086EA /* KWMediaListController.m in Sources */,
+				FE2FF26D12F2DA5E0010AD5D /* NSNumber_Extensions.m in Sources */,
+				FEDC0F4D12FAB33B00919EC2 /* NSControl_Extensions.m in Sources */,
+				FEDC0F5F12FAB49800919EC2 /* NSString_Extensions.m in Sources */,
+				FEE05105130126EA00072366 /* LOXI.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2791,6 +2837,10 @@
 				FE5461CD12DA2E2E00461081 /* KWWindowController.m in Sources */,
 				FE5461CE12DA2E2E00461081 /* KWAlert.m in Sources */,
 				FE5461CF12DA2E2E00461081 /* KWMediaListController.m in Sources */,
+				FE2FF27012F2DA5E0010AD5D /* NSNumber_Extensions.m in Sources */,
+				FEDC0F4B12FAB33B00919EC2 /* NSControl_Extensions.m in Sources */,
+				FEDC0F5D12FAB49800919EC2 /* NSString_Extensions.m in Sources */,
+				FEE05106130126EA00072366 /* LOXI.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2851,6 +2901,10 @@
 				FE8AFA9312DA1BDC004A83B9 /* KWWindowController.m in Sources */,
 				FE8AFA9412DA1BDC004A83B9 /* KWAlert.m in Sources */,
 				FE8AFA9512DA1BDC004A83B9 /* KWMediaListController.m in Sources */,
+				FE2FF26C12F2DA5E0010AD5D /* NSNumber_Extensions.m in Sources */,
+				FEDC0F4C12FAB33B00919EC2 /* NSControl_Extensions.m in Sources */,
+				FEDC0F5E12FAB49800919EC2 /* NSString_Extensions.m in Sources */,
+				FEE0510A130126EA00072366 /* LOXI.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2911,6 +2965,10 @@
 				FE6134D61101FF2800C086EA /* KWWindowController.m in Sources */,
 				FE6134FA1102016400C086EA /* KWAlert.m in Sources */,
 				FE6134FB1102016400C086EA /* KWMediaListController.m in Sources */,
+				FE2FF26F12F2DA5E0010AD5D /* NSNumber_Extensions.m in Sources */,
+				FEDC0F4712FAB33B00919EC2 /* NSControl_Extensions.m in Sources */,
+				FEDC0F5912FAB49800919EC2 /* NSString_Extensions.m in Sources */,
+				FEE05108130126EA00072366 /* LOXI.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2971,6 +3029,10 @@
 				FE6134D91101FF2800C086EA /* KWWindowController.m in Sources */,
 				FE6134FC1102016400C086EA /* KWAlert.m in Sources */,
 				FE6134FD1102016400C086EA /* KWMediaListController.m in Sources */,
+				FE2FF27112F2DA5E0010AD5D /* NSNumber_Extensions.m in Sources */,
+				FEDC0F4812FAB33B00919EC2 /* NSControl_Extensions.m in Sources */,
+				FEDC0F5A12FAB49800919EC2 /* NSString_Extensions.m in Sources */,
+				FEE05109130126EA00072366 /* LOXI.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3031,6 +3093,10 @@
 				FE6134D31101FF2800C086EA /* KWWindowController.m in Sources */,
 				FE6134F81102016400C086EA /* KWAlert.m in Sources */,
 				FE6134F91102016400C086EA /* KWMediaListController.m in Sources */,
+				FE2FF26E12F2DA5E0010AD5D /* NSNumber_Extensions.m in Sources */,
+				FEDC0F4A12FAB33B00919EC2 /* NSControl_Extensions.m in Sources */,
+				FEDC0F5C12FAB49800919EC2 /* NSString_Extensions.m in Sources */,
+				FEE05107130126EA00072366 /* LOXI.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3091,6 +3157,10 @@
 				FEF8A87212D9D2BF00FE302C /* KWWindowController.m in Sources */,
 				FEF8A87312D9D2BF00FE302C /* KWAlert.m in Sources */,
 				FEF8A87412D9D2BF00FE302C /* KWMediaListController.m in Sources */,
+				FE2FF27212F2DA5E0010AD5D /* NSNumber_Extensions.m in Sources */,
+				FEDC0F4912FAB33B00919EC2 /* NSControl_Extensions.m in Sources */,
+				FEDC0F5B12FAB49800919EC2 /* NSString_Extensions.m in Sources */,
+				FEE0510B130126EA00072366 /* LOXI.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3307,8 +3377,8 @@
 				FEEF71B70B92F13300ED64A9 /* English */,
 				FE888CB70CF9B4BA003620F1 /* Dutch */,
 				FE45141D0D15722E0051D717 /* French */,
-				FEAC31300D2A75C000555250 /* German */,
 				FED901190F2E24C400947B06 /* Japanese */,
+				FEAC31300D2A75C000555250 /* German */,
 				FED9011A0F2E24D700947B06 /* ru */,
 				FE1396C80F88D82E0056809A /* ko */,
 				FE60C63711862FDE006922C3 /* Spanish */,
@@ -3422,7 +3492,7 @@
 		C05733C808A9546B00998B17 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = "$(NATIVE_ARCH_ACTUAL)";
+				ARCHS = i386;
 				COPY_PHASE_STRIP = NO;
 				FRAMEWORK_SEARCH_PATHS = "\"$(SRCROOT)/Frameworks/Universal\"";
 				GCC_DYNAMIC_NO_PIC = NO;
@@ -3445,10 +3515,7 @@
 		C05733C908A9546B00998B17 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = (
-					ppc,
-					i386,
-				);
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
 				FRAMEWORK_SEARCH_PATHS = "\"$(SRCROOT)/Frameworks/Universal\"";
 				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
 				GCC_MODEL_TUNING = G4;
@@ -3479,7 +3546,7 @@
 					QTKit,
 				);
 				PREBINDING = NO;
-				SDKROOT = /Developer/SDKs/MacOSX10.4u.sdk;
+				SDKROOT = macosx10.4;
 			};
 			name = Debug;
 		};
@@ -3501,7 +3568,7 @@
 					QTKit,
 				);
 				PREBINDING = NO;
-				SDKROOT = /Developer/SDKs/MacOSX10.4u.sdk;
+				SDKROOT = macosx10.4;
 			};
 			name = Release;
 		};
@@ -3510,9 +3577,7 @@
 			buildSettings = {
 				ARCHS = "$(NATIVE_ARCH_ACTUAL)";
 				COPY_PHASE_STRIP = NO;
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_1)",
-				);
+				FRAMEWORK_SEARCH_PATHS = "$(FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_1)";
 				FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_1 = "\"$(SRCROOT)/Frameworks/Universal 64-bit\"";
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_ENABLE_FIX_AND_CONTINUE = YES;
@@ -3525,7 +3590,7 @@
 				MACOSX_DEPLOYMENT_TARGET = 10.5;
 				OTHER_LDFLAGS = "";
 				PRODUCT_NAME = Burn;
-				SDKROOT = /Developer/SDKs/MacOSX10.5.sdk;
+				SDKROOT = macosx10.5;
 				WRAPPER_EXTENSION = app;
 				ZERO_LINK = YES;
 			};
@@ -3538,20 +3603,25 @@
 					ppc64,
 					x86_64,
 				);
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_1)",
-				);
+				FRAMEWORK_SEARCH_PATHS = "$(FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_1)";
 				FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_1 = "\"$(SRCROOT)/Frameworks/Universal 64-bit\"";
 				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
 				GCC_MODEL_TUNING = G5;
+				GCC_PREPROCESSOR_DEFINITIONS = "";
+				"GCC_PREPROCESSOR_DEFINITIONS[sdk=macosx10.5][arch=ppc64]" = "";
+				"GCC_PREPROCESSOR_DEFINITIONS[sdk=macosx10.5][arch=x86_64]" = USE_QTKIT;
 				GCC_VERSION = "";
 				INFOPLIST_FILE = Info.plist;
 				INSTALL_PATH = "$(HOME)/Applications";
 				LIBRARY_SEARCH_PATHS = "";
 				MACOSX_DEPLOYMENT_TARGET = 10.5;
 				OTHER_LDFLAGS = "";
+				"OTHER_LDFLAGS[sdk=macosx10.5][arch=x86_64]" = (
+					"-framework",
+					QTKit,
+				);
 				PRODUCT_NAME = Burn;
-				SDKROOT = /Developer/SDKs/MacOSX10.5.sdk;
+				SDKROOT = macosx10.5;
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;
@@ -3561,9 +3631,7 @@
 			buildSettings = {
 				ARCHS = "$(NATIVE_ARCH_ACTUAL)";
 				COPY_PHASE_STRIP = NO;
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_1)",
-				);
+				FRAMEWORK_SEARCH_PATHS = "$(FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_1)";
 				FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_1 = "\"$(SRCROOT)/Frameworks/PowerPC 64-bit\"";
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_ENABLE_FIX_AND_CONTINUE = YES;
@@ -3576,7 +3644,7 @@
 				MACOSX_DEPLOYMENT_TARGET = 10.5;
 				OTHER_LDFLAGS = "";
 				PRODUCT_NAME = Burn;
-				SDKROOT = /Developer/SDKs/MacOSX10.5.sdk;
+				SDKROOT = macosx10.5;
 				WRAPPER_EXTENSION = app;
 				ZERO_LINK = YES;
 			};
@@ -3586,12 +3654,11 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ARCHS = ppc64;
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_1)",
-				);
+				FRAMEWORK_SEARCH_PATHS = "$(FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_1)";
 				FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_1 = "\"$(SRCROOT)/Frameworks/PowerPC 64-bit\"";
 				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
 				GCC_MODEL_TUNING = G5;
+				GCC_PREPROCESSOR_DEFINITIONS = "";
 				GCC_VERSION = "";
 				INFOPLIST_FILE = Info.plist;
 				INSTALL_PATH = "$(HOME)/Applications";
@@ -3599,7 +3666,7 @@
 				MACOSX_DEPLOYMENT_TARGET = 10.5;
 				OTHER_LDFLAGS = "";
 				PRODUCT_NAME = Burn;
-				SDKROOT = /Developer/SDKs/MacOSX10.5.sdk;
+				SDKROOT = macosx10.5;
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;
@@ -3714,9 +3781,7 @@
 			buildSettings = {
 				ARCHS = "$(NATIVE_ARCH_ACTUAL)";
 				COPY_PHASE_STRIP = NO;
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_1)",
-				);
+				FRAMEWORK_SEARCH_PATHS = "$(FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_1)";
 				FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_1 = "\"$(SRCROOT)/Frameworks/Intel 64-bit\"";
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_ENABLE_FIX_AND_CONTINUE = YES;
@@ -3729,7 +3794,7 @@
 				MACOSX_DEPLOYMENT_TARGET = 10.5;
 				OTHER_LDFLAGS = "";
 				PRODUCT_NAME = Burn;
-				SDKROOT = /Developer/SDKs/MacOSX10.5.sdk;
+				SDKROOT = macosx10.5;
 				WRAPPER_EXTENSION = app;
 				ZERO_LINK = YES;
 			};
@@ -3738,11 +3803,8 @@
 		FEF8A88212D9D2BF00FE302C /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD_64_BIT_PRE_XCODE_3_1)";
-				ARCHS_STANDARD_64_BIT_PRE_XCODE_3_1 = x86_64;
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_1)",
-				);
+				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
+				FRAMEWORK_SEARCH_PATHS = "$(FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_1)";
 				FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_1 = "\"$(SRCROOT)/Frameworks/Intel 64-bit\"";
 				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
 				GCC_MODEL_TUNING = G5;
@@ -3753,7 +3815,7 @@
 				MACOSX_DEPLOYMENT_TARGET = 10.5;
 				OTHER_LDFLAGS = "";
 				PRODUCT_NAME = Burn;
-				SDKROOT = /Developer/SDKs/MacOSX10.5.sdk;
+				SDKROOT = macosx10.5;
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;
