@@ -27,7 +27,7 @@
 		<dict>
 			<key>CFBundleTypeExtensions</key>
 			<array>
-				<string>isoInfo</string>
+				<string>loxi</string>
 				<string>toast</string>
 				<string>img</string>
 				<string>dmg</string>
